@@ -1,0 +1,331 @@
+﻿@model citrus.Models.homepage
+
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+{
+        <title>@Model.MetaDetails.MetaTitle.Replace("Citrus Holidays", "Cities & Beaches")</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Citrus Holidays", "Cities & Beaches")" />
+        <meta name="description" content="@Model.MetaDetails.MetaDescription.Replace("Citrus Holidays", "Cities & Beaches")" />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com"))" />
+        }
+    }
+}
+<link href="~/assets/css/aboutus.css" rel="stylesheet" />
+<section class="hero-section">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Terms & Conditions</a>
+    </div>
+    <div class="content">
+        <h1>Terms & Conditions</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+
+<section class="about-section">
+    <br />
+    <h4>1. Your Holiday Contract</h4>
+    <p>
+        These booking conditions govern all bookings made with Travel Curated T/a Cities and Beaches  (Trading as Cities and Beaches), 35 Hillsboro Road, SE22 8QE. The Company Registration number is 1188573 VAT Number 345898050Cities and Beaches is a member of ATOL, license number 11847 and PTS (Protected Travel Services number 5473) We act as a ‘package organiser’ therefore your contract with us is subject to the Package Travel and Linked Travel Arrangements Regulations 2018 (PTR’s). Please note that the ‘Important Information’ section forms part of these booking conditions.
+        <br><br>
+        A package holiday comes into existence when a booking is made for a combination of at least two different types of travel services for the purposes of the same holiday or trip:
+    </p>
+    <ul style="list-style-type:lower-alpha; margin:0; padding:0px 0px 0px 25px;font-size: 16px;">
+        <li>Transport, or</li>
+        <li>Accommodation, or </li>
+        <li>Vehicle rental and</li>
+        <li>Any other tourist or ancillary service not intrinsically part of one of the above travel services.</li>
+    </ul>
+    <p>If you book a package as defined above, then we act as a ‘’Package organiser’ and your contract will be subject to the Package Travel and Linked Travel Arrangements Regulations 2018(PTR’s)</p>
+  <p>In the event of bookings made not consisting of more than one type of travel service as listed above at a – c above, and combined with tourist services described at d, then this will not constitute a package and the benefits and rights under the above regulations will not be conferred to these arrangements. Where non package arrangements have been booked Cities and Beaches acts as a booking agent and your contract will be with the supplier(s) (for example, airline, or hotel and you will be subject to the terms and conditions of that supplier.
+    <br /><br />
+    After a confirmation invoice has been issued by us, a binding agreement will come into force between you and us. This means that you have read and understood our booking conditions and agreed that they apply to your booking and that you have checked and agreed to all the terms of the holiday contract. If your confirmed arrangements include a flight, an ATOL certificate will be issued to you. 
+     <br /><br />
+     Please check your certificate when received, if you think this is incorrect, it is your responsibility to bring this to our attention immediately as changes cannot be made later.
+      <br /><br />
+      All contracts with Cities and Beaches and all matters arising from them are subject to English law and to the jurisdiction of the courts of England and Wales. 
+       <br /><br />
+       The person who makes the booking, will be known as the ‘lead name’ who must be aged 18 or over, accepts these conditions on behalf of all members of the party and is responsible for all payment due from the party. 
+    </p>
+    
+    <h4>2. Payments and booking </h4>
+    <p>When a booking is made by the leadname, he/she makes the booking on behalf of all persons detailed on the booking and agrees the following:
+    </p>
+    <ul style="list-style-type:lower-alpha; margin:0; padding:0px 0px 0px 25px;font-size: 16px;">
+        <li>He/she has read these booking conditions and has the authority to and does agree on behalf of all persons named on the booking to be bound by them.</li>
+        <li>He/she is authorised to disclose relevant personal details to us including where applicable health conditions, disabilities and dietary requirements.</li>
+        <li>He/she is over the age of 18. </li>
+        <li>He/she accepts financial responsibility for payment of the booking on behalf of all persons named on the booking.</li>
+        <li>At the time of booking, he/she must pay a deposit, the amount of which varies from £100 per person up to the total holiday cost, depending on the type of booking.</li>
+        <li>The balance due date is no later than 12 weeks before departure. If the booking is made inside of 12 weeks of departure full payment is required at time of booking.</li>
+        <li>If he/she does not make the required payments the booking will be cancelled. If a deposit has been paid and there has been a failure to pay the balance by the due date, the deposit will be retained by us.  </li>
+    </ul>
+    <h4>3. Your Travel Documents</h4>
+    <p>Travel documents will be issued electronically once we have received full payment. It is recommended that all travel documentation received be checked by you to ensure that the details are correct.  If you believe that there are any inaccuracies then you must advise us in writing immediately.  Failure to do so may affect your rights.</p>
+    <h4>4. Alterations by you</h4>
+    <p>If after booking you wish to change your travel arrangements, we will do our best to meet your new requirements. You will need to confirm your instructions in writing and pay an amendment fee of £35 per booking. Also, you must pay any costs we incur in making the amendment, including any charges that may be levied by suppliers (e.g., airlines, hotels). Please note that certain travel arrangements cannot be amended after a confirmed booking has been made and any requested alteration may incur cancellation charges of 100% to that part of the booking. </p>
+    <h4>5. Transferring your booking if you are prevented from travelling</h4>
+    <p>If you are prevented from travelling, you have the right to transfer your booking to another person subject to both the original client(s) and the transferee(s) paying all costs incurred by Cities and Beaches in doing so. However, the arrangements must remain exactly the same. Cities and Beaches will use its best endeavours to facilitate the transfer and in cases where a transfer is made an additional administration charge of £100 per person must be paid.</p>
+    <h4>6. Cancellation by you</h4>
+    <p>You may cancel your booking at any time providing that the cancellation is made by the person making the booking and is communicated to us in writing. As we incur costs when you cancel, we may retain your deposit and additional cancellation charges where applicable will apply.  As the component parts of our holidays are largely non-refundable, including airline tickets and most accommodation bookings.  This means that in the event of a cancellation request made by you, irrespective of when it was made, the airlines and our other suppliers will impose a strict 100% cancellation fee. This means that where the airline or other supplier who has provided the service on a non-refundable basis, will not provide a refund in the event of cancellation by the consumer.  Where a supplier has provided the service on a refundable basis, if we can obtain a refund for you, we will make the refund as soon as we have the funds from the relevant supplier. It is advisable that you ensure that you have adequate travel insurance cover in respect of cancellations.
+        <br><br>
+        Without prejudice to the requirements set out in the Package Travel Regulations, where you seek a refund for a cancelled booking for which payment has been made to the travel service provider, we will not provide a refund to you until we receive the funds from that travel service provider. Where necessary, refunds may be in the form of a “Refund Credit Note”, which shall be subject to any conditions set by the Civil Aviation Authority or the Protected Trust Services (PTS) of which we are members of.
+    </p>
+    <h4>7. Alterations byCities and Beaches</h4>
+  <p>We reserve the right to change the description of any flight and/or ground service before you book, in which case you will be told before a confirmation invoice is issued.
+    <br><br>
+    It is unlikely that we will have to make any changes to your travel arrangements, but we do plan the arrangements many months in advance. Occasionally we may have to make changes and we reserve the right to do so at any time. Most of these changes will be insignificant and we will advise you of them at the earliest possible date. 
+    <br><br>
+    If we make a significant change to your holiday, we will inform you as soon as reasonably possible if there is time before your departure. You will have the choice of either accepting the amendment as notified, purchasing another holiday from us with the price difference payable/refundable as appropriate, or cancelling the arrangement(s) and receiving a full refund of all monies paid. In addition, you may receive the compensation listed below where you have accepted the amended that has been made to your holiday.  The compensation does not apply in cases of "force majeure" and where you have accepted any alternatives offered to you, or purchased another holiday from us, or cancelled your holiday arrangements.
+    <br><br>
+    Examples of <strong>insignificant changes</strong> include alteration of your outbound and inbound flights by a period of less than 12 hours, or changes between local airports as set out in the table below. Change of carrier, change of aircraft type, change of accommodation on packages and tour itineraries to a higher or same standard. 
+    <br><br>
+    Rarely, we may need to make ‘significant’ changes, and examples of these made before departure can include.
+    </p>
+    <ul style="list-style-type:lower-alpha; margin:0; padding:0px 0px 0px 25px;font-size: 16px;">
+        <li>Change of area for the whole or major part of your holiday to a different resort location or change of accommodation to a lower classification accommodation for the whole of a significant time of your holiday.</li>
+        <li>A change of outbound departure time over 12 hours.</li>
+        <li>A change of departure UK airports except between the following categories<br />
+The London airports – Gatwick, Heathrow, Luton, Stansted, London City <br />
+The South Coast airports – Southampton, Bournemouth, and Exeter<br />
+The Southwestern airports – Cardiff and Bristol<br />
+The Midlands airports; Birmingham, East Midlands, Doncaster, and Sheffield<br />
+The Northern Airports, Liverpool, Manchester, and Leeds Bradford<br />
+The North-eastern airports, Newcastle, andTeesside<br />
+The Scottish airports, Edinburgh, Glasgow, Prestwick, and Aberdeen.
+</li>
+    </ul>
+    
+    <p>The following is our set scale of compensation for significant changes made by us prior to your departure where notice has been provided.</p>
+    
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Notice period prior to departure of a significant change:    </th>
+                <th>Amount:  </th>
+            </tr>
+            <tr>
+                <td wih4h="67%">Over 56 days </td>
+                <td wih4h="33%">Nil</td>
+            </tr>
+            <tr>
+                <td>Between 56 and 42 days </td>
+                <td>£10.00 per person</td>
+            </tr>
+            <tr>
+                <td>Between 41 and 28 days</td>
+                <td>£20.00 per person</td>
+            </tr>
+            <tr>
+                <td>Between 27 and 15 days</td>
+                <td>£30.00 per person</td>
+            </tr>
+            <tr>
+                <td>Less than 15 days </td>
+                <td>£40.00 per person</td>
+            </tr>
+        </tbody>
+    </table>
+  <p>The compensation that we offer does not exclude your statutory rights.</p>
+    <h4>Alterations due to Force majeure</h4>
+    <p>This means that we will not pay you compensation if we have to cancel or change your travel arrangements in any way because of unusual or unforeseeable circumstances beyond our control. These can include, for example, war, riot, industrial dispute, terrorist activity and its consequences, natural or nuclear disaster, fire, adverse weather conditions, outbreaks of disease, epidemics and so on.</p>
+    <h4>8. Cancellation by Cities and Beaches</h4>
+    <p>We reserve the right to cancel your holiday in certain circumstances. For example, if the minimum number of clients required for a particular holiday is not reached, we may have to cancel it. However, we will not cancel your travel arrangements less than 12 weeks before your departure date, except for reasons of force majeure or failure by you to pay the final balance. If we are unable to provide the booked travel arrangements, you have the choice of purchasing another arrangement from us, if available, with the price difference payable/refundable as appropriate, or of receiving a full refund of all monies paid to us (except insurance premium). In addition, unless the cancellation has been caused by "force majeure" (defined in Clause 7 above) compensation will be paid on the scale set out in Clause 7 above.
+    </p>
+    <h4>Single or group traveller holidays</h4>
+    <p>Where we advertise trips for single travellers, and where we refer to other travellers, this is not a guarantee that there will be other travellers booked on the same trip. Other travellers may book the same trip however we do not guarantee minimum numbers on any holiday marketed for the single traveller. If you wish to know how many other bookings are in existence for your proposed departure date, please ask for this information prior to making a confirmed booking.</p>
+    <h4>9. Pricing Policy</h4>
+    <p>All our travel arrangements and fares are subject to availability. Once a confirmation invoice has been issued the price shown on that invoice may only vary as outlined below or if you amend your booking (see Clauses 4 and 5).
+    <br /><br />
+    We reserve the right to alter the prices of any product shown on our advertising media.  We advise that you check the price of your chosen arrangements at the time of booking and ensure that this is the price that you are willing to pay for the arrangements, as subsequent claims for refunds will not be entertained.  Items such as flight insurance and air security levy which Tour operators and airlines are obliged to charge may alter.
+    </p>
+    <h4>Seasonal Pricing</h4>
+    <p>Our trip prices are subject to seasonal availability and market forces. As a result, our trip prices may vary at times in accordance with the above factors.  This means that it could be possible that people booked on the same trip who booked at different times may have paid different prices for the same trip.  The price that you pay at the time of booking is the price that you agree to pay.  We cannot entertain retrospective claims for differences in price between your holiday and that of another booking, if there is a difference in price.  When considering our holidays, if you see a holiday and a price that you like our advice is to secure the booking at that favourable price.</p>
+    <h4>Local government, city, and overseas departure taxes</h4>
+    <p>Any local government taxes charged by hotels because of government policy are not charges payable by us.  These are payable locally by you directly and are not included in the price of your package or travel arrangements. Some countries impose airport or departure taxes. Where these can be paid in advance, the cost will be included in the ticket price quoted. Other local taxes not referred to here may be payable at the destination.</p>
+    <h4>Flight prices</h4>
+    <p>Airline seat prices are subject to market fluctuation; therefore, they may increase or decrease in price. As a result of this, we do reserve the right to increase or decrease flight prices accordingly.  If there are instances where before confirmation a quoted price is increased and we are advised by the airline, you will be informed before a confirmation invoice is issued and you will have the option either to pay the additional price or receive a full refund. Likewise, if the price is lower than the benefit of the lower price will be passed onto you.</p>
+    <h4>System Errors</h4>
+    <p>Where the prices or details appear incorrectly on our advertising media as a result of a system error, any prices that are clearly incorrect are not binding.  Where an obvious error has occurred and has been brought to our attention, we will notify you immediately. The prevailing price will be the advertised price as it was intended on the date of booking.</p>
+    <h4>10. Our Liability</h4>
+    <ul style="list-style-type:lower-roman; margin:0; padding:0px 0px 0px 25px;font-size: 16px;">
+        <li>We accept responsibility for ensuring that the package booked with us is supplied as described. If any part is not provided as promised, due to the fault of employees, agents or suppliers, we will pay you appropriate compensation if this has affected your enjoyment of the package. Subject to (ii) below our liability in all cases is limited to a maximum of two times the cost of your travel arrangements.</li>
+        <li>We accept responsibility for personal injury, illness or death caused by the negligent acts and/or omissions of our employees, agents, suppliers or sub-contractors, whilst acting within the scope of, or in the course of their employment in the provision of your travel arrangements. We will accordingly pay to you such damages as might have been awarded in such circumstances under English Law.</li>
+        <li>Our liability is limited in the manner provided in certain international conventions, in respect of travel by air, sea and rail.
+        <br />
+        If you suffer a personal injury, death or serious difficulties as the result of an activity which does not form part of the package you have booked with us, we will offer you such advice and guidance as is reasonable in all the circumstances and, where appropriate and at our discretion.
+        </li>
+    </ul>
+	<p></p>
+    <h4>Excursions</h4>
+    <p> Excursions and trips not included in the package and bought locally whilst on holiday do not form part of the holiday contract.  Your contract will be with the company providing the service locally.  We or our agents may mention or provide information about such trips and organisations, however they are not something for which we have any liability for anything that may occur during the course of the provision of these trips organised and sold by local companies. Therefore, the Package travel and Linked Travel Arrangements Regulations 2018 do not apply to such arrangements. </p>
+    <h4>Resort amenities</h4>
+    <p>Where holidays are booked in low season, or are taken during public national holidays, it may be that resort facilities and amenities may be closed or be limited. Usually this is reflected in the price of the holiday.  We are not responsible for reduced resort and other local amenities in these periods. </p>
+    <h4>Building and road works</h4>
+    <p>Where we are made aware of building works and or public road works and have been advised that they may have a material effect on our customers holidays, we will of course inform you prior to your departure, and where appropriate we will offer a comparable alternative package.</p>
+    <h4>Website accuracy</h4>
+    <p>Our website pages are carefully compiled and at the date of compilation, all details are checked and are correct.  Our endeavours are to ensure accuracy at all times; however, it may be that on occasion errors may occur.  You are urged therefore to check the full details including prices of your holiday at the time of booking.
+    <br /><br />
+    Where we provide images in our web pages they are for illustration and do not necessarily represent the property or other features advertised.  Regarding locations of accommodation featured in our web these are correct to be best of our knowledge. 
+    </p>
+    <h4>Travellers with Medical conditions, physical and other impediments</h4>
+    <p>Please be advised that any medical, physical or other personal condition which you feel may affect your choice of holiday be disclosed at the time of booking. Whilst we endeavour to provide holidays to suit all of our prospective customers, some of our destinations may not be suitable for certain customers who may have physical or other impairment.  It is your duty to disclose these at the time of booking. In the event that physical or other impediments are not disclosed at the relevant time, we will not accept responsibility for any costs or loss, which may materialise as a result of this. We reserve the right to decline any request for a booking where we believe that the arrangement may not be suitable for the traveller on the basis of health information provided.</p>
+    <h4>Early curtailment</h4>
+    <p>If you decide to curtail your holiday without reference to us, for any reason whatsoever, as our arrangements with suppliers have been booked in advance and reserved and paid for, we are not liable to refund unused costs of the trip, or additional expenditure incurred because of any unilateral changes made to the contract by you.</p>
+    <h4>11. Complaints</h4>
+  <p>If a problem occurs, whilst you are abroad, you must inform the relevant supplier (e.g., hotel, tour operator, car rental company, airline) immediately so that the matter can be put right. If the supplier cannot resolve the problem to your satisfaction, at the time, you must also contact us at customercare@citiesandbeaches.co.uk quoting your original booking reference and giving all relevant information. Failure to take these steps will hinder our ability to resolve the problem and/or investigate it fully and in consequence, it will be considered a lack of mitigation which is your responsibility in your contract with us, and we will be entitled to take that into account and your rights under these booking conditions may be affected. Please note your statutory rights and duties remain unchanged.
+            <br><br>
+       <strong>Fraudulent claims, sickness or otherwise:</strong>
+        <br><br>
+        In recent years there has been a significant increase in fraudulent, predominantly holiday sickness claims. Where a claim is received, we take the matter seriously and investigate accordingly.  
+        <br><br>
+        Ifthere is any suggestion of a fraudulent claim being made, then we must advise you that potential legal action may be taken against you. It is a criminal office to make a fraudulent claim which means that if this is established it may result in a criminal record. We would also advise that it is also illegal to pursue a fraudulent claim in other jurisdictions and potential claimants who fall into this category may be faced with criminal proceedings and charges abroad. Following investigation, if it is believed that any claim made against us or our suppliers is clearly exaggerated, then we will report this matter to the authorities and if the claim is associated with legal advisors who continue with any claim after we have advised them of our concerns, we may also report them to their regulatory authority. Clearly any genuine claim will be dealt with by our legal and customer care team in accordance with our internal policies governing the same.
+    </p>
+    <h4>12. Passport, Visa and Health Requirements</h4>
+    <p>Please ensure that you are aware of all passports, visa and health requirements and that you allow adequate time to obtain them. You must check applicable requirements with the relevant Embassy, Consulate or Passport Agency. Please note that many countries require that your passport is valid for six months beyond the period of your stay. Requirements can change and it is your responsibility to ensure that you comply with applicable passport, visa and health requirements and take all necessary documents with you to gain access to any country or region to which you make travel arrangements or transit through. Cities and Beaches cannot accept any responsibility for customers who do not possess the correct documents and if you fail to do so, you will be solely responsible for any cost, loss or damage that you incur as a result of your failure. Helpful information can be found on the websites <strong>www.fco.gov.uk/travel</strong> and <strong>www.doh.gov.uk/</strong>.    
+    <br /><br />
+    Non-British passport holders, including other EU nationals, should obtain up to date advice on passport and visa requirements from the Embassy, High Commission or Consulate of your destination or country(ies) through which you are travelling.  We are unable to accept responsibility if you cannot travel or incur any other loss as a result of your passport, visa, immigration and/ or health formalities have not been complied with.  If we incur fines or costs as a result of your failure to comply with any passport, visa, immigration requirement or health formalities, you must reimburse us in respect of any charges incurred on our part.  Health and vaccination requirements applicable to your particular booking are your responsibility, and we advise that your first port of call be your local GP practice and also the various government websites such as but not restricted to www.fco.gov.uk , http://travelhealthpro.co.org.uk  or a specialist travel clinic in good time prior to your departure. Please also refer to our ‘Important Information ‘Section which has further guidance relating to COVID –19 issues.
+    </p>
+  <h4>13. Suppliers' Conditions </h4>
+    <p>
+    Please note that, as between you and any of the suppliers whose services form part of your booking, the suppliers` standard terms and conditions will apply. 
+    <br /><br />The suppliers` standard conditions may limit or exclude liability, provide services on a strictly non-refundable basis, often in accordance with international conventions. 
+    </p>
+    
+  <h4>14. Flights </h4>
+  <p>
+    <strong>Direct flights</strong>
+    <br /><br />
+    Some flights displaying one flight number may require a change of aircraft or touchdown en-route. Please note some flight routes via the USA may also require immigration and customs clearance at the first arrival airport. 
+    <br /><br />
+    <strong>Frequent flyer schemes</strong>
+    <br /><br />
+    Please note that not all airline tickets sold by us are eligible for mileage/ points accrual. Therefore, it is strongly advised that you check with the airline(s) regarding frequent flyer miles etc. prior to you booking your flight with us. We are not liable to compensate you if you cannot redeem your air miles. 
+    <br /><br />
+    <strong>Flight Changes</strong>
+    <br /><br />
+    Please note that if your flight arrangements are altered or that you or a member of your party misses your flight or other transport arrangement you must contact us and the airline or other transport supplier at the earliest opportunity. Whilst you can select a particular carrier and flight timing at the time of booking, we cannot always guarantee the same carrier or flight time, however we will always inform you of any changes notified to us. The carriers, flight timings and types of aircraft are provided for guidance and information only and may be subject to alteration after we have entered into an agreement and issued an invoice. The latest timings will be shown on your ticket itinerary. If we are informed of any changes prior to departure, we will notify you. Should your flight be cancelled your rights and remedies will be governed by the airline’s conditions of carriage. The airline should inform you if this eventuality occurs, each airline has their own conditions of carriage. These are usually available to view on the airline’s website.
+    <br /><br />
+    <strong>Airline Ticket Refunds</strong>
+    <br /><br />
+    Air tickets returned to us for a refund are subject to an administration fee of £30.00 per ticket, irrespective of the number of tickets returned and you will be required to pay a per ticket cancellation charge imposed by the airline pursuant to their terms and conditions. There is no automatic right to a refund and , when a ticket is returned to us, we will present it to the airline so they can assess eligibility for a possible refund in accordance with the airline’s terms and conditions. Airline tickets should really be sent to us by Special Delivery or other tracked postage. 
+    <br /><br />
+    If a recoverable air ticket refund is less than the above administration charge, the ticket will be deemed to be fully non-refundable. An administration fee of £30.00 per ticket will be levied on any non-refundable ticket where a tax refund application is made by us at your request and on your behalf. If the recoverable tax components for your ticket are less than the administration charge, the ticket will be deemed fully non-refundable. Refunds will not be paid to you until they have been received by us from the relevant airline. In the case of airline ticket refunds this is normally 4 to 5 weeks from the point the tickets are submitted for consideration to the airline.
+<br /><br />
+<strong>EU Law- Flight delay and cancellation compensation</strong>
+<br /><br />
+If you are affected by flight issues that you feel may be covered by the EU regulations. You must contact the airline directly with your claim.  Alternatively, you may seek assistance from the Civil Aviation Authority who may provide general advice and assistance. If the airline does not appear to be complying with their obligations or you are encountering difficulties in dealing with them, you can contact http://www.caa.co.uk/passengers where you will find further information. Where applicable, under the Denied Boarding Regulations (EU 261/2004) if you have been denied boarding, your flight has been cancelled or it has been significantly delayed, it is the airline’s duty to look after you.  This includes providing food, beverages, and means of communication.  If you are delayed overnight this could include accommodation and travel to and from the same. Full details of these rights are available at EU airports. We have no liability to you in these circumstances whatsoever, all claims must be made directly to the airline. Also, airline liability under the above legislation does not entitle you to a full refund of your holiday cost from us. If you do not claim against the airline and make a claim for compensation from us, you must, at the time of payment of any compensation to you, make a complete assignment to us of the rights that you have against the airline in relation to any claim that gives rise to a compensation payment.
+<br /><br />
+Under (EC) No. 2111/2005 Article 9, we are obliged to advise you of the existence of a ‘Community List which contained details of air carriers that are subject to an operating ban within the EU community. The Community list is available to view at http://ec.europa.eu/transport/modes/air/safety/air-ban_en.
+<br /><br />
+<strong>NON-EU airline claims</strong>
+<br /><br />
+In such situations you are advised to contact the carrier directly with details of your claim. Such claims will be governed by and subject to international convention. 
+<br /><br />
+<strong>API</strong>
+<br /><br />
+Advance Passenger information:
+<br /><br />
+Advance passenger information is a requirement that some governments and carriers had adopted recently, please check that you provide this information where requested in a timely fashion otherwise it may result in a delay of your final travel documentation being provided to you. 
+    </p>
+    
+    <h4>15. When do I check in?</h4>
+    <p>
+    You will need to arrive at least at least two hours before departure for check in even if you have checked in online. If you fail to do so, you are likely to be refused access to the flight and deemed to be a no show: No refunds will be made, and 100% cancellation charges will be applied to the full cost of your booking and not just the flight arrangement.
+    
+    </p>
+    
+    <h4>16.Outward and return tickets</h4>
+    <p>
+    Both the outward and return portions of your ticket must be used. If you do not use the outward portion, including any internal or connecting flights, you will not be allowed to utilise the return portion. We will make no refund in these circumstances. If you are travelling on an e-ticket, you must take your travel itinerary and any ground arrangement vouchers with you. Your first name and surname on your ticket must match those on your passport or you may not be allowed to travel, and insurance cover may be invalid. If you change your name between booking and departure (e.g., newly-weds), you must notify us immediately.
+    
+    </p>
+    
+    <h4>17.Connecting Flights and Missed Connections</h4>
+    <p>
+    When you are booking flight arrangements that include a connection, we would strongly recommend that you book your ticket as a ‘through ticket’ and not as two individual flights. This is to ensure that sufficient time is allowed between flights for you to make your connection and to ensure that the airline will assist you should any difficulties arise with the connection due to a delayed first flight.
+    <br /><br />If you have booked connecting flights and you do miss your connection, please contact either the airline directly or ourselves immediately and we will do our very best to assist you.
+    </p>
+    
+    <h4>18. Luggage</h4>
+    <p>We cannot accept responsibility for any loss, damage or delay to your luggage unless directly caused by the negligence of one of our employees. In the unlikely event that your luggage is lost, damaged, or delayed in transit, you must immediately report this to the airline, or other appropriate person in authority, and obtain a report. If you fail to report any loss, damage, or delay in accordance with the airline’s terms and conditions, neither we nor the airline can consider your claim. Please ensure you have adequate insurance to cover this eventuality.
+    </p>
+    
+    <h4>19. LuggageAllowance</h4>
+    <p>
+    Most airlines allow a free checked baggage allowance for your flight which will depend on the airline, destination, and class of travel. This allowance will be based on the weight of your baggage and/or the number of pieces. You will be subject to excess baggage charges by the airline if you exceed the stated allowance. Children and infants may have a reduced allowance for checked baggage. Restrictions also apply to the amount of cabin baggage you can take onboard the aircraft. Please contact your sales consultant if you are in doubt about your baggage allowances. Please note, many airports are introducing weight limits for individual items of baggage which are checked in for carriage in the aircraft hold. This maximum weight is 32kg (70lbs). This policy relates only to single items and does not affect the overall baggage allowance for individual airlines. Passengers will be required to re-pack baggage to achieve the single item limit of 32kg. If you need to carry items which exceed the 32kg weight limit such as sporting equipment, musical instruments, electric wheelchairs, or TV news cameras etc. you should make special arrangements with your airline in advance as no responsibility for their carriage is accepted.
+    </p>
+    
+    <h4>20. Infants</h4>
+    <p>To be classified as an infant, a child must be under age 2 at the date of return travel. At present, an infant is permitted to travel on an adult’s lap or, if between 6 months and 2 years old at the date of return travel, in a car seat. If travelling in a car seat, the infant will occupy its own seat and you will therefore be liable to pay for that seat. Any car seat used must be approved by the airline and it is your responsibility to ensure that your seat is acceptable. Please therefore check this point with us at the time of booking.
+    </p>
+    
+    <h4>21. Aircraft Changes and Seating</h4>
+    <p>
+    <strong>Please Note:</strong> we may be able to provide you with an indication of the type of aircraft that may be used in your Flight Booking, on behalf of the Supplier/Principal, but any such information given is provided by way of a guide only and is not a representation or a guarantee as to the actual aircraft that will be used in your Flight Booking. From time to time the Supplier/Principal may be constrained to change the type of aircraft used for the performance of your Flight Booking and the Supplier/Principal reserves the right to do so.
+    <br /><br />
+    Where you can select seats for your Flight Booking, those seat selections are not guaranteed. In the event of a change of aircraft type or other operational change on the part of the Supplier/Principal those seat selections may no longer be applicable or available. In such circumstances, neither we nor the Supplier/Principal can accept liability or responsibility for any inconvenience arising as a result. as changes cannot be made later.
+    </p>
+    
+    <h4>22. Special Requests</h4>
+    <p>
+    If you have any special requests, these will be passed on to the relevant supplier but cannot be guaranteed by Cities and Beaches. By way of example these include but are not restricted to items such as, requests for certain bedding configurations, single, double beds, meal type requests, particular room views, bathrooms with baths, wet rooms, etc. Special celebration requests such as wine or champagne in rooms. Such requests do not form part of the holiday arrangements and the non-provision of these do not amount to a failure on our part.
+    </p>
+    
+    <h4>23. Cultural considerations</h4>
+    <p>There are public/religious holidays, state ceremonies and other cultural situations which are unique to all destinations, it would be wise to familiarise yourselves with the relevant holidays of the destination you are interested in visiting in order that you can make an informed decision regarding the timing of your trip. It may be that public monuments or places of cultural, religious, and political significance may be closed on certain dates and amenities such as shops and restaurants may sometimes be closed.
+    </p>
+    
+    <h4>24. Behaviour </h4>
+    <p>A certain level of common courtesy is enjoyed by our customers and our suppliers. Very rarely a customer may not reciprocate this.  Passengers who do not show an adequate level of basic respect for others during their holiday, flight, and /or may cause disruption or endanger other passengers, for example whilst being on a waterborne vessel, through their behaviour may be at risk of being evicted from their vessel, hotel or other accommodation at the discretion of our suppliers, if it is considered that their behaviour is disruptive and dangerous or makes other holidaymakers feel uncomfortable our suppliers reserve the right to terminate the contract without notice and also they reserve the right to take legal action where they deem it necessary. Any consequent and associated costs will not be borne by Cities and Beaches or its suppliers.
+    </p>
+    
+    <h4>25. Financial Protection</h4>
+    <p>When you buy an ATOL protected flight or flight inclusive holiday from us you will receive an ATOL Certificate. This lists what is financially protected, where you can get information on what this means for you and who to contact if things go wrong." 
+    <br /><br />
+    “We, or the suppliers identified on your ATOL Certificate, will provide you with the services listed on the ATOL Certificate (or a suitable alternative). In some cases, where neither we nor the supplier are able to do so for reasons of insolvency, an alternative ATOL holder may provide you with the services you have bought or a suitable alternative (at no extra cost to you). 
+    <br /><br />
+    You agree to accept that in those circumstances the alternative ATOL holder will perform those obligations and you agree to pay any money outstanding to be paid by you under your contract to that alternative ATOL holder. However, you also agree that in some cases it will not be possible to appoint an alternative ATOL holder, in which case you will be entitled to make a claim under the ATOL scheme.
+    <br /><br />
+    “If we, or the suppliers identified on your ATOL certificate, are unable to provide the services listed (or a suitable alternative, through an alternative ATOL holder or otherwise) for reasons of insolvency, the Trustees of the Air Travel Trust may make a payment to (or confer a benefit on) you under the ATOL scheme. You agree that in return for such a payment or benefit you assign absolutely to those Trustees any claims which you have or may have arising out of or relating to the non-provision of the services, including any claim against us, the travel agent (or your credit card issuer where applicable). You also agree that any such claims may be re-assigned to another body, if that other body has paid sums you have claimed under the ATOL scheme.” 
+    </p>
+    <h4>26.  Travel Insurance</h4>
+    <p>We strongly recommend that you take out appropriate travel insurance for your whole journey.This advice is echoed in the government website Gov.uk /foreign travel insurance. Should you decide not to take out adequate travel insurance, we will not be liable for additional expenditure or loss incurred because of inadequate cover not being taken. The responsibility to take out adequate travel insurance for your proposed journey is a personal one. Please therefore ensure that you have read the terms and conditions of cover of any policy you may purchase and take the policy with you when you travel.
+    </p>
+    
+    <h4>27.  Brexit </h4>
+    <p>The United Kingdom has made a decision to exit the European Union and are no longer members of the European Union.   As such, this decision could impact on travel arrangements, such as access to certain ports, airports, changes to visa requirements and so on.  As this is a developing situation for all concerned any arrangements which are affected will be considered as outside of our control and amount to force majeure.  We will of course where possible make alternative comparable arrangements or arrange refunds, however no compensation will be paid because of any alterations made to existing travel arrangements as a result of the UK no longer being a member of the European Union.
+    </p>
+    <h4>28. Jurisdiction</h4>
+    <p>These booking conditions apply to all bookings made with Cities and Beaches, and the applicable jurisdiction is the law of England and Wales.  </p>    
+</section>

@@ -1689,16 +1689,7 @@
                             left: 0px;
                             top: 0px;
                         }
-                    }
-                    &.ui-datepicker-current-day{
-                        background-color: #5E5E5E;
-                        .ui-state-default{
-                            color: #ffffff;
-                            &:after, &:before{
-                                color: #ffffff;
-                            }
-                        }
-                    }
+                    }                
                 }
             }
         }

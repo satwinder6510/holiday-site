@@ -1,0 +1,159 @@
+﻿@model IEnumerable<citrus.Models.offerList>
+@{
+    string resultString = "";
+    string banner = "/Hero images/offers.jpg";
+    //banner = "/cdn-cgi/image/f=auto,fit=contain,h=500/" + banner;
+}
+
+@if (Model.Count() > 0)
+{
+    if (Model.First().MetaDetails != null)
+    {
+        @section AdditionalMeta
+        {
+            <title>@Model.First().MetaDetails.MetaTitle.Replace("Cities and Beaches", "Holidays - Flights and Packages")</title>
+            <meta name="keywords" content="@Model.First().MetaDetails.MetaKeyword.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+            <meta name="description" content="@Model.First().MetaDetails.MetaDescription.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+            @if (!string.IsNullOrEmpty(Model.First().MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com")))
+            {
+                <link rel="canonical" href="@Html.Raw(Model.First().MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com"))" />
+            }
+        }
+    }
+}
+<link href="~/assets/css/offers.css?v1.1.2" rel="stylesheet" />
+
+<section class="hero-section lazy"  style="background-image:url('@banner');">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Special Holiday Offers</a>
+    </div>
+    <div class="content">
+        <div>discover</div>
+        <h1>Special Holiday Offers</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+<section class="intro-section">
+    <div class="exclusive"><span class="caslo-graphique">Exclusive</span> offers for you</div>
+</section>
+ 
+<section class="offers-section">
+    <div class="search-sort">
+        <div class="results">@Model.Count() results found</div>
+        <div class="order">
+            <div class="price">
+                Price
+                <div class="price-order active">Low to high</div>
+                <div class="price-order">High to low</div>
+            </div>
+            <div class="mobile-filter-wrap">
+                <div class="filter-btn">
+                    <span class="icon-filter"></span>
+                    Filter
+                </div>
+                <div class="sort">
+                    Sort by
+                    <div class="sort-order"><span class="current-option">Newest</span><span class="icon-dropdown"></span></div>
+                    <ul class="sort-order-list">
+                        <li class="sort-option">Newest</li>
+                        <li class="sort-option">Oldest</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="offers">
+        @{
+            int count = 0;
+            int repeat = Convert.ToInt32(Model.Count() / 6) + 1;
+            for (int i = 0; i < repeat; i++)
+            {
+                foreach (var item in Model.Skip(i * 6).Take(6))
+                {
+                    string oimg = "https://admin.citiesandbeaches.com/PackageImages/SliderImage/" + item.PackageID + "/" + item.ImgName + "?" + DateTime.Now.Ticks;
+                    //oimg = "/cdn-cgi/image/f=auto,fit=contain,h=240/" + oimg;
+                    <div class="offer count@(count)" @(count == 0 ? "" : "style=display:none;")>
+                        <span class="offer-img lazy"  style="background-image:url('@oimg');"></span>
+                        @if (item.isRibben == "y")
+                        {
+                           if (!string.IsNullOrEmpty(item.percentOff))
+                            {
+                                <div class="discount">
+                                    @if (item.percentOff.Contains("%"))
+                                    {
+                                        <div class="amount">@item.percentOff.Split('%')[0]</div>
+                                        <div class="off"><span>%</span>@item.percentOff.Split('%')[1]</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="off">@item.percentOff</div>
+                                    }
+                                </div>
+                            }
+                        }
+                        <div class="title">@item.PackageName</div>
+                        <ul>
+                            <li><span class="icon-compass"></span>@item.Destination</li>
+                            <li><span class="icon-nights"></span>@item.duration</li>
+                            <li><span class="icon-board-basis"></span>@item.MealPlan</li>
+                        </ul>
+                        <div class="offer-bot-wrap">
+                            <div class="price">
+                                <span>from</span>
+                                <div>£@item.Price<span>/pp</span></div>
+                            </div>
+                            <a class="btn" href="/Holidays/@System.Text.RegularExpressions.Regex.Replace((item.Destination!=null?item.Destination.Trim():"Unknown"), @"\s+", "-")/@System.Text.RegularExpressions.Regex.Replace(item.PackageName.Trim(), @"\s+", "-")">View More<span class="icon-more"></span></a>
+                        </div>                       
+                    </div>
+                }
+                count++;
+            }
+        }
+    </div>
+    @if (Model.Count() > 6)
+    {
+        <a class="btn more-offers" count="0" max="@repeat">Show More Offers</a>
+    }
+
+
+    <div class="call-expert tint lazy" data-src="/img/offers/call-back.jpg">
+        <div class="text">
+            <div>Can't decide on a destination?</div>
+            <p>A nice problem to have! Why not speak to one of our travel experts?</p>
+            <div class="call-us">Call us on <span>0203 011 1550</span></div>
+            <p>or alternatively</p>
+            <a class="btn" href="#callback" data-lity>Request A Call Back</a>
+        </div>
+    </div>
+</section>
+
+
+<script src="~/assets/js/offers.js?v1.2"></script>

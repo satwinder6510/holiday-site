@@ -1,0 +1,214 @@
+﻿@model citrus.Models.hotelListWithFilter
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/assets/css/country.css?v1.1.5" rel="stylesheet" />
+<link href="~/assets/css/photoswipe.css" rel="stylesheet" />
+<link href="~/assets/css/default-skin.css" rel="stylesheet" />
+<link href="~/assets/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/assets/js/jquery-ui.js"></script>
+<style>
+    .icon-3-stars {
+        content: "";
+        display: inline-block;
+        width: 43px;
+        height: 16px;
+        margin-bottom: -2px;
+        background-image: url(/assets/img/3stars.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .icon-4-stars {
+        content: "";
+        display: inline-block;
+        width: 56px;
+        height: 16px;
+        margin-bottom: -2px;
+        background-image: url(/assets/img/4stars.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .icon-5-stars {
+        content: "";
+        display: inline-block;
+        width: 69px;
+        height: 16px;
+        margin-bottom: -2px;
+        background-image: url(/assets/img/5stars.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+</style>
+<section class="hero-section">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Hotels</a>
+    </div>
+    <div class="content">
+        @if (Model.selectedSupplier == null)
+        {
+            <h1>All Citrus Hotels</h1>
+        }
+        else
+        {
+            <h1>@(Model.selectedSupplier)</h1>
+        }
+    </div>
+</section>
+<section class="holiday-list-section">
+    <div class="sidebar">
+        <div class="filter">
+            <div class="sidebar-header">
+                <div class="type">Filters</div>
+                <div class="reset" onclick="window.location.reload()">Reset</div>
+            </div>
+        </div>
+        @if (Model.fm.airports.Count() > 0)
+        {
+            <div class="filter side-airports">
+                <div class="sidebar-header">
+                    <div class="type">Supplier</div>
+                    <span class="icon-pullup"></span>
+                </div>
+                <div class="sidebar-content" style="display: block;">
+                    @foreach (var item in Model.fm.airports)
+                    {
+                        <div class="checkbox-option">
+                            <input type="checkbox" name="supplier" value="@item" id="@item.Replace(" ","-").ToLower()" @(Model.selectedSupplier == item ? "checked" : "") />
+                            <label for="@item.Replace(" ","-").ToLower()">@item</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        <div class="mobile-actions">
+            <button class="btn filter-apply-btn">Apply</button>
+            <span class="reset">Reset</span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="search-sort">
+            <div class="results">@Model.hotelCounts results found</div>
+            @*<div class="order">
+                    <div class="price">
+                        Price
+                        <div class="price-order active">Low to high</div>
+                        <div class="price-order">High to low</div>
+                    </div>
+                    <div class="mobile-filter-wrap">
+                        <div class="filter-btn">
+                            <span class="icon-filter"></span>
+                            Filter
+                        </div>
+                        <div class="sort">
+                            Sort by
+                            <div class="sort-order"><span class="current-option">Newest</span><span class="icon-dropdown"></span></div>
+                            <ul class="sort-order-list">
+                                <li class="sort-option">Newest</li>
+                                <li class="sort-option">Oldest</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+        <div class="holidays">
+            @{
+                int count = 0;
+                int repeat = Convert.ToInt32(Model.hotelCounts / 10) + 1;
+                for (int i = 0; i < repeat; i++)
+                {
+                    foreach (var item in Model.hotellst.Skip(i * 10).Take(10))
+                    {
+                        string oimg = "";
+                        if (item.imgDetail.Count() > 0)
+                        {
+                            oimg = "https://admin.citrusholidays.co.uk/PackageImages/HotelImages/" + item.hotelID + "/" + item.imgDetail.FirstOrDefault().imageName + "?" + DateTime.Now.Ticks;
+                            oimg = "/cdn-cgi/image/f=auto,fit=contain,h=340/" + oimg;
+                        }
+                        <div class="holiday count@(count)" @(count == 0 ? "" : "style=display:none;")>
+                            @if (oimg != "")
+                            {
+                                <span class="holiday-img lazy" data-src="@oimg"></span>
+                                <a class="gallery-link" images="@(string.Join("|", item.imgDetail.Select(r => "/cdn-cgi/image/f=auto,fit=contain,h=470/https://admin.citrusholidays.co.uk/PackageImages/HotelImages/" + item.hotelID + "/" + r.imageName + "?" + DateTime.Now.Ticks).ToArray()))"><span class="icon-camera"></span>Gallery</a>
+                            }
+                            <div class="details">
+                                <div>
+                                    <div class="title">@item.hotelName</div>
+                                    <span class="icon-@item.starRating-stars"></span>
+                                </div>
+                                @Html.Raw(item.hotelDetails)
+                                @*<div class="horizontal">
+                                        <div class="price">
+                                            <span>from</span>
+                                            <div>£@item.Price<span>/pp</span></div>
+                                        </div>
+                                        <a class="btn" href="">View More<span class="icon-more"></span></a>
+                                    </div>*@
+                            </div>
+                        </div>
+                    }
+                    count++;
+                }
+            }
+        </div>
+        @if (Model.hotelCounts > 10)
+        {
+            <button class="btn more-holidays" count="0" max="@repeat">Load More Results</button>
+        }
+        @Html.Partial("~/Views/home/_callUs.cshtml")
+    </div>
+    <div style="clear:both"></div>
+</section>
+
+<section class="subscription-section">
+    @Html.Partial("~/Views/home/_newsletter.cshtml")
+</section>
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/country.js?v1.1.6"></script>
+<script src="~/assets/js/photoswipe.min.js"></script>
+<script src="~/assets/js/photoswipe-ui-default.min.js"></script>
+<script>
+    $('input[name=supplier]').click(function () {
+        window.location.href = "/hotels/" + $(this).val().split(' ').join('-');
+    });
+</script>

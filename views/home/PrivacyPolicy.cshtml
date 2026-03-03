@@ -1,0 +1,116 @@
+﻿@model citrus.Models.homepage
+
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+{
+        <title>@Model.MetaDetails.MetaTitle.Replace("Cities and Beaches", "Holidays - Flights and Packages")</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        <meta name="description" content="@Model.MetaDetails.MetaDescription.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com"))" />
+        }
+    }
+}
+<link href="~/assets/css/aboutus.css" rel="stylesheet" />
+<link href="~/assets/css/font-awesome.min.css" rel="stylesheet" />
+<section class="hero-section">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Privacy Policy</a>
+    </div>
+    <div class="content">
+        <h1>Privacy Policy</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+
+<section class="about-section">
+                <h1 class="about-us-title"> <span>Privacy Policy</span></h1>
+                        <div class="fnpabout-content">
+                            <p>
+                                As Travel Agents, we need to collect certain personal data from you to ensure that we can make the arrangements for your holiday with the various operators and other suppliers. 
+                            </p>                            
+                            <h3>Personal Data</h3>
+                            <dl>
+                                <dt>1)  What Data we collect:</dt>
+                                <dd>About you: your first name, your surname and your date of birth.</dd>
+                                <dd>Your contact details: your full postal address including post code and your telephone numbers (Land and Mobile).</dd>
+                                <dd>Your email address, with your full verbal and/or written consent.</dd>
+                                <dt>2)  What we do not collect:</dt>
+                                <dd>Your Nationality and Passport Number</dd>
+                                <dd>Your Travel Insurance Details</dd>
+                                <dd>Your Next of kin details</dd>
+                                <dd>Personal Details of any other Passenger (s) on your booking</dd>
+                                <dd>Your ethnic group or country or origin.</dd>
+                                <dt>
+                                    3)  We will also ask you for your full consent to disclose to us whether you have a medical condition, health issue and/or any restriction on your mobility. This is to enable us (and the operators/suppliers of your holiday) to provide for your health, safety and welfare during your holiday.If you choose not to disclose this information to us or your consent to use it for the outlined purpose, we may not be able to provide you with a safe holiday.
+                                </dt>
+                            </dl>
+                            <h3>How we use your Data:</h3>
+                            <p>Primary Purpose: To manage and administer your booking:</p>
+                            <ul class="termsand-condition-list">
+                                <li>We will use your personal data in order to perform the services you have agreed to purchase from us.</li>
+                                <li>To make arrangements with the various Operators and other suppliers for your holiday</li>
+                                <li>Passing on any special requests to the various Operators and other suppliers and otherwise administering and performing the booking contract that you have made with us. This may involve us sharing data with companies not established in the European Economic Area. </li>
+                                <li>Your personal data will also be used if you ask us to amend or cancel your booking. When administering and managing your booking, we will contact you using the contact information you provided at the time of booking. </li>
+                                <li>Accounting &amp;Billing, card verification: We do NOT ask for, or keep your Card details. Payment(s) taken, with your full consent, for your booking is/are processed instantly through a PCI level 1 compliance system (DTMF) and no other records about your Card Details are held on our systems.</li>
+                            </ul>
+                            <h3>Data Retention &amp; Security:</h3>
+                            <p>
+                                We fully respect your privacy and we take appropriate measures to protect your personal data against unauthorised or unlawful processing and/or accidental loss, destruction or damage.
+                            </p>
+                            <p>Your personal data is fully encrypted as to ensure the confidentiality, integrity, availability and resilience of processing systems and services.  </p>
+                            <p>We regularly test, assess and evaluate the effectiveness of our technical procedures toensure the security level(s) of the processing.</p>
+                            <h3>How we share your personal Data:</h3>
+                            <p>
+                                We will need to share your personal data with the various Operators and other suppliersinvolved in performing the travel services that you have booked. This may include sharing your personal data with:
+                            </p>
+                            <ul class="termsand-condition-list">
+                                <li><strong>Airlines:</strong>  for the purpose of fulfilling the flight and cruise elements of your holiday booking. Thisdoes not include your Passport Details.</li>
+                                <li><strong>Operators and various suppliers: </strong> for the purpose of fulfilling some or all the elements of your holiday. We may share your personal data with the companies who provide land arrangements for us in resort, the accommodation provider, the transfer and any other transport providers.</li>
+                                <li><strong>Others:</strong> On request (in writing only) from various authorities including the Civil Aviation Authority (CAA), or as and when required by Law. </li>
+                                <li><strong>Important: </strong>We will NOT share your personal details with other companies for their own marketing purposes without your prior consent.</li>
+                            </ul>
+                            <h3>Your Rights:</h3>
+                            <p>You have the right to request (in writing only) a copy of the personal data that we hold about you.</p>
+                            <p>Your first request (in writing only) will be free of charge. However, any subsequent request(s) may be chargeable.</p>
+                            <h3>Other terms of our Privacy Policy:</h3>
+                            <ul class="termsand-condition-list">
+                                <li>We will not transfer your personal data to another party without your consent.</li>
+                                <li>We will use your data only for our OWN marketing purposes. This may involve sending you promotional material and special offers by email or newsletter.  You may unsubscribe from this service at any time by sending us a return email or clicking the unsubscribe button on the promotional email.</li>
+                                <li>We will only amend your personal data at your request (in writing).</li>
+                                <li>Full details of your rights are set out in the Data Protection Laws. </li>
+                            </ul>
+                            <h3>Updates:</h3>
+                            <p>We may make changes to this privacy policy from time to time and will publish any new version on our website at <a href="https://flightsandpackages.com/" target="_blank">www.flightsandpackages.com</a> </p>
+                        </div>
+</section>

@@ -1,0 +1,171 @@
+@import "./mixins";
+
+
+.hero-section {
+    background-image: url(../../assets/img/contactus/hero-image.jpg);
+   
+}
+
+.contactus-section{
+   position: relative;
+    p{
+        width: calc(100% - 292px);
+        padding-right: 20px;
+        padding-bottom: 70px;
+        @media(max-width: 940px){
+            width: 100%;
+            padding-bottom: 45px;
+             padding-right: 0px;
+        }
+        @media(max-width: 768px){
+            text-align: justify;
+        }
+    }
+    .contact-form{
+        width: calc(100% - 292px);
+        @include flex();
+        @include flex-direction(column);   
+        padding-right: 20px;
+        @media(max-width: 940px){
+            width: 100%;
+            padding-right: 0px;
+        }
+        .field-wrap{
+            @include flex();
+            width: 100%;
+            @include flex-justify-content(space-between);
+            @media(max-width: 610px){
+                @include flex-direction(column);
+            }
+        }
+        .half{
+            width: calc(50% - 6px);
+            @media(max-width: 610px){
+                width: 100%;
+            }
+            &:last-child{
+                float: right;
+            }
+        }
+        label{
+            font-family: "BentonSansBold";
+            font-size: 18px;
+            line-height: 24px;
+            color: $secondary;
+            span{
+                font-family: "BentonSans";
+                font-size: 14px;
+            }
+        }
+        .input{
+            @include border-radius(2px);
+            box-shadow: 0px 0px 8px rgba(0,0,0,0.2);
+            @media(max-width: 610px){
+                margin-bottom: 30px;
+            }
+        }
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        textarea{
+            height: 430px;
+            padding: 30px;
+        }
+        .form-actions{
+            @include flex;
+            @include flex-align-items(baseline);
+            @include flex-justify-content(space-between);
+        }
+        .form-reset{
+            color: $primary;
+        }
+        .submit{
+            letter-spacing: 1px;
+            width: 155px;
+            height: 54px;
+            padding: 0;
+        }
+    }
+    .sidebar{
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        @media(max-width: 940px){
+            position: static;
+        }
+        .contact-info{
+            width: 291px;
+            background-color: #F4F4F4;
+            padding: 20px;
+            position: relative;
+            font-family: "BentonSansMedium";
+            font-size: 14px;
+            color: #282828;     
+            @media(max-width: 940px){
+                width: 100%;
+                background-color: transparent;
+                padding: 0px;
+                margin-bottom: 45px;
+            }
+        }
+        .location,.phone,.mail{
+            @include flex();
+            @include flex-align-items(center);
+            padding-bottom: 20px;
+            line-height: 20px;
+        }
+        .social{
+            @include flex();
+            @include flex-align-items(center);
+            padding-top: 20px;
+        }
+        .icon-location{
+            content: url("../../assets/img/contactus/location-icon.svg");
+            padding-right: 14px;
+        }
+        .icon-phone{
+            content: url("../../assets/img/contactus/phone-icon.svg");
+            padding-right: 16px;
+        }
+        .icon-email{
+            content: url("../../assets/img/contactus/email-icon.svg");
+            padding-right: 14px;
+        }
+        .icon-facebook{
+            content: url("../../assets/img/contactus/facebook-icon.svg");
+            padding-right: 16px;
+        }
+        .icon-twitter{
+            content: url("../../assets/img/contactus/twitter-icon.svg");
+            padding-right: 16px;
+        }
+        .icon-pinterest{
+            content: url("../../assets/img/contactus/pinterest-icon.svg");
+            padding-right: 10px;
+        }
+    }
+}
+
+.success-popup{
+    @include flex();
+    @include flex-direction(column);
+    @include flex-align-items(center);
+    padding: 50px;
+    background-color: #fff;
+    @include border-radius(4px);
+    p{
+        color: $secondary;
+    }
+    .bold{
+        margin-bottom: 0px;
+        font-family: "BentonSansBold";
+    }
+    .btn{
+        font-size: 12px;
+    }
+    &.lity-hide{
+        display: none;
+    }
+}

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<citrus.Entities.tblBlog>
+
+<div class="blogs">
+    @{
+        int count = Convert.ToInt32(Model.Count() / 9) + 1;
+        for (int i = 0; i < count; i++)
+        {
+            foreach (var item in Model.Skip(i * 9).Take(9))
+            {
+                string oimg = "";
+                if (!string.IsNullOrWhiteSpace(item.iconimage))
+                {
+                    oimg = "https://admin.citiesandbeaches.com/BlogImages/" + item.iconimage + "?" + DateTime.Now.Ticks;
+                }
+                else
+                {
+                    oimg = "https://admin.citiesandbeaches.com/BlogImages/" + item.image + "?" + DateTime.Now.Ticks;
+                }
+                //oimg = "/cdn-cgi/image/f=auto,fit=contain,h=320/" + oimg;
+                <div class="blog count@(i)" @(i == 0 ? "" : "style=display:none;")>
+                    <img src="@oimg" class="lazy" />
+                    <div class="blog-title">@item.title</div>
+                    <div class="blog-date"><span class="icon-calendar"></span> @item.uploaddate</div>
+                    <p>@(item.description.Length > 130 ? item.description.Substring(0, 130) + "..." : item.description)</p>
+                    <a href="/blog/@item.url.Replace(" ","-")" target="_blank">Read More<span class="icon-more"></span></a>
+                </div>
+            }
+        }
+    }
+</div>
+<input type="hidden" id="countpages" value="@count" />
+<div class="pagination">
+    <ul>
+        <li class="active disabled"><a class="first"><span class="icon-left"></span><span class="icon-left"></span></a></li>
+        <li class="active disabled"><a class="prev"><span class="icon-left"></span></a></li>
+        @for (int i = 0; i < count; i++)
+        {
+            <li @(i == 0 ? "class=active" : "")><a class="pages">@(i + 1)</a></li>
+        }
+        <li class="active"><a class="next"><span class="icon-right"></span></a></li>
+        <li class="active"><a class="last"><span class="icon-right"></span><span class="icon-right"></span></a></li>
+    </ul>
+</div>

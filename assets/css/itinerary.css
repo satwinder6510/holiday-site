@@ -11,12 +11,19 @@
       margin-top: 50px;
       height: 484px; } }
   .itinerary-hero .carousel .item {
-    height: 500px;
+   height: 500px;
     background-size: cover;
-    background-position: center; }
+    background-position: 66% 50%;
+    background-repeat: no-repeat;
+	}
     @media (max-width: 768px) {
-      .itinerary-hero .carousel .item {
-        height: 484px; } }
+    .itinerary-hero .carousel .item {
+        height: 484px; } 
+	.itinerary-hero .carousel .item {
+   		 background-position: 12% 50%;}
+	.search-section .search-form .form-box {
+		padding-top: 18px;}
+		}
   .itinerary-hero .hero-navigation {
     top: 222px;
     left: 0px;
@@ -163,8 +170,8 @@
     .search-section .search-form .form-box {
       height: 52px;
       width: 100%;
-      flex: 1;
-      -webkit-flex: 1; }
+      flex: 2;
+      -webkit-flex: 2; }
       @media (max-width: 1100px) {
         .search-section .search-form .form-box {
           display: flex;
@@ -175,9 +182,13 @@
           text-align: center; } }
       .search-section .search-form .form-box p {
         color: #ffffff; }
+		.search-section .search-form .form-box .form-p-title {font-size: 29px;line-height: 30px;}
+		.para2 {max-width: 100%;margin: 0 auto;}
         @media (max-width: 610px) {
           .search-section .search-form .form-box p {
-            font-size: 14px; } }
+            font-size: 14px; }
+			.search-section .search-form .form-box .form-p-title {font-size: 22px;line-height: 26px; padding-bottom:15px;}
+			.para2 {max-width: 80%;} }
       .search-section .search-form .form-box .editable {
         font-family: "BentonsansMedium"; }
     .search-section .search-form .price {
@@ -224,7 +235,7 @@
       .search-section .search-form .price div {
         font-family: "CaslonGraphiqueEF";
         font-size: 40px;
-        line-height: 33px; }
+        line-height: 20px; }
         @media (max-width: 610px) {
           .search-section .search-form .price div {
             font-size: 36px; } }
@@ -239,7 +250,15 @@
       letter-spacing: 1px;
       height: 64px;
       margin: 0px;
-      box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2); }
+      box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
+	  background-color: #ff7f00;
+	  line-height: 23px;}
+	  .search-section .search-form .btn span.ph-size {
+		  display:contents !important;
+		  font-size:18px;
+		  color:#FFF;
+		  line-height:100% !important;
+		  }
       @media (max-width: 610px) {
         .search-section .search-form .btn {
           margin-bottom: 20px;
@@ -447,13 +466,14 @@
       margin-top: 65px;
       letter-spacing: -0.5px;
       z-index: -1; }
-    .itinerary-content .content .read-more {
-      vertical-align: middle;
-      font-family: "BentonSansBold";
-      color: #424242;
-      margin-top: 20px;
-      display: inline-block;
-      cursor: pointer; }
+.itinerary-content .content .read-more, .read-less {
+    vertical-align: middle;
+    font-family: "BentonSansBold";
+    color: #424242;
+    margin-top: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
       .itinerary-content .content .read-more .icon-dropdown {
         content: url("../img/dropdown-icon.svg");
         padding-left: 15px; }
@@ -587,6 +607,9 @@
       @media (max-width: 768px) {
         .itinerary-content .content .call-expert {
           margin-bottom: 50px; } }
+      @media (max-width: 768px) {
+        .itinerary-content .content .call-expert.mobile-hide {
+          display: none; } }
       .itinerary-content .content .call-expert .text {
         width: 100%;
         padding: 20px 20px 45px 20px;
@@ -649,6 +672,9 @@
       @media (max-width: 768px) {
         .itinerary-content .content .upsell {
           padding-left: 20px; } }
+      @media (max-width: 768px) {
+        .itinerary-content .content .upsell.mobile-hide {
+          display: none; } }
       .itinerary-content .content .upsell .title {
         font-family: "CaslonGraphiqueEF";
         font-size: 24px;
@@ -737,6 +763,7 @@
             font-size: 12px; } }
     .itinerary-content .sidebar .wrap {
       box-shadow: 0px 6px 12px 2px rgba(0, 0, 0, 0.1); }
+    .itinerary-content .sidebar .wrap img {  width: 100%;  min-height: 199px;}
     .itinerary-content .sidebar .overview {
       margin-left: 22px;
       margin-right: 22px;
@@ -823,7 +850,16 @@
       -webkit-border-radius: 0px;
       -moz-border-radius: 0px;
       -ms-border-radius: 0px;
-      border-radius: 0px; }
+      border-radius: 0px;
+	  background-color: #ff7f00;
+	  line-height: 23px;}
+	  
+	.itinerary-content .sidebar .check-price span.ph-size {
+    display: contents !important;
+    font-size: 18px;
+    color: #FFF;
+    line-height: 100% !important;}
+	  
       .itinerary-content .sidebar .check-price .icon-more {
         padding-left: 18px;
         content: url("../img/more-icon-white.svg"); }
@@ -857,7 +893,7 @@
 
 @media (max-width: 768px) {
   .overview-section p {
-    text-align: justify; } }
+    text-align: justify; color:#424242; } }
 
 .overview-section h3 {
   padding-bottom: 20px; }
@@ -865,8 +901,8 @@
 .overview-section .custom-bullets {
   list-style-type: none; }
   .overview-section .custom-bullets li {
-    display: flex;
-    display: -webkit-flex;
+    /*display: flex;
+    display: -webkit-flex;*/
     -webkit-align-items: center;
     align-items: center;
     font-size: 16px;
@@ -951,8 +987,9 @@
     padding-bottom: 20px; }
   .gallery-section .gallery-carousel figure {
     margin: 0px;
-    height: 470px;
+    /* height: 470px; */
     position: relative; }
+    .slick-slide img { width: 100% !important;}
     @media (max-width: 1100px) {
       .gallery-section .gallery-carousel figure {
         height: 370px; } }
@@ -1177,35 +1214,20 @@
       border-radius: 2px;
       box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
       padding-left: 30px;
-      padding-top: 29px;
+      padding-top: 17px;
       position: relative; }
-      @media (max-width: 1100px) {
-        .calendar-modal .search-form .form-box {
-          margin-bottom: 15px; } }
-      @media (max-width: 940px) {
-        .calendar-modal .search-form .form-box {
-          height: 76px;
-          padding-top: 20px; } }
       .calendar-modal .search-form .form-box .label {
         font-family: "BentonSansBold";
         font-size: 14px;
         color: #282828; }
-      .calendar-modal .search-form .form-box .input {
-        display: flex;
-        display: -webkit-flex; }
-        .calendar-modal .search-form .form-box .input input {
-          margin-left: -15px;
-          height: 24px; }
-      .calendar-modal .search-form .form-box .icon-list {
-        position: absolute;
-        top: 33px;
-        right: 30px;
-        content: url("../img/itinerary/list-icon.svg"); }
-      .calendar-modal .search-form .form-box .icon-dropdown {
-        position: absolute;
-        top: 42px;
-        right: 33px;
-        content: url("../img/form-dropdown-icon.svg"); }
+      .calendar-modal .search-form .form-box #destination {
+        background-image: url("../img/list-icon.svg");
+        background-position: right top;
+        background-size: 90px 30px; }
+      .calendar-modal .search-form .form-box #airport, .calendar-modal .search-form .form-box #month, .calendar-modal .search-form .form-box #passenger {
+        background-image: url("../img/form-dropdown-icon.svg");
+        background-position: right 6px;
+        background-size: 90px 12px; }
     .calendar-modal .search-form .book-btn {
       width: 100%;
       height: 96px;
@@ -1241,7 +1263,8 @@
           font-size: 14px; }
         .calendar-modal .search-form .book-btn .price-wrap .price {
           font-family: "CaslonGraphiqueEF";
-          font-size: 40px; }
+          font-size: 40px;
+		  line-height: 43px; }
       .calendar-modal .search-form .book-btn .book {
         display: flex;
         display: -webkit-flex;
@@ -1408,11 +1431,13 @@
         color: #424242;
         font-family: "CaslonGraphiqueEF";
         font-size: 30px;
-        line-height: 24px;
+        line-height: 30px;
         text-align: center;
         order: 2;
-        margin-left: 85px;
-        margin-right: 85px; }
+        margin-left: 13%;
+		margin-right: 13%;
+		min-width: 235px;		
+		}		
         @media (max-width: 530px) {
           .calendar-modal .calendar .ui-datepicker-header .ui-datepicker-title {
             margin-left: auto;
@@ -1420,6 +1445,9 @@
             font-size: 26px; } }
         @media (max-width: 450px) {
           .calendar-modal .calendar .ui-datepicker-header .ui-datepicker-title {
+			margin-left: 10%;
+			margin-right: 10%;
+			min-width: 200px;
             font-size: 24px; } }
         @media (max-width: 394px) {
           .calendar-modal .calendar .ui-datepicker-header .ui-datepicker-title {
@@ -1559,7 +1587,7 @@
             color: #424242;
             font-size: 20px;
             font-family: "BentonSansMedium";
-            content: "£1222";
+            /*content: "�1222";*/
             text-align: center;
             width: 112px; }
             @media (max-width: 1460px) {
@@ -1599,7 +1627,7 @@
                 width: 41px;
                 bottom: -20px; } }
           .calendar-modal .calendar .ui-datepicker-calendar tbody td .ui-state-default:before {
-            content: "per person";
+            /* content: "per person"; */
             position: absolute;
             width: 112px;
             text-align: center;
@@ -1654,7 +1682,18 @@
             left: 0px;
             top: 0px; }
         .calendar-modal .calendar .ui-datepicker-calendar tbody td.ui-datepicker-current-day {
-          background-color: #5E5E5E; }
+          background-color: #20a1aa!important;
+		  -webkit-background-color: #20a1aa!important;
+		  -moz-background-color: #20a1aa!important;
+		  -ms-background-color: #20a1aa!important; }
+		  
+	@media and (-webkit-min-device-pixel-ratio:0) {
+   		 .calendar-modal .calendar .ui-datepicker-calendar tbody td.ui-datepicker-current-day {
+          background-color: #20a1aa!important;
+		  -webkit-background-color: #20a1aa!important;
+		  -moz-background-color: #20a1aa!important;
+		  -ms-background-color: #20a1aa!important; }
+				}		  	  
           .calendar-modal .calendar .ui-datepicker-calendar tbody td.ui-datepicker-current-day .ui-state-default {
             color: #ffffff; }
             .calendar-modal .calendar .ui-datepicker-calendar tbody td.ui-datepicker-current-day .ui-state-default:after, .calendar-modal .calendar .ui-datepicker-calendar tbody td.ui-datepicker-current-day .ui-state-default:before {
@@ -1673,22 +1712,38 @@
     @media (max-width: 768px) {
       .calendar-modal .mobile-back-btn {
         top: 15px; } }
-.calendar-modal .calendar .ui-datepicker-calendar tbody td.ui-datepicker-current-day {
-    background-color: #20a1aa !important;
-    -webkit-background-color: #20a1aa !important;
-    -moz-background-color: #20a1aa !important;
-    -ms-background-color: #20a1aa !important;
-}
-.calendar-modal .calendar .ui-datepicker-calendar tbody td.ui-datepicker-current-day .ui-state-default {
-    color: #ffffff;
+
+
+.slick-track {
+    margin-left: 0 !important;
 }
 
-/**** tool tip ***/
-.it-row .tooltip-outer {position:relative;}
-.it-row .tooltip-outer .tooltip-v {display:none;}
-.it-row .tooltip-outer:hover .tooltip-v:after { border-color: #232324 transparent transparent;
-border-style: solid;  border-width: 7px;  bottom: -13px;  content: "";  left: 15%;  position: absolute; width: 0;}
-.it-row .tooltip-outer:hover .tooltip-v { background-color: #232324;  border-radius: 5px;
-color: #fff;  display: block;  font-size: 11px;  left: 0;  padding: 4px;  position: absolute; z-index:100; top: -85px;
-white-space: nowrap; line-height:160%; text-align:left;}
-/**** End tool tip ***/
+@media screen and (max-width: 480px) {
+.search-section .search-form { padding: 10px 30px 5px;}
+.overview-section p {font-size: 16px;  color:#424242;}
+.accommodation-section .desc p {font-size: 16px; color:#424242;}
+.slick-slide img {width: 110%;}
+.itinerary-content .content .accordion-panel .panel-content div[class$="-navigation"] {top: 100px;}
+.itinerary-content .content .accordion-panel .panel-content div[class$="-navigation"] .icon-expand { top: -85px;}
+.itinerary-content .content .accordion-panel .panel-content div[class*="-carousel-"] figure { height: 220px;}
+.gallery-section .gallery-navigation {  top: 235px;}
+.gallery-section .gallery-navigation .icon-expand { top: -85px;}
+.gallery-section .gallery-carousel figure {height: 192px;}
+.search-section { top: 170px;}
+.itinerary-hero .carousel .item { height: 378px;}
+.itinerary-hero .carousel .item { background-position: 65% 43%;}
+.itinerary-hero { margin-top: 10px; height: 392px;}
+.calendar-modal .mobile-back-btn {background-image: url(../img/mobile-back-icon-black.svg);}
+.calendar-modal .close-btn .icon-close { content: url(../img/close-icon-circle-black.svg);}
+
+}
+
+@media screen and (max-width: 320px) {
+.slick-slide img {width: 130%;}
+.itinerary-content .content .accordion-panel .panel-content div[class$="-navigation"] {top: 100px;}
+.itinerary-content .content .accordion-panel .panel-content div[class$="-navigation"] .icon-expand { top: -85px;}
+.itinerary-content .content .accordion-panel .panel-content div[class*="-carousel-"] figure { height: 220px;}
+.gallery-section .gallery-navigation {  top: 235px;}
+.gallery-section .gallery-navigation .icon-expand { top: -85px;}
+.gallery-section .gallery-carousel figure {height: 192px;}
+}

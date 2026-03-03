@@ -1,0 +1,1106 @@
+﻿/* Brand */
+.hero-section {
+  background-image: url(../img/collection/hero-image.jpg); }
+  .hero-section .content {
+    padding-bottom: 80px; }
+    @media (max-width: 1260px) {
+      .hero-section .content {
+        padding-bottom: 120px; } }
+    @media (max-width: 768px) {
+      .hero-section .content {
+        padding-bottom: 0px; } }
+
+.search-section {
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+  top: 440px;
+  position: absolute; }
+  @media (max-width: 1260px) {
+    .search-section {
+      max-width: 730px;
+      top: 400px; } }
+  .search-section .search-form {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    padding: 0 25px; }
+    .search-section .search-form form {
+      display: flex;
+      display: -webkit-flex;
+      -webkit-align-items: center;
+      align-items: center;
+      justify-content: space-between;
+      -webkit-justify-content: space-between;
+      height: 96px;
+      width: 100%; }
+      @media (max-width: 1260px) {
+        .search-section .search-form form {
+          height: 164px; } }
+    @media (max-width: 1260px) {
+      .search-section .search-form {
+        height: 164px; } }
+    @media (max-width: 768px) {
+      .search-section .search-form {
+        display: none; } }
+    .search-section .search-form .box-title {
+      display: none; }
+    .search-section .search-form .mobile-wrap {
+      display: flex;
+      display: -webkit-flex;
+      flex-grow: 1;
+      -webkit-flex-grow: 1; }
+      @media (max-width: 1260px) {
+        .search-section .search-form .mobile-wrap {
+          height: 124px;
+          flex-direction: column;
+          -webkit-flex-direction: column;
+          justify-content: space-between;
+          -webkit-justify-content: space-between;
+          -webkit-align-items: center;
+          align-items: center; } }
+    .search-section .search-form .form-box {
+      display: flex;
+      display: -webkit-flex;
+      justify-content: space-between;
+      -webkit-justify-content: space-between;
+      flex-direction: column;
+      -webkit-flex-direction: column;
+      height: 52px;
+      width: 100%;
+      padding-right: 40px; }
+      @media (max-width: 1260px) {
+        .search-section .search-form .form-box {
+          padding-right: 0px; } }
+      .search-section .search-form .form-box label {
+        font-family: "BentonSansBold";
+        font-size: 14px;
+        color: #282828; }
+      .search-section .search-form .form-box .input {
+        display: flex;
+        display: -webkit-flex;
+        position: relative;
+        left: -15px; }
+        .search-section .search-form .form-box .input #subdestination {
+          height: 24px;
+          background-image: url("../img/list-icon.svg");
+          background-position: right top;
+          background-size: 40px 24px;
+          background-repeat: no-repeat; }
+        .search-section .search-form .form-box .input #airport, .search-section .search-form .form-box .input #month, .search-section .search-form .form-box .input #passenger {
+          height: 24px;
+          background-image: url("../img/form-dropdown-icon.svg");
+          background-position: right 6px;
+          background-size: 40px 12px; }
+    .search-section .search-form .btn {
+      width: 161px;
+      letter-spacing: 1px;
+      height: 64px;
+      margin: 0px;
+      box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2); }
+  .search-section .search-btn {
+    display: none; }
+    @media (max-width: 768px) {
+      .search-section .search-btn {
+        display: flex;
+        display: -webkit-flex;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 3;
+        width: 51px;
+        min-width: 51px;
+        height: 51px;
+        font-size: 8px;
+        letter-spacing: 0px;
+        flex-direction: column;
+        -webkit-flex-direction: column; }
+        .search-section .search-btn .icon-search {
+          content: "";
+          background-image: url("../img/search-icon.svg");
+          background-size: cover;
+          background-position: center;
+          width: 18px;
+          height: 18px; } }
+
+.lity-content .search-form {
+  height: auto;
+  width: 500px;
+  background-color: #f6f6f6;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+  padding: 15px;
+  position: relative;
+  display: block;
+  left: auto;
+  top: auto; }
+  @media (max-width: 610px) {
+    .lity-content .search-form {
+      width: 400px; } }
+  @media (max-width: 450px) {
+    .lity-content .search-form {
+      width: auto; } }
+  .lity-content .search-form .box-title {
+    display: block;
+    font-size: 20px;
+    line-height: 50px;
+    text-align: center;
+    font-family: "CaslonGraphiqueEF";
+    color: #000000; }
+  .lity-content .search-form .close-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-align-items: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer; }
+    .lity-content .search-form .close-btn .icon-close {
+      margin-left: 10px;
+      height: 20px;
+      flex: 0 0 20px;
+      -webkit-flex: 0 0 20px;
+      content: url(../img/close-icon-circle.svg); }
+  .lity-content .search-form .form-box {
+    width: 100%;
+    height: 96px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    padding-left: 30px;
+    padding-top: 17px;
+    position: relative; }
+    .lity-content .search-form .form-box label {
+      font-family: "BentonSansBold";
+      font-size: 14px;
+      color: #282828; }
+    .lity-content .search-form .form-box .input {
+      display: flex;
+      display: -webkit-flex;
+      position: relative;
+      left: -15px; }
+      .lity-content .search-form .form-box .input #subdestination {
+        height: 24px;
+        background-image: url("../img/list-icon.svg");
+        background-position: right top;
+        background-size: 40px 24px;
+        background-repeat: no-repeat; }
+      .lity-content .search-form .form-box .input #airport, .lity-content .search-form .form-box .input #month, .lity-content .search-form .form-box .input #passenger {
+        height: 24px;
+        background-image: url("../img/form-dropdown-icon.svg");
+        background-position: right 6px;
+        background-size: 40px 12px; }
+  .lity-content .search-form .btn {
+    height: 76px;
+    width: 260px; }
+
+.intro-section {
+  margin-top: 80px;
+  margin-bottom: 95px; }
+  @media (max-width: 768px) {
+    .intro-section {
+      margin-top: 40px;
+      margin-bottom: 50px; } }
+  .intro-section p {
+    padding-bottom: 20px; }
+    @media (max-width: 768px) {
+      .intro-section p {
+        text-align: justify; } }
+  .intro-section a {
+    vertical-align: middle;
+    font-family: "BentonSansBold";
+    color: #424242; }
+    .intro-section a .icon-dropdown {
+      content: url("../img/dropdown-icon.svg");
+      padding-left: 15px; }
+
+.featured-tour-section {
+  margin-bottom: 0px; }
+
+.holiday-list-section {
+  margin-top: 60px;
+  margin-bottom: 0px; }
+  @media (max-width: 768px) {
+    .holiday-list-section {
+      margin: 90px 0px 0px 0px;
+      max-width: 100%; } }
+  .holiday-list-section .sidebar {
+    width: 281px;
+    display: inline-block;
+    padding-right: 32px; }
+    @media (max-width: 768px) {
+      .holiday-list-section .sidebar {
+        display: none;
+        margin: auto;
+        padding-right: 0px; } }
+    .holiday-list-section .sidebar .filter {
+      padding-bottom: 25px;
+      padding-top: 25px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+      .holiday-list-section .sidebar .filter:first-child {
+        padding-top: 0px;
+        padding-bottom: 2px; }
+        .holiday-list-section .sidebar .filter:first-child .sidebar-header {
+          cursor: default; }
+      @media (min-width: 768px) {
+        .holiday-list-section .sidebar .filter:nth-last-child(2) {
+          border: none; } }
+      .holiday-list-section .sidebar .filter .sidebar-header {
+        display: flex;
+        display: -webkit-flex;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        -webkit-align-items: baseline;
+        align-items: baseline;
+        padding-bottom: 20px;
+        cursor: pointer; }
+        .holiday-list-section .sidebar .filter .sidebar-header .type {
+          font-family: "BentonSansBold";
+          font-size: 18px;
+          color: #424242; }
+        .holiday-list-section .sidebar .filter .sidebar-header .reset {
+          font-family: "BentonSansMedium";
+          font-size: 14px;
+          color: #B7B7B7;
+          cursor: pointer; }
+        .holiday-list-section .sidebar .filter .sidebar-header .icon-dropdown {
+          content: url("../img/dropdown-icon.svg"); }
+        .holiday-list-section .sidebar .filter .sidebar-header .icon-pullup {
+          content: url("../img/dropdown-icon.svg");
+          transform: rotate(180deg); }
+      .holiday-list-section .sidebar .filter .sidebar-content {
+        display: block; }
+      .holiday-list-section .sidebar .filter .checkbox-option {
+        padding-left: 23px;
+        font-size: 14px;
+        padding-top: 10px;
+        display: flex;
+        display: -webkit-flex; }
+        .holiday-list-section .sidebar .filter .checkbox-option input {
+          display: none; }
+        .holiday-list-section .sidebar .filter .checkbox-option input:checked + label:before {
+          content: "";
+          background-image: url(../img/tick.svg);
+          background-repeat: no-repeat;
+          background-position-y: 2px; }
+        .holiday-list-section .sidebar .filter .checkbox-option label {
+          display: flex;
+          display: -webkit-flex;
+          color: #000000;
+          cursor: pointer; }
+          .holiday-list-section .sidebar .filter .checkbox-option label:before {
+            background: #FFF;
+            content: "";
+            width: 14px;
+            height: 14px;
+            border: 1px solid #5e5e5e;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            -ms-border-radius: 2px;
+            border-radius: 2px;
+            margin-right: 14px; }
+      .holiday-list-section .sidebar .filter .price-graph {
+        width: 100%;
+        height: 100px;
+        background-color: black;
+        margin-bottom: 20px; }
+      .holiday-list-section .sidebar .filter .price-boxes {
+        display: flex;
+        display: -webkit-flex;
+        justify-content: space-between;
+        -webkit-justify-content: space-between; }
+        .holiday-list-section .sidebar .filter .price-boxes div {
+          display: flex;
+          display: -webkit-flex;
+          justify-content: center;
+          -webkit-justify-content: center;
+          -webkit-align-items: center;
+          align-items: center;
+          width: 86px;
+          height: 36px;
+          border: 1px #5E5E5E solid;
+          -webkit-border-radius: 2px;
+          -moz-border-radius: 2px;
+          -ms-border-radius: 2px;
+          border-radius: 2px;
+          font-family: "BentonSansMedium";
+          font-size: 14px; }
+    .holiday-list-section .sidebar .mobile-actions {
+      display: flex;
+      display: -webkit-flex;
+      -webkit-align-items: center;
+      align-items: center;
+      justify-content: space-between;
+      -webkit-justify-content: space-between;
+      margin-top: 20px; }
+      @media (min-width: 769px) {
+        .holiday-list-section .sidebar .mobile-actions {
+          display: none; } }
+      .holiday-list-section .sidebar .mobile-actions .filter-apply-btn {
+        margin: 0px; }
+      .holiday-list-section .sidebar .mobile-actions .reset {
+        font-family: "BentonSansMedium";
+        font-size: 14px;
+        color: #B7B7B7; }
+    .holiday-list-section .sidebar.show {
+      display: block; }
+  .holiday-list-section .content {
+    width: calc(100% - 281px);
+    float: right;
+    padding-left: 32px; }
+    @media (max-width: 768px) {
+      .holiday-list-section .content {
+        width: 100%;
+        padding-left: 0px; } }
+    .holiday-list-section .content .search-sort {
+      display: flex;
+      display: -webkit-flex;
+      font-family: "BentonSansBold";
+      color: #424242;
+      padding-bottom: 22px;
+      border-bottom: solid 1px rgba(66, 66, 66, 0.2);
+      margin-bottom: 38px; }
+      @media (max-width: 1100px) {
+        .holiday-list-section .content .search-sort {
+          padding-bottom: 2px; } }
+      @media (max-width: 940px) {
+        .holiday-list-section .content .search-sort {
+          flex-direction: column;
+          -webkit-flex-direction: column; } }
+      @media (max-width: 768px) {
+        .holiday-list-section .content .search-sort {
+          border: none;
+          -webkit-align-items: center;
+          align-items: center;
+          padding-bottom: 0px; } }
+      .holiday-list-section .content .search-sort .results {
+        flex-grow: 2;
+        -webkit-flex-grow: 2; }
+      .holiday-list-section .content .search-sort .order {
+        display: flex;
+        display: -webkit-flex;
+        flex-grow: 1;
+        -webkit-flex-grow: 1;
+        justify-content: space-between;
+        -webkit-justify-content: space-between; }
+        @media (max-width: 1100px) {
+          .holiday-list-section .content .search-sort .order {
+            flex-direction: column;
+            -webkit-flex-direction: column;
+            -webkit-align-items: flex-end;
+            align-items: flex-end; } }
+        @media (max-width: 940px) {
+          .holiday-list-section .content .search-sort .order {
+            -webkit-align-items: flex-start;
+            align-items: flex-start; } }
+        @media (max-width: 768px) {
+          .holiday-list-section .content .search-sort .order {
+            padding-top: 20px; } }
+        .holiday-list-section .content .search-sort .order .price {
+          display: inline-block; }
+          @media (max-width: 1100px) {
+            .holiday-list-section .content .search-sort .order .price {
+              margin-bottom: 5px; } }
+          @media (max-width: 940px) {
+            .holiday-list-section .content .search-sort .order .price {
+              margin-top: 5px; } }
+          @media (max-width: 768px) {
+            .holiday-list-section .content .search-sort .order .price {
+              margin: 0px; } }
+          .holiday-list-section .content .search-sort .order .price .price-order {
+            display: inline-block;
+            font-family: "BentonSansMedium";
+            color: #878787;
+            padding-left: 20px;
+            cursor: pointer; }
+            .holiday-list-section .content .search-sort .order .price .price-order:last-child {
+              border-left: 0.5px solid rgba(0, 0, 0, 0.5);
+              margin-left: 15px; }
+            @media (max-width: 450px) {
+              .holiday-list-section .content .search-sort .order .price .price-order {
+                font-size: 16px;
+                padding-left: 5px; }
+                .holiday-list-section .content .search-sort .order .price .price-order:last-child {
+                  padding-left: 10px;
+                  margin-left: 5px; } }
+          .holiday-list-section .content .search-sort .order .price .active {
+            color: #20A1AA; }
+          .holiday-list-section .content .search-sort .order .price.hide {
+            display: none; }
+        @media (max-width: 768px) {
+          .holiday-list-section .content .search-sort .order .mobile-filter-wrap {
+            position: absolute;
+            width: 100%;
+            top: -90px;
+            left: 0px;
+            right: 0px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            display: -webkit-flex;
+            justify-content: space-between;
+            -webkit-justify-content: space-between;
+            padding: 20px;
+            transform: translateY(0px);
+            transition: transform .2s;
+            z-index: 4; } }
+        .holiday-list-section .content .search-sort .order .mobile-filter-wrap.stick {
+          position: fixed;
+          top: 60px;
+          width: 100%;
+          transition: transform .2s;
+          transform: translateY(-60px); }
+        .holiday-list-section .content .search-sort .order .mobile-filter-wrap .filter-btn {
+          font-size: 16px;
+          font-family: "BentonSansMedium"; }
+          @media (min-width: 769px) {
+            .holiday-list-section .content .search-sort .order .mobile-filter-wrap .filter-btn {
+              display: none; } }
+          .holiday-list-section .content .search-sort .order .mobile-filter-wrap .filter-btn .icon-filter {
+            content: "";
+            background-image: url(../img/collection/filter-icon.svg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 17px;
+            height: 14px;
+            margin-right: 10px;
+            display: inline-block; }
+        .holiday-list-section .content .search-sort .order .mobile-filter-wrap .sort {
+          position: relative;
+          display: inline-block;
+          display: flex;
+          display: -webkit-flex; }
+          @media (max-width: 768px) {
+            .holiday-list-section .content .search-sort .order .mobile-filter-wrap .sort {
+              font-size: 16px; } }
+          .holiday-list-section .content .search-sort .order .mobile-filter-wrap .sort .sort-order {
+            font-family: "BentonSansMedium";
+            color: #878787;
+            padding-left: 15px;
+            min-width: 111px;
+            cursor: pointer;
+            display: flex;
+            display: -webkit-flex;
+            justify-content: space-between;
+            -webkit-justify-content: space-between;
+            -webkit-align-items: center;
+            align-items: center; }
+            @media (max-width: 768px) {
+              .holiday-list-section .content .search-sort .order .mobile-filter-wrap .sort .sort-order {
+                padding-left: 5px;
+                min-width: 80px; } }
+            .holiday-list-section .content .search-sort .order .mobile-filter-wrap .sort .sort-order .icon-dropdown {
+              margin-left: 20px;
+              content: "";
+              background-image: url("../img/dropdown-icon.svg");
+              background-repeat: no-repeat;
+              background-size: cover;
+              width: 12px;
+              height: 7px;
+              display: inline-block; }
+              @media (max-width: 768px) {
+                .holiday-list-section .content .search-sort .order .mobile-filter-wrap .sort .sort-order .icon-dropdown {
+                  background-image: url(../img/sort-by-icon.svg);
+                  width: 8px;
+                  height: 14px;
+                  margin-left: 10px; } }
+          .holiday-list-section .content .search-sort .order .mobile-filter-wrap .sort .sort-order-list {
+            position: absolute;
+            top: 30px;
+            left: 65px;
+            width: 110px;
+            list-style-type: none;
+            padding: 10px;
+            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+            background-color: #ffffff;
+            z-index: 1;
+            display: none; }
+            @media (max-width: 768px) {
+              .holiday-list-section .content .search-sort .order .mobile-filter-wrap .sort .sort-order-list {
+                left: 49px;
+                width: 100px; } }
+            .holiday-list-section .content .search-sort .order .mobile-filter-wrap .sort .sort-order-list .sort-option {
+              font-family: "BentonSansMedium";
+              color: #878787;
+              padding: 5px;
+              cursor: pointer; }
+    .holiday-list-section .content .holidays {
+      position: relative; }
+      @media (min-width: 769px) {
+        .holiday-list-section .content .holidays:before {
+          content: "";
+          position: absolute;
+          left: -32px;
+          height: 100%;
+          width: 1px;
+          background: rgba(0, 0, 0, 0.2); } }
+      @media (max-width: 768px) {
+        .holiday-list-section .content .holidays {
+          max-width: 730px;
+          margin-left: auto;
+          margin-right: auto; } }
+      @media (max-width: 760px) {
+        .holiday-list-section .content .holidays {
+          max-width: 580px; } }
+      @media (max-width: 610px) {
+        .holiday-list-section .content .holidays {
+          max-width: 500px; } }
+      @media (max-width: 530px) {
+        .holiday-list-section .content .holidays {
+          max-width: 420px; } }
+      @media (max-width: 450px) {
+        .holiday-list-section .content .holidays {
+          max-width: 365px; } }
+      @media (max-width: 394px) {
+        .holiday-list-section .content .holidays {
+          max-width: 335px; } }
+      @media (max-width: 350px) {
+        .holiday-list-section .content .holidays {
+          max-width: 290px; } }
+      .holiday-list-section .content .holidays .holiday {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
+        display: flex;
+        display: -webkit-flex;
+        margin-top: 20px;
+        position: relative;
+        width: 100%; }
+        @media (max-width: 1100px) {
+          .holiday-list-section .content .holidays .holiday {
+            flex-direction: column;
+            -webkit-flex-direction: column; } }
+        @media (max-width: 768px) {
+          .holiday-list-section .content .holidays .holiday {
+            flex-direction: row;
+            -webkit-flex-direction: row; } }
+        @media (max-width: 760px) {
+          .holiday-list-section .content .holidays .holiday {
+            flex-direction: column;
+            -webkit-flex-direction: column; } }
+        .holiday-list-section .content .holidays .holiday .holiday-img {
+          min-width: 291px;
+          display: block;
+          background-size: cover;
+          background-repeat: no-repeat;
+          height: 340px; }
+          @media (max-width: 1100px) {
+            .holiday-list-section .content .holidays .holiday .holiday-img {
+              width: 567px; } }
+          @media (max-width: 940px) {
+            .holiday-list-section .content .holidays .holiday .holiday-img {
+              width: 417px; } }
+          @media (max-width: 768px) {
+            .holiday-list-section .content .holidays .holiday .holiday-img {
+              width: 291px; } }
+          @media (max-width: 760px) {
+            .holiday-list-section .content .holidays .holiday .holiday-img {
+              width: 580px; } }
+          @media (max-width: 610px) {
+            .holiday-list-section .content .holidays .holiday .holiday-img {
+              width: 500px; } }
+          @media (max-width: 530px) {
+            .holiday-list-section .content .holidays .holiday .holiday-img {
+              width: 420px; } }
+          @media (max-width: 450px) {
+            .holiday-list-section .content .holidays .holiday .holiday-img {
+              width: 365px; } }
+          @media (max-width: 394px) {
+            .holiday-list-section .content .holidays .holiday .holiday-img {
+              width: 335px;
+              height: 210px; } }
+          @media (max-width: 350px) {
+            .holiday-list-section .content .holidays .holiday .holiday-img {
+              width: 284px; } }
+        .holiday-list-section .content .holidays .holiday .gallery-link {
+          display: flex;
+          display: -webkit-flex;
+          -webkit-align-items: center;
+          align-items: center;
+          flex-direction: column;
+          -webkit-flex-direction: column;
+          justify-content: center;
+          -webkit-justify-content: center;
+          position: absolute;
+          top: 236px;
+          left: 0px;
+          width: 104px;
+          height: 104px;
+          background-color: rgba(0, 0, 0, 0.6);
+          color: #ffffff;
+          font-family: "BentonSansMedium";
+          font-size: 14px; }
+          @media (max-width: 394px) {
+            .holiday-list-section .content .holidays .holiday .gallery-link {
+              width: 64px;
+              height: 64px;
+              top: 146px;
+              font-size: 12px; } }
+          .holiday-list-section .content .holidays .holiday .gallery-link .icon-camera {
+            content: "";
+            background-image: url(../img/camera-icon.svg);
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 35px;
+            height: 29px;
+            margin-bottom: 10px; }
+            @media (max-width: 394px) {
+              .holiday-list-section .content .holidays .holiday .gallery-link .icon-camera {
+                width: 24px;
+                height: 20px;
+                margin-bottom: 5px; } }
+        .holiday-list-section .content .holidays .holiday .details {
+          display: flex;
+          display: -webkit-flex;
+          flex-direction: column;
+          -webkit-flex-direction: column;
+          justify-content: space-between;
+          -webkit-justify-content: space-between;
+          padding: 30px;
+          width: 100%; }
+          @media (max-width: 450px) {
+            .holiday-list-section .content .holidays .holiday .details {
+              padding: 20px; } }
+          .holiday-list-section .content .holidays .holiday .details .title {
+            font-family: "BentonSansBold";
+            font-size: 24px;
+            line-height: 27px;
+            color: #424242; }
+            @media (max-width: 450px) {
+              .holiday-list-section .content .holidays .holiday .details .title {
+                font-size: 20px; } }
+          .holiday-list-section .content .holidays .holiday .details ul {
+            list-style-type: none;
+            padding-top: 5px;
+            padding-bottom: 20px;
+            display: flex;
+            display: -webkit-flex; }
+            @media (max-width: 1260px) {
+              .holiday-list-section .content .holidays .holiday .details ul {
+                flex-direction: column;
+                -webkit-flex-direction: column; } }
+            @media (max-width: 1100px) {
+              .holiday-list-section .content .holidays .holiday .details ul {
+                flex-direction: row;
+                -webkit-flex-direction: row; } }
+            @media (max-width: 940px) {
+              .holiday-list-section .content .holidays .holiday .details ul {
+                flex-direction: column;
+                -webkit-flex-direction: column; } }
+            .holiday-list-section .content .holidays .holiday .details ul li {
+              display: inline-block;
+              font-family: "BentonSansMedium";
+              font-size: 14px;
+              color: #878787;
+              display: flex;
+              display: -webkit-flex;
+              -webkit-align-items: center;
+              align-items: center;
+              padding-right: 20px; }
+              .holiday-list-section .content .holidays .holiday .details ul li .icon-compass {
+                content: url("../img/compass-grey.svg");
+                padding-right: 10px; }
+              .holiday-list-section .content .holidays .holiday .details ul li .icon-nights {
+                content: url("../img/nights-grey.svg");
+                padding-right: 10px; }
+              .holiday-list-section .content .holidays .holiday .details ul li .icon-board-basis {
+                content: url("../img/board-basis-grey.svg");
+                padding-right: 10px; }
+          @media (max-width: 450px) {
+            .holiday-list-section .content .holidays .holiday .details p {
+              font-size: 12px; } }
+          .holiday-list-section .content .holidays .holiday .details .horizontal {
+            display: flex;
+            display: -webkit-flex;
+            justify-content: space-between;
+            -webkit-justify-content: space-between;
+            -webkit-align-items: center;
+            align-items: center; }
+            .holiday-list-section .content .holidays .holiday .details .horizontal .price {
+              display: inline-block; }
+              .holiday-list-section .content .holidays .holiday .details .horizontal .price span {
+                font-family: "BentonSansMedium";
+                font-size: 14px;
+                line-height: 38px; }
+              .holiday-list-section .content .holidays .holiday .details .horizontal .price div {
+                font-family: "CaslonGraphiqueEF";
+                font-size: 40px;
+                line-height: 38px; }
+                @media (max-width: 610px) {
+                  .holiday-list-section .content .holidays .holiday .details .horizontal .price div {
+                    font-size: 34px; } }
+                @media (max-width: 450px) {
+                  .holiday-list-section .content .holidays .holiday .details .horizontal .price div {
+                    font-size: 28px;
+                    line-height: 28px; } }
+                @media (max-width: 394px) {
+                  .holiday-list-section .content .holidays .holiday .details .horizontal .price div {
+                    font-size: 26px; } }
+            .holiday-list-section .content .holidays .holiday .details .horizontal .btn {
+              width: 185px;
+              height: 64px;
+              box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.25);
+              letter-spacing: 1px;
+              margin-top: 0px; }
+              .holiday-list-section .content .holidays .holiday .details .horizontal .btn .icon-more {
+                padding-left: 18px;
+                content: url("../img/more-icon-white.svg"); }
+                @media (max-width: 1260px) {
+                  .holiday-list-section .content .holidays .holiday .details .horizontal .btn .icon-more {
+                    padding-left: 13px; } }
+                @media (max-width: 768px) {
+                  .holiday-list-section .content .holidays .holiday .details .horizontal .btn .icon-more {
+                    padding-left: 8px; } }
+                @media (max-width: 394px) {
+                  .holiday-list-section .content .holidays .holiday .details .horizontal .btn .icon-more {
+                    padding-left: 5px; } }
+              @media (max-width: 450px) {
+                .holiday-list-section .content .holidays .holiday .details .horizontal .btn {
+                  min-width: unset;
+                  width: 140px;
+                  height: 45px;
+                  font-size: 12px; } }
+              @media (max-width: 394px) {
+                .holiday-list-section .content .holidays .holiday .details .horizontal .btn {
+                  width: 130px; } }
+              @media (max-width: 350px) {
+                .holiday-list-section .content .holidays .holiday .details .horizontal .btn {
+                  width: 113px;
+                  padding: 0 15px; } }
+    .holiday-list-section .content .more-holidays {
+      width: 223px;
+      height: 64px;
+      margin: auto;
+      margin-top: 64px;
+      margin-bottom: 55px;
+      box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
+      letter-spacing: 1px; }
+      @media (max-width: 768px) {
+        .holiday-list-section .content .more-holidays {
+          max-width: 730px;
+          margin-left: auto;
+          margin-right: auto; } }
+      @media (max-width: 760px) {
+        .holiday-list-section .content .more-holidays {
+          max-width: 580px; } }
+      @media (max-width: 610px) {
+        .holiday-list-section .content .more-holidays {
+          max-width: 500px; } }
+      @media (max-width: 530px) {
+        .holiday-list-section .content .more-holidays {
+          max-width: 420px; } }
+      @media (max-width: 450px) {
+        .holiday-list-section .content .more-holidays {
+          max-width: 365px; } }
+      @media (max-width: 394px) {
+        .holiday-list-section .content .more-holidays {
+          max-width: 335px; } }
+      @media (max-width: 350px) {
+        .holiday-list-section .content .more-holidays {
+          max-width: 290px; } }
+    .holiday-list-section .content .text-wrap {
+      margin-top: 50px; }
+      .holiday-list-section .content .text-wrap .read-more {
+        font-family: "BentonSansBold";
+        color: #424242;
+        margin-top: 20px;
+        display: block;
+        cursor: pointer; }
+        .holiday-list-section .content .text-wrap .read-more .icon-dropdown {
+          content: url("../img/dropdown-icon.svg");
+          padding-left: 15px; }
+        @media (max-width: 768px) {
+          .holiday-list-section .content .text-wrap .read-more {
+            width: 730px;
+            margin-left: auto;
+            margin-right: auto; } }
+        @media (max-width: 760px) {
+          .holiday-list-section .content .text-wrap .read-more {
+            max-width: 580px; } }
+        @media (max-width: 610px) {
+          .holiday-list-section .content .text-wrap .read-more {
+            max-width: 500px; } }
+        @media (max-width: 530px) {
+          .holiday-list-section .content .text-wrap .read-more {
+            max-width: 420px; } }
+        @media (max-width: 450px) {
+          .holiday-list-section .content .text-wrap .read-more {
+            max-width: 365px; } }
+        @media (max-width: 394px) {
+          .holiday-list-section .content .text-wrap .read-more {
+            max-width: 335px; } }
+        @media (max-width: 350px) {
+          .holiday-list-section .content .text-wrap .read-more {
+            max-width: 290px; } }
+      .holiday-list-section .content .text-wrap p {
+        margin: 0px auto; }
+        @media (max-width: 768px) {
+          .holiday-list-section .content .text-wrap p {
+            max-width: 730px; } }
+        @media (max-width: 760px) {
+          .holiday-list-section .content .text-wrap p {
+            max-width: 580px; } }
+        @media (max-width: 610px) {
+          .holiday-list-section .content .text-wrap p {
+            max-width: 500px; } }
+        @media (max-width: 530px) {
+          .holiday-list-section .content .text-wrap p {
+            max-width: 420px; } }
+        @media (max-width: 450px) {
+          .holiday-list-section .content .text-wrap p {
+            max-width: 365px; } }
+        @media (max-width: 394px) {
+          .holiday-list-section .content .text-wrap p {
+            max-width: 335px; } }
+        @media (max-width: 350px) {
+          .holiday-list-section .content .text-wrap p {
+            max-width: 290px; } }
+    .holiday-list-section .content .call-expert {
+      background-image: url("../img/collection/call-expert-background.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin-top: 50px;
+      margin-bottom: 100px;
+      min-height: 398px;
+      display: flex;
+      display: -webkit-flex;
+      -webkit-align-items: center;
+      align-items: center; }
+      @media (max-width: 768px) {
+        .holiday-list-section .content .call-expert {
+          max-width: 730px;
+          margin: 100px auto 50px auto; } }
+      @media (max-width: 760px) {
+        .holiday-list-section .content .call-expert {
+          max-width: 580px; } }
+      @media (max-width: 610px) {
+        .holiday-list-section .content .call-expert {
+          max-width: 500px; } }
+      @media (max-width: 530px) {
+        .holiday-list-section .content .call-expert {
+          max-width: 420px; } }
+      @media (max-width: 450px) {
+        .holiday-list-section .content .call-expert {
+          max-width: 365px; } }
+      @media (max-width: 394px) {
+        .holiday-list-section .content .call-expert {
+          max-width: 335px; } }
+      @media (max-width: 350px) {
+        .holiday-list-section .content .call-expert {
+          max-width: 290px; } }
+      .holiday-list-section .content .call-expert.tint:before {
+        content: "";
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.2);
+        width: 100%;
+        height: 100%; }
+      .holiday-list-section .content .call-expert .text {
+        width: 100%;
+        padding: 20px 20px 45px 20px;
+        text-align: center;
+        color: #ffffff;
+        z-index: 1; }
+        .holiday-list-section .content .call-expert .text div {
+          font-family: "CaslonGraphiqueEF";
+          font-size: 40px;
+          padding: 10px 0px; }
+          @media (max-width: 768px) {
+            .holiday-list-section .content .call-expert .text div {
+              font-size: 36px; } }
+          @media (max-width: 450px) {
+            .holiday-list-section .content .call-expert .text div {
+              font-size: 32px;
+              letter-spacing: -0.2px; } }
+          .holiday-list-section .content .call-expert .text div.call-us {
+            font-family: "BentonSansMedium";
+            font-size: 30px; }
+            @media (max-width: 768px) {
+              .holiday-list-section .content .call-expert .text div.call-us {
+                font-size: 26px; } }
+            @media (max-width: 450px) {
+              .holiday-list-section .content .call-expert .text div.call-us {
+                font-size: 20px; } }
+            .holiday-list-section .content .call-expert .text div.call-us span {
+              font-family: "BentonSansBlack";
+              letter-spacing: 3px; }
+              @media (max-width: 768px) {
+                .holiday-list-section .content .call-expert .text div.call-us span {
+                  letter-spacing: 2px; } }
+              @media (max-width: 610px) {
+                .holiday-list-section .content .call-expert .text div.call-us span {
+                  letter-spacing: 1px; } }
+              @media (max-width: 450px) {
+                .holiday-list-section .content .call-expert .text div.call-us span {
+                  letter-spacing: 0px; } }
+        .holiday-list-section .content .call-expert .text p {
+          color: #ffffff;
+          font-size: 18px;
+          line-height: 24px;
+          margin-bottom: 10px;
+          text-align: center; }
+        .holiday-list-section .content .call-expert .text .btn {
+          letter-spacing: 1px;
+          width: 223px;
+          height: 64px;
+          margin: auto;
+          margin-top: 25px; }
+      .holiday-list-section .content .call-expert.hide {
+        display: none; }
+  .holiday-list-section .hide {
+    display: none; }
+
+.subscription-section {
+  margin: 0px;
+  padding: 0px;
+  max-width: 100%; }
+  .subscription-section .footer-background {
+    margin: 0px;
+    position: absolute;
+    background-image: url("../img/mink-mingle-unsplash.jpeg");
+    width: 100%;
+    height: 230px;
+    bottom: -60px;
+    left: 0px; }
+    @media (max-width: 1260px) {
+      .subscription-section .footer-background {
+        height: 330px; } }
+    @media (max-width: 610px) {
+      .subscription-section .footer-background {
+        height: 280px; } }
+    .subscription-section .footer-background:before {
+      content: "";
+      position: inherit;
+      background-image: linear-gradient(180deg, transparent, black);
+      width: 100%;
+      height: 146px;
+      top: 84px; }
+      @media (max-width: 1260px) {
+        .subscription-section .footer-background:before {
+          top: 184px; } }
+      @media (Max-width: 610px) {
+        .subscription-section .footer-background:before {
+          top: 114px; } }
+  .subscription-section .subscription {
+    position: inherit;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-align-items: center;
+    align-items: center;
+    height: 170px; }
+    @media (max-width: 1260px) {
+      .subscription-section .subscription {
+        flex-direction: column;
+        -webkit-flex-direction: column;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        height: 250px;
+        padding-top: 30px; } }
+    @media (max-width: 768px) {
+      .subscription-section .subscription {
+        padding-top: 80px;
+        height: 300px; } }
+    @media (max-width: 610px) {
+      .subscription-section .subscription {
+        height: auto;
+        padding-top: 30px; } }
+    .subscription-section .subscription .subscribtion-text-group {
+      display: inline-block;
+      vertical-align: middle;
+      padding-right: 35px; }
+      @media (max-width: 1260px) {
+        .subscription-section .subscription .subscribtion-text-group {
+          padding-right: 0px;
+          max-width: 1040px; } }
+      .subscription-section .subscription .subscribtion-text-group .subscribe {
+        font-family: "BentonSansMedium";
+        font-size: 30px;
+        line-height: 24px;
+        color: #ffffff; }
+        @media (max-width: 1260px) {
+          .subscription-section .subscription .subscribtion-text-group .subscribe {
+            text-align: center;
+            padding-bottom: 20px;
+            font-size: 26px; } }
+        @media (max-width: 760px) {
+          .subscription-section .subscription .subscribtion-text-group .subscribe {
+            font-size: 24px; } }
+        @media (max-width: 450px) {
+          .subscription-section .subscription .subscribtion-text-group .subscribe {
+            font-size: 20px;
+            line-height: 24px; } }
+      .subscription-section .subscription .subscribtion-text-group .desc {
+        font-size: 18px;
+        line-height: 24px;
+        color: #ffffff; }
+        @media (max-width: 760px) {
+          .subscription-section .subscription .subscribtion-text-group .desc {
+            text-align: center;
+            display: inline-block;
+            font-size: 16px; } }
+    .subscription-section .subscription .email-area {
+      vertical-align: middle;
+      display: inline-block;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      -ms-border-radius: 2px;
+      border-radius: 2px;
+      display: flex;
+      display: -webkit-flex;
+      background: #ffffff;
+      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+      height: 96px;
+      width: 713px;
+      align-items: center; }
+      @media (max-width: 760px) {
+        .subscription-section .subscription .email-area {
+          max-width: 580px; } }
+      @media (max-width: 610px) {
+        .subscription-section .subscription .email-area {
+          height: auto;
+          width: auto;
+          background: none;
+          margin-top: 27px; } }
+      .subscription-section .subscription .email-area input {
+        margin: 0px; }
+        @media (max-width: 610px) {
+          .subscription-section .subscription .email-area input {
+            display: none; } }
+      .subscription-section .subscription .email-area .email-btn {
+        width: 155px;
+        height: 54px;
+        margin: 0px;
+        margin-right: 17px;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        -ms-border-radius: 2px;
+        border-radius: 2px;
+        box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
+        background-color: #20A1AA;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: "BentonSansMedium";
+        letter-spacing: 1px; }
+        @media (max-width: 610px) {
+          .subscription-section .subscription .email-area .email-btn {
+            margin-right: 0px; } }
+      @media (max-width: 610px) {
+        .subscription-section .subscription .email-area button {
+          display: none; } }
+      .subscription-section .subscription .email-area a {
+        display: none; }
+        @media (max-width: 610px) {
+          .subscription-section .subscription .email-area a {
+            display: flex;
+            display: -webkit-flex; } }
+      .subscription-section .subscription .email-area span {
+        display: none; }

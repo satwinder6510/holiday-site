@@ -1,0 +1,81 @@
+﻿@model citrus.Models.homepage
+<link href="~/assets/css/collections.css?v1.1.1" rel="stylesheet" />
+<section class="hero-section">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Collections</a>
+    </div>
+    <div class="content">
+        <div>discover</div>
+        <h1>Collections</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+<section class="collections-section">
+    <section>
+        <h4>that extra special something</h4>
+        <h2>Our Collections</h2>
+    </section>
+    <div class="collections-carousel">
+        @foreach (var item in Model.collections)
+        {
+             string url = item.Text == "Multi Centre" ? "Multicentre" : (item.Text == "City Breaks" ? "City-Break" : (item.Text == "European Tours" ? "European" : (item.Text == "Family Holidays" ? "Family-Holiday" : (item.Text == "Luxury" ? "Luxury-CityBreak" : (item.Text == "Summer Holidays" ? "Summer-Holiday" : (item.Text == "WorldWide Tours" ? "Tour" : item.Text.Replace(" ", "-")))))));
+            string img = "/images/collections/" + item.Text.Replace("&", "and") + "_icon.jpg?" + @DateTime.Now.Ticks;
+            img = "/cdn-cgi/image/f=auto,fit=contain,h=640/" + img;
+            <div class="item" style="background-image: url('@img')" onclick="window.location.href='/Holidays/@url'">
+                <div class="content">
+                    <div class="location">@item.Text</div>
+                </div>
+            </div>
+        }   
+			<div class="item" style="background-image: url('https://citrusholidays-res.cloudinary.com/image/upload/v1577945556/new/collections/Greek%20Island%20Hopping_banner.jpg')" onclick="window.location.href='/Greek-Island-Hopping'">
+                <div class="content">
+                    <div class="location">Greek Island Hopping</div>
+                </div>
+            </div>
+			 <div class="item" style="background-image: url('https://citrusholidays-res.cloudinary.com/image/upload/v1577945556/new/collections/Vietnam%20and%20Cambodia%20holidays_banner.jpg')" onclick="window.location.href='/Vietnam-and-cambodia-holidays'">
+                <div class="content">
+                    <div class="location">Vietnam and Cambodia</div>
+                </div>
+            </div>
+			 <div class="item" style="background-image: url('https://citrusholidays-res.cloudinary.com/image/upload/v1577945556/new/collections/Golden%20Triangle%20Holidays_banner.jpg')" onclick="window.location.href='/Golden-triangle-holidays'">
+                <div class="content">
+                    <div class="location">Golden Triangle Holidays</div>
+                </div>
+            </div>
+    </div>
+    <div class="collections-navigation">
+        <button type="button" class="prev" id="collections-prev"> <img src="/assets/img/arrow-icon.svg" /></button>
+        <button type="button" class="next" id="collections-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+    </div>
+</section>
+@Html.Partial("~/Views/home/_featuredTour.cshtml", Model.featuredtours)
+
+<script src="~/assets/js/collections.js"></script>

@@ -1,0 +1,65 @@
+<html>
+<body font-size:18px;>
+  <div style="font:14px/20px 'Helvetica',Arial,sans-serif;margin:0;padding:50px 0 50 0;text-align:center;background-color:#eeeeee">
+        <center>
+            <table border="0" cellpadding="20" cellspacing="0" height="100%" width="100%" style="background-color:#eeeeee">
+                <tbody>
+                    <tr>
+                        <td align="center" valign="top">
+
+                            <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-radius:6px;background-color:none">
+                                <tbody>
+                                    <tr>
+                                        <td align="center" valign="top">
+
+                                            <table border="0" cellpadding="0" cellspacing="0" width="600">
+                                                <tbody>
+												<tr>
+                                                        <td align="center">
+                                                            <img src="https://citiesandbeaches.com/assets/img/cities-and-beaches-logo-black.svg" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">
+                                                            <h1 style="font-size:18px;line-height:110%;margin-bottom:30px;margin-top:0;padding:0">THANK YOU FOR SUBSCRIBING TO OUR NEWSLETTER</h1>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" valign="top">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-radius:6px;background-color:#ffffff">
+                                                <tbody>
+                                                    <tr>
+                                                        <td align="left" valign="top" style="line-height:150%;font-family:Helvetica;font-size:14px;color:#333333;padding:20px">
+                                                            <div style="">
+                                                                You'll now receive regular updates from Cities and Beaches as well as-
+                                                            </div>
+                                                            <p style="padding: 0 0 10px 0; color: #a409ba"><b>Competitions, Exclusive deals and Freebies! <br />You'll get all the details on our exclusive new offers before anyone else. </b></p>
+                                                            <ul style="display:block;margin:15px 20px;padding:0;list-style:none;border-top:1px solid #eee">          
+                                                            </ul>
+                                                            <p style="padding:0 0 10px 0">
+                                                                Thank you once again for subscribing to the Newsletter.<br /> Please stay and continue to explore the website - you can click here to return to                                                                <a href="http://citrusholidays.com/" style="color:#336699" target="_blank">www.citrusholidays.com</a>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </center><div class="yj6qo"></div><div class="adL">
+        </div>
+    </div>
+</body>
+</html>
+

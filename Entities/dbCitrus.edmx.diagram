@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b4b2b353d97043e1a0d619a2c8af3106" Name="Diagram1">
+        <EntityTypeShape EntityType="dbCitrusModel.tblCityList" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblCityOffer" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblDestinationList" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblPackagesDetail" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblSubDestinationList" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblSubDestinationOffer" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbCitrusModel.DynamicPhone" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblSliderImg" Width="1.5" PointX="7.375" PointY="5.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblContactU" Width="1.5" PointX="9.375" PointY="7.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblSeoManager" Width="1.5" PointX="5.375" PointY="10.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblHotelDetails_" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblHotelImage" Width="1.5" PointX="11.375" PointY="4.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblHotelMaster" Width="1.5" PointX="11.375" PointY="9.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblItineraryDetail" Width="1.5" PointX="13.375" PointY="6.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblBlogContent" Width="1.5" PointX="7.375" PointY="13.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblReservationDetail" Width="1.5" PointX="13.375" PointY="11.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblWW2Banner" Width="1.5" PointX="9.375" PointY="14.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblAddOn" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblBlog" Width="1.5" PointX="15.375" PointY="5.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblFlightsDetail" Width="1.5" PointX="15.375" PointY="12.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblAirportList" Width="1.5" PointX="17.375" PointY="0.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.tblAllTimeFavOffer" Width="1.5" PointX="17.375" PointY="5.75" />
+        <EntityTypeShape EntityType="dbCitrusModel.hotelSupplierMaster" Width="1.5" PointX="17.375" PointY="10.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

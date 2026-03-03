@@ -1,0 +1,503 @@
+﻿@model citrus.Models.header
+@{
+    int count = 0;
+}
+<style type="text/css">
+    #neDev {
+        width: 100%;
+        margin: 0 auto;
+        background-color: #FFF;
+    }
+
+    .nevja {
+        display: flex;
+        -webkit-display: flex;
+        -webkit-align-items: center;
+        align-items: center;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        margin: 12.5px 20px;
+    }
+
+        .nevja .logo-2 {
+            background-image: url("/assets/img/citrus-holidays-logo.svg");
+            background-repeat: no-repeat;
+            background-size: 165px auto;
+            height: 25px;
+            flex: 0 0 165px;
+            -webkit-flex: 0 0 165px;
+            display: flex;
+            -webkit-display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            justify-content: center;
+            -webkit-justify-content: center;
+            margin-left: 20px;
+            margin-right: 10px;
+            color: #000;
+            font-family: caslongraphiqueef;
+            font-size: 20px;
+        }
+
+        .nevja .mobile-ja-menu-btn {
+            content: "";
+            background-image: url("/assets/img/mobile-menu-icon.svg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 20px;
+            height: 20px;
+            margin-left: 20px;
+            display: inline-block;
+        }
+
+        .nevja .mobile-wh-menu-btn {
+            content: "";
+            background-image: url("/assets/img/close-icon-circle.svg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 20px;
+            height: 20px;
+            margin-left: 20px;
+            display: inline-block;
+        }
+
+        .nevja .mobile-ja-contacts-btn {
+            content: "";
+            background-image: url("/assets/img/mobile-phone-icon.svg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin-right: 25px;
+            width: 15px;
+            height: 20px;
+            display: inline-block;
+        }
+
+        .nevja .mobile-wh-contacts-btn {
+            content: "";
+            background-image: url("/assets/img/mobile-phone-icon.svg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin-right: 25px;
+            width: 15px;
+            height: 20px;
+            display: inline-block;
+        }
+
+    header .mobile-nav .mobile-menu {
+        padding-top: 1px !important;
+        top: 0px !important;
+        height: calc(100vh) !important;
+    }
+
+    header .mobile-nav .mobile-destinations.open {
+        padding-top: 1px !important;
+        top: 0px !important;
+        height: calc(100vh) !important;
+    }
+
+    header .mobile-nav .mobile-collections.open {
+        padding-top: 1px !important;
+        top: 0px !important;
+        height: calc(100vh) !important;
+    }
+
+    .coll-ja {
+        background: #FFF;
+        display: flex;
+        -webkit-display: flex;
+        -webkit-align-items: center;
+        align-items: center;
+        justify-content: space-between;
+        -webkit-justify-content: space-between;
+        margin: 12px 20px;
+    }
+
+        .coll-ja .mobile-close-btn {
+            content: "";
+            background-image: url("/assets/img/close-icon-circle.svg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 20px;
+            height: 20px;
+            margin-left: 20px;
+            display: inline-block;
+        }
+</style>
+<header>
+    <nav class="nav">
+        <a class="logo" href="/" alt="Cities and Beaches Logo"></a>
+        <ul>
+            <li class="menu">
+                <a class="menu-link" href="javascript:void(0)">
+                    Cheap Flights
+                    <span class="icon-arrow-down"></span>
+                </a>
+                <div class="menu-popup collections">
+                    <div class="popup-window">
+                        <span class="icon-close"></span>
+
+                        <div class="row">
+                            @{
+                                int count1 = Model.flights.Count();
+                                int loop = Convert.ToInt32(count1 / 7);
+                                for (int i = 0; i < loop; i++)
+                                {
+                            <ul class="column">
+                                @foreach (var item in Model.flights.Skip(i*7).Take(7))
+                                    {
+                                        <li><a href="/flights/@item.continent.Replace(" ", "-")/@item.country.Trim().Replace(" ", "-")">@item.country</a></li>
+                                    }
+                            </ul>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="menu">
+                <a class="menu-link" href="javascript:void(0)">
+                    Destinations
+                    <span class="icon-arrow-down"></span>
+                </a>
+                <div class="menu-popup destinations">
+                    <div class="popup-window">
+                        <span class="icon-close"></span>
+                        <div class="row">
+                            @foreach (var item in Model.destinations.Where(r => r.Destination != "Indian Ocean"))
+                            {
+                            <div class="column @(item.Destination == "Europe" ? "double" : "title")"><a class="title" href="/Holidays/@item.Destination.Replace(" ","-")">@item.Destination</a></div>
+                            }
+                        </div>
+                        <div class="row">
+                            @foreach (var item in Model.destinations.Where(r => r.Destination != "Indian Ocean" && r.Destination != "Middle East"))
+                            {
+                                if (item.subDestinationList.Count() > 10)
+                                {
+                                    if (item.Destination == "Europe")
+                                    {
+                            <ul class="column">
+                                @foreach (var sub in item.subDestinationList.Where(x => !x.subDestination.Contains("Twin") && !x.subDestination.Contains("Triple")).Take(10))
+                                            {
+                                <li><a href="/Holidays/@item.Destination.Replace(" ","-")/@sub.subDestination.Trim().Replace(" ","-")/@sub.id">@sub.subDestination</a></li>
+                                            }
+                            </ul>
+                            <ul class="column">
+                                @foreach (var sub in item.subDestinationList.Where(x => !x.subDestination.Contains("Twin") && !x.subDestination.Contains("Triple")).Skip(10).Take(9))
+                                            {
+                                <li><a href="/Holidays/@item.Destination.Replace(" ","-")/@sub.subDestination.Trim().Replace(" ","-")/@sub.id">@sub.subDestination</a></li>
+                                            }
+                                @if (item.subDestinationList.Count() > 19)
+                                            {
+                                <li><a href="/Holidays/@item.Destination.Replace(" ","-")" class="view-all">View All</a></li>
+                                            }
+                            </ul>
+                                    }
+                                    else
+                                    {
+                            <ul class="column">
+                                @foreach (var sub in item.subDestinationList.Where(x => !x.subDestination.Contains("Twin") && !x.subDestination.Contains("Triple") && !x.subDestination.Contains("Las Vegas") && !x.subDestination.Contains("New York")).Take(9))
+                                            {
+                                <li><a href="/Holidays/@item.Destination.Replace(" ","-")/@sub.subDestination.Trim().Replace(" ","-")/@sub.id">@sub.subDestination</a></li>
+                                            }
+                                @if (item.subDestinationList.Count() > 9)
+                                            {
+                                <li><a href="/Holidays/@item.Destination.Replace(" ","-")" class="view-all">View All</a></li>
+                                            }
+                            </ul>
+                                    }
+                                }
+                                else
+                                {
+                            <ul class="column">
+                                @foreach (var sub in item.subDestinationList.Where(x => !x.subDestination.Contains("Twin") && !x.subDestination.Contains("Triple")))
+                                        {
+                                <li><a href="/Holidays/@item.Destination.Replace(" ","-")/@sub.subDestination.Trim().Replace(" ","-")/@sub.id">@sub.subDestination</a></li>
+                                        }
+                            </ul>
+                                }
+                            }
+                            <ul class="column">
+                                @foreach (var item in Model.destinations.Where(r => r.Destination == "Indian Ocean" || r.Destination == "Middle East"))
+                                {
+                                    if (item.Destination == "Indian Ocean")
+                                    {
+                                <li><a href="/Holidays/@item.Destination.Replace(" ","-")" class="inner-column title">@item.Destination</a></li>
+                                    }
+                                    foreach (var sub in item.subDestinationList)
+                                    {
+                                <li><a href="/Holidays/@item.Destination.Replace(" ","-")/@sub.subDestination.Trim().Replace(" ","-")/@sub.id">@sub.subDestination</a></li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="menu">
+                <a class="menu-link" href="/collections">
+                    Collections
+                    <span class="icon-arrow-down"></span>
+                </a>
+                <div class="menu-popup collections">
+                    <div class="popup-window">
+                        <span class="icon-close"></span>
+                        <div class="row">
+                            <ul class="column">
+                                @foreach (var item in Model.collections.Take(6))
+                                {
+                                <li><a href="/Holidays/@item.Value">@item.Text</a></li>
+                                }
+                            </ul>
+                            <ul class="column">
+                                @foreach (var item in Model.collections.Skip(6).Take(6))
+                                {
+                                <li><a href="/Holidays/@item.Value">@item.Text</a></li>
+                                }
+                            </ul>
+                            <ul class="column">
+                                @foreach (var item in Model.collections.Skip(12))
+                                {
+                                <li><a href="/Holidays/@item.Value">@item.Text</a></li>
+                                }
+                                <li><a href="/Greek-Island-Hopping">Greek Island Hopping</a></li>
+                                <li><a href="/Vietnam-and-cambodia-holidays">Vietnam and Cambodia</a></li>
+                                <li><a href="/Golden-triangle-holidays">India Golden Triangle</a></li>
+                            </ul>
+                            @if (Model.destinations.SelectMany(r => r.subDestinationList.Where(x => x.subDestination.Contains("Twin") || x.subDestination.Contains("Triple") || x.subDestination.Contains("Las Vegas") || x.subDestination.Contains("New York"))).Count() > 5)
+                            {
+                            <ul class="column">
+                                @foreach (var item in Model.destinations)
+                                    {
+                                        foreach (var sub in item.subDestinationList.Where(x => x.subDestination.Contains("Twin") || x.subDestination.Contains("Triple") || x.subDestination.Contains("Las Vegas") || x.subDestination.Contains("New York")))
+                                        {
+                                            if (count < 5)
+                                            {
+                                    <li><a href="/Holidays/@item.Destination.Replace(" ","-")/@sub.subDestination.Trim().Replace(" ","-")/@sub.id">@sub.subDestination</a></li>
+                                            }
+                                            count++;
+                                        }
+                                    }
+                            </ul>
+                                count = 0;
+                            <ul class="column">
+                                @foreach (var item in Model.destinations)
+                                    {
+                                        foreach (var sub in item.subDestinationList.Where(x => x.subDestination.Contains("Twin") || x.subDestination.Contains("Triple") || x.subDestination.Contains("Las Vegas") || x.subDestination.Contains("New York")))
+                                        {
+                                            if (count >= 5)
+                                            {
+                                    <li><a href="/Holidays/@item.Destination.Replace(" ","-")/@sub.subDestination.Trim().Replace(" ","-")/@sub.id">@sub.subDestination</a></li>
+                                            }
+                                            count++;
+                                        }
+                                    }
+                            </ul>
+                            }
+                            else
+                            {
+                            <ul class="column">
+                                @foreach (var item in Model.destinations)
+                                    {
+                                        foreach (var sub in item.subDestinationList.Where(x => x.subDestination.Contains("Twin") || x.subDestination.Contains("Triple") || x.subDestination.Contains("Las Vegas") || x.subDestination.Contains("New York")))
+                                        {
+                                    <li><a href="/Holidays/@item.Destination.Replace(" ","-")/@sub.subDestination.Trim().Replace(" ","-")/@sub.id">@sub.subDestination</a></li>
+                                        }
+                                    }
+                            </ul>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li><a class="menu-link" href="/Holidays/SpecialOffer">Offers</a></li>
+            <li><a class="menu-link" href="/AboutUs">About</a></li>
+        </ul>
+        <div class="contacts">
+            <span class="phone">@Model.dynamicphonenumber</span>
+            @{
+                string linesopen = "Lines Closed";
+                TimeSpan start = new TimeSpan(8, 0, 0); //8 o'clock
+                TimeSpan end = new TimeSpan(22, 0, 0); //11 o'clock
+                //DateTime dec25 = new DateTime(2019, 12, 25);
+                //DateTime dec31 = new DateTime(2019, 12, 31);
+                //DateTime jan1 = new DateTime(2020, 01, 01);
+                //TimeSpan pm10 = new TimeSpan(22, 0, 0); //10 o'clock
+                //TimeSpan am10 = new TimeSpan(10, 0, 0);
+                TimeSpan now = DateTime.Now.TimeOfDay;
+
+                string dayOfWeek = DateTime.Now.ToString("ddd");
+
+                //if(DateTime.Now == dec25)
+                //{
+                //    linesopen = "Lines Closed";
+                //}
+                //else if (DateTime.Now.Date == dec31.Date)
+                //{
+                //    if ((now > start) && (now < pm10))
+                //    {
+                //        linesopen = "We’re open until 10pm";
+                //    }
+                //}
+                //else if (DateTime.Now.Date == jan1.Date)
+                //{
+                //    if ((now > am10) && (now < end))
+                //    {
+                //        linesopen = "We’re open until 11pm";
+                //    }
+                //}
+                //else
+                //{
+                if (dayOfWeek == "Sat" || dayOfWeek == "Sun") { }
+                else
+                {
+                    if ((now > start) && (now < end))
+                    {
+                        linesopen = "We’re open until 8pm";
+                    }
+                }
+    //}
+            }
+            <span>
+                @linesopen
+            </span>
+        </div>
+    </nav>
+
+    <nav class="mobile-nav">
+        <a class="mobile-contacts" href="tel:@Model.dynamicphonenumber"><span class="mobile-contacts-btn"></span></a>
+        <span class="mobile-back-btn"></span>
+        <a class="logo" href="/" alt="Cities and Beaches Logo"></a>
+        <span class="mobile-menu-btn"></span>
+        <span class="mobile-close-btn"></span>
+        <ul class="mobile-menu">
+            <li>
+                <div class="nevja">
+                    <a class="mobile-contacts" href="tel:@Model.dynamicphonenumber"><span class="mobile-contacts-btn"></span></a>
+                    <span class="logo" title="Cities and Beaches Logo"></span>
+                    <span class="mobile-close-btn"></span>
+                </div>
+            </li>
+            
+            <li class="menu-link" id="mobile-destinations-btn"><a class="menu-link" href="javascript:void(0)">Destinations</a></li>
+            <li class="menu-link" id="mobile-collections-btn"><a class="menu-link" href="javascript:void(0)">Collections</a></li>
+            <li><a class="menu-link" href="/Holidays/SpecialOffer">Offers</a></li>
+            <li class="menu-link" id="mobile-flights-btn"><a class="menu-link" href="javascript:void(0)">Cheap Flights</a></li>
+            <li><a class="menu-link" href="/AboutUs">About</a></li>
+            <li><a class="menu-link" href="/Home/Contact_Us">Contact</a></li>
+        </ul>
+        <div class="mobile-collections collections">
+            <div class="nevja">
+                <a class="mobile-contacts" href="tel:@Model.dynamicphonenumber"><span class="mobile-contacts-btn"></span></a>
+                <span class="logo-2" title="Cities and Beaches Logo"></span>
+                <span class="mobile-menu-btn"></span>
+            </div>
+            <div class="coll-ja">
+                <span class="mobile-back-btn"></span>
+                <a class="logo" href="" alt="Cities and Beaches Logo"></a>
+                <span class="mobile-close-btn"></span>
+            </div>
+
+            <ul class="mobile-collections-list">
+                <li style="height: 210px; background: url('https://admin.citiesandbeaches.com/images/collections/hero-image.jpg') #168524; background-position: center !important;">
+                    <div class="breadcrumbs">
+                        <a href="/">Home</a>
+                        <span class="icon-breadcrumb"></span>
+                        <a href="javascript:void(0)">Collections</a>
+                    </div>
+                    <div class="content">
+                        <div style="padding-top:10px;">discover</div>
+                        <h2 style="color: #ffffff;">Collections</h2>
+                    </div>
+                </li>
+                @foreach (var item in Model.collections)
+                {
+                    string img = "https://admin.citiesandbeaches.com/images/collections/" + item.Text.Replace("&", "and") + "_menu.jpg?" + DateTime.Now.Ticks;
+                    //img = "/cdn-cgi/image/f=auto,fit=cover,h=67,w=336/" + img;
+                <li style="background: url('@img')#168524"><a href="/Holidays/@item.Value">@item.Text</a></li>
+                }
+                <li style="background-image: url('https://admin.citiesandbeaches.com/images/collections/Greek Island Hopping_menu.jpg')"><a href="/Greek-Island-Hopping">Greek Island Hopping</a></li>
+                <li style="background-image: url('https://admin.citiesandbeaches.com/images/collections/Vietnam and Cambodia Holidays_menu.jpg')"><a href="/Vietnam-and-cambodia-holidays">Vietnam and Cambodia</a></li>
+                <li style="background-image: url('https://admin.citiesandbeaches.com/images/collections/Golden Triangle Holidays_menu.jpg')"><a href="/Golden-triangle-holidays">India Golden Triangle</a></li>
+                @foreach (var item in Model.destinations)
+                {
+                    foreach (var sub in item.subDestinationList.Where(x => x.subDestination.Contains("Twin") || x.subDestination.Contains("Triple") || x.subDestination.Contains("Las Vegas") || x.subDestination.Contains("New York")))
+                    {
+                        string img = "https://admin.citiesandbeaches.com/images/countries/" + sub.subDestination.Trim().Replace(" ", "-") + "_menu.jpg?" + @DateTime.Now.Ticks;
+                        //img = "/cdn-cgi/image/f=auto,fit=cover,h=67,w=336/" + img;
+                <li style="background: url('@img')  #168524;"><a href="/Holidays/@item.Destination.Replace(" ","-")/@sub.subDestination.Replace(" ","-")/@sub.id">@sub.subDestination</a></li>
+                    }
+                }
+            </ul>
+            <a class="view-all" id="view-all-colect" href="/collections">View all</a>
+        </div>
+        <div class="mobile-destinations">
+            <div class="nevja">
+                <a class="mobile-contacts" href="tel:@Model.dynamicphonenumber"><span class="mobile-contacts-btn"></span></a>
+                <span class="logo-2" title="Cities and Beaches Logo"></span>
+                <span class="mobile-menu-btn"></span>
+            </div>
+            <div class="coll-ja">
+                <span class="mobile-back-btn"></span>
+                <a class="logo" href="" alt="Cities and Beaches Logo"></a>
+                <span class="mobile-close-btn"></span>
+            </div>
+            <ul class="mobile-destinations-list">
+                @foreach (var item in Model.destinations)
+                {
+                <li class="mobile-dest" data-val="dest-@item.Destination.ToLower().Replace(" ","-")">@item.Destination</li>
+                }
+            </ul>
+
+
+            @foreach (var item in Model.destinations)
+            {
+                string destImg = "https://admin.citiesandbeaches.com/images/destinations/" + item.Destination + "_menu.jpg?" + @DateTime.Now.Ticks;
+                //destImg = "/cdn-cgi/image/f=auto,fit=cover,h=210/" + destImg;
+            <ul class="dest-@item.Destination.ToLower().Replace(" ","-") mobile-sub-destinations">
+                <li style="height: 210px; background: url('@destImg') #168524; background-position: center !important;">
+                    <div class="breadcrumbs">
+                        <a href="/">Home</a>
+                        <span class="icon-breadcrumb"></span>
+                        <a href="javascript:void(0)">Destinations</a>
+                    </div>
+                    <div class="content">
+                        <div style="padding-top:10px;">discover</div>
+                        <h2 style="color: #ffffff;">@item.Destination Holidays</h2>
+                    </div>
+                </li>
+                @foreach (var sub in item.subDestinationList.Where(x => !x.subDestination.Contains("Twin") && !x.subDestination.Contains("Triple") && !x.subDestination.Contains("Las Vegas") && !x.subDestination.Contains("New York")))
+                    {
+                        string img = "https://admin.citiesandbeaches.com/images/countries/" + sub.subDestination.Trim().Replace(" ", "-") + "_menu.jpg?" + @DateTime.Now.Ticks;
+                        //img = "/cdn-cgi/image/f=auto,fit=cover,h=67,w=336/" + img;
+                    <li style="background: url('@img') #168524;"><a href="/Holidays/@item.Destination.Replace(" ","-")/@sub.subDestination.Replace(" ","-")/@sub.id">@sub.subDestination</a></li>
+                    }
+            </ul>
+            }
+            <a class="view-all" id="view-all-dest" href="">View all</a>
+        </div>
+        
+        <div class="mobile-flights"> 
+            <div class="nevja">
+                <a class="mobile-contacts" href="tel:@Model.dynamicphonenumber"><span class="mobile-contacts-btn"></span></a>
+                <span class="logo-2" title="Cities and Beaches Logo"></span>
+                <span class="mobile-menu-btn"></span>
+            </div>
+            <div class="coll-ja">
+                <span class="mobile-back-btn"></span>
+                <a class="logo" href="" alt="Cities and Beaches Logo"></a>
+                <span class="mobile-close-btn"></span>
+            </div>
+            <ul class="mobile-flights-list">
+                @foreach (var item in Model.flights.Select(z => z.continent).Distinct())
+                {
+                    foreach (var sub in Model.flights.Where(z => z.continent == item).Distinct())
+                    {
+                        string img = "/Hero images/cheap-flights.jpg";
+                        <li style="background: url('@img') #168524;"><a href="/flights/@item.Replace(" ","-")/@sub.country.Replace(" ","-")">@sub.country</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,92 @@
+﻿@model citrus.Models.homepage
+@{
+    //var account = new Account("citrusholidays", "724678537851396", "8z1qckHXeWng-_T4wSL66XvrbEQ");
+    //var cloudinary = new Cloudinary(account);
+    //string box1 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box1.jpg");
+    //string box2 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box2.jpg");
+    //string box3 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box3.jpg");
+    //string box4 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box4.jpg");
+    //string box5 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box5.jpg");
+    //string box6 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box6.jpg");
+    string aboutus2 = "/Hero images/about-us-middle.jpg";
+    string aboutus = "/Hero images/about-us.jpg";
+    //aboutus2 = "/cdn-cgi/image/f=auto,fit=cover,h=441,w=1240/" + aboutus2;
+    //aboutus = "/cdn-cgi/image/f=auto,fit=contain,h=500/" + aboutus;
+}
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+{
+        <title>About Us | Flights and Packages</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Flights and Packages  Holidays", "Holidays - Flights and Packages")" />
+        <meta name="description" content="Flights and Packages offer high-quality, tailor-made tours and holidays at the best possible price, with 55 destinations to choose from." />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com"))" />
+        }
+    }
+}
+<link href="~/assets/css/aboutus.css?v1.1.1" rel="stylesheet" />
+<link href="~/assets/css/font-awesome.min.css" rel="stylesheet" />
+<section class="hero-section lazy" style="background-image:url('@aboutus');">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">About Us</a>
+    </div>
+    <div class="content">
+        <h1>About Us</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+<section class="about-section">
+    <h1 class="about-us-title"> <span>About Us</span></h1>
+                            <div class="fnpabout-content">
+                                <p>
+                                    Flights and Packages specialise in providing tailor made holidays, arranging the best priced flight-onlys and offering top quality hotels, apartments, cruises and the resorts that suit your travel needs - and, of course, all within your personal budget.
+                                </p>
+                                <p>
+                                    As an independent agent we can offer you the best value flights and holidays on the market, not being tied to any one particular organisation or operator allows us to bring you the best deals available on the travel market, and as members of the Travel Trust Assosiation and holders of a Civil Aviation Authority ATOL license you can rest assured that your financial security is never going to be in doubt.
+                                </p>
+                                <p>
+                                    With our extensive personal knowledge of the travel trade, our excellent range of tour operators and suppliers, our travel opportunities - from your short break getaways, flight onlys, holiday packages, cruises or tailor-made trips you can be assured you are in safe and knowledgeable hands.
+                                </p>
+                                <p>
+                                    Drop us an email, visit our website, or give us a call and we will be happy to service all or any of your travel needs
+                                </p>
+                            </div>
+                            <div class="fnpabout-content">
+                                <h2 class="text-center">Financial Protection:</h2>
+                                <p>
+                                    We provide financial security for Flight-Plus arrangements through our membership with the TTA (membership number: U6837) and ATOL number T7311. The TTA provides total financial protection for the customers of TTA Members' in the event of a TTA Member's financial failure. The financial protection involves two aspects. Firstly, every TTA Member operates a Trust Account. Every single penny received from a customer must be deposited into the TTA Member's Trust Account. The Trust Account is supervised by an independent Trustee. Secondly, in addition to the Trust Account, every TTA Member will issue a Stand Alone Safe Seat Plan Guarantee to each passenger. This is a Guarantee from the TTA to the customer of their financial protection. Therefore, the Trust Account and the Guarantee will ensure that all the money which a customer has paid to a TTA Member is safely protected.
+                                </p>
+                            </div>
+</section>
+
+<script src="~/assets/js/aboutus.js"></script>

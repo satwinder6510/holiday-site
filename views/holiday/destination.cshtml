@@ -1,0 +1,116 @@
+﻿@model citrus.Models.destinationResult
+@{ 
+    string img = "https://admin.citiesandbeaches.com/images/destinations/" + Model.name + "_banner.jpg?" + DateTime.Now.Ticks;
+    //img = "/cdn-cgi/image/f=auto,fit=contain,h=500/" + img;
+    string destination = Model.name;
+    if (destination == "Africa")
+    {
+        destination = "Holidays IN " + destination;
+    }
+    else if (destination == "Asia")
+    {
+        destination = "Holidays to " + destination;
+    }
+    else
+    {
+        destination = destination + " Holidays";
+    }
+}
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+        {
+        <title>@Model.MetaDetails.MetaTitle.Replace("Cities and Beaches", "Holidays - Flights and Packages")</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        <meta name="description" content="@Model.MetaDetails.MetaDescription.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com"))" />
+        }
+    }
+}
+<link href="~/assets/css/destinations.css?v1.1.2" rel="stylesheet" />
+<section class="hero-section lazy"  style="background-image:url('@img');">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Destinations</a>
+    </div>
+    <div class="overview">
+        <div class="lhs">
+            <span>discover</span>
+            <h1>@destination</h1>
+            <div class="destinations">@Model.countriesList.Where(x => !x.name.Contains("Twin") && !x.name.Contains("Triple") && !x.name.Contains("Las Vegas") && !x.name.Contains("New York") && !x.name.Contains("Caribbean") && !x.name.Contains("Central")).Count() Destinations</div>
+        </div>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+<section class="destinations-section">
+   
+    <section>
+        <h4>explore</h4>
+        <h2>Our Destinations</h2>
+       
+    </section>
+    <section class="carousel">
+        <div class="destinations-carousel">
+            @foreach (var item in Model.countriesList.Where(x => !x.name.Contains("Twin") && !x.name.Contains("Triple") && !x.name.Contains("Las Vegas") && !x.name.Contains("New York") && !x.name.Contains("Caribbean") && !x.name.Contains("Central")))
+            {
+                string imgName = item.name.Trim().Replace(" ", "-");//item.name.Trim() == "Sweden" ? "Sweden-hp" : 
+                string cimg = "https://admin.citiesandbeaches.com/images/countries/" + imgName + "_icon.jpg?" + DateTime.Now.Ticks;
+                //cimg = "/cdn-cgi/image/f=auto,fit=cover,h=311,w=397/" + cimg;
+                <div class="wrap-item" onclick="window.location.href='/Holidays/@Model.name.Replace(" ","-")/@item.name.Trim().Replace(" ","-")/@item.id'">
+                    <div class="item lazy"  style="background-image:url('@cimg');">
+                        <div class="content">
+                            <div class="location">@item.name</div>
+                             @if (item.countoffers > 1)
+                            {
+                                <span>@item.countoffers Offers</span>
+                            }
+                            else
+                            {
+                                <span>@item.countoffers Offer</span>
+                            }    
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="destinations-navigation">
+            <button type="button" class="prev" id="destinations-prev"> <img src="/assets/img/arrow-icon.svg" /></button>
+            <button type="button" class="next" id="destinations-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+        </div>
+    </section>
+</section>
+
+@Html.Partial("~/Views/home/_featuredTour.cshtml", Model.featuredtours)
+
+
+
+<script src="~/assets/js/destinations.js?v1.1"></script>

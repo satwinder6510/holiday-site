@@ -11374,11 +11374,11 @@ $.extend( Datepicker.prototype, {
 							( ( !otherMonth || showOtherMonths ) && daySettings[ 2 ] ? " title='" + daySettings[ 2 ].replace( /'/g, "&#39;" ) + "'" : "" ) + // cell title
 							( unselectable ? "" : " data-handler='selectDay' data-event='click' data-month='" + printDate.getMonth() + "' data-year='" + printDate.getFullYear() + "'" ) + ">" + // actions
 							( otherMonth && !showOtherMonths ? "&#xa0;" : // display for other months
-							( unselectable ? "<span class='ui-state-default'>" + printDate.getDate() + "</span>" : "<a class='ui-state-default tooltip-outer" +
+							( unselectable ? "<span class='ui-state-default'>" + printDate.getDate() + "</span>" : "<a class='ui-state-default" +
 							( printDate.getTime() === today.getTime() ? " ui-state-highlight" : "" ) +
 							( printDate.getTime() === currentDate.getTime() ? " ui-state-active" : "" ) + // highlight selected day
 							( otherMonth ? " ui-priority-secondary" : "" ) + // distinguish dates from other months
-							"' href='#'>" + printDate.getDate() + "<p class='tooltip-v'><b>Dep Apt:</b> XXX<br/><b>Arr Apt:</b> XXX<br/><b>Airline:</b> XXXX<br/><b>Flight cost:</b> £XXX<br/><b>Hotel Cost:</b> £XXX<br/><b>Supplier:</b> XXXX<br/></p></a>" ) ) + "</td>"; // display selectable date
+							"' href='#'>" + printDate.getDate() + "</a>" ) ) + "</td>"; // display selectable date
 						printDate.setDate( printDate.getDate() + 1 );
 						printDate = this._daylightSavingAdjust( printDate );
 					}

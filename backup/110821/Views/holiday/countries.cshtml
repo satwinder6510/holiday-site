@@ -1,0 +1,380 @@
+﻿@model citrus.Models.offerListWithFilter
+@{
+    string img = "";
+    var _offertype = Model.offerlst.First().OfferType;
+    if (Model.offerlst.First().flag == "SubDestination")
+    {
+        img = "https://admin.citiesandbeaches.com/images/countries/" + Model.offerlst.First().OfferType.Trim().Replace(" ", "-") + "_banner.jpg?" + DateTime.Now.Ticks;
+    }
+    else if (Model.offerlst.First().flag == "City")
+    {
+        img = "https://admin.citiesandbeaches.com/images/regions/" + Model.offerlst.First().OfferType.Trim().Replace(" ", "-") + "_banner.jpg?" + DateTime.Now.Ticks;
+    }
+    else
+    {
+        var imgName = _offertype == "European" ? "European Tours" : _offertype == "Classic" ? "Classic" : _offertype == "isAllInclusive" ? "All Inclusive" : _offertype == "Family Holiday" ? "Family Holidays" : _offertype == "City Break" ? "City Breaks" : _offertype == "Multicentre" ? "Multi Centre" : _offertype == "Beach" ? "Beach" : _offertype == "isBeach" ? "Beach" : _offertype == "Tour" ? "WorldWide Tours" : _offertype == "isAdultsOnly" ? "Adults Only" : _offertype == "isOccasions" ? "Occasions" : _offertype == "Luxury CityBreak" ? "Luxury" : _offertype == "Summer Holiday" ? "Summer Holidays" : _offertype == "twinCenter" ? "Twin Centre" : _offertype == "Twin Centre" ? "Twin Centre" : _offertype == "Winter City Break" ? "Winter City Break" : _offertype == "New & Exclusive Offers" ? "New and Exclusive Offers" : _offertype;
+        img = "/images/collections/" + imgName + "_banner.jpg?" + DateTime.Now.Ticks;
+    }
+    //img = "/cdn-cgi/image/f=auto,fit=contain,h=500/" + img;
+    var offerType = _offertype == "European" ? "Best European Holidays" : _offertype == "Classic" ? "Classic" : _offertype == "isAllInclusive" ? "All Inclusive" : _offertype == "isFamilyHolidays" ? "Family Holiday" : _offertype == "isCityBreaks" ? "City Breaks" : _offertype == "City Break" ? "City Breaks" : _offertype == "isMulticentre" ? "Multicentre" : _offertype == "Beach" ? "Beach Holidays" : _offertype == "isBeach" ? "Beach" : _offertype == "Tour" ? "World wide holiday tours" : _offertype == "isAdultsOnly" ? "Adults Only" : _offertype == "isOccasions" ? "Occasion" : _offertype == "Luxury CityBreak" ? "Luxury City Breaks" : _offertype == "isSummerHolidays" ? "Summer Holiday" : _offertype == "twinCenter" ? "Twin Centre" : _offertype == "Twin Centre" ? "Twin Centre Holidays" : _offertype == "Winter City Break" ? "Winter City Break" : _offertype == "SpecialOffer" ? "Special holiday offers" : _offertype == "New and Exclusive Offers" ? "New & Exclusive Italy Offers" : _offertype;
+    string title = offerType;
+    if (Model.offerlst.First().flag == "Destination")
+    {
+        if (offerType == "Africa")
+        {
+            title = "Holidays IN " + offerType;
+        }
+        else if (offerType == "Asia")
+        {
+            title = "Holidays to " + offerType;
+        }
+        else
+        {
+            title = offerType + " Holidays";
+        }
+    }
+    if (Model.offerlst.First().flag == "SubDestination")
+    {
+        if (offerType == "China")
+        {
+            title = "Holidays to " + offerType;
+        }
+        else if (offerType == "India ")
+        {
+            title = offerType + " Tours";
+        }
+        else if (offerType == "France")
+        {
+            title = "Holidays in " + offerType;
+        }
+        else if (offerType == "Asia Twin Centre")
+        {
+            title = "Multi Centre Holidays to Asia";
+        }
+        else
+        {
+            title = offerType + " Holidays";
+        }
+    }
+}
+
+@if (Model.offerlst.Count() > 0)
+{
+    if (Model.offerlst.First().MetaDetails != null)
+    {
+        @section AdditionalMeta
+        {
+            <title>@Model.offerlst.First().MetaDetails.MetaTitle.Replace("Citrus Holidays", "Cities & Beaches")</title>
+            <meta name="keywords" content="@Model.offerlst.First().MetaDetails.MetaKeyword.Replace("Citrus Holidays", "Cities & Beaches")" />
+            <meta name="description" content="@Model.offerlst.First().MetaDetails.MetaDescription.Replace("Citrus Holidays", "Cities & Beaches")" />
+            @if (!string.IsNullOrEmpty(Model.offerlst.First().MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com")))
+            {
+                <link rel="canonical" href="@Html.Raw(Model.offerlst.First().MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com"))" />
+            }
+        }
+    }
+}
+<link href="~/assets/css/country.css?v1.1.5" rel="stylesheet" />
+<link href="~/assets/css/photoswipe.css" rel="stylesheet" />
+<link href="~/assets/css/default-skin.css" rel="stylesheet" />
+<link href="~/assets/css/jquery-ui.css" rel="stylesheet" />
+<script src="~/assets/js/jquery-ui.js"></script>
+<input type="hidden" id="destID" value="@Model.offerlst.First().DestID" />
+<input type="hidden" id="hOfferType" value="@Model.offerlst.First().flag" />
+<input type="hidden" id="hCType" value="@Model.offerlst.First().OfferType" />
+<input type="hidden" id="offerCounts" value="@Model.offerCounts" />
+
+<section class="hero-section lazy" style="background-image:url('@img');">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        @if (Model.offerlst.First().flag == "SubDestination" || Model.offerlst.First().flag == "City")
+        {
+        <a href="javascript:void(0)">Destinations</a>
+        }
+        else
+        {
+        <a href="/collections">Collections</a>
+        }
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">@title</a>
+    </div>
+    <div class="content">
+        <div>discover</div>
+        <h1>@title</h1>
+    </div>
+</section>
+<section class="search-section">
+    <div class="search-form" id="search-form">
+        <form>
+            <span class="box-title">Search</span>
+            <div class="mobile-wrap">
+                <div class="form-box">
+                    <label>Destination</label>
+                    <div class="input">
+                        @if (Model.offerCounts>0 && Model.offerlst.FirstOrDefault().flag == "SubDestination")
+                        {
+                        <input id="subdestination" placeholder="Any destination" />
+                        }
+                        else if (Model.offerlst.FirstOrDefault().flag == "City")
+                        {
+                        <input value="@Model.offerlst.FirstOrDefault().OfferType" readonly id="subdestination" />
+                        }
+                        else if (Model.offerlst.FirstOrDefault().flag != "SubDestination")
+                        {
+                            if (Model.offerlst.FirstOrDefault().OfferType == "Golden Triangle Holidays")
+                            {
+                        <input value="India" readonly id="subdestination" />
+                            }
+                            else
+                            {
+                        <input id="subdestination" placeholder="Any destination" /> <span class="icon-list"></span>
+                            }
+                        }
+                        else
+                        {
+                        <input value="@Model.offerlst.FirstOrDefault().OfferType" readonly id="subdestination" />
+                        }
+                        <input type="hidden" value="0" id="subDestId" />
+                    </div>
+                </div>
+                <div class="form-box">
+                    <label>Departing from</label>
+                    <div class="input">
+                        <select id="airport">
+                            <option>Any Airport</option>
+                            @foreach (var item in Model.fm.airports)
+                            {
+                            <option>@item</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="mobile-wrap">
+                <div class="form-box">
+                    <label>Departure month</label>
+                    <div class="input">
+                        <select id="month">
+                            <option>Any Month</option>
+                            @foreach (var item in Model.fm.months)
+                            {
+                            <option>@item</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <label>Passengers</label>
+                    <div class="input">
+                        <select id="passenger">
+                            <option>2 adults</option>
+                            <option>3 adults</option>
+                            <option>4 adults</option>
+                            <option>5 adults</option>
+                            <option>6 adults</option>
+                            <option>7 adults</option>
+                            <option>8 adults</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn" id="search">Search</button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+</section>
+
+@Html.Partial("~/Views/home/_featuredTour.cshtml", Model.offerlst.FirstOrDefault().featuredtours)
+
+<section class="holiday-list-section">
+    <div class="sidebar">
+        <div class="filter">
+            <div class="sidebar-header">
+                <div class="type">Filters</div>
+                <div class="reset" onclick="window.location.reload()">Reset</div>
+            </div>
+        </div>
+        <div class="filter side-bb">
+            <div class="sidebar-header">
+                <div class="type">Board basis</div>
+                <span class="icon-pullup"></span>
+            </div>
+            <div class="sidebar-content" style="display: block;">
+                @foreach (var item in Model.fm.catType)
+                {
+                <div class="checkbox-option">
+                    <input type="checkbox" name="mealplan" id="@item.ToLower().Replace(" ","-")" value="@item" />
+                    <label for="@item.ToLower().Replace(" ","-")">@item</label>
+                </div>
+                }
+            </div>
+        </div>
+        <div class="filter">
+            <div class="sidebar-header">
+                <div class="type">Price range</div>
+                <span class="icon-pullup"></span>
+            </div>
+            <div class="sidebar-content" style="display: block;">
+                <div class="slider-range"></div>
+                <div class="price-boxes">
+                    <div>£<span>@Model.fm.minPrice</span></div>
+                    <div>£<span>@Model.fm.maxPrice</span></div>
+                </div>
+            </div>
+        </div>
+        @if (Model.fm.airports.Count() > 0)
+        {
+        <div class="filter side-airports">
+            <div class="sidebar-header">
+                <div class="type">Airport</div>
+                <span class="icon-pullup"></span>
+            </div>
+            <div class="sidebar-content" style="display: block;">
+                @foreach (var item in Model.fm.airports)
+                    {
+                <div class="checkbox-option">
+                    <input type="checkbox" name="airport" value="@item" id="@item.Replace(" ","-").ToLower()" />
+                    <label for="@item.Replace(" ","-").ToLower()">@item</label>
+                </div>
+                    }
+            </div>
+        </div>
+        }
+        @if (Model.fm.cities != null && Model.fm.cities.Count() > 0)
+        {
+        <div class="filter">
+            <div class="sidebar-header">
+                <div class="type">Region</div>
+                <span class="icon-pullup"></span>
+            </div>
+            <div class="sidebar-content" style="display: block;">
+                @foreach (var item in Model.fm.cities)
+                    {
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="region" value="@item.Value" id="@item.Text.Replace(" ","-").ToLower()" />
+                        <label for="@item.Text.Replace(" ", "-").ToLower()">@item.Text</label>
+                    </div>
+                    }
+            </div>
+        </div>
+        }
+        <div class="mobile-actions">
+            <button class="btn filter-apply-btn">Apply</button>
+            <span class="reset">Reset</span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="search-sort">
+            <div class="results">@Model.fm.TotalCount results found</div>
+            <div class="order">
+                <div class="price">
+                    Price
+                    <div class="price-order active">Low to high</div>
+                    <div class="price-order">High to low</div>
+                </div>
+                <div class="mobile-filter-wrap">
+                    <div class="filter-btn">
+                        <span class="icon-filter"></span>
+                        Filter
+                    </div>
+                    <div class="sort">
+                        Sort by
+                        <div class="sort-order"><span class="current-option">Newest</span><span class="icon-dropdown"></span></div>
+                        <ul class="sort-order-list">
+                            <li class="sort-option">Newest</li>
+                            <li class="sort-option">Oldest</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="holidays">
+            @{
+                int count = 0;
+                int repeat = Convert.ToInt32(Model.fm.TotalCount / 10) + 1;
+                for (int i = 0; i < repeat; i++)
+                {
+                    foreach (var item in Model.offerlst.Skip(i * 10).Take(10))
+                    {
+                        string oimg = "https://admin.citiesandbeaches.com/PackageImages/SliderImage/" + item.PackageID + "/" + item.ImgName + "?" + DateTime.Now.Ticks;
+                        //oimg = "/cdn-cgi/image/f=auto,fit=contain,h=340/" + oimg;
+            <div class="holiday count@(count)" @(count==0?"":"style=display:none;")>
+                <span class="holiday-img lazy"  style="background-image:url('@oimg');"></span>
+                <a class="gallery-link" images="@(string.Join("|",item.imgDetail.Skip(3).Select(r=> "https://admin.citiesandbeaches.com/PackageImages/SliderImage/" + item.PackageID + "/" + r.imageName + "?" + DateTime.Now.Ticks).ToArray()))"><span class="icon-camera"></span>Gallery</a>
+                <div class="details">
+                    <div>
+                        <div class="title">@item.PackageName</div>
+                        <ul>
+                            <li><span class="icon-compass"></span>@item.Destination</li>
+                            <li><span class="icon-nights"></span>@item.duration</li>
+                            <li><span class="icon-board-basis"></span>@item.MealPlan</li>
+                        </ul>
+                    </div>
+                    @Html.Raw(item.packageShortDesc)
+                    <div class="horizontal">
+                        <div class="price">
+                            <span>from</span>
+                            <div>£@item.Price<span>/pp</span></div>
+                        </div>
+                        <a class="btn" href="/Holidays/@System.Text.RegularExpressions.Regex.Replace((item.Destination!=null?item.Destination.Trim():"Unknown"), @"\s+", "-")/@System.Text.RegularExpressions.Regex.Replace(item.PackageName.Trim(), @"\s+", "-")">View More<span class="icon-more"></span></a>
+                    </div>
+                </div>
+            </div>
+                    }
+                    count++;
+                }
+            }
+        </div>
+        @if (Model.fm.TotalCount > 10)
+        {
+        <button class="btn more-holidays" count="0" max="@repeat">Load More Results</button>
+        }
+
+        @Html.Partial("~/Views/home/_callUs.cshtml")
+    </div>
+    <div style="clear:both"></div>
+</section>
+
+<section class="subscription-section">
+    @Html.Partial("~/Views/home/_newsletter.cshtml")
+</section>
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/country.js?v1.1.7"></script>
+<script src="~/assets/js/photoswipe.min.js"></script>
+<script src="~/assets/js/photoswipe-ui-default.min.js"></script>

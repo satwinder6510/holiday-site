@@ -1,0 +1,218 @@
+﻿@model IEnumerable<citrus.Entities.tblBlog>
+@{
+    var dates = (from r in Model
+				 where !string.IsNullOrEmpty(r.uploaddate)
+                 orderby Convert.ToDateTime(r.uploaddate) descending
+                 group r by Convert.ToDateTime(r.uploaddate).ToString("MMMM yyyy") into g
+                 select new { month = Convert.ToDateTime(g.First().uploaddate).ToString("MMMM yyyy"), count = g.Count() }).ToList();
+    string banner = "/Hero images/blog.jpg";
+    //banner = "/cdn-cgi/image/f=auto,fit=contain,h=500/" + banner;
+}
+<link href="~/assets/css/blogs.css?v.1.1.5" rel="stylesheet" />
+
+<section class="hero-section lazy"  style="background-image:url('@banner');">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Blogs</a>
+    </div>
+    <div class="content">
+        <div>read all about it</div>
+        <h1>Flights and Packages Blogs</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+
+<section class="blog-list-section">
+    <section>
+        <div class="content">
+            @Html.Partial("_list", Model)
+        </div>
+        <div class="sidebar">
+            @*<div class="popular-tags">
+                    Popular Tags
+                    <ul>
+                        <li>Portugal</li>
+                        <li>Venice</li>
+                        <li>Rome</li>
+                        <li>Lake Garda</li>
+                        <li>Golden Triangle</li>
+                        <li>Tuscany</li>
+                        <li>Stocholm</li>
+                        <li>Riga</li>
+                        <li>Copenhagen</li>
+                    </ul>
+                    <div>
+                        View all tags
+                        <span class="icon-more-plus"></span>
+                    </div>
+                </div>*@
+            <div class="archive">
+                Archive
+                <ul>
+                    @foreach (var item in dates)
+                    {
+                        <li>@item.month<span>(@item.count)</span></li>
+                    }
+                </ul>
+                @if (dates.Count() > 5)
+                {
+                    <div>
+                        View all tags
+                        <span class="icon-more-plus"></span>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</section>
+<section class="subscription-section">
+    @Html.Partial("~/Views/home/_newsletter.cshtml")
+</section>
+<script>
+    $(document).on('click', '.pages', function () {
+        $(this).parent().parent().find('li').removeClass('active');
+        $(this).parent().addClass('active');
+        var c = parseInt($(this).text()) - 1;
+        $('.blog').hide();
+        $('.count' + c).show();
+        var countpages = parseInt($('#countpages').val());
+        if ((c + 1) == countpages) {
+            $('.next').parent().addClass('disabled');
+            $('.last').parent().addClass('disabled');
+        }
+        else {
+            $('.next').parent().removeClass('disabled').addClass('active');
+            $('.last').parent().removeClass('disabled').addClass('active');
+        }
+        if (c > 0) {
+            $('.first').parent().removeClass('disabled').addClass('active');
+            $('.prev').parent().removeClass('disabled').addClass('active');
+        }
+        else {
+            $('.first').parent().addClass('disabled');
+            $('.prev').parent().addClass('disabled');
+        }
+        $('html, body').animate({
+            scrollTop: $(".blog-list-section").offset().top - 150
+        }, 500);
+    });
+    $(document).on('click', '.last', function () {
+        $(this).parent().parent().find('li').removeClass('active');
+        $('a.pages:last').parent().addClass('active');
+        $(this).parent().addClass('disabled');
+        $('.next').parent().addClass('disabled');
+        $('.first').parent().removeClass('disabled').addClass('active');
+        $('.prev').parent().removeClass('disabled').addClass('active');
+        var c = parseInt($('#countpages').val()) - 1;
+        $('.blog').hide();
+        $('.count' + c).show();
+        $('html, body').animate({
+            scrollTop: $(".blog-list-section").offset().top - 150
+        }, 500);
+    });
+    $(document).on('click', '.first', function () {
+        $(this).parent().parent().find('li').removeClass('active');
+        $('a.pages:first').parent().addClass('active')
+        $(this).parent().addClass('disabled');
+        $('.prev').parent().addClass('disabled');
+        $('.next').parent().removeClass('disabled').addClass('active');
+        $('.last').parent().removeClass('disabled').addClass('active');
+        $('.blog').hide();
+        $('.count0').show();
+        $('html, body').animate({
+            scrollTop: $(".blog-list-section").offset().top - 150
+        }, 500);
+    });
+    $(document).on('click', '.next', function () {
+        var c = parseInt($('li.active a.pages').text());
+        $(this).parent().parent().find('li').removeClass('active');
+        $('li:has(a.pages:contains("' + (c + 1) + '"))').addClass('active');
+        $('.blog').hide();
+        $('.count' + c).show();
+        var countpages = parseInt($('#countpages').val());
+        if ((c + 1) == countpages) {
+            $('.next').parent().addClass('disabled').removeClass('active');
+            $('.last').parent().addClass('disabled').removeClass('active');
+        }
+        else {
+            $('.next').parent().removeClass('disabled').addClass('active');
+            $('.last').parent().removeClass('disabled').addClass('active');
+        }
+        if (c > 0) {
+            $('.first').parent().removeClass('disabled').addClass('active');
+            $('.prev').parent().removeClass('disabled').addClass('active');
+        }
+        $('html, body').animate({
+            scrollTop: $(".blog-list-section").offset().top - 150
+        }, 500);
+    });
+    $(document).on('click', '.prev', function () {
+        var c = parseInt($('li.active a.pages').text()) - 1;
+        $(this).parent().parent().find('li').removeClass('active');
+        $('li:has(a.pages:contains("' + c + '"))').addClass('active');
+        $('.blog').hide();
+        $('.count' + (c - 1)).show();
+        var countpages = parseInt($('#countpages').val());
+        if (c == countpages) {
+            $('.next').parent().addClass('disabled').removeClass('active');
+            $('.last').parent().addClass('disabled').removeClass('active');
+        }
+        else {
+            $('.next').parent().removeClass('disabled').addClass('active');
+            $('.last').parent().removeClass('disabled').addClass('active');
+        }
+        if (c > 0) {
+            $('.first').parent().removeClass('disabled').addClass('active');
+            $('.prev').parent().removeClass('disabled').addClass('active');
+        }
+        $('html, body').animate({
+            scrollTop: $(".blog-list-section").offset().top - 150
+        }, 500);
+    });
+    $('.archive li').click(function () {
+        $(".loader").show();
+        var month = $(this).text().split('(')[0];
+        $.ajax({
+            url: '/blog/FilterByMonth',
+            data: { month: month },
+            type: 'POST',
+            success: function (data) {
+                $(".blog-list-section .content").html(data);
+                $(".loader").hide();
+                $('html, body').animate({
+                    scrollTop: $(".blog-list-section").offset().top - 150
+                }, 500);
+            },
+            error: function (result) {
+                $(".loader").hide();
+            }
+        });
+    })
+</script>

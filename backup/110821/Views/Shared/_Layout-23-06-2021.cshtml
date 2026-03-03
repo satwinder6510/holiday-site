@@ -1,0 +1,128 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html lang="en" class=" ">
+<head>
+   <meta charset="utf-8">	
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0">
+    <meta name="google-site-verification" content="mvkD36r6nOGsIpxDF-mQPZGSFsRa9rDVvbXAT7xyO6U" />
+	<meta name="google-site-verification" content="XoSea99w_NJjVeDDD1zY9_PTa3GBg-i4sWTG8EM1Rag" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- <meta name="description" content=""> -->
+    @RenderSection("AdditionalMeta", false)
+     @*<!-- <link rel="icon" href="~/favicon.ico"> -->
+    <link rel="stylesheet" href="/assets/css/base.css?v1.3.1">
+    <link href="~/assets/css/style.css?v1.1.13" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/assets/js/lity.min.js"></script>
+    <!-- cdnjs -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>*@
+    @Styles.Render("~/bundles/css")
+    <!-- Scripts -->
+    @Scripts.Render("~/bundles/jquery")     
+	
+	<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NKLJM6W');</script>
+<!-- End Google Tag Manager -->
+
+Additionally, paste this code immediately after the opening <body> tag:
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKLJM6W"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+                
+</head>
+<body>
+    @Html.Action("header", "home") 
+    @*<div class="loader"></div>*@
+    <a data-provide="lity" id="msgboxbtn" href="#msgbox" data-lity style="display:none">CLick</a>
+    <div class="success-popup lity-hide" id="msgbox">
+        <p class="bold">Thank you for your query</p>
+        <p>We will respond to you shortly</p>
+        <button class="btn" data-lity-close>Close</button>
+    </div>
+
+    <a data-provide="lity" id="nlboxbtn" href="#nlbox" data-lity style="display:none">CLick</a>
+    <div class="success-popup lity-hide" id="nlbox">
+        <p class="bold">Thank you for subscribing to our Newsletter.</p>
+        <button class="btn" data-lity-close>Close</button>
+    </div>
+
+    <div class="success-popup lity-hide" id="callback" style="background-color:#fff; padding: 10px !important; border-radius: 8px; margin: 5px;">
+        <h4 style="color:#000">Please fill in the form below<span style="float:right;cursor: pointer;" data-lity-close>X</span></h4>
+        <div class="contact-form" style="background-color:#f8f8f8; padding:10px 5px 5px; width:100%; font-size:14px; font-family:Verdana, Geneva, sans-serif;">
+            <form>
+                <div class="field-wrap con-form-cal-2">
+                    <label>Name<span> (Required)</span></label>
+                    <input type="text" required id="rcb_name">
+                </div>  
+                <div class="field-wrap con-form-cal-2">
+                    <label>Email<span> (Required)</span></label>
+                    <input type="text" required id="rcb_email">
+                </div>  
+                <div class="field-wrap con-form-cal-2">
+                    <label>Phone number<span> (Required)</span></label>
+                    <input type="number" required id="rcb_phn">
+                </div>              
+                <div class="form-block con-form-cal-1">
+                    <label>Comment <span> (Required)</span></label>
+                    <textarea id="rcb_comment" rows="4" required></textarea>
+                </div>
+                <div class="form-block con-form-cal-2">
+                    <div class="form-reset" style="padding-top: 5px;">
+                        <a href="javascript:void(0)" onclick="$('form').trigger('reset')">Reset all fields</a>
+                    </div>
+                </div>
+                <div class="form-block con-form-cal-2">
+                    <button class="btn submit" type="button" id="btRequestCallBack" style="margin-top: 10px;">Submit</button>
+                </div>
+                <div style="clear:both;"></div>
+            </form>
+        </div>
+    </div>
+    
+    @RenderBody()
+    @Html.Action("footer", "home") 
+
+   
+    @Scripts.Render("~/bundles/common")
+
+	 <script>
+        $('.lazy').each(function () {
+            var This = $(this);
+			var attr = $(this).attr('src');
+			if (typeof attr !== 'undefined' && attr !== false) {
+				if (attr.indexOf('admin') > 0) {
+					//debugger
+					$.ajax({
+						url: "/home/getBase64",
+						data: { imgurl: attr },
+						success: function (result) {
+							This.attr('src', 'data:image/jpg;base64,' + result);
+						}
+					});
+				}
+			}
+			else {
+				var cssurl = This.css('background-image');
+				var imgurl = cssurl.substring(5, cssurl.length - 2);
+				if (imgurl.indexOf('admin') > 0) {
+					//debugger
+					$.ajax({
+						url: "/home/getBase64",
+						data: { imgurl: imgurl },
+						success: function (result) {
+							This.css('background-image', 'url(data:image/jpg;base64,' + result + ')');
+						}
+					});
+				}
+			}
+        });
+    </script>
+   
+</body>
+</html>

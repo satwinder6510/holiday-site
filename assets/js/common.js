@@ -1,23 +1,27 @@
 //Citrus
-//header dropdowns
-$(".menu").on("mouseenter mouseleave", function () {
-    if (window.innerWidth > 768) {
-        $this = $(this);
-        $this.toggleClass('open');
-        $(".menu-popup").toggleClass('open');
-    }
-});
+////Header dropdowns
+//$(".menu").on("mouseenter mouseleave", function () {
+//    if (window.innerWidth > 768) {
+//        $this = $(this);
+//        $this.toggleClass('open');
+//        $(".menu-popup").toggleClass('open');
+//    }
+//});
 
-// mobile menu
+// Mobile menu
+
+$("#neDev").css('display','none');
+
 $(".mobile-menu-btn").on("click", function () {
     $('.mobile-menu-btn').css('display', 'none');
     $('.mobile-close-btn').css('display', 'inline-block');
     $("body").addClass('locked');
     $(".mobile-menu").addClass('open');
     $("header").css("background-color", "#000000");
-    $(".mobile-nav .logo").css("background-image", 'url("../../assets/img/citrus-holidays-logo-white.svg")');
+    $(".mobile-nav .logo").css("background-image", 'url("/assets/img/flights-and-packages-logo.png")');
     $('.mobile-close-btn').addClass('inverted');
     $('.mobile-contacts').addClass('inverted');
+	//$(".mobile-nav").show();
 });
 $(".mobile-close-btn").on("click", function () {
     $('.mobile-menu-btn').css('display','inline-block');
@@ -25,16 +29,11 @@ $(".mobile-close-btn").on("click", function () {
     $('.mobile-contacts').css('display', 'inline-block');
     $('.mobile-back-btn').css('display', 'none');
     $('.mobile-contacts').removeClass('inverted');
-    $("header").css("background-color", "#ffffff");
+    $("header").css("background-color", "#000000");
     $(".mobile-nav .logo").text("");
-    $(".mobile-nav .logo").css("background-image", 'url("../../assets/img/citrus-holidays-logo.svg")');
+    $(".mobile-nav .logo").css("background-image", 'url("/assets/img/flights-and-packages-logo.png")');
     if ($("#view-all-dest").hasClass("open")) {
-        $(".europe-destinations").removeClass('open');
-        $(".americas-destinations").removeClass('open');
-        $(".africa-destinations").removeClass('open');
-        $(".asia-destinationst").removeClass('open');
-        $(".middle-east-destinations").removeClass('open');
-        $(".indian-ocean-destinations").removeClass('open');
+        $(".mobile-sub-destinations").removeClass('open');       
         $(".mobile-destinations-list").addClass('open');
         $("#view-all-dest").removeClass('open');
     }
@@ -42,15 +41,13 @@ $(".mobile-close-btn").on("click", function () {
     $(".mobile-menu").removeClass('open');
     $(".mobile-destinations").removeClass('open');
     $(".mobile-collections").removeClass('open');
+	// $("#neDev").css('display','none');
+	// $('.mobile-menu').css('height','calc(100vh - 50px)');
+	// $("header").css('height','50px');
 });
 $(".mobile-back-btn").on("click", function () {
     if ($("#view-all-dest").hasClass("open")) {
-        $(".europe-destinations").removeClass('open');
-        $(".americas-destinations").removeClass('open');
-        $(".africa-destinations").removeClass('open');
-        $(".asia-destinations").removeClass('open');
-        $(".middle-east-destinations").removeClass('open');
-        $(".indian-ocean-destinations").removeClass('open');
+        $(".mobile-sub-destinations").removeClass('open');    
         $(".mobile-destinations-list").addClass('open');
         $("#view-all-dest").removeClass('open');
         $(".mobile-nav .logo").text("Destinations");
@@ -62,104 +59,133 @@ $(".mobile-back-btn").on("click", function () {
     $(".mobile-collections").removeClass('open');
     $("header").css("background-color", "#000000");
     $(".mobile-nav .logo").text("");
-    $(".mobile-nav .logo").css("background-image", 'url("../../assets/img/citrus-holidays-logo-white.svg")');
+    $(".mobile-nav .logo").css("background-image", 'url("/assets/img/flights-and-packages-logo.png")');
     $('.mobile-close-btn').addClass('inverted');
+	$('.mobile-contacts').addClass('inverted');
+	$('.mobile-destinations .hero-section:eq(0)').show();
+	// $("#neDev").css('display','none');
+	// $('.mobile-menu').css('height','calc(100vh - 50px)');
+	// $("header").css('height','50px');
 });
-// mobile inner menu
+
 $("#mobile-destinations-btn").on("click", function () {
     if (window.innerWidth < 769) {
         event.preventDefault();
         $(".mobile-destinations").addClass('open');
         $(".mobile-destinations-list").addClass('open');
-        $('.mobile-contacts').css('display', 'none');
+        //$('.mobile-contacts').css('display', 'none');
+		$('.mobile-contacts').removeClass('inverted');
         $('.mobile-back-btn').css('display', 'inline-block');
-        $("header").css("background-color", "#ffffff");
+        $("header").css("background-color", "#000000");
         $(".mobile-nav .logo").css("background-image", 'none');
         $(".mobile-nav .logo").text("Destinations");
         $('.mobile-close-btn').removeClass('inverted');
+		$('.mobile-menu-btn').css('display', 'inline-block');
+		// $('.mobile-menu').css('height','calc(100vh - 100px)');
+		// $("header").css('height','100px');
+		// $("#neDev").css('display','inline-block');
     }
 });
-$("#mobile-collections-btn").on("click", function () {
+$("#mobile-flights-btn").on("click", function () {
     if (window.innerWidth < 769) {
         event.preventDefault();
-        $(".mobile-collections").addClass('open');
-        $(".mobile-collections-list").addClass('open');
-        $('.mobile-contacts').css('display', 'none');
+        $(".mobile-flights").addClass('open');
+        $(".mobile-flights-list").addClass('open');
+        $('.mobile-contacts').removeClass('inverted');
         $('.mobile-back-btn').css('display', 'inline-block');
-        $("header").css("background-color", "#ffffff");
+        $("header").css("background-color", "#000000");
         $(".mobile-nav .logo").css("background-image", 'none');
         $(".mobile-nav .logo").text("Collections");
         $('.mobile-close-btn').removeClass('inverted');
+        $('.mobile-menu-btn').css('display', 'inline-block');
+    }
+}); 
+
+$("#mobile-collections-btn").on("click", function () {
+    if (window.innerWidth < 769) {
+        event.preventDefault();
+        // $(".mobile-collections").addClass('open');
+        // $(".mobile-collections-list").addClass('open');
+        // $('.mobile-contacts').css('display', 'none');
+        // $('.mobile-back-btn').css('display', 'inline-block');
+        // $("header").css("background-color", "#ffffff");
+        // $(".mobile-nav .logo").css("background-image", 'none');
+        // $(".mobile-nav .logo").text("Collections");
+        // $('.mobile-close-btn').removeClass('inverted');
+		// $('.mobile-contacts').removeClass('inverted');
+		// $(".mobile-nav .logo").css("background-image", 'url("/assets/img/flights-and-packages-logo.png")');
+		// $("#neDev").css('display','inline-block');
+		$(".mobile-collections").addClass('open');
+        $(".mobile-collections-list").addClass('open');
+        //$('.mobile-contacts').css('display', 'none');
+		$('.mobile-contacts').removeClass('inverted');
+        $('.mobile-back-btn').css('display', 'inline-block');
+        $("header").css("background-color", "#000000");
+        $(".mobile-nav .logo").css("background-image", 'none');
+        $(".mobile-nav .logo").text("Collections");
+        $('.mobile-close-btn').removeClass('inverted');
+		$('.mobile-menu-btn').css('display', 'inline-block');
+		// $('.mobile-menu').css('height','calc(100vh - 100px)');
+		// $("header").css('height','100px');
+		// $("#neDev").css('display','inline-block');
     }
 });
 
-// mobile menu destinations
+//mobile menu destinations
 {
-    $("#europe-dest").on("click",
+    $(document).on("click", ".mobile-dest",
         function() {
             if (window.innerWidth < 769) {
                 event.preventDefault();
+                var value = $(this).attr('data-val');
                 $('.mobile-destinations-list').removeClass('open');
-                $('.europe-destinations').addClass('open');
+                $('.' + value).addClass('open');
                 $('#view-all-dest').addClass('open');
-                $(".mobile-nav .logo").text("Europe");
+                var str = value.replace('dest-', '').replace('-', ' ');
+                var new_str = str.toLowerCase().replace(/\b[a-z]/g, function (txtVal) {
+                    return txtVal.toUpperCase();
+                });
+                //var img = "https://admin2.citrusholidays.com/images/destinations/" + new_str + "_banner.jpg?" + (new Date().getTime());
+                // img = "/cdn-cgi/image/f=auto,fit=contain,h=210/" + img;
+                // $('#destinationBg').css('background-image', 'url("' + img + '")');
+                // $('#destinationBg h2').text(new_str + " Holidays");
+                $(".mobile-nav .logo").text(new_str);
+                var url = "/Holidays/" + new_str.split(' ').join('-');
+                $('#view-all-dest').attr('href', url);
+				$('.mobile-destinations .hero-section:eq(0)').hide();
             }
-        });
-    $("#americas-dest").on("click",
-        function() {
+        });    
+}
+
+//mobile menu flights
+{
+    $(document).on("click", ".mobile-flight",
+        function () {
             if (window.innerWidth < 769) {
                 event.preventDefault();
-                $('.mobile-destinations-list').removeClass('open');
-                $('.americas-destinations').addClass('open');
-                $('#view-all-dest').addClass('open');
-                $(".mobile-nav .logo").text("Americas");
-            }
-        });
-    $("#africa-dest").on("click",
-        function() {
-            if (window.innerWidth < 769) {
-                event.preventDefault();
-                $('.mobile-destinations-list').removeClass('open');
-                $('.africa-destinations').addClass('open');
-                $('#view-all-dest').addClass('open');
-                $(".mobile-nav .logo").text("Africa");
-            }
-        });
-    $("#asia-dest").on("click",
-        function() {
-            if (window.innerWidth < 769) {
-                event.preventDefault();
-                $('.mobile-destinations-list').removeClass('open');
-                $('.asia-destinations').addClass('open');
-                $('#view-all-dest').addClass('open');
-                $(".mobile-nav .logo").text("Asia");
-            }
-        });
-    $("#mideast-dest").on("click",
-        function() {
-            if (window.innerWidth < 769) {
-                event.preventDefault();
-                $('.mobile-destinations-list').removeClass('open');
-                $('.middle-east-destinations').addClass('open');
-                $('#view-all-dest').addClass('open');
-                $(".mobile-nav .logo").text("Middle East");
-            }
-        });
-    $("#indian-dest").on("click",
-        function() {
-            if (window.innerWidth < 769) {
-                event.preventDefault();
-                $('.mobile-destinations-list').removeClass('open');
-                $('.indian-ocean-destinations').addClass('open');
-                $('#view-all-dest').addClass('open');
-                $(".mobile-nav .logo").text("Indian Ocean");
+                var value = $(this).attr('data-val');
+                $('.mobile-flights-list').removeClass('open');
+                $('.' + value).addClass('open');
+                $('#view-all-flight').addClass('open');
+                var str = value.replace('flight-', '').replace('-', ' ');
+                var new_str = str.toLowerCase().replace(/\b[a-z]/g, function (txtVal) {
+                    return txtVal.toUpperCase();
+                });
+                //var img = "https://admin2.citrusholidays.com/images/destinations/" + new_str + "_banner.jpg?" + (new Date().getTime());
+                // img = "/cdn-cgi/image/f=auto,fit=contain,h=210/" + img;
+                // $('#destinationBg').css('background-image', 'url("' + img + '")');
+                // $('#destinationBg h2').text(new_str + " Holidays");
+                $(".mobile-nav .logo").text(new_str);
+                var url = "/flights/" + new_str.split(' ').join('-');
+                $('#view-all-flight').attr('href', url);
+                $('.mobile-flights .hero-section:eq(0)').hide();
             }
         });
 }
 
 
 $(document).ready(function() {
-    //featured tours section carousel
+
     $('.featured-carousel').slick({
         arrows: true,
         rows: false,
@@ -168,7 +194,7 @@ $(document).ready(function() {
         prevArrow: $("#featured-prev"),
         nextArrow: $("#featured-next")
     });
-    //back to top
+
     $('.scroll').click(function() {
         $('html, body').animate({
                 scrollTop: 0
@@ -177,16 +203,17 @@ $(document).ready(function() {
         return false;
     });
 
-    //mobile only carousel slider toggle
+    //footer accordion
+    $("footer .navigation .lhs, .mid, .rhs").click(function () {
+        $(this).toggleClass("open");
+    });
+
     if (window.innerWidth < 1101) {
-        mobileOnlySlider();
+        mobileOnlySlider();        
     }
-    //mobile only accordion toggle
-    if (window.innerWidth < 761) {
-        mobileOnlyAccordion(true);
+    if (window.innerWidth < 736) {
+        $('.call-now-m').show();
     }
-
-
 });
 
 $(window).resize(function (e) {
@@ -199,21 +226,15 @@ $(window).resize(function (e) {
         if ($('.carousel-blogs').hasClass('slick-initialized')) {
             $('.carousel-blogs').slick('unslick');
         }
+    }   
+    if (window.innerWidth < 736) {
+        $('.call-now-m').show();
     }
-
-
-    //footer mobile only accordion toggle
-    if (window.innerWidth < 761) {
-        mobileOnlyAccordion(true);
-    } else {
-        mobileOnlyAccordion(false);
-        var flexWrap = document.getElementsByClassName("list-flex-wrap");
-        $(flexWrap).css({ "display": "flex", "display": "-webkit-flex" });
+    else {
+        $('.call-now-m').hide();
     }
-    
 });
 
-//mobile only carousel slider
 function mobileOnlySlider() {
     $('.carousel-blogs').not('.slick-initialized').slick({
         slidesToShow: 1,
@@ -227,37 +248,67 @@ function mobileOnlySlider() {
     });
 };
 
-//Footer mobile only accordion
-function accordionHandler(event) {
-    $(event.target).find("span").toggleClass("icon-pullup");
-    var panel = event.target.nextElementSibling;
-    if (panel.style.display === "block") {
-        panel.style.display = "none";
-        $(event.target).find("a").css('pointer-events', 'none');
-
-    } else {
-        panel.style.display = "block";
-        $(event.target).find("a").css('pointer-events', 'auto');
-    }
-}
-function mobileOnlyAccordion(isActiveAccordion) {
-
-    var acc = document.getElementsByClassName("footer-mobile-accordion");
-    var i;
-    if (isActiveAccordion) {
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", accordionHandler,true);
-            var panel = acc[i].nextElementSibling;
-            panel.style.display = "none";
-            $(acc[i]).find("a").css('pointer-events', 'none');
+$("#btnNewsLeter1").click(function () {
+    $("#loader").show();
+    var email = $("#nl1_email").val();
+    var contactType = "newsletter";
+    $.ajax({
+        url: '/home/ContactUs',
+        data: { rcb_email: email, contactType: contactType },
+        type: 'POST',
+        success: function (data) {
+            $("#nl_email").val('');
+            $("#loader").hide();
+            $('#nlboxbtn').click();
+        },
+        error: function (result) {
+            $("#loader").hide();
+            var notification = '<div style="padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; color: #a94442; background-color: #f2dede; border-color: #ebccd1;position:fixed;top:20%;right:38%;z-index:9999" id="notification"> Oops!there is some problem try again. </div>';
+            $("#notify").append(notification);
+            setTimeout(function () {
+                $("#notification").remove();
+            }, 10000);
         }
-    } else {
-        for (i = 0; i < acc.length; i++) {
-            acc[i].removeEventListener("click", accordionHandler, true);
-            $(acc[i]).find("span").removeClass("icon-pullup");
-            var panel = acc[i].nextElementSibling;
-            panel.style.display = "block";
-            $(acc[i]).find("a").css('pointer-events', 'auto');
-        }
+    });
+});
+$(document).on('click', '.icon-close', function () {
+    //alert();
+    $('header ul li.menu').removeClass('open');
+    $(this).parent().parent().removeClass('open');
+});
+
+$(function () {
+    $('.lazy').Lazy();
+});
+//$('#msgboxbtn').click();
+$("#btRequestCallBack").click(function () {
+    var rcb_name = $("#rcb_name").val();
+    var rcb_email = $("#rcb_email").val();
+    var rcb_phn = $("#rcb_phn").val();
+    var rcb_dep = "";
+    var rcb_date = "";
+    var rcb_traveller = "";
+    var rcb_comment = $("#rcb_comment").val();
+    var contactType = "RequestCallBack";
+    if (rcb_name != "" && rcb_email != "" && rcb_phn != "" && rcb_comment != "") {
+        $(this).prop('disabled', true);
+        $(".loader").show();
+        $.ajax({
+            url: '/Home/ContactUs',
+            data: { rcb_name: rcb_name, rcb_email: rcb_email, rcb_phn: rcb_phn, rcb_dep: rcb_dep, rcb_date: rcb_date, rcb_traveller: rcb_traveller, rcb_comment: rcb_comment, contactType: contactType },
+            type: 'POST',
+            success: function (data) {
+                //$("#contactForm")[0].reset();
+                $(".loader").hide();
+                $('#msgboxbtn').click();
+                setTimeout(function () {
+                    window.location.reload();
+                }, 5000);
+            },
+            error: function (result) {
+
+            }
+        });
     }
-};
+
+});

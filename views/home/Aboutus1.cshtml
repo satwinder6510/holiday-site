@@ -1,0 +1,242 @@
+﻿@model citrus.Models.homepage
+@{
+    ViewBag.Title = "Aboutus";
+}
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+{
+        <title>@Model.MetaDetails.MetaTitle.Replace("Cities and Beaches", "Holidays - Flights and Packages")</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        <meta name="description" content="@Model.MetaDetails.MetaDescription.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com"))" />
+        }
+    }
+}
+<link href="~/assets/css/aboutus.css" rel="stylesheet" />
+<section class="hero-section">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">About Us</a>
+    </div>
+    <div class="content">
+        <h1>About Us</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+
+<section class="usp-section">
+    <section>
+        <div class="usps usp-carousel">
+            <div class="usp">
+                <div class="usp-title"><span class="icon-location"></span>USP Title One</div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit eiusmod tempor incididunt ut.</p>
+            </div>
+            <div class="usp">
+                <div class="usp-title"><span class="icon-location"></span>USP Title One</div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit eiusmod tempor incididunt ut.</p>
+            </div>
+            <div class="usp">
+                <div class="usp-title"><span class="icon-location"></span>USP Title One</div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit eiusmod tempor incididunt ut.</p>
+            </div>
+            <div class="usp">
+                <div class="usp-title"><span class="icon-location"></span>USP Title One</div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit eiusmod tempor incididunt ut.</p>
+            </div>
+        </div>
+    </section>
+</section>
+<section class="intro-section">
+    <div class="title"><span class="caslo-graphique">Welcome</span> to Flights and Packages</div>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+</section>
+<section class="about-section">
+    <img src="../../assets/img/aboutus/about-img.jpg" />
+    <p>
+        Flights and Packages is part of Benz Travel established twenty nine years ago, a pedigree only a few other travel companies can claim and which we feel should give you a sense that you are dealing with both a solid and a secure company which has the requisite financial protection in place through our ATOL licence. We are also members of IATA and hold direct contracts with over 50 international Airlines including Virgin Atlantic, Emirates, Etihad, Qatar and United Airlines to name but a few.
+    </p>
+    <p>
+        Flights and Packages started off with the ideal of making tailor made holidays where an actual human being would make decisions based on value for money but always with the following question in mind: "Would I go on this Holiday?" You'll find some great ideas on our holiday pages such as our Kerala tour with Private car, elephant ride, backwater stays and meals included, or our top selling city break Rome & Venice where you get two cities for the price of One.
+    </p>
+    <p>
+        We hope you like the website and the holidays we are constatntly putting together.
+    </p>
+</section>
+<section class="meet-team-section">
+    <section>
+        <h4>happy to help</h4>
+        <h2>Meet The Team</h2>
+    </section>
+    <section>
+        <div class="team-carousel">
+            <div class="member">
+                <img src="../../assets/img/aboutus/profile-pic.jpg" />
+                <div class="member-name">Firstname Lastname</div>
+                <div class="job-description">Job Description</div>
+                <p>Lorem ipsum dolor consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim.</p>
+            </div>
+            <div class="member">
+                <img src="../../assets/img/aboutus/profile-pic.jpg" />
+                <div class="member-name">Firstname Lastname</div>
+                <div class="job-description">Job Description</div>
+                <p>Lorem ipsum dolor consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim.</p>
+            </div>
+            <div class="member">
+                <img src="../../assets/img/aboutus/profile-pic.jpg" />
+                <div class="member-name">Firstname Lastname</div>
+                <div class="job-description">Job Description</div>
+                <p>Lorem ipsum dolor consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim.</p>
+            </div>
+            <div class="member">
+                <img src="../../assets/img/aboutus/profile-pic.jpg" />
+                <div class="member-name">Firstname Lastname</div>
+                <div class="job-description">Job Description</div>
+                <p>Lorem ipsum dolor consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim.</p>
+            </div>
+        </div>
+    </section>
+    <div class="team-navigation">
+        <button type="button" class="prev" id="team-prev"> <img src="../../assets/img/arrow-icon.svg" /></button>
+        <button type="button" class="next" id="team-next"> <img src="../../assets/img/arrow-icon.svg" /></button>
+    </div>
+</section>
+<section class="testimonials-section">
+    <section>
+        <h4>what out customers say</h4>
+        <h2>Testimonials</h2>
+    </section>
+    <div class="testimonials-carousel">
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    Excellent company
+                </div>
+                <p>
+                    My partner and I have used Citrus to visit Thailand , Cambodia and Vietnam followed by a Kenya safari the following year, last year. We are about to book for Sri Lanka. The service and organisation of the tours has been fantastic. The value is excellent as is range of hotels. We can’t praise them enough and would always look to them first. We have never had a problem with any of the arrangements. A super company.
+                </p>
+                <div class="testimonial-author">
+                    ~ Davic Carr
+                    <span class="testimonial-date">, Aug 26th 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    Excellent company
+                </div>
+                <p>
+                    My partner and I have used Citrus to visit Thailand , Cambodia and Vietnam followed by a Kenya safari the following year, last year. We are about to book for Sri Lanka. The service and organisation of the tours has been fantastic. The value is excellent as is range of hotels. We can’t praise them enough and would always look to them first. We have never had a problem with any of the arrangements. A super company.
+                </p>
+                <div class="testimonial-author">
+                    ~ Davic Carr
+                    <span class="testimonial-date">, Aug 26th 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    Excellent company
+                </div>
+                <p>
+                    My partner and I have used Citrus to visit Thailand , Cambodia and Vietnam followed by a Kenya safari the following year, last year. We are about to book for Sri Lanka. The service and organisation of the tours has been fantastic. The value is excellent as is range of hotels. We can’t praise them enough and would always look to them first. We have never had a problem with any of the arrangements. A super company.
+                </p>
+                <div class="testimonial-author">
+                    ~ Davic Carr
+                    <span class="testimonial-date">, Aug 26th 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    Excellent company
+                </div>
+                <p>
+                    My partner and I have used Citrus to visit Thailand , Cambodia and Vietnam followed by a Kenya safari the following year, last year. We are about to book for Sri Lanka. The service and organisation of the tours has been fantastic. The value is excellent as is range of hotels. We can’t praise them enough and would always look to them first. We have never had a problem with any of the arrangements. A super company.
+                </p>
+                <div class="testimonial-author">
+                    ~ Davic Carr
+                    <span class="testimonial-date">, Aug 26th 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    Excellent company
+                </div>
+                <p>
+                    My partner and I have used Citrus to visit Thailand , Cambodia and Vietnam followed by a Kenya safari the following year, last year. We are about to book for Sri Lanka. The service and organisation of the tours has been fantastic. The value is excellent as is range of hotels. We can’t praise them enough and would always look to them first. We have never had a problem with any of the arrangements. A super company.
+                </p>
+                <div class="testimonial-author">
+                    ~ Davic Carr
+                    <span class="testimonial-date">, Aug 26th 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+    </div>
+    <div class="testimonials-navigation">
+        <button type="button" class="prev" id="testimonials-prev"> <img src="../../assets/img/arrow-icon.svg" /></button>
+        <button type="button" class="next" id="testimonials-next"> <img src="../../assets/img/arrow-icon.svg" /></button>
+    </div>
+</section>
+<section class="safety-section">
+    <section>
+        <h4>in safe hands</h4>
+        <h2>Total Peace of Mind</h2>
+        <div class="card-wrap">
+            <div class="card">
+                <img src="../../assets/img/aboutus/atol.svg" alt="atol" />
+                <p>Congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Eu tincidunt tortor aliquam nulla facilisi. Est ultricies integer quis auctor elit sed vulputate mi sit. Lorem donec massa sapien faucibus. At ultrice tempus imper nulla malesuada.</p>
+            </div>
+            <div class="card">
+                <img src="../../assets/img/aboutus/asta-logo.svg" alt="asta" />
+                <p>Congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Eu tincidunt tortor aliquam nulla facilisi. Est ultricies integer quis auctor elit sed vulputate mi sit. Lorem donec massa sapien faucibus. At ultrice tempus imper nulla malesuada.</p>
+            </div>
+            <div class="card">
+                <img src="../../assets/img/aboutus/iata-logo.svg" alt="iata" />
+                <p>Congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque. Eu tincidunt tortor aliquam nulla facilisi. Est ultricies integer quis auctor elit sed vulputate mi sit. Lorem donec massa sapien faucibus. At ultrice tempus imper nulla malesuada.</p>
+            </div>
+        </div>
+    </section>
+</section>
+
+<script src="~/assets/js/aboutus.js"></script>

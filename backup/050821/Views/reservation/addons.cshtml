@@ -1,0 +1,131 @@
+﻿@model  citrus.Models.offerSubmit
+@{
+    string img = "https://admin.citrusholidays.co.uk/PackageImages/SliderImage/" + Model.image + "?" + DateTime.Now.Ticks;
+    string simg = "/cdn-cgi/image/f=auto,fit=contain,h=184,w=291/" + img;
+    img = "/cdn-cgi/image/f=auto,fit=contain,h=580/" + img;
+}
+<link href="~/assets/css/extras.css?v1" rel="stylesheet" />
+
+<section class="hero-section" style="background-image:url('@img')">
+    <div class="content">
+        <h1>Bookable Extras</h1>
+    </div>
+</section>
+
+<div class="info-section">
+    <section class="info-wrap">
+        <div class="info">
+            <p>
+                Flying to <span class="editable">@Model.destination</span> from <span class="editable">@Model.airport</span>, for <span class="editable">@Model.duration</span> on a <span class="editable">@Model.mealplan</span>. Departing <span class="editable">@DateTime.ParseExact(Model.date, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture).ToString("MMMM")</span> for <span class="editable">@Model.adults adults</span>
+            </p>
+        </div>
+        <div class="price">
+            <div class="holiday-price">
+                <div>£@Model.price<span>/per adult</span></div>
+            </div>
+            <div class="total-price">
+                £@Model.total
+                <div class="price-label">
+                    <span>Total</span>
+                    <span>Price</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="mobile-summary-toggle">
+    <button class="btn summary-btn">Summary</button>
+</div>
+<section class="itinerary-content">
+    <section>
+        <div class="extras-section content">
+            <h3>Enhance your Holiday</h3>
+            <p class="desc"> Why not make more of your selected tour with one of our thoughtfully selected tour enhancements - feel free to ask if you have a specific activity you want us to tailor make. </p>
+            <input type="hidden" value="@Model.total" id="totalprice" />
+            <input type="hidden" id="pkgId" value="@Model.id" />
+            <input type="hidden" id="selecteddate" value="@Model.date" />
+            <input type="hidden" id="title" value="@Model.title" />
+            <input type="hidden" id="destination" value="@Model.destination" />
+            <input type="hidden" id="price" value="@Model.price" />
+            <input type="hidden" id="airport" value="@Model.airport" />
+            <input type="hidden" id="adults" value="@Model.adults" />
+            <input type="hidden" id="duration" value="@Model.duration" />
+            <div class="extras">
+                @foreach (var item in Model.addons)
+                {
+                    string img1 = "https://admin.citrusholidays.co.uk/PackageImages/AddOns/" + item.image;
+                    img1 = "/cdn-cgi/image/f=auto,fit=contain,h=297,w=291/" + img1;
+                    <div class="extra">
+                        <span class="extra-img" style="background-image: url('@img1')"></span>
+                        <div class="details">
+                            <div>
+                                <div class="title">@item.title</div>
+                            </div>
+                            <p>@Html.Raw(item.description.Replace("\n", "<br/>"))</p>
+                            <div class="horizontal">
+                                <div class="price">
+                                    <div>£@item.price<span>/pp</span></div>
+                                </div>
+                                <button class="btn extrabtn" data-val="@item.id" price="@item.price" title="@item.title">Add Extra</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <a class="btn confirm-btn">Confirm Booking<span class="icon-more"></span></a>
+            </div>
+
+            @*@Html.Partial("~/Views/home/_callUs.cshtml")*@
+        </div>
+        <div class="sidebar">
+            <div class="wrap">
+                <img src="@simg" />
+                <div class="overview">
+                    <div>
+                        <div class="title">@Model.title</div>
+                        <ul>
+                            <li><span class="icon-compass"></span>@Model.destination</li>
+                            <li><span class="icon-nights"></span>@Model.duration</li>
+                            <li><span class="icon-board-basis"></span>@Model.mealplan</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="details">
+                    <span>Departing from</span>
+                    <p>@Model.airport</p>
+                    <span>Passengers</span>
+                    <p>@Model.adults adults</p>
+                    <span>Accommodation</span>
+                    <ul>
+                        @foreach (var item in Model.hotels)
+                        {
+                            <li>@item.hotelName <span class="icon-@item.starRating-stars"></span></li>
+                        }
+                    </ul>
+                    <span class="sd-extra">Bookable Extras</span>
+                    <ul class="picked-extras sd-extra">
+                        @*<li>Additional 2 Night Extention <span class="icon-close"></span></li>*@
+                    </ul>
+                </div>
+                <div class="price">
+                    <div class="holiday-price">
+                        <div style="font-size: x-large;">£@Model.price<span>/per adult</span></div>
+                        @if (Model.child != null && Model.child != "")
+                        {
+                            <div style="font-size: x-large;">£@Model.child<span>/per child</span></div>
+                        }
+                    </div>
+                    <div class="total-price">
+                        £@Model.total
+                        <div class="price-label">
+                            <span>Total</span>
+                            <span>Price</span>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn" id="btnconfirm">Confirm Booking<span class="icon-more"></span></a>
+            </div>
+        </div>
+    </section>
+</section>
+
+<script src="~/assets/js/extras.js?v1.1"></script>

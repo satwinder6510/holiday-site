@@ -1,0 +1,57 @@
+﻿@model citrus.Models.featuredtours
+@if (Model!=null && Model.offername != null)
+{
+    <section class="featured-tour-section">
+        <section>
+            <div class="content">
+                <h4>featured tours</h4>
+                <h2 style="color: white;">@Model.offername</h2>
+                <div class="featured-carousel">
+                    @if (Model.images != null && Model.images.Count() > 0)
+                    {
+                        foreach (var img in Model.images.Skip(3))
+                        {
+                            string img1 = "https://admin.citrusholidays.co.uk/PackageImages/SliderImage/" + Model.offerId + "/" + img.name + "?" + DateTime.Now.Ticks;
+                            //img1 = "/cdn-cgi/image/f=auto,fit=contain,h=580,g=0.5x0.5/" + img1;
+                            <div class="item">
+                                <div class="image lazy" style="background-image:url('@img1');" title="@img.alt"></div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="featured-navigation">
+                    <button type="button" id="featured-prev"> <img src="/assets/img/arrow-icon.svg" /></button>
+                    <button type="button" id="featured-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+                </div>
+                <p>@Html.Raw(Model.summary)</p>
+                <div class="price">
+                    <span>from</span>
+                    <div>£@Model.price<span>/pp</span></div>
+                </div>
+                <div class="btn-wrap">
+                    <a class="btn" href="/Holidays/@System.Text.RegularExpressions.Regex.Replace((Model.destination != null ? Model.destination.Trim() : "Unknown"), @"\s+", "-")/@System.Text.RegularExpressions.Regex.Replace(Model.offername.Trim(), @"\s+", "-")">Learn More<span class="icon-more"></span></a>
+                </div>
+            </div>
+        </section>
+    </section>
+}
+<script>
+	$(document).ready(function () {
+        if (window.innerWidth < 769) {
+            if (window.innerWidth < 650) {
+                $('.image').each(function () {
+                    var url = $(this).attr('data-src').replace('580', '300,w=' + window.innerWidth)
+                    $(this).attr('data-src', url);
+                })
+            }
+            else {
+                $('.image').each(function () {
+                    var url = $(this).attr('data-src').replace('580', '300,w=' + window.innerWidth)
+                    $(this).attr('data-src', url);
+                })
+            }
+        }
+		console.clear();
+		window.console.clear();
+    });
+</script>

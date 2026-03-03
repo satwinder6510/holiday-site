@@ -1,0 +1,264 @@
+﻿@model  citrus.Models.offerSubmit
+@{
+    string img = "https://admin.citiesandbeaches.com/PackageImages/SliderImage/" + Model.image + "?" + DateTime.Now.Ticks;
+}
+<link href="~/assets/css/paxdetails.css?v1.1.4" rel="stylesheet" />
+
+<section class="hero-section" style="background-image:url('@img')">
+    <div class="content">
+        <h1>Passenger Details</h1>
+    </div>
+</section>
+
+<div class="info-section">
+    <section class="info-wrap">
+        <div class="info">
+            <p>
+                Flying to <span class="editable">@Model.destination</span> from <span class="editable">@Model.airport</span>, for <span class="editable">@Model.duration</span> on a <span class="editable">@Model.mealplan</span>. Departing <span class="editable">@DateTime.ParseExact(Model.date, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture).ToString("MMMM")</span> for <span class="editable">@Model.adults adults</span>
+            </p>
+        </div>
+        <div class="price">
+            <div class="holiday-price">
+                <div>£@Model.price<span>/per adult</span></div>
+            </div>
+            <div class="total-price">
+                £@Model.total
+                <div class="price-label">
+                    <span>Total</span>
+                    <span>Price</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="mobile-summary-toggle">
+    <button class="btn summary-btn">Summary</button>
+</div>
+<section class="itinerary-content">
+    <section>
+        <div class="pax-section content">
+            <h3>Passenger Details</h3>
+            <p class="desc">@Html.Raw(Model.description)</p>
+            <form>
+                <input type="hidden" value="@Model.total" id="totalprice" />
+                <input type="hidden" name="pkgId" value="@Model.id" />
+                <input type="hidden" name="selecteddate" value="@Model.date" />
+                <input type="hidden" name="title" value="@Model.title" />
+                <input type="hidden" name="destination" value="@Model.destination" />
+                <input type="hidden" name="price" value="@Model.price" />
+                <input type="hidden" name="airport" value="@Model.airport" />
+                @*<input type="hidden" name="adults" value="@Model.adults" />*@
+                <input type="hidden" name="duration" value="@Model.duration" />
+                <div class="passenger">
+                    <h3>Lead Passenger</h3>
+                    <div class="field-wrap">
+                        <div class="form-block half">
+                            <label for="firstname">First Name<span> (Required)</span></label>
+                            <input class="input" id="firstname" name="firstname" placeholder="First name" required />
+                        </div>
+                        <div class="form-block half">
+                            <label for="lastname">Last Name<span> (Required)</span></label>
+                            <input class="input" id="lastname" name="lastname" placeholder="Last name" required />
+                        </div>
+                    </div>
+                    <div class="form-block">
+                        <label for="email">Email<span> (Required)</span></label>
+                        <input class="input" id="email" name="email" type="email" placeholder="Email" required />
+                    </div>
+                    <div class="field-wrap">
+                        @*<div class="form-block half">
+            <label for="birthdate">Date of birth<span> (Required)</span></label>
+            <input class="input" id="birthdate" name="dob" placeholder="00 / 00 / 0000" required />
+        </div>*@
+                        <div class="form-block half">
+                            <label for="phonenumber">Phone number<span> (Required)</span></label>
+                            <input class="input" id="phonenumber" name="phone" type="number" placeholder="Phone number" required />
+                        </div>
+                        <div class="form-block half">
+                            <label for="adults">Number of passengers<span> (Required)</span></label>
+                            <input class="input" id="adults" name="adults" type="number" value="@Model.adults" required />
+                        </div>
+                    </div>
+
+                    @*<div class="form-block">
+                        <label for="postcode">Address<span> (Required)</span></label>
+                        <input class="input" id="autocomplete" name="housenumber" placeholder="Address" onFocus="geolocate()" required />
+                    </div>*@
+
+
+                </div>
+                @*{
+                    int count = (Convert.ToInt32(Model.adults) > 8 ? 8 : Convert.ToInt32(Model.adults)) - 1;
+                    string[] passengers = { "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth" };
+                    for (int i = 0; i < count; i++)
+                    {
+                        <div class="passenger">
+                            <div class="field-wrap">
+                                <h3>@passengers[i] Passenger</h3>
+                                <div class="optional-fill">
+                                    <input id="filllater" type="checkbox" name="filllater" value="@passengers[i]" />
+                                    <label for="filllater">Complete @passengers[i].ToLower() passenger details later</label>
+                                </div>
+                            </div>
+                            <div class="field-wrap">
+                                <div class="form-block half">
+                                    <label>First Name<span> (Required)</span></label>
+                                    <input class="input" placeholder="First name" name="firstname" required />
+                                </div>
+                                <div class="form-block half">
+                                    <label>Last Name<span> (Required)</span></label>
+                                    <input class="input" placeholder="Last name" name="lastname" required />
+                                </div>
+                            </div>
+                            <div class="field-wrap">
+                                <div class="form-block half">
+                                    <label>Date of birth<span> (Required)</span></label>
+                                    <input class="input" placeholder="00 / 00 / 0000" name="dob" required />
+                                </div>
+                               
+                            </div>
+                            
+                        </div>
+                    }
+                }*@
+
+                <div class="form-actions">
+
+                    <a href class="form-reset">Reset all fields</a>
+                    <button class="btn submit" type="button">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="sidebar">
+            <div class="wrap">
+                <img src="@img" />
+                <div class="overview">
+                    <div>
+                        <div class="title">@Model.title</div>
+                        <ul>
+                            <li><span class="icon-compass"></span>@Model.destination</li>
+                            <li><span class="icon-nights"></span>@Model.duration</li>
+                            <li><span class="icon-board-basis"></span>@Model.mealplan</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="details">
+                    <span>Departing from</span>
+                    <p>@Model.airport</p>
+                    <span>Passengers</span>
+                    <p>@Model.adults adults</p>
+                    <span>Accommodation</span>
+                    <ul>
+                        @foreach (var item in Model.hotels)
+                        {
+                            <li>@item.hotelName <span class="icon-@item.starRating-stars"></span></li>
+                        }
+                    </ul>
+                    @if (Model.addons != null && Model.addons.Count() > 0)
+                    {
+                        <span>Bookable Extras</span>
+                        <ul class="picked-extras">
+                            @foreach (var item in Model.addons)
+                            {
+                            <li>@item.title <span class="icon-close" price="@item.price" data-id="@item.id"></span></li>
+                            }
+                        </ul>
+                    }                    
+                </div>
+                <div class="price">
+                    <div class="holiday-price">
+                        <div style="font-size: x-large;">£@Model.price<span>/per adult</span></div>
+                        @if (Model.child != null && Model.child != "")
+                        {
+                            <div style="font-size: x-large;">£@Model.child<span>/per child</span></div>
+                        }                        
+                    </div>
+                    <div class="total-price">
+                        £@Model.total
+                        <div class="price-label">
+                            <span>Total</span>
+                            <span>Price</span>
+                        </div>
+                    </div>
+                </div>                
+                <button class="btn submit" type="button">Confirm Booking<span class="icon-more"></span></button>
+            </div>
+        </div>
+    </section>
+</section>
+
+<script src="~/assets/js/paxdetails.js?v2.0.3"></script>
+<script>
+    // This sample uses the Autocomplete widget to help the user select a
+    // place, then it retrieves the address components associated with that
+    // place, and then it populates the form fields with those details.
+    // This sample requires the Places library. Include the libraries=places
+    // parameter when you first load the API. For example:
+    // <script
+    // src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+    var placeSearch, autocomplete;
+
+    var componentForm = {
+        street_number: 'short_name',
+        route: 'long_name',
+        locality: 'long_name',
+        administrative_area_level_1: 'short_name',
+        country: 'long_name',
+        postal_code: 'short_name'
+    };
+
+    function initAutocomplete() {
+        // Create the autocomplete object, restricting the search predictions to
+        // geographical location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('autocomplete'), { types: ['geocode'] });
+
+        // Avoid paying for data that you don't need by restricting the set of
+        // place fields that are returned to just the address components.
+        //autocomplete.setFields(['address_component']);
+
+        // When the user selects an address from the drop-down, populate the
+        // address fields in the form.
+        autocomplete.addListener('place_changed', fillInAddress);
+    }
+
+    function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+        debugger
+        document.getElementById('autocomplete').value = place.formatted_address;
+        //for (var component in componentForm) {
+        //    document.getElementById(component).value = '';
+        //    document.getElementById(component).disabled = false;
+        //}
+
+        //// Get each component of the address from the place details,
+        //// and then fill-in the corresponding field on the form.
+        //for (var i = 0; i < place.address_components.length; i++) {
+        //    var addressType = place.address_components[i].types[0];
+        //    if (componentForm[addressType]) {
+        //        var val = place.address_components[i][componentForm[addressType]];
+        //        document.getElementById(addressType).value = val;
+        //    }
+        //}
+    }
+
+    // Bias the autocomplete object to the user's geographical location,
+    // as supplied by the browser's 'navigator.geolocation' object.
+    function geolocate() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                var circle = new google.maps.Circle(
+                    { center: geolocation, radius: position.coords.accuracy });
+                autocomplete.setBounds(circle.getBounds());
+            });
+        }
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAOkwr2dJ6zLD9sqC4XkbX-msIX7ilQC0&libraries=places&callback=initAutocomplete"
+        async defer></script>

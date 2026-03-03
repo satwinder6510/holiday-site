@@ -1,0 +1,349 @@
+﻿@model citrus.Models.homepage
+@{
+    //var account = new Account("citrusholidays", "724678537851396", "8z1qckHXeWng-_T4wSL66XvrbEQ");
+    //var cloudinary = new Cloudinary(account);
+    //string box1 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box1.jpg");
+    //string box2 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box2.jpg");
+    //string box3 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box3.jpg");
+    //string box4 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box4.jpg");
+    //string box5 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box5.jpg");
+    //string box6 = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(360).Quality("auto").Width(291)).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/team/box6.jpg");
+    string aboutus2 = "/Hero images/about-us-middle.jpg";
+    string aboutus = "/Hero images/about-us.jpg";
+    //aboutus2 = "/cdn-cgi/image/f=auto,fit=cover,h=441,w=1240/" + aboutus2;
+    //aboutus = "/cdn-cgi/image/f=auto,fit=contain,h=500/" + aboutus;
+}
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+{
+        <title>About Us | Flights and Packages</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        <meta name="description" content="Flights and Packages offer high-quality, tailor-made tours and holidays at the best possible price, with 55 destinations to choose from." />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com"))" />
+        }
+    }
+}
+<link href="~/assets/css/aboutus.css?v1.1.1" rel="stylesheet" />
+<section class="hero-section lazy" style="background-image:url('@aboutus');">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">About Us</a>
+    </div>
+    <div class="content">
+        <h1>About Us</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+
+<section class="usp-section">
+    <section>
+        <div class="usps carousel-usp">
+            <div class="usp">
+                <div class="usp-title"><span class="icon-location"></span>AFFORDABLE QUALITY</div>
+                <p>Our travel experts spend time researching and negotiating to make sure you get excellent value but without any impact on quality.</p>
+            </div>
+            <div class="usp">
+                <div class="usp-title"><span class="icon-location"></span>CURATED TOURS</div>
+                <p>Our tours are curated by our travel specialists and include plenty of personal touches, to ensure you have the best experience possible.</p>
+            </div>
+            <div class="usp">
+                <div class="usp-title"><span class="icon-location"></span>TRUST</div>
+                <p>We pride ourselves on offering you the best service, with a friendly customer care team and a dedicated agent to assist you at any time.</p>
+            </div>
+            <div class="usp">
+                <div class="usp-title"><span class="icon-location"></span>HAPPY CUSTOMERS</div>
+                <p>We are honoured to have received fantastic reviews from prior customers. Browse our testimonials below.</p>
+            </div>
+        </div>
+    </section>
+</section>
+<section class="intro-section">
+    <div class="title"><span class="caslo-graphique">Welcome</span> to Flights and Packages</div>
+    <p>Proud to offer high-quality, tailor-made tours and holidays - at the best possible price.</p>
+</section>
+<section class="about-section">
+    <img src="@aboutus2" class="lazy" />
+    @*<p>
+            Flights and Packages is part of Benz Travel established twenty nine years ago, a pedigree only a few other travel companies can claim and which we feel should give you a sense that you are dealing with both a solid and a secure company which has the requisite financial protection in place through our ATOL licence. We are also members of IATA and hold direct contracts with over 50 international Airlines including Virgin Atlantic, Emirates, Etihad, Qatar and United Airlines to name but a few.
+        </p>
+        <p>
+            Flights and Packages started off with the ideal of making tailor made holidays where an actual human being would make decisions based on value for money but always with the following question in mind: "Would I go on this Holiday?" You'll find some great ideas on our holiday pages such as our Kerala tour with Private car, elephant ride, backwater stays and meals included, or our top selling city break Rome & Venice where you get two cities for the price of One.
+        </p>
+        <p>
+            We hope you like the website and the holidays we are constatntly putting together.
+        </p>*@
+    <h4>Our Mission</h4>
+    <p>Here at Flights and Packages we are dedicated to providing you tailor-made tours and holidays that are of exceptionally <strong>high quality</strong> yet still offer <strong>fantastic value</strong>. We’re on-hand to help you find your perfect holiday, one that you will remember for years to come.</p>
+    <h4>Personal Service</h4>
+    <p>
+        Our passionate and highly-skilled team build trusted relationships with customers, and work hard to maintain a connection with you long past the day you return from your trip. We are also focused on ensuring that when you choose Flights and Packages that you receive the highest standard of <strong>customer care</strong>. We know that it’s the little things that make the difference and we believe your holiday should be nothing short of incredible.
+    </p>
+    <h4>Location Experts</h4>
+    <p>
+        As well a caring customer services team, we also have <strong>location experts</strong> who curate our tours, creating extra special itineraries due to their inside knowledge. Our carefully crafted packages, which include transfers, excursions and many entrance fees in the price, have been designed to ensure you have an exceptional, carefree experience. We also offer you the chance to explore at your own pace and do your own thing, as we know many customers enjoy a balance of pre-arranged excursions and free time.
+    </p>
+    <h4>Handpicked Hotels</h4>
+    <p>
+        The wonderful hotels across all our getaways have been handpicked and checked on <strong>TripAdvisor</strong> for quality assurance, before being included in the itinerary. We believe that accommodation should be one of the many highlights of your trip, which is why we work hard to ensure our hotels exceed your expectations. We even have a collection of all-inclusive holidays, where the emphasis is firmly on relaxation and enjoying the resort facilities.
+    </p>
+    <h4>Our Background</h4>
+    <p>
+        At Flights and Packages we offer tours and holidays to <strong>55 destinations</strong>. Some of our most popular adventures include our <strong>Golden Triangle Tour</strong> in India and our <strong>Cambodia and Vietnam tour</strong>. We also offer a wide range of <strong>package holidays</strong> and <strong>city breaks</strong> with <strong>Italy</strong> our top-selling European destination. We hold <strong>ATOL and PTS</strong> so you can book your holiday safe in the knowledge you are financially protected.
+    </p>
+
+    <h4>Why Book with Us? </h4>
+    <p>
+        As well as our focus on <strong>quality, value</strong> and exceptional <strong>customer service</strong> our well-travelled, passionate team also have the <strong>travel expertise</strong> to ensure that when you book with us you can expect a wonderful time. Our location experts have multiple contracts with top international airlines including Virgin Atlantic, Emirates, Etihad and Qatar and through these contracts we are able to offer you competitive fares on flights from <strong>all UK airports</strong> as part of our tours and holidays. It’s contracts like these that allow us to maintain our high quality but still offer you affordable packages.
+    </p>
+    <p> When you book with Citrus, you can expect top quality at exceptional value. Start your journey with Flights and Packages today…</p>
+</section>
+@*<section class="meet-team-section" style="display:none">
+    <section>
+        <h4>happy to help</h4>
+        <h2>Meet The Team</h2>
+    </section>
+    <section>
+        <div class="team-carousel">
+            <div class="member">
+                <img src="@box1" onerror="this.src='/assets/img/aboutus/profile-pic.jpg';" />
+                <div class="member-name">Satwinder Singh</div>
+                <div class="job-description">Founder</div>
+                
+            </div>
+            <div class="member">
+                <img src="@box2" onerror="this.src='/assets/img/aboutus/profile-pic.jpg';" />
+                <div class="member-name">Chris Jannelli</div>
+                <div class="job-description">General Manager</div>
+               
+            </div>
+            <div class="member">
+                <img src="@box3" onerror="this.src='/assets/img/aboutus/profile-pic.jpg';" />
+                <div class="member-name">Sam Sarna</div>
+                <div class="job-description">Assistant General Manager</div>
+                
+            </div>
+            <div class="member">
+                <img src="@box4" onerror="this.src='/assets/img/aboutus/profile-pic.jpg';" />
+                <div class="member-name">Sumit Ratra</div>
+                <div class="job-description">Head of Product</div>
+                
+            </div>
+            <div class="member">
+                <img src="@box5" onerror="this.src='/assets/img/aboutus/profile-pic.jpg';" />
+                <div class="member-name">Kapil Nagar</div>
+                <div class="job-description">Manager Operations</div>
+               
+            </div>
+            <div class="member">
+                <img src="@box6" onerror="this.src='/assets/img/aboutus/profile-pic.jpg';" />
+                <div class="member-name">Flora Lightman</div>
+                <div class="job-description">Sales Manager</div>
+               
+            </div>
+        </div>
+    </section>
+    <div class="team-navigation">
+        <button type="button" class="prev" id="team-prev"> <img src="/assets/img/arrow-icon.svg" /></button>
+        <button type="button" class="next" id="team-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+    </div>
+</section>*@
+<section class="testimonials-section" style="display:none">
+    <section>
+        <h4>what out customers say</h4>
+        <h2>Testimonials</h2>
+    </section>
+    <div class="testimonials-carousel">
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    The booking process was great
+                </div>
+                <p>
+                    The booking process was great.  Mel went the extra mile to find me a suitable holiday at the cheapest price.  Very impressed. The holiday itself, brilliant for someone like me.  Loads packed into the inclusive itinerary.  A great break. This was the Kerala 9 days tour with resort at the end.
+                </p>
+                <div class="testimonial-author">
+                    ~ Gail Harrison
+                    <span class="testimonial-date">, Nov 29th 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    Wow Citrus what a holiday!  
+                </div>
+                <p>
+                    Wow Citrus what a holiday!  We were so looking forward to this trip and visiting India and we were not disappointed.   You were recommended to us by our friends and we would certainly recommend you further.  From the initial booking with Citrus, right through to the flight home, everything went to plan and generally exceeded our expectations.  We met a great bunch of people on the trip and it was great to meet up at the end of the day over dinner to share the day. Can't wait to book our next trip!
+                </p>
+                <div class="testimonial-author">
+                    ~ Steve Beaumont
+                    <span class="testimonial-date">, Nov 28th 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    Fantastic holiday
+                </div>
+                <p>
+                    Just came back from Sorrento - fantastic holiday and a great hotel recommendation from Rachel . I have already gone back to Rachel abs trying to book it again for my mother in law to go there thanks Rachel xx
+                </p>
+                <div class="testimonial-author">
+                    ~ Mrs Jones
+                    <span class="testimonial-date">, Oct 2nd 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    Still in a daze!
+                </div>
+                <p>
+                    I have just returned from the Southern India tour and I am still in a bit of a daze as it was so magical. I can’t believe all of the things that we did in those 15 days.  The hotel accommodation and food was of a high standard and none of us suffered any problems throughout the whole tour. The overnight stay in the boat was a particular highlight - the food in particular was yummy. Overall an amazing tour - unbelievable value for money and thoroughly recommended.
+                </p>
+                <div class="testimonial-author">
+                    ~ Shaun Dowe
+                    <span class="testimonial-date">, May 29th 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    Couldn't have asked for better service.  
+                </div>
+                <p>
+                    Couldn't have asked for better service.  I booked the holiday with Citrus on a whim and my trip entailed a full tour of Sri Lanka and then a rest stay at the Maldives.  I paid in full on booking and to be honest, was a little apprehensive about the company as I heard nothing then until close to departure, however.  The attacks on Sri Lanka occurred three days before we were due to depart the UK and although I never actually got to speak to a person, as all requests were dealt with via email, the representatives at Citrus went above and beyond to change all the flight and hotel stay to the Maldives with no further coat apart from the £6 a day environment tax for going direct to the Maldives.  Couldn't recommend them enough.  No issues. Very happy
+                </p>
+                <div class="testimonial-author">
+                    ~ Mrs Natalie Thomas
+                    <span class="testimonial-date">, May 11th 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    Used them regularly over the last five years
+                </div>
+                <p>
+                    Used them regularly over the last five years.easy to deal with mixture of e mails and phone calls made booking easy.still feels like a personal service with modern methods. Great value,you get what it says on the tin. Last trip was the Southern India Explorer.good hotels, great itinerary,personal chauffeur etc Our driver helped make the trip great.He looked after us for 10 days always well turned out ,engaging and knowledgeable . I regularly recommend Citrus to our friends.
+                </p>
+                <div class="testimonial-author">
+                    ~ Christopher Rees
+                    <span class="testimonial-date">, May 1st 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    We had an excellent trip to Cuba.
+                </div>
+                <p>
+                    We had an excellent trip to Cuba booked through Flights and Packages. Flights, transfers and hotel bookings and an included excursion all went according to plan. If you want a company to just make all the arrangements for you and to e-mail the vouchers/tickets to you just before travel, and at a reasonable price, then Citrus is a good choice. You do need to check and obtain what visa or other documentation that you might need yourself, but this is easily checked on the UK foreign office travel advice website.
+                </p>
+                <div class="testimonial-author">
+                    ~ Carole Kerrigan
+                    <span class="testimonial-date">, June 16th 2019</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+        <div class="testimonial-wrapper">
+            <div class="testimonial">
+                <div class="testimonial-title">
+                    The best holiday I can remember!  
+                </div>
+                <p>
+                    The best holiday I can remember!  All arrangements were carried out in an efficient manner.  We were met as per schedule with all the guides/agents being courteous, punctual and informative. Also ''Ravi'' on your bookings team was very helpful, and nothing was too much trouble for him to ensure our flights, hotels and schedule were just as required.  You can be assured that we will book further holidays with you, and will happily recommend Citrus to our friends and colleagues.  Thank you! Regards, Adrian and Kim Brant
+                </p>
+                <div class="testimonial-author">
+                    ~ Adrian Brant
+                    <span class="testimonial-date">, Nov 21st 2018</span>
+                </div>
+                <img src="../../assets/img/aboutus/quotation-marks.svg" />
+            </div>
+        </div>
+    </div>
+    <div class="testimonials-navigation">
+        <button type="button" class="prev" id="testimonials-prev"> <img src="../../assets/img/arrow-icon.svg" /></button>
+        <button type="button" class="next" id="testimonials-next"> <img src="../../assets/img/arrow-icon.svg" /></button>
+    </div>
+</section>
+<section class="safety-section">
+    <section>
+        <h4>in safe hands</h4>
+        <h2>Total Peace of Mind</h2>
+        <div class="card-wrap">
+            <div class="card">
+                <img src="../../assets/img/aboutus/atol_logo.png" alt="atol" />
+                <p>
+                    ATOL stands for Air Travel Organiser's Licence and is backed by the UK Government and is the UK’s financial protection scheme when you book a holiday with a UK ATOL holder. Our ATOL number is 11847.
+                </p>
+                @*<p>When you book an ATOL Protected holiday (flight inclusive) from us, you will receive an ATOL Certificate as soon as you have paid the money. The certificate explains your protection, what is included and what to do if things go wrong.</p>*@
+                <p>
+                    For more information about financial protection and the ATOL Certificate please visit the ATOL website <a href="https://www.caa.co.uk/atol-protection/" target="_blank">Visit ATOL website</a>
+                </p>
+
+            </div>
+            <div class="card" Style="display:none;">
+                <img src="../../assets/img/aboutus/asta-logo.svg" alt="asta" />
+                <p>ASTA (American Society of Travel Advisors) is the world's largest association of travel professionals. Our members include travel advisors, and the companies whose products they sell such as tours, cruises, hotels, car rentals, etc. We are the leading advocate for travel advisors, the travel industry and the traveling public.</p>
+                @*<p>ASTA offers many benefits to its members and the traveling public. The majority of ASTA's members are travel agencies. However, travel suppliers, such as airlines, hotels, car rental firms, cruise lines, and tour operators join ASTA. We also have membership categories for students, travel schools, retail travel sellers, and others. ASTA is the organization for anyone related to the travel industry!</p>*@
+
+            </div>
+            <div class="card">
+                <img src="../../assets/img/aboutus/pts-5473.png" alt="iata" />
+			<ul>
+			<li>PTS offers all member companies a trust account and insurance model which ensures all consumer money is fully protected.</li>
+			<li>PTS members are fully package travel regulation compliant.</li>
+			<li>All consumers can check the PTS membership of a company prior to booking. Simply contact PTS directly for peace of mind.</li>
+			<li>If a consumer has any concerns about the allocation of their monies and the holiday supplied by a PTS member they can contact PTS directly.</li>
+			<li>PTS is FCA registered to ensure trust and confidence when booking with any PTS member.</li>
+			</ul>
+            </div>
+        </div>
+    </section>
+</section>
+
+<script src="~/assets/js/aboutus.js"></script>

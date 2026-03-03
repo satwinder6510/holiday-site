@@ -1,0 +1,332 @@
+﻿@model citrus.Models.offerListWithFilter
+@if (Model != null && Model.offerlst.Count() > 0)
+{
+    if (Model.offerlst.First().MetaDetails != null)
+    {
+        @section AdditionalMeta
+        {
+            <title>@Model.offerlst.First().MetaDetails.MetaTitle.Replace("Citrus Holidays", "Cities & Beaches")</title>
+            <meta name="keywords" content="@Model.offerlst.First().MetaDetails.MetaKeyword.Replace("Citrus Holidays", "Cities & Beaches")" />
+            <meta name="description" content="@Model.offerlst.First().MetaDetails.MetaDescription.Replace("Citrus Holidays", "Cities & Beaches")" />
+            @if (!string.IsNullOrEmpty(Model.offerlst.First().MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com")))
+    {
+                <link rel="canonical" href="@Html.Raw(Model.offerlst.First().MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com"))" />
+            }
+        }
+    }
+}
+<link href="~/assets/css/search.css?v1.1.1" rel="stylesheet" />
+<link href="~/assets/css/photoswipe.css" rel="stylesheet" />
+<link href="~/assets/css/default-skin.css" rel="stylesheet" />
+<link href="~/assets/css/jquery-ui.css" rel="stylesheet" />
+
+<section class="hero-section">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Search Results</a>
+    </div>
+    <div class="content">
+        <h1>Search Results</h1>
+    </div>
+</section>
+<section class="search-section">
+    <div class="search-form">
+        <div class="form-box">
+            Flying to <span class="editable">@ViewBag.destination</span> from <span class="editable">@ViewBag.departure,</span> departing <span class="editable month"> @ViewBag.month </span> for <span class="editable"> @ViewBag.passengers adults </span> and <span class="editable"> </span>
+        </div>
+        <a href="#search-form" class="btn" data-lity>Edit Search</a>
+    </div>
+</section>
+@if (Model != null && Model.offerlst.Count() > 0)
+{
+
+    <input type="hidden" id="destID" value="0" />
+    <input type="hidden" id="hOfferType" value="@Model.offerlst.First().flag" />
+    <input type="hidden" value="@Model.offerlst.First().DestID" id="subDestId" />
+
+
+    <section class="holiday-list-section">
+        <div class="sidebar">
+            <div class="filter">
+                <div class="sidebar-header">
+                    <div class="type">Filters</div>
+                    <div class="reset" onclick="window.location.reload()">Reset</div>
+                </div>
+            </div>
+            <div class="filter">
+                <div class="sidebar-header">
+                    <div class="type">Board basis</div>
+                    <span class="icon-pullup"></span>
+                </div>
+                <div class="sidebar-content" style="display: block;">
+                    @foreach (var item in Model.fm.catType)
+                {
+                <div class="checkbox-option">
+                    <input type="checkbox" name="mealplan" id="@item.ToLower().Replace(" ","-")" value="@item" />
+                    <label for="@item.ToLower().Replace(" ","-")">@item</label>
+                </div>
+                }
+                </div>
+            </div>
+            <div class="filter">
+                <div class="sidebar-header">
+                    <div class="type">Price range</div>
+                    <span class="icon-pullup"></span>
+                </div>
+                <div class="sidebar-content" style="display: block;">
+                    <div class="slider-range"></div>
+                    <div class="price-boxes">
+                        <div>£<span>@Model.fm.minPrice</span></div>
+                        <div>£<span>@Model.fm.maxPrice</span></div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.fm.airports.Count() > 0 && ViewBag.departure == "Any Airport")
+        {
+        <div class="filter side-airports">
+            <div class="sidebar-header">
+                <div class="type">Airport</div>
+                <span class="icon-pullup"></span>
+            </div>
+            <div class="sidebar-content" style="display: block;">
+                @foreach (var item in Model.fm.airports)
+                    {
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="airport" value="@item" id="@item.Replace(" ","-").ToLower()" />
+                        <label for="@item.Replace(" ","-").ToLower()">@item</label>
+                    </div>
+                    }
+            </div>
+        </div>
+        }
+        @*<div class="filter">
+                <div class="sidebar-header">
+                    <div class="type">Region</div>
+                    <span class="icon-pullup"></span>
+                </div>
+                <div class="sidebar-content" style="display: block;">
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="region" />
+                        <label for=""></label>Vienna
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="region" id="loweraustria" />
+                        <label for="loweraustria">Lower Austria</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="region" id="upperaustria" />
+                        <label for="upperaustria">Upper Austria</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="region" id="styria" />
+                        <label for="styria">Styria</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="region" id="tyrol" />
+                        <label for="tyrol">Tyrol</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="region" id="carinthia" />
+                        <label for="carinthia">Carinthia</label>
+                    </div>
+                </div>
+            </div>*@
+        <div class="mobile-actions">
+            <button class="btn filter-apply-btn">Apply</button>
+            <span class="reset">Reset</span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="search-sort">
+            <div class="results">@Model.fm.TotalCount results found</div>
+            <div class="order">
+                <div class="price">
+                    Price
+                    <div class="price-order active">Low to high</div>
+                    <div class="price-order">High to low</div>
+                </div>
+                <div class="mobile-filter-wrap">
+                    <div class="filter-btn">
+                        <span class="icon-filter"></span>
+                        Filter
+                    </div>
+                    <div class="sort">
+                        Sort by
+                        <div class="sort-order"><span class="current-option">Newest</span><span class="icon-dropdown"></span></div>
+                        <ul class="sort-order-list">
+                            <li class="sort-option">Newest</li>
+                            <li class="sort-option">Oldest</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="holidays">
+            @{
+                int count = 0;
+                int repeat = Convert.ToInt32(Model.fm.TotalCount / 10) + 1;
+                for (int i = 0; i < repeat; i++)
+                {
+                    foreach (var item in Model.offerlst.Skip(i * 10).Take(10))
+                    {
+                        @*string oimg = cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(340).Quality("auto").Width(291).Crop("fill")).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/offer/slider/" + item.PackageID + "/" + item.ImgName);
+            <div class="holiday count@(count)" @(count == 0 ? "" : "style=display:none;")>
+                <span class="holiday-img" style="background-image: url('@oimg')"></span>
+                <a class="gallery-link" images="@(string.Join("|",item.imgDetail.Select(r=>cloudinary.Api.UrlImgUp.PrivateCdn(true).Secure(true).Transform(new Transformation().Height(470).Quality("auto").Width(923).Crop("fill")).Signed(true).Version(DateTime.Now.Ticks.ToString()).BuildUrl("uk/offer/slider/" + item.PackageID + "/" + r.imageName)).ToArray()))"><span class="icon-camera"></span>Gallery</a>*@
+            string oimg = "https://admin.citrusholidays.co.uk/PackageImages/SliderImage/" + item.PackageID + "/" + item.ImgName + "?" + DateTime.Now.Ticks;
+            oimg = "/cdn-cgi/image/f=auto,fit=contain,h=340/" + oimg;
+            <div class="holiday count@(count)" @(count == 0 ? "" : "style=display:none;")>
+                <span class="holiday-img lazy" data-src="@oimg"></span>
+                <a class="gallery-link" images="@(string.Join("|",item.imgDetail.Skip(3).Select(r=> "/cdn-cgi/image/f=auto,fit=contain,h=470/https://admin.citrusholidays.co.uk/PackageImages/SliderImage/" + item.PackageID + "/" + r.imageName + "?" + DateTime.Now.Ticks).ToArray()))"><span class="icon-camera"></span>Gallery</a>
+                <div class="details">
+                    <div>
+                        <div class="title">@item.PackageName</div>
+                        <ul>
+                            <li><span class="icon-compass"></span>@item.Destination</li>
+                            <li><span class="icon-nights"></span>@item.duration</li>
+                            <li><span class="icon-board-basis"></span>@item.MealPlan</li>
+                        </ul>
+                    </div>
+                    @Html.Raw(item.packageShortDesc)
+                    <div class="horizontal">
+                        <div class="price">
+                            <span>from</span>
+                            <div>£@item.Price<span>/pp</span></div>
+                        </div>
+                        <a class="btn" href="/Holidays/@System.Text.RegularExpressions.Regex.Replace((item.Destination!=null?item.Destination.Trim():"Unknown"), @"\s+", "-")/@System.Text.RegularExpressions.Regex.Replace(item.PackageName.Trim(), @"\s+", "-")">View More<span class="icon-more"></span></a>
+                    </div>
+                </div>
+            </div>
+                    }
+                    count++;
+                }
+            }
+        </div>
+        @if (Model.fm.TotalCount > 10)
+        {
+        <button class="btn more-holidays" count="0" max="@repeat">Load More Results</button>
+        }
+        @Html.Partial("~/Views/home/_callUs.cshtml")
+    </div>
+    <div style="clear:both"></div>
+</section>
+
+}
+else
+{
+    <div>No record found.</div>
+}
+<section class="subscription-section">
+    @Html.Partial("~/Views/home/_newsletter.cshtml")
+</section>
+
+<!-- partial for search form pop up-->
+<div class="search-form lity-hide" id="search-form">
+    <span class="box-title">Search</span>
+    <form>
+        <div class="form-box">
+            <div class="label">Destination</div>
+            @if (ViewBag.srdestination != null)
+            {
+                var countries = (List<citrus.Models.country>)ViewBag.srdestination;
+                <select id="destination">
+                    <option></option>
+                    @foreach (var item in countries)
+                    {
+                        <option>@item.name</option>
+                    }
+                </select>
+            }
+            <span class="icon-list"></span>
+        </div>
+        <div class="form-box">
+            <span class="label">Departing from</span>
+            @if (ViewBag.srdeparture != null)
+            {
+                var airports = (List<string>)ViewBag.srdeparture;
+                <select id="airport">
+                    <option></option>
+                    @foreach (var item in airports)
+                    {
+                        <option>@item</option>
+                    }
+                </select>
+            }
+            <span class="icon-dropdown"></span>
+        </div>
+        <div class="form-box">
+            <span class="label">Departure month</span>
+            @if (ViewBag.srmonth != null)
+            {
+                var months = (List<string>)ViewBag.srmonth;
+                <select id="month">
+                    <option></option>
+                    @foreach (var item in months)
+                    {
+                        <option>@item</option>
+                    }
+                </select>
+            }
+            <span class="icon-dropdown"></span>
+        </div>
+        <div class="form-box">
+            <span class="label">Passengers</span>
+            <select id="passenger">
+                <option></option>
+                <option>2 adults</option>
+                <option>3 adults</option>
+                <option>4 adults</option>
+                <option>5 adults</option>
+                <option>6 adults</option>
+                <option>7 adults</option>
+                <option>8 adults</option>
+            </select>
+            <span class="icon-dropdown"></span>
+        </div>
+        <button class="btn find-btn" type="button">
+            Find holidays
+        </button>
+    </form>
+    <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+</div>
+
+<script src="~/assets/js/jquery-ui.js"></script>
+<script src="~/assets/js/search.js?v1.1.1"></script>
+<script src="~/assets/js/photoswipe.min.js"></script>
+<script src="~/assets/js/photoswipe-ui-default.min.js"></script>
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>

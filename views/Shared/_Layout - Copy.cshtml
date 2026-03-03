@@ -1,0 +1,157 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html lang="en" class=" ">
+<head>
+   <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NKLJM6W');</script>
+<!-- End Google Tag Manager -->
+    <meta charset="utf-8">	
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0">
+    <meta name="google-site-verification" content="mvkD36r6nOGsIpxDF-mQPZGSFsRa9rDVvbXAT7xyO6U" />
+	<meta name="google-site-verification" content="XoSea99w_NJjVeDDD1zY9_PTa3GBg-i4sWTG8EM1Rag" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">    
+    <link rel="icon" type="image/x-icon" href="~/favicon.png">
+    <link rel="icon" href="/images/favicon.png"> 
+    <!-- <meta name="description" content=""> -->
+    @RenderSection("AdditionalMeta", false)
+     @*<link rel="icon" href="~/favicon.ico">
+    <link rel="stylesheet" href="/assets/css/base.css?v1.2.2">
+    <link href="~/assets/css/style.css?v1.1.13" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/assets/js/lity.min.js"></script>
+    <!-- cdnjs -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>*@
+    @Styles.Render("~/bundles/css")
+    <!-- Scripts -->
+    @Scripts.Render("~/bundles/jquery")     
+
+<!-- Global site tag (gtag.js) - Google Ads: 1045146967 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-1045146967"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-1045146967');
+</script>                
+</head>
+<body>
+    <!-- Google Tag Manager -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5NSCJW"
+                height="0" width="0" class="disp-visi-none"></iframe>
+    </noscript>
+    <!--End Google Tag Manager -->
+    @Html.Action("header", "home")
+    @*<div class="loader"></div>*@
+    <a data-provide="lity" id="msgboxbtn" href="#msgbox" data-lity style="display:none">CLick</a>
+    <div class="success-popup lity-hide" id="msgbox">
+        <p class="bold">Thank you for your query</p>
+        <p>We will respond to you shortly</p>
+        <button class="btn" data-lity-close>Close</button>
+    </div>
+
+    <a data-provide="lity" id="nlboxbtn" href="#nlbox" data-lity style="display:none">CLick</a>
+    <div class="success-popup lity-hide" id="nlbox">
+        <p class="bold">Thank you for subscribing to our Newsletter.</p>
+        <button class="btn" data-lity-close>Close</button>
+    </div>
+
+    <div class="success-popup lity-hide" id="callback" style="background-color:#fff; padding: 10px !important; border-radius: 8px; margin: 5px;">
+        <h4 style="color:#000">Please fill in the form below<span style="float:right;cursor: pointer;" data-lity-close>X</span></h4>
+        <div class="contact-form" style="background-color:#f8f8f8; padding:10px 5px 5px; width:100%; font-size:14px; font-family:Verdana, Geneva, sans-serif;">
+            <form>
+                <div class="field-wrap con-form-cal-2">
+                    <label>Name<span> (Required)</span></label>
+                    <input type="text" required id="rcb_name">
+                </div>
+                <div class="field-wrap con-form-cal-2">
+                    <label>Email<span> (Required)</span></label>
+                    <input type="text" required id="rcb_email">
+                </div>
+                <div class="field-wrap con-form-cal-2">
+                    <label>Phone number<span> (Required)</span></label>
+                    <input type="number" required id="rcb_phn">
+                </div>
+                <div class="form-block con-form-cal-1">
+                    <label>Comment <span> (Required)</span></label>
+                    <textarea id="rcb_comment" rows="4" required></textarea>
+                </div>
+                <div class="form-block con-form-cal-2">
+                    <div class="form-reset" style="padding-top: 5px;">
+                        <a href="javascript:void(0)" onclick="$('form').trigger('reset')">Reset all fields</a>
+                    </div>
+                </div>
+                <div class="form-block con-form-cal-2">
+                    <button class="btn submit" type="button" id="btRequestCallBack" style="margin-top: 10px;">Submit</button>
+                </div>
+                <div style="clear:both;"></div>
+            </form>
+        </div>
+    </div>
+
+    @RenderBody()
+    @Html.Action("footer", "home")
+
+
+    @Scripts.Render("~/bundles/common")
+
+  <!--Use the below code snippet to provide real time updates to the live chat plugin without the need of copying and paste each time to your website when changes are made via PBX-->
+<call-us-selector phonesystem-url="https://wisemiser.3cx.co.uk:5001" party="LiveChat351734"></call-us-selector>
+ 
+<!--Incase you don't want real time updates to the live chat plugin when options are changed, use the below code snippet. Please note that each time you change the settings you will need to copy and paste the snippet code to your website--> 
+<!--<call-us 
+phonesystem-url="https://wisemiser.3cx.co.uk:5001" 
+style="position:fixed;font-size:16px;line-height:17px;z-index: 99999;right: 20px; bottom: 20px;" 
+id="wp-live-chat-by-3CX" 
+minimized="true" 
+animation-style="noanimation" 
+party="LiveChat351734" 
+minimized-style="bubbleright" 
+allow-call="true" 
+allow-video="false" 
+allow-soundnotifications="true" 
+enable-mute="true" 
+enable-onmobile="true" 
+offline-enabled="true" 
+enable="true" 
+ignore-queueownership="true" 
+authentication="both" 
+show-operator-actual-name="true" 
+aknowledge-received="true" 
+gdpr-enabled="true" 
+message-userinfo-format="both" 
+message-dateformat="both" 
+lang="browser" 
+button-icon-type="default" 
+greeting-visibility="none" 
+greeting-offline-visibility="none" 
+chat-delay="2000" 
+enable-direct-call="true" 
+enable-ga="false" 
+></call-us>--> 
+<script defer src="https://downloads-global.3cx.com/downloads/livechatandtalk/v1/callus.js" id="tcx-callus-js" charset="utf-8"></script>
+  
+<!--Start of HappyFox Live Chat Script-->
+<script>
+  window.HFCHAT_CONFIG = {
+    EMBED_TOKEN: '0a816e50-355c-11eb-8566-a3b5adc3a69e',
+    ASSETS_URL: 'https://widget.happyfoxchat.com/v2/visitor'
+  };
+  (function () {
+    var scriptTag = document.createElement('script')
+    scriptTag.type = 'text/javascript'
+    scriptTag.async = true
+    scriptTag.src = window.HFCHAT_CONFIG.ASSETS_URL + '/js/widget-loader.js'
+
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(scriptTag, s)
+  })()
+</script>
+<!--End of HappyFox Live Chat Script-->
+
+</body>
+</html>

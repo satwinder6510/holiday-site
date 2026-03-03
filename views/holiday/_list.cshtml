@@ -1,0 +1,48 @@
+﻿@model citrus.Models.offerListWithFilter
+@{
+    if (Model.offerlst.Count() > 0)
+    {
+        int count = 0;
+        int repeat = Convert.ToInt32(Model.fm.TotalCount / 10) + 1;
+        for (int i = 0; i < repeat; i++)
+        {
+            foreach (var item in Model.offerlst.Skip(i * 10).Take(10))
+            {
+                string oimg = "https://admin.citiesandbeaches.com/PackageImages/SliderImage/" + item.PackageID + "/" + item.ImgName + "?" + DateTime.Now.Ticks;
+                oimg = "/cdn-cgi/image/f=auto,fit=contain,h=340/" + oimg;
+                <div class="holiday count@(count)" @(count == 0 ? "" : "style=display:none;")>
+                    <span class="holiday-img lazy" data-src="@oimg"></span>
+                    <a class="gallery-link" images="@(string.Join("|",item.imgDetail.Skip(3).Select(r=>  "/cdn-cgi/image/f=auto,fit=contain,h=470/https://admin.citiesandbeaches.com/PackageImages/SliderImage/" + item.PackageID + "/" + r.imageName + "?" + DateTime.Now.Ticks).ToArray()))"><span class="icon-camera"></span>Gallery</a>
+                    <div class="details">
+                        <div>
+                            <div class="title">@item.PackageName</div>
+                            <ul>
+                                <li><span class="icon-compass"></span>@item.Destination</li>
+                                <li><span class="icon-nights"></span>@item.duration</li>
+                                <li><span class="icon-board-basis"></span>@item.MealPlan</li>
+                            </ul>
+                        </div>
+                        @Html.Raw(item.packageShortDesc)
+                        <div class="horizontal">
+                            <div class="price">
+                                <span>from</span>
+                                <div>£@item.Price<span>/pp</span></div>
+                            </div>
+                            <a class="btn" href="/Holidays/@System.Text.RegularExpressions.Regex.Replace((item.Destination != null ? item.Destination.Trim() : "Unknown"), @"\s+", "-")/@System.Text.RegularExpressions.Regex.Replace(item.PackageName.Trim(), @"\s+", "-")">View More<span class="icon-more"></span></a>
+                        </div>
+                    </div>
+                </div>
+            }
+            count++;
+        }
+    }
+    else
+    {
+        <div>No Record Found!!</div>
+    }
+}
+<script>
+    $(function () {
+        $('.lazy').Lazy();
+    });
+</script>

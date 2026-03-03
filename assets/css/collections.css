@@ -1,0 +1,171 @@
+﻿/* Brand */
+.hero-section {
+  background-image: url(../img/collections/hero-image.jpg);
+  margin-bottom: 0px; }
+
+.collections-section {
+  position: relative;
+  padding-top: 80px;
+  padding-bottom: 60px;
+  max-width: 100%; }
+  @media (max-width: 940px) {
+    .collections-section {
+      padding-top: 40px;
+      padding-bottom: 20px; } }
+  .collections-section h2 {
+    margin-bottom: 80px; }
+    @media (max-width: 940px) {
+      .collections-section h2 {
+        margin-bottom: 0px; } }
+  .collections-section .collections-carousel {
+    padding: 0px 180px; }
+    @media (max-width: 1360px) {
+      .collections-section .collections-carousel {
+        padding: 0px 150px; } }
+    @media (max-width: 1260px) {
+      .collections-section .collections-carousel {
+        padding: 0px 110px; } }
+    @media (max-width: 1100px) {
+      .collections-section .collections-carousel {
+        padding: 0px 60px; } }
+    @media (max-width: 940px) {
+      .collections-section .collections-carousel {
+        padding: 0px;
+        max-width: 730px;
+        margin: 0px auto 0px; }
+        .collections-section .collections-carousel .slick-list {
+          overflow: visible; } }
+    @media (max-width: 760px) {
+      .collections-section .collections-carousel {
+        max-width: 580px; } }
+    @media (max-width: 610px) {
+      .collections-section .collections-carousel {
+        max-width: 500px; } }
+    @media (max-width: 530px) {
+      .collections-section .collections-carousel {
+        max-width: 420px; } }
+    @media (max-width: 450px) {
+      .collections-section .collections-carousel {
+        max-width: 365px; } }
+    @media (max-width: 394px) {
+      .collections-section .collections-carousel {
+        max-width: 335px; } }
+    @media (max-width: 350px) {
+      .collections-section .collections-carousel {
+        max-width: 290px; } }
+    .collections-section .collections-carousel .item {
+      height: 424px;
+      width: 291px;
+      background-size: cover;
+      background-position: center;
+      margin: 0px 12.5px;
+      vertical-align: middle;
+      margin-top: 30px; }
+      @media (max-width: 940px) {
+        .collections-section .collections-carousel .item {
+          margin-top: 0px;
+          height: 370px;
+          width: 256px; } }
+      @media (max-width: 760px) {
+        .collections-section .collections-carousel .item {
+          height: 315px;
+          width: 221px; } }
+      @media (max-width: 450px) {
+        .collections-section .collections-carousel .item {
+          height: 260px;
+          width: 186px; } }
+      @media (min-width: 941px) {
+        .collections-section .collections-carousel .item.slick-current {
+          height: 484px;
+          margin-top: 0px; } }
+    .collections-section .collections-carousel .content {
+      bottom: 30px;
+      left: 30px;
+      position: absolute;
+      color: #fff;
+      width: 230px;
+      z-index: 1; }
+      @media (max-width: 940px) {
+        .collections-section .collections-carousel .content {
+          width: 220px;
+          left: 20px;
+          bottom: 25px; } }
+      @media (max-width: 760px) {
+        .collections-section .collections-carousel .content {
+          width: 190px;
+          left: 15px; } }
+      @media (max-width: 450px) {
+        .collections-section .collections-carousel .content {
+          width: 170px;
+          left: 10px;
+          bottom: 20px; } }
+      .collections-section .collections-carousel .content .location {
+        font-family: "CaslonGraphiqueEF";
+        font-size: 30px;
+        line-height: 30px;
+        text-align: left; }
+        @media (max-width: 1260px) {
+          .collections-section .collections-carousel .content .location {
+            font-size: 26px;
+            letter-spacing: -0.2px; } }
+        @media (max-width: 760px) {
+          .collections-section .collections-carousel .content .location {
+            font-size: 24px;
+            letter-spacing: -0.4px; } }
+        @media (max-width: 450px) {
+          .collections-section .collections-carousel .content .location {
+            font-size: 20px;
+            letter-spacing: -0.6px;
+            line-height: 24px; } }
+      .collections-section .collections-carousel .content:before {
+        content: "";
+        position: absolute;
+        left: -30px;
+        bottom: -30px;
+        width: 291px;
+        height: 156px;
+        display: block;
+        background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.6));
+        z-index: -1; }
+        @media (max-width: 940px) {
+          .collections-section .collections-carousel .content:before {
+            width: 256px;
+            left: -20px;
+            bottom: -25px; } }
+        @media (max-width: 760px) {
+          .collections-section .collections-carousel .content:before {
+            width: 221px;
+            left: -15px; } }
+        @media (max-width: 450px) {
+          .collections-section .collections-carousel .content:before {
+            width: 186px;
+            left: -10px;
+            bottom: -20px; } }
+  .collections-section .collections-navigation {
+    width: 100%;
+    height: 66px;
+    top: 441px;
+    left: 145px; }
+    @media (max-width: 1360px) {
+      .collections-section .collections-navigation {
+        left: 100px; } }
+    @media (max-width: 1260px) {
+      .collections-section .collections-navigation {
+        left: 50px; } }
+    @media (max-width: 1100px) {
+      .collections-section .collections-navigation {
+        left: 25px; } }
+    @media (max-width: 940px) {
+      .collections-section .collections-navigation {
+        display: none; } }
+    .collections-section .collections-navigation .next {
+      right: 290px; }
+      @media (max-width: 1360px) {
+        .collections-section .collections-navigation .next {
+          right: 200px; } }
+      @media (max-width: 1260px) {
+        .collections-section .collections-navigation .next {
+          right: 100px; } }
+      @media (max-width: 1100px) {
+        .collections-section .collections-navigation .next {
+          right: 50px; } }

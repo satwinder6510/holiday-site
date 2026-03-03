@@ -1,0 +1,181 @@
+﻿header .nav ul li.menu .popup-window .row a.view-all {
+    text-transform: uppercase;
+    color: #20A1AA;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-family: "BentonSansBold";
+}
+
+header .mobile-nav .mobile-destinations .mobile-sub-destinations {
+    margin: 0px 15px;
+}
+
+    header .mobile-nav .mobile-destinations .mobile-sub-destinations li {
+        width: 100%;
+        height: 67px;
+        text-align: left;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -ms-border-radius: 4px;
+        border-radius: 4px;
+        display: flex;
+        display: -webkit-flex;
+        -webkit-align-items: center;
+        align-items: center;
+        box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        padding-left: 20px;
+    }
+
+        header .mobile-nav .mobile-destinations .mobile-sub-destinations li:before {
+            content: "";
+        }
+
+        header .mobile-nav .mobile-destinations .mobile-sub-destinations li a {
+            width: 100%;
+            font-size: 16px;
+            line-height: 30px;
+            font-family: "BentonSansBold";
+            color: #ffffff;
+        }
+
+.blog-section .footer-background {
+    background-image: url('/cdn-cgi/image/f=auto,fit=contain/assets/img/mink-mingle-unsplash.jpeg') !important;
+}
+
+.loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('/assets/img/loader.gif') 50% 50% no-repeat rgb(249,249,249);
+    opacity: .8;
+    display: none;
+}
+
+.search-section .search-form .form-box .input select {
+    height: 24px;
+}
+
+.calendar-modal .search-form .form-box .input select {
+    margin-left: -15px;
+    height: 24px;
+}
+
+.ui-dialog {
+    background-color: white;
+}
+
+/* add tis css to in commone css file */
+.para2 .read-more .icon-dropdown {
+    content: url("../../assets/img/dropdown-icon.svg");
+    padding-left: 15px;
+}
+
+.para2 .read-more {
+    font-size: 15px;
+    color: #000;
+}
+
+footer {
+    padding-top: 80px !important;
+}
+
+@media screen and (max-width: 650px) {
+    .itinerary-content .content .call-expert {
+        display: none !important;
+    }
+
+    .zopim {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .itinerary-hero .content h1 {
+        font-size: 24px;
+    }
+
+    .itinerary-content .content .call-expert {
+        display: none !important;
+    }
+
+    .featured-tour-section .featured-navigation {
+        top: 0px !important;
+        right: 0;
+        /* bottom: 0; */
+    }
+
+    .extras-section h3 {
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .hero .hero-nav #hero-next {
+        right: 10px;
+    }
+}
+
+.success-popup {
+    padding: 50px;
+    background-color: #fff;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    border-radius: 4px;
+}
+
+    .success-popup .bold {
+        margin-bottom: 0px;
+        font-family: "BentonSansBold";
+    }
+
+    .success-popup p {
+        color: #424242;
+    }
+
+.call-now-m {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    color: #fff;
+    background-color: rgba(0,0,0,.82);
+    padding: 20px;
+    display: block;
+    z-index: 99;
+    display: none;
+}
+
+.call-now-m a {
+color: #fff;
+text-align: center;
+font-size: 19px;
+display: block;
+text-transform: capitalize;
+background-color: #20A1AA;
+border-radius: 15px;
+text-decoration: none;
+padding: 5px;
+font-weight: 600;
+}
+
+.call-now-m a span {
+color: #ddd;
+padding-right: 2px;
+}
+header .nav ul li.menu .collections {
+    width: 1061px !important;
+}
+@media only screen and (max-width : 321px) {
+.hero .hero-nav #hero-next {
+    right: 10px !important;
+}
+}
+
+.blog-navigation {top: 40px; right: 0px;}
+
+.blog-navigation .slick-arrow {position: relative;}

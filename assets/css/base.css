@@ -147,52 +147,68 @@ body {
 
 /* Typography */
 @font-face {
-  font-family: 'BentonSans';
-  src: url("../fonts/BentonSans-Regular.woff2") format("woff2"), url("../fonts/BentonSans-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal; }
+    font-family: 'BentonSans';
+    src: url("/assets/fonts/BentonSans-Regular.woff2") format("woff2"), url("/assets/fonts/BentonSans-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 @font-face {
-  font-family: 'BentonSansLight';
-  src: url("../fonts/BentonSans-Light.woff2") format("woff2"), url("../fonts/BentonSans-Light.woff") format("woff");
-  font-weight: normal;
-  font-style: normal; }
+    font-family: 'BentonSansLight';
+    src: url("/assets/fonts/BentonSans-Light.woff2") format("woff2"), url("/assets/fonts/BentonSans-Light.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 @font-face {
-  font-family: 'BentonSansBlack';
-  src: url("../fonts/BentonSans-Black.woff2") format("woff2"), url("../fonts/BentonSans-Black.woff") format("woff");
-  font-weight: normal;
-  font-style: normal; }
+    font-family: 'BentonSansBlack';
+    src: url("/assets/fonts/BentonSans-Black.woff2") format("woff2"), url("/assets/fonts/BentonSans-Black.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 @font-face {
-  font-family: 'BentonSansMedium';
-  src: url("../fonts/BentonSans-Medium.woff2") format("woff2"), url("../fonts/BentonSans-Medium.woff") format("woff");
-  font-weight: normal;
-  font-style: normal; }
+    font-family: 'BentonSansMedium';
+    src: url("/assets/fonts/BentonSans-Medium.woff2") format("woff2"), url("/assets/fonts/BentonSans-Medium.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 @font-face {
-  font-family: 'BentonSansBold';
-  src: url("../fonts/BentonSans-Bold.woff2") format("woff2"), url("../fonts/BentonSans-Bold.woff") format("woff");
-  font-weight: normal;
-  font-style: normal; }
+    font-family: 'BentonSansBold';
+    src: url("/assets/fonts/BentonSans-Bold.woff2") format("woff2"), url("/assets/fonts/BentonSans-Bold.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 @font-face {
-  font-family: 'BentonSansExtraLight';
-  src: url("../fonts/BentonSans-ExtraLight.woff2") format("woff2"), url("../fonts/BentonSans-ExtraLight.woff") format("woff");
-  font-weight: normal;
-  font-style: normal; }
+    font-family: 'BentonSansExtraLight';
+    src: url("/assets/fonts/BentonSans-ExtraLight.woff2") format("woff2"), url("/assets/fonts/BentonSans-ExtraLight.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 @font-face {
-  font-family: 'BentonSansItalic';
-  src: url("../fonts/BentonSans-Italic.woff2") format("woff2"), url("../fonts/BentonSans-Italic.woff") format("woff");
-  font-weight: normal;
-  font-style: normal; }
+    font-family: 'BentonSansItalic';
+    src: url("/assets/fonts/BentonSans-Italic.woff2") format("woff2"), url("/assets/fonts/BentonSans-Italic.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 @font-face {
-  font-family: 'CaslonGraphiqueEF';
-  src: url("../fonts/CaslonGraphiqueEF.woff2") format("woff2"), url("../fonts/BentonSans-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal; }
+    font-family: 'CaslonGraphiqueEF';
+    src: url("/assets/fonts/CaslonGraphiqueEF.woff2") format("woff2"), url("/assets/fonts/BentonSans-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 label, p, h1, h2, h3, h4, h5, h6 {
   line-height: 1em;
@@ -487,10 +503,10 @@ header {
   z-index: 4;
   box-shadow: 0px 6px 12px 2px rgba(0, 0, 0, 0.1);
   height: 101px;
-  background-color: #fff; }
+  background-color: #073140; }
   @media (max-width: 768px) {
     header {
-      height: 50px; } }
+      height: 51px; } }
   header .nav {
     display: flex;
     display: -webkit-flex;
@@ -498,22 +514,23 @@ header {
     align-items: center;
     justify-content: space-between;
     -webkit-justify-content: space-between;
-    margin: 25px 0; }
+    margin: 21px 0; }
     @media (max-width: 768px) {
       header .nav {
         display: none; } }
-    header .nav .logo {
-      background-image: url("../img/citiesandbeaches-logo.png");
-      background-repeat: no-repeat;
-      height: 41px;
-      flex: 0 0 294px;
-      -webkit-flex: 0 0 294px;
-      display: flex;
-      display: -webkit-flex;
-      -webkit-align-items: center;
-      align-items: center;
-      margin-left: 50px;
-      margin-right: 20px; }
+header .nav .logo {
+    background-image: url("/assets/img/flights-and-packages-logo.png");
+    background-repeat: no-repeat;
+    height: 60px;
+    flex: 0 0 294px;
+    -webkit-flex: 0 0 294px;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-align-items: center;
+    align-items: center;
+    margin-left: 50px;
+    margin-right: 20px;
+}
       @media (max-width: 1260px) {
         header .nav .logo {
           flex: 0 0 165px;
@@ -545,7 +562,7 @@ header {
           header .nav ul li {
             padding: 0 5px; } }
         header .nav ul li .menu-link {
-          color: #282828;
+          color: #fff;
           font-size: 18px;
           line-height: 24px;
           font-family: "BentonSans";
@@ -562,20 +579,10 @@ header {
               display: none; } }
           header .nav ul li .menu-link .icon-arrow-down {
             vertical-align: middle;
-            content: url("../img/header-dropdown-icon.svg"); }
+            content: url("/assets/img/header-dropdown-icon.svg"); }
             @media (Max-width: 768px) {
               header .nav ul li .menu-link .icon-arrow-down {
                 display: none; } }
-        header .nav ul li.menu.open:after {
-          position: absolute;
-          bottom: -46px;
-          right: 0;
-          content: "";
-          border-left: 10px solid transparent;
-          border-right: 10px solid transparent;
-          border-bottom: 10px solid #fff; }
-        header .nav ul li.menu.open .menu-popup {
-          display: block; }
         header .nav ul li.menu .menu-popup {
           display: none;
           position: absolute;
@@ -591,13 +598,17 @@ header {
           height: 497px; }
           @media (max-width: 1600px) {
             header .nav ul li.menu .destinations {
-              width: 1260px; } }
+              width: 1000px; } 
+			header .nav ul li.menu .collections {
+				  width: 950px !important;
+				  }
+			  }
           @media (max-width: 1360px) {
             header .nav ul li.menu .destinations {
-              width: 1100px; } }
+              width: 1000px; } }
           @media (max-width: 1260px) {
             header .nav ul li.menu .destinations {
-              width: 1040px;
+              width: 1000px;
               left: -250px; } }
           @media (max-width: 1100px) {
             header .nav ul li.menu .destinations {
@@ -610,7 +621,7 @@ header {
         header .nav ul li.menu .collections {
           left: -275px;
           width: 762px;
-          height: 283px; }
+          height: 370px; }
           @media (max-width: 1100px) {
             header .nav ul li.menu .collections {
               width: 662px; } }
@@ -647,7 +658,7 @@ header {
               header .nav ul li.menu .popup-window .row .column li {
                 font-family: "BentonSans";
                 letter-spacing: 0.5px;
-                line-height: 30px;
+                line-height: 24px;
                 width: 100%; }
                 header .nav ul li.menu .popup-window .row .column li a {
                   color: #878787; }
@@ -656,8 +667,15 @@ header {
                     color: #20A1AA;
                     font-size: 20px;
                     letter-spacing: 1px;
-                    line-height: 27px;
+                    line-height: 24px;
                     padding-top: 60px; }
+                  header .nav ul li.menu .popup-window .row .column li a.title1 {
+                    font-family: "BentonSansMedium";
+                    color: #20A1AA;
+                    font-size: 20px;
+                    letter-spacing: 1px;
+                    line-height: 24px;
+                    padding-top: 18px; }
             header .nav ul li.menu .popup-window .row .title {
               font-family: "BentonSansMedium";
               color: #20A1AA;
@@ -666,14 +684,27 @@ header {
               line-height: 27px; }
             header .nav ul li.menu .popup-window .row .double {
               flex: 2; }
+            header .nav ul li.menu .popup-window .row .triple {
+              flex: 3; }
           header .nav ul li.menu .popup-window .icon-close {
             position: absolute;
             right: 20px;
-            content: url("../img/close-icon.svg"); }
+            content: url("/assets/img/close-icon.svg"); }
+        header .nav ul li.menu:hover:after {
+          position: absolute;
+          bottom: -46px;
+          right: 0;
+          content: "";
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
+          border-bottom: 10px solid #fff; }
+        header .nav ul li.menu:hover .menu-popup {
+          display: block; }
     header .nav .contacts {
       text-align: center;
       margin-left: 20px;
-      margin-right: 100px; }
+      margin-right: 100px;
+	  color:#fff; }
       @media (max-width: 1260px) {
         header .nav .contacts {
           margin-right: 80px; } }
@@ -696,7 +727,7 @@ header {
             font-size: 10px; } }
         header .nav .contacts span.phone {
           font-family: "BentonSansBlack";
-          font-size: 24px;
+          font-size: 29px;
           line-height: 27px;
           text-align: right;
           letter-spacing: 2px;
@@ -716,15 +747,18 @@ header {
     align-items: center;
     justify-content: space-between;
     -webkit-justify-content: space-between;
-    margin: 12.5px 20px; }
+    margin: 8.5px 20px; }
     @media (min-width: 769px) {
       header .mobile-nav {
         display: none; } }
+		
+	
+		
     header .mobile-nav .logo {
-      background-image: url("../img/citrus-holidays-logo.svg");
+      background-image: url("/assets/img/flights-and-packages-logo.png");
       background-repeat: no-repeat;
       background-size: 165px auto;
-      height: 25px;
+      height: 34px;
       flex: 0 0 165px;
       -webkit-flex: 0 0 165px;
       display: flex;
@@ -735,12 +769,12 @@ header {
       -webkit-justify-content: center;
       margin-left: 20px;
       margin-right: 10px;
-      color: #000000;
+      color: #fff;
       font-family: "CaslonGraphiqueEF";
       font-size: 20px; }
     header .mobile-nav .mobile-menu-btn {
       content: "";
-      background-image: url(../img/mobile-menu-icon.svg);
+      background-image: url(/assets/img/mobile-menu-icon.svg);
       background-repeat: no-repeat;
       background-size: cover;
       width: 20px;
@@ -749,7 +783,7 @@ header {
       display: inline-block; }
     header .mobile-nav .mobile-contacts-btn {
       content: "";
-      background-image: url(../img/mobile-phone-icon.svg);
+      background-image: url(/assets/img/mobile-phone-icon.svg);
       background-repeat: no-repeat;
       background-size: cover;
       margin-right: 25px;
@@ -758,7 +792,7 @@ header {
       display: inline-block; }
     header .mobile-nav .mobile-close-btn {
       content: "";
-      background-image: url(../img/close-icon-circle.svg);
+      background-image: url(/assets/img/close-icon-circle.svg);
       background-repeat: no-repeat;
       background-size: cover;
       width: 20px;
@@ -767,7 +801,7 @@ header {
       display: none; }
     header .mobile-nav .mobile-back-btn {
       content: "";
-      background-image: url(../img/mobile-back-icon.svg);
+      background-image: url(/assets/img/mobile-back-icon.svg);
       background-repeat: no-repeat;
       background-size: cover;
       width: 40px;
@@ -789,7 +823,7 @@ header {
       width: 100%;
       max-width: 100%;
       bottom: 0;
-      padding-top: 20%;
+      padding-top: 9%;
       list-style-type: none;
       transition: 0.4s transform;
       transform: translateX(-100%);
@@ -813,7 +847,8 @@ header {
         header .mobile-nav .mobile-menu.open .close {
           display: flex;
           display: -webkit-flex; }
-    header .mobile-nav .mobile-destinations {
+        /*flight css*/
+          header .mobile-nav .mobile-flights {
       position: fixed;
       height: calc(100vh - 50px);
       opacity: 0;
@@ -832,24 +867,62 @@ header {
       -webkit-flex-direction: column;
       list-style-type: none; }
       @media (min-width: 769px) {
-        header .mobile-nav .mobile-destinations {
+        header .mobile-nav .mobile-flights {
           display: none; } }
-      header .mobile-nav .mobile-destinations ul {
+      header .mobile-nav .mobile-flights ul {
         display: none;
         list-style-type: none;
         overflow: auto;
         max-height: 98%; }
-        header .mobile-nav .mobile-destinations ul li {
+        header .mobile-nav .mobile-flights ul li {
           padding: 13px 0px;
           text-align: center;
           color: #000000;
           font-size: 20px;
           font-family: "CaslonGraphiqueEF";
           line-height: 25px; }
-        header .mobile-nav .mobile-destinations ul.open {
+        header .mobile-nav .mobile-flights ul.open {
           display: block; }
-      header .mobile-nav .mobile-destinations .mobile-destinations-list {
-        padding-top: 20%; }
+      header .mobile-nav .mobile-flights .mobile-flights-list {
+        padding-top: 10%; }
+      /*flight css end*/
+    header .mobile-nav .mobile-destinations,header .mobile-nav .mobile-flights {
+      position: fixed;
+      height: calc(100vh - 50px);
+      opacity: 0;
+      width: 100%;
+      max-width: 100%;
+      left: 0;
+      bottom: 0;
+      z-index: 10;
+      transition: 0.4s transform;
+      transform: translateX(-100%);
+      -webkit-align-items: center;
+      align-items: center;
+      justify-content: center;
+      -webkit-justify-content: center;
+      flex-direction: column;
+      -webkit-flex-direction: column;
+      list-style-type: none; }
+      @media (min-width: 769px) {
+        header .mobile-nav .mobile-destinations,header .mobile-nav .mobile-flights {
+          display: none; } }
+      header .mobile-nav .mobile-destinations ul,header .mobile-nav .mobile-flights ul {
+        display: none;
+        list-style-type: none;
+        overflow: auto;
+        max-height: 98%; }
+        header .mobile-nav .mobile-destinations ul li,header .mobile-nav .mobile-flights ul li {
+          padding: 13px 0px;
+          text-align: center;
+          color: #fff;
+          font-size: 20px;
+          font-family: "CaslonGraphiqueEF";
+          line-height: 25px; }
+        header .mobile-nav .mobile-destinations ul.open,header .mobile-nav .mobile-flights ul.open {
+          display: block; }
+      header .mobile-nav .mobile-destinations .mobile-destinations-list,header .mobile-nav .mobile-flights .mobile-flights-list {
+        padding-top: 10%; }
       header .mobile-nav .mobile-destinations .europe-destinations,
       header .mobile-nav .mobile-destinations .americas-destinations,
       header .mobile-nav .mobile-destinations .africa-destinations,
@@ -895,10 +968,10 @@ header {
             line-height: 30px;
             font-family: "BentonSansBold";
             color: #ffffff; }
-      header .mobile-nav .mobile-destinations.open {
+      header .mobile-nav .mobile-destinations.open,header .mobile-nav .mobile-flights.open {
         transform: translateX(0%);
         opacity: 1;
-        background-color: #ffffff; }
+        background-color: #000; }
       header .mobile-nav .mobile-destinations .view-all {
         margin: 20px 0px;
         display: none;
@@ -943,7 +1016,7 @@ header {
       header .mobile-nav .mobile-collections.open {
         transform: translateX(0%);
         opacity: 1;
-        background-color: #ffffff; }
+        background-color: #000; }
       header .mobile-nav .mobile-collections .mobile-collections-list {
         margin: 0px 15px;
         overflow: auto;
@@ -984,7 +1057,9 @@ header {
 .hero-section {
   margin-top: 100px;
   height: 500px;
-  background-image: url(../img/hero-image.jpg);
+  background-image: url(/assets/img/hero-image.jpg);
+  background-position: 100%!important;
+  background-size: cover;
   position: relative;
   color: #ffffff;
   display: flex;
@@ -997,7 +1072,8 @@ header {
   @media (max-width: 768px) {
     .hero-section {
       margin-top: 50px;
-      height: 400px; } }
+      height: 400px;
+	background-position: center!important;	  } }
   @media (max-width: 450px) {
     .hero-section {
       height: 300px; } }
@@ -1032,7 +1108,7 @@ header {
       color: #ffffff; }
     .hero-section .breadcrumbs .icon-breadcrumb {
       padding: 0px 5px;
-      content: url(../img/breadcrumb-arrow-icon.svg); }
+      content: url(/assets/img/breadcrumb-arrow-icon.svg); }
   .hero-section .content {
     text-align: center; }
     .hero-section .content div {
@@ -1044,7 +1120,8 @@ header {
       padding-bottom: 10px; }
     .hero-section .content h1 {
       color: #ffffff;
-      padding-bottom: 25px; }
+      padding-bottom: 25px;
+	  text-shadow: 2px 2px 5px #000;}
   .hero-section .search-btn {
     display: none; }
     @media (max-width: 768px) {
@@ -1065,7 +1142,7 @@ header {
         -webkit-flex-direction: column; }
         .hero-section .search-btn .icon-search {
           content: "";
-          background-image: url("../img/search-icon.svg");
+          background-image: url("/assets/img/search-icon.svg");
           background-size: cover;
           background-position: center;
           width: 18px;
@@ -1130,7 +1207,10 @@ header {
           height: 300px; } }
     .featured-tour-section .featured-carousel .image {
       height: 580px;
-      width: 1030px; }
+      width: 1030px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center; }
       @media (max-width: 940px) {
         .featured-tour-section .featured-carousel .image {
           height: 480px; } }
@@ -1139,7 +1219,8 @@ header {
           height: 380px; } }
       @media (max-width: 450px) {
         .featured-tour-section .featured-carousel .image {
-          height: 300px; } }
+          height: 300px;
+		  width: 450px; } }
   .featured-tour-section .content {
     color: #fff; }
     @media (max-width: 940px) {
@@ -1147,25 +1228,42 @@ header {
         position: static; }
         .featured-tour-section .content h4 {
           max-width: 730px;
-          margin: 0px auto 10px; } }
+          margin: 0px auto 10px; }
+		  .featured-tour-section .content h2 {
+			  max-width: 730px;
+			  margin: 0px auto 10px; }
+		  }
     @media (max-width: 940px) and (max-width: 760px) {
       .featured-tour-section .content h4 {
-        max-width: 580px; } }
+        max-width: 580px; } 
+		.featured-tour-section .content h2 {
+			  max-width: 580px; }
+		}
     @media (max-width: 940px) and (max-width: 610px) {
       .featured-tour-section .content h4 {
-        max-width: 500px; } }
+        max-width: 500px; } 
+		.featured-tour-section .content h2 {
+			  max-width: 500px; }}
     @media (max-width: 940px) and (max-width: 530px) {
       .featured-tour-section .content h4 {
         max-width: 420px; } }
     @media (max-width: 940px) and (max-width: 450px) {
       .featured-tour-section .content h4 {
-        max-width: 365px; } }
+        max-width: 365px; }		
+		.featured-tour-section .content h2 {
+			  max-width: 365px;
+			  font-size: 26px;} }
     @media (max-width: 940px) and (max-width: 394px) {
       .featured-tour-section .content h4 {
-        max-width: 335px; } }
+        max-width: 335px; }		
+		.featured-tour-section .content h2 {
+			  max-width: 335px; } }
     @media (max-width: 940px) and (max-width: 350px) {
       .featured-tour-section .content h4 {
-        max-width: 290px; } }
+        max-width: 290px; } 		
+		.featured-tour-section .content h2 {
+			  max-width: 290px; }
+		}
     .featured-tour-section .content h1 {
       font-size: 60px;
       width: 800px;
@@ -1304,7 +1402,7 @@ header {
           letter-spacing: 1px; } }
       .featured-tour-section .content .btn-wrap .btn .icon-more {
         padding-left: 18px;
-        content: url("../img/more-icon-white.svg");
+        content: url("/assets/img/more-icon-white.svg");
         margin-bottom: -1px; }
         @media (max-width: 768px) {
           .featured-tour-section .content .btn-wrap .btn .icon-more {
@@ -1314,14 +1412,14 @@ header {
     position: absolute;
     width: 132px;
     height: 66px;
-    bottom: -22px;
+    top: 398px;
     right: -2px; }
     @media (max-width: 940px) {
       .featured-tour-section .featured-navigation {
         width: 100%;
         height: 1px;
         position: relative;
-        bottom: 0px;
+        top: 0px;
         right: 0px; } }
     .featured-tour-section .featured-navigation #featured-prev {
       width: 66px;
@@ -1412,7 +1510,7 @@ header {
         align-items: center; }
         .blog-section .blogs .blog .blog-date .icon-calendar {
           padding-right: 10px;
-          content: url("../img/calendar-icon-white.svg"); }
+          content: url("/assets/img/calendar-icon-white.svg"); }
       .blog-section .blogs .blog p {
         margin-top: 15px;
         margin-bottom: 15px;
@@ -1424,10 +1522,10 @@ header {
         z-index: 3; }
         .blog-section .blogs .blog a .icon-more {
           padding-left: 18px;
-          content: url("../img/more-icon.svg"); }
+          content: url("/assets/img/more-icon.svg"); }
   .blog-section .footer-background {
     position: absolute;
-    background-image: url("../img/mink-mingle-unsplash.jpeg");
+    background-image: url("/assets/img/mink-mingle-unsplash.jpeg");
     width: 100%;
     height: 440px;
     bottom: -60px;
@@ -1564,11 +1662,11 @@ header {
     .white-bg .blogs .blog p {
       color: #000000; }
     .white-bg .blogs .blog .blog-date .icon-calendar {
-      content: url("../img/calendar-icon-black.svg"); }
+      content: url("/assets/img/calendar-icon-black.svg"); }
   .white-bg .footer-background {
     margin: 0px;
     position: absolute;
-    background-image: url("../img/mink-mingle-unsplash.jpeg");
+    background-image: url("/assets/img/mink-mingle-unsplash.jpeg");
     width: 100%;
     height: 230px;
     bottom: -60px;
@@ -1660,7 +1758,7 @@ header {
       height: 20px;
       flex: 0 0 20px;
       -webkit-flex: 0 0 20px;
-      content: url(../img/close-icon-circle.svg); }
+      content: url(/assets/img/close-icon-circle.svg); }
   .lity-content .search-form .form-box {
     width: 100%;
     height: 96px;
@@ -1679,11 +1777,11 @@ header {
       font-size: 14px;
       color: #282828; }
     .lity-content .search-form .form-box #destination {
-      background-image: url("../img/list-icon.svg");
+      background-image: url("/assets/img/list-icon.svg");
       background-position: right top;
       background-size: 90px 30px; }
     .lity-content .search-form .form-box #airport, .lity-content .search-form .form-box #month, .lity-content .search-form .form-box #passenger {
-      background-image: url("../img/form-dropdown-icon.svg");
+      background-image: url("/assets/img/form-dropdown-icon.svg");
       background-position: right 6px;
       background-size: 90px 12px; }
   .lity-content .search-form .find-btn {
@@ -1698,7 +1796,7 @@ header {
     text-transform: uppercase; }
     .lity-content .search-form .find-btn:before {
       margin-right: 15px;
-      content: url("../img/search-icon.svg"); }
+      content: url("/assets/img/search-icon.svg"); }
 
 footer {
   position: relative;
@@ -1706,7 +1804,7 @@ footer {
   display: -webkit-flex;
   flex-direction: column;
   -webkit-flex-direction: column;
-  background-color: #000000;
+  background-color: #073140;
   color: #ffffff;
   padding-top: 80px; }
   @media (max-width: 760px) {
@@ -1735,23 +1833,29 @@ footer {
           width: 365px;
           border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
         footer .navigation .rhs {
-          width: 365px; } }
+          width: 365px; }
+        footer .navigation .lhs ul, footer .navigation .mid ul, footer .navigation .rhs ul {
+          display: none; }
+        footer .navigation .lhs.open .header span, footer .navigation .mid.open .header span, footer .navigation .rhs.open .header span {
+          transform: rotate(180deg); }
+        footer .navigation .lhs.open ul, footer .navigation .mid.open ul, footer .navigation .rhs.open ul {
+          display: flex;
+          display: -webkit-flex; } }
     @media (max-width: 394px) {
       footer .navigation .lhs, footer .navigation .mid, footer .navigation .rhs {
         width: 335px; } }
     @media (max-width: 350px) {
       footer .navigation .lhs, footer .navigation .mid, footer .navigation .rhs {
         width: 290px; } }
-    footer .navigation .header {
+    footer .navigation .header h3 {
       text-align: left;
       font-family: "CaslonGraphiqueEF";
-      font-size: 24px; }
-      footer .navigation .header a {
-        color: #ffffff; }
-      @media (max-width: 760px) {
-        footer .navigation .header {
-          padding-top: 10px;
-          padding-bottom: 10px; } }
+      font-size: 24px;
+      color: #ffffff; }
+    @media (max-width: 760px) {
+      footer .navigation .header {
+        padding-top: 10px;
+        padding-bottom: 10px; } }
     footer .navigation ul {
       display: flex;
       display: -webkit-flex;
@@ -1860,7 +1964,7 @@ footer {
           display: none; }
         footer .navigation .footer-mobile-accordion .icon-dropdown {
           content: "";
-          background-image: url(../img/dropdown-icon-blue.svg);
+          background-image: url(/assets/img/dropdown-icon-blue.svg);
           background-repeat: no-repeat;
           background-size: cover;
           width: 11px;
@@ -1926,7 +2030,7 @@ footer {
         color: #ffffff; }
         footer .contacts .contact-wrap .phone .icon-phone {
           padding-right: 15px;
-          content: url("../img/phone-icon.svg"); }
+          content: url("/assets/img/phone-icon.svg"); }
       footer .contacts .contact-wrap .email {
         display: flex;
         display: -webkit-flex;
@@ -1937,24 +2041,26 @@ footer {
         color: #ffffff; }
         footer .contacts .contact-wrap .email .icon-email {
           padding-right: 15px;
-          content: url("../img/email-icon.svg"); }
+          content: url("/assets/img/email-icon.svg"); }
       footer .contacts .contact-wrap .social-media {
         padding-top: 20px; }
         footer .contacts .contact-wrap .social-media .icon-facebook {
-          content: url("../img/facebook-icon.svg");
+          content: url("/assets/img/facebook-icon.svg");
           padding-right: 5px; }
         footer .contacts .contact-wrap .social-media .icon-twitter {
-          content: url("../img/twitter-icon.svg");
+          content: url("/assets/img/twitter-icon.svg");
           padding-right: 5px; }
         footer .contacts .contact-wrap .social-media .icon-pinterest {
-          content: url("../img/pinterest-icon.svg"); }
+          content: url("/assets/img/pinterest-icon.svg"); }
     @media (max-width: 940px) {
       footer .contacts .legal {
         padding-top: 20px; } }
     footer .contacts .legal .icon-atol {
-      content: url("../img/atol-logo.svg"); }
+      content: url("/assets/img/atol_logo_white.png"); }
     footer .contacts .legal .icon-iata {
-      content: url("../img/iata-logo.svg"); }
+      content: url("/assets/img/iata-logo.svg"); }
+	  footer .contacts .legal .icon-pts {
+      content: url("/assets/img/pts-5473.png"); }
   footer .disclaimer {
     font-family: "BentonSansMedium";
     font-size: 9px;
@@ -1987,25 +2093,25 @@ footer {
         footer .partners span[class^="logo-"] {
           transform: scale(0.9); } }
     footer .partners .logo-emirates {
-      content: url("../img/emirates-logo.svg"); }
+      content: url("/assets/img/emirates-logo.svg"); }
     footer .partners .logo-ba {
-      content: url("../img/ba-logo.svg"); }
+      content: url("/assets/img/ba-logo.svg"); }
     footer .partners .logo-cathy {
-      content: url("../img/cathy-pacific-logo.svg"); }
+      content: url("/assets/img/cathy-pacific-logo.svg"); }
     footer .partners .logo-iberia {
-      content: url("../img/iberia-logo.svg"); }
+      content: url("/assets/img/iberia-logo.svg"); }
     footer .partners .logo-lufthansa {
-      content: url("../img/lufthansa-logo.svg"); }
+      content: url("/assets/img/lufthansa-logo.svg"); }
     footer .partners .logo-malaysia {
-      content: url("../img/malaysia-logo.svg"); }
+      content: url("/assets/img/malaysia-logo.svg"); }
     footer .partners .logo-singapore {
-      content: url("../img/singapore-airlines-logo.svg"); }
+      content: url("/assets/img/singapore-airlines-logo.svg"); }
     footer .partners .logo-eva {
-      content: url("../img/eva-air-logo.svg"); }
+      content: url("/assets/img/eva-air-logo.svg"); }
     footer .partners .logo-turkish {
-      content: url("../img/turkish-airlines-logo.svg"); }
+      content: url("/assets/img/turkish-airlines-logo.svg"); }
     footer .partners .logo-vietnam {
-      content: url("../img/vietnam-airlines-logo.svg"); }
+      content: url("/assets/img/vietnam-airlines-logo.svg"); }
   footer .copyright {
     display: flex;
     display: -webkit-flex;
@@ -2019,12 +2125,12 @@ footer {
         -webkit-flex-direction: column;
         -webkit-align-items: center;
         align-items: center; } }
-    footer .copyright .citrus {
+    footer .copyright .cities {
       display: flex;
       display: -webkit-flex;
       -webkit-align-items: center;
       align-items: center; }
-      footer .copyright .citrus .icon {
+      footer .copyright .cities .icon {
         font-family: "BentonSansMedium";
         font-size: 18px;
         padding-right: 5px; }
@@ -2045,7 +2151,7 @@ footer {
             padding-left: 5px; } }
       footer .copyright .zolv .logo-zolv {
         content: "";
-        background-image: url("../img/zolv-logo.svg");
+        background-image: url("/assets/img/zolv-logo.svg");
         background-repeat: no-repeat;
         background-size: cover;
         display: inline-block;
@@ -2068,7 +2174,7 @@ footer {
       padding-top: 20px;
       font-size: 14px; }
     footer .return-top .icon-return {
-      content: url("../img/return-top-icon.svg"); }
+      content: url("/assets/img/return-top-icon.svg"); }
 
 div[class$="-navigation"] {
   position: absolute; }

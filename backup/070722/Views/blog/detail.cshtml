@@ -1,0 +1,136 @@
+﻿@model citrus.Models.BlogDetail
+@{
+    string img = "https://admin.citiesandbeaches.com/BlogImages/" + Model.Blog.image + "?" + DateTime.Now.Ticks;
+    //img = "/cdn-cgi/image/f=auto,fit=contain,h=500/" + img;
+}
+@if (Model != null && Model.Blog != null)
+{
+    @section AdditionalMeta
+{
+        <title>@Model.Blog.metatitle</title>
+        <meta name="keywords" content="@Model.Blog.keyword" />
+        <meta name="description" content="@Model.Blog.metadescription" />
+        @if (!string.IsNullOrEmpty(Model.Blog.canonicaltag))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.Blog.canonicaltag)" />
+            <meta name="og:url" content="@Html.Raw(Model.Blog.canonicaltag)" />
+        }
+        <meta property="og:title" content="@Model.Blog.ogtag">
+    }
+}
+<link href="~/assets/css/blogpost.css?v1.1.5" rel="stylesheet" />
+<section class="hero-section lazy" style="background-image:url('@img');">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="/blog">Blogs</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">@Model.Blog.title</a>
+    </div>
+    <div class="content">
+        <div>read all about it</div>
+        <h1>@Model.Blog.title</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+<section class="blog-post-section">
+    <section>
+        <div class="content">
+            <div class="blog">
+                <p>@Model.Blog.description</p>
+                @foreach (var item in Model.BlogContent)
+                {
+                    if (!string.IsNullOrEmpty(item.image))
+                    {
+                        string oimg = "https://admin.citiesandbeaches.com/BlogImages/" + item.tblBlogID + "/" + item.image + "?" + DateTime.Now.Ticks;
+                        //oimg = "/cdn-cgi/image/f=auto,fit=contain,h=397/" + oimg;
+                        <img class="cover lazy" src="@oimg" />
+                    }
+					  
+					@Html.Raw(string.Format("<h{0}>",  item.htag))
+					@item.title
+					@Html.Raw(string.Format("</h{0}>", item.htag))
+                    if (item.summary.Contains("<p>"))
+                    {
+                        @Html.Raw(item.summary)
+                    }
+                    else if (item.summary.StartsWith("<div>"))
+                    {
+                        @Html.Raw(item.summary.Replace("div","p"))
+                    }
+                    else
+                    {
+                       <p>@Html.Raw(item.summary)</p>
+                    }
+                }
+            </div>
+            <div class="pagination">
+                @if (Model.prev_url != "")
+                {
+                    <div><a href="/blog/@Model.prev_url"><span class="icon-left"></span>Previous</a></div>
+                }
+                @if (Model.next_url != "")
+                {
+                    <div><a href="/blog/@Model.next_url">Next<span class="icon-right"></span></a></div>
+                }                
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="author">
+                <div class="main-info">
+                    
+                    <div class="info">
+                        <div>Posted by</div>
+                        <div class="blog-author">@Model.Blog.writername</div>
+                        <div class="blog-date"><span class="icon-calendar"></span>@Model.Blog.uploaddate</div>
+                    </div>
+                </div>
+                <ul>
+                    <li>Thailand</li>
+                    <li>Bangkok</li>
+                    <li>Phuket</li>
+                    <li>Chiang Mai</li>
+                    <li>Ayutthaya</li>
+                </ul>
+            </div>
+            <div class="related-posts">
+                Related Posts
+                <ul>
+                    <li>Top 10 things to see in Thailand</li>
+                    <li>A bucket list guide to beautiful land of Thailand</li>
+                    <li>The best time to visit Thailand</li>
+                    <li>Major Festivals in Thailand</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</section>
+<section class="subscription-section">
+    @Html.Partial("~/Views/home/_newsletter.cshtml")
+</section>

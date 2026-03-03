@@ -1,0 +1,16 @@
+﻿
+<div class="call-expert lazy" data-src="/cdn-cgi/image/f=auto,fit=contain/img/itinerary/call-expert-background.jpg">
+    <div class="text">
+        <div>Can't decide on a destination?</div>
+        <p>A nice problem to have! Why not speak to one of our travel experts?</p>
+        <div class="call-us">Call us on <span>0203 011 1550</span></div>
+        <p>or alternatively</p>
+        <a class="btn" href="#callback" data-lity>Request A Call Back</a>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var phoneno = $('.phone:eq(0)').text();
+        $('.call-us span').text(phoneno);
+    })
+</script>

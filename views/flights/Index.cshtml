@@ -1,0 +1,493 @@
+﻿@model citrus.Models.flightWithFilter
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/assets/css/country.css?v1.1.5" rel="stylesheet" />
+<link href="~/assets/css/photoswipe.css" rel="stylesheet" />
+<link href="~/assets/css/default-skin.css" rel="stylesheet" />
+<script src="~/assets/js/jquery-ui.js"></script>
+<style type="text/css">
+    .flight-details {
+        padding-top: 8px !important;
+    }
+
+    .flight-img {
+        min-width: 291px !important;
+        height: 200px !important;
+    }
+
+    .calendar-modal .search-form .form-box #month1, .calendar-modal .search-form .form-box #passenger1 {
+        background-image: url(/assets/img/form-dropdown-icon.svg);
+        background-position: right 6px;
+        background-size: 90px 12px;
+    }
+
+    .calendar-modal .search-form .form-box {
+        width: 100%;
+        height: 96px;
+        margin-bottom: 25px;
+        background-color: #fff;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        -ms-border-radius: 2px;
+        border-radius: 2px;
+        box-shadow: 0 0 8px rgba(0,0,0,.2);
+        padding-left: 30px;
+        padding-top: 17px;
+        position: relative;
+    }
+
+    .search-section .search-form .form-box .input #depApt {
+        height: 24px;
+        background-image: url(/assets/img/list-icon.svg);
+        background-position: right top;
+        background-size: 40px 24px;
+        background-repeat: no-repeat;
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        float: left;
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        list-style: none;
+        text-align: left;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        background-clip: padding-box;
+    }
+
+        .ui-autocomplete > li > div {
+            display: block;
+            padding: 3px 20px;
+            clear: both;
+            font-weight: normal;
+            line-height: 1.42857143;
+            color: #333333;
+            white-space: nowrap;
+        }
+
+    .ui-menu-item-wrapper:hover,
+    .ui-menu-item-wrapper:active,
+    .ui-menu-item-wrapper:focus {
+        text-decoration: none;
+        color: #fff;
+        background-color: #000;
+        cursor: pointer;
+    }
+
+    .ui-helper-hidden-accessible {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    .ui-slider {
+        position: relative;
+        text-align: left;
+        border: 1px solid #c5c5c5;
+        margin-bottom: 20px;
+    }
+
+    .ui-slider-horizontal {
+        height: .8em;
+    }
+
+    .ui-slider .ui-slider-handle {
+        position: absolute;
+        z-index: 2;
+        width: 1.2em;
+        height: 1.2em;
+        cursor: default;
+        -ms-touch-action: none;
+        touch-action: none;
+        border: 1px solid #c5c5c5;
+        background: #f6f6f6;
+        font-weight: 400;
+        color: #454545;
+        top: -4px;
+        margin-left: -.6em;
+    }
+
+    .ui-slider-horizontal .ui-slider-range {
+        top: 0;
+        height: 100%;
+    }
+
+    .ui-slider .ui-slider-range {
+        position: absolute;
+        z-index: 1;
+        font-size: .7em;
+        display: block;
+        border: 0;
+        background-position: 0 0;
+    }
+</style>
+
+
+@if (Model.flights != null)
+{
+    <input type="hidden" id="resultType" value="@Model.resultType" />
+    <input type="hidden" id="regionCW" value="@string.Join(",", Model.fm.regionsCountryWise)" />
+    <input type="hidden" id="hfCountry" value="@Model.flights.FirstOrDefault().country" />
+
+    <section class="hero-section">
+        <div class="breadcrumbs">
+            <a href>Home</a>
+            <span class="icon-breadcrumb"></span>
+            <a href>Cheap Flights</a>
+            <span class="icon-breadcrumb"></span>
+            <a href>@Model.flights.FirstOrDefault().country</a>
+            @if (Model.resultType == "airport")
+            {
+                <span class="icon-breadcrumb"></span>
+                <a href>@Model.flights.FirstOrDefault().arrival</a>
+            }
+            else if (Model.resultType == "city")
+            {
+                <span class="icon-breadcrumb"></span>
+                <a href>@Model.flights.FirstOrDefault().departure</a>
+                <span class="icon-breadcrumb"></span>
+                <a href>@Model.flights.FirstOrDefault().arrival</a>
+            }
+        </div>
+        <div class="content">
+            <div>discover</div>
+            @if (Model.resultType == "airport")
+            {
+                <h1>Cheap Flights to @Model.flights.FirstOrDefault().arrival</h1>
+            }
+            else if (Model.resultType == "city")
+            {
+                <h1>Cheap Flights to @Model.flights.FirstOrDefault().arrival from @Model.flights.FirstOrDefault().departure</h1>
+            }
+            else
+            {
+                <h1>Cheap Flights to @Model.flights.FirstOrDefault().country</h1>
+            }
+
+        </div>
+    </section>
+
+
+    <section class="search-section">
+        <div class="search-form" id="search-form">
+            <form>
+                <span class="box-title">Search</span>
+                <div class="mobile-wrap">
+                    <div class="form-box">
+                        <label>Destination</label>
+                        <div class="input">
+                            <input id="subdestination" placeholder="Any destination" />
+                        </div>
+                    </div>
+                    <div class="form-box">
+                        <label>Departing from</label>
+                        <div class="input">
+                            <select id="airport">
+                                <option>Any destination</option>
+                                @foreach (var item in Model.fm.airportsCountryWise)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="mobile-wrap">
+                    <div class="form-box">
+                        <label>Departure month</label>
+                        <div class="input">
+                            <select id="month">
+                                <option>Select a month</option>
+                                @foreach (var item in Model.fm.months)
+                                {
+                                    <option>@item</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-box">
+                        <label>Duration</label>
+                        <div class="input">
+                            <select id="passenger">
+                                <option>Any nights</option>
+                                @foreach (var item in Model.fm.nightsCountryWise)
+                                {
+                                    <option>@item nights</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn" id="search">Search</button>
+            </form>
+            <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+        </div>
+        <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    </section>
+    if (Model.featuredtours != null)
+    {
+        @Html.Partial("~/Views/home/_featuredTour.cshtml", Model.featuredtours)
+    }
+    @*<section class="intro-section">
+            <p>justo laoreet sit amet cursus sit amet dictum sit amet justo donec enim diam vulputate ut pharetra sit amet aliquam id diam maecenas ultricies mi eget mauris pharetra et ultrices neque ornare aenean euismod elementum nisi quis eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo nec ultrices dui sapien eget mi proin sed libero enim sed faucibus turpis in eu mi bibendum neque egestas congue quisque egestas diam in arcu cursus euismod quis viverra nibh cras pulvinar mattis nunc sed blandit libero volutpat sed cras ornare arcu dui vivamus arcu felis bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim enim sit amet venenatis urna cursus eget nunc scelerisque viverra mauris in aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod in pellentesque</p>
+            <a>Read more<span class="icon-dropdown"></span></a>
+        </section>*@
+    <section class="holiday-list-section">
+        <div class="sidebar">
+            <div class="filter">
+                <div class="sidebar-header">
+                    <div class="type">Filters</div>
+                    <div class="reset">Reset</div>
+                </div>
+            </div>
+            <div class="filter" @(Model.resultType == "city" ? "style=display:none" : "")>
+                <div class="sidebar-header">
+                    <div class="type">Price range</div>
+                    <span class="icon-pullup"></span>
+                </div>
+                <div class="sidebar-content" style="display: block;">
+                    <div class="slider-range"></div>
+                    <div class="price-boxes">
+                        <div>£<span>@Model.fm.minPrice</span></div>
+                        <div>£<span>@Model.fm.maxPrice</span></div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.resultType == "country" && Model.fm.regions.Count() > 1)
+            {
+                <div class="filter side-regions">
+                    <div class="sidebar-header">
+                        <div class="type">Destination</div>
+                        <span class="icon-pullup"></span>
+                    </div>
+                    <div class="sidebar-content" style="display: block;">
+                        @foreach (var item in Model.fm.regions)
+                        {
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="region" value="@item.Value" id="@item.Text.Replace(" ","-").ToLower()" />
+                                <label for="@item.Text.Replace(" ", "-").ToLower()">@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            @if ((Model.resultType == "country" || Model.resultType == "airport") && Model.fm.airports.Count() > 0)
+            {
+                <div class="filter side-airports">
+                    <div class="sidebar-header">
+                        <div class="type">Airport</div>
+                        <span class="icon-pullup"></span>
+                    </div>
+                    <div class="sidebar-content" style="display: block;">
+                        @foreach (var item in Model.fm.airports)
+                        {
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="airport" value="@item.Value" id="@item.Text.Replace(" ","-").ToLower()" @(Model.fm.selectedAirport == item.Value ? "checked" : "") />
+                                <label for="@item.Text.Replace(" ", "-").ToLower()">@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            @if (Model.fm.nights.Count() > 0)
+            {
+
+                <div class="filter side-night">
+                    <div class="sidebar-header">
+                        <div class="type">Nights</div>
+                        <span class="icon-pullup"></span>
+                    </div>
+                    <div class="sidebar-content" style="display: block;">
+                        @foreach (var item in Model.fm.nights)
+                        {
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="nights" value="@item" id="@item.Replace(" ","-").ToLower()" @(Model.fm.selectedNights == item ? "checked" : "") />
+                                <label for="@item.Replace(" ","-").ToLower()">@item nights</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            <div class="mobile-actions">
+                <button class="btn filter-apply-btn">Apply</button>
+                <span class="reset">Reset</span>
+            </div>
+        </div>
+        <div class="content">
+            <div class="search-sort">
+                <div class="results">@Model.fm.TotalCount results found</div>
+                <div class="order">
+                    <div class="price">
+                        Price
+                        <div class="price-order active">Low to high</div>
+                        <div class="price-order">High to low</div>
+                    </div>
+                    <div class="mobile-filter-wrap">
+                        <div class="filter-btn">
+                            <span class="icon-filter"></span>
+                            Filter
+                        </div>
+                        <div class="sort">
+                            Sort by
+                            <div class="sort-order"><span class="current-option">Newest</span><span class="icon-dropdown"></span></div>
+                            <ul class="sort-order-list">
+                                <li class="sort-option">Newest</li>
+                                <li class="sort-option">Oldest</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="holidays">
+                @{
+            int count = 0;
+            int repeat = Convert.ToInt32(Model.fm.TotalCount / 10) + 1;
+            for (int i = 0; i < repeat; i++)
+            {
+                foreach (var item in Model.flights.Skip(i * 10).Take(10))
+                {
+                    string oimg = "https://admin.citiesandbeaches.com/PackageImages/flights/" + item.image;
+                    //oimg = "/cdn-cgi/image/f=auto,fit=contain,h=291/" + oimg;
+                    <div class="holiday count@(count)" @(count == 0 ? "" : "style=display:none;")>
+                        <span class="flight-img holiday-img lazy" data-src="@oimg"></span>
+                        <div class="details flight-details">
+                            <div>
+                                <div class="title">Cheap Flights to @item.arrival from @item.departure</div>
+                                <ul>
+                                    <li><span class="icon-nights"></span>@item.nights nights</li>
+                                </ul>
+                            </div>
+                            <p>@item.description</p>
+                            <div class="horizontal">
+                                <div class="price">
+                                    <span>from</span>
+                                    <div>£@item.price<span>/pp</span></div>
+                                </div>
+                                <a nights="@item.nights" code="@item.arrivalCode" aname="@item.arrival" dcode="@item.departureCode" dname="@item.departure" class="btn open-calendar">View More<span class="icon-more"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+                count++;
+            }
+                }
+
+
+            </div>
+            @if (Model.fm.TotalCount > 10)
+            {
+                <button class="btn more-holidays" count="0" max="@repeat">Load More Results</button>
+            }
+            @*<div class="text-wrap">
+                    <p>justo laoreet sit amet cursus sit amet dictum justo donec enim diam vulputate ut pharetra sit amet aliquam id diam maecenas ultricies mi eget mauris pharetra et ultrices neque ornare aenean euismod elementum nisi quis eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo nec ultrices dui sapien eget mi proin sed libero enim sed faucibus turpis in eu mi bibendum neque egestas congue quisque egestas diam in arcu cursus euismod quis viverra nibh cras pulvinar mattis nunc sed blandit libero volutpat sed cras ornare arcu dui vivamus arcu felis bibendum ut tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci nulla .</p>
+                    <a class="read-more">Read more<span class="icon-dropdown"></span></a>
+                </div>*@
+
+            @Html.Partial("~/Views/home/_callUs.cshtml")
+        </div>
+        <div style="clear:both"></div>
+    </section>
+
+    <a data-provide="lity" id="contentbtn" href="#content" data-lity style="display:none">CLick</a>
+    <div id="content" class="lity-hide">
+        <form>
+            <div class="calendar-modal">
+                <div class="search-form">
+                    <div class="title"><span>Travel</span> Details</div>
+                    <p>Please feel free to amend your search</p>
+                    <input type="hidden" value="" id="selecteddate" />
+                    <input type="hidden" value="" id="selectednights" />
+                    <div class="form-box">
+                        <div class="label">Destination</div>
+                        <div class="input">
+                            <input id="destination1" readonly />
+                        </div>
+                    </div>
+                    <div class="form-box">
+                        <span class="label">Departing from</span>
+                        <input id="airport1" readonly />
+                    </div>
+                    <div class="form-box">
+                        <span class="label">Departure month</span>
+                        <select id="month1">
+                            <option>Any Month</option>
+
+                        </select>
+                    </div>
+                    <div class="form-box">
+                        <span class="label">Passengers</span>
+                        <select id="passenger1">
+                            <option value="1">1 adult</option>
+                            <option value="2">2 adults</option>
+                            <option value="3">3 adults</option>
+                            <option value="4">4 adults</option>
+                            <option value="5">5 adults</option>
+                            <option value="6">6 adults</option>
+                            <option value="7">7 adults</option>
+                            <option value="8">8 adults</option>
+                        </select>
+                    </div>
+                    <input type="hidden" id="priceperperson" value="0" />
+                    <button type="button" class="book-btn" disabled style="display:none">
+                        <div class="price-wrap">
+                            <span class="price-label">Total Price</span>
+                            <span class="price">£0</span>
+                        </div>
+                        <div class="book" hidden>Book Now<span class="icon-more-white"></span></div>
+                    </button>
+                    <button class="btn date-select-btn">Select Dates<span class="icon-more"></span></button>
+                </div>
+                <div class="calendar">
+                    <div id="datepicker"></div>
+                    <button type="button" class="btn book-btn" disabeld style="display:none">
+                        <div class="price-wrap">
+                            <span class="price-label">Total Price</span>
+                            <span class="price">£0</span>
+                        </div>
+                        <div class="book">Book Now<span class="icon-more-white"></span></div>
+                    </button>
+                </div>
+                <div class="close-btn" data-lity-close><span class="close-txt" data-lity-close>Close</span><span class="icon-close" data-lity-close></span></div>
+                <span class="mobile-back-btn"></span>
+            </div>
+        </form>
+    </div>
+
+}
+else
+{
+
+    <section class="hero-section">
+        <div class="breadcrumbs">
+            <a href>Home</a>
+            <span class="icon-breadcrumb"></span>
+            <a href>Cheap Flights</a>
+
+        </div>
+        <div class="content">
+
+            <h1>No record found</h1>
+        </div>
+    </section>
+
+}
+<section class="subscription-section">
+    @Html.Partial("~/Views/home/_newsletter.cshtml")
+</section>
+<script src="~/assets/js/flight-result.js"></script>

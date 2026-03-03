@@ -1,0 +1,563 @@
+﻿@model citrus.Models.PackageModel
+@if (Model != null && Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+    {
+        <title>@Model.MetaDetails.MetaTitle.Replace("Cities and Beaches", "Holidays - Flights and Packages")</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        <meta name="description" content="@Model.MetaDetails.MetaDescription.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com"))" />
+            <meta name="og:url" content="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com"))" />
+        }
+        <meta property="og:title" content="@Model.MetaDetails.MetaTitle.Replace("Cities and Beaches", "Holidays - Flights and Packages")">
+        <meta property="og:description" content="@Model.MetaDetails.MetaDescription.Replace("Cities and Beaches", "Holidays - Flights and Packages")">
+
+    }
+}
+<link href="~/assets/css/itinerary.css?v1.1.17" rel="stylesheet" />
+<link href="~/assets/css/photoswipe.css" rel="stylesheet" />
+<link href="~/assets/css/default-skin.css" rel="stylesheet" />
+<style type="text/css">
+    .call-now-m a {
+        background-color: #ff7f00 !important;
+    }
+    .search-section .search-form .btn {
+  display: grid !important;
+}
+.search-section .search-form .btn span {
+  font-weight: bolder !important;
+}
+    .sing-tra { display:none; border-top: 1px solid rgba(0, 0, 0, 0.2); padding-top:5px;}
+    .sing-tra span {font-weight: 400;}
+    .stpa {font-weight: 500 !important; font-size: 40px !important; font-family: 'CaslonGraphiqueEF' !important;}
+</style>
+
+<input type="hidden" id="addon" value="@Model.isAddOns" />
+<input type="hidden" id="duration" value="@Model.duration" />
+<input type="hidden" id="obdate" value="" />
+<input type="hidden" id="ibdate" value="" />
+<input type="hidden" id="depart" value="" />
+<input type="hidden" id="areacode" value="" />
+<input type="hidden" id="hotel_name" value="" />
+<section class="itinerary-hero">
+    <div class="carousel">
+        @foreach (var item in Model.SliderImgDetail.Take(1))
+        {
+            string img = "https://admin.citiesandbeaches.com/PackageImages/SliderImage/" + Model.packageId + "/" + item.imageName + "?" + DateTime.Now.Ticks;
+            //img = "/cdn-cgi/image/f=auto,fit=contain,h=440/" + img;
+            <div class="item lazy" style="background-image:url('@img')">
+            </div>
+        }
+    </div>
+    @*<div class="hero-navigation">
+            <button type="button" class="prev" id="hero-prev"> <img src="/assets/img/arrow-icon.svg" /></button>
+            <button type="button" class="next" id="hero-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+        </div>*@
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Search Results</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">@Model.packageName</a>
+    </div>
+    @*<div class="content">
+            <div>discover</div>
+            <h1>@Model.packageName</h1>
+        </div>*@
+
+
+</section>
+<section class="search-section">
+    <div class="search-form">
+        <div class="form-box">
+            @*<p>
+                    Flying to <span class="editable">@Model.Destination</span>
+                    @if (Model.flightsDetails.fromAirportList.Count() > 0)
+                    {
+                        <text>from</text> <span class="editable">@Model.flightsDetails.fromAirportList.First().frmAirportList</span>
+                    }
+                    , for <span class="editable">@Model.duration</span> on a <span class="editable">@Model.mealPlan</span>. Departing <span class="editable">@Model.flightsDetails.firstMonth</span>
+                </p>*@
+            <p class="form-p-title">@Model.packageName</p>
+        </div>
+        <div class="price">
+            <div class="wrap">
+                <span>from</span>
+                <div>
+                    £@Model.totalPrice
+                    <span style="white-space: nowrap;">/per adult</span>
+                    @if (!string.IsNullOrEmpty(Model.ExpireOfferText))
+                    {
+                        <span style="white-space: nowrap;">@Model.ExpireOfferText</span>
+                    }
+                </div>
+            </div>
+            @*<a class="btn btn-check">Check Price & Availability<span class="icon-more"></span></a>*@
+            @if (Model.isDisable == true || Model.flightsDetails.fromAirportList.Count() == 0
+                     || (!string.IsNullOrEmpty(Model.expiryDate)
+                     && DateTime.ParseExact(Model.expiryDate, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture) <= DateTime.Now))
+            {
+                <button class="btn check-price">Call us now: &nbsp; <span style="font-weight: bolder;"></span></button>
+            }
+            else
+            {
+                <a href="#content" class="btn btn-check" data-lity style="font-size:24px;">Check Prices<span class="icon-more"></span></a>
+            }
+
+        </div>
+
+    </div>
+</section>
+<div class="tabs">
+    <div id="tab_navigation" class="itinerary-header">
+        <section>
+            <div class="mobile-tab-toggle">
+                <div class="drop-down">
+                    <span class="current">Overview</span>
+                    <span class="icon-sort-by"></span>
+                </div>
+                <button href="#summary" class="btn summary-btn">Summary</button>
+            </div>
+            <ul class="tab-list">
+                <li><a href="#overview">Overview</a></li>
+                @if (Model.ItineraryDetails.Count() > 0)
+                {
+                    <li><a href="#itinerary">Itinerary</a></li>
+                }
+                <li><a href="#accommodation">Accommodation & Facilities</a></li>
+                @if (Model.SliderImgDetail.Count() > 3)
+                {
+                    <li><a href="#gallery">Gallery</a></li>
+                }
+                @if (Model.OtherDetail != null && Model.OtherDetail != "" && Model.OtherDetail != "<p><br></p>")
+                {
+                    <li><a href="#otherinfo">Other Info</a></li>
+                }
+                @if (Model.map != null && Model.map != "")
+                {
+                    <li><a href="#routemap">Route Map</a></li>
+                }
+            </ul>
+        </section>
+    </div>
+    <section class="itinerary-content">
+        <section>
+            <div id="overview" class="overview-section content">
+                <div>
+                    <h3>Overview</h3>
+                    <div class="overview">
+                        @Html.Raw(Model.PackageDetail.Replace("div>", "p>"))
+                    </div>
+                    @*<a class="read-more">Read more<span class="icon-dropdown"></span></a>*@
+                </div>
+                @*<div class="upsell tinted">
+                        <div class="title">Things You'll Love</div>
+                        <ul>
+                            <li>3 - 4 Start Accommodation included</li>
+                            <li>Bed & Breakfast Board Basis</li>
+                            <li>Return Flights & Transfers Included</li>
+                            <li>Connecting Ground Transport</li>
+                        </ul>
+                    </div>*@
+                <div>
+                    <h3>Whats Included</h3>
+                    <em><strong>@Html.Raw(Model.whatsIncludedHeading)</strong></em>
+                    <div class="whats-included">
+                        @Html.Raw(Model.whatsIncluded)
+                    </div>
+                    @*<a class="read-more">Read more<span class="icon-dropdown"></span></a>*@
+                </div>
+                <div>
+                    <h3>Highlights</h3>
+                    <em><strong>@Html.Raw(Model.holidayHighlightsHeading)</strong></em>
+                    @Html.Raw(Model.Holidayhighlights)
+                    @*<a class="read-more">Read more<span class="icon-dropdown"></span></a>*@
+                </div>
+                @Html.Partial("~/Views/home/_callUs.cshtml")
+            </div>
+            @if (Model.ItineraryDetails.Count() > 0)
+            {
+                int i = 0;
+                <div id="itinerary" class="itinerary-section content" style="display:none;">
+                    <h3>Itinerary</h3>
+                    @foreach (var item in Model.ItineraryDetails)
+                    {
+                        <div class="accordion-panel">
+                            <div class="panel-header">
+                                <div class="mobile-wrap">
+                                    <div class="day">Day @item.day</div>
+                                    <div>
+                                        <div class="label">@Html.Raw(item.Heading)</div>
+                                        <div class="description">@item.location</div>
+                                    </div>
+                                </div>
+                                <span class="icon-@(i == 0 ? "less-minus": "more-plus")"></span>
+                            </div>
+                            <div class="panel-content" @(i == 0 ? "style=display:block;" : "")>
+                                <div class="desc">@Html.Raw(item.Desc.Replace("div>", "p>"))</div>
+                            </div>
+                        </div>
+                        i++;
+                    }
+                    @Html.Partial("~/Views/home/_callUs.cshtml")
+                </div>
+            }
+            <div id="accommodation" class="accommodation-section content" style="display:none;">
+                <h3>Accommodation & Facilities</h3>
+                @{
+                    int c = 0;
+                    foreach (var item in Model.hotelDetails)
+                    {
+                        <div class="accordion-panel">
+                            <div class="panel-header">
+                                <div class="mobile-wrap">
+                                    @*<div class="day">Day 1 to 3</div>*@
+                                    <div>
+                                        <div class="label">@item.hotelName</div>
+                                        @*<div class="description">@item.</div>*@
+                                    </div>
+                                </div>
+                                <span class="icon-@(c == 0 ? "less-minus": "more-plus")"></span>
+                            </div>
+                            <div class="panel-content" @(c == 0 ? "style=display:block;" : "")>
+                                @if (item.imgDetail != null)
+                                {
+                                    <div class="accommodation-carousel accommodation-carousel-@(c)" itemscope itemtype="http://schema.org/ImageGallery">
+                                        @foreach (var imgs in item.imgDetail)
+                                        {
+                                            //System.Text.RegularExpressions.Regex rex = new System.Text.RegularExpressions.Regex("^[a-z0-9 .-]+$", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                                            //if (rex.IsMatch(imgs.imageName.Replace("_", "")))
+                                            //{
+                                            string img = "https://admin.citiesandbeaches.com/PackageImages/HotelImages/" + item.hotelID + "/" + imgs.imageName + "?" + DateTime.Now.Ticks;
+                                           // img = "/cdn-cgi/image/f=auto,fit=contain,h=470,w=923/" + img;
+                                            <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                                                <a href="@img" class="img-url" itemprop="contentUrl" data-size="923x470">
+                                                    <img itemprop="thumbnail"
+                                                         src="@img"
+                                                         class="lazy"
+                                                         alt="@imgs.title" />
+                                                </a>
+                                                <figcaption itemprop="caption description">@imgs.desc</figcaption>
+                                            </figure>
+                                            //}
+                                        }
+                                    </div>
+                                    <div class="accommodation-carousel-@(c)-navigation">
+                                        <button type="button" class="prev" id="accommodation-@(c)-prev"> <img src="/assets/img/arrow-icon.svg" /></button>
+                                        <button type="button" class="next" id="accommodation-@(c)-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+                                        <span class="icon-expand"></span>
+                                    </div>
+                                }
+                                <div class="desc">
+                                    <div class="title">@item.hotelName</div>
+                                    <span class="icon-@item.starRating-stars"></span>
+                                    @Html.Raw(item.hotelDetails)
+                                    @if (item.hotelFacilities != null)
+                                    {
+                                        <a class="read-more">Read more<span class="icon-dropdown"></span></a>
+                                        @Html.Raw(item.hotelFacilities)
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                                    c++;
+                    }
+                }
+                @Html.Partial("~/Views/home/_callUs.cshtml")
+            </div>
+            @if (Model.SliderImgDetail.Count() > 3)
+            {
+                <div id="gallery" class="gallery-section content" style="display:none;">
+                    <h3>Gallery</h3>
+                    <div class="gallery-carousel" itemscope itemtype="http://schema.org/ImageGallery">
+                        @foreach (var item in Model.SliderImgDetail.Skip(3))
+                        {
+                            System.Text.RegularExpressions.Regex rex = new System.Text.RegularExpressions.Regex("^[a-z0-9 .-]+$", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                            if (rex.IsMatch(item.imageName.Replace("_", "")))
+                            {
+                                string img = "https://admin.citiesandbeaches.com/PackageImages/SliderImage/" + Model.packageId + "/" + item.imageName + "?" + DateTime.Now.Ticks;
+                                //img = "/cdn-cgi/image/f=auto,fit=contain,h=470,w=923/" + img;
+                                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                                    <a href="@img" class="img-url" itemprop="contentUrl" data-size="923x470">
+                                        @*<img src="@img" itemprop="thumbnail" alt="@item.title" class="cld-responsive" />*@
+                                        <img itemprop="thumbnail"
+                                             src="@img"
+                                             class="lazy"
+                                             alt="@item.title" />
+                                    </a>
+                                    <figcaption itemprop="caption description">@item.desc</figcaption>
+                                </figure>
+                            }
+                        }
+                    </div>
+                    <div class="gallery-navigation">
+                        <button type="button" class="prev" id="gallery-prev"> <img src="/assets/img/arrow-icon.svg" /></button>
+                        <button type="button" class="next" id="gallery-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+                        <span class="icon-expand"></span>
+                    </div>
+                    @Html.Partial("~/Views/home/_callUs.cshtml")
+                </div>
+            }
+            @if (Model.OtherDetail != null && Model.OtherDetail != "" && Model.OtherDetail != "<p><br></p>")
+            {
+                <div id="otherinfo" class="other-info-section content" style="display:none;">
+                    <div>
+                        <h3>Other Info</h3>
+                        <div class="other">
+                            @Html.Raw(Model.OtherDetail)
+                        </div>
+                    </div>
+                    @if (Model.reviews != null && Model.reviews.Count() > 0)
+                    {
+                        <div class="reviews-subsection">
+                            <h3>Reviews</h3>
+                            @foreach (var item in Model.reviews)
+                            {
+                                <div class="review">
+                                    <div class="review-header">
+                                        <div class="review-author">@item.name</div>
+                                        <div class="review-date">@(item.travellDate != null ? item.travellDate.Value.ToString("dd/MM/yyyy") : "")</div>
+                                    </div>
+                                    <div class="review-content">
+                                        @Html.Raw(item.comment)
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    @Html.Partial("~/Views/home/_callUs.cshtml")
+                </div>
+            }
+            @if (Model.map != null && Model.map != "")
+            {
+                string img = "https://admin.citiesandbeaches.com/PackageImages/Map/" + Model.packageId + "/" + Model.map + "?" + DateTime.Now.Ticks;
+                //img = "/cdn-cgi/image/f=auto,fit=contain,h=470,w=923/" + img;
+                <div id="routemap" class="routemap-section content" style="display:none;">
+                    <h3>Route Map</h3>
+                    <div class="routemap">
+                        <img src="@img" class="lazy" />
+                    </div>
+                    @Html.Partial("~/Views/home/_callUs.cshtml")
+                </div>
+            }
+            <div class="sidebar" id="summary">
+                <div class="wrap">
+                    @{
+                        string sidebarimg = "";
+                        if (Model.SliderImgDetail.Count() > 0)
+                        {
+                            string imgnamesd = Model.SliderImgDetail.Count() > 2 ? Model.SliderImgDetail.ElementAt(2).imageName : Model.SliderImgDetail.First().imageName;
+                            sidebarimg = "https://admin.citiesandbeaches.com/PackageImages/SliderImage/" + Model.packageId + "/" + imgnamesd + "?" + DateTime.Now.Ticks;
+                            //sidebarimg = "/cdn-cgi/image/f=auto,fit=contain,h=184,w=291/" + sidebarimg;
+                        }
+                    }
+                    <img src="@sidebarimg" class="lazy" />
+                    <div class="overview">
+                        <div>
+                            <div class="title">@Model.packageName</div>
+                            <ul>
+                                <li><span class="icon-compass"></span>@Model.Destination</li>
+                                <li><span class="icon-nights"></span>@Model.duration</li>
+                                <li><span class="icon-board-basis"></span>@Model.mealPlan</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="details">
+                        @if (Model.flightsDetails.fromAirportList.Count() > 0)
+                        {
+                            <span>Departing from</span>
+                            <p>@Model.flightsDetails.fromAirportList.First().frmAirportList</p>
+                        }
+
+                        @*<span>Passengers</span>
+                            <p>2 adults</p>*@
+                        <span>Accommodation</span>
+                        <ul>
+                            @foreach (var item in Model.hotelDetails)
+                            {
+                                <li>@item.hotelName <span class="icon-@item.starRating-stars"></span></li>
+                            }
+                        </ul>
+                        @if (Model.productCode != null && Model.productCode != "")
+                        {
+                            <span>Product Code</span>
+                            <p>@Model.productCode</p>
+                        }
+                    </div>
+                    <div class="price">
+                        <span>from</span>
+                        <div id="finalprice">£@Model.totalPrice<span>/per adult</span></div>
+                        @if (Model.childPrice != null && Model.childPrice != "")
+                        {
+                            <div id="childprice">£@Model.childPrice<span>/per child</span></div>
+                        }
+                    </div>                    
+                    <div class="price sing-tra">
+                    <span>Solo Traveler from </span><br><span class='stpa'> £0 </span>
+                    </div>
+                    @if (Model.isDisable == true || Model.flightsDetails.fromAirportList.Count() == 0
+                     || (!string.IsNullOrEmpty(Model.expiryDate)
+                     && DateTime.ParseExact(Model.expiryDate, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture) <= DateTime.Now))
+                    {
+                        <button class="btn check-price">Call us now: &nbsp; <span style="font-weight: bolder;"></span></button>
+                    }
+                    else
+                    {
+                        <button href="#content" class="btn check-price btn-check" data-lity style="font-size:24px;">Check Prices<span class="icon-more"></span></button>
+                    }
+                </div> 
+            </div>
+        </section>
+    </section>
+</div>
+
+
+<script src="~/assets/js/itinerary.js?v1.3.2"></script>
+<script src="~/assets/js/jquery-ui.js"></script>
+<script src="~/assets/js/jquery-tabs.min.js"></script>
+<script src="~/assets/js/photoswipe.min.js"></script>
+<script src="~/assets/js/photoswipe-ui-default.min.js"></script>
+<div id="content" class="lity-hide">
+    <form>
+        <div class="calendar-modal">
+            <div class="search-form">
+                <div class="title"><span>Travel</span> Details</div>
+                <p>Please feel free to amend your search</p>
+                <input type="hidden" value="@Model.packageId" id="pkgId" />
+                <input type="hidden" value="" id="selecteddate" />
+                <div class="form-box">
+                    <div class="label">Destination</div>
+                    <div class="input">
+                        <input value="@Model.Destination" readonly />
+                    </div>
+                </div>
+                <div class="form-box">
+                    <span class="label">Departing from</span>
+                    <select id="airport">
+                        @foreach (var item in Model.flightsDetails.fromAirportList.Select(r => r.frmAirportList).Distinct())
+                        {
+                            <option>@item</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-box">
+                    <span class="label">Departure month</span>
+                    <select id="month">
+                        <option>Any Month</option>
+                        @foreach (var item in Model.months)
+                        {
+                            <option>@item</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-box">
+                    <span class="label">Passengers</span>
+                    <select id="passenger">
+                        @if (Model.isSolo == true)
+                        {
+                            <option value="1">1 adult</option>
+                        }
+                        else
+                        {
+                            <option value="2">2 adults</option>
+                            <option value="3">3 adults</option>
+                            <option value="4">4 adults</option>
+                            <option value="5">5 adults</option>
+                            <option value="6">6 adults</option>
+                            <option value="7">7 adults</option>
+                            <option value="8">8 adults</option>
+                        }
+                    </select>
+                </div>
+                <input type="hidden" id="priceperperson" value="0" />
+                <button type="button" class="btn book-btn btn-check" disabled>
+                    <div class="price-wrap">
+                        <span class="price-label">Total Price</span>
+                        <span class="price">£0</span>
+                    </div>
+                    <div class="book">Book Now<span class="icon-more-white"></span></div>
+                </button>
+                <button class="btn date-select-btn">Select Dates<span class="icon-more"></span></button>
+            </div>
+            <div class="calendar">
+                <div id="datepicker"></div>
+                <button type="button" class="btn book-btn btn-check" disabeld>
+                    <div class="price-wrap">
+                        <span class="price-label">Total Price</span>
+                        <span class="price">£0</span>
+                    </div>
+                    <div class="book">Book Now<span class="icon-more-white"></span></div>
+                </button>
+            </div>
+            <div class="close-btn" data-lity-close><span class="close-txt" data-lity-close>Close</span><span class="icon-close" data-lity-close></span></div>
+            <span class="mobile-back-btn"></span>
+        </div>
+    </form>
+</div>
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<form name="form1" style="display:none;" target="_top" action="https://citiesandbeaches.travelflow.co.uk/directsearch.asp" method="post" enctype="application/x-www-form-urlencoded">
+    <p>
+        <textarea name="QUERY" id="QUERY" wrap="OFF" spellcheck="false"></textarea>
+    </p>
+    <p align="right"><input name="Submit1" class="submit" type="submit" value="Submit Query"></p>
+</form>
+<script>
+let purl=window.location.href;
+if(purl.indexOf('/A-Relaxing-All-Inclusive-Stay-In-Sorrento') > -1 ){
+$('.sing-tra').css('display','block');
+$('.stpa').html('£549');
+console.log("jawed1 ==>" + purl);
+}
+else if(purl.indexOf('/An-All-Inclusive-Stay-In-Sorrento-With-Flights') > -1 ) {
+$('.sing-tra').css('display','block');
+$('.stpa').html('£499');
+console.log("jawed2 ==>" + purl);
+}
+else if(purl.indexOf('/Florence-And-Venice-With-Breakfast-And-Train-Transfer') > -1 ) {
+$('.sing-tra').css('display','block');
+$('.stpa').html('£279');
+console.log("jawed2 ==>" + purl);
+}
+else {    
+console.log("jawed3 ==>" + purl);
+$('.sing-tra').css('display','none');
+$('.stpa').html('');
+}
+</script>

@@ -1,0 +1,177 @@
+﻿@model citrus.Models.homepage
+@{
+    string contactus = "/Hero images/contact-us.jpg";
+    //contactus = "/cdn-cgi/image/f=auto,fit=contain,h=500/" + contactus;
+}
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+{
+        <title>@Model.MetaDetails.MetaTitle.Replace("Citrus Holidays", "Cities & Beaches")</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Citrus Holidays", "Cities & Beaches")" />
+        <meta name="description" content="@Model.MetaDetails.MetaDescription.Replace("Citrus Holidays", "Cities & Beaches")" />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com"))" />
+        }
+    }
+}
+
+<link href="~/assets/css/contactus.css?v1.1.1" rel="stylesheet" />
+<section class="hero-section lazy" style="background-image:url('@contactus');">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Contact Us</a>
+    </div>
+    <div class="content">
+        <h1>Contact Us</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+
+<section class="contactus-section">
+    <p>If you would like to make a new booking, please call us on 0203 011 1517 and a member of staff will be happy to help you.  If you’re in resort please speak to reception or the local representative who will be best placed to resolve any issue locally quickly.<br />For any and all matters please feel free to fill out the email form below, making sure to select the right reason for contact so that we can route your query more efficiently.  You can also write to us at the address shown on this page or call us or use the online chat service.</p>
+    <div class="sidebar">
+        <div class="contact-info">
+            <div class="location">
+                <span class="icon-location"></span>15-17 Church Road, London SE19 2TE
+            </div>
+            <div class="phone">
+                <span class="icon-phone"></span>0203 011 1520
+            </div>
+            <div class="mail">
+                <span class="icon-email"></span>info@citiesandbeaches.com
+            </div>
+            <div class="social" style="display:none">
+                <span class="icon-facebook"></span>
+                <span class="icon-twitter"></span>
+                <span class="icon-pinterest"></span>
+            </div>
+        </div>
+    </div>
+    <div class="contact-form">
+        <form>
+            <div class="field-wrap">
+                <div class="form-block half">
+                    <label>First Name<span> (Required)</span></label>
+                    <input class="input" placeholder="First name" required id="txt_fstName" />
+                </div>
+                <div class="form-block half">
+                    <label>Last Name<span> (Required)</span></label>
+                    <input class="input" placeholder="Last name" required id="txt_SurName" />
+                </div>
+            </div>
+            <div class="form-block">
+                <label>Email<span> (Required)</span></label>
+                <input class="input" type="email" placeholder="Email" required id="txt_email" />
+            </div>
+            <div class="field-wrap">
+                <div class="form-block half">
+                    <label>Phone number<span> (Required)</span></label>
+                    <input class="input" type="number" placeholder="Phone number" required id="txt_phone" />
+                </div>
+                <div class="form-block half">
+                    <label>Booking reference<span> (Optional)</span></label>
+                    <input class="input" placeholder="Booking reference" id="txt_bookingReference" />
+                </div>
+            </div>
+            <div class="form-block">
+                <label>Reason for contact</label>
+                <select class="input" placeholder="weaw" id="reason">
+                    <option value="" disabled selected hidden> Please select one...</option>
+                    <option value="I need more info on a holiday">I need more info on a holiday</option>
+                    <option value="I want to make a new reservation">I want to make a new reservation</option>
+                    <option value="I have a question about my documents">I have a question about my documents</option>
+                    <option value="I need copies of my documents">I need copies of my documents</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-block">
+                <label>Please enter the details of your query below<span> (Required)</span></label>
+                <textarea id="txt_details" class="input" placeholder="Please enter your query here..." required></textarea>
+            </div>
+            <div class="form-actions">
+
+                <a href class="form-reset">Reset all fields</a>
+                <button class="btn submit" type="button" id="sendmail">Submit</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+@*<div id="dialog" title="Success!!">
+    <p> Thank you for your Request<br /><br />
+        We will respond to you shortly<br /></p>
+</div>*@
+
+
+<script>
+    $(document).ready(function () {
+        var phoneno = $('.phone:eq(0)').text();
+        $('.phone').html('<span class="icon-phone"></span>' + phoneno);
+       // $('#msgboxbtn').click();
+    })
+    
+     $("#sendmail").click(function () {
+        var name = $("#txt_fstName").val() + " " + $("#txt_SurName").val();
+        var email = $("#txt_email").val();
+        var phone = $("#txt_phone").val();
+        var reason = $("#reason").val();
+        var bookingReference = $("#txt_bookingReference").val();
+        var queryDetail = $("#txt_details").val();
+        var contactType = "ContactUS";
+
+        if (name == "" || email == "" || phone == "" || queryDetail == "")
+        {
+            //alert("Please fill all required fields!");
+            //$("#loader").hide();
+        }
+        else
+        {
+            $(".loader").show();
+            $.ajax({
+                url: '@Url.Action("ContactUs", "Home", new { area = "" })',
+                data: { rcb_name: name, rcb_email: email, rcb_phn: phone, reasonForContact: reason, bookingReference: bookingReference, rcb_comment: queryDetail, contactType: contactType },
+                type: 'POST',
+                success: function (data) {
+                    $(".loader").hide();
+                    $('#msgboxbtn').click();
+                    //alert("Thank you for your Request. We will respond to you shortly");                   
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 5000);
+                },
+                error: function (result) {
+                }
+            });
+        }
+    });
+</script>

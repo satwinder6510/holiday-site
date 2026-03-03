@@ -1,0 +1,240 @@
+﻿@model citrus.Models.homepage
+
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+{
+        <title>@Model.MetaDetails.MetaTitle.Replace("Citrus Holidays", "Cities & Beaches")</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Citrus Holidays", "Cities & Beaches")" />
+        <meta name="description" content="@Model.MetaDetails.MetaDescription.Replace("Citrus Holidays", "Cities & Beaches")" />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com"))" />
+        }
+    }
+    <link rel="stylesheet" href="/assets/css/homepage.css?v1.1.3">
+}
+
+
+<div class="hero">
+    <div class="carousel">
+        @{            
+            int pos = 0;
+            foreach (var item in Model.slider)
+            {
+                ///Holidays/@System.Text.RegularExpressions.Regex.Replace((item.url!=null?item.url.Trim():"Unknown"), @"\s+", "-")/@System.Text.RegularExpressions.Regex.Replace(item.title.Trim(), @"\s+", "-")
+                //string img = "https://admin.citrusholidays.co.uk/PackageImages/WW2Banner/" + item.image + "?" + DateTime.Now.Ticks;
+                string img = "https://admin.citrusholidays.co.uk/PackageImages/WW2Banner/" + item.image + "?"+ DateTime.Now.Ticks;
+                string url = string.IsNullOrEmpty(item.url) ? ("/Holidays/" + System.Text.RegularExpressions.Regex.Replace((item.destination != null ? item.destination.Trim() : "Unknown"), @"\s+", "-") + "/" + System.Text.RegularExpressions.Regex.Replace(item.title.Trim(), @"\s+", "-")) : item.url;
+                <div class="item lazy @(pos == 0 ? "" : "tinted")" style="background-image:url('@img');@(pos == 0 ? "" : "display:none")" title="@item.alt">
+                    <div class="content">
+                        <div class="type">DISCOVER</div>
+                        <div class="title">@item.smalltitle</div>
+                        <p>@item.title</p>
+                        <div class="price">
+                            <span>from</span>
+                            <div>£@item.price<span>/pp</span></div>
+                        </div>
+                        <a class="btn" href="@url.Replace("citrusholidays.co.uk","citiesandbeaches.com")">view more</a>
+                    </div>
+                </div>
+                pos++;
+            }
+        }
+    </div>
+    <div class="scroll-down">
+        <span class="icon-scroll"></span>
+        <div class="scroll-text">
+            <div class="down">Scroll Down</div>
+            <div class="discover">Discover more content</div>
+        </div>
+    </div>
+    <div class="hero-nav">
+        <button type="button" id="hero-prev"><img src="/assets/img/arrow-icon.svg" /></button>
+        <div class="hero-index"><span>1</span> of @Model.slider.Count()</div>
+        <button type="button" id="hero-next"><img src="/assets/img/arrow-icon.svg" /></button>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+</div>
+<div class="search-form" id="search-form">
+    <span class="box-title">Search</span>
+    <form>
+        <div class="form-box">
+            <div class="label">Destination</div>
+            <select id="destination">
+                <option></option>
+                @foreach (var item in Model.countries.OrderBy(r => r.name))
+                {
+                <option>@item.name</option>
+                }
+            </select>
+        </div>
+        <div class="form-box">
+            <div class="label">Departing from</div>
+            <select id="airport">
+                <option></option>
+                @foreach (var item in Model.airports.OrderBy(r => r))
+                {
+                <option>@item</option>
+                }
+            </select>
+        </div>
+        <div class="form-box">
+            <div class="label">Departure month</div>
+            <select id="month">
+                <option></option>
+                @foreach (var item in Model.months)
+                {
+                <option>@item</option>
+                }
+            </select>
+        </div>
+        <div class="form-box">
+            <div class="label">Passengers</div>
+            <select id="passenger">
+                <option></option>
+                <option>2 adults</option>
+                <option>3 adults</option>
+                <option>4 adults</option>
+                <option>5 adults</option>
+                <option>6 adults</option>
+                <option>7 adults</option>
+                <option>8 adults</option>
+            </select>
+        </div>
+        <button type="button" class="btn find-btn">
+            Find holidays
+        </button>
+    </form>
+    <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+</div>
+<section>
+    <section class="intro-section">
+        <div class="title"><span class="caslo-graphique">Welcome</span> to Cities and Beaches</div>
+        <p>At Cities and Beaches we pride ourselves on being different. Our tours and holidays are tailor-made with you in mind and every little detail is carefully considered. Best of all, our team of experts work hard to ensure you get top quality at exceptional value. You can rest assured that you are in the best hands when you choose an adventure with us…</p>
+    </section>
+</section>
+<section class="popular-countries">
+    <div class="world-map"></div>
+    <div class="countries-description">
+        <h4>our most popular</h4>
+        <h2>Countries</h2>
+        @*<p>We put effort into all our wonderful holidays, with 55 beautiful locations to choose from. Our most popular packages include our curated <a href="/holidays/Asia/India" target="_blank">India tours</a> and our excellent value <a href="/holidays/Vietnam/12-Days-Cambodia-and-Vietnam-Tour" target="_blank">Cambodia and Vietnam tour</a>. Our <a target="_blank" href="/holidays/Europe/Italy">Italy holidays</a> are also a popular choice with customers, and we offer a wide range - from short city breaks to all inclusive Italian beach holidays and multi-destination tours.</p>*@
+        <p>We put effort into all our wonderful holidays, with 55 beautiful locations to choose from. Our most popular packages include our curated India tours and our excellent value Cambodia and Vietnam tour. Our Italy holidays are also a popular choice with customers, and we offer a wide range - from short city breaks to all inclusive Italian beach holidays and multi-destination tours.</p>
+    </div>
+    <div class="countries-carousel">
+        @foreach (var item in Model.countries.Where(x => !x.name.Contains("Twin") && !x.name.Contains("Triple") && !x.name.Contains("Las Vegas") && !x.name.Contains("New York") && !x.name.Contains("Caribbean")))
+        {
+            string imgName = item.name.Trim().Replace(" ", "-");//item.name.Trim() == "Sweden" ? "Sweden-hp" :
+            string img = "/images/countries/" + imgName + "_icon.jpg?" + @DateTime.Now.Ticks;
+            //img = "/cdn-cgi/image/f=auto,fit=contain,h=957/" + img;
+            <div class="item lazy" style="background-image:url('@img');" onclick="window.location.href='@item.url'" title="@item.name">
+                <div class="content">
+                    <div class="country">@item.name</div>
+                    <div class="location">@item.continent</div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="countries-navigation">
+        <button type="button" class="next" id="countries-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+    </div>
+</section>
+<section class="offer-section">
+    <h4>Exclusive offers for you</h4>
+    <h2>Special Holiday Offers</h2>
+    <div class="offer-carousel">
+        @foreach (var item in Model.offers)
+        {
+            string oimg = "https://admin.citrusholidays.co.uk/PackageImages/SliderImage/" + item.offerID + "/" + item.imgName;
+           // oimg = "/cdn-cgi/image/f=auto,fit=contain,h=240/" + oimg;
+            <div class="item">
+                <div class="content">
+                    <div class="offer">
+                        <span class="offer-img lazy" style="background-image:url('@oimg');"></span>
+                        @if (!string.IsNullOrEmpty(item.percentOff))
+                        {
+                            <div class="discount">
+                                @if (item.percentOff.Contains("%"))
+                                {
+                                    <div class="amount">@item.percentOff.Split('%')[0]</div>
+                                    <div class="off"><span>%</span>@item.percentOff.Split('%')[1]</div>
+                                }
+                                else
+                                {
+                                    <div class="off">@item.percentOff</div>
+                                }
+                            </div>
+                        }
+                        <div class="title">@item.offerName</div>
+                        <ul>
+                            <li><span class="icon-compass"></span>@item.destination</li>
+                            <li><span class="icon-nights"></span>@item.duration</li>
+                            <li><span class="icon-board-basis"></span>@item.mealPlan</li>
+                        </ul>
+                        <div class="offer-bot-wrap">
+                            <div class="price">
+                                <span>from</span>
+                                <div>£@item.price<span>/pp</span></div>
+                            </div>
+                            <a class="btn" href="/Holidays/@System.Text.RegularExpressions.Regex.Replace((item.destination!=null?item.destination.Trim():"Unknown"), @"\s+", "-")/@System.Text.RegularExpressions.Regex.Replace(item.offerName.Trim(), @"\s+", "-")">View More<span class="icon-more"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="offer-navigation">
+        <button type="button" class="prev" id="offer-prev"> <img src="/assets/img/arrow-icon.svg" /></button>
+        <button type="button" class="next" id="offer-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+    </div>
+</section>
+@Html.Partial("_featuredTour", Model.featuredtours)
+<section class="collections-section">
+    <h4>that extra special something</h4>
+    <h2>Our Collections</h2>
+    <div class="collections-carousel">
+        @foreach (var item in Model.collections)
+        {
+            string img = "/images/collections/" + item.Text.Replace("&", "and") + "_icon.jpg?" + @DateTime.Now.Ticks;
+            //img = "/cdn-cgi/image/f=auto,fit=contain,h=640/" + img;
+            <div class="item lazy" style="background-image:url('@img');" onclick="window.location.href='/Holidays/@item.Value'" title="@item.Text">
+                <div class="content">
+                    <div class="type">@item.Text</div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="collections-navigation">
+        <button type="button" class="prev" id="collections-prev"> <img src="/assets/img/arrow-icon.svg" /></button>
+        <button type="button" class="next" id="collections-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+    </div>
+    <div class="btn-wrap">
+        <a class="btn" href="/collections">Explore More<span class="icon-more"></span></a>
+    </div>
+</section>
+<section class="destinations-section">
+    <section>
+
+        <h4>dive in and discover</h4>
+        <h2>Our Destinations</h2>
+    </section>
+    <div class="destinations-carousel">
+        @foreach (var item in Model.destinations)
+        {
+            string img = "/images/destinations/" + item + "_icon.jpg?" + @DateTime.Now.Ticks;
+           // img = "/cdn-cgi/image/f=auto,fit=contain,h=640/" + img;
+            <div class="item lazy" style="background-image:url('@img');" onclick="window.location.href='/Holidays/@item.Replace(" ","-")'" title="@item">
+                <div class="content">
+                    <div class="location">@item</div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="destinations-navigation">
+        <button type="button" class="prev" id="destinations-prev"> <img src="/assets/img/arrow-icon.svg" /></button>
+        <button type="button" class="next" id="destinations-next"> <img src="/assets/img/arrow-icon.svg" /></button>
+    </div>
+</section>
+
+<script type="text/javascript" src="/assets/js/homepage.js?v1.1.2"></script>

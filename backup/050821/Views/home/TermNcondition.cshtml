@@ -1,0 +1,225 @@
+﻿@model citrus.Models.homepage
+
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+{
+        <title>@Model.MetaDetails.MetaTitle.Replace("Citrus Holidays", "Cities & Beaches")</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Citrus Holidays", "Cities & Beaches")" />
+        <meta name="description" content="@Model.MetaDetails.MetaDescription.Replace("Citrus Holidays", "Cities & Beaches")" />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("citrusholidays.co.uk", "citiesandbeaches.com"))" />
+        }
+    }
+}
+<link href="~/assets/css/aboutus.css" rel="stylesheet" />
+<section class="hero-section">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Terms & Conditions</a>
+    </div>
+    <div class="content">
+        <h1>Terms & Conditions</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+
+<section class="about-section">
+    <br />
+    <h4>1. Your Holiday Contract</h4>
+    <p>
+        These booking conditions govern all bookings with Cities and Beaches a division of Benz Travel Ltd whose registered office is at 3 Princes Street, London, W1B 2LD. The Company Registration number is 02626287; VAT GB394740032. Benz Travel is a member of ATOL (3448) and IATA (9123644).How the booking conditions apply to you vary depending on whether you have booked a `package` or `other travel arrangements`.
+        <br><br>
+        A package is a combination of at least two of the following a) transport b) accommodation c) another tourist service which forms a significant part of your booking, providing those two or more components are sold to you at the same time at an inclusive price with full payment being made to Benz Travel. Anything else (e.g. air tickets only, air tickets and accommodation booked at different times, cruises and packages arranged by a third party tour operator where we act as their agents) constitutes other travel arrangements.
+        <br><br>
+        If you book a package your contract is with Benz Travel. A contract arises between us once you have completed and signed our booking form or confirm you have read and understood the booking conditions shown on our websites, or made the appropriate payment to us and we have issued our confirmation invoice. If you book other travel arrangements, Benz Travel acts as a booking agent and your contract is with the supplier(s) (e.g. the airline or hotel supplier or cruise or tour operator) concerned. The booking conditions of that other company will also apply to you. You will see that certain of the terms and conditions below only apply if you have booked a package.
+        <br><br>
+        All contracts with Benz Travel and all matters arising from them are subject to English law and to the jurisdiction of the courts of England and Wales. You may, however, choose the law and jurisdiction of Scotland or Northern Ireland if you wish to do so.<br><br>
+        The person who makes the booking, who must be aged 18 or over, accepts these conditions on behalf of all members of the party and is responsible for all payment due from the party.
+    </p>
+    <h4>2. Payments</h4>
+    <p>
+        At the time of booking you must pay a deposit, the amount of which varies from £100 per person up to the total holiday cost, depending on the type of booking, and pay any balance of the cost of the holiday no later than 12 weeks before departure. If you book inside 12 weeks of departure full payment is required at time of booking. If you do not make the required payments your booking will be cancelled. If you have paid a deposit and fail to pay the balance on time you will lose your deposit.
+    </p>
+    <h4>3. Your Travel Documents</h4>
+    <p>Travel documents will be issued electronically once we have received full payment.</p>
+    <h4>4. Alterations by you</h4>
+    <p>If after booking you wish to change your travel arrangements, we will do our best to meet your new requirements. You will need to confirm your instructions in writing and pay an amendment fee of Â£35 per booking. Also you must pay any costs we incur in making the amendment, including any charges that may be levied by suppliers (e.g. airlines, hotels). Please note that some travel arrangements (e.g. Apex tickets) may not be changeable after a reservation has been made and any alteration request could incur a cancellation charge of up to 100% of that part of the arrangements.</p>
+    <h4>5. Transferring your booking if you are prevented from travelling (packages only)</h4>
+    <p>If you are prevented from travelling, you have the right to transfer your booking to another person subject to both the original client(s) and the transferee(s) paying all costs incurred by Benz Travel in doing so. However the arrangements must remain exactly the same. Benz Travel will use its best endeavours to facilitate the transfer and in cases where a transfer is made an additional administration charge of Â£100 per person must be paid.</p>
+    <h4>6. Cancellation by you</h4>
+    <p>
+        You may cancel your booking at any time providing that the cancellation is made by the person making the booking and is communicated to us in writing. As we incur costs when you cancel, we will retain your deposit and additional cancellation charges may apply.
+        <br><br>
+        <strong>Â» If the reason for cancellation is covered under the terms of an insurance policy you may be able to reclaim these charges.</strong>
+    </p>
+    <h4>Packages </h4>
+    <p>
+    </p><table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Period before departure within which notice of cancellation is received by us</th>
+                <th>Cancellation charge</th>
+            </tr>
+            <tr>
+                <td wih4h="35%">More than 56 days</td>
+                <td wih4h="65%">Deposit only</td>
+            </tr>
+            <tr>
+                <td>Between 28 and 56 days</td>
+                <td style="padding-top:0px; padding-bottom:0px; padding-left:0px;">
+                    <table class="table" style="margin-bottom:0px;">
+                        <tbody>
+                            <tr>
+                                <td style="border-top:0px solid #fff;border-bottom:0px solid #fff; border-left:0px solid #fff; border-right:1px solid #ddd;" wih4h="50%">60% of total holiday cost</td>
+                                <td style="border-top:0px solid #fff;border-bottom:0px solid #fff; border-right:0px solid #fff;" wih4h="50%">or full cost of deposit whichever is the higher</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Between 27 and 7 days</td>
+                <td>90% of total holiday cost</td>
+            </tr>
+            <tr>
+                <td>Less than seven days</td>
+                <td>100% of total holiday cost</td>
+            </tr>
+        </tbody>
+    </table>
+    <p></p>
+    <h4>Other travel arrangements</h4>
+    <p>Most discounted airline tickets carry a 100% cancellation charge. Please check at time of booking for the charges which apply to your ticket. Air tickets that do have a refund value should be returned by you to Benz Travel and we will pass them to the airline. When Benz Travel receives a refund it will be paid to you. This usually takes 8-12 weeks but in some cases (e.g. lost tickets) may take considerably longer. Please ensure that any tickets returned to the company are sent by registered post.</p>
+    <h4>7. Alterations by Benz Travel</h4>
+    <p>We reserve the right to change the description of any flight and/or ground service before you book, in which case you will be told before a confirmation invoice is issued.</p>
+    <h4>Packages</h4>
+    <p>It is unlikely that we will have to make any changes to your travel arrangements, but we do plan the arrangements many months in advance. Occasionally we may have to make changes and we reserve the right to do so at any time. Most of these changes will be minor and we will advise you or your travel agent of them at the earliest possible date. If we make a major change to your holiday, we will inform you or your travel agent as soon as reasonably possible if there is time before your departure. You will have the choice of either accepting the amendment as notified, purchasing another holiday from us with the price difference payable/refundable as appropriate, or cancelling the arrangement(s) and receiving a full refund of all monies paid. In addition, you will receive the compensation listed below, except in cases of "force majeure".</p>
+    <p>
+    </p><table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Period before departure within which notice of major change is made to you</th>
+                <th>Amount of compensation per person</th>
+            </tr>
+            <tr>
+                <td wih4h="67%">More than 56 days</td>
+                <td wih4h="33%">Nil</td>
+            </tr>
+            <tr>
+                <td>Between 56 and 42 days</td>
+                <td>£10 (Ten Pounds)</td>
+            </tr>
+            <tr>
+                <td>Between 41 and 28 days</td>
+                <td>£20 (Twenty Pounds)</td>
+            </tr>
+            <tr>
+                <td>Between 27 and 15 days</td>
+                <td>£30 (Thirty Pounds)</td>
+            </tr>
+            <tr>
+                <td>Less than 15 days</td>
+                <td>£40 (Forty Pounds)</td>
+            </tr>
+        </tbody>
+    </table>
+    <p></p>
+    <p>The compensation that we offer does not exclude you from claiming more if you are entitled to do so</p>
+    <h4>Force majeure</h4>
+    <p>This means that we will not pay you compensation if we have to cancel or change your travel arrangements in any way because of unusual or unforeseeable circumstances beyond our control. These can include, for example, war, riot, industrial dispute, terrorist activity and its consequences, natural or nuclear disaster, fire, adverse weather condition.</p>
+    <h4>Other travel arrangements</h4>
+    <p>
+        Benz Travel is obliged and will endeavour to notify all changes before departure if it is possible to do so. (Please see section 14 Flights.) No compensation is payable by us in such cases. We will endeavour to find you a suitable alternative if appropriate.
+        <br><br>
+        <strong>Cancellation by Benz Travel</strong>
+    </p>
+    <h4>Packages</h4>
+    <p>We reserve the right to cancel your holiday in certain circumstances. For example, if the minimum number of clients required for a particular holiday is not reached, we may have to cancel it. However we will not cancel your travel arrangements less than 8 weeks before your departure date, except for reasons of force majeure or failure by you to pay the final balance. If we are unable to provide the booked travel arrangements, you have the choice of purchasing another arrangement from us, if available, with the price difference payable/refundable as appropriate, or of receiving a full refund of all monies paid to us (except insurance premium). In addition, unless the cancellation has been caused by "force majeure" (defined in Clause 7 above) compensation will be paid on the scale set out in Clause 7 above.</p>
+    <h4>Other travel arrangements</h4>
+    <p>In the unlikely event that a booking has to be cancelled, for any reason other than non-payment by you, we will offer you alternative travel arrangements if these are available. Or, you can have a full and prompt refund of all monies paid to Benz Travel less any insurance premiums and amendment fees. No compensation is payable.</p>
+    <h4>9. Pricing Policy</h4>
+    <p>All of our travel arrangements and fares are subject to availability. Once a confirmation invoice has been issued the price shown on that invoice may only vary as outlined below or if you amend your booking (see Clauses 4 and 5).</p>
+    <h4>Packages</h4>
+    <p>The price of your travel arrangements can be varied due to changes in transportation costs (e.g. airfares and cost of fuel), changes in dues and taxes (including VAT) or fees payable for services (e.g. landing taxes or embarkation/disembarkation fees at ports and airports) or to reflect fluctuations in exchange rates. In the case of any small variation an amount equivalent to 2% of the invoice price (excluding insurance premiums and amendment charges) will be absorbed or retained. For larger variations this 2% will still be absorbed for increases but not retained from refunds. In either case there will be an administration cost of Â£1.00 per person, together with an amount to cover travel agents` commission (if applicable). If this means that you have to pay an increase of more than 10% of the invoice price you will be entitled to cancel the booking and receive a full refund of all monies paid (excluding amendment charges). We will consider an appropriate refund of insurance premiums paid if you can show that you are unable to transfer or reuse your policy. If you decide to cancel in these circumstances you must do so within 14 days of the issue date on the surcharge invoice.</p>
+    <h4>Other travel arrangements</h4>
+    <p>For air tickets, after we have received full payment in cleared funds we will not increase the price. For all other situations, we reserve the right to pass on any cost increase levied by the suppliers.</p>
+    <h4>10. Our Liability</h4>
+    <p><strong>Packages</strong></p>
+    <ul style="list-style-type:lower-roman; margin:0; padding:0px 0px 0px 25px;font-size: 16px;">
+        <li>We accept responsibility for ensuring that the package booked with us is supplied as described. If any part is not provided as promised, due to the fault of employees, agents or suppliers, we will pay you appropriate compensation if this has affected your enjoyment of the package. Subject to (ii) below our liability in all cases is limited to a maximum of two times the cost of your travel arrangements.</li>
+        <li>We accept responsibility for personal injury, illness or death caused by the negligent acts and/or omissions of our employees, agents, suppliers or sub-contractors, whilst acting within the scope of, or in the course of their employment in the provision of your travel arrangements. We will accordingly pay to you such damages as might have been awarded in such circumstances under English Law.</li>
+        <li>Our liability is limited in the manner provided in certain international conventions, in respect of travel by air, sea and rail.</li>
+    </ul>
+    <p>
+        If you suffer a personal injury, death or serious difficulties as the result of an activity which does not form part of the package you have booked with us, we will offer you such advice and guidance as is reasonable in all the circumstances and, where appropriate and at our discretion, financial assistance up to a limit of Â£5,000 per confirmation invoice (not per member of your party). Where legal proceedings are contemplated and you want our assistance, you must obtain our written consent prior to commencement of proceedings. Assistance must be requested within 90 days of the incident concerned and is repayable to the Company from any monies received from a third party or under any insurance policy.
+    </p>
+    <h4>Other travel arrangements</h4>
+    <p>In consideration of the fact that we act only as a booking agent, we have no liability whatsoever for any aspect of the arrangements and, in particular, no liability for any loss, personal injury or death however incurred, except where caused by our own proven negligence.</p>
+    <h4>11. Complaints</h4>
+    <p>If a problem occurs, whilst you are abroad, you must inform the relevant supplier (e.g. hotel, tour operator, car rental company, airline) immediately so that the matter can be put right. If the supplier cannot resolve the problem to your satisfaction, at the time, you must also contact us immediately by telephoning on +44 203 011 3499 so that we are given the opportunity to help. In the event that a complaint cannot be resolved at the time, you must write to us within 28 days of your return, quoting your original booking reference and giving all relevant information. Failure to take these steps will hinder our ability to resolve the problem and/or investigate it fully and in consequence, any right to compensation you may have may be extinguished or reduced.</p>
+    <h4>12. Passport, Visa and Health Requirements</h4>
+    <p>Please ensure that you are aware of all passport, visa and health requirements and that you allow adequate time to obtain them. You must check applicable requirements with the relevant Embassy, Consulate or Passport Agency. Please note that many countries require that your passport is valid for six months beyond the period of your stay. Requirements can change and it is your responsibility to ensure that you comply with applicable passport, visa and health requirements and take all necessary documents with you to gain access to any country or region to which you make travel arrangements or transit through. Benz Travel cannot accept any responsibility for customers who do not possess the correct documents and if you fail to do so, you will be solely responsible for any cost, loss or damage that you incur as a result of your failure. Helpful information can be found on the websites <a href="www.fco.gov.uk/travel" title="www.fco.gov.uk/travel" target="_blank" hidefocus="true" style="outline: medium none;">www.fco.gov.uk/travel</a> and <a href="http://www.doh.gov.uk" title="www.doh.gov.uk" target="_blank" hidefocus="true" style="outline: medium none;">www.doh.gov.uk</a>/.</p>
+    <h4>13. Suppliers' Conditions</h4>
+    <p>Please note that, as between you and any of the suppliers whose services form part of your booking, the suppliers` standard terms and conditions will apply. The suppliers` standard conditions may limit or exclude liability, often in accordance with international conventions. Copies of these conditions may be requested in writing.</p>
+    <h4>14. Flights</h4>
+    <p>Please note that a flight described as "direct" will not necessarily be non-stop. All departure/arrival times are provided by the airlines concerned and are estimates only. They may change due to air traffic control restrictions, weather conditions, operational/maintenance requirements and the requirement for passengers to check in on time.<strong>Benz Travel will advise if there is any change to a departure/ arrival time previously given to you or shown on your ticket but you are also strongly advised to reconfirm your flights, including departure times, with the airline, 72 hours prior to departure.</strong> We are unable to make any special arrangements for you if you are delayed; these matters are at the sole discretion of the airline concerned.</p>
+    <h4>15. Special Requests</h4>
+    <p>If you have any special requests, these will be passed on to the relevant supplier but cannot be guaranteed by Benz Travel.</p>
+    <h4>16. Financial Protection</h4>
+    <p>
+        When you buy an ATOL protected flight or flight inclusive holiday from us you will receive an ATOL Certificate. This lists what is financially protected, where you can get information on what this means for you and who to contact if things go wrong."
+        <br><br>
+        “We, or the suppliers identified on your ATOL Certificate, will provide you with the
+        services listed on the ATOL Certificate (or a suitable alternative). In some cases,
+        where neither we nor the supplier are able to do so for reasons of insolvency, an
+        alternative ATOL holder may provide you with the services you have bought or a
+        suitable alternative (at no extra cost to you). You agree to accept that in those
+        circumstances the alternative ATOL holder will perform those obligations and you
+        agree to pay any money outstanding to be paid by you under your contract to that
+        alternative ATOL holder. However, you also agree that in some cases it will not be
+        possible to appoint an alternative ATOL holder, in which case you will be entitled to
+        make a claim under the ATOL scheme (or your credit card issuer where applicable).”
+        <br><br>
+        “If we, or the suppliers identified on your ATOL certificate, are unable to provide
+        the services listed (or a suitable alternative, through an alternative ATOL holder or
+        otherwise) for reasons of insolvency, the Trustees of the Air Travel Trust may
+        make a payment to (or confer a benefit on) you under the ATOL scheme. You
+        agree that in return for such a payment or benefit you assign absolutely to those
+        Trustees any claims which you have or may have arising out of or relating to the
+        non-provision of the services, including any claim against us, the travel agent (or
+        your credit card issuer where applicable). You also agree that any such claims may
+        be re-assigned to another body, if that other body has paid sums you have claimed
+        under the ATOL scheme.”
+    </p>
+    <h4>17. We strongly recommend that you take out travel insurance for your whole journey.</h4>
+    <p>18.If we, or the suppliers identified on your ATOL certificate, are unable to provide the services listed (or a suitable alternative, through an alternative ATOL holder or otherwise) for reasons of insolvency, the Trustees of the Air Travel Trust may make a payment to (or confer a benefit on) you under the ATOL scheme. You agree that in return for such a payment or benefit you assign absolutely to those Trustees any claims which you have or may have arising out of or relating to the non-provision of the services, including any claim against us, the travel agent (or your credit card issuer where applicable). You also agree that any such claims may be re-assigned to another body, if that other body has paid sums you have claimed under the ATOL scheme.</p>
+</section>

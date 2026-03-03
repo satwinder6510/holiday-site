@@ -1,0 +1,1247 @@
+﻿/* Brand */
+.hero {
+  margin-top: 80px;
+  height: 856px;
+  position: relative; }
+  @media (max-width: 940px) {
+    .hero {
+      height: 556px; } }
+  @media (max-width: 768px) {
+    .hero {
+      margin-top: 9px !important; } }
+  @media (max-width: 760px) {
+    .hero {
+      height: 484px; } }
+  .hero .carousel .item {
+    height: 856px;
+    background-size: cover;
+    background-position: center; }
+    @media (max-width: 940px) {
+      .hero .carousel .item {
+        height: 556px; } }
+    @media (max-width: 760px) {
+      .hero .carousel .item {
+        height: 484px; } }
+  .hero .carousel .tinted:before {
+    content: "";
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+    position: absolute; }
+  .hero .carousel .content {
+    top: 240px;
+    position: absolute;
+    color: #fff;
+    margin-left: 960px; }
+    @media (max-width: 1600px) {
+      .hero .carousel .content {
+        margin-left: 800px; } }
+    @media (max-width: 1260px) {
+      .hero .carousel .content {
+        margin-left: 700px; } }
+    @media (max-width: 1100px) {
+      .hero .carousel .content {
+        margin-left: 530px; } }
+    @media (max-width: 940px) {
+      .hero .carousel .content {
+        max-width: 730px;
+        top: 80px;
+        margin-left: 220px; }
+        .hero .carousel .content:before {
+          position: absolute;
+          top: -180px;
+          left: -610px;
+          content: url(../img/home/hex-pattern.svg);
+          opacity: 0.6;
+          z-index: -1; } }
+    @media (max-width: 768px) {
+      .hero .carousel .content {
+        margin-left: 120px;
+        max-width: 580px; } }
+    @media (max-width: 610px) {
+      .hero .carousel .content {
+        margin-left: 60px;
+        max-width: 500px; } }
+    @media (max-width: 450px) {
+      .hero .carousel .content {
+        max-width: 365px;
+        margin-left: 40px; } }
+    @media (max-width: 350px) {
+      .hero .carousel .content {
+        margin-left: 20px; } }
+    .hero .carousel .content .type {
+      font-family: BentonSansBold;
+      font-size: 14px;
+      letter-spacing: 5px; }
+      @media (max-width: 760px) {
+        .hero .carousel .content .type {
+          font-size: 12px; } }
+      @media (max-width: 450px) {
+        .hero .carousel .content .type {
+          font-size: 10px; } }
+    .hero .carousel .content .title {
+      font-family: "CaslonGraphiqueEF";
+      font-size: 64px;
+      line-height: 60px;
+      width: 361px; }
+      @media (max-width: 940px) {
+        .hero .carousel .content .title {
+          font-size: 60px; } }
+      @media (max-width: 760px) {
+        .hero .carousel .content .title {
+          font-size: 56px;
+          line-height: 56px; } }
+      @media (max-width: 610px) {
+        .hero .carousel .content .title {
+          font-size: 52px; } }
+      @media (max-width: 530px) {
+        .hero .carousel .content .title {
+          font-size: 48px;
+          line-height: 48px; } }
+      @media (max-width: 450px) {
+        .hero .carousel .content .title {
+          font-size: 44px; } }
+      @media (max-width: 394px) {
+        .hero .carousel .content .title {
+          font-size: 40px;
+          line-height: 40px; } }
+      @media (max-width: 350px) {
+        .hero .carousel .content .title {
+          font-size: 36px;
+          line-height: 36px; } }
+    .hero .carousel .content p {
+      color: #ffffff;
+      font-size: 20px;
+      line-height: 27px; }
+      @media (max-width: 760px) {
+        .hero .carousel .content p {
+          font-size: 16px; } }
+      @media (max-width: 450px) {
+        .hero .carousel .content p {
+          font-size: 14px; } }
+    .hero .carousel .content .price {
+      margin-top: 20px;
+      height: 76px; }
+      .hero .carousel .content .price div {
+        font-family: "CaslonGraphiqueEF";
+        font-size: 40px; }
+        @media (max-width: 760px) {
+          .hero .carousel .content .price div {
+            font-size: 34px; } }
+        @media (max-width: 450px) {
+          .hero .carousel .content .price div {
+            font-size: 28px; } }
+      .hero .carousel .content .price span {
+        font-family: "BentonSansMedium";
+        font-size: 14px; }
+        @media (max-width: 760px) {
+          .hero .carousel .content .price span {
+            font-size: 12px; } }
+    .hero .carousel .content .btn {
+      width: 187px;
+      height: 64px;
+      text-transform: uppercase; }
+  .hero .scroll-down {
+    display: inline-block;
+    width: 656px;
+    height: 156px;
+    bottom: 0px;
+    position: absolute;
+    background-color: #FBFBFB;
+    z-index: 3; }
+    .hero .scroll-down:before {
+      position: absolute;
+      bottom: 152px;
+      content: url(../img/home/hex-pattern.svg); }
+    @media (max-width: 1600px) {
+      .hero .scroll-down {
+        left: -160px; } }
+    @media (max-width: 1260px) {
+      .hero .scroll-down {
+        left: -230px; } }
+    @media (max-width: 940px) {
+      .hero .scroll-down {
+        display: none; } }
+    .hero .scroll-down .scroll-text {
+      display: inline-block;
+      vertical-align: top;
+      margin-top: 52px;
+      height: 52px;
+      padding-top: 5px; }
+      .hero .scroll-down .scroll-text .down {
+        font-family: "CaslonGraphiqueEF";
+        font-size: 18px;
+        line-height: 24px; }
+      .hero .scroll-down .scroll-text .discover {
+        font-family: "BentonSans";
+        font-size: 14px;
+        line-height: 18px; }
+    .hero .scroll-down .icon-scroll {
+      margin-left: 340px;
+      margin-top: 52px;
+      display: inline-block;
+      height: 52px;
+      padding: 9px;
+      content: url("../img/home/scroll-icon.svg"); }
+  .hero .hero-nav {
+    display: inline-block;
+    position: absolute;
+    width: 156px;
+    height: 156px;
+    bottom: 0px;
+    left: 656px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 20px;
+    padding-top: 68px;
+    z-index: 3; }
+    @media (max-width: 1600px) {
+      .hero .hero-nav {
+        left: 496px; } }
+    @media (max-width: 1260px) {
+      .hero .hero-nav {
+        left: 426px; } }
+    @media (max-width: 940px) {
+      .hero .hero-nav {
+        background-color: transparent;
+        width: 80px;
+        left: auto;
+        right: 7px;
+        bottom: 80px;
+        padding-top: 0px; }
+        .hero .hero-nav .hero-index {
+          display: none; } }
+    @media (max-width: 760px) {
+      .hero .hero-nav {
+        bottom: 25px; } }
+    @media (max-width: 530px) {
+      .hero .hero-nav {
+        bottom: 40px; } }
+    @media (max-width: 350px) {
+      .hero .hero-nav {
+        bottom: 80px; } }
+    .hero .hero-nav #hero-prev {
+      left: 20px;
+      top: 70px;
+      transform: rotate(180deg); }
+    .hero .hero-nav #hero-next {
+      top: 66px;
+      right: 20px; }
+    .hero .hero-nav .hero-index {
+      text-align: center; }
+  .hero .search-btn {
+    display: none; }
+    @media (max-width: 940px) {
+      .hero .search-btn {
+        display: flex;
+        display: -webkit-flex;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        z-index: 3;
+        width: 51px;
+        min-width: 51px;
+        height: 51px;
+        font-size: 8px;
+        letter-spacing: 0px;
+        flex-direction: column;
+        -webkit-flex-direction: column; }
+        .hero .search-btn .icon-search {
+          content: "";
+          background-image: url("../img/search-icon.svg");
+          background-size: cover;
+          background-position: center;
+          width: 18px;
+          height: 18px; } }
+    @media (max-width: 768px) {
+      .hero .search-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+		display: none; } }
+
+.search-form {
+  position: absolute;
+  left: 340px;
+  top: 160px;
+  z-index: 3;
+  width: 502px;
+  height: 518px; }
+  @media (max-width: 1600px) {
+    .search-form {
+      left: 180px; } }
+  @media (max-width: 1260px) {
+    .search-form {
+      left: 110px; } }
+  @media (max-width: 1100px) {
+    .search-form {
+      left: 60px;
+      width: 402px; } }
+  @media (max-width: 940px) {
+    .search-form {
+      display: none; } }
+  .search-form .box-title {
+    display: none; }
+  .search-form .close-btn {
+    display: none; }
+  .search-form .form-box {
+    width: 100%;
+    height: 96px;
+    margin-bottom: 25px;
+    background-color: #fff;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    padding-left: 30px;
+    padding-top: 17px;
+    position: relative; }
+    .search-form .form-box .label {
+      font-family: "BentonSansBold";
+      font-size: 14px;
+      color: #282828; }
+    .search-form .form-box #destination {
+      background-image: url("../img/list-icon.svg");
+      background-position: right top;
+      background-size: 90px 30px; }
+    .search-form .form-box #airport, .search-form .form-box #month, .search-form .form-box #passenger {
+      background-image: url("../img/form-dropdown-icon.svg");
+      background-position: right 6px;
+      background-size: 90px 12px; }
+  .search-form .find-btn {
+    height: 97px;
+    width: 291px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.4);
+    font-family: "BentonSansBold";
+    text-transform: uppercase; }
+    .search-form .find-btn:before {
+      margin-right: 15px;
+      content: url("../img/search-icon.svg"); }
+
+.lity-content .search-form {
+  height: auto;
+  width: 500px;
+  background-color: #f6f6f6;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+  padding: 15px;
+  position: relative;
+  display: block;
+  left: auto;
+  top: auto; }
+  @media (max-width: 610px) {
+    .lity-content .search-form {
+      width: 400px; } }
+  @media (max-width: 450px) {
+    .lity-content .search-form {
+      width: auto; } }
+  .lity-content .search-form .box-title {
+    display: block;
+    font-size: 20px;
+    line-height: 50px;
+    text-align: center;
+    font-family: "CaslonGraphiqueEF";
+    color: #000000; }
+  .lity-content .search-form .close-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-align-items: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer; }
+    .lity-content .search-form .close-btn .icon-close {
+      margin-left: 10px;
+      height: 20px;
+      flex: 0 0 20px;
+      -webkit-flex: 0 0 20px;
+      content: url(../img/close-icon-circle.svg); }
+  .lity-content .search-form .form-box {
+    margin-bottom: 8px; }
+  .lity-content .search-form .find-btn {
+    height: 76px;
+    width: 260px; }
+
+.intro-section {
+  padding-top: 100px;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -webkit-align-items: center;
+  align-items: center; }
+  @media (max-width: 940px) {
+    .intro-section {
+      flex-direction: column;
+      -webkit-flex-direction: column;
+      padding-top: 50px;
+      margin-bottom: 85px; } }
+  @media (max-width: 760px) {
+    .intro-section {
+      -webkit-align-items: flex-start;
+      align-items: flex-start; } }
+  .intro-section .title {
+    display: inline-block;
+    font-family: "BentonSansExtraLight";
+    font-size: 57px;
+    color: #000000;
+    line-height: 60px; }
+    @media (max-width: 940px) {
+      .intro-section .title {
+        font-size: 40px;
+        padding-bottom: 20px; } }
+    @media (max-width: 610px) {
+      .intro-section .title {
+        font-size: 36px; } }
+    .intro-section .title .caslo-graphique {
+      font-family: "CaslonGraphiqueEF";
+      color: #424242; }
+      @media (max-width: 1260px) {
+        .intro-section .title .caslo-graphique {
+          display: block; } }
+      @media (max-width: 940px) {
+        .intro-section .title .caslo-graphique {
+          display: inline-block; } }
+      @media (max-width: 530px) {
+        .intro-section .title .caslo-graphique {
+          display: block; } }
+  .intro-section p {
+    display: inline-block;
+    width: 396px;
+    text-align: left; }
+    @media (max-width: 940px) {
+      .intro-section p {
+        width: 100%;
+        height: auto;
+        text-align: justify; } }
+
+.popular-countries {
+  margin-bottom: 110px;
+  margin-top: 50px;
+  height: 594px;
+  position: relative;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-align-items: center;
+  align-items: center;
+  max-width: 100%; }
+  @media (max-width: 1260px) {
+    .popular-countries {
+      flex-direction: column;
+      -webkit-flex-direction: column;
+      -webkit-align-items: stretch;
+      align-items: stretch;
+      margin-bottom: 75px;
+      height: auto; } }
+  .popular-countries .world-map {
+    position: absolute;
+    left: 115px;
+    background-image: url("../img/home/world-map.svg");
+    background-repeat: no-repeat;
+    opacity: 0.05;
+    height: 594px;
+    width: 100%; }
+    @media (max-width: 1260px) {
+      .popular-countries .world-map {
+        left: 0px;
+        top: -50px; } }
+  .popular-countries .countries-description {
+    padding-left: 335px;
+    display: inline-block;
+    padding-bottom: 30px; }
+    @media (max-width: 1600px) {
+      .popular-countries .countries-description {
+        padding-left: 180px; } }
+    @media (max-width: 1360px) {
+      .popular-countries .countries-description {
+        padding-left: 60px; } }
+    @media (max-width: 1260px) {
+      .popular-countries .countries-description {
+        width: 1040px;
+        padding: 0px;
+        margin: 0px auto 0px;
+        display: block; } }
+    @media (max-width: 1100px) {
+      .popular-countries .countries-description {
+        width: 880px; } }
+    @media (max-width: 940px) {
+      .popular-countries .countries-description {
+        width: 730px; } }
+    @media (max-width: 760px) {
+      .popular-countries .countries-description {
+        width: 580px;
+        margin: 0 auto 0px; } }
+    @media (max-width: 610px) {
+      .popular-countries .countries-description {
+        width: 500px; } }
+    @media (max-width: 530px) {
+      .popular-countries .countries-description {
+        max-width: 420px; } }
+    @media (max-width: 450px) {
+      .popular-countries .countries-description {
+        max-width: 365px; } }
+    @media (max-width: 394px) {
+      .popular-countries .countries-description {
+        max-width: 335px; } }
+    @media (max-width: 350px) {
+      .popular-countries .countries-description {
+        max-width: 290px; } }
+    .popular-countries .countries-description p {
+      margin-top: 16px;
+      width: 422px; }
+      @media (max-width: 1260px) {
+        .popular-countries .countries-description p {
+          width: 100%; } }
+  .popular-countries .countries-carousel {
+    position: absolute;
+    padding-left: 865px;
+    display: inline-block; }
+    @media (max-width: 1600px) {
+      .popular-countries .countries-carousel {
+        padding-left: 710px; } }
+    @media (max-width: 1360px) {
+      .popular-countries .countries-carousel {
+        padding-left: 590px; } }
+    @media (max-width: 1260px) {
+      .popular-countries .countries-carousel {
+        position: static;
+        max-width: 1040px;
+        margin: 0px auto 0px;
+        padding-left: 0px; }
+        .popular-countries .countries-carousel .slick-list {
+          overflow: visible; } }
+    @media (max-width: 1100px) {
+      .popular-countries .countries-carousel {
+        max-width: 880px; } }
+    @media (max-width: 940px) {
+      .popular-countries .countries-carousel {
+        max-width: 730px; } }
+    @media (max-width: 760px) {
+      .popular-countries .countries-carousel {
+        max-width: 580px; } }
+    @media (max-width: 610px) {
+      .popular-countries .countries-carousel {
+        max-width: 500px; } }
+    @media (max-width: 530px) {
+      .popular-countries .countries-carousel {
+        max-width: 420px; } }
+    @media (max-width: 450px) {
+      .popular-countries .countries-carousel {
+        max-width: 365px; } }
+    @media (max-width: 394px) {
+      .popular-countries .countries-carousel {
+        max-width: 335px; } }
+    @media (max-width: 350px) {
+      .popular-countries .countries-carousel {
+        max-width: 290px; } }
+    .popular-countries .countries-carousel .item {
+      height: 424px;
+      width: 291px;
+      margin: 0px 12.5px;
+      vertical-align: middle;
+      margin-top: 30px;
+      background-repeat: no-repeat;
+      background-size: cover; }
+      @media (max-width: 768px) {
+        .popular-countries .countries-carousel .item {
+          margin: 30px 7.5px 0px;
+          overflow: hidden; } }
+      @media (max-width: 760px) {
+        .popular-countries .countries-carousel .item {
+          height: 360px;
+          width: 247px; } }
+      @media (max-width: 530px) {
+        .popular-countries .countries-carousel .item {
+          margin: 30px 5px 0px;
+          height: 271px;
+          width: 186px; } }
+      .popular-countries .countries-carousel .item:before {
+        position: absolute;
+        z-index: 2;
+        content: "";
+        display: block;
+        height: 120px;
+        width: 120px;
+        background-image: url(../img/compass-icon.svg);
+        background-size: contain;
+        bottom: -30px;
+        left: -25px; }
+        @media (max-width: 760px) {
+          .popular-countries .countries-carousel .item:before {
+            width: 100px;
+            height: 100px;
+            bottom: -25px; } }
+        @media (max-width: 530px) {
+          .popular-countries .countries-carousel .item:before {
+            width: 78px;
+            height: 78px;
+            bottom: -15px;
+            left: -15px; } }
+      @media (min-width: 1261px) {
+        .popular-countries .countries-carousel .item.slick-current + .item {
+          height: 484px;
+          margin-top: 0px; }
+          .popular-countries .countries-carousel .item.slick-current + .item .content {
+            top: 410px; } }
+    .popular-countries .countries-carousel .content {
+      top: 350px;
+      left: 27px;
+      position: absolute;
+      color: #fff;
+      z-index: 1; }
+      @media (max-width: 760px) {
+        .popular-countries .countries-carousel .content {
+          top: 286px; } }
+      @media (max-width: 530px) {
+        .popular-countries .countries-carousel .content {
+          top: 200px; } }
+      .popular-countries .countries-carousel .content:before {
+        position: absolute;
+        display: inline-block;
+        left: -27px;
+        width: 291px;
+        bottom: -27px;
+        content: url(../img/home/gradient.svg);
+        z-index: -1; }
+        @media (max-width: 760px) {
+          .popular-countries .countries-carousel .content:before {
+            transform: scale(0.85);
+            bottom: -38px;
+            left: -49px; } }
+        @media (max-width: 530px) {
+          .popular-countries .countries-carousel .content:before {
+            transform: scale(0.64);
+            bottom: -52px;
+            left: -80px; } }
+      .popular-countries .countries-carousel .content .country {
+        font-family: "CaslonGraphiqueEF";
+        font-size: 30px;
+        line-height: 27px;
+        text-align: left; }
+        @media (max-width: 760px) {
+          .popular-countries .countries-carousel .content .country {
+            font-size: 24px; } }
+        @media (max-width: 530px) {
+          .popular-countries .countries-carousel .content .country {
+            font-size: 20px; } }
+      .popular-countries .countries-carousel .content .location {
+        font-family: "BentonSans";
+        font-size: 16px;
+        line-height: 24px;
+        text-align: left; }
+        @media (max-width: 760px) {
+          .popular-countries .countries-carousel .content .location {
+            font-size: 14px; } }
+  .popular-countries .countries-navigation {
+    top: 260px;
+    left: 830px; }
+    @media (max-width: 1600px) {
+      .popular-countries .countries-navigation {
+        left: 675px; } }
+    @media (max-width: 1360px) {
+      .popular-countries .countries-navigation {
+        left: 555px; } }
+    @media (max-width: 1260px) {
+      .popular-countries .countries-navigation {
+        display: none; } }
+    .popular-countries .countries-navigation .next {
+      transform: rotate(180deg); }
+
+.collections-section {
+  position: relative;
+  padding-left: 340px;
+  max-width: 100%; }
+  @media (max-width: 1600px) {
+    .collections-section {
+      padding-left: 180px; } }
+  @media (max-width: 1100px) {
+    .collections-section {
+      padding-left: 60px; } }
+  @media (max-width: 760px) {
+    .collections-section {
+      padding-left: 0px;
+      max-width: 580px;
+      margin: 0px auto 60px; } }
+  @media (max-width: 610px) {
+    .collections-section {
+      max-width: 500px; } }
+  @media (max-width: 530px) {
+    .collections-section {
+      max-width: 420px; } }
+  @media (max-width: 450px) {
+    .collections-section {
+      max-width: 365px; } }
+  @media (max-width: 394px) {
+    .collections-section {
+      max-width: 335px; } }
+  @media (max-width: 350px) {
+    .collections-section {
+      max-width: 290px; } }
+  .collections-section h4 {
+    margin-top: 130px; }
+    @media (max-width: 1100px) {
+      .collections-section h4 {
+        max-width: 880px;
+        margin-top: 100px; } }
+    @media (max-width: 760px) {
+      .collections-section h4 {
+        max-width: 580px;
+        margin-top: 70px; } }
+    @media (max-width: 610px) {
+      .collections-section h4 {
+        max-width: 500px; } }
+    @media (max-width: 530px) {
+      .collections-section h4 {
+        max-width: 420px; } }
+    @media (max-width: 450px) {
+      .collections-section h4 {
+        max-width: 365px; } }
+    @media (max-width: 394px) {
+      .collections-section h4 {
+        max-width: 335px; } }
+    @media (max-width: 350px) {
+      .collections-section h4 {
+        max-width: 290px; } }
+  .collections-section h2 {
+    margin-bottom: 35px; }
+    @media (max-width: 760px) {
+      .collections-section h2 {
+        margin-bottom: 0px; } }
+    @media (max-width: 610px) {
+      .collections-section h2 {
+        max-width: 500px; } }
+    @media (max-width: 530px) {
+      .collections-section h2 {
+        max-width: 420px; } }
+    @media (max-width: 450px) {
+      .collections-section h2 {
+        max-width: 365px; } }
+    @media (max-width: 394px) {
+      .collections-section h2 {
+        max-width: 335px; } }
+    @media (max-width: 350px) {
+      .collections-section h2 {
+        max-width: 290px; } }
+  @media (max-width: 760px) {
+    .collections-section .collections-carousel .slick-list {
+      overflow: visible; } }
+  .collections-section .collections-carousel .item {
+    height: 640px;
+    width: 396px;
+    background-size: cover;
+    background-position: center;
+    margin: 0px 12.5px;
+    vertical-align: middle;
+    margin-top: 30px; }
+    @media (max-width: 1260px) {
+      .collections-section .collections-carousel .item {
+        height: 517px;
+        width: 326px; } }
+    @media (max-width: 768px) {
+      .collections-section .collections-carousel .item {
+        margin: 30px 7.5px 0px; } }
+    @media (max-width: 760px) {
+      .collections-section .collections-carousel .item {
+        height: 394px;
+        width: 256px; } }
+    @media (max-width: 530px) {
+      .collections-section .collections-carousel .item {
+        margin: 30px 5px 0px; } }
+    @media (max-width: 450px) {
+      .collections-section .collections-carousel .item {
+        height: 270px;
+        width: 186px; } }
+    .collections-section .collections-carousel .item:before {
+      content: "";
+      width: 396px;
+      height: 156px;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.6));
+      display: block;
+      position: relative;
+      top: 484px; }
+      @media (max-width: 1260px) {
+        .collections-section .collections-carousel .item:before {
+          width: 326px;
+          top: 361px; } }
+      @media (max-width: 760px) {
+        .collections-section .collections-carousel .item:before {
+          width: 256px;
+          top: 238px; } }
+      @media (max-width: 450px) {
+        .collections-section .collections-carousel .item:before {
+          width: 186px;
+          top: 114px; } }
+  .collections-section .collections-carousel .content {
+    bottom: 35px;
+    left: 27px;
+    position: absolute;
+    color: #fff; }
+    @media (max-width: 1260px) {
+      .collections-section .collections-carousel .content {
+        left: 22px;
+        bottom: 30px;
+        max-width: 288px; } }
+    @media (max-width: 760px) {
+      .collections-section .collections-carousel .content {
+        left: 17px;
+        bottom: 25px;
+        max-width: 220px; } }
+    @media (max-width: 450px) {
+      .collections-section .collections-carousel .content {
+        left: 13px;
+        bottom: 20px;
+        max-width: 165px; } }
+    .collections-section .collections-carousel .content .type {
+      font-family: "CaslonGraphiqueEF";
+      font-size: 30px;
+      line-height: 27px;
+      text-align: left; }
+      @media (max-width: 1260px) {
+        .collections-section .collections-carousel .content .type {
+          font-size: 26px;
+          letter-spacing: -0.2px; } }
+      @media (max-width: 760px) {
+        .collections-section .collections-carousel .content .type {
+          font-size: 24px;
+          letter-spacing: -0.4px; } }
+      @media (max-width: 450px) {
+        .collections-section .collections-carousel .content .type {
+          font-size: 20px;
+          letter-spacing: -0.6px;
+          line-height: 24px; } }
+  .collections-section .collections-navigation {
+    top: 458px;
+    left: 305px; }
+    @media (max-width: 1600px) {
+      .collections-section .collections-navigation {
+        left: 145px; } }
+    @media (max-width: 1260px) {
+      .collections-section .collections-navigation {
+        top: 397px; } }
+    @media (max-width: 1100px) {
+      .collections-section .collections-navigation {
+        left: 25px; } }
+    @media (max-width: 940px) {
+      .collections-section .collections-navigation {
+        display: none; } }
+    .collections-section .collections-navigation .next {
+      left: 76px; }
+  .collections-section .btn-wrap {
+    margin: 0px auto 0px;
+    max-width: 1040px;
+    padding-right: 340px;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    -webkit-justify-content: center; }
+    @media (max-width: 1600px) {
+      .collections-section .btn-wrap {
+        padding-right: 180px; } }
+    @media (max-width: 1100px) {
+      .collections-section .btn-wrap {
+        max-width: 880px;
+        padding-right: 60px; } }
+    @media (max-width: 940px) {
+      .collections-section .btn-wrap {
+        max-width: 730px; } }
+    @media (max-width: 760px) {
+      .collections-section .btn-wrap {
+        justify-content: flex-start;
+        -webkit-justify-content: flex-start; } }
+    .collections-section .btn-wrap .btn {
+      width: 187px;
+      height: 64px;
+      margin-top: 65px;
+      margin-bottom: 105px; }
+      @media (max-width: 1100px) {
+        .collections-section .btn-wrap .btn {
+          margin-bottom: 45px; } }
+      @media (max-width: 760px) {
+        .collections-section .btn-wrap .btn {
+          margin-bottom: 5px;
+          margin-top: 45px; } }
+      .collections-section .btn-wrap .btn .icon-more {
+        padding-left: 18px;
+        content: url("../img/more-icon-white.svg"); }
+
+.destinations-section {
+  background: #f4f4f4;
+  position: relative;
+  padding-top: 95px;
+  padding-bottom: 135px;
+  max-width: 100%;
+  margin-bottom: 0px; }
+  @media (max-width: 1260px) {
+    .destinations-section {
+      padding-bottom: 115px; } }
+  @media (max-width: 1100px) {
+    .destinations-section {
+      padding-top: 75px; } }
+  @media (max-width: 610px) {
+    .destinations-section {
+      padding-top: 55px;
+      padding-bottom: 95px; } }
+  @media (max-width: 450px) {
+    .destinations-section {
+      padding-top: 35px;
+      padding-bottom: 75px; } }
+  @media (max-width: 350px) {
+    .destinations-section {
+      padding-bottom: 55px; } }
+  .destinations-section h2 {
+    margin-bottom: 55px;
+    color: #1A1A1A; }
+  .destinations-section .destinations-carousel {
+    padding: 0px 180px; }
+    @media (max-width: 1360px) {
+      .destinations-section .destinations-carousel {
+        padding: 0px 150px; } }
+    @media (max-width: 1260px) {
+      .destinations-section .destinations-carousel {
+        padding: 0px 120px; } }
+    @media (max-width: 1100px) {
+      .destinations-section .destinations-carousel {
+        padding: 0px 60px; } }
+    @media (max-width: 940px) {
+      .destinations-section .destinations-carousel {
+        padding: 0px; } }
+    .destinations-section .destinations-carousel .item {
+      height: 424px;
+      width: 291px;
+      background-size: cover;
+      background-position: center;
+      margin: 0px 10px;
+      vertical-align: middle;
+      margin-top: 30px;
+      overflow: hidden; }
+      @media (max-width: 1260px) {
+        .destinations-section .destinations-carousel .item {
+          margin-top: 27px;
+          height: 370px;
+          width: 256px; } }
+      @media (max-width: 768px) {
+        .destinations-section .destinations-carousel .item {
+          margin: 27px 7.5px 0px; } }
+      @media (max-width: 760px) {
+        .destinations-section .destinations-carousel .item {
+          margin-top: 24px;
+          height: 315px;
+          width: 221px; } }
+      @media (max-width: 530px) {
+        .destinations-section .destinations-carousel .item {
+          margin: 24px 5px 0px; } }
+      @media (max-width: 450px) {
+        .destinations-section .destinations-carousel .item {
+          margin-top: 20px;
+          height: 260px;
+          width: 186px; } }
+      .destinations-section .destinations-carousel .item:before {
+        position: absolute;
+        z-index: 2;
+        content: "";
+        bottom: -30px;
+        left: -15px;
+        display: block;
+        background-image: url(../img/compass-icon.svg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 120px;
+        width: 120px; }
+        @media (max-width: 1260px) {
+          .destinations-section .destinations-carousel .item:before {
+            height: 106px;
+            width: 106px;
+            bottom: -25px; } }
+        @media (max-width: 760px) {
+          .destinations-section .destinations-carousel .item:before {
+            height: 92px;
+            width: 92px;
+            bottom: -20px; } }
+        @media (max-width: 450px) {
+          .destinations-section .destinations-carousel .item:before {
+            height: 77px;
+            width: 77px;
+            bottom: -15px; } }
+      .destinations-section .destinations-carousel .item.slick-current {
+        height: 484px;
+        margin-top: 0px; }
+        @media (max-width: 1260px) {
+          .destinations-section .destinations-carousel .item.slick-current {
+            height: 424px; } }
+        @media (max-width: 760px) {
+          .destinations-section .destinations-carousel .item.slick-current {
+            height: 362px; } }
+        @media (max-width: 450px) {
+          .destinations-section .destinations-carousel .item.slick-current {
+            height: 300px; } }
+        .destinations-section .destinations-carousel .item.slick-current .content {
+          top: 424px; }
+          @media (max-width: 1260px) {
+            .destinations-section .destinations-carousel .item.slick-current .content {
+              top: 369px; } }
+          @media (max-width: 760px) {
+            .destinations-section .destinations-carousel .item.slick-current .content {
+              top: 313px; } }
+          @media (max-width: 450px) {
+            .destinations-section .destinations-carousel .item.slick-current .content {
+              top: 260px; } }
+    .destinations-section .destinations-carousel .content {
+      top: 365px;
+      left: 27px;
+      position: absolute;
+      color: #fff;
+      z-index: 1; }
+      @media (max-width: 1260px) {
+        .destinations-section .destinations-carousel .content {
+          top: 316px; } }
+      @media (max-width: 760px) {
+        .destinations-section .destinations-carousel .content {
+          top: 266px; } }
+      @media (max-width: 450px) {
+        .destinations-section .destinations-carousel .content {
+          top: 220px; } }
+      .destinations-section .destinations-carousel .content:before {
+        content: "";
+        position: absolute;
+        left: -27px;
+        bottom: -32px;
+        width: 291px;
+        height: 156px;
+        display: block;
+        background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.6));
+        z-index: -1; }
+        @media (max-width: 1260px) {
+          .destinations-section .destinations-carousel .content:before {
+            width: 256px;
+            bottom: -27px; } }
+        @media (max-width: 760px) {
+          .destinations-section .destinations-carousel .content:before {
+            width: 221px;
+            bottom: -22px; } }
+        @media (max-width: 450px) {
+          .destinations-section .destinations-carousel .content:before {
+            width: 186px;
+            bottom: -16px; } }
+      .destinations-section .destinations-carousel .content .location {
+        font-family: "CaslonGraphiqueEF";
+        font-size: 30px;
+        line-height: 27px;
+        text-align: left; }
+        @media (max-width: 1260px) {
+          .destinations-section .destinations-carousel .content .location {
+            font-size: 26px; } }
+        @media (max-width: 760px) {
+          .destinations-section .destinations-carousel .content .location {
+            font-size: 24px; } }
+        @media (max-width: 450px) {
+          .destinations-section .destinations-carousel .content .location {
+            font-size: 20px;
+            line-height: 24px; } }
+  .destinations-section .destinations-navigation {
+    top: 465px;
+    width: 100%; }
+    @media (max-width: 1260px) {
+      .destinations-section .destinations-navigation {
+        top: 445px; } }
+    @media (max-width: 1100px) {
+      .destinations-section .destinations-navigation {
+        top: 425px; } }
+    @media (max-width: 940px) {
+      .destinations-section .destinations-navigation {
+        display: none; } }
+    .destinations-section .destinations-navigation .prev {
+      left: 145px; }
+      @media (max-width: 1360px) {
+        .destinations-section .destinations-navigation .prev {
+          left: 115px; } }
+      @media (max-width: 1260px) {
+        .destinations-section .destinations-navigation .prev {
+          left: 85px; } }
+      @media (max-width: 1100px) {
+        .destinations-section .destinations-navigation .prev {
+          left: 35px; } }
+    .destinations-section .destinations-navigation .next {
+      right: 145px; }
+      @media (max-width: 1360px) {
+        .destinations-section .destinations-navigation .next {
+          right: 115px; } }
+      @media (max-width: 1260px) {
+        .destinations-section .destinations-navigation .next {
+          right: 85px; } }
+      @media (max-width: 1100px) {
+        .destinations-section .destinations-navigation .next {
+          right: 35px; } }
+
+
+.offer-section .offer-carousel .offer {
+    width: 396px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
+    padding-left: 22px;
+    padding-right: 22px;
+    padding-bottom: 28px;
+    margin-bottom: 20px;
+    position: relative;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+.offer-section .offer-carousel .offer .offer-img {
+    min-width: 291px;
+    display: block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 240px;
+    margin-left: -22px;
+    margin-right: -22px;
+}
+.offer-section .offer-carousel .offer .title {
+    padding-top: 18px;
+    font-family: "BentonSansBold";
+    font-size: 24px;
+    line-height: 27px;
+    color: #424242;
+}
+.offer-section .offer-carousel .offer ul {
+    list-style-type: none;
+    padding-top: 10px;
+}
+.offer-section .offer-carousel .offer ul li {
+    font-family: "BentonSansMedium";
+    font-size: 14px;
+    color: #878787;
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    padding-bottom: 5px;
+}
+.offer-section .offer-carousel .offer ul li .icon-compass {
+    content: url(../img/compass-grey.svg);
+    padding-right: 8px;
+}
+.offer-section .offer-carousel .offer ul li .icon-nights {
+    content: url(../img/nights-grey.svg);
+    padding-right: 8px;
+}
+.offer-section .offer-carousel .offer ul li .icon-board-basis {
+    content: url(../img/board-basis-grey.svg);
+    padding-right: 8px;
+}
+.offer-section .offer-carousel .offer .offer-bot-wrap {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+}
+.offer-section .offer-carousel .offer .offer-bot-wrap .price {
+    display: inline-block;
+    padding-top: 6px;
+}
+.offer-section .offer-carousel .offer .offer-bot-wrap .price span {
+    font-family: "BentonSansMedium";
+    font-size: 14px;
+    line-height: 38px;
+}
+.offer-section .offer-carousel .offer .offer-bot-wrap .price div {
+    font-family: "CaslonGraphiqueEF";
+    font-size: 40px;
+    line-height: 38px;
+}
+.offer-section .offer-carousel .offer .offer-bot-wrap .price span {
+    font-family: "BentonSansMedium";
+    font-size: 14px;
+    line-height: 38px;
+}
+.offer-section .offer-carousel .offer .offer-bot-wrap .btn {
+    float: right;
+    min-width: unset;
+    width: 185px;
+    height: 64px;
+    display: inline-flex;
+    letter-spacing: 1px;
+    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.25);
+}
+.offer-section .offer-carousel .offer .discount {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    /*width: 125px;
+    height: 65px;*/
+	width: auto;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+	padding: 4px 20px;
+	border-radius: 0 24px 24px 0;
+}
+.offer-section .offer-carousel .offer .discount .amount {
+    font-family: "CaslonGraphiqueEF";
+    font-size: 40px;
+    padding-right: 2px;
+}
+.offer-section .offer-carousel .offer .discount .off {
+    /* display: flex;
+    display: -webkit-flex; */
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    justify-content: center;
+    -webkit-justify-content: center;
+    font-family: "BentonSansMedium";
+    font-size: 14px;
+    line-height: 17px;
+	text-align: center;
+	padding: 0px 6px;
+}
+
+ .offer-section .offer-navigation {
+    /*top: 458px;
+    left: 305px;*/
+	right: 143px;
+	top: 45px;
+
+ }
+    @media (max-width: 1600px) {
+      .offer-section .offer-navigation { /* left: 145px;  */
+        right: 143px;
+		top: 45px; } }
+    @media (max-width: 1260px) {
+      .offer-section .offer-navigation {
+        top: 397px; } }
+    @media (max-width: 1100px) {
+      .offer-section .offer-navigation {
+        left: 25px; } }
+    @media (max-width: 940px) {
+      .offer-section .offer-navigation {
+        display: none; } }
+    .offer-section .offer-navigation .next {
+      left: 76px; }
+ @media only screen and (max-width:320px) {
+	.offer-section .offer-carousel .offer {
+		 width: 285px;
+		 padding-left: 15px;
+		 padding-right: 15px;
+		 }
+	.offer-section .offer-carousel .offer .offer-bot-wrap .btn {
+		width: 101px;
+		padding: 0 10px;
+		}
+ }

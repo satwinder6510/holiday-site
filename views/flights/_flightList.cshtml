@@ -1,0 +1,41 @@
+﻿@model citrus.Models.flightWithFilter
+    @{
+
+    int count = 0;
+    int repeat = Convert.ToInt32(Model.fm.TotalCount / 10) + 1;
+    for (int i = 0; i < repeat; i++)
+    {
+        foreach (var item in Model.flights.Skip(i * 10).Take(10))
+        {
+            string oimg = "https://admin.citiesandbeaches.com/PackageImages/flights/" + item.image;
+            //oimg = "/cdn-cgi/image/f=auto,fit=contain,h=291/" + oimg;
+    <div class="holiday count@(count)" @(count == 0 ? "" : "style=display:none;")>
+                    <span class="flight-img holiday-img lazy" data-src="@oimg"></span>
+                    <div class="details flight-details">
+                        <div>
+                            <div class="title">Cheap Flights to @item.arrival from @item.departure</div>
+                            <ul>
+                                <li><span class="icon-nights"></span>@item.nights nights</li>
+                            </ul>
+                        </div>
+                        <p>@item.description</p>
+                        <div class="horizontal">
+                            <div class="price">
+                                <span>from</span>
+                                <div>£@item.price<span>/pp</span></div>
+                            </div>
+                            <a nights="@item.nights" code="@item.arrivalCode" aname="@item.arrival" dcode="@item.departureCode" dname="@item.departure" class="btn open-calendar">View More<span class="icon-more"></span></a>
+                        </div>
+                    </div>
+                </div>
+        }
+        count++;
+    }
+
+
+    }
+    <script>
+        $(function () {
+            $('.lazy').Lazy();
+        });
+    </script>

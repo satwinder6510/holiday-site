@@ -1,0 +1,159 @@
+﻿/* Brand */
+.hero-section {
+  background-image: url(../img/contactus/hero-image.jpg); }
+
+.contactus-section {
+  position: relative; }
+  .contactus-section p {
+    width: calc(100% - 292px);
+    padding-right: 20px;
+    padding-bottom: 70px; }
+    @media (max-width: 940px) {
+      .contactus-section p {
+        width: 100%;
+        padding-bottom: 45px;
+        padding-right: 0px; } }
+    @media (max-width: 768px) {
+      .contactus-section p {
+        text-align: justify; } }
+  .contactus-section .contact-form {
+    width: calc(100% - 292px);
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    padding-right: 20px; }
+    @media (max-width: 940px) {
+      .contactus-section .contact-form {
+        width: 100%;
+        padding-right: 0px; } }
+    .contactus-section .contact-form .field-wrap {
+      display: flex;
+      display: -webkit-flex;
+      width: 100%;
+      justify-content: space-between;
+      -webkit-justify-content: space-between; }
+      @media (max-width: 610px) {
+        .contactus-section .contact-form .field-wrap {
+          flex-direction: column;
+          -webkit-flex-direction: column; } }
+    .contactus-section .contact-form .half {
+      width: calc(50% - 6px); }
+      @media (max-width: 610px) {
+        .contactus-section .contact-form .half {
+          width: 100%; } }
+      .contactus-section .contact-form .half:last-child {
+        float: right; }
+    .contactus-section .contact-form label {
+      font-family: "BentonSansBold";
+      font-size: 18px;
+      line-height: 24px;
+      color: #424242; }
+      .contactus-section .contact-form label span {
+        font-family: "BentonSans";
+        font-size: 14px; }
+    .contactus-section .contact-form .input {
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      -ms-border-radius: 2px;
+      border-radius: 2px;
+      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2); }
+      @media (max-width: 610px) {
+        .contactus-section .contact-form .input {
+          margin-bottom: 30px; } }
+    .contactus-section .contact-form input[type=number]::-webkit-inner-spin-button,
+    .contactus-section .contact-form input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0; }
+    .contactus-section .contact-form textarea {
+      height: 430px;
+      padding: 30px; }
+    .contactus-section .contact-form .form-actions {
+      display: flex;
+      display: -webkit-flex;
+      -webkit-align-items: baseline;
+      align-items: baseline;
+      justify-content: space-between;
+      -webkit-justify-content: space-between; }
+    .contactus-section .contact-form .form-reset {
+      color: #20A1AA; }
+    .contactus-section .contact-form .submit {
+      letter-spacing: 1px;
+      width: 155px;
+      height: 54px;
+      padding: 0; }
+  .contactus-section .sidebar {
+    position: absolute;
+    right: 0px;
+    top: 0px; }
+    @media (max-width: 940px) {
+      .contactus-section .sidebar {
+        position: static; } }
+    .contactus-section .sidebar .contact-info {
+      width: 291px;
+      background-color: #F4F4F4;
+      padding: 20px;
+      position: relative;
+      font-family: "BentonSansMedium";
+      font-size: 14px;
+      color: #282828; }
+      @media (max-width: 940px) {
+        .contactus-section .sidebar .contact-info {
+          width: 100%;
+          background-color: transparent;
+          padding: 0px;
+          margin-bottom: 45px; } }
+    .contactus-section .sidebar .location, .contactus-section .sidebar .phone, .contactus-section .sidebar .mail {
+      display: flex;
+      display: -webkit-flex;
+      -webkit-align-items: center;
+      align-items: center;
+      padding-bottom: 20px;
+      line-height: 20px; }
+    .contactus-section .sidebar .social {
+      display: flex;
+      display: -webkit-flex;
+      -webkit-align-items: center;
+      align-items: center;
+      padding-top: 20px; }
+    .contactus-section .sidebar .icon-location {
+      content: url("../img/contactus/location-icon.svg");
+      padding-right: 14px; }
+    .contactus-section .sidebar .icon-phone {
+      content: url("../img/contactus/phone-icon.svg");
+      padding-right: 16px; }
+    .contactus-section .sidebar .icon-email {
+      content: url("../img/contactus/email-icon.svg");
+      padding-right: 14px; }
+    .contactus-section .sidebar .icon-facebook {
+      content: url("../img/contactus/facebook-icon.svg");
+      padding-right: 16px; }
+    .contactus-section .sidebar .icon-twitter {
+      content: url("../img/contactus/twitter-icon.svg");
+      padding-right: 16px; }
+    .contactus-section .sidebar .icon-pinterest {
+      content: url("../img/contactus/pinterest-icon.svg");
+      padding-right: 10px; }
+
+.success-popup {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+  padding: 50px;
+  background-color: #fff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px; }
+  .success-popup p {
+    color: #424242; }
+  .success-popup .bold {
+    margin-bottom: 0px;
+    font-family: "BentonSansBold"; }
+  .success-popup .btn {
+    font-size: 12px; }
+  .success-popup.lity-hide {
+    display: none; }

@@ -1,0 +1,493 @@
+﻿/* Brand */
+header .nav {
+  justify-content: space-between;
+  -webkit-justify-content: space-between; }
+  header .nav ul {
+    display: none; }
+
+header .mobile-nav {
+  justify-content: space-between;
+  -webkit-justify-content: space-between; }
+  header .mobile-nav a, header .mobile-nav span {
+    visibility: hidden; }
+  header .mobile-nav .logo {
+    visibility: visible; }
+
+.hero-section {
+  background-image: url(../img/paxdetails/hero-image.jpg);
+  margin-bottom: 0px; }
+  @media (max-width: 768px) {
+    .hero-section {
+      height: 484px; } }
+  .hero-section .content {
+    padding-bottom: 80px; }
+
+.info-section {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 440px;
+  color: #ffffff; }
+  @media (max-width: 940px) {
+    .info-section {
+      top: 400px; } }
+  @media (max-width: 768px) {
+    .info-section {
+      top: 330px; } }
+  @media (max-width: 450px) {
+    .info-section {
+      top: 290px; } }
+  .info-section .info-wrap {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+    display: flex;
+    display: -webkit-flex;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    height: 96px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0 25px; }
+    @media (max-width: 1100px) {
+      .info-section .info-wrap {
+        flex-direction: column;
+        -webkit-flex-direction: column;
+        height: auto;
+        padding: 15px 25px; } }
+    .info-section .info-wrap .info {
+      height: 52px;
+      width: 100%;
+      flex: 1;
+      -webkit-flex: 1; }
+      @media (max-width: 1100px) {
+        .info-section .info-wrap .info {
+          display: flex;
+          display: -webkit-flex;
+          -webkit-align-items: center;
+          align-items: center;
+          padding-top: 10px;
+          text-align: center; } }
+      .info-section .info-wrap .info p {
+        color: #ffffff; }
+      .info-section .info-wrap .info .editable {
+        font-family: "BentonsansMedium"; }
+    .info-section .info-wrap .price {
+      display: flex;
+      display: -webkit-flex;
+      flex: 1;
+      -webkit-flex: 1;
+      justify-content: flex-end;
+      -webkit-justify-content: flex-end;
+      -webkit-align-items: center;
+      align-items: center; }
+      @media (max-width: 1100px) {
+        .info-section .info-wrap .price {
+          padding-right: 0px;
+          padding-top: 10px; } }
+      .info-section .info-wrap .price .holiday-price {
+        font-family: "CaslonGraphiqueEF";
+        font-size: 40px;
+        line-height: 40px;
+        padding-right: 35px; }
+        @media (max-width: 610px) {
+          .info-section .info-wrap .price .holiday-price {
+            font-size: 36px; } }
+        @media (max-width: 450px) {
+          .info-section .info-wrap .price .holiday-price {
+            font-size: 32px; } }
+        @media (max-width: 350px) {
+          .info-section .info-wrap .price .holiday-price {
+            font-size: 28px; } }
+        .info-section .info-wrap .price .holiday-price span {
+          font-family: "BentonSansMedium";
+          font-size: 14px;
+          line-height: 33px; }
+      .info-section .info-wrap .price .total-price {
+        display: flex;
+        display: -webkit-flex;
+        -webkit-align-items: center;
+        align-items: center;
+        font-family: "CaslonGraphiqueEF";
+        font-size: 32px; }
+        @media (max-width: 350px) {
+          .info-section .info-wrap .price .total-price {
+            font-size: 28px; } }
+        .info-section .info-wrap .price .total-price .price-label {
+          display: flex;
+          display: -webkit-flex;
+          flex-direction: column;
+          -webkit-flex-direction: column;
+          padding-left: 5px; }
+          .info-section .info-wrap .price .total-price .price-label span {
+            font-family: "BentonSansMedium";
+            font-size: 14px;
+            line-height: 14px; }
+            @media (max-width: 350px) {
+              .info-section .info-wrap .price .total-price .price-label span {
+                font-size: 12px;
+                line-height: 12px; } }
+
+@media (max-width: 768px) {
+  .itinerary-content {
+    margin-top: 70px; } }
+
+.itinerary-content section {
+  max-width: 100%;
+  display: flex;
+  display: -webkit-flex; }
+
+.itinerary-content .content {
+  width: calc(100% - 317px); }
+  @media (max-width: 768px) {
+    .itinerary-content .content {
+      width: 100%; } }
+  .itinerary-content .content h3 {
+    margin-top: 65px; }
+  .itinerary-content .content.close {
+    display: none; }
+
+.itinerary-content .sidebar {
+  margin-top: 65px;
+  margin-left: 25px;
+  width: 291px; }
+  @media (max-width: 768px) {
+    .itinerary-content .sidebar {
+      display: none; }
+      .itinerary-content .sidebar.open-summary {
+        margin-top: 40px;
+        margin-left: 0px;
+        position: relative;
+        display: block;
+        width: 730px; }
+        .itinerary-content .sidebar.open-summary .wrap {
+          box-shadow: none; }
+          .itinerary-content .sidebar.open-summary .wrap img {
+            display: none; }
+        .itinerary-content .sidebar.open-summary .check-price {
+          height: 45px;
+          font-size: 12px; } }
+  .itinerary-content .sidebar .wrap {
+    box-shadow: 0px 6px 12px 2px rgba(0, 0, 0, 0.1); }
+  .itinerary-content .sidebar .wrap img {
+    border-style: none;
+    max-width: 100%;
+    min-height: 199px;}
+  .itinerary-content .sidebar .overview {
+    margin-left: 22px;
+    margin-right: 22px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+    .itinerary-content .sidebar .overview .title {
+      font-family: "BentonSansBold";
+      line-height: 27px;
+      color: #424242;
+      padding-bottom: 15px; }
+    .itinerary-content .sidebar .overview ul {
+      list-style-type: none; }
+      .itinerary-content .sidebar .overview ul li {
+        display: flex;
+        display: -webkit-flex;
+        -webkit-align-items: center;
+        align-items: center;
+        font-size: 16px;
+        padding-bottom: 5px; }
+        .itinerary-content .sidebar .overview ul li .icon-compass {
+          content: url("../img/compass-black.svg");
+          padding-right: 10px; }
+        .itinerary-content .sidebar .overview ul li .icon-nights {
+          content: url("../img/nights-black.svg");
+          padding-right: 10px; }
+        .itinerary-content .sidebar .overview ul li .icon-board-basis {
+          content: url("../img/board-basis-black.svg");
+          padding-right: 10px; }
+  .itinerary-content .sidebar .details {
+    margin-left: 22px;
+    margin-right: 22px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+    .itinerary-content .sidebar .details span {
+      font-family: "BentonSansBold";
+      font-size: 14px;
+      color: #424242; }
+    .itinerary-content .sidebar .details p {
+      font-size: 16px;
+      margin-bottom: 20px; }
+    .itinerary-content .sidebar .details ul {
+      margin-bottom: 20px;
+      list-style-type: none; }
+      .itinerary-content .sidebar .details ul li {
+        font-size: 16px; }
+    .itinerary-content .sidebar .details .picked-extras li {
+      display: flex;
+      display: -webkit-flex;
+      justify-content: Space-between;
+      -webkit-justify-content: Space-between; }
+    .itinerary-content .sidebar .details .picked-extras .icon-close {
+      content: url(../img/close-icon-circle.svg);
+      cursor: pointer; }
+    .itinerary-content .sidebar .details .icon-3-stars {
+      content: "";
+      display: inline-block;
+      width: 43px;
+      height: 16px;
+      margin-bottom: -2px;
+      background-image: url(../img/3stars.svg);
+      background-size: contain;
+      background-repeat: no-repeat; }
+    .itinerary-content .sidebar .details .icon-4-stars {
+      content: "";
+      display: inline-block;
+      width: 56px;
+      height: 16px;
+      margin-bottom: -2px;
+      background-image: url(../img/4stars.svg);
+      background-size: contain;
+      background-repeat: no-repeat; }
+    .itinerary-content .sidebar .details .icon-5-stars {
+      content: "";
+      display: inline-block;
+      width: 69px;
+      height: 16px;
+      margin-bottom: -2px;
+      background-image: url(../img/5stars.svg);
+      background-size: contain;
+      background-repeat: no-repeat; }
+.itinerary-content .sidebar .price {
+    display: block !important;
+    /*display: flex;
+    display: -webkit-flex;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;*/
+    margin-left: 22px;
+    margin-right: 22px;
+    padding-top: 20px;
+}
+    .itinerary-content .sidebar .price .holiday-price {
+        font-family: "CaslonGraphiqueEF";
+        font-size: 40px;
+        line-height: 25px;
+        border-bottom: 2px dotted rgba(0,0,0,.2);
+        padding-bottom: 9px;
+    }
+      .itinerary-content .sidebar .price .holiday-price span {
+        font-family: "BentonSansMedium";
+        font-size: 14px;
+        line-height: 33px; }
+    .itinerary-content .sidebar .price .total-price {        
+       display: flex;
+      display: -webkit-flex;
+      -webkit-align-items: center;
+      align-items: center;
+      font-family: "CaslonGraphiqueEF";
+      font-size: 40px;
+	  padding-top: 9px; }
+      .itinerary-content .sidebar .price .total-price .price-label {
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: column;
+        -webkit-flex-direction: column;
+        padding-left: 5px; }
+        .itinerary-content .sidebar .price .total-price .price-label span {
+          font-family: "BentonSansMedium";
+          font-size: 14px;
+          line-height: 14px; }
+  .itinerary-content .sidebar .check-price {
+    width: 100%;
+    height: 64px;
+    box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.25);
+    letter-spacing: 1px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    border-radius: 0px; }
+    .itinerary-content .sidebar .check-price .icon-more {
+      padding-left: 18px;
+      content: url("../img/more-icon-white.svg"); }
+
+.mobile-summary-toggle {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 70px;
+  background-color: #f4f4f4;
+  transition: transform .2s;
+  transform: translateY(0px);
+  z-index: 4; }
+  @media (max-width: 768px) {
+    .mobile-summary-toggle {
+      display: block; 
+      text-align: center !important;} }
+  .mobile-summary-toggle .summary-btn {
+    letter-spacing: 0px;
+    font-family: "BentonSans";
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    margin: auto;
+    height: 50px;
+    width: 284px;
+    margin-top: 10px; }
+    .mobile-summary-toggle .summary-btn:focus {
+      outline: none; }
+    .mobile-summary-toggle .summary-btn.close {
+      background-color: #757474; float: none; }
+  .mobile-summary-toggle.stick {
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    transition: transform .2s;
+    transform: translateY(-60px); }
+
+.pax-section h3 {
+  padding-bottom: 20px; 
+  font-size: 40px;
+  font-family: "CaslonGraphiqueEF";
+  color: #424242;}
+
+  @media (max-width: 610px) {
+    .pax-section h3 {
+      font-size: 36px; } }
+
+.pax-section .desc {
+  padding-bottom: 20px; }
+  @media (max-width: 768px) {
+    .pax-section .desc {
+      text-align: justify; } }
+
+.pax-section .passenger {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 55px; }
+  .pax-section .passenger h3 {
+    margin-top: 30px; }
+  .pax-section .passenger .field-wrap {
+    display: flex;
+    display: -webkit-flex;
+    width: 100%;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    -webkit-align-items: center;
+    align-items: center; }
+    @media (max-width: 940px) {
+      .pax-section .passenger .field-wrap {
+        flex-direction: column;
+        -webkit-flex-direction: column;
+        -webkit-align-items: flex-start;
+        align-items: flex-start; } }
+    @media (max-width: 768px) {
+      .pax-section .passenger .field-wrap {
+        flex-direction: row;
+        -webkit-flex-direction: row;
+        -webkit-align-items: center;
+        align-items: center; } }
+    @media (max-width: 610px) {
+      .pax-section .passenger .field-wrap {
+        flex-direction: column;
+        -webkit-flex-direction: column;
+        -webkit-align-items: flex-start;
+        align-items: flex-start; } }
+  .pax-section .passenger .form-block {
+    padding-top: 35px; }
+  .pax-section .passenger .half {
+    width: calc(50% - 6px); }
+    @media (max-width: 940px) {
+      .pax-section .passenger .half {
+        width: 100%; } }
+    @media (max-width: 768px) {
+      .pax-section .passenger .half {
+        width: calc(50% - 6px); } }
+    @media (max-width: 610px) {
+      .pax-section .passenger .half {
+        width: 100%; } }
+    .pax-section .passenger .half:last-child {
+      float: right; }
+  .pax-section .passenger label {
+    font-family: "BentonSansBold";
+    font-size: 18px;
+    line-height: 24px;
+    color: #424242;
+    margin-bottom: 15px; }
+    .pax-section .passenger label span {
+      font-family: "BentonSans";
+      font-size: 14px; }
+  .pax-section .passenger input {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    height: 82px; }
+  .pax-section .passenger input[type=number]::-webkit-inner-spin-button,
+  .pax-section .passenger input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0; }
+  .pax-section .passenger .optional-fill {
+    display: flex;
+    display: -webkit-flex;
+    -webkit-align-items: baseline;
+    align-items: baseline;
+    font-size: 14px;
+    padding-top: 15px; }
+    .pax-section .passenger .optional-fill input {
+      display: none; }
+    .pax-section .passenger .optional-fill input:checked + label {
+      display: flex;
+      display: -webkit-flex;
+      -webkit-align-items: baseline;
+      align-items: baseline; }
+      .pax-section .passenger .optional-fill input:checked + label:before {
+        -webkit-align-items: center;
+        align-items: center;
+        font-size: 14px;
+        content: "\2714"; }
+    .pax-section .passenger .optional-fill label {
+      display: flex;
+      display: -webkit-flex;
+      -webkit-align-items: center;
+      align-items: center;
+      color: #000000;
+      font-family: "BentonSans";
+      font-size: 14px;
+      margin-bottom: 0px; }
+      .pax-section .passenger .optional-fill label:before {
+        display: flex;
+        display: -webkit-flex;
+        background: #FFF;
+        content: "";
+        width: 14px;
+        height: 14px;
+        border: 1px solid #5e5e5e;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        -ms-border-radius: 2px;
+        border-radius: 2px;
+        margin-right: 14px; }
+        @media (max-width: 450px) {
+          .pax-section .passenger .optional-fill label:before {
+            margin-right: 5px; } }
+
+.pax-section .form-actions {
+  display: flex;
+  display: -webkit-flex;
+  -webkit-align-items: baseline;
+  align-items: baseline;
+  justify-content: space-between;
+  -webkit-justify-content: space-between; }
+
+.pax-section .form-reset {
+  color: #20A1AA;
+  font-size: 14px; }
+
+.pax-section .submit {
+  letter-spacing: 1px;
+  width: 155px;
+  height: 54px;
+  padding: 0; }
+
+footer {
+  padding-top: 0px; }

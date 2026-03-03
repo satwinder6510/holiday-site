@@ -1,0 +1,47 @@
+﻿@model IEnumerable<citrus.Models.offerList>
+@{
+    int count = 0;
+    int repeat = Convert.ToInt32(Model.Count() / 6) + 1;
+    for (int i = 0; i < repeat; i++)
+    {
+        foreach (var item in Model.Skip(i * 6).Take(6))
+        {
+            string oimg = "https://admin.citrusholidays.co.uk/PackageImages/SliderImage/" + item.PackageID + "/" + item.ImgName + "?" + DateTime.Now.Ticks;
+            oimg = "/cdn-cgi/image/f=auto,fit=contain,h=240/" + oimg;
+            <div class="offer count@(count)" @(count == 0 ? "" : "style=display:none;")>
+                <img data-src="@oimg" class="lazy" />
+                @if (item.isRibben == "y")
+                {
+                    <div class="discount">
+                        @if (item.percentOff.Contains("%"))
+                        {
+                            <div class="amount">@item.percentOff.Split('%')[0]</div>
+                                    <div class="off"><span>%</span>@item.percentOff.Split('%')[1]</div>
+                        }
+                        else
+                        {
+                            <div class="off">@item.percentOff</div>
+                        }
+                    </div>
+                }
+                <div class="title">@item.PackageName</div>
+                <ul>
+                    <li><span class="icon-compass"></span>@item.Destination</li>
+                    <li><span class="icon-nights"></span>@item.duration</li>
+                    <li><span class="icon-board-basis"></span>@item.MealPlan</li>
+                </ul>
+                <div class="price">
+                    <span>from</span>
+                    <div>£@item.Price<span>/pp</span></div>
+                </div>
+                <a class="btn" href="/Holidays/@System.Text.RegularExpressions.Regex.Replace((item.Destination!=null?item.Destination.Trim():"Unknown"), @"\s+", "-")/@System.Text.RegularExpressions.Regex.Replace(item.PackageName.Trim(), @"\s+", "-")">View More<span class="icon-more"></span></a>
+            </div>
+        }
+        count++;
+    }
+}
+<script>
+    $(function () {
+        $('.lazy').Lazy();
+    });
+</script>

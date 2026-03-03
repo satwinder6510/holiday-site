@@ -1,0 +1,87 @@
+﻿@model citrus.Models.homepage
+
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+{
+        <title>@Model.MetaDetails.MetaTitle.Replace("Cities and Beaches", "Holidays - Flights and Packages")</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        <meta name="description" content="@Model.MetaDetails.MetaDescription.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com"))" />
+        }
+    }
+}
+<link href="~/assets/css/aboutus.css" rel="stylesheet" />
+<section class="hero-section">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Privacy Policy</a>
+    </div>
+    <div class="content">
+        <h1>Privacy Policy</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+
+<section class="about-section">
+    <br />
+    <h4>Information collected by us</h4>
+    <p>
+        We receive and store any information you enter on our website or give us in any other way. This includes information that can identify you ("personal information"), including your first and last name, telephone number, postal and email addresses, fax number, and, if you make a reservation through our site, credit card information (such as credit card number, cardholder name, and expiration date). We also may request information about your hotel room preferences, loyalty, frequent flyer and/or car rental programme information.
+        <br><br>
+        Additional Travellers Information. When you make a reservation for someone else we will request personal information and travel preferences about that individual. You should obtain the consent of other individuals prior to providing us with their personal information and travel preferences, as any access to view or change their information will be available only through you.
+        <br><br>
+        Social Media/Facebook. If you make use of any social media features on our website, the social media provider may send us information in line with their policies That information may include your name, profile picture, gender, friend lists and any other information you have chosen to make available. If you wish to prevent that sharing, you can do so by editing your Facebook privacy settings or the relevant settings/preferences for other social media providers.
+        <br><br>
+        Call Monitoring. Calls to and from our customer service help desk may be recorded or monitored for the purpose of quality control and for staff training. Call recordings will be maintained as long as reasonably necessary and will then be deleted. Any personal information obtained from you during the call will be treated in accordance with the provisions of this Privacy Policy.
+    </p>
+    <h4>How we use your information</h4>
+    <p>
+        We use credit card information (such as cardholder name, credit card number, and expiration date) for the purpose of completing travel bookings. We use other information about you for the following general purposes: to provide you with the products and services you request; to provide you with travel confirmation and updates; to manage your account, including processing bills and providing travel notifications; to communicate with you in general; to respond to your questions and comments; to allow us to contact you for customer service, if necessary; to measure interest in and improve our products, services, and website; to notify you by email or post about special offers and travel-related products and services that may be of interest to you; to solicit information from you, including through surveys; to resolve disputes, collect fees, or troubleshoot problems; to prevent potentially prohibited or illegal activities; to enforce our Terms of Use; and as otherwise described to you at the point of collection.
+        <br><br>
+        Email Communications. If you have subscribed to our email list we will send you deals periodically, please note that you will have the opportunity to unsubscribe with each email.
+    </p>
+    <h4>Sharing your information</h4>
+    <p>We may share your information with the following entities:</p>
+    <ul style="font-size: 16px !important;color: gray;font: inherit;">
+        <li style="font-size: 16px !important;color: gray;font: inherit;">Suppliers, such as hotel, airline, car rental, and activity providers, who fulfill your travel reservations. Th...</li>
+        <li style="font-size: 16px !important;color: gray;font: inherit;">Third-party vendors who provide services or functions on our behalf, including credit card processing, business analytics, customer service, marketing, distribution of surveys or sweepstakes programs, and fraud prevention. We also may share your information:</li>
+    </ul>
+    <p>Where required by law in the good faith belief that disclosure is necessary to comply with applicable laws or legal processes. Under US law, airlines are required to provide the US Department of Homeland Security with certain information about passengers travelling between the European Union and the US.</p>
+    <h4>What are your Data Rights?</h4>
+    <p>
+        Under the General Regulation (EU) 2016/679, of 27 April 2016, on Data Protection (GDPR), the following rights are recognised in relation to the processing of your personal data: Right of access. You have the right to confirm that your personal data is being processed and, if the case, to get a copy of such data and complete information about the processing. Right to rectification. You have the right to amend errors, modify data that may be inaccurate or incomplete and ensure the information which is being processed is right. Right to erasure. You have the right to suppress your data without undue delay in the case that the processing is illegal or that the purpose for processing or collecting it has disappeared. Right to restriction. You have the right to ask for the suspension of the processing in the case that such processing is illegal or inadequate. Right to object. You have the right to object to the processing of your data in the case that the purpose of the processing is direct marketing or that the processing should be stopped for reasons relating to your personal situation, unless we can demonstrate compelling legitimate grounds to continue processing them or that the processing is necessary to exercise or defend legal claims.
+    </p>
+    <p>
+        <b>1.	Right not to be subject to automated individual decisions.</b> You have the right not to be subject to a decision based solely on automated processing, including profiling, which produces legal effects concerning you or similarly affects you, unless that is necessary for the execution of a contract, is permitted by the Law or it is based on your explicit consent.
+    </p>
+</section>

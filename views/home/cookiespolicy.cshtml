@@ -1,0 +1,61 @@
+﻿@model citrus.Models.homepage
+
+@if (Model.MetaDetails != null)
+{
+    @section AdditionalMeta
+{
+        <title>@Model.MetaDetails.MetaTitle.Replace("Cities and Beaches", "Holidays - Flights and Packages")</title>
+        <meta name="keywords" content="@Model.MetaDetails.MetaKeyword.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        <meta name="description" content="@Model.MetaDetails.MetaDescription.Replace("Cities and Beaches", "Holidays - Flights and Packages")" />
+        @if (!string.IsNullOrEmpty(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com")))
+        {
+            <link rel="canonical" href="@Html.Raw(Model.MetaDetails.canonicalTag.Replace("www.citiesandbeaches.com", "holidays.flightsandpackages.com"))" />
+        }
+    }
+}
+<link href="~/assets/css/aboutus.css" rel="stylesheet" />
+<section class="hero-section">
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="icon-breadcrumb"></span>
+        <a href="javascript:void(0)">Cookies Policy</a>
+    </div>
+    <div class="content">
+        <h1>Cookies Policy</h1>
+    </div>
+    <a href="#search-form" class="btn search-btn" data-lity><span class="icon-search"></span> Search </a>
+    <div class="search-form lity-hide" id="search-form">
+        <span class="box-title">Search</span>
+        <form>
+            <div class="form-box">
+                <div class="label">Destination</div>
+                <div class=""></div>
+                <span class="icon-list"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departing from</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Departure month</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <div class="form-box">
+                <span class="label">Passengers</span>
+                <span class="icon-dropdown"></span>
+            </div>
+            <button class="btn find-btn">
+                Find holidays
+            </button>
+        </form>
+        <div class="close-btn" data-lity-close><span class="icon-close" data-lity-close></span></div>
+    </div>
+</section>
+
+<section class="about-section">
+    <br />
+    <p>This website uses first and third-party cookies, both session and permanent, to make the website work properly, collect information about traffic or remember users’ actions and preferences over time.</p>
+    <p>A cookie is a small piece of data that a website asks your browser to store on your computer or mobile device. The cookie allows the website to remember your actions or preferences over time. Most browsers support cookies, but you can set your browser to decline them and you can delete them whenever you like.</p>
+    <p>You can control and/or delete cookies as you wish - Note that cookie preferences need to be set for each browser (Internet Explorer, Google Chrome, Mozilla Firefox or Safari). You usually have a number of ways of managing cookies including: enabling or disabling cookies entirely; deleting particular cookies which have already been stored within the browser; blocking particular websites from storing any cookies on your computer; or blocking third party cookies (when in the course of browsing a website, cookies are stored on your computer by another website). You can delete all cookies that are already on your computer and you can set most browsers to prevent them from being placed. If you do this, however, you may have to manually adjust some preferences every time you visit a website and some services and functionalities may not work.</p>
+    <p>This website uses different kinds of cookies: Technical Cookies. They are strictly necessary for the website to work properly. Functional Cookies. They are necessary to provide the services requested by users on the website. Analytical Cookies. They allow us to see how visitors move around the website and to record which content they view and are interested in. This helps us to improve the service which we offer to you by making sure our users are finding the information they are looking for. Advertising Cookies. They collect information about your preferences and choices in the website. They target advertising networks, which then use them to show you customised advertising on other websites.</p>
+</section>
