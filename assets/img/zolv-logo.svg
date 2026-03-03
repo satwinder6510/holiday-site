@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="72px" height="20px" viewBox="0 0 72 20" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <desc>Created with Lunacy</desc>
+  <defs>
+    <path d="M0 1.07658e-15L19.3515 1.07658e-15L19.3515 19.3521L0 19.3521L0 1.07658e-15Z" transform="translate(0.2176364 0.04181818)" id="path_1" />
+    <path d="M0 0L12.9358 0L12.9358 19.3521L0 19.3521L0 0Z" transform="translate(0.4145454 0.04187879)" id="path_2" />
+    <path d="M0 0L20.943 0L20.943 19.3521L0 19.3521L0 0Z" transform="translate(0.3881212 0.04187879)" id="path_3" />
+    <clipPath id="mask_1">
+      <use xlink:href="#path_1" />
+    </clipPath>
+    <clipPath id="mask_2">
+      <use xlink:href="#path_2" />
+    </clipPath>
+    <clipPath id="mask_3">
+      <use xlink:href="#path_3" />
+    </clipPath>
+  </defs>
+  <g id="Zolv-Logo">
+    <g id="Group-3" transform="translate(19.39394 0.564303)">
+      <path d="M0 1.07658e-15L19.3515 1.07658e-15L19.3515 19.3521L0 19.3521L0 1.07658e-15Z" transform="translate(0.2176364 0.04181818)" id="Clip-2" fill="none" stroke="none" />
+      <g clip-path="url(#mask_1)">
+        <path d="M9.67636 0C15.02 0 19.3515 4.33212 19.3515 9.67636C19.3515 15.02 15.02 19.3521 9.67636 19.3521C4.33212 19.3521 0 15.02 0 9.67636C0 4.33212 4.33212 0 9.67636 0ZM9.67636 5.92848C7.60667 5.92848 5.92848 7.60667 5.92848 9.67636C5.92848 11.7455 7.60667 13.4236 9.67636 13.4236C11.7455 13.4236 13.423 11.7455 13.423 9.67636C13.423 7.60667 11.7455 5.92848 9.67636 5.92848Z" transform="translate(0.2176364 0.04175758)" id="Fill-1" fill="#FFFFFF" fill-rule="evenodd" stroke="none" />
+      </g>
+    </g>
+    <g id="Group-6" transform="translate(40 0.564303)">
+      <path d="M0 0L12.9358 0L12.9358 19.3521L0 19.3521L0 0Z" transform="translate(0.4145454 0.04187879)" id="Clip-5" fill="none" stroke="none" />
+      <g clip-path="url(#mask_2)">
+        <path d="M0 0L7.03273 0L7.03273 13.1412L12.9358 13.1412L12.9358 19.3521L0 19.3521L0 0Z" transform="translate(0.4145454 0.04187879)" id="Fill-4" fill="#FFFFFF" stroke="none" />
+      </g>
+    </g>
+    <path d="M11.2673 13.3715L19.6855 0L1.66788 0L1.66788 3.5L1.66788 5.85151L6.9297 5.85151L8.32485 5.85151L0 19.3515L18.8388 19.3515L18.8388 16.1164L18.8388 13.3715L12.9867 13.3715L11.2673 13.3715Z" transform="translate(0.0001212121 0.6064243)" id="Fill-7" fill="#FFFFFF" stroke="none" />
+    <g id="Group-11" transform="translate(49.69697 0.564303)">
+      <path d="M0 0L20.943 0L20.943 19.3521L0 19.3521L0 0Z" transform="translate(0.3881212 0.04187879)" id="Clip-10" fill="none" stroke="none" />
+      <g clip-path="url(#mask_3)">
+        <path d="M13.603 0L10.4715 9.91939L7.34061 0L0 0L7.49454 19.3521L13.4491 19.3521L20.943 0L13.603 0Z" transform="translate(0.3881212 0.04187879)" id="Fill-9" fill="#FFFFFF" stroke="none" />
+      </g>
+    </g>
+  </g>
+</svg>
