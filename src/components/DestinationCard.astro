@@ -1,0 +1,61 @@
+---
+interface Props {
+  name: string;
+  image: string;
+  href: string;
+}
+
+const { name, image, href } = Astro.props;
+---
+
+<a
+  href={href}
+  class="destination-card flex-shrink-0 relative bg-cover bg-center block overflow-hidden"
+  style={`background-image: url('${image}')`}
+  title={name}
+>
+  <div class="dest-gradient"></div>
+  <div class="dest-content absolute text-white z-[1]">
+    <div class="dest-name font-display text-left">{name}</div>
+  </div>
+</a>
+
+<style>
+  .destination-card {
+    height: 424px;
+    width: 291px;
+    margin: 30px 10px 0;
+    position: relative;
+  }
+  @media (max-width: 1259px) {
+    .destination-card { height: 370px; width: 256px; margin-top: 27px; }
+  }
+  @media (max-width: 759px) {
+    .destination-card { height: 315px; width: 221px; margin-top: 24px; }
+  }
+  @media (max-width: 449px) {
+    .destination-card { height: 260px; width: 186px; margin-top: 20px; margin-left: 5px; margin-right: 5px; }
+  }
+
+  .dest-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 156px;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.6));
+  }
+
+  .dest-content {
+    bottom: 27px;
+    left: 27px;
+  }
+
+  .dest-name {
+    font-size: 30px;
+    line-height: 27px;
+  }
+  @media (max-width: 1259px) { .dest-name { font-size: 26px; } }
+  @media (max-width: 759px) { .dest-name { font-size: 22px; } }
+  @media (max-width: 449px) { .dest-name { font-size: 20px; } }
+</style>

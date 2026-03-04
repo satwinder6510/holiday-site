@@ -1,0 +1,407 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import MobileNav from '../../components/MobileNav.astro';
+import Footer from '../../components/Footer.astro';
+import MobileCallCTA from '../../components/MobileCallCTA.astro';
+import { mockBlogs } from '../../data/mockBlogs';
+
+export function getStaticPaths() {
+  return mockBlogs.map((blog, index) => {
+    const prevBlog = index > 0 ? mockBlogs[index - 1] : null;
+    const nextBlog = index < mockBlogs.length - 1 ? mockBlogs[index + 1] : null;
+    return {
+      params: { slug: blog.slug },
+      props: { blog, prevBlog, nextBlog },
+    };
+  });
+}
+
+const { blog, prevBlog, nextBlog } = Astro.props;
+
+// Get related posts (other blogs that share at least one tag, excluding current)
+const relatedPosts = mockBlogs
+  .filter((b) => b.slug !== blog.slug && b.tags.some((tag: string) => blog.tags.includes(tag)))
+  .slice(0, 4);
+---
+
+<BaseLayout title={`${blog.title} | Holidays - Flights and Packages`} description={blog.excerpt}>
+  <Header />
+  <MobileNav />
+
+  <!-- Custom Hero -->
+  <section class="blog-hero" style={`background-image: url('${blog.image}')`}>
+    <div class="breadcrumbs">
+      <a href="/">Home</a>
+      <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
+      <a href="/blog">Blogs</a>
+      <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
+      <span>{blog.title}</span>
+    </div>
+    <div class="hero-content">
+      <div class="hero-subtitle">read all about it</div>
+      <h1>{blog.title}</h1>
+    </div>
+  </section>
+
+  <section class="blog-post-section">
+    <section class="section-container">
+      <div class="content">
+        <div class="blog">
+          <p class="description">{blog.excerpt}</p>
+          <Fragment set:html={blog.content} />
+        </div>
+        <div class="pagination">
+          {prevBlog && (
+            <div>
+              <a href={`/blog/${prevBlog.slug}`}>
+                <img src="/icons/pagination-left.svg" alt="" class="icon-left" />
+                Previous
+              </a>
+            </div>
+          )}
+          {nextBlog && (
+            <div class="next-link">
+              <a href={`/blog/${nextBlog.slug}`}>
+                Next
+                <img src="/icons/pagination-left.svg" alt="" class="icon-right" />
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="author">
+          <div class="main-info">
+            <div class="info">
+              <div class="posted-by">Posted by</div>
+              <div class="blog-author">{blog.author}</div>
+              <div class="blog-date">
+                <img src="/icons/calendar-icon-black.svg" alt="" class="icon-calendar" />
+                {blog.date}
+              </div>
+            </div>
+          </div>
+          <ul class="tag-pills">
+            {blog.tags.map((tag: string) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        </div>
+        <div class="related-posts">
+          Related Posts
+          <ul>
+            {relatedPosts.map((post) => (
+              <li>
+                <a href={`/blog/${post.slug}`}>{post.title}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>
+
+<style>
+  /* Custom Hero */
+  .blog-hero {
+    margin-top: 100px;
+    height: 500px;
+    background-position: 100%;
+    background-size: cover;
+    position: relative;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+  }
+  @media (max-width: 768px) {
+    .blog-hero {
+      margin-top: 50px;
+      height: 400px;
+      background-position: center;
+    }
+  }
+  @media (max-width: 450px) {
+    .blog-hero {
+      height: 300px;
+    }
+  }
+
+  .breadcrumbs {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    z-index: 3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+  }
+  @media (max-width: 768px) {
+    .breadcrumbs {
+      left: 20px;
+    }
+  }
+  @media (max-width: 530px) {
+    .breadcrumbs {
+      max-width: 400px;
+    }
+  }
+  @media (max-width: 450px) {
+    .breadcrumbs {
+      max-width: 335px;
+    }
+  }
+  @media (max-width: 394px) {
+    .breadcrumbs {
+      max-width: 305px;
+    }
+  }
+  @media (max-width: 350px) {
+    .breadcrumbs {
+      max-width: 240px;
+    }
+  }
+  .breadcrumbs a,
+  .breadcrumbs span {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 10px;
+    line-height: 12px;
+    color: #ffffff;
+  }
+  .breadcrumb-icon {
+    padding: 0 5px;
+    width: auto;
+    height: 8px;
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+  .hero-subtitle {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    color: #ffffff;
+  }
+  .hero-content h1 {
+    color: #ffffff;
+    padding-bottom: 25px;
+    text-shadow: 2px 2px 5px #000;
+  }
+
+  /* Blog post section layout */
+  .blog-post-section section {
+    max-width: 100%;
+    display: flex;
+  }
+  @media (max-width: 768px) {
+    .blog-post-section section {
+      flex-direction: column;
+    }
+  }
+
+  /* Content area */
+  .blog-post-section .content {
+    width: calc(100% - 292px);
+  }
+  @media (max-width: 768px) {
+    .blog-post-section .content {
+      width: 100%;
+    }
+  }
+
+  /* Blog content */
+  .blog p {
+    line-height: 26px;
+  }
+  .blog img {
+    display: block;
+    width: 100%;
+    margin: 30px auto;
+  }
+  .blog :global(h2) {
+    margin: 0 0 10px;
+    font-size: 18px;
+    line-height: 18px;
+    position: relative;
+    font-family: "CaslonGraphiqueEF";
+    color: #424242;
+    margin-top: 25px;
+  }
+
+  .description {
+    margin-bottom: 20px;
+  }
+
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+  }
+  .pagination a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 22px;
+    color: #282828;
+    text-decoration: none;
+  }
+  .icon-left {
+    padding-right: 15px;
+    height: 16px;
+    width: auto;
+  }
+  .icon-right {
+    transform: rotate(180deg);
+    padding-left: 15px;
+    height: 16px;
+    width: auto;
+  }
+  .next-link {
+    margin-left: auto;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    padding-left: 20px;
+    float: right;
+  }
+  @media (max-width: 768px) {
+    .sidebar {
+      padding-left: 0px;
+      padding-top: 30px;
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+    }
+  }
+  @media (max-width: 610px) {
+    .sidebar {
+      flex-direction: column;
+      margin-bottom: 50px;
+    }
+  }
+
+  /* Author section */
+  @media (max-width: 768px) {
+    .author {
+      width: 100%;
+    }
+  }
+  .author .main-info {
+    width: 291px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 22px;
+    color: #282828;
+    display: flex;
+  }
+  .author .main-info .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 0px;
+  }
+  .author .main-info .info .posted-by {
+    font-size: 14px;
+  }
+  .blog-author {
+    font-size: 22px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+  }
+  .blog-date {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+  }
+  .icon-calendar {
+    padding-right: 10px;
+    height: 14px;
+    width: auto;
+  }
+
+  /* Tag pills */
+  .tag-pills {
+    width: 291px;
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+  }
+  @media (max-width: 768px) {
+    .tag-pills {
+      width: 100%;
+    }
+  }
+  .tag-pills li {
+    position: relative;
+    border-radius: 4px;
+    height: 31px;
+    background-color: #d8d8d8;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    padding: 0px 13px;
+  }
+  .tag-pills li:before {
+    display: inline-block;
+    content: "";
+    height: 31px;
+    width: 4px;
+    position: absolute;
+    left: 0;
+    background-color: #20A1AA;
+    border-radius: 4px 0px 0px 4px;
+  }
+
+  /* Related Posts */
+  .related-posts {
+    width: 291px;
+    background-color: #F4F4F4;
+    padding: 20px;
+    position: relative;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 24px;
+    color: #282828;
+    margin-top: 40px;
+  }
+  @media (max-width: 768px) {
+    .related-posts {
+      width: 100%;
+    }
+  }
+  .related-posts ul {
+    padding-top: 20px;
+    list-style: none;
+    padding-left: 0;
+  }
+  .related-posts ul li {
+    list-style-type: none;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 14px;
+    text-decoration: underline;
+    padding-bottom: 15px;
+  }
+  .related-posts ul li a {
+    color: #282828;
+    text-decoration: underline;
+  }
+</style>

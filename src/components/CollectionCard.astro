@@ -1,0 +1,65 @@
+---
+interface Props {
+  name: string;
+  image: string;
+  href: string;
+}
+
+const { name, image, href } = Astro.props;
+---
+
+<a
+  href={href}
+  class="collection-card flex-shrink-0 relative bg-cover bg-center block"
+  style={`background-image: url('${image}')`}
+  title={name}
+>
+  <div class="collection-gradient"></div>
+  <div class="collection-content absolute text-white z-[1]">
+    <div class="collection-name font-display text-left">{name}</div>
+  </div>
+</a>
+
+<style>
+  .collection-card {
+    height: 640px;
+    width: 396px;
+    margin: 30px 12.5px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 1259px) {
+    .collection-card { height: 517px; width: 326px; }
+  }
+  @media (max-width: 759px) {
+    .collection-card { height: 394px; width: 256px; }
+  }
+  @media (max-width: 449px) {
+    .collection-card { height: 270px; width: 186px; margin: 30px 5px 0; }
+  }
+
+  .collection-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 156px;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.6));
+  }
+
+  .collection-content {
+    bottom: 35px;
+    left: 27px;
+  }
+  @media (max-width: 1259px) { .collection-content { left: 22px; bottom: 30px; max-width: 288px; } }
+  @media (max-width: 759px) { .collection-content { left: 17px; bottom: 25px; max-width: 220px; } }
+  @media (max-width: 449px) { .collection-content { left: 13px; bottom: 20px; max-width: 165px; } }
+
+  .collection-name {
+    font-size: 30px;
+    line-height: 27px;
+  }
+  @media (max-width: 1259px) { .collection-name { font-size: 26px; letter-spacing: -0.2px; } }
+  @media (max-width: 759px) { .collection-name { font-size: 24px; letter-spacing: -0.4px; } }
+  @media (max-width: 449px) { .collection-name { font-size: 20px; letter-spacing: -0.6px; line-height: 24px; } }
+</style>

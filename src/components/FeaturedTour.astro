@@ -1,0 +1,258 @@
+---
+import { featuredTour } from '../data/featuredTour';
+---
+
+<section class="featured-tour-section relative overflow-hidden">
+  <!-- Image carousel — positioned absolutely behind content on desktop -->
+  <div class="featured-carousel absolute z-[-1]">
+    <div id="featured-viewport" class="overflow-hidden h-full">
+      <div id="featured-container" class="flex h-full">
+        {featuredTour.images.map((img, i) => (
+          <div class="featured-slide flex-shrink-0 bg-cover bg-no-repeat bg-center" style={`background-image: url('${img}')`}></div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="featured-content text-white relative">
+    <h4 class="!text-white/70">featured tours</h4>
+    <h2 class="!text-white">{featuredTour.title}</h2>
+
+    <div class="featured-navigation relative">
+      <button type="button" id="featured-prev" class="feat-nav-btn bg-black/60">
+        <img src="/icons/arrow-icon.svg" alt="Previous" class="h-[14px] rotate-180 brightness-0 invert" />
+      </button>
+      <button type="button" id="featured-next" class="feat-nav-btn bg-black/60">
+        <img src="/icons/arrow-icon.svg" alt="Next" class="h-[14px] brightness-0 invert" />
+      </button>
+    </div>
+
+    <p class="!text-white leading-relaxed">{featuredTour.description}</p>
+
+    <div class="featured-price">
+      <span class="font-medium text-sm leading-[30px]">from</span>
+      <div class="font-display featured-price-amount">{featuredTour.price}<span class="font-medium text-sm">/pp</span></div>
+    </div>
+
+    <div class="featured-btn-wrap">
+      <a href={featuredTour.href} class="btn-primary featured-btn">
+        Learn More
+        <img src="/icons/more-icon-white.svg" alt="" class="pl-[18px]" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured-tour-section {
+    background: linear-gradient(135deg, #484848, #000000);
+    padding-top: 210px;
+    padding-bottom: 75px;
+    max-width: 100%;
+    min-height: 850px;
+  }
+  @media (max-width: 940px) {
+    .featured-tour-section {
+      padding-top: 35px;
+      padding-bottom: 55px;
+    }
+  }
+  @media (max-width: 768px) {
+    .featured-tour-section { min-height: unset; }
+  }
+
+  .featured-carousel {
+    pointer-events: auto;
+    top: -95px;
+    left: 212px;
+    height: 580px;
+    width: 1030px;
+  }
+  @media (max-width: 1260px) { .featured-carousel { width: 830px; } }
+  @media (max-width: 1100px) { .featured-carousel { width: 670px; } }
+  @media (max-width: 940px) {
+    .featured-carousel {
+      position: static;
+      left: 0;
+      height: 480px;
+      width: 100%;
+      top: 80px;
+    }
+  }
+  @media (max-width: 760px) { .featured-carousel { height: 380px; } }
+  @media (max-width: 450px) { .featured-carousel { height: 300px; } }
+
+  .featured-slide {
+    height: 580px;
+    width: 1030px;
+  }
+  @media (max-width: 940px) { .featured-slide { height: 480px; width: 100%; } }
+  @media (max-width: 760px) { .featured-slide { height: 380px; } }
+  @media (max-width: 450px) { .featured-slide { height: 300px; width: 450px; } }
+
+  .featured-content {
+    padding-left: 340px;
+  }
+  @media (max-width: 1600px) { .featured-content { padding-left: 180px; } }
+  @media (max-width: 1100px) { .featured-content { padding-left: 60px; } }
+  @media (max-width: 940px) {
+    .featured-content {
+      padding-left: 0;
+    }
+    .featured-content h4,
+    .featured-content h2 {
+      max-width: 730px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  @media (max-width: 760px) {
+    .featured-content h4,
+    .featured-content h2 { max-width: 580px; }
+  }
+  @media (max-width: 610px) {
+    .featured-content h4,
+    .featured-content h2 { max-width: 500px; }
+  }
+  @media (max-width: 530px) {
+    .featured-content h4,
+    .featured-content h2 { max-width: 420px; }
+  }
+  @media (max-width: 450px) {
+    .featured-content h4,
+    .featured-content h2 { max-width: 365px; }
+    .featured-content h2 { font-size: 26px; }
+  }
+  @media (max-width: 394px) {
+    .featured-content h4,
+    .featured-content h2 { max-width: 335px; }
+  }
+  @media (max-width: 350px) {
+    .featured-content h4,
+    .featured-content h2 { max-width: 290px; }
+  }
+
+  .featured-content p {
+    margin-top: 25px;
+    width: 420px;
+  }
+  @media (max-width: 940px) {
+    .featured-content p {
+      max-width: 730px;
+      width: 100%;
+      margin: 25px auto 10px;
+      line-height: 22px;
+    }
+  }
+  @media (max-width: 760px) { .featured-content p { max-width: 580px; } }
+  @media (max-width: 610px) { .featured-content p { max-width: 500px; } }
+  @media (max-width: 530px) { .featured-content p { max-width: 420px; } }
+  @media (max-width: 450px) { .featured-content p { max-width: 365px; } }
+  @media (max-width: 394px) { .featured-content p { max-width: 335px; } }
+  @media (max-width: 350px) { .featured-content p { max-width: 290px; } }
+
+  .featured-navigation {
+    width: 132px;
+    height: 66px;
+    position: absolute;
+    top: 398px;
+    right: -2px;
+  }
+  @media (max-width: 940px) {
+    .featured-navigation {
+      width: 100%;
+      height: 1px;
+      position: relative;
+      top: 0;
+      right: 0;
+    }
+  }
+
+  .feat-nav-btn {
+    width: 66px;
+    height: 66px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    cursor: pointer;
+  }
+  @media (max-width: 940px) {
+    #featured-prev {
+      position: absolute;
+      top: -66px;
+      right: 66px;
+    }
+    #featured-next {
+      position: absolute;
+      top: -66px;
+      right: 0;
+    }
+  }
+
+  .featured-price {
+    margin-top: 35px;
+  }
+  @media (max-width: 940px) {
+    .featured-price {
+      max-width: 730px;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+  @media (max-width: 760px) { .featured-price { max-width: 580px; } }
+  @media (max-width: 610px) { .featured-price { max-width: 500px; } }
+  @media (max-width: 530px) { .featured-price { max-width: 420px; } }
+  @media (max-width: 450px) { .featured-price { max-width: 365px; } }
+  @media (max-width: 394px) { .featured-price { max-width: 335px; } }
+  @media (max-width: 350px) { .featured-price { max-width: 290px; } }
+
+  .featured-price-amount {
+    font-size: 40px;
+  }
+  @media (max-width: 768px) { .featured-price-amount { font-size: 32px; } }
+  @media (max-width: 450px) { .featured-price-amount { font-size: 28px; line-height: 26px; } }
+
+  .featured-btn-wrap {
+    margin-top: 0;
+  }
+  @media (max-width: 940px) {
+    .featured-btn-wrap {
+      max-width: 730px;
+      margin: 0 auto;
+    }
+  }
+  @media (max-width: 760px) { .featured-btn-wrap { max-width: 580px; } }
+  @media (max-width: 610px) { .featured-btn-wrap { max-width: 500px; } }
+  @media (max-width: 530px) { .featured-btn-wrap { max-width: 420px; } }
+  @media (max-width: 450px) { .featured-btn-wrap { max-width: 365px; } }
+  @media (max-width: 394px) { .featured-btn-wrap { max-width: 335px; } }
+  @media (max-width: 350px) { .featured-btn-wrap { max-width: 290px; } }
+
+  .featured-btn {
+    width: 187px;
+    height: 64px;
+    margin-top: 36px;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    .featured-btn {
+      width: 139px;
+      height: 45px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+  }
+</style>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+
+  const viewport = document.getElementById('featured-viewport')!;
+  const embla = EmblaCarousel(viewport, { loop: true });
+
+  document.getElementById('featured-prev')?.addEventListener('click', () => embla.scrollPrev());
+  document.getElementById('featured-next')?.addEventListener('click', () => embla.scrollNext());
+</script>

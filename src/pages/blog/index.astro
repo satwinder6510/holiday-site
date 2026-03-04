@@ -1,0 +1,441 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import MobileNav from '../../components/MobileNav.astro';
+import PageHero from '../../components/PageHero.astro';
+import Footer from '../../components/Footer.astro';
+import MobileCallCTA from '../../components/MobileCallCTA.astro';
+import { mockBlogs } from '../../data/mockBlogs';
+---
+
+<BaseLayout title="Our Blog | Holidays - Flights and Packages" description="Read the latest travel blogs, tips and guides from Flights and Packages.">
+  <Header />
+  <MobileNav />
+  <PageHero
+    title="Our Blog"
+    subtitle="read all about it"
+    breadcrumbLabel="Blogs"
+    backgroundImage="/images/heroes/blog.jpg"
+  />
+
+  <section class="blog-list-section">
+    <section class="section-container">
+      <div class="content">
+        <div class="blogs">
+          {mockBlogs.map((blog) => (
+            <div class="blog">
+              <a href={`/blog/${blog.slug}`}>
+                <img src={blog.image} alt={blog.title} />
+              </a>
+              <div class="blog-title">{blog.title}</div>
+              <div class="blog-date">
+                <img src="/icons/calendar-icon-black.svg" alt="" class="icon-calendar" />
+                {blog.date}
+              </div>
+              <p>{blog.excerpt}</p>
+              <a href={`/blog/${blog.slug}`} class="read-more">
+                Read More
+                <img src="/icons/more-icon.svg" alt="" class="icon-more" />
+              </a>
+            </div>
+          ))}
+        </div>
+        <div class="pagination">
+          <ul>
+            <li class="active">1</li>
+            <li>2</li>
+            <li>3</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="popular-tags">
+          Popular Tags
+          <ul>
+            <li>Thailand</li>
+            <li>Italy</li>
+            <li>Greece</li>
+            <li>Egypt</li>
+            <li>Portugal</li>
+            <li>Morocco</li>
+            <li>Maldives</li>
+            <li>Vietnam</li>
+          </ul>
+          <div class="view-more">
+            View more
+            <img src="/icons/plus-icon.svg" alt="" class="icon-more-plus" />
+          </div>
+        </div>
+        <div class="archive">
+          Archive
+          <ul>
+            <li>March 2024 <span>(3)</span></li>
+            <li>February 2024 <span>(2)</span></li>
+            <li>January 2024 <span>(1)</span></li>
+            <li>December 2023 <span>(1)</span></li>
+            <li>November 2023 <span>(1)</span></li>
+            <li>October 2023 <span>(1)</span></li>
+          </ul>
+          <div class="view-more">
+            View more
+            <img src="/icons/plus-icon.svg" alt="" class="icon-more-plus" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>
+
+<style>
+  /* Blog list section layout */
+  .blog-list-section section {
+    max-width: 100%;
+    display: flex;
+  }
+  @media (max-width: 940px) {
+    .blog-list-section section {
+      flex-direction: column;
+    }
+  }
+
+  /* Content area */
+  .blog-list-section .content {
+    width: calc(100% - 292px);
+  }
+  @media (max-width: 940px) {
+    .blog-list-section .content {
+      width: 100%;
+    }
+  }
+
+  /* Blog cards grid */
+  .blogs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    position: inherit;
+    z-index: 1;
+  }
+  @media (max-width: 610px) {
+    .blogs {
+      justify-content: center;
+    }
+  }
+
+  /* Individual blog card */
+  .blog {
+    color: #000000;
+    width: 291px;
+    margin-right: 25px;
+    margin-bottom: 55px;
+    text-align: left;
+    overflow: hidden;
+  }
+  @media (max-width: 1100px) {
+    .blog {
+      width: 284px;
+      margin-right: 10px;
+    }
+  }
+  @media (max-width: 940px) {
+    .blog {
+      width: 291px;
+      margin-right: 25px;
+    }
+  }
+  @media (max-width: 760px) {
+    .blog {
+      width: 100%;
+    }
+  }
+  @media (max-width: 610px) {
+    .blog {
+      width: 291px;
+      margin-right: 0px;
+    }
+  }
+  @media (max-width: 350px) {
+    .blog {
+      width: 284px;
+    }
+  }
+
+  /* Blog card image */
+  .blog img {
+    height: 320px;
+    object-fit: cover;
+    width: 100%;
+  }
+  @media (max-width: 1100px) {
+    .blog img {
+      width: 284px;
+    }
+  }
+  @media (max-width: 940px) {
+    .blog img {
+      width: 291px;
+    }
+  }
+  @media (max-width: 760px) {
+    .blog img {
+      float: left;
+      margin-right: 20px;
+    }
+  }
+  @media (max-width: 610px) {
+    .blog img {
+      float: none;
+      margin-right: 0px;
+    }
+  }
+  @media (max-width: 350px) {
+    .blog img {
+      width: 284px;
+    }
+  }
+
+  /* Blog card title */
+  .blog-title {
+    margin-top: 15px;
+    font-family: "CaslonGraphiqueEF";
+    font-size: 22px;
+    line-height: 24px;
+    text-align: left;
+  }
+
+  /* Blog card date */
+  .blog-date {
+    margin-top: 15px;
+    font-family: "CaslonGraphiqueEF";
+    font-size: 14px;
+    line-height: 14px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+  }
+  .icon-calendar {
+    padding-right: 10px;
+    height: 14px;
+    width: auto;
+  }
+
+  /* Blog card excerpt */
+  .blog p {
+    margin-top: 15px;
+    font-family: "BentonSans", sans-serif;
+    margin-bottom: 15px;
+    color: #000000;
+  }
+
+  /* Read more link */
+  .read-more {
+    color: #20A1AA;
+    font-family: "CaslonGraphiqueEF";
+    font-size: 14px;
+    z-index: 3;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+  .icon-more {
+    padding-left: 18px;
+    height: 12px;
+    width: auto;
+  }
+
+  /* Pagination */
+  .pagination ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+  .pagination ul li {
+    list-style-type: none;
+    width: 34px;
+    height: 34px;
+    border: 3px solid #000000;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    cursor: pointer;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+  }
+  .pagination ul li.active {
+    border-color: #20A1AA;
+    background-color: #20A1AA;
+    color: #ffffff;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    float: right;
+  }
+  @media (max-width: 940px) {
+    .sidebar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+  }
+  @media (max-width: 760px) {
+    .sidebar {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  /* Popular Tags */
+  .popular-tags {
+    width: 291px;
+    background-color: #F4F4F4;
+    padding: 20px;
+    padding-bottom: 65px;
+    position: relative;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 24px;
+    color: #282828;
+  }
+  @media (max-width: 760px) {
+    .popular-tags {
+      width: 100%;
+    }
+  }
+  .popular-tags ul {
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+  }
+  .popular-tags ul li {
+    position: relative;
+    border-radius: 4px;
+    height: 31px;
+    background-color: #d8d8d8;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    padding: 0px 13px;
+  }
+  .popular-tags ul li:before {
+    display: inline-block;
+    content: "";
+    height: 31px;
+    width: 4px;
+    position: absolute;
+    left: 0;
+    background-color: #20A1AA;
+    border-radius: 4px 0px 0px 4px;
+  }
+  .popular-tags .view-more {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    bottom: 0;
+    height: 65px;
+    background-color: #e9e8e8;
+    width: 100%;
+    margin: -20px;
+    font-size: 14px;
+  }
+  .popular-tags .view-more .icon-more-plus {
+    padding-left: 10px;
+    height: 14px;
+    width: auto;
+  }
+
+  /* Archive */
+  .archive {
+    width: 291px;
+    background-color: #F4F4F4;
+    padding: 20px;
+    position: relative;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 24px;
+    color: #282828;
+  }
+  @media (max-width: 940px) {
+    .archive {
+      margin-top: 0px;
+    }
+  }
+  @media (max-width: 760px) {
+    .archive {
+      margin-top: 40px;
+      margin-bottom: 40px;
+      width: 100%;
+    }
+  }
+  .archive ul {
+    padding-top: 20px;
+    list-style: none;
+    padding-left: 0;
+  }
+  .archive ul li {
+    position: relative;
+    display: block;
+    border-radius: 4px;
+    height: 31px;
+    background-color: #d8d8d8;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 14px;
+    line-height: 31px;
+    padding: 0px 13px;
+  }
+  .archive ul li:before {
+    display: inline-block;
+    content: "";
+    height: 31px;
+    width: 4px;
+    position: absolute;
+    left: 0;
+    background-color: #20A1AA;
+    border-radius: 4px 0px 0px 4px;
+  }
+  .archive ul li span {
+    float: right;
+  }
+  .archive .view-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    bottom: 0;
+    height: 65px;
+    background-color: #e9e8e8;
+    font-size: 14px;
+    border-radius: 4px;
+    margin: 5px;
+    position: relative;
+  }
+  .archive .view-more:before {
+    display: inline-block;
+    content: "";
+    height: 64px;
+    width: 4px;
+    position: absolute;
+    left: 0;
+    background-color: #20A1AA;
+    border-radius: 4px 0px 0px 4px;
+  }
+  .archive .view-more .icon-more-plus {
+    padding-left: 10px;
+    height: 14px;
+    width: auto;
+  }
+</style>

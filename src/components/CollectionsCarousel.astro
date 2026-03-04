@@ -1,0 +1,125 @@
+---
+import CollectionCard from './CollectionCard.astro';
+import { collections } from '../data/collections';
+---
+
+<section class="collections-section relative overflow-hidden">
+  <h4>that extra special something</h4>
+  <h2>Our Collections</h2>
+  <div class="collections-carousel-wrap">
+    <div id="collections-viewport" class="overflow-hidden">
+      <div id="collections-container" class="flex">
+        {collections.map((collection) => (
+          <CollectionCard {...collection} />
+        ))}
+      </div>
+    </div>
+  </div>
+  <div class="collections-navigation absolute z-10">
+    <button type="button" id="collections-prev" class="nav-btn prev">
+      <img src="/icons/arrow-icon.svg" alt="Previous" class="h-[14px] rotate-180 brightness-0 invert" />
+    </button>
+    <button type="button" id="collections-next" class="nav-btn next">
+      <img src="/icons/arrow-icon.svg" alt="Next" class="h-[14px] brightness-0 invert" />
+    </button>
+  </div>
+  <div class="btn-wrap flex">
+    <a href="/collections" class="btn-primary collection-btn">
+      Explore More
+      <img src="/icons/more-icon-white.svg" alt="" class="pl-[18px]" />
+    </a>
+  </div>
+</section>
+
+<style>
+  .collections-section {
+    padding-left: 340px;
+    max-width: 100%;
+  }
+  @media (max-width: 1600px) { .collections-section { padding-left: 180px; } }
+  @media (max-width: 1100px) { .collections-section { padding-left: 60px; } }
+  @media (max-width: 760px) {
+    .collections-section {
+      padding-left: 0;
+      max-width: 580px;
+      margin: 0 auto 60px;
+    }
+  }
+  @media (max-width: 610px) { .collections-section { max-width: 500px; } }
+  @media (max-width: 530px) { .collections-section { max-width: 420px; } }
+  @media (max-width: 450px) { .collections-section { max-width: 365px; } }
+  @media (max-width: 394px) { .collections-section { max-width: 335px; } }
+  @media (max-width: 350px) { .collections-section { max-width: 290px; } }
+
+  .collections-section h4 {
+    margin-top: 130px;
+  }
+  @media (max-width: 1100px) { .collections-section h4 { margin-top: 100px; } }
+  @media (max-width: 760px) { .collections-section h4 { margin-top: 70px; } }
+
+  .collections-section h2 {
+    margin-bottom: 35px;
+  }
+  @media (max-width: 760px) { .collections-section h2 { margin-bottom: 0; } }
+
+  .collections-navigation {
+    top: 458px;
+    left: 305px;
+  }
+  @media (max-width: 1600px) { .collections-navigation { left: 145px; } }
+  @media (max-width: 1260px) { .collections-navigation { top: 397px; } }
+  @media (max-width: 1100px) { .collections-navigation { left: 25px; } }
+  @media (max-width: 940px) { .collections-navigation { display: none; } }
+
+  .nav-btn {
+    width: 66px;
+    height: 66px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 0;
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    .nav-btn { width: 40px; height: 40px; }
+    .nav-btn img { height: 10px; }
+  }
+  .next {
+    margin-left: 10px;
+  }
+
+  .btn-wrap {
+    margin: 0 auto;
+    max-width: 1040px;
+    padding-right: 340px;
+    justify-content: center;
+  }
+  @media (max-width: 1600px) { .btn-wrap { padding-right: 180px; } }
+  @media (max-width: 1100px) { .btn-wrap { max-width: 880px; padding-right: 60px; } }
+  @media (max-width: 940px) { .btn-wrap { max-width: 730px; } }
+  @media (max-width: 760px) { .btn-wrap { justify-content: flex-start; } }
+
+  .collection-btn {
+    width: 187px;
+    height: 64px;
+    margin-top: 65px;
+    margin-bottom: 105px;
+  }
+  @media (max-width: 1100px) { .collection-btn { margin-bottom: 45px; } }
+  @media (max-width: 760px) { .collection-btn { margin-bottom: 5px; margin-top: 45px; } }
+</style>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+
+  const viewport = document.getElementById('collections-viewport')!;
+  const embla = EmblaCarousel(viewport, {
+    align: 'start',
+    containScroll: 'trimSnaps',
+    dragFree: true,
+  });
+
+  document.getElementById('collections-prev')?.addEventListener('click', () => embla.scrollPrev());
+  document.getElementById('collections-next')?.addEventListener('click', () => embla.scrollNext());
+</script>

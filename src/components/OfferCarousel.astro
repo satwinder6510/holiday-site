@@ -1,0 +1,74 @@
+---
+import OfferCard from './OfferCard.astro';
+import { offers } from '../data/offers';
+---
+
+<section class="offer-section relative overflow-hidden">
+  <div class="offer-header">
+    <h4>Offers published in Newspapers</h4>
+    <h2>Special Offers</h2>
+  </div>
+  <div class="offer-carousel-wrap relative">
+    <div id="offer-viewport" class="overflow-hidden">
+      <div id="offer-container" class="flex">
+        {offers.map((offer) => (
+          <OfferCard {...offer} />
+        ))}
+      </div>
+    </div>
+  </div>
+  <div class="offer-navigation absolute z-10">
+    <button type="button" id="offer-prev" class="carousel-nav-btn">
+      <img src="/icons/arrow-icon.svg" alt="Previous" class="h-[14px] rotate-180 brightness-0 invert" />
+    </button>
+    <button type="button" id="offer-next" class="carousel-nav-btn">
+      <img src="/icons/arrow-icon.svg" alt="Next" class="h-[14px] brightness-0 invert" />
+    </button>
+  </div>
+</section>
+
+<style>
+  .offer-section {
+    max-width: 1240px;
+    margin: 0 auto 60px;
+  }
+  @media (max-width: 768px) { .offer-section { margin-bottom: 40px; } }
+  @media (max-width: 450px) { .offer-section { margin-bottom: 30px; } }
+
+  .offer-navigation {
+    right: 143px;
+    top: 45px;
+  }
+  @media (max-width: 940px) {
+    .offer-navigation { display: none; }
+  }
+
+  .carousel-nav-btn {
+    width: 66px;
+    height: 66px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 0;
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    .carousel-nav-btn { width: 40px; height: 40px; }
+    .carousel-nav-btn img { height: 10px; }
+  }
+</style>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+
+  const viewport = document.getElementById('offer-viewport')!;
+  const embla = EmblaCarousel(viewport, {
+    align: 'start',
+    containScroll: 'trimSnaps',
+    dragFree: true,
+  });
+
+  document.getElementById('offer-prev')?.addEventListener('click', () => embla.scrollPrev());
+  document.getElementById('offer-next')?.addEventListener('click', () => embla.scrollNext());
+</script>

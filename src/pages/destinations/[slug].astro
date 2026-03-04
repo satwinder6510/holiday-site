@@ -1,0 +1,374 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import MobileNav from '../../components/MobileNav.astro';
+import Footer from '../../components/Footer.astro';
+import MobileCallCTA from '../../components/MobileCallCTA.astro';
+import { destinations } from '../../data/destinations';
+import { countries } from '../../data/countries';
+
+export function getStaticPaths() {
+  return destinations.map((d) => {
+    const slug = d.name.replace(/\s+/g, '-');
+    return {
+      params: { slug },
+      props: { destination: d },
+    };
+  });
+}
+
+const { destination } = Astro.props;
+const slug = destination.name.replace(/\s+/g, '-');
+const regionCountries = countries.filter((c) => c.region === destination.name);
+
+// Title format from original
+let titleText = destination.name + ' Holidays';
+if (destination.name === 'Africa') titleText = 'Holidays in Africa';
+else if (destination.name === 'Asia') titleText = 'Holidays to Asia';
+
+const bannerImage = `https://admin.citiesandbeaches.com/images/destinations/${destination.name}_banner.jpg`;
+---
+
+<BaseLayout title={`${titleText} | Flights and Packages`}>
+  <Header />
+  <MobileNav />
+
+  <!-- Custom hero with overlay box -->
+  <section class="dest-hero" style={`background-image: url('${bannerImage}')`}>
+    <div class="breadcrumbs">
+      <a href="/">Home</a>
+      <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
+      <span>Destinations</span>
+    </div>
+    <div class="overview">
+      <div class="lhs">
+        <span class="discover-label">discover</span>
+        <h1 class="!text-white">{titleText}</h1>
+        <div class="dest-count">{regionCountries.length} Destinations</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Countries Section -->
+  <section class="destinations-section section-container">
+    <h4>explore</h4>
+    <h2>Our Destinations</h2>
+
+    <div class="carousel-wrap">
+      <div id="dest-viewport" class="dest-viewport">
+        <div id="dest-container" class="dest-container">
+          {regionCountries.map((country) => (
+            <a href={country.href} class="wrap-item">
+              <div class="item" style={`background-image: url('${country.image}')`}>
+                <div class="item-content">
+                  <div class="item-name">{country.name}</div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div class="dest-navigation">
+        <button type="button" id="dest-prev" class="dest-nav-btn">
+          <img src="/icons/arrow-icon.svg" alt="Previous" class="h-[14px] rotate-180 brightness-0 invert" />
+        </button>
+        <button type="button" id="dest-next" class="dest-nav-btn">
+          <img src="/icons/arrow-icon.svg" alt="Next" class="h-[14px] brightness-0 invert" />
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .dest-hero {
+    margin-top: 100px;
+    height: 500px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 100%;
+    position: relative;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+  }
+  @media (max-width: 768px) {
+    .dest-hero {
+      margin-top: 50px;
+      height: auto;
+      padding: 35px 0;
+      background-position: center;
+    }
+  }
+  @media (max-width: 450px) {
+    .dest-hero { height: auto; }
+  }
+
+  .breadcrumbs {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+  }
+  @media (max-width: 768px) {
+    .breadcrumbs { left: 20px; }
+  }
+  .breadcrumbs a,
+  .breadcrumbs span {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 10px;
+    line-height: 12px;
+    color: #ffffff;
+  }
+  .breadcrumb-icon {
+    padding: 0 5px;
+    width: auto;
+    height: 8px;
+  }
+
+  /* Overview box */
+  .overview {
+    width: 1028px;
+    min-height: 346px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    display: flex;
+    padding: 40px 85px;
+    align-items: center;
+  }
+  @media (max-width: 1100px) {
+    .overview { width: 880px; }
+  }
+  @media (max-width: 940px) {
+    .overview { width: 730px; flex-direction: column; }
+  }
+  @media (max-width: 760px) {
+    .overview { width: 580px; padding: 35px 45px; }
+  }
+  @media (max-width: 610px) {
+    .overview { width: 500px; }
+  }
+  @media (max-width: 530px) {
+    .overview { width: 420px; padding: 25px 40px; }
+  }
+  @media (max-width: 450px) {
+    .overview { width: 365px; }
+  }
+  @media (max-width: 394px) {
+    .overview { width: 335px; }
+  }
+  @media (max-width: 350px) {
+    .overview { width: 290px; }
+  }
+
+  .lhs {
+    padding-right: 75px;
+  }
+  @media (max-width: 940px) {
+    .lhs {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-right: 0;
+      padding-bottom: 35px;
+    }
+  }
+  @media (max-width: 760px) {
+    .lhs { padding-bottom: 25px; }
+  }
+
+  .discover-label {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+  }
+
+  .lhs h1 {
+    color: #ffffff;
+    text-shadow: 2px 2px 5px #000;
+  }
+
+  .dest-count {
+    font-size: 16px;
+    line-height: 27px;
+  }
+
+  /* Destinations Section */
+  .destinations-section {
+    position: relative;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  .destinations-section h2 {
+    margin-bottom: 45px;
+  }
+
+  .carousel-wrap {
+    position: relative;
+  }
+  @media (max-width: 1260px) {
+    .carousel-wrap {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  }
+
+  .dest-viewport {
+    overflow: hidden;
+  }
+  .dest-container {
+    display: flex;
+  }
+
+  /* Country cards */
+  .wrap-item {
+    position: relative;
+    flex-shrink: 0;
+  }
+  .item {
+    width: 396px;
+    height: 310px;
+    margin: 14px 13px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+  @media (max-width: 940px) {
+    .item { width: 350px; margin: 12px 11px; }
+  }
+  @media (max-width: 768px) {
+    .item { width: 213px; margin: 14px 5px; }
+  }
+
+  .item::before {
+    position: absolute;
+    z-index: 2;
+    content: "";
+    display: block;
+    background-image: url('/icons/compass-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 120px;
+    height: 120px;
+    bottom: -10px;
+    left: -13px;
+  }
+  @media (max-width: 940px) {
+    .item::before { left: -10px; }
+  }
+  @media (max-width: 768px) {
+    .item::before { width: 78px; height: 78px; bottom: 0; left: -5px; }
+  }
+
+  .item-content {
+    position: absolute;
+    top: 250px;
+    left: 40px;
+    color: #ffffff;
+    z-index: 1;
+  }
+  @media (max-width: 768px) {
+    .item-content { top: 260px; }
+  }
+  .item-content::before {
+    content: "";
+    width: 396px;
+    height: 156px;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.6));
+    position: absolute;
+    top: -82px;
+    left: -27px;
+    z-index: -1;
+  }
+  @media (max-width: 940px) {
+    .item-content::before { width: 350px; top: -84px; left: -29px; }
+  }
+  @media (max-width: 768px) {
+    .item-content::before { width: 213px; top: -92px; left: -35px; }
+  }
+
+  .item-name {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 30px;
+    line-height: 27px;
+    text-align: left;
+  }
+  @media (max-width: 768px) {
+    .item-name { font-size: 20px; }
+  }
+
+  /* Navigation */
+  .dest-navigation {
+    position: absolute;
+    width: 132px;
+    height: 66px;
+    top: 285px;
+    left: -34px;
+  }
+  @media (max-width: 1310px) {
+    .dest-navigation { left: -14px; }
+  }
+  @media (max-width: 1260px) {
+    .dest-navigation { left: 40px; top: 325px; }
+  }
+  @media (max-width: 1100px) {
+    .dest-navigation { left: 4px; }
+  }
+  @media (max-width: 940px) {
+    .dest-navigation { left: -10px; top: 321px; }
+  }
+  @media (max-width: 768px) {
+    .dest-navigation { display: none; }
+  }
+
+  .dest-nav-btn {
+    width: 66px;
+    height: 66px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+  }
+  #dest-prev { left: 0; }
+  #dest-next {
+    left: 1240px;
+  }
+  @media (max-width: 1310px) {
+    #dest-next { left: 1200px; }
+  }
+  @media (max-width: 1260px) {
+    #dest-next { left: 905px; }
+  }
+  @media (max-width: 1100px) {
+    #dest-next { left: 820px; }
+  }
+  @media (max-width: 940px) {
+    #dest-next { left: 695px; }
+  }
+</style>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+
+  const viewport = document.getElementById('dest-viewport')!;
+  const embla = EmblaCarousel(viewport, { loop: true, align: 'start' });
+
+  document.getElementById('dest-prev')?.addEventListener('click', () => embla.scrollPrev());
+  document.getElementById('dest-next')?.addEventListener('click', () => embla.scrollNext());
+</script>

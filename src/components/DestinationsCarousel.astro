@@ -1,0 +1,108 @@
+---
+import DestinationCard from './DestinationCard.astro';
+import { destinations } from '../data/destinations';
+---
+
+<section class="destinations-section relative overflow-hidden">
+  <div class="dest-header section-container text-center">
+    <h4>dive in and discover</h4>
+    <h2 class="text-[#1A1A1A]">Our Destinations</h2>
+  </div>
+
+  <div class="dest-carousel-wrap">
+    <div id="destinations-viewport" class="overflow-hidden">
+      <div id="destinations-container" class="flex">
+        {destinations.map((dest) => (
+          <DestinationCard {...dest} />
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="dest-navigation absolute z-10 w-full">
+    <button type="button" id="destinations-prev" class="dest-prev absolute">
+      <img src="/icons/arrow-icon.svg" alt="Previous" class="h-[14px] rotate-180 brightness-0 invert" />
+    </button>
+    <button type="button" id="destinations-next" class="dest-next absolute">
+      <img src="/icons/arrow-icon.svg" alt="Next" class="h-[14px] brightness-0 invert" />
+    </button>
+  </div>
+</section>
+
+<style>
+  .destinations-section {
+    background: #f4f4f4;
+    padding-top: 95px;
+    padding-bottom: 135px;
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+  @media (max-width: 1260px) { .destinations-section { padding-bottom: 115px; } }
+  @media (max-width: 1100px) { .destinations-section { padding-top: 75px; } }
+  @media (max-width: 610px) { .destinations-section { padding-top: 55px; padding-bottom: 95px; } }
+  @media (max-width: 450px) { .destinations-section { padding-top: 35px; padding-bottom: 75px; } }
+  @media (max-width: 350px) { .destinations-section { padding-bottom: 55px; } }
+
+  .destinations-section h2 {
+    margin-bottom: 55px;
+  }
+
+  .dest-carousel-wrap {
+    padding: 0 180px;
+  }
+  @media (max-width: 1360px) { .dest-carousel-wrap { padding: 0 150px; } }
+  @media (max-width: 1260px) { .dest-carousel-wrap { padding: 0 120px; } }
+  @media (max-width: 1100px) { .dest-carousel-wrap { padding: 0 60px; } }
+  @media (max-width: 940px) { .dest-carousel-wrap { padding: 0; } }
+
+  .dest-navigation {
+    top: 465px;
+  }
+  @media (max-width: 1260px) { .dest-navigation { top: 445px; } }
+  @media (max-width: 1100px) { .dest-navigation { top: 425px; } }
+  @media (max-width: 940px) { .dest-navigation { display: none; } }
+
+  .dest-prev {
+    left: 145px;
+    width: 66px;
+    height: 66px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 0;
+    cursor: pointer;
+  }
+  @media (max-width: 1360px) { .dest-prev { left: 115px; } }
+  @media (max-width: 1260px) { .dest-prev { left: 85px; } }
+  @media (max-width: 1100px) { .dest-prev { left: 35px; } }
+
+  .dest-next {
+    right: 145px;
+    width: 66px;
+    height: 66px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 0;
+    cursor: pointer;
+  }
+  @media (max-width: 1360px) { .dest-next { right: 115px; } }
+  @media (max-width: 1260px) { .dest-next { right: 85px; } }
+  @media (max-width: 1100px) { .dest-next { right: 35px; } }
+</style>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+
+  const viewport = document.getElementById('destinations-viewport')!;
+  const embla = EmblaCarousel(viewport, {
+    align: 'center',
+    containScroll: false,
+    loop: true,
+  });
+
+  document.getElementById('destinations-prev')?.addEventListener('click', () => embla.scrollPrev());
+  document.getElementById('destinations-next')?.addEventListener('click', () => embla.scrollNext());
+</script>

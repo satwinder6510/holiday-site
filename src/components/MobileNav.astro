@@ -1,0 +1,128 @@
+---
+import { mobileMenuItems, destinationRegions, collectionMenuItems } from '../data/navigation';
+---
+
+<!-- Full-screen mobile menu overlay -->
+<div id="mobile-menu-overlay" class="fixed inset-0 z-[100] bg-black text-white hidden md2:hidden overflow-y-auto">
+  <!-- Header bar -->
+  <div class="flex items-center justify-between px-5 py-3">
+    <a class="mobile-contacts" href="tel:02081830518">
+      <img src="/icons/mobile-phone-icon.svg" alt="Call us" class="w-[15px] h-5" />
+    </a>
+    <a href="/" title="Flights and Packages">
+      <img src="/icons/flights-and-packages-logo.png" alt="Flights and Packages" class="h-[25px] w-auto brightness-0 invert" />
+    </a>
+    <button type="button" id="mobile-menu-close" aria-label="Close menu">
+      <img src="/icons/close-icon-circle.svg" alt="" class="w-5 h-5" />
+    </button>
+  </div>
+
+  <!-- Main menu -->
+  <ul id="mobile-main-menu" class="px-5 mt-4">
+    {mobileMenuItems.map((item) => (
+      <li class="border-b border-white/10">
+        {item.hasSubmenu ? (
+          <button
+            type="button"
+            class="mobile-submenu-btn w-full text-center py-[13px] font-display text-[20px] leading-[25px] flex items-center justify-center gap-2"
+            data-submenu={item.label.toLowerCase()}
+          >
+            {item.label}
+            <img src="/icons/arrow-icon.svg" alt="" class="w-3 h-3 brightness-0 invert" />
+          </button>
+        ) : (
+          <a href={item.href} class="block py-[13px] font-display text-[20px] leading-[25px] text-center">{item.label}</a>
+        )}
+      </li>
+    ))}
+  </ul>
+
+  <!-- Destinations submenu -->
+  <div id="mobile-submenu-destinations" class="mobile-submenu hidden absolute inset-0 bg-black overflow-y-auto">
+    <div class="flex items-center justify-between px-5 py-3 bg-black">
+      <button type="button" class="mobile-back-btn" aria-label="Back">
+        <img src="/icons/mobile-back-icon.svg" alt="" class="w-5 h-5" />
+      </button>
+      <a href="/" title="Flights and Packages">
+        <img src="/icons/flights-and-packages-logo.png" alt="Flights and Packages" class="h-[25px] w-auto brightness-0 invert" />
+      </a>
+      <button type="button" class="mobile-close-all" aria-label="Close menu">
+        <img src="/icons/close-icon-circle.svg" alt="" class="w-5 h-5" />
+      </button>
+    </div>
+    <ul class="px-5">
+      {destinationRegions.map((region) => (
+        <li class="border-b border-white/10">
+          <a href={region.href} class="block py-4 text-lg font-medium">{region.name}</a>
+        </li>
+      ))}
+      <li class="border-b border-white/10">
+        <a href="/Holidays/Indian-Ocean" class="block py-4 text-lg font-medium">Indian Ocean</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Collections submenu -->
+  <div id="mobile-submenu-collections" class="mobile-submenu hidden absolute inset-0 bg-black overflow-y-auto">
+    <div class="flex items-center justify-between px-5 py-3 bg-black">
+      <button type="button" class="mobile-back-btn" aria-label="Back">
+        <img src="/icons/mobile-back-icon.svg" alt="" class="w-5 h-5" />
+      </button>
+      <a href="/" title="Flights and Packages">
+        <img src="/icons/flights-and-packages-logo.png" alt="Flights and Packages" class="h-[25px] w-auto brightness-0 invert" />
+      </a>
+      <button type="button" class="mobile-close-all" aria-label="Close menu">
+        <img src="/icons/close-icon-circle.svg" alt="" class="w-5 h-5" />
+      </button>
+    </div>
+    <ul class="px-5">
+      {collectionMenuItems.map((item) => (
+        <li class="border-b border-white/10">
+          <a href={item.href} class="block py-3 text-base">{item.name}</a>
+        </li>
+      ))}
+    </ul>
+    <a href="/collections" class="block text-center text-primary font-medium py-4">View all</a>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById('mobile-menu-overlay')!;
+  const mainMenu = document.getElementById('mobile-main-menu')!;
+
+  // Open menu
+  document.getElementById('mobile-menu-open')?.addEventListener('click', () => {
+    overlay.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // Close menu
+  function closeMenu() {
+    overlay.classList.add('hidden');
+    document.body.style.overflow = '';
+    // Reset submenus
+    overlay.querySelectorAll('.mobile-submenu').forEach(s => s.classList.add('hidden'));
+  }
+
+  document.getElementById('mobile-menu-close')?.addEventListener('click', closeMenu);
+  overlay.querySelectorAll('.mobile-close-all').forEach(btn => {
+    btn.addEventListener('click', closeMenu);
+  });
+
+  // Open submenus
+  overlay.querySelectorAll('.mobile-submenu-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-submenu');
+      const submenu = document.getElementById(`mobile-submenu-${target}`);
+      if (submenu) submenu.classList.remove('hidden');
+    });
+  });
+
+  // Back buttons
+  overlay.querySelectorAll('.mobile-back-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const submenu = btn.closest('.mobile-submenu');
+      if (submenu) submenu.classList.add('hidden');
+    });
+  });
+</script>

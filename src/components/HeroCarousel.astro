@@ -1,0 +1,236 @@
+---
+import { heroSlides } from '../data/heroSlides';
+---
+
+<div class="hero relative w-full overflow-hidden">
+  <!-- Slides container -->
+  <div id="hero-viewport" class="h-full">
+    <div id="hero-container" class="h-full relative">
+      {heroSlides.map((slide, i) => (
+        <div
+          class="hero-slide absolute inset-0 bg-cover bg-center transition-opacity duration-700"
+          style={`background-image: url('${slide.image}'); opacity: ${i === 0 ? 1 : 0}; z-index: ${i === 0 ? 1 : 0};`}
+          data-index={i}
+        >
+          {slide.tinted && <div class="absolute inset-0 bg-black/10"></div>}
+          <div class="hero-content absolute text-white">
+            <div class="hero-type font-bold tracking-[5px] text-sm">DISCOVER</div>
+            <h2 class="hero-title font-display leading-none !text-white">{slide.title}</h2>
+            <p class="hero-duration !text-white text-[20px] leading-relaxed">{slide.duration}</p>
+            <div class="hero-price mt-5 h-[76px]">
+              <span class="text-sm font-medium">from</span>
+              <div class="font-display hero-price-num">{slide.price}<span class="font-sans text-sm font-medium">/pp</span></div>
+            </div>
+            <a href={slide.href} class="hero-btn inline-flex items-center justify-center bg-primary text-white font-bold uppercase text-sm tracking-wider">view more</a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Scroll down box (desktop only) -->
+  <div class="scroll-down-box absolute bottom-0 left-0 bg-[#FBFBFB] z-[3] hidden lg:flex items-center justify-end pr-8">
+    <div id="scroll-down" class="cursor-pointer inline-flex items-center gap-3">
+      <div class="text-right">
+        <div class="font-display text-lg leading-tight text-secondary">Scroll Down</div>
+        <div class="text-sm text-secondary/70">Discover more content</div>
+      </div>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#424242" stroke-width="2">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Hero nav box -->
+  <div class="hero-nav-box absolute bottom-0 z-[3] flex items-center justify-center gap-3">
+    <button type="button" id="hero-prev" class="w-8 h-8 flex items-center justify-center">
+      <img src="/icons/arrow-icon.svg" alt="Previous" class="w-4 h-4 rotate-180 brightness-0 invert" />
+    </button>
+    <div class="hero-index text-white text-xl">
+      <span id="hero-index">1</span> of {heroSlides.length}
+    </div>
+    <button type="button" id="hero-next" class="w-8 h-8 flex items-center justify-center">
+      <img src="/icons/arrow-icon.svg" alt="Next" class="w-4 h-4 brightness-0 invert" />
+    </button>
+  </div>
+
+  <!-- Mobile search button (below 940px) -->
+  <button
+    type="button"
+    id="open-search-modal"
+    class="search-btn absolute z-[3] bg-primary text-white flex flex-col items-center justify-center rounded"
+  >
+    <img src="/icons/search-icon.svg" alt="" class="w-[18px] h-[18px] brightness-0 invert" />
+    <span class="text-[8px] mt-0.5">Search</span>
+  </button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll<HTMLElement>('.hero-slide');
+  const indexEl = document.getElementById('hero-index')!;
+  const total = slides.length;
+  let current = 0;
+  let autoplayTimer: number;
+
+  function goTo(index: number) {
+    slides[current].style.opacity = '0';
+    slides[current].style.zIndex = '0';
+    current = ((index % total) + total) % total;
+    slides[current].style.opacity = '1';
+    slides[current].style.zIndex = '1';
+    indexEl.textContent = String(current + 1);
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  function startAutoplay() {
+    autoplayTimer = window.setInterval(next, 5000);
+  }
+  function resetAutoplay() {
+    clearInterval(autoplayTimer);
+    startAutoplay();
+  }
+
+  document.getElementById('hero-prev')?.addEventListener('click', () => { prev(); resetAutoplay(); });
+  document.getElementById('hero-next')?.addEventListener('click', () => { next(); resetAutoplay(); });
+
+  document.getElementById('scroll-down')?.addEventListener('click', () => {
+    const hero = document.querySelector('.hero') as HTMLElement;
+    if (hero) window.scrollTo({ top: hero.offsetHeight + hero.offsetTop, behavior: 'smooth' });
+  });
+
+  startAutoplay();
+</script>
+
+<style>
+  .hero {
+    height: 484px;
+    margin-top: 9px;
+  }
+  @media (min-width: 761px) {
+    .hero { height: 556px; }
+  }
+  @media (min-width: 769px) {
+    .hero { margin-top: 80px; }
+  }
+  @media (min-width: 941px) {
+    .hero { height: 856px; }
+  }
+
+  /* Hero content — positioned on the right
+     Original desktop-first values converted to mobile-first:
+     <=350: ml 20px       => base
+     351-450: ml 40px     => min-width: 351px
+     451-610: ml 60px     => min-width: 451px
+     611-768: ml 120px    => min-width: 611px
+     769-940: ml 220px    => min-width: 769px
+     941-1100: ml 530px   => min-width: 941px (top changes to 240px)
+     1101-1260: ml 700px  => min-width: 1101px
+     1261-1600: ml 800px  => min-width: 1261px
+     1601+: ml 960px      => min-width: 1601px
+  */
+  .hero-content {
+    top: 80px;
+    margin-left: 20px;
+  }
+  @media (min-width: 351px) { .hero-content { margin-left: 40px; max-width: 365px; } }
+  @media (min-width: 451px) { .hero-content { margin-left: 60px; max-width: 500px; } }
+  @media (min-width: 611px) { .hero-content { margin-left: 120px; max-width: 580px; } }
+  @media (min-width: 769px) { .hero-content { margin-left: 220px; max-width: 730px; } }
+  @media (min-width: 941px) { .hero-content { margin-left: 530px; top: 240px; max-width: none; } }
+  @media (min-width: 1101px) { .hero-content { margin-left: 700px; } }
+  @media (min-width: 1261px) { .hero-content { margin-left: 800px; } }
+  @media (min-width: 1601px) { .hero-content { margin-left: 960px; } }
+
+  .hero-title {
+    font-size: 36px;
+    line-height: 36px;
+    width: 361px;
+  }
+  @media (min-width: 394px) { .hero-title { font-size: 40px; line-height: 40px; } }
+  @media (min-width: 450px) { .hero-title { font-size: 44px; } }
+  @media (min-width: 530px) { .hero-title { font-size: 48px; line-height: 48px; } }
+  @media (min-width: 610px) { .hero-title { font-size: 52px; } }
+  @media (min-width: 760px) { .hero-title { font-size: 56px; line-height: 56px; } }
+  @media (min-width: 940px) { .hero-title { font-size: 60px; line-height: 60px; } }
+  @media (min-width: 1100px) { .hero-title { font-size: 64px; line-height: 60px; } }
+
+  .hero-type {
+    font-size: 14px;
+    letter-spacing: 5px;
+  }
+  @media (max-width: 760px) { .hero-type { font-size: 12px; } }
+  @media (max-width: 450px) { .hero-type { font-size: 10px; } }
+
+  .hero-duration {
+    font-size: 20px;
+    line-height: 27px;
+  }
+  @media (max-width: 760px) { .hero-duration { font-size: 16px; } }
+  @media (max-width: 450px) { .hero-duration { font-size: 14px; } }
+
+  .hero-price-num {
+    font-size: 40px;
+    color: #fff;
+  }
+  @media (max-width: 760px) { .hero-price-num { font-size: 34px; } }
+  @media (max-width: 450px) { .hero-price-num { font-size: 28px; } }
+
+  .hero-btn {
+    width: 187px;
+    height: 64px;
+  }
+
+  /* Scroll down box — bottom-left */
+  .scroll-down-box {
+    width: 656px;
+    height: 156px;
+  }
+  @media (max-width: 1599px) { .scroll-down-box { left: -160px; } }
+  @media (max-width: 1259px) { .scroll-down-box { left: -230px; } }
+  @media (max-width: 939px) { .scroll-down-box { display: none !important; } }
+
+  /* Hero nav box — next to scroll-down */
+  .hero-nav-box {
+    left: 656px;
+    width: 156px;
+    height: 156px;
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+    padding-top: 68px;
+  }
+  @media (max-width: 1599px) { .hero-nav-box { left: 496px; } }
+  @media (max-width: 1259px) { .hero-nav-box { left: 426px; } }
+  @media (max-width: 939px) {
+    .hero-nav-box {
+      background-color: transparent;
+      width: 80px;
+      left: auto;
+      right: 7px;
+      bottom: 80px;
+      padding-top: 0;
+      height: auto;
+    }
+    .hero-index { display: none; }
+  }
+  @media (max-width: 759px) { .hero-nav-box { bottom: 25px; } }
+  @media (max-width: 529px) { .hero-nav-box { bottom: 40px; } }
+  @media (max-width: 349px) { .hero-nav-box { bottom: 80px; } }
+
+  /* Search button — mobile only */
+  .search-btn {
+    display: none;
+    width: 51px;
+    min-width: 51px;
+    height: 51px;
+    bottom: 20px;
+    right: 20px;
+  }
+  @media (max-width: 939px) {
+    .search-btn { display: flex; }
+  }
+  @media (max-width: 767px) {
+    .search-btn { display: none; }
+  }
+</style>

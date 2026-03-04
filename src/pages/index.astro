@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import MobileNav from '../components/MobileNav.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
+import SearchForm from '../components/SearchForm.astro';
+import WelcomeSection from '../components/WelcomeSection.astro';
+import OfferCarousel from '../components/OfferCarousel.astro';
+import CountriesSection from '../components/CountriesSection.astro';
+import FeaturedTour from '../components/FeaturedTour.astro';
+import CollectionsCarousel from '../components/CollectionsCarousel.astro';
+import DestinationsCarousel from '../components/DestinationsCarousel.astro';
+import Footer from '../components/Footer.astro';
+import MobileCallCTA from '../components/MobileCallCTA.astro';
+---
+
+<BaseLayout title="Quality Holidays at Affordable Prices | Holidays - Flights and Packages">
+  <Header />
+  <MobileNav />
+
+  <div class="relative">
+    <HeroCarousel />
+    <SearchForm />
+  </div>
+
+  <WelcomeSection />
+  <OfferCarousel />
+  <CountriesSection />
+  <FeaturedTour />
+  <CollectionsCarousel />
+  <DestinationsCarousel />
+
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>

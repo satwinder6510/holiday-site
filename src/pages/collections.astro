@@ -1,0 +1,262 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import MobileNav from '../components/MobileNav.astro';
+import PageHero from '../components/PageHero.astro';
+import Footer from '../components/Footer.astro';
+import MobileCallCTA from '../components/MobileCallCTA.astro';
+import { collections } from '../data/collections';
+
+const extraCollections = [
+  { name: 'Greek Island Hopping', image: 'https://citrusholidays-res.cloudinary.com/image/upload/v1577945556/new/collections/Greek%20Island%20Hopping_banner.jpg', href: '/Greek-Island-Hopping' },
+  { name: 'Vietnam and Cambodia', image: 'https://citrusholidays-res.cloudinary.com/image/upload/v1577945556/new/collections/Vietnam%20and%20Cambodia%20holidays_banner.jpg', href: '/Vietnam-and-cambodia-holidays' },
+  { name: 'Golden Triangle Holidays', image: 'https://citrusholidays-res.cloudinary.com/image/upload/v1577945556/new/collections/Golden%20Triangle%20Holidays_banner.jpg', href: '/Golden-triangle-holidays' },
+];
+
+const allCollections = [...collections, ...extraCollections];
+---
+
+<BaseLayout title="Our Collections | Holidays - Flights and Packages">
+  <Header />
+  <MobileNav />
+  <PageHero
+    title="Collections"
+    subtitle="discover"
+    breadcrumbLabel="Collections"
+    backgroundImage="/images/heroes/collections.jpg"
+  />
+
+  <section class="collections-section">
+    <div class="section-container">
+      <h4>that extra special something</h4>
+      <h2>Our Collections</h2>
+    </div>
+    <div class="collections-carousel">
+      <div id="collections-viewport" class="collections-viewport">
+        <div id="collections-container" class="collections-container">
+          {allCollections.map((c) => (
+            <a href={c.href} class="coll-item" style={`background-image: url('${c.image}')`}>
+              <div class="coll-content">
+                <div class="coll-name">{c.name}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div class="collections-nav">
+      <button type="button" id="coll-prev" class="coll-nav-btn">
+        <img src="/icons/arrow-icon.svg" alt="Previous" class="h-[14px] rotate-180 brightness-0 invert" />
+      </button>
+      <button type="button" id="coll-next" class="coll-nav-btn">
+        <img src="/icons/arrow-icon.svg" alt="Next" class="h-[14px] brightness-0 invert" />
+      </button>
+    </div>
+  </section>
+
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>
+
+<style>
+  .collections-section {
+    position: relative;
+    padding-top: 80px;
+    padding-bottom: 60px;
+    max-width: 100%;
+  }
+  @media (max-width: 940px) {
+    .collections-section {
+      padding-top: 40px;
+      padding-bottom: 20px;
+    }
+  }
+  .collections-section h2 {
+    margin-bottom: 80px;
+  }
+  @media (max-width: 940px) {
+    .collections-section h2 { margin-bottom: 0; }
+  }
+
+  .collections-carousel {
+    padding: 0 180px;
+  }
+  @media (max-width: 1360px) {
+    .collections-carousel { padding: 0 150px; }
+  }
+  @media (max-width: 1260px) {
+    .collections-carousel { padding: 0 110px; }
+  }
+  @media (max-width: 1100px) {
+    .collections-carousel { padding: 0 60px; }
+  }
+  @media (max-width: 940px) {
+    .collections-carousel {
+      padding: 0;
+      max-width: 730px;
+      margin: 0 auto;
+    }
+  }
+  @media (max-width: 760px) {
+    .collections-carousel { max-width: 580px; }
+  }
+  @media (max-width: 610px) {
+    .collections-carousel { max-width: 500px; }
+  }
+  @media (max-width: 530px) {
+    .collections-carousel { max-width: 420px; }
+  }
+  @media (max-width: 450px) {
+    .collections-carousel { max-width: 365px; }
+  }
+  @media (max-width: 394px) {
+    .collections-carousel { max-width: 335px; }
+  }
+  @media (max-width: 350px) {
+    .collections-carousel { max-width: 290px; }
+  }
+
+  .collections-viewport {
+    overflow: hidden;
+  }
+  .collections-container {
+    display: flex;
+  }
+
+  .coll-item {
+    height: 424px;
+    min-width: 291px;
+    width: 291px;
+    background-size: cover;
+    background-position: center;
+    margin: 0 12.5px;
+    margin-top: 30px;
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+  }
+  @media (max-width: 940px) {
+    .coll-item {
+      margin-top: 0;
+      height: 370px;
+      min-width: 256px;
+      width: 256px;
+    }
+  }
+  @media (max-width: 760px) {
+    .coll-item { height: 315px; min-width: 221px; width: 221px; }
+  }
+  @media (max-width: 450px) {
+    .coll-item { height: 260px; min-width: 186px; width: 186px; }
+  }
+
+  .coll-content {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    color: #fff;
+    width: 230px;
+    z-index: 1;
+  }
+  @media (max-width: 940px) {
+    .coll-content { width: 220px; left: 20px; bottom: 25px; }
+  }
+  @media (max-width: 760px) {
+    .coll-content { width: 190px; left: 15px; }
+  }
+  @media (max-width: 450px) {
+    .coll-content { width: 170px; left: 10px; bottom: 20px; }
+  }
+  .coll-content::before {
+    content: "";
+    position: absolute;
+    left: -30px;
+    bottom: -30px;
+    width: 291px;
+    height: 156px;
+    display: block;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.6));
+    z-index: -1;
+  }
+  @media (max-width: 940px) {
+    .coll-content::before { width: 256px; left: -20px; bottom: -25px; }
+  }
+  @media (max-width: 760px) {
+    .coll-content::before { width: 221px; left: -15px; }
+  }
+  @media (max-width: 450px) {
+    .coll-content::before { width: 186px; left: -10px; bottom: -20px; }
+  }
+  .coll-name {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 30px;
+    line-height: 30px;
+    text-align: left;
+  }
+  @media (max-width: 1260px) {
+    .coll-name { font-size: 26px; letter-spacing: -0.2px; }
+  }
+  @media (max-width: 760px) {
+    .coll-name { font-size: 24px; letter-spacing: -0.4px; }
+  }
+  @media (max-width: 450px) {
+    .coll-name { font-size: 20px; letter-spacing: -0.6px; line-height: 24px; }
+  }
+
+  /* Navigation */
+  .collections-nav {
+    width: 100%;
+    height: 66px;
+    position: absolute;
+    top: 441px;
+    left: 145px;
+  }
+  @media (max-width: 1360px) {
+    .collections-nav { left: 100px; }
+  }
+  @media (max-width: 1260px) {
+    .collections-nav { left: 50px; }
+  }
+  @media (max-width: 1100px) {
+    .collections-nav { left: 25px; }
+  }
+  @media (max-width: 940px) {
+    .collections-nav { display: none; }
+  }
+  .coll-nav-btn {
+    width: 66px;
+    height: 66px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+  }
+  #coll-prev {
+    left: 0;
+  }
+  #coll-next {
+    right: 290px;
+  }
+  @media (max-width: 1360px) {
+    #coll-next { right: 200px; }
+  }
+  @media (max-width: 1260px) {
+    #coll-next { right: 100px; }
+  }
+  @media (max-width: 1100px) {
+    #coll-next { right: 50px; }
+  }
+</style>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+
+  const viewport = document.getElementById('collections-viewport')!;
+  const embla = EmblaCarousel(viewport, { loop: true, align: 'center' });
+
+  document.getElementById('coll-prev')?.addEventListener('click', () => embla.scrollPrev());
+  document.getElementById('coll-next')?.addEventListener('click', () => embla.scrollNext());
+</script>

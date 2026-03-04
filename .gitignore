@@ -1,1 +1,4 @@
 holidays.flightsandpackages.com.rar
+node_modules/
+dist/
+.astro/

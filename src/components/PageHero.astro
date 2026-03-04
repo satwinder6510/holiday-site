@@ -1,0 +1,110 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  breadcrumbLabel: string;
+  backgroundImage: string;
+}
+
+const { title, subtitle, breadcrumbLabel, backgroundImage } = Astro.props;
+---
+
+<section class="page-hero" style={`background-image: url('${backgroundImage}')`}>
+  <div class="breadcrumbs">
+    <a href="/">Home</a>
+    <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
+    <span>{breadcrumbLabel}</span>
+  </div>
+  <div class="hero-content">
+    {subtitle && <div class="hero-subtitle">{subtitle}</div>}
+    <h1 class="!text-white">{title}</h1>
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    margin-top: 100px;
+    height: 500px;
+    background-position: 100%;
+    background-size: cover;
+    position: relative;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+  }
+  @media (max-width: 768px) {
+    .page-hero {
+      margin-top: 50px;
+      height: 400px;
+      background-position: center;
+    }
+  }
+  @media (max-width: 450px) {
+    .page-hero {
+      height: 300px;
+    }
+  }
+
+  .breadcrumbs {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    z-index: 3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+  }
+  @media (max-width: 768px) {
+    .breadcrumbs { left: 20px; }
+  }
+  @media (max-width: 530px) {
+    .breadcrumbs { max-width: 400px; }
+  }
+  @media (max-width: 450px) {
+    .breadcrumbs { max-width: 335px; }
+  }
+  @media (max-width: 394px) {
+    .breadcrumbs { max-width: 305px; }
+  }
+  @media (max-width: 350px) {
+    .breadcrumbs { max-width: 240px; }
+  }
+
+  .breadcrumbs a,
+  .breadcrumbs span {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 10px;
+    line-height: 12px;
+    color: #ffffff;
+  }
+
+  .breadcrumb-icon {
+    padding: 0 5px;
+    width: auto;
+    height: 8px;
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+
+  .hero-subtitle {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+  }
+
+  .hero-content h1 {
+    color: #ffffff;
+    padding-bottom: 25px;
+    text-shadow: 2px 2px 5px #000;
+  }
+</style>

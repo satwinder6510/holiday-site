@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import MobileNav from '../components/MobileNav.astro';
+import PageHero from '../components/PageHero.astro';
+import Footer from '../components/Footer.astro';
+import MobileCallCTA from '../components/MobileCallCTA.astro';
+---
+
+<BaseLayout title="Contact Us | Holidays - Flights and Packages">
+  <Header />
+  <MobileNav />
+  <PageHero
+    title="Contact Us"
+    breadcrumbLabel="Contact Us"
+    backgroundImage="/images/heroes/contact-us.jpg"
+  />
+
+  <section class="contactus-section section-container">
+    <p class="contact-desc">If you would like to make a new booking, please call us on 0208 183 0518 and a member of staff will be happy to help you. If you're in resort please speak to reception or the local representative who will be best placed to resolve any issue locally quickly.<br />For any and all matters please feel free to fill out the email form below, making sure to select the right reason for contact so that we can route your query more efficiently. You can also write to us at the address shown on this page or call us or use the online chat service.</p>
+
+    <div class="sidebar">
+      <div class="contact-info">
+        <div class="contact-item">
+          <img src="/icons/contact-location.svg" alt="" class="contact-icon" />
+          <span>Airport House, Purley Way, Croydon, CR0 0XZ</span>
+        </div>
+        <div class="contact-item">
+          <img src="/icons/contact-phone.svg" alt="" class="contact-icon" />
+          <span>0208 183 0518</span>
+        </div>
+        <div class="contact-item">
+          <img src="/icons/contact-email.svg" alt="" class="contact-icon" />
+          <a href="mailto:holidayenq@flightsandpackages.com">holidayenq@flightsandpackages.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <form id="contact-form">
+        <div class="field-wrap">
+          <div class="form-block half">
+            <label>First Name<span class="label-hint"> (Required)</span></label>
+            <input class="input" placeholder="First name" required />
+          </div>
+          <div class="form-block half">
+            <label>Last Name<span class="label-hint"> (Required)</span></label>
+            <input class="input" placeholder="Last name" required />
+          </div>
+        </div>
+        <div class="form-block">
+          <label>Email<span class="label-hint"> (Required)</span></label>
+          <input class="input" type="email" placeholder="Email" required />
+        </div>
+        <div class="field-wrap">
+          <div class="form-block half">
+            <label>Phone number<span class="label-hint"> (Required)</span></label>
+            <input class="input" type="tel" placeholder="Phone number" required />
+          </div>
+          <div class="form-block half">
+            <label>Booking reference<span class="label-hint"> (Optional)</span></label>
+            <input class="input" placeholder="Booking reference" />
+          </div>
+        </div>
+        <div class="form-block">
+          <label>Reason for contact</label>
+          <select class="input">
+            <option value="" disabled selected hidden>Please select one...</option>
+            <option value="I need more info on a holiday">I need more info on a holiday</option>
+            <option value="I want to make a new reservation">I want to make a new reservation</option>
+            <option value="I have a question about my documents">I have a question about my documents</option>
+            <option value="I need copies of my documents">I need copies of my documents</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-block">
+          <label>Please enter the details of your query below<span class="label-hint"> (Required)</span></label>
+          <textarea class="input textarea" placeholder="Please enter your query here..." required></textarea>
+        </div>
+        <div class="form-actions">
+          <a href="#" class="form-reset" id="reset-form">Reset all fields</a>
+          <button class="btn-primary submit" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>
+
+<style>
+  .contactus-section {
+    position: relative;
+    padding-top: 60px;
+    padding-bottom: 80px;
+  }
+
+  .contact-desc {
+    width: calc(100% - 292px);
+    padding-right: 20px;
+    padding-bottom: 70px;
+  }
+  @media (max-width: 940px) {
+    .contact-desc {
+      width: 100%;
+      padding-bottom: 45px;
+      padding-right: 0;
+    }
+  }
+  @media (max-width: 768px) {
+    .contact-desc { text-align: justify; }
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: absolute;
+    right: 20px;
+    top: 60px;
+  }
+  @media (max-width: 940px) {
+    .sidebar { position: static; }
+  }
+  .contact-info {
+    width: 291px;
+    background-color: #F4F4F4;
+    padding: 20px;
+    position: relative;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    color: #282828;
+  }
+  @media (max-width: 940px) {
+    .contact-info {
+      width: 100%;
+      background-color: transparent;
+      padding: 0;
+      margin-bottom: 45px;
+    }
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    line-height: 20px;
+  }
+  .contact-icon {
+    padding-right: 14px;
+    width: auto;
+    height: 20px;
+  }
+  .contact-item a {
+    color: #282828;
+  }
+
+  /* Contact Form */
+  .contact-form {
+    width: calc(100% - 292px);
+    display: flex;
+    flex-direction: column;
+    padding-right: 20px;
+  }
+  @media (max-width: 940px) {
+    .contact-form {
+      width: 100%;
+      padding-right: 0;
+    }
+  }
+  .field-wrap {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  @media (max-width: 610px) {
+    .field-wrap { flex-direction: column; }
+  }
+  .form-block {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  .half {
+    width: calc(50% - 6px);
+  }
+  @media (max-width: 610px) {
+    .half { width: 100%; }
+  }
+  label {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    color: #424242;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .label-hint {
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+  }
+  .input {
+    width: 100%;
+    border-radius: 2px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    border: none;
+    padding: 15px 20px;
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+    color: #424242;
+    outline: none;
+    background: #fff;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  @media (max-width: 610px) {
+    .input { margin-bottom: 10px; }
+  }
+  select.input {
+    cursor: pointer;
+  }
+  .textarea {
+    height: 430px;
+    padding: 30px;
+    resize: vertical;
+  }
+  .form-actions {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .form-reset {
+    color: #20A1AA;
+    font-size: 14px;
+  }
+  .submit {
+    letter-spacing: 1px;
+    width: 155px;
+    height: 54px;
+    padding: 0;
+    font-size: 14px;
+  }
+</style>
+
+<script>
+  document.getElementById('reset-form')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    (document.getElementById('contact-form') as HTMLFormElement)?.reset();
+  });
+
+  document.getElementById('contact-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Thank you for your enquiry. We will respond to you shortly.');
+  });
+</script>

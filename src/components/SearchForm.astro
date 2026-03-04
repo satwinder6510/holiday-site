@@ -1,0 +1,144 @@
+---
+import { destinations, airports, months, passengers } from '../data/searchOptions';
+---
+
+<!-- Desktop search form — overlaid on hero left side (hidden below 940px) -->
+<div class="search-form-desktop absolute z-[3] hidden lg:block">
+  <form id="search-form-desktop" class="flex flex-col" style="gap: 25px;">
+    <div class="form-box bg-white rounded-sm px-[30px] pt-[17px]" style="box-shadow: 0px 0px 8px rgba(0,0,0,0.2);">
+      <div class="text-sm font-bold text-[#282828] mb-1">Destination</div>
+      <select name="destination" class="w-full border-0 bg-transparent text-secondary text-base outline-none cursor-pointer appearance-none">
+        <option value="">Select</option>
+        {destinations.map((d) => <option value={d}>{d}</option>)}
+      </select>
+    </div>
+    <div class="form-box bg-white rounded-sm px-[30px] pt-[17px]" style="box-shadow: 0px 0px 8px rgba(0,0,0,0.2);">
+      <div class="text-sm font-bold text-[#282828] mb-1">Departing from</div>
+      <select name="airport" class="w-full border-0 bg-transparent text-secondary text-base outline-none cursor-pointer appearance-none">
+        <option value="">Select</option>
+        {airports.map((a) => <option value={a}>{a}</option>)}
+      </select>
+    </div>
+    <div class="form-box bg-white rounded-sm px-[30px] pt-[17px]" style="box-shadow: 0px 0px 8px rgba(0,0,0,0.2);">
+      <div class="text-sm font-bold text-[#282828] mb-1">Departure month</div>
+      <select name="month" class="w-full border-0 bg-transparent text-secondary text-base outline-none cursor-pointer appearance-none">
+        <option value="">Select</option>
+        {months.map((m) => <option value={m}>{m}</option>)}
+      </select>
+    </div>
+    <div class="form-box bg-white rounded-sm px-[30px] pt-[17px]" style="box-shadow: 0px 0px 8px rgba(0,0,0,0.2);">
+      <div class="text-sm font-bold text-[#282828] mb-1">Passengers</div>
+      <select name="passengers" class="w-full border-0 bg-transparent text-secondary text-base outline-none cursor-pointer appearance-none">
+        <option value="">Select</option>
+        {passengers.map((p) => <option value={p}>{p}</option>)}
+      </select>
+    </div>
+    <button type="submit" class="find-btn bg-primary text-white font-bold uppercase flex items-center justify-center gap-3 rounded-sm hover:bg-primary/90 transition-colors" style="box-shadow: 0px 4px 10px 2px rgba(0,0,0,0.4);">
+      <img src="/icons/search-icon.svg" alt="" class="w-5 h-5 brightness-0 invert" />
+      Find holidays
+    </button>
+  </form>
+</div>
+
+<!-- Mobile search modal -->
+<div id="search-modal" class="fixed inset-0 z-[110] bg-[#f6f6f6] hidden overflow-y-auto">
+  <div class="max-w-[500px] mx-auto px-4 py-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-display text-xl text-center flex-1">Search</h3>
+      <button type="button" id="close-search-modal" class="flex items-center gap-2 text-sm cursor-pointer">
+        <img src="/icons/close-icon-circle.svg" alt="Close" class="w-5 h-5" />
+      </button>
+    </div>
+    <form id="search-form-mobile" class="flex flex-col gap-2">
+      <div class="form-box bg-white rounded shadow-md px-7 pt-4 pb-5">
+        <div class="text-sm font-bold text-[#282828] mb-1">Destination</div>
+        <select name="destination" class="w-full border-0 bg-transparent text-secondary text-base outline-none cursor-pointer appearance-none">
+          <option value="">Select</option>
+          {destinations.map((d) => <option value={d}>{d}</option>)}
+        </select>
+      </div>
+      <div class="form-box bg-white rounded shadow-md px-7 pt-4 pb-5">
+        <div class="text-sm font-bold text-[#282828] mb-1">Departing from</div>
+        <select name="airport" class="w-full border-0 bg-transparent text-secondary text-base outline-none cursor-pointer appearance-none">
+          <option value="">Select</option>
+          {airports.map((a) => <option value={a}>{a}</option>)}
+        </select>
+      </div>
+      <div class="form-box bg-white rounded shadow-md px-7 pt-4 pb-5">
+        <div class="text-sm font-bold text-[#282828] mb-1">Departure month</div>
+        <select name="month" class="w-full border-0 bg-transparent text-secondary text-base outline-none cursor-pointer appearance-none">
+          <option value="">Select</option>
+          {months.map((m) => <option value={m}>{m}</option>)}
+        </select>
+      </div>
+      <div class="form-box bg-white rounded shadow-md px-7 pt-4 pb-5">
+        <div class="text-sm font-bold text-[#282828] mb-1">Passengers</div>
+        <select name="passengers" class="w-full border-0 bg-transparent text-secondary text-base outline-none cursor-pointer appearance-none">
+          <option value="">Select</option>
+          {passengers.map((p) => <option value={p}>{p}</option>)}
+        </select>
+      </div>
+      <button type="submit" class="bg-primary text-white font-bold uppercase flex items-center justify-center gap-3 rounded shadow-lg h-[76px] w-[260px] hover:bg-primary/90 transition-colors text-sm">
+        <img src="/icons/search-icon.svg" alt="" class="w-5 h-5 brightness-0 invert" />
+        Find holidays
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .search-form-desktop {
+    left: 340px;
+    top: 160px;
+    width: 502px;
+  }
+  @media (max-width: 1600px) { .search-form-desktop { left: 180px; } }
+  @media (max-width: 1260px) { .search-form-desktop { left: 110px; } }
+  @media (max-width: 1100px) {
+    .search-form-desktop { left: 60px; width: 402px; }
+  }
+  @media (max-width: 940px) {
+    .search-form-desktop { display: none !important; }
+  }
+
+  .form-box {
+    height: 96px;
+  }
+
+  .find-btn {
+    height: 97px;
+    width: 291px;
+  }
+
+  /* Mobile modal form-boxes are shorter */
+  #search-modal .form-box {
+    height: auto;
+  }
+</style>
+
+<script>
+  // Mobile modal toggle
+  document.getElementById('open-search-modal')?.addEventListener('click', () => {
+    document.getElementById('search-modal')!.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  });
+  document.getElementById('close-search-modal')?.addEventListener('click', () => {
+    document.getElementById('search-modal')!.classList.add('hidden');
+    document.body.style.overflow = '';
+  });
+
+  function handleSearch(e: Event) {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const data = new FormData(form);
+    const params = new URLSearchParams();
+    for (const [key, value] of data.entries()) {
+      if (value) params.set(key, value as string);
+    }
+    const query = params.toString();
+    window.location.href = `/search${query ? '?' + query : ''}`;
+  }
+
+  document.getElementById('search-form-desktop')?.addEventListener('submit', handleSearch);
+  document.getElementById('search-form-mobile')?.addEventListener('submit', handleSearch);
+</script>

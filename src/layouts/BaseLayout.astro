@@ -1,0 +1,33 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Holidays - Flights and Packages offer Quality City Breaks, Beach Holidays, Multi Centre Holidays, Tailor Made Holidays and Private Tours at Affordable Prices.' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0" />
+  <meta name="description" content={description} />
+  <title>{title}</title>
+
+  <!-- Font Preloads -->
+  <link rel="preload" href="/fonts/BentonSans-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/BentonSans-Medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/BentonSans-Bold.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/CaslonGraphiqueEF.woff2" as="font" type="font/woff2" crossorigin />
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+<body>
+  <slot />
+</body>
+</html>
+
+<style is:global>
+  @import '../styles/fonts.css';
+  @import '../styles/global.css';
+</style>

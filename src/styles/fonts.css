@@ -1,0 +1,73 @@
+/* BentonSans Family */
+@font-face {
+  font-family: 'BentonSans';
+  src: url('/fonts/BentonSans-ExtraLight.woff2') format('woff2'),
+       url('/fonts/BentonSans-ExtraLight.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSans';
+  src: url('/fonts/BentonSans-Light.woff2') format('woff2'),
+       url('/fonts/BentonSans-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSans';
+  src: url('/fonts/BentonSans-Regular.woff2') format('woff2'),
+       url('/fonts/BentonSans-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSans';
+  src: url('/fonts/BentonSans-Italic.woff2') format('woff2'),
+       url('/fonts/BentonSans-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSans';
+  src: url('/fonts/BentonSans-Medium.woff2') format('woff2'),
+       url('/fonts/BentonSans-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSans';
+  src: url('/fonts/BentonSans-Bold.woff2') format('woff2'),
+       url('/fonts/BentonSans-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSans';
+  src: url('/fonts/BentonSans-Black.woff2') format('woff2'),
+       url('/fonts/BentonSans-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* CaslonGraphiqueEF — Display/Heading Font */
+@font-face {
+  font-family: 'CaslonGraphiqueEF';
+  src: url('/fonts/CaslonGraphiqueEF.woff2') format('woff2'),
+       url('/fonts/CaslonGraphiqueEF.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

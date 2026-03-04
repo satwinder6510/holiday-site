@@ -1,0 +1,164 @@
+---
+import { mainMenuItems, destinationRegions, collectionMenuItems } from '../data/navigation';
+---
+
+<header class="header-bar fixed top-0 w-full z-[4]">
+  <!-- Desktop Nav -->
+  <nav class="desktop-nav hidden md2:flex items-center justify-between">
+    <a class="logo-link" href="/" title="Flights and Packages">
+      <img src="/icons/flights-and-packages-logo.png" alt="Flights and Packages" class="logo-img" />
+    </a>
+    <ul class="flex items-center gap-0">
+      {mainMenuItems.map((item) => (
+        <li class="relative group">
+          <a
+            class="menu-link text-white flex items-center gap-1"
+            href={item.href}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noopener noreferrer' : undefined}
+          >
+            {item.label}
+            {item.hasDropdown && (
+              <img src="/icons/header-dropdown-icon.svg" alt="" class="w-2.5 h-2.5" />
+            )}
+          </a>
+          {item.label === 'Destinations' && (
+            <div class="menu-popup destinations-popup hidden group-hover:block absolute top-full left-1/2 -translate-x-1/2 bg-white shadow-xl rounded z-50 p-6 min-w-[700px]">
+              <div class="flex gap-2 mb-4 border-b border-gray-100 pb-3">
+                {destinationRegions.map((region) => (
+                  <a href={region.href} class="text-sm font-bold text-secondary hover:text-primary transition-colors">
+                    {region.name}
+                  </a>
+                ))}
+              </div>
+              <div class="grid grid-cols-6 gap-x-4 gap-y-1">
+                {destinationRegions.map((region) => (
+                  <div>
+                    {region.countries.map((country) => (
+                      <a href={country.href} class="block text-xs text-secondary/80 hover:text-primary py-0.5 transition-colors">
+                        {country.name}
+                      </a>
+                    ))}
+                    {region.countries.length > 8 && (
+                      <a href={region.href} class="block text-xs text-primary font-medium py-0.5 mt-1">View All</a>
+                    )}
+                    {region.subRegions?.map((sub) => (
+                      <div class="mt-2">
+                        <a href={sub.href} class="block text-sm font-bold text-secondary hover:text-primary mb-1">{sub.name}</a>
+                        {sub.countries.map((c) => (
+                          <a href={c.href} class="block text-xs text-secondary/80 hover:text-primary py-0.5 transition-colors">{c.name}</a>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {item.label === 'Collections' && (
+            <div class="menu-popup collections-popup hidden group-hover:block absolute top-full left-1/2 -translate-x-1/2 bg-white shadow-xl rounded z-50 p-6 min-w-[600px]">
+              <div class="grid grid-cols-4 gap-x-6 gap-y-1">
+                {collectionMenuItems.map((col) => (
+                  <a href={col.href} class="block text-xs text-secondary/80 hover:text-primary py-0.5 transition-colors whitespace-nowrap">
+                    {col.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+    <div class="contacts text-center text-white">
+      <a href="tel:02081830518" class="phone-number block tracking-[2px]">0208 183 0518</a>
+      <span class="phone-sub font-medium">We're open until 9pm</span>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav Bar -->
+  <nav class="mobile-nav-bar flex md2:hidden items-center justify-between">
+    <a class="mobile-contacts" href="tel:02081830518">
+      <img src="/icons/mobile-phone-icon.svg" alt="Call us" class="w-[15px] h-5 brightness-0 invert" />
+    </a>
+    <a class="logo" href="/" title="Flights and Packages">
+      <img src="/icons/flights-and-packages-logo.png" alt="Flights and Packages" class="h-[25px] w-auto brightness-0 invert" />
+    </a>
+    <button type="button" id="mobile-menu-open" aria-label="Open menu">
+      <img src="/icons/mobile-menu-icon.svg" alt="" class="w-5 h-5 brightness-0 invert" />
+    </button>
+  </nav>
+</header>
+
+<style>
+  .header-bar {
+    background-color: #073140;
+    box-shadow: 0px 6px 12px 2px rgba(0, 0, 0, 0.1);
+    height: 101px;
+  }
+  @media (max-width: 768px) {
+    .header-bar { height: 51px; }
+  }
+
+  .desktop-nav {
+    margin: 21px 0;
+    height: calc(101px - 42px);
+    align-items: center;
+  }
+
+  .logo-link {
+    margin-left: 50px;
+    margin-right: 20px;
+  }
+  .logo-img {
+    height: 60px;
+    width: auto;
+  }
+  @media (max-width: 1260px) {
+    .logo-img { height: 25px; }
+  }
+  @media (max-width: 940px) {
+    .logo-link { margin-left: 20px; margin-right: 10px; }
+  }
+
+  .menu-link {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 400;
+    padding: 0 10px;
+  }
+  @media (max-width: 1260px) { .menu-link { font-size: 14px; line-height: 16px; } }
+  @media (max-width: 940px) { .menu-link { font-size: 12px; } }
+
+  .contacts {
+    margin-left: 20px;
+    margin-right: 100px;
+  }
+  @media (max-width: 1260px) { .contacts { margin-right: 50px; } }
+  @media (max-width: 940px) { .contacts { margin-right: 20px; } }
+
+  .phone-number {
+    font-size: 29px;
+    line-height: 27px;
+    font-weight: 900;
+  }
+  @media (max-width: 1260px) { .phone-number { font-size: 18px; } }
+  @media (max-width: 940px) { .phone-number { font-size: 16px; letter-spacing: 1.5px; } }
+
+  .phone-sub {
+    font-size: 14px;
+  }
+  @media (max-width: 1260px) { .phone-sub { font-size: 12px; } }
+
+  .mobile-nav-bar {
+    margin: 8.5px 20px;
+  }
+
+  .group:hover .menu-popup {
+    display: block;
+  }
+
+  .menu-popup {
+    box-shadow: 0px 20px 50px 10px rgba(0, 0, 0, 0.51);
+    border-radius: 5px;
+  }
+</style>

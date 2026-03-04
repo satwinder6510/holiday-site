@@ -1,0 +1,1495 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import MobileNav from '../../../components/MobileNav.astro';
+import Footer from '../../../components/Footer.astro';
+import MobileCallCTA from '../../../components/MobileCallCTA.astro';
+import { mockItineraryHoliday } from '../../../data/mockItinerary';
+import { mockHolidays } from '../../../data/mockHolidays';
+
+export function getStaticPaths() {
+  // Generate from mockHolidays for multiple pages, plus the itinerary holiday
+  const paths = mockHolidays.map((h) => ({
+    params: { country: h.countrySlug, slug: h.slug },
+    props: { holiday: h, isDetailed: false },
+  }));
+  // Add the detailed itinerary page
+  paths.push({
+    params: { country: mockItineraryHoliday.countrySlug, slug: mockItineraryHoliday.slug },
+    props: { holiday: mockItineraryHoliday, isDetailed: true },
+  });
+  return paths;
+}
+
+const { holiday, isDetailed } = Astro.props;
+// For the detailed holiday, use the full itinerary data; for others, show a simpler template
+const detail = isDetailed ? mockItineraryHoliday : null;
+
+// Determine hero image
+const heroImage = isDetailed && detail ? detail.heroImage : holiday.image;
+const sidebarImage = isDetailed && detail ? detail.sidebarImage : holiday.image;
+const price = holiday.price;
+---
+
+<BaseLayout title={`${holiday.title} | Holidays - Flights and Packages`} description={isDetailed && detail ? detail.overview.substring(0, 160) : holiday.description}>
+  <Header />
+  <MobileNav />
+
+  <!-- Hero Section -->
+  <section class="itinerary-hero">
+    <div class="hero-bg" style={`background-image: url('${heroImage}')`}></div>
+    <div class="breadcrumbs">
+      <a href="/">Home</a>
+      <span class="icon-breadcrumb"></span>
+      <a href="/holidays">Destinations</a>
+      <span class="icon-breadcrumb"></span>
+      <a href={`/holidays/${holiday.countrySlug}`}>{holiday.country}</a>
+      <span class="icon-breadcrumb"></span>
+      <a href="javascript:void(0)">{holiday.title}</a>
+    </div>
+    <div class="hero-content">
+      <div class="hero-label">discover</div>
+      <h1>{holiday.title}</h1>
+    </div>
+  </section>
+
+  <!-- Search / Price Bar -->
+  <section class="search-section">
+    <div class="search-form section-container">
+      <div class="form-box">
+        <p class="form-p-title">{holiday.title}</p>
+        <p class="para2">{holiday.destination} &bull; {holiday.duration} &bull; {holiday.boardBasis}</p>
+      </div>
+      <div class="price-area">
+        <div class="price-wrap">
+          <span class="price-from">from</span>
+          <div class="price-amount">&pound;{price}<span class="price-pp">/pp</span></div>
+        </div>
+        <a href="#" class="btn-check-price">Check Price &amp; Book<img src="/icons/more-icon-white.svg" alt="" class="icon-more" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tab Navigation -->
+  <div class="tabs" id="tabs-container">
+    <div id="tab_navigation" class="itinerary-header">
+      <div class="section-container header-inner">
+        <div class="mobile-tab-toggle">
+          <div class="drop-down">
+            <span class="current">Overview</span>
+            <span class="icon-sort-by"></span>
+          </div>
+          <button class="btn-summary summary-btn">Summary</button>
+        </div>
+        <ul class="tab-list">
+          <li class="ui-tabs-active"><a href="#overview" data-tab="overview">Overview</a></li>
+          {isDetailed && detail && detail.itinerary.length > 0 && (
+            <li><a href="#itinerary" data-tab="itinerary">Itinerary</a></li>
+          )}
+          {isDetailed && detail && detail.accommodations.length > 0 && (
+            <li><a href="#accommodation" data-tab="accommodation">Accommodation</a></li>
+          )}
+          {isDetailed && detail && detail.galleryImages.length > 0 && (
+            <li><a href="#gallery" data-tab="gallery">Gallery</a></li>
+          )}
+          {isDetailed && detail && (
+            <li><a href="#otherinfo" data-tab="otherinfo">Other Info</a></li>
+          )}
+          {isDetailed && detail && detail.routeMapImage && (
+            <li><a href="#routemap" data-tab="routemap">Route Map</a></li>
+          )}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <section class="itinerary-content">
+      <div class="section-container content-inner">
+        <!-- Main Content -->
+        <div class="content" id="main-content">
+
+          {/* ===== DETAILED TEMPLATE ===== */}
+          {isDetailed && detail ? (
+            <>
+              {/* Overview Section */}
+              <div id="overview" class="overview-section tab-panel">
+                <h3>Overview</h3>
+                <p>{detail.overview}</p>
+
+                <h3 style="margin-top: 40px;">Highlights</h3>
+                <ul class="custom-bullets">
+                  {detail.highlights.map((h) => (
+                    <li>{h}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Itinerary Section */}
+              {detail.itinerary.length > 0 && (
+                <div id="itinerary" class="itinerary-section tab-panel" style="display:none;">
+                  <h3>Itinerary</h3>
+                  <p class="itinerary-desc">Explore the day-by-day breakdown of your journey through {detail.destination}.</p>
+                  {detail.itinerary.map((item, i) => (
+                    <div class="accordion-panel">
+                      <div class="panel-header" data-panel={`panel-${i}`}>
+                        <div class="mobile-wrap">
+                          <div class="day">{item.day}</div>
+                          <div>
+                            <div class="label">{item.title}</div>
+                          </div>
+                        </div>
+                        <span class={i === 0 ? 'panel-icon icon-less-minus' : 'panel-icon icon-more-plus'}></span>
+                      </div>
+                      <div class="panel-content" style={i === 0 ? 'display:block;' : 'display:none;'}>
+                        <div class="desc">
+                          <p>{item.description}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Accommodation Section */}
+              {detail.accommodations.length > 0 && (
+                <div id="accommodation" class="accommodation-section tab-panel" style="display:none;">
+                  <h3>Accommodation</h3>
+                  {detail.accommodations.map((acc) => (
+                    <div class="desc">
+                      <div class="acc-title">{acc.name}</div>
+                      <span class={`icon-${acc.stars}-stars`}></span>
+                      <p>{acc.description}</p>
+                      <ul class="custom-bullets amenities-grid">
+                        {acc.amenities.map((amenity) => (
+                          <li>{amenity}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Gallery Section */}
+              {detail.galleryImages.length > 0 && (
+                <div id="gallery" class="gallery-section tab-panel" style="display:none;">
+                  <h3>Gallery</h3>
+                  <div class="gallery-grid">
+                    {detail.galleryImages.map((img, i) => (
+                      <div class="gallery-item">
+                        <img src={img} alt={`Gallery image ${i + 1}`} loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Other Info Section */}
+              <div id="otherinfo" class="other-info-section tab-panel" style="display:none;">
+                <h3>Other Information</h3>
+                <p>{detail.otherInfo}</p>
+                <ul class="custom-bullets">
+                  {detail.otherInfoBullets.map((bullet) => (
+                    <li>{bullet}</li>
+                  ))}
+                </ul>
+
+                {/* Reviews Subsection */}
+                {detail.reviews.length > 0 && (
+                  <div class="reviews-subsection">
+                    <h3>Reviews</h3>
+                    {detail.reviews.map((review) => (
+                      <div class="review">
+                        <div class="review-header">
+                          <div class="review-author">{review.author}</div>
+                          <div class="review-date">{review.date}</div>
+                        </div>
+                        <div class="review-content">
+                          <p>{review.content}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Route Map Section */}
+              {detail.routeMapImage && (
+                <div id="routemap" class="routemap-section tab-panel" style="display:none;">
+                  <h3>Route Map</h3>
+                  <div class="routemap">
+                    <img src={detail.routeMapImage} alt={`Route map for ${detail.title}`} loading="lazy" />
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            /* ===== SIMPLE TEMPLATE (non-detailed holidays) ===== */
+            <>
+              <div id="overview" class="overview-section tab-panel">
+                <h3>Overview</h3>
+                <p>{holiday.description}</p>
+              </div>
+
+              <div id="itinerary" class="itinerary-section tab-panel" style="display:none;">
+                <h3>Itinerary</h3>
+                <p class="coming-soon">Content coming soon</p>
+              </div>
+
+              <div id="accommodation" class="accommodation-section tab-panel" style="display:none;">
+                <h3>Accommodation</h3>
+                <p class="coming-soon">Content coming soon</p>
+              </div>
+
+              <div id="gallery" class="gallery-section tab-panel" style="display:none;">
+                <h3>Gallery</h3>
+                <p class="coming-soon">Content coming soon</p>
+              </div>
+
+              <div id="otherinfo" class="other-info-section tab-panel" style="display:none;">
+                <h3>Other Information</h3>
+                <p class="coming-soon">Content coming soon</p>
+              </div>
+
+              <div id="routemap" class="routemap-section tab-panel" style="display:none;">
+                <h3>Route Map</h3>
+                <p class="coming-soon">Content coming soon</p>
+              </div>
+            </>
+          )}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="summary">
+          <div class="wrap">
+            <img src={sidebarImage} alt={holiday.title} loading="lazy" />
+            <div class="overview">
+              <div class="title">{holiday.title}</div>
+              <ul>
+                <li><span class="icon-compass"></span>{holiday.destination}</li>
+                <li><span class="icon-nights"></span>{holiday.duration}</li>
+                <li><span class="icon-board-basis"></span>{holiday.boardBasis}</li>
+              </ul>
+            </div>
+            <div class="details">
+              <span>Departing from</span>
+              <p>London</p>
+              <span>Departures</span>
+              <p>Multiple dates available</p>
+              <span>Hotel class</span>
+              <p>{isDetailed && detail ? '5 Star' : '4 Star'}</p>
+            </div>
+            <div class="sidebar-price">
+              <span>from</span>
+              <div>&pound;{price}</div>
+            </div>
+            <a href="#" class="btn-check-price-sidebar">Check Price &amp; Book<img src="/icons/more-icon-white.svg" alt="" class="icon-more" /></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>
+
+<style>
+  /* ========================================
+     HERO SECTION
+     ======================================== */
+  .itinerary-hero {
+    margin-top: 100px;
+    height: 500px;
+    position: relative;
+    max-width: 100%;
+    margin-bottom: 0;
+    overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .itinerary-hero {
+      margin-top: 50px;
+      height: 484px;
+    }
+  }
+  @media (max-width: 480px) {
+    .itinerary-hero {
+      margin-top: 10px;
+      height: 392px;
+    }
+  }
+  .hero-bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: 66% 50%;
+    background-repeat: no-repeat;
+  }
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-position: 12% 50%;
+    }
+  }
+
+  /* Breadcrumbs */
+  .itinerary-hero .breadcrumbs {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    z-index: 3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #ffffff;
+  }
+  @media (max-width: 768px) {
+    .itinerary-hero .breadcrumbs { left: 20px; }
+  }
+  @media (max-width: 530px) {
+    .itinerary-hero .breadcrumbs { max-width: 400px; }
+  }
+  @media (max-width: 450px) {
+    .itinerary-hero .breadcrumbs { max-width: 335px; }
+  }
+  @media (max-width: 394px) {
+    .itinerary-hero .breadcrumbs { max-width: 305px; }
+  }
+  @media (max-width: 350px) {
+    .itinerary-hero .breadcrumbs { max-width: 240px; }
+  }
+  .itinerary-hero .breadcrumbs a {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 10px;
+    line-height: 12px;
+    color: #ffffff;
+  }
+  .itinerary-hero .breadcrumbs .icon-breadcrumb {
+    padding: 0 5px;
+    display: inline-block;
+    width: 6px;
+    height: 10px;
+    background-image: url('/icons/breadcrumb-arrow.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+  }
+
+  /* Hero Content */
+  .hero-content {
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 145px;
+    max-width: 1240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 3;
+    padding: 0 20px;
+  }
+  @media (max-width: 1260px) {
+    .hero-content { max-width: 1040px; }
+  }
+  @media (max-width: 1100px) {
+    .hero-content { max-width: 880px; }
+  }
+  @media (max-width: 940px) {
+    .hero-content { max-width: 730px; top: 105px; }
+  }
+  @media (max-width: 760px) {
+    .hero-content { max-width: 580px; }
+  }
+  @media (max-width: 610px) {
+    .hero-content { max-width: 500px; top: 55px; }
+  }
+  @media (max-width: 530px) {
+    .hero-content { max-width: 420px; }
+  }
+  @media (max-width: 450px) {
+    .hero-content { max-width: 365px; }
+  }
+  @media (max-width: 394px) {
+    .hero-content { max-width: 335px; }
+  }
+  @media (max-width: 350px) {
+    .hero-content { max-width: 290px; }
+  }
+  .hero-label {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    color: #ffffff;
+  }
+  .hero-content h1 {
+    color: #ffffff;
+    padding-bottom: 25px;
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
+    font-size: 48px;
+    line-height: 50px;
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    .hero-content h1 { font-size: 38px; line-height: 40px; }
+  }
+  @media (max-width: 450px) {
+    .hero-content h1 { font-size: 36px; line-height: 36px; }
+  }
+
+  /* ========================================
+     SEARCH / PRICE BAR
+     ======================================== */
+  .search-section {
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    top: 440px;
+    position: absolute;
+    z-index: 3;
+    color: #ffffff;
+  }
+  @media (max-width: 940px) {
+    .search-section { top: 400px; }
+  }
+  @media (max-width: 768px) {
+    .search-section { top: 290px; }
+  }
+  @media (max-width: 480px) {
+    .search-section { top: 170px; }
+  }
+  @media (max-width: 394px) {
+    .search-section { top: 260px; }
+  }
+  .search-form {
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    height: 96px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0 30px;
+  }
+  @media (max-width: 1100px) {
+    .search-form {
+      flex-direction: column;
+      height: auto;
+    }
+  }
+  @media (max-width: 480px) {
+    .search-form {
+      padding: 10px 30px 5px;
+    }
+  }
+  .form-box {
+    height: 52px;
+    width: 100%;
+    flex: 2;
+  }
+  @media (max-width: 1100px) {
+    .form-box {
+      display: flex;
+      align-items: center;
+      padding-top: 10px;
+      text-align: center;
+      flex-direction: column;
+    }
+  }
+  .form-box p {
+    color: #ffffff;
+  }
+  .form-box .form-p-title {
+    font-size: 29px;
+    line-height: 30px;
+    margin: 0;
+  }
+  .form-box .para2 {
+    max-width: 100%;
+    margin: 0 auto;
+    font-size: 14px;
+  }
+  @media (max-width: 610px) {
+    .form-box p { font-size: 14px; }
+    .form-box .form-p-title {
+      font-size: 22px;
+      line-height: 26px;
+      padding-bottom: 15px;
+    }
+    .form-box .para2 { max-width: 80%; }
+  }
+
+  .price-area {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  @media (max-width: 1100px) {
+    .price-area { padding-top: 10px; }
+  }
+  @media (max-width: 610px) {
+    .price-area {
+      flex-direction: column;
+      padding-top: 20px;
+    }
+  }
+  .price-area .price-wrap {
+    padding-right: 25px;
+    padding-bottom: 10px;
+  }
+  @media (max-width: 610px) {
+    .price-area .price-wrap {
+      display: flex;
+      padding-right: 0;
+    }
+  }
+  .price-area .price-from {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    line-height: 33px;
+    color: #ffffff;
+  }
+  @media (max-width: 610px) {
+    .price-area .price-from {
+      line-height: 14px;
+      padding-top: 17px;
+      padding-right: 5px;
+    }
+  }
+  .price-area .price-amount {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 40px;
+    line-height: 20px;
+    color: #ffffff;
+  }
+  @media (max-width: 610px) {
+    .price-area .price-amount { font-size: 36px; }
+  }
+  @media (max-width: 450px) {
+    .price-area .price-amount { font-size: 32px; }
+  }
+  @media (max-width: 350px) {
+    .price-area .price-amount { font-size: 28px; }
+  }
+  .price-area .price-pp {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    white-space: nowrap;
+    color: #ffffff;
+  }
+
+  .btn-check-price {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 291px;
+    height: 64px;
+    background-color: #ff7f00;
+    color: #ffffff;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    line-height: 23px;
+  }
+  .btn-check-price:hover {
+    background-color: #e67300;
+  }
+  @media (max-width: 610px) {
+    .btn-check-price {
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
+  }
+  @media (max-width: 530px) {
+    .btn-check-price {
+      width: 222px;
+      font-size: 12px;
+      padding: 0;
+    }
+  }
+  .btn-check-price .icon-more {
+    padding-left: 18px;
+    width: 18px;
+    height: auto;
+  }
+  @media (max-width: 530px) {
+    .btn-check-price .icon-more { padding-left: 8px; }
+  }
+
+  /* ========================================
+     TAB NAVIGATION HEADER
+     ======================================== */
+  .itinerary-header {
+    background-color: #ffffff;
+    height: 100px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+    position: relative;
+    transform: translateY(0);
+    transition: transform 0.2s;
+  }
+  @media (max-width: 768px) {
+    .itinerary-header {
+      height: 70px;
+      background-color: #f4f4f4;
+    }
+  }
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    height: 100px;
+  }
+  @media (max-width: 768px) {
+    .header-inner { height: 70px; }
+  }
+
+  .tab-list {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  @media (max-width: 768px) {
+    .tab-list { display: none; }
+  }
+  .tab-list li {
+    border-bottom: 4px solid transparent;
+  }
+  .tab-list li.ui-tabs-active {
+    border-bottom: 4px solid #20A1AA;
+  }
+  .tab-list li a {
+    display: inline-block;
+    line-height: 96px;
+    font-family: "BentonSansMedium", sans-serif;
+    color: #282828;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  .tab-list li a:focus {
+    outline: none;
+  }
+  @media (max-width: 1100px) and (min-width: 769px) {
+    .tab-list li a {
+      display: flex;
+      max-width: 145px;
+      line-height: normal;
+      height: 96px;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  /* Tab list mobile dropdown */
+  @media (max-width: 768px) {
+    .tab-list.open-drop-down {
+      display: block;
+      position: absolute;
+      top: 70px;
+      padding: 10px 20px;
+      background-color: #ffffff;
+      box-shadow: 0 20px 50px 10px rgba(0, 0, 0, 0.51);
+      border-radius: 4px;
+      z-index: 10;
+    }
+    .tab-list.open-drop-down li {
+      border: none;
+    }
+    .tab-list.open-drop-down li.ui-tabs-active {
+      display: none;
+    }
+    .tab-list.open-drop-down li a {
+      font-size: 14px;
+      line-height: 24px;
+      color: #424242;
+      font-family: "BentonSans", sans-serif;
+    }
+    .tab-list.open-drop-down::after {
+      position: absolute;
+      top: -10px;
+      left: 30%;
+      content: "";
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid #fff;
+    }
+  }
+
+  /* Mobile tab toggle */
+  .mobile-tab-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+  }
+  @media (min-width: 769px) {
+    .mobile-tab-toggle { display: none; }
+  }
+  .mobile-tab-toggle .drop-down {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 400px;
+    height: 50px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    border-radius: 2px;
+    cursor: pointer;
+    padding: 0 15px;
+  }
+  @media (max-width: 610px) {
+    .mobile-tab-toggle .drop-down { width: 350px; }
+  }
+  @media (max-width: 530px) {
+    .mobile-tab-toggle .drop-down { width: 270px; }
+  }
+  @media (max-width: 450px) {
+    .mobile-tab-toggle .drop-down { width: 220px; }
+  }
+  @media (max-width: 394px) {
+    .mobile-tab-toggle .drop-down { width: 190px; }
+  }
+  @media (max-width: 350px) {
+    .mobile-tab-toggle .drop-down { width: 145px; }
+  }
+  .mobile-tab-toggle .drop-down .icon-sort-by {
+    display: inline-block;
+    min-width: 8px;
+    height: 14px;
+    margin-right: 20px;
+    background-image: url('/icons/sort-by-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .mobile-tab-toggle .drop-down .current {
+    margin-left: 5px;
+    font-size: 14px;
+    line-height: 24px;
+    color: #424242;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .btn-summary {
+    height: 50px;
+    letter-spacing: 0;
+    font-family: "BentonSans", sans-serif;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    margin-left: 5px;
+    background-color: #20A1AA;
+    color: #ffffff;
+    border: none;
+    padding: 0 15px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  @media (min-width: 769px) {
+    .btn-summary { display: none; }
+  }
+  .btn-summary.close {
+    background-color: #878787;
+  }
+
+  /* Sticky */
+  .itinerary-header.stick {
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    transition: transform 0.2s;
+    z-index: 4;
+    transform: translateY(-60px);
+  }
+
+  /* ========================================
+     CONTENT AREA (Main + Sidebar)
+     ======================================== */
+  .itinerary-content {
+    position: relative;
+  }
+  .content-inner {
+    display: flex;
+  }
+  @media (max-width: 768px) {
+    .content-inner {
+      flex-direction: column;
+    }
+  }
+
+  /* Main Content */
+  .content {
+    width: calc(100% - 317px);
+  }
+  @media (max-width: 768px) {
+    .content { width: 100%; }
+  }
+  .content.close {
+    display: none;
+  }
+  .content h3 {
+    margin-top: 65px;
+    letter-spacing: -0.5px;
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
+    font-size: 40px;
+    line-height: 42px;
+    color: #424242;
+    margin-bottom: 0;
+  }
+  @media (max-width: 768px) {
+    .content h3 {
+      font-size: 32px;
+      line-height: 34px;
+    }
+  }
+  @media (max-width: 450px) {
+    .content h3 {
+      font-size: 26px;
+      line-height: 28px;
+    }
+  }
+
+  .coming-soon {
+    color: #878787;
+    font-style: italic;
+    padding: 40px 0;
+    font-size: 16px;
+  }
+
+  /* ========================================
+     OVERVIEW SECTION
+     ======================================== */
+  .overview-section h3 {
+    padding-bottom: 20px;
+  }
+  @media (max-width: 768px) {
+    .overview-section p {
+      text-align: justify;
+      color: #424242;
+    }
+  }
+  @media (max-width: 480px) {
+    .overview-section p {
+      font-size: 16px;
+      color: #424242;
+    }
+  }
+
+  /* Custom bullets */
+  .custom-bullets {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  .custom-bullets li {
+    align-items: center;
+    font-size: 16px;
+    color: #424242;
+    padding-top: 15px;
+    line-height: 24px;
+  }
+  .custom-bullets li::before {
+    content: '';
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    flex: 0 0 20px;
+    background-image: url('/icons/bulletpoint.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 0.5em;
+    vertical-align: middle;
+  }
+
+  /* ========================================
+     ITINERARY SECTION
+     ======================================== */
+  .itinerary-section .itinerary-desc {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .accordion-panel {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    cursor: pointer;
+  }
+  @media (max-width: 610px) {
+    .panel-header {
+      align-items: flex-start;
+    }
+  }
+  .panel-header .mobile-wrap {
+    display: flex;
+    align-items: center;
+  }
+  @media (max-width: 610px) {
+    .panel-header .mobile-wrap {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  .panel-header .day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    min-width: 130px;
+    height: 56px;
+    border: 2px #000000 solid;
+    border-radius: 4px;
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 18px;
+    color: #424242;
+    margin-right: 20px;
+  }
+  @media (max-width: 610px) {
+    .panel-header .day {
+      height: 26px;
+      width: 77px;
+      min-width: 77px;
+      font-size: 10px;
+      color: #000000;
+    }
+  }
+  .panel-header .label {
+    font-size: 24px;
+    line-height: 27px;
+    color: #282828;
+    font-family: "BentonSansMedium", sans-serif;
+  }
+  @media (max-width: 768px) {
+    .panel-header .label { font-size: 20px; }
+  }
+  @media (max-width: 610px) {
+    .panel-header .label {
+      padding-top: 10px;
+      font-size: 16px;
+    }
+  }
+
+  .panel-icon {
+    margin-left: auto;
+    display: inline-block;
+    height: 26px;
+    width: 26px;
+    min-width: 26px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .icon-more-plus {
+    background-image: url('/icons/plus-icon.svg');
+  }
+  .icon-less-minus {
+    background-image: url('/icons/minus-icon.svg');
+  }
+
+  .panel-content {
+    position: relative;
+  }
+  .panel-content .desc {
+    padding-bottom: 30px;
+  }
+  .panel-content .desc p {
+    line-height: 26px;
+    color: #424242;
+  }
+
+  /* ========================================
+     ACCOMMODATION SECTION
+     ======================================== */
+  .accommodation-section .desc {
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }
+  .accommodation-section .desc:last-child {
+    border-bottom: none;
+  }
+  .accommodation-section .desc .acc-title {
+    padding-top: 30px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 30px;
+    color: #282828;
+    line-height: 1.2;
+  }
+  @media (max-width: 768px) {
+    .accommodation-section .desc .acc-title {
+      font-size: 26px;
+      padding-top: 25px;
+    }
+  }
+  @media (max-width: 610px) {
+    .accommodation-section .desc .acc-title {
+      font-size: 20px;
+      padding-top: 15px;
+    }
+  }
+  @media (max-width: 450px) {
+    .accommodation-section .desc .acc-title { font-size: 14px; }
+  }
+  .accommodation-section .desc span {
+    margin-top: 10px;
+    display: inline-block;
+  }
+  .accommodation-section .desc p {
+    margin-top: 25px;
+  }
+  @media (max-width: 480px) {
+    .accommodation-section .desc p {
+      font-size: 16px;
+      color: #424242;
+    }
+  }
+
+  /* Amenities grid */
+  .amenities-grid {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .amenities-grid li {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #424242;
+    padding: 15px 10px 0 0;
+    width: calc(100% / 3);
+  }
+  @media (max-width: 1260px) {
+    .amenities-grid li { width: calc(100% / 2); }
+  }
+  @media (max-width: 610px) {
+    .amenities-grid li { width: 100%; }
+  }
+
+  /* Star ratings (inline SVG backgrounds) */
+  .icon-3-stars,
+  .icon-4-stars,
+  .icon-5-stars {
+    display: inline-block;
+    height: 16px;
+    margin-bottom: -2px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .icon-3-stars { width: 43px; }
+  .icon-4-stars { width: 56px; }
+  .icon-5-stars { width: 69px; }
+
+  /* Star rating using repeated star character */
+  .icon-3-stars::after { content: '\2605\2605\2605'; color: #f5a623; font-size: 14px; }
+  .icon-4-stars::after { content: '\2605\2605\2605\2605'; color: #f5a623; font-size: 14px; }
+  .icon-5-stars::after { content: '\2605\2605\2605\2605\2605'; color: #f5a623; font-size: 14px; }
+
+  /* ========================================
+     GALLERY SECTION
+     ======================================== */
+  .gallery-section h3 {
+    padding-bottom: 20px;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 940px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 530px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .gallery-item img:hover {
+    opacity: 0.85;
+  }
+
+  /* ========================================
+     OTHER INFO SECTION
+     ======================================== */
+  .other-info-section h3 {
+    padding-bottom: 20px;
+  }
+  @media (max-width: 768px) {
+    .other-info-section p { text-align: justify; }
+  }
+
+  /* Reviews subsection */
+  .reviews-subsection {
+    margin-top: 40px;
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  .reviews-subsection h3 {
+    margin-top: 40px;
+    padding-bottom: 0;
+  }
+  .review {
+    margin-bottom: 10px;
+  }
+  .review-header {
+    margin-top: 20px;
+    padding-bottom: 10px;
+  }
+  .review-author {
+    font-size: 24px;
+    line-height: 27px;
+    font-family: "BentonSansMedium", sans-serif;
+    color: #282828;
+  }
+  @media (max-width: 768px) {
+    .review-author { font-size: 20px; }
+  }
+  @media (max-width: 610px) {
+    .review-author {
+      padding-top: 10px;
+      font-size: 16px;
+    }
+  }
+  .review-date {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 14px;
+    color: #878787;
+    margin-top: 2px;
+  }
+  .review-content {
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  .review-content p {
+    color: #424242;
+  }
+
+  /* ========================================
+     ROUTE MAP SECTION
+     ======================================== */
+  .routemap-section h3 {
+    padding-bottom: 20px;
+  }
+  .routemap img {
+    width: 100%;
+    min-height: 520px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  /* ========================================
+     SIDEBAR
+     ======================================== */
+  .sidebar {
+    margin-top: 65px;
+    margin-left: 25px;
+    width: 291px;
+    min-width: 291px;
+  }
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .sidebar.open-summary {
+      margin-top: 70px;
+      margin-left: 0;
+      position: fixed;
+      display: block;
+      width: 100%;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #ffffff;
+      z-index: 100;
+      overflow-y: auto;
+    }
+    .sidebar.open-summary .wrap {
+      box-shadow: none;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 500px;
+    }
+    .sidebar.open-summary .wrap img {
+      display: none;
+    }
+    .sidebar.open-summary .overview,
+    .sidebar.open-summary .details,
+    .sidebar.open-summary .sidebar-price {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .sidebar.open-summary .btn-check-price-sidebar {
+      height: 45px;
+      font-size: 12px;
+    }
+  }
+
+  .sidebar .wrap {
+    box-shadow: 0 6px 12px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .sidebar .wrap > img {
+    width: 100%;
+    min-height: 199px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .sidebar .overview {
+    margin-left: 22px;
+    margin-right: 22px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  .sidebar .overview .title {
+    font-family: "BentonSansBold", sans-serif;
+    line-height: 27px;
+    color: #424242;
+    padding-bottom: 15px;
+    font-size: 16px;
+  }
+  .sidebar .overview ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  .sidebar .overview ul li {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding-bottom: 5px;
+    color: #424242;
+  }
+  .sidebar .overview ul li .icon-compass {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('/icons/compass-black.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 2px;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .sidebar .overview ul li .icon-nights {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('/icons/nights-black.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 2px;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .sidebar .overview ul li .icon-board-basis {
+    display: inline-block;
+    width: 24px;
+    height: 20px;
+    background-image: url('/icons/board-basis-black.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+
+  .sidebar .details {
+    margin-left: 22px;
+    margin-right: 22px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  .sidebar .details span {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 14px;
+    color: #424242;
+    display: block;
+  }
+  .sidebar .details p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    margin-top: 2px;
+    color: #424242;
+  }
+
+  .sidebar .sidebar-price {
+    padding-top: 5px;
+    margin-left: 22px;
+    display: inline-block;
+    padding-bottom: 15px;
+  }
+  .sidebar .sidebar-price span {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    line-height: 33px;
+    color: #424242;
+  }
+  .sidebar .sidebar-price div {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 40px;
+    line-height: 33px;
+    color: #282828;
+  }
+
+  .btn-check-price-sidebar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 64px;
+    background-color: #ff7f00;
+    color: #ffffff;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+    border-radius: 0;
+    line-height: 23px;
+  }
+  .btn-check-price-sidebar:hover {
+    background-color: #e67300;
+  }
+  .btn-check-price-sidebar .icon-more {
+    padding-left: 18px;
+    width: 18px;
+    height: auto;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // ===== TAB SWITCHING =====
+    const tabLinks = document.querySelectorAll('.tab-list li a');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    const tabItems = document.querySelectorAll('.tab-list li');
+    const currentLabel = document.querySelector('.mobile-tab-toggle .current');
+
+    function switchTab(tabId) {
+      // Hide all panels
+      tabPanels.forEach(panel => {
+        panel.style.display = 'none';
+      });
+      // Show target panel
+      const target = document.getElementById(tabId);
+      if (target) {
+        target.style.display = 'block';
+      }
+      // Update active tab
+      tabItems.forEach(item => item.classList.remove('ui-tabs-active'));
+      tabLinks.forEach(link => {
+        if (link.getAttribute('data-tab') === tabId) {
+          link.parentElement.classList.add('ui-tabs-active');
+        }
+      });
+      // Update mobile current label
+      if (currentLabel) {
+        const activeLink = document.querySelector('.tab-list li.ui-tabs-active a');
+        if (activeLink) {
+          currentLabel.textContent = activeLink.textContent;
+        }
+      }
+    }
+
+    tabLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tabId = link.getAttribute('data-tab');
+        switchTab(tabId);
+        // Close mobile dropdown
+        const tabList = document.querySelector('.tab-list');
+        if (tabList) tabList.classList.remove('open-drop-down');
+      });
+    });
+
+    // ===== ACCORDION =====
+    const panelHeaders = document.querySelectorAll('.panel-header');
+    panelHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        const panelContent = header.nextElementSibling;
+        const icon = header.querySelector('.panel-icon');
+        if (!panelContent || !icon) return;
+
+        if (panelContent.style.display === 'none' || panelContent.style.display === '') {
+          panelContent.style.display = 'block';
+          icon.classList.remove('icon-more-plus');
+          icon.classList.add('icon-less-minus');
+        } else {
+          panelContent.style.display = 'none';
+          icon.classList.remove('icon-less-minus');
+          icon.classList.add('icon-more-plus');
+        }
+      });
+    });
+
+    // ===== MOBILE TAB DROPDOWN =====
+    const dropDown = document.querySelector('.mobile-tab-toggle .drop-down');
+    const tabList = document.querySelector('.tab-list');
+    if (dropDown && tabList) {
+      dropDown.addEventListener('click', () => {
+        tabList.classList.toggle('open-drop-down');
+      });
+    }
+
+    // ===== MOBILE SUMMARY BUTTON =====
+    const summaryBtn = document.querySelector('.summary-btn');
+    const sidebar = document.getElementById('summary');
+    const mainContent = document.getElementById('main-content');
+    if (summaryBtn && sidebar && mainContent) {
+      summaryBtn.addEventListener('click', () => {
+        const isOpen = sidebar.classList.contains('open-summary');
+        if (isOpen) {
+          sidebar.classList.remove('open-summary');
+          mainContent.classList.remove('close');
+          summaryBtn.classList.remove('close');
+          summaryBtn.textContent = 'Summary';
+        } else {
+          sidebar.classList.add('open-summary');
+          mainContent.classList.add('close');
+          summaryBtn.classList.add('close');
+          summaryBtn.textContent = 'Close';
+        }
+      });
+    }
+
+    // ===== STICKY HEADER =====
+    const tabNav = document.getElementById('tab_navigation');
+    if (tabNav) {
+      const tabNavTop = tabNav.offsetTop;
+      window.addEventListener('scroll', () => {
+        if (window.scrollY >= tabNavTop) {
+          tabNav.classList.add('stick');
+        } else {
+          tabNav.classList.remove('stick');
+        }
+      });
+    }
+  });
+</script>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <desc>Created with Lunacy</desc>
+  <g id="compass" transform="translate(1 1)">
+    <path d="M9 18C13.9706 18 18 13.9706 18 9C18 4.02944 13.9706 0 9 0C4.02944 0 0 4.02944 0 9C0 13.9706 4.02944 18 9 18Z" id="Oval" fill="none" stroke="#878787" stroke-width="2" />
+    <path d="M7.632 0L5.724 5.724L0 7.632L1.908 1.908L7.632 0L7.632 0Z" transform="translate(5.183594 5.184082)" id="Shape" fill="none" stroke="#878787" stroke-width="2" />
+  </g>
+</svg>
