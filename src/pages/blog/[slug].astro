@@ -4,12 +4,13 @@ import Header from '../../components/Header.astro';
 import MobileNav from '../../components/MobileNav.astro';
 import Footer from '../../components/Footer.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
-import { mockBlogs } from '../../data/mockBlogs';
+import { allBlogs } from '../../data/blogs';
+import type { Blog } from '../../data/blogs';
 
 export function getStaticPaths() {
-  return mockBlogs.map((blog, index) => {
-    const prevBlog = index > 0 ? mockBlogs[index - 1] : null;
-    const nextBlog = index < mockBlogs.length - 1 ? mockBlogs[index + 1] : null;
+  return allBlogs.map((blog, index) => {
+    const prevBlog = index > 0 ? allBlogs[index - 1] : null;
+    const nextBlog = index < allBlogs.length - 1 ? allBlogs[index + 1] : null;
     return {
       params: { slug: blog.slug },
       props: { blog, prevBlog, nextBlog },
@@ -17,10 +18,10 @@ export function getStaticPaths() {
   });
 }
 
-const { blog, prevBlog, nextBlog } = Astro.props;
+const { blog, prevBlog, nextBlog } = Astro.props as { blog: Blog; prevBlog: Blog | null; nextBlog: Blog | null };
 
 // Get related posts (other blogs that share at least one tag, excluding current)
-const relatedPosts = mockBlogs
+const relatedPosts = allBlogs
   .filter((b) => b.slug !== blog.slug && b.tags.some((tag: string) => blog.tags.includes(tag)))
   .slice(0, 4);
 ---

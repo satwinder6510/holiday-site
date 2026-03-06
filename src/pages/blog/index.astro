@@ -5,7 +5,7 @@ import MobileNav from '../../components/MobileNav.astro';
 import PageHero from '../../components/PageHero.astro';
 import Footer from '../../components/Footer.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
-import { mockBlogs } from '../../data/mockBlogs';
+import { allBlogs, blogTags } from '../../data/blogs';
 ---
 
 <BaseLayout title="Our Blog | Holidays - Flights and Packages" description="Read the latest travel blogs, tips and guides from Flights and Packages.">
@@ -22,7 +22,7 @@ import { mockBlogs } from '../../data/mockBlogs';
     <section class="section-container">
       <div class="content">
         <div class="blogs">
-          {mockBlogs.map((blog) => (
+          {allBlogs.map((blog) => (
             <div class="blog">
               <a href={`/blog/${blog.slug}`}>
                 <img src={blog.image} alt={blog.title} />
@@ -40,46 +40,15 @@ import { mockBlogs } from '../../data/mockBlogs';
             </div>
           ))}
         </div>
-        <div class="pagination">
-          <ul>
-            <li class="active">1</li>
-            <li>2</li>
-            <li>3</li>
-          </ul>
-        </div>
       </div>
       <div class="sidebar">
         <div class="popular-tags">
           Popular Tags
           <ul>
-            <li>Thailand</li>
-            <li>Italy</li>
-            <li>Greece</li>
-            <li>Egypt</li>
-            <li>Portugal</li>
-            <li>Morocco</li>
-            <li>Maldives</li>
-            <li>Vietnam</li>
+            {blogTags.slice(0, 12).map((tag) => (
+              <li>{tag}</li>
+            ))}
           </ul>
-          <div class="view-more">
-            View more
-            <img src="/icons/plus-icon.svg" alt="" class="icon-more-plus" />
-          </div>
-        </div>
-        <div class="archive">
-          Archive
-          <ul>
-            <li>March 2024 <span>(3)</span></li>
-            <li>February 2024 <span>(2)</span></li>
-            <li>January 2024 <span>(1)</span></li>
-            <li>December 2023 <span>(1)</span></li>
-            <li>November 2023 <span>(1)</span></li>
-            <li>October 2023 <span>(1)</span></li>
-          </ul>
-          <div class="view-more">
-            View more
-            <img src="/icons/plus-icon.svg" alt="" class="icon-more-plus" />
-          </div>
         </div>
       </div>
     </section>
@@ -246,32 +215,6 @@ import { mockBlogs } from '../../data/mockBlogs';
     width: auto;
   }
 
-  /* Pagination */
-  .pagination ul {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-  }
-  .pagination ul li {
-    list-style-type: none;
-    width: 34px;
-    height: 34px;
-    border: 3px solid #000000;
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 5px;
-    cursor: pointer;
-    font-family: "BentonSansMedium", sans-serif;
-    font-size: 14px;
-  }
-  .pagination ul li.active {
-    border-color: #20A1AA;
-    background-color: #20A1AA;
-    color: #ffffff;
-  }
 
   /* Sidebar */
   .sidebar {
@@ -297,7 +240,6 @@ import { mockBlogs } from '../../data/mockBlogs';
     width: 291px;
     background-color: #F4F4F4;
     padding: 20px;
-    padding-bottom: 65px;
     position: relative;
     font-family: "BentonSansMedium", sans-serif;
     font-size: 24px;
@@ -336,106 +278,5 @@ import { mockBlogs } from '../../data/mockBlogs';
     left: 0;
     background-color: #20A1AA;
     border-radius: 4px 0px 0px 4px;
-  }
-  .popular-tags .view-more {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    cursor: pointer;
-    bottom: 0;
-    height: 65px;
-    background-color: #e9e8e8;
-    width: 100%;
-    margin: -20px;
-    font-size: 14px;
-  }
-  .popular-tags .view-more .icon-more-plus {
-    padding-left: 10px;
-    height: 14px;
-    width: auto;
-  }
-
-  /* Archive */
-  .archive {
-    width: 291px;
-    background-color: #F4F4F4;
-    padding: 20px;
-    position: relative;
-    font-family: "BentonSansMedium", sans-serif;
-    font-size: 24px;
-    color: #282828;
-  }
-  @media (max-width: 940px) {
-    .archive {
-      margin-top: 0px;
-    }
-  }
-  @media (max-width: 760px) {
-    .archive {
-      margin-top: 40px;
-      margin-bottom: 40px;
-      width: 100%;
-    }
-  }
-  .archive ul {
-    padding-top: 20px;
-    list-style: none;
-    padding-left: 0;
-  }
-  .archive ul li {
-    position: relative;
-    display: block;
-    border-radius: 4px;
-    height: 31px;
-    background-color: #d8d8d8;
-    cursor: pointer;
-    margin: 5px;
-    font-size: 14px;
-    line-height: 31px;
-    padding: 0px 13px;
-  }
-  .archive ul li:before {
-    display: inline-block;
-    content: "";
-    height: 31px;
-    width: 4px;
-    position: absolute;
-    left: 0;
-    background-color: #20A1AA;
-    border-radius: 4px 0px 0px 4px;
-  }
-  .archive ul li span {
-    float: right;
-  }
-  .archive .view-more {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    cursor: pointer;
-    bottom: 0;
-    height: 65px;
-    background-color: #e9e8e8;
-    font-size: 14px;
-    border-radius: 4px;
-    margin: 5px;
-    position: relative;
-  }
-  .archive .view-more:before {
-    display: inline-block;
-    content: "";
-    height: 64px;
-    width: 4px;
-    position: absolute;
-    left: 0;
-    background-color: #20A1AA;
-    border-radius: 4px 0px 0px 4px;
-  }
-  .archive .view-more .icon-more-plus {
-    padding-left: 10px;
-    height: 14px;
-    width: auto;
   }
 </style>

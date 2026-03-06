@@ -4,40 +4,28 @@ import Header from '../../../components/Header.astro';
 import MobileNav from '../../../components/MobileNav.astro';
 import Footer from '../../../components/Footer.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
-import { mockItineraryHoliday } from '../../../data/mockItinerary';
-import { mockHolidays } from '../../../data/mockHolidays';
+import { allPublishedHolidays } from '../../../data/holidays';
+import type { HolidayDetail } from '../../../data/holidays';
+import { allBlogs } from '../../../data/blogs';
 
 export function getStaticPaths() {
-  // Generate from mockHolidays for multiple pages, plus the itinerary holiday
-  const paths = mockHolidays.map((h) => ({
+  return allPublishedHolidays.map((h) => ({
     params: { country: h.countrySlug, slug: h.slug },
-    props: { holiday: h, isDetailed: false },
+    props: { holiday: h },
   }));
-  // Add the detailed itinerary page
-  paths.push({
-    params: { country: mockItineraryHoliday.countrySlug, slug: mockItineraryHoliday.slug },
-    props: { holiday: mockItineraryHoliday, isDetailed: true },
-  });
-  return paths;
 }
 
-const { holiday, isDetailed } = Astro.props;
-// For the detailed holiday, use the full itinerary data; for others, show a simpler template
-const detail = isDetailed ? mockItineraryHoliday : null;
-
-// Determine hero image
-const heroImage = isDetailed && detail ? detail.heroImage : holiday.image;
-const sidebarImage = isDetailed && detail ? detail.sidebarImage : holiday.image;
-const price = holiday.price;
+const { holiday } = Astro.props as { holiday: HolidayDetail };
+const latestBlogs = allBlogs.slice(0, 4);
 ---
 
-<BaseLayout title={`${holiday.title} | Holidays - Flights and Packages`} description={isDetailed && detail ? detail.overview.substring(0, 160) : holiday.description}>
+<BaseLayout title={`${holiday.title} | Holidays - Flights and Packages`} description={holiday.overview ? holiday.overview.substring(0, 160) : holiday.description}>
   <Header />
   <MobileNav />
 
   <!-- Hero Section -->
   <section class="itinerary-hero">
-    <div class="hero-bg" style={`background-image: url('${heroImage}')`}></div>
+    <div class="hero-bg" style={`background-image: url('${holiday.heroImage}')`}></div>
     <div class="breadcrumbs">
       <a href="/">Home</a>
       <span class="icon-breadcrumb"></span>
@@ -63,7 +51,7 @@ const price = holiday.price;
       <div class="price-area">
         <div class="price-wrap">
           <span class="price-from">from</span>
-          <div class="price-amount">&pound;{price}<span class="price-pp">/pp</span></div>
+          <div class="price-amount">&pound;{holiday.price}<span class="price-pp">/pp</span></div>
         </div>
         <a href="#" class="btn-check-price">Check Price &amp; Book<img src="/icons/more-icon-white.svg" alt="" class="icon-more" /></a>
       </div>
@@ -82,21 +70,21 @@ const price = holiday.price;
           <button class="btn-summary summary-btn">Summary</button>
         </div>
         <ul class="tab-list">
-          <li class="ui-tabs-active"><a href="#overview" data-tab="overview">Overview</a></li>
-          {isDetailed && detail && detail.itinerary.length > 0 && (
-            <li><a href="#itinerary" data-tab="itinerary">Itinerary</a></li>
+          <li class="ui-tabs-active"><a href="#overview">Overview</a></li>
+          {holiday.accommodations.length > 0 && (
+            <li><a href="#accommodation">Accommodation</a></li>
           )}
-          {isDetailed && detail && detail.accommodations.length > 0 && (
-            <li><a href="#accommodation" data-tab="accommodation">Accommodation</a></li>
+          {holiday.itinerary.length > 0 && (
+            <li><a href="#itinerary">Itinerary</a></li>
           )}
-          {isDetailed && detail && detail.galleryImages.length > 0 && (
-            <li><a href="#gallery" data-tab="gallery">Gallery</a></li>
+          {holiday.review && (
+            <li><a href="#reviews">Reviews</a></li>
           )}
-          {isDetailed && detail && (
-            <li><a href="#otherinfo" data-tab="otherinfo">Other Info</a></li>
+          {holiday.galleryImages.length > 0 && (
+            <li><a href="#gallery">Gallery</a></li>
           )}
-          {isDetailed && detail && detail.routeMapImage && (
-            <li><a href="#routemap" data-tab="routemap">Route Map</a></li>
+          {(holiday.otherInfo || holiday.otherInfoBullets.length > 0) && (
+            <li><a href="#otherinfo">More Info</a></li>
           )}
         </ul>
       </div>
@@ -108,160 +96,176 @@ const price = holiday.price;
         <!-- Main Content -->
         <div class="content" id="main-content">
 
-          {/* ===== DETAILED TEMPLATE ===== */}
-          {isDetailed && detail ? (
-            <>
-              {/* Overview Section */}
-              <div id="overview" class="overview-section tab-panel">
-                <h3>Overview</h3>
-                <p>{detail.overview}</p>
+          {/* Overview */}
+          <div id="overview" class="overview-section content-section">
+            <h3>Overview</h3>
+            <Fragment set:html={holiday.overview.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
 
+            {holiday.whatsIncluded.length > 0 && (
+              <>
+                <h3 style="margin-top: 40px;">What's Included</h3>
+                <ul class="custom-bullets">
+                  {holiday.whatsIncluded.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+
+            {holiday.highlights.length > 0 && (
+              <>
                 <h3 style="margin-top: 40px;">Highlights</h3>
                 <ul class="custom-bullets">
-                  {detail.highlights.map((h) => (
+                  {holiday.highlights.map((h) => (
                     <li>{h}</li>
                   ))}
                 </ul>
-              </div>
+              </>
+            )}
+          </div>
 
-              {/* Itinerary Section */}
-              {detail.itinerary.length > 0 && (
-                <div id="itinerary" class="itinerary-section tab-panel" style="display:none;">
-                  <h3>Itinerary</h3>
-                  <p class="itinerary-desc">Explore the day-by-day breakdown of your journey through {detail.destination}.</p>
-                  {detail.itinerary.map((item, i) => (
-                    <div class="accordion-panel">
-                      <div class="panel-header" data-panel={`panel-${i}`}>
-                        <div class="mobile-wrap">
-                          <div class="day">{item.day}</div>
-                          <div>
-                            <div class="label">{item.title}</div>
-                          </div>
-                        </div>
-                        <span class={i === 0 ? 'panel-icon icon-less-minus' : 'panel-icon icon-more-plus'}></span>
-                      </div>
-                      <div class="panel-content" style={i === 0 ? 'display:block;' : 'display:none;'}>
-                        <div class="desc">
-                          <p>{item.description}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Accommodation Section */}
-              {detail.accommodations.length > 0 && (
-                <div id="accommodation" class="accommodation-section tab-panel" style="display:none;">
-                  <h3>Accommodation</h3>
-                  {detail.accommodations.map((acc) => (
-                    <div class="desc">
-                      <div class="acc-title">{acc.name}</div>
-                      <span class={`icon-${acc.stars}-stars`}></span>
-                      <p>{acc.description}</p>
-                      <ul class="custom-bullets amenities-grid">
-                        {acc.amenities.map((amenity) => (
-                          <li>{amenity}</li>
+          {/* Accommodation */}
+          {holiday.accommodations.length > 0 && (
+            <div id="accommodation" class="accommodation-section content-section">
+              <h3>Accommodation &amp; Facilities</h3>
+              {holiday.accommodations.map((acc, accIdx) => (
+                <div class="desc">
+                  <div class="acc-title">{acc.name}</div>
+                  {acc.stars && (
+                    <div class="hotel-stars">{'★'.repeat(acc.stars)}</div>
+                  )}
+                  {acc.images.length > 0 && (
+                    <div class="img-carousel" data-carousel={`acc-${accIdx}`}>
+                      <div class="img-carousel-viewport">
+                        {acc.images.map((img, i) => (
+                          <img
+                            src={img}
+                            alt={`${acc.name} - ${i + 1}`}
+                            loading="lazy"
+                            class={i === 0 ? 'img-carousel-slide active' : 'img-carousel-slide'}
+                            data-slide-index={i}
+                          />
                         ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Gallery Section */}
-              {detail.galleryImages.length > 0 && (
-                <div id="gallery" class="gallery-section tab-panel" style="display:none;">
-                  <h3>Gallery</h3>
-                  <div class="gallery-grid">
-                    {detail.galleryImages.map((img, i) => (
-                      <div class="gallery-item">
-                        <img src={img} alt={`Gallery image ${i + 1}`} loading="lazy" />
                       </div>
-                    ))}
+                      {acc.images.length > 1 && (
+                        <>
+                          <button class="img-carousel-prev" aria-label="Previous">&#10094;</button>
+                          <button class="img-carousel-next" aria-label="Next">&#10095;</button>
+                        </>
+                      )}
+                      <button class="img-carousel-expand" aria-label="Fullscreen">
+                        <img src="/icons/expand-icon.svg" alt="" />
+                      </button>
+                      <div class="img-carousel-counter">{`1 / ${acc.images.length}`}</div>
+                    </div>
+                  )}
+                  <Fragment set:html={acc.description.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Itinerary */}
+          {holiday.itinerary.length > 0 && (
+            <div id="itinerary" class="itinerary-section content-section">
+              <h3>Itinerary</h3>
+              <p class="itinerary-desc">Explore the day-by-day breakdown of your journey through {holiday.destination}.</p>
+              {holiday.itinerary.map((item, i) => (
+                <div class="accordion-panel">
+                  <div class="panel-header" data-panel={`panel-${i}`}>
+                    <div class="mobile-wrap">
+                      <div class="day">{item.day}</div>
+                      <div>
+                        <div class="label">{item.title}</div>
+                      </div>
+                    </div>
+                    <span class={i === 0 ? 'panel-icon icon-less-minus' : 'panel-icon icon-more-plus'}></span>
+                  </div>
+                  <div class="panel-content" style={i === 0 ? 'display:block;' : 'display:none;'}>
+                    <div class="desc">
+                      <Fragment set:html={item.description.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+                    </div>
                   </div>
                 </div>
-              )}
+              ))}
+            </div>
+          )}
 
-              {/* Other Info Section */}
-              <div id="otherinfo" class="other-info-section tab-panel" style="display:none;">
-                <h3>Other Information</h3>
-                <p>{detail.otherInfo}</p>
+          {/* Reviews */}
+          {holiday.review && (
+            <div id="reviews" class="reviews-section content-section">
+              <h3>Reviews</h3>
+              <div class="reviews-content">
+                <Fragment set:html={holiday.review.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+              </div>
+            </div>
+          )}
+
+          {/* Gallery */}
+          {holiday.galleryImages.length > 0 && (
+            <div id="gallery" class="gallery-section content-section">
+              <h3>Gallery</h3>
+              <div class="img-carousel" data-carousel="gallery">
+                <div class="img-carousel-viewport">
+                  {holiday.galleryImages.map((img, i) => (
+                    <img
+                      src={img}
+                      alt={`${holiday.title} - ${i + 1}`}
+                      loading="lazy"
+                      class={i === 0 ? 'img-carousel-slide active' : 'img-carousel-slide'}
+                      data-slide-index={i}
+                    />
+                  ))}
+                </div>
+                {holiday.galleryImages.length > 1 && (
+                  <>
+                    <button class="img-carousel-prev" aria-label="Previous">&#10094;</button>
+                    <button class="img-carousel-next" aria-label="Next">&#10095;</button>
+                  </>
+                )}
+                <button class="img-carousel-expand" aria-label="Fullscreen">
+                  <img src="/icons/expand-icon.svg" alt="" />
+                </button>
+                <div class="img-carousel-counter">{`1 / ${holiday.galleryImages.length}`}</div>
+              </div>
+            </div>
+          )}
+
+          {/* More Info */}
+          {(holiday.otherInfo || holiday.otherInfoBullets.length > 0) && (
+            <div id="otherinfo" class="other-info-section content-section">
+              <h3>More Information</h3>
+              {holiday.otherInfo && (
+                <Fragment set:html={holiday.otherInfo.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+              )}
+              {holiday.otherInfoBullets.length > 0 && (
                 <ul class="custom-bullets">
-                  {detail.otherInfoBullets.map((bullet) => (
+                  {holiday.otherInfoBullets.map((bullet) => (
                     <li>{bullet}</li>
                   ))}
                 </ul>
-
-                {/* Reviews Subsection */}
-                {detail.reviews.length > 0 && (
-                  <div class="reviews-subsection">
-                    <h3>Reviews</h3>
-                    {detail.reviews.map((review) => (
-                      <div class="review">
-                        <div class="review-header">
-                          <div class="review-author">{review.author}</div>
-                          <div class="review-date">{review.date}</div>
-                        </div>
-                        <div class="review-content">
-                          <p>{review.content}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Route Map Section */}
-              {detail.routeMapImage && (
-                <div id="routemap" class="routemap-section tab-panel" style="display:none;">
-                  <h3>Route Map</h3>
-                  <div class="routemap">
-                    <img src={detail.routeMapImage} alt={`Route map for ${detail.title}`} loading="lazy" />
-                  </div>
-                </div>
               )}
-            </>
-          ) : (
-            /* ===== SIMPLE TEMPLATE (non-detailed holidays) ===== */
-            <>
-              <div id="overview" class="overview-section tab-panel">
-                <h3>Overview</h3>
-                <p>{holiday.description}</p>
-              </div>
-
-              <div id="itinerary" class="itinerary-section tab-panel" style="display:none;">
-                <h3>Itinerary</h3>
-                <p class="coming-soon">Content coming soon</p>
-              </div>
-
-              <div id="accommodation" class="accommodation-section tab-panel" style="display:none;">
-                <h3>Accommodation</h3>
-                <p class="coming-soon">Content coming soon</p>
-              </div>
-
-              <div id="gallery" class="gallery-section tab-panel" style="display:none;">
-                <h3>Gallery</h3>
-                <p class="coming-soon">Content coming soon</p>
-              </div>
-
-              <div id="otherinfo" class="other-info-section tab-panel" style="display:none;">
-                <h3>Other Information</h3>
-                <p class="coming-soon">Content coming soon</p>
-              </div>
-
-              <div id="routemap" class="routemap-section tab-panel" style="display:none;">
-                <h3>Route Map</h3>
-                <p class="coming-soon">Content coming soon</p>
-              </div>
-            </>
+            </div>
           )}
+
+          {/* Lightbox */}
+          <div class="lightbox" id="gallery-lightbox">
+            <div class="lightbox-overlay"></div>
+            <button class="lightbox-close">&times;</button>
+            <button class="lightbox-prev">&#10094;</button>
+            <button class="lightbox-next">&#10095;</button>
+            <div class="lightbox-content">
+              <img src="" alt="" class="lightbox-img" />
+              <div class="lightbox-counter"></div>
+            </div>
+          </div>
+
         </div>
 
         <!-- Sidebar -->
         <div class="sidebar" id="summary">
           <div class="wrap">
-            <img src={sidebarImage} alt={holiday.title} loading="lazy" />
+            <img src={holiday.sidebarImage} alt={holiday.title} loading="lazy" />
             <div class="overview">
               <div class="title">{holiday.title}</div>
               <ul>
@@ -276,11 +280,11 @@ const price = holiday.price;
               <span>Departures</span>
               <p>Multiple dates available</p>
               <span>Hotel class</span>
-              <p>{isDetailed && detail ? '5 Star' : '4 Star'}</p>
+              <p>{holiday.hotelClass || 'Various'}</p>
             </div>
             <div class="sidebar-price">
               <span>from</span>
-              <div>&pound;{price}</div>
+              <div>&pound;{holiday.price}</div>
             </div>
             <a href="#" class="btn-check-price-sidebar">Check Price &amp; Book<img src="/icons/more-icon-white.svg" alt="" class="icon-more" /></a>
           </div>
@@ -288,6 +292,56 @@ const price = holiday.price;
       </div>
     </section>
   </div>
+
+  <!-- Call Expert CTA -->
+  <section class="call-expert-section">
+    <div class="section-container">
+      <div class="call-expert">
+        <div class="call-expert-text">
+          <div class="call-expert-title">Can't decide on a destination?</div>
+          <p>A nice problem to have! Why not speak to one of our travel experts?</p>
+          <div class="call-expert-phone">Call us on <span>0208 183 0518</span></div>
+          <p>or alternatively</p>
+          <a href="/contact" class="btn-primary call-expert-btn">Request A Call Back</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Posts + Newsletter Section -->
+  <section class="blog-posts-section">
+    <div class="section-container">
+      <h4>read all about it</h4>
+      <h2>Our Latest Blog Posts</h2>
+      <div class="blog-grid">
+        {latestBlogs.map((blog) => (
+          <div class="blog-card">
+            <img src={blog.image} alt={blog.title} loading="lazy" />
+            <div class="blog-card-title">{blog.title}</div>
+            <div class="blog-card-date">
+              <img src="/icons/calendar-icon-black.svg" alt="" class="icon-calendar" />
+              {blog.date}
+            </div>
+            <p>{blog.excerpt.substring(0, 120)}...</p>
+            <a href={`/blog/${blog.slug}`}>Read More <img src="/icons/more-icon.svg" alt="" class="icon-more-teal" /></a>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="footer-background"></div>
+    <div class="section-container">
+      <div class="newsletter">
+        <div class="newsletter-text">
+          <div class="newsletter-title">Subscribe to our newsletter</div>
+          <span class="newsletter-desc">Get our latest news and offers delivered right to your inbox</span>
+        </div>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Enter email address" />
+          <button type="submit" class="btn-primary newsletter-btn">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
 
   <Footer />
   <MobileCallCTA />
@@ -822,6 +876,7 @@ const price = holiday.price;
      ======================================== */
   .itinerary-content {
     position: relative;
+    padding-bottom: 20px;
   }
   .content-inner {
     display: flex;
@@ -864,11 +919,12 @@ const price = holiday.price;
     }
   }
 
-  .coming-soon {
-    color: #878787;
-    font-style: italic;
-    padding: 40px 0;
-    font-size: 16px;
+  /* Content sections — all visible, dividers between */
+  .content-section {
+    scroll-margin-top: 110px;
+  }
+  .content-section + .content-section {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 
   /* ========================================
@@ -1048,10 +1104,6 @@ const price = holiday.price;
   @media (max-width: 450px) {
     .accommodation-section .desc .acc-title { font-size: 14px; }
   }
-  .accommodation-section .desc span {
-    margin-top: 10px;
-    display: inline-block;
-  }
   .accommodation-section .desc p {
     margin-top: 25px;
   }
@@ -1062,46 +1114,127 @@ const price = holiday.price;
     }
   }
 
-  /* Amenities grid */
-  .amenities-grid {
-    padding-top: 30px;
-    padding-bottom: 30px;
-    display: flex;
-    flex-wrap: wrap;
+  .hotel-stars {
+    margin-top: 10px;
+    color: #f5a623;
+    font-size: 18px;
+    letter-spacing: 2px;
   }
-  .amenities-grid li {
+
+  /* ========================================
+     IMAGE CAROUSEL (Accommodation + Gallery)
+     ======================================== */
+  .img-carousel {
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #f0f0f0;
+  }
+  .img-carousel-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+  .img-carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+  .img-carousel-slide.active {
+    display: block;
+  }
+  .img-carousel-prev,
+  .img-carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    color: #424242;
+    font-size: 20px;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    font-size: 16px;
+    justify-content: center;
+    transition: background 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  .img-carousel-prev:hover,
+  .img-carousel-next:hover {
+    background: #ffffff;
+  }
+  .img-carousel-prev { left: 12px; }
+  .img-carousel-next { right: 12px; }
+  @media (max-width: 530px) {
+    .img-carousel-prev,
+    .img-carousel-next {
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+    }
+    .img-carousel-prev { left: 8px; }
+    .img-carousel-next { right: 8px; }
+  }
+  .img-carousel-expand {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .img-carousel-expand:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  .img-carousel-expand img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+  }
+  .img-carousel-counter {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  /* ========================================
+     REVIEWS SECTION
+     ======================================== */
+  .reviews-section h3 {
+    padding-bottom: 20px;
+  }
+  .reviews-content {
+    line-height: 26px;
     color: #424242;
-    padding: 15px 10px 0 0;
-    width: calc(100% / 3);
   }
-  @media (max-width: 1260px) {
-    .amenities-grid li { width: calc(100% / 2); }
+  .reviews-content p {
+    margin-bottom: 20px;
   }
-  @media (max-width: 610px) {
-    .amenities-grid li { width: 100%; }
-  }
-
-  /* Star ratings (inline SVG backgrounds) */
-  .icon-3-stars,
-  .icon-4-stars,
-  .icon-5-stars {
-    display: inline-block;
-    height: 16px;
-    margin-bottom: -2px;
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-  .icon-3-stars { width: 43px; }
-  .icon-4-stars { width: 56px; }
-  .icon-5-stars { width: 69px; }
-
-  /* Star rating using repeated star character */
-  .icon-3-stars::after { content: '\2605\2605\2605'; color: #f5a623; font-size: 14px; }
-  .icon-4-stars::after { content: '\2605\2605\2605\2605'; color: #f5a623; font-size: 14px; }
-  .icon-5-stars::after { content: '\2605\2605\2605\2605\2605'; color: #f5a623; font-size: 14px; }
 
   /* ========================================
      GALLERY SECTION
@@ -1109,27 +1242,99 @@ const price = holiday.price;
   .gallery-section h3 {
     padding-bottom: 20px;
   }
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-  @media (max-width: 940px) {
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 530px) {
-    .gallery-grid { grid-template-columns: 1fr; }
-  }
-  .gallery-item img {
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: opacity 0.2s;
+    height: 100%;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
   }
-  .gallery-item img:hover {
-    opacity: 0.85;
+  .lightbox.active {
+    display: flex;
+  }
+  .lightbox-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+  .lightbox-content {
+    position: relative;
+    z-index: 1;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .lightbox-img {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+  .lightbox-counter {
+    color: #ffffff;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    margin-top: 15px;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    z-index: 2;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 40px;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .lightbox-prev,
+  .lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: #ffffff;
+    font-size: 28px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-prev:hover,
+  .lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  .lightbox-prev { left: 20px; }
+  .lightbox-next { right: 20px; }
+  @media (max-width: 768px) {
+    .lightbox-prev { left: 10px; }
+    .lightbox-next { right: 10px; }
+    .lightbox-close { top: 10px; right: 15px; }
+  }
+
+  /* ========================================
+     WHAT'S INCLUDED SECTION
+     ======================================== */
+  .whats-included-section h3 {
+    padding-bottom: 20px;
   }
 
   /* ========================================
@@ -1140,64 +1345,6 @@ const price = holiday.price;
   }
   @media (max-width: 768px) {
     .other-info-section p { text-align: justify; }
-  }
-
-  /* Reviews subsection */
-  .reviews-subsection {
-    margin-top: 40px;
-    border-top: 1px solid rgba(0, 0, 0, 0.5);
-  }
-  .reviews-subsection h3 {
-    margin-top: 40px;
-    padding-bottom: 0;
-  }
-  .review {
-    margin-bottom: 10px;
-  }
-  .review-header {
-    margin-top: 20px;
-    padding-bottom: 10px;
-  }
-  .review-author {
-    font-size: 24px;
-    line-height: 27px;
-    font-family: "BentonSansMedium", sans-serif;
-    color: #282828;
-  }
-  @media (max-width: 768px) {
-    .review-author { font-size: 20px; }
-  }
-  @media (max-width: 610px) {
-    .review-author {
-      padding-top: 10px;
-      font-size: 16px;
-    }
-  }
-  .review-date {
-    font-family: "BentonSansBold", sans-serif;
-    font-size: 14px;
-    color: #878787;
-    margin-top: 2px;
-  }
-  .review-content {
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-  }
-  .review-content p {
-    color: #424242;
-  }
-
-  /* ========================================
-     ROUTE MAP SECTION
-     ======================================== */
-  .routemap-section h3 {
-    padding-bottom: 20px;
-  }
-  .routemap img {
-    width: 100%;
-    min-height: 520px;
-    object-fit: cover;
-    border-radius: 4px;
   }
 
   /* ========================================
@@ -1332,16 +1479,19 @@ const price = holiday.price;
   }
   .sidebar .details p {
     font-size: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     margin-top: 2px;
     color: #424242;
   }
+  .sidebar .details p:last-child {
+    margin-bottom: 0;
+  }
 
   .sidebar .sidebar-price {
-    padding-top: 5px;
+    padding-top: 15px;
     margin-left: 22px;
     display: inline-block;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
   }
   .sidebar .sidebar-price span {
     font-family: "BentonSansMedium", sans-serif;
@@ -1360,18 +1510,19 @@ const price = holiday.price;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 64px;
+    width: calc(100% - 44px);
+    margin: 0 22px 22px 22px;
+    height: 58px;
     background-color: #ff7f00;
     color: #ffffff;
     font-family: "BentonSansMedium", sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: 1px;
     border: none;
     cursor: pointer;
-    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 20px rgba(255, 127, 0, 0.3);
     text-decoration: none;
-    border-radius: 0;
+    border-radius: 4px;
     line-height: 23px;
   }
   .btn-check-price-sidebar:hover {
@@ -1382,34 +1533,358 @@ const price = holiday.price;
     width: 18px;
     height: auto;
   }
+
+  /* ========================================
+     CALL EXPERT CTA
+     ======================================== */
+  .call-expert-section {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 60px;
+  }
+  .call-expert {
+    background-image: url('/images/call-expert-background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 398px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .call-expert {
+      min-height: 320px;
+    }
+  }
+  .call-expert-text {
+    width: 100%;
+    padding: 20px 20px 45px 20px;
+    text-align: center;
+    color: #ffffff;
+  }
+  .call-expert-title {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 40px;
+    padding: 10px 0;
+  }
+  @media (max-width: 768px) {
+    .call-expert-title { font-size: 36px; }
+  }
+  @media (max-width: 450px) {
+    .call-expert-title { font-size: 28px; }
+  }
+  .call-expert-text p {
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .call-expert-phone {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 30px;
+    padding: 10px 0;
+  }
+  @media (max-width: 768px) {
+    .call-expert-phone { font-size: 24px; }
+  }
+  @media (max-width: 450px) {
+    .call-expert-phone { font-size: 20px; }
+  }
+  .call-expert-phone span {
+    font-family: "BentonSansBlack", sans-serif;
+    letter-spacing: 3px;
+  }
+  @media (max-width: 768px) {
+    .call-expert-phone span { letter-spacing: 2px; }
+  }
+  .call-expert-btn {
+    width: 223px;
+    height: 64px;
+    margin: 25px auto 0 auto;
+    box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
+    letter-spacing: 1px;
+    text-decoration: none;
+  }
+
+  /* ========================================
+     BLOG POSTS SECTION
+     ======================================== */
+  .blog-posts-section {
+    background-color: #000000;
+    margin-top: 0;
+    padding-top: 80px;
+    padding-bottom: 60px;
+    max-width: 100%;
+    position: relative;
+  }
+  @media (max-width: 940px) {
+    .blog-posts-section { padding-top: 60px; }
+  }
+  .blog-posts-section h4 {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 14px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #20A1AA;
+    margin-bottom: 10px;
+  }
+  .blog-posts-section h2 {
+    color: #ffffff;
+    margin-bottom: 45px;
+  }
+  @media (max-width: 940px) {
+    .blog-posts-section h2 { margin-bottom: 30px; }
+  }
+  .blog-grid {
+    display: flex;
+    gap: 25px;
+  }
+  @media (max-width: 1100px) {
+    .blog-grid { flex-wrap: wrap; }
+  }
+  @media (max-width: 610px) {
+    .blog-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  .blog-card {
+    color: #ffffff;
+    width: 291px;
+    min-width: 0;
+    flex: 1;
+    text-align: left;
+  }
+  @media (max-width: 1260px) {
+    .blog-card { width: 235px; }
+  }
+  @media (max-width: 1100px) {
+    .blog-card {
+      width: calc(50% - 13px);
+      flex: none;
+    }
+  }
+  @media (max-width: 610px) {
+    .blog-card { width: 100%; max-width: 400px; }
+  }
+  .blog-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+  }
+  @media (max-width: 1260px) {
+    .blog-card img { height: 230px; }
+  }
+  .blog-card-title {
+    margin-top: 15px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 20px;
+    line-height: 24px;
+  }
+  .blog-card-date {
+    margin-top: 12px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+  }
+  .blog-card-date .icon-calendar {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    filter: invert(1);
+  }
+  .blog-card p {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 22px;
+  }
+  .blog-card a {
+    color: #20A1AA;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+  .blog-card a .icon-more-teal {
+    padding-left: 10px;
+    width: 14px;
+    height: auto;
+  }
+
+  /* ========================================
+     FOOTER BACKGROUND + NEWSLETTER
+     ======================================== */
+  .footer-background {
+    position: absolute;
+    background-image: url('/images/mink-mingle-unsplash.jpeg');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 440px;
+    bottom: -60px;
+    left: 0;
+  }
+  @media (max-width: 1260px) {
+    .footer-background { height: 380px; }
+  }
+  @media (max-width: 610px) {
+    .footer-background { height: 300px; }
+  }
+  .footer-background::before {
+    content: "";
+    background-image: linear-gradient(180deg, black, transparent);
+    width: 100%;
+    height: 284px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .newsletter {
+    padding-top: 110px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 279px;
+  }
+  @media (max-width: 1260px) {
+    .newsletter {
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      height: 250px;
+      padding-top: 30px;
+    }
+  }
+  @media (max-width: 610px) {
+    .newsletter { height: auto; }
+  }
+  .newsletter-text {
+    color: #ffffff;
+    padding-right: 35px;
+  }
+  @media (max-width: 1260px) {
+    .newsletter-text { padding-right: 0; }
+  }
+  .newsletter-title {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 30px;
+    line-height: 24px;
+    color: #ffffff;
+    margin-bottom: 15px;
+  }
+  @media (max-width: 768px) {
+    .newsletter-title { font-size: 24px; }
+  }
+  @media (max-width: 450px) {
+    .newsletter-title { font-size: 20px; }
+  }
+  .newsletter-desc {
+    font-size: 18px;
+    line-height: 24px;
+    color: #ffffff;
+  }
+  @media (max-width: 768px) {
+    .newsletter-desc { font-size: 16px; }
+  }
+  .newsletter-form {
+    display: flex;
+    background: #ffffff;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    height: 96px;
+    align-items: center;
+    min-width: 550px;
+  }
+  @media (max-width: 768px) {
+    .newsletter-form { min-width: 0; width: 100%; max-width: 550px; }
+  }
+  @media (max-width: 610px) {
+    .newsletter-form {
+      height: auto;
+      background: none;
+      box-shadow: none;
+      justify-content: center;
+    }
+  }
+  .newsletter-form input {
+    border: none;
+    outline: none;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 16px;
+    color: #878787;
+    padding: 0 25px;
+    flex-grow: 1;
+    height: 100%;
+  }
+  @media (max-width: 610px) {
+    .newsletter-form input { display: none; }
+  }
+  .newsletter-btn {
+    width: 155px;
+    min-width: 155px;
+    height: 54px;
+    margin: 0 17px 0 0;
+    border-radius: 2px;
+    box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
+    letter-spacing: 1px;
+    font-size: 14px;
+  }
+  @media (max-width: 610px) {
+    .newsletter-btn { margin-right: 0; }
+  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // ===== TAB SWITCHING =====
-    const tabLinks = document.querySelectorAll('.tab-list li a');
-    const tabPanels = document.querySelectorAll('.tab-panel');
+    // ===== ANCHOR NAV — smooth scroll + scroll-spy =====
+    const tabLinks = document.querySelectorAll('.tab-list li a') as NodeListOf<HTMLAnchorElement>;
     const tabItems = document.querySelectorAll('.tab-list li');
+    const sections = document.querySelectorAll('.content-section') as NodeListOf<HTMLElement>;
     const currentLabel = document.querySelector('.mobile-tab-toggle .current');
 
-    function switchTab(tabId) {
-      // Hide all panels
-      tabPanels.forEach(panel => {
-        panel.style.display = 'none';
+    // Smooth-scroll on click
+    tabLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = link.getAttribute('href')?.slice(1);
+        const target = id ? document.getElementById(id) : null;
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+        // Close mobile dropdown
+        const tabList = document.querySelector('.tab-list');
+        if (tabList) tabList.classList.remove('open-drop-down');
       });
-      // Show target panel
-      const target = document.getElementById(tabId);
-      if (target) {
-        target.style.display = 'block';
+    });
+
+    // Scroll-spy: highlight active tab based on which section is in view
+    function updateActiveTab() {
+      let activeId = '';
+      const offset = 150; // account for sticky header
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= offset) {
+          activeId = section.id;
+        }
       }
-      // Update active tab
+      if (!activeId && sections.length > 0) activeId = sections[0].id;
+
       tabItems.forEach(item => item.classList.remove('ui-tabs-active'));
       tabLinks.forEach(link => {
-        if (link.getAttribute('data-tab') === tabId) {
-          link.parentElement.classList.add('ui-tabs-active');
+        if (link.getAttribute('href') === `#${activeId}`) {
+          link.parentElement?.classList.add('ui-tabs-active');
         }
       });
-      // Update mobile current label
       if (currentLabel) {
         const activeLink = document.querySelector('.tab-list li.ui-tabs-active a');
         if (activeLink) {
@@ -1418,16 +1893,8 @@ const price = holiday.price;
       }
     }
 
-    tabLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const tabId = link.getAttribute('data-tab');
-        switchTab(tabId);
-        // Close mobile dropdown
-        const tabList = document.querySelector('.tab-list');
-        if (tabList) tabList.classList.remove('open-drop-down');
-      });
-    });
+    window.addEventListener('scroll', updateActiveTab, { passive: true });
+    updateActiveTab();
 
     // ===== ACCORDION =====
     const panelHeaders = document.querySelectorAll('.panel-header');
@@ -1491,5 +1958,74 @@ const price = holiday.price;
         }
       });
     }
+
+    // ===== IMAGE CAROUSELS (Accommodation + Gallery) =====
+    document.querySelectorAll('.img-carousel').forEach((carousel) => {
+      const slides = carousel.querySelectorAll('.img-carousel-slide') as NodeListOf<HTMLImageElement>;
+      const counter = carousel.querySelector('.img-carousel-counter');
+      const total = slides.length;
+      let idx = 0;
+
+      function show(newIdx: number) {
+        slides[idx].classList.remove('active');
+        idx = (newIdx + total) % total;
+        slides[idx].classList.add('active');
+        if (counter) counter.textContent = `${idx + 1} / ${total}`;
+      }
+
+      carousel.querySelector('.img-carousel-prev')?.addEventListener('click', () => show(idx - 1));
+      carousel.querySelector('.img-carousel-next')?.addEventListener('click', () => show(idx + 1));
+
+      // Expand button opens lightbox with this carousel's images
+      carousel.querySelector('.img-carousel-expand')?.addEventListener('click', () => {
+        const srcs = Array.from(slides).map(s => s.src);
+        openLightbox(srcs, idx);
+      });
+    });
+
+    // ===== LIGHTBOX =====
+    const lightbox = document.getElementById('gallery-lightbox');
+    const lightboxImg = lightbox?.querySelector('.lightbox-img') as HTMLImageElement;
+    const lightboxCounter = lightbox?.querySelector('.lightbox-counter');
+    let lbImages: string[] = [];
+    let lbIndex = 0;
+
+    function openLightbox(images: string[], index: number) {
+      if (!lightbox || !lightboxImg || !lightboxCounter) return;
+      lbImages = images;
+      lbIndex = index;
+      lightboxImg.src = lbImages[lbIndex];
+      lightboxCounter.textContent = `${lbIndex + 1} / ${lbImages.length}`;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      if (!lightbox) return;
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function lbPrev() {
+      lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
+      openLightbox(lbImages, lbIndex);
+    }
+
+    function lbNext() {
+      lbIndex = (lbIndex + 1) % lbImages.length;
+      openLightbox(lbImages, lbIndex);
+    }
+
+    lightbox?.querySelector('.lightbox-close')?.addEventListener('click', closeLightbox);
+    lightbox?.querySelector('.lightbox-overlay')?.addEventListener('click', closeLightbox);
+    lightbox?.querySelector('.lightbox-prev')?.addEventListener('click', lbPrev);
+    lightbox?.querySelector('.lightbox-next')?.addEventListener('click', lbNext);
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox?.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lbPrev();
+      if (e.key === 'ArrowRight') lbNext();
+    });
   });
 </script>

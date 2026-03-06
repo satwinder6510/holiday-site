@@ -5,7 +5,7 @@ import MobileNav from '../../components/MobileNav.astro';
 import PageHero from '../../components/PageHero.astro';
 import Footer from '../../components/Footer.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
-import { mockHolidays } from '../../data/mockHolidays';
+import { listedHolidays, boardBasisOptions, priceRange } from '../../data/holidays';
 ---
 
 <BaseLayout title="Search Results | Holidays - Flights and Packages" description="Browse our latest holiday deals. Find flights and packages to top destinations worldwide.">
@@ -36,22 +36,12 @@ import { mockHolidays } from '../../data/mockHolidays';
           <span class="icon-pullup"></span>
         </div>
         <div class="sidebar-content">
-          <div class="checkbox-option">
-            <input type="checkbox" name="mealplan" id="bed-and-breakfast" value="Bed & Breakfast" />
-            <label for="bed-and-breakfast">Bed & Breakfast</label>
-          </div>
-          <div class="checkbox-option">
-            <input type="checkbox" name="mealplan" id="half-board" value="Half Board" />
-            <label for="half-board">Half Board</label>
-          </div>
-          <div class="checkbox-option">
-            <input type="checkbox" name="mealplan" id="all-inclusive" value="All Inclusive" />
-            <label for="all-inclusive">All Inclusive</label>
-          </div>
-          <div class="checkbox-option">
-            <input type="checkbox" name="mealplan" id="room-only" value="Room Only" />
-            <label for="room-only">Room Only</label>
-          </div>
+          {boardBasisOptions.map((basis) => (
+            <div class="checkbox-option">
+              <input type="checkbox" name="mealplan" id={basis.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')} value={basis} />
+              <label for={basis.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}>{basis}</label>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -63,8 +53,8 @@ import { mockHolidays } from '../../data/mockHolidays';
         </div>
         <div class="sidebar-content">
           <div class="price-boxes">
-            <div>&pound;<span>199</span></div>
-            <div>&pound;<span>1099</span></div>
+            <div>&pound;<span>{priceRange.min}</span></div>
+            <div>&pound;<span>{priceRange.max}</span></div>
           </div>
         </div>
       </div>
@@ -106,7 +96,7 @@ import { mockHolidays } from '../../data/mockHolidays';
     <div class="content">
       <!-- Sort bar -->
       <div class="search-sort">
-        <div class="results">{mockHolidays.length} results found</div>
+        <div class="results">{listedHolidays.length} results found</div>
         <div class="order">
           <div class="price">
             Price
@@ -135,7 +125,7 @@ import { mockHolidays } from '../../data/mockHolidays';
 
       <!-- Holiday cards -->
       <div class="holidays">
-        {mockHolidays.map((holiday) => (
+        {listedHolidays.map((holiday) => (
           <div class="holiday">
             <span class="holiday-img" style={`background-image: url('${holiday.image}')`}></span>
             <a class="gallery-link" href={`/holidays/${holiday.countrySlug}/${holiday.slug}`}>

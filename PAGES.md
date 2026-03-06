@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Holiday booking website for **Flights and Packages** (formerly "Cities and Beaches"). Built as an Astro static site with Tailwind CSS. All template pages use hardcoded mock data, ready to be wired to a database.
+Holiday booking website for **Flights and Packages** (formerly "Cities and Beaches"). Built as an Astro static site with Tailwind CSS. All pages are wired to real data from JSON exports (holidays + blogs).
 
 ---
 
@@ -26,42 +26,47 @@ Holiday booking website for **Flights and Packages** (formerly "Cities and Beach
 
 **6 pages generated** from `src/data/destinations.ts`.
 
-## Template Pages - Search & Holidays (Complete)
+## Holiday Pages (Complete — Real Data)
 
 | Route | File | Description |
 |-------|------|-------------|
-| `/holidays/search` | `src/pages/holidays/search.astro` | Search results with sidebar filters (board basis, price range, airport), sort bar (price low/high toggle), holiday cards, "Load More Results" button. Mobile: sticky filter bar, slide-in sidebar. |
-| `/holidays/[country]` | `src/pages/holidays/[country]/index.astro` | Country page with hero banner, search form overlay (hidden on mobile, replaced by floating search button), intro section with read-more toggle, holiday listings filtered by country. |
-| `/holidays/[country]/[slug]` | `src/pages/holidays/[country]/[slug].astro` | Holiday detail with tabbed content (Overview, Itinerary, Accommodation, Gallery, Other Info, Route Map), accordion itinerary with day panels, sidebar with pricing and "Check Price & Book" CTA. |
+| `/holidays/search` | `src/pages/holidays/search.astro` | Search results with sidebar filters (board basis, price range, airport), sort bar, holiday cards, "Load More Results" button. Dynamic board basis checkboxes from real data. |
+| `/holidays/[country]` | `src/pages/holidays/[country]/index.astro` | Country page with hero banner, search form overlay, intro section, holiday listings filtered by country. |
+| `/holidays/[country]/[slug]` | `src/pages/holidays/[country]/[slug].astro` | Holiday detail with tabbed content (Overview, Itinerary, Accommodation, Gallery, Other Info — conditional), gallery lightbox, sidebar with pricing and CTA, "Can't decide?" CTA section, blog posts section, newsletter subscription. |
 
 **Pages generated:**
-- 43 country pages (from `src/data/countries.ts`)
-- 9 holiday detail pages (8 from `mockHolidays.ts` + 1 detailed Golden Triangle from `mockItinerary.ts`)
+- 28 country pages (from `holidayCountries` in `holidays.ts`)
+- 139 holiday detail pages (from `allPublishedHolidays` in `holidays.ts`, includes 4 unlisted)
 
-## Template Pages - Blog (Complete)
+### Holiday Detail Page Features
+- **Conditional tabs:** Overview (always), Itinerary (53 holidays), Accommodation (all), Gallery (all), Other Info (67 holidays)
+- **What's Included:** Rendered in Overview tab before Highlights (not a separate tab)
+- **Gallery lightbox:** Custom overlay with prev/next arrows, keyboard navigation (Escape/Arrow keys), counter
+- **Below-tab sections:** Call Expert CTA (background image), Blog Posts grid (4 cards, black bg), Newsletter subscription (ocean background with gradient blend)
+
+## Blog Pages (Complete — Real Data)
 
 | Route | File | Description |
 |-------|------|-------------|
-| `/blog` | `src/pages/blog/index.astro` | Blog listing with 3-column card grid, pagination (3 pages), sidebar with Popular Tags and Archive sections. |
-| `/blog/[slug]` | `src/pages/blog/[slug].astro` | Blog post detail with content rendered via `set:html`, prev/next pagination, sidebar with author info, tag pills, related posts. |
+| `/blog` | `src/pages/blog/index.astro` | Blog listing with card grid, sidebar with dynamically populated Popular Tags. |
+| `/blog/[slug]` | `src/pages/blog/[slug].astro` | Blog post detail with HTML content via `set:html`, prev/next pagination, sidebar with author info, tag pills, related posts. |
 
-**9 blog post pages generated** from `src/data/mockBlogs.ts`.
-
----
-
-## Total: 76 pages
+**140 blog post pages generated** from `allBlogs` in `blogs.ts`.
 
 ---
 
-## Mock Data Files
+## Total: 322 pages
+
+---
+
+## Data Files
 
 | File | Contents |
 |------|----------|
-| `src/data/mockHolidays.ts` | 8 holidays (Italy x4, Egypt, Cyprus, Thailand, Portugal) with `MockHoliday` interface: id, image, title, destination, country, countrySlug, duration, boardBasis, price, description, slug, galleryCount |
-| `src/data/mockBlogs.ts` | 9 blog posts with `MockBlog` interface: title, slug, image, date, author, excerpt, tags[], content (HTML) |
-| `src/data/mockItinerary.ts` | Golden Triangle India tour with `MockItineraryHoliday` interface: 7-day itinerary, 3 accommodations with amenities, 10 highlights, 5 gallery images, 9 other-info bullets, 3 reviews |
-
-**When wiring to a database:** replace the mock data imports with API/DB calls. The data interfaces define the shape each page expects.
+| `src/data/holiday-export.json` | 139 holidays exported from live site. Fields: id, title, slug, category, price, description, excerpt, whats_included[], highlights[], itinerary[], accommodations[], gallery[], duration, board_basis_override, hotel_override, tags[], is_special_offer, is_unlisted, display_order, etc. |
+| `src/data/holidays.ts` | Transformation layer. Normalises duration, board basis, hotel class, country names. Resolves relative image URLs. Exports: `listedHolidays` (135), `allPublishedHolidays` (139), `holidayCountries` (~28), `getHolidaysByCountry()`, `getHolidayBySlug()`, `priceRange`, `boardBasisOptions`. |
+| `src/data/blog-export.json` | 140 blog posts exported from live site. Fields: id, title, slug, content (HTML), excerpt, metaTitle, metaDescription, featuredImage, author (messy — contains name + date + tags), isPublished, publishedAt. |
+| `src/data/blogs.ts` | Transformation layer. Parses author field to extract name, date, and tags. Exports: `allBlogs` (140), `blogTags`, `getBlogBySlug()`. |
 
 ---
 
@@ -94,6 +99,10 @@ Holiday booking website for **Flights and Packages** (formerly "Cities and Beach
 - `blog.jpg` - Blog listing hero
 - `blog-post.jpg` - Blog post hero
 - Plus existing heroes for homepage, about, contact, collections, etc.
+
+### Background Images (`public/images/`)
+- `call-expert-background.jpg` - "Can't decide on a destination?" CTA section
+- `mink-mingle-unsplash.jpeg` - Newsletter section ocean background (with CSS gradient blend from black)
 
 ### Icons (`public/icons/`)
 Template page icons added:
@@ -133,3 +142,4 @@ Desktop-first approach with these breakpoints:
 Original templates and CSS used as reference are in:
 - `backup/070722/Views/` - CSHTML templates
 - `assets/css/` - Original CSS files (search.css, itinerary.css, country.css, blogs.css, blogpost.css)
+- `Downloads/Itinerary/` - Original itinerary page HTML + CSS (used for call-expert, blog posts, newsletter sections)
