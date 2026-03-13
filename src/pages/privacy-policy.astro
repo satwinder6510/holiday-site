@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import MobileNav from '../components/MobileNav.astro';
 import PageHero from '../components/PageHero.astro';
 import Footer from '../components/Footer.astro';
+import Newsletter from '../components/Newsletter.astro';
 import MobileCallCTA from '../components/MobileCallCTA.astro';
 ---
 
@@ -43,7 +44,7 @@ import MobileCallCTA from '../components/MobileCallCTA.astro';
     <h4>Sharing your information</h4>
     <p>We may share your information with the following entities:</p>
     <ul class="content-list">
-      <li>Suppliers, such as hotel, airline, car rental, and activity providers, who fulfill your travel reservations.</li>
+      <li>Suppliers, such as hotel, airline, car rental, and activity providers, who fulfil your travel reservations.</li>
       <li>Third-party vendors who provide services or functions on our behalf, including credit card processing, business analytics, customer service, marketing, distribution of surveys or sweepstakes programs, and fraud prevention.</li>
     </ul>
     <p>Where required by law in the good faith belief that disclosure is necessary to comply with applicable laws or legal processes. Under US law, airlines are required to provide the US Department of Homeland Security with certain information about passengers travelling between the European Union and the US.</p>
@@ -57,6 +58,7 @@ import MobileCallCTA from '../components/MobileCallCTA.astro';
     </p>
   </section>
 
+  <Newsletter />
   <Footer />
   <MobileCallCTA />
 </BaseLayout>

@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import MobileNav from '../components/MobileNav.astro';
@@ -11,7 +13,11 @@ import FeaturedTour from '../components/FeaturedTour.astro';
 import CollectionsCarousel from '../components/CollectionsCarousel.astro';
 import DestinationsCarousel from '../components/DestinationsCarousel.astro';
 import Footer from '../components/Footer.astro';
+import Newsletter from '../components/Newsletter.astro';
 import MobileCallCTA from '../components/MobileCallCTA.astro';
+import { fetchHomepageData } from '../lib/api';
+
+const data = await fetchHomepageData();
 ---
 
 <BaseLayout title="Quality Holidays at Affordable Prices | Holidays - Flights and Packages">
@@ -19,17 +25,18 @@ import MobileCallCTA from '../components/MobileCallCTA.astro';
   <MobileNav />
 
   <div class="relative">
-    <HeroCarousel />
+    <HeroCarousel slides={data?.heroSlides} />
     <SearchForm />
   </div>
 
   <WelcomeSection />
-  <OfferCarousel />
+  <OfferCarousel offers={data?.specialOffers} />
   <CountriesSection />
-  <FeaturedTour />
+  <FeaturedTour tour={data?.featuredTour} />
   <CollectionsCarousel />
   <DestinationsCarousel />
 
+  <Newsletter />
   <Footer />
   <MobileCallCTA />
 </BaseLayout>

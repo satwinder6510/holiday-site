@@ -1,6 +1,13 @@
 ---
 import OfferCard from './OfferCard.astro';
-import { offers } from '../data/offers';
+import { offers as fallbackOffers } from '../data/offers';
+import type { SpecialOffer } from '../lib/api';
+
+interface Props {
+  offers?: SpecialOffer[];
+}
+
+const offers = Astro.props.offers?.length ? Astro.props.offers : fallbackOffers;
 ---
 
 <section class="offer-section relative overflow-hidden">
@@ -68,6 +75,7 @@ import { offers } from '../data/offers';
     containScroll: 'trimSnaps',
     dragFree: true,
   });
+  (window as any).__offerEmbla = embla;
 
   document.getElementById('offer-prev')?.addEventListener('click', () => embla.scrollPrev());
   document.getElementById('offer-next')?.addEventListener('click', () => embla.scrollNext());

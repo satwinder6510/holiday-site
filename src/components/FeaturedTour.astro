@@ -1,5 +1,12 @@
 ---
-import { featuredTour } from '../data/featuredTour';
+import { featuredTour as fallbackTour } from '../data/featuredTour';
+import type { FeaturedTourData } from '../lib/api';
+
+interface Props {
+  tour?: FeaturedTourData;
+}
+
+const featuredTour = Astro.props.tour || fallbackTour;
 ---
 
 <section class="featured-tour-section relative overflow-hidden">
@@ -83,13 +90,13 @@ import { featuredTour } from '../data/featuredTour';
   @media (max-width: 760px) { .featured-carousel { height: 380px; } }
   @media (max-width: 450px) { .featured-carousel { height: 300px; } }
 
-  .featured-slide {
+  :global(.featured-slide) {
     height: 580px;
     width: 1030px;
   }
-  @media (max-width: 940px) { .featured-slide { height: 480px; width: 100%; } }
-  @media (max-width: 760px) { .featured-slide { height: 380px; } }
-  @media (max-width: 450px) { .featured-slide { height: 300px; width: 450px; } }
+  @media (max-width: 940px) { :global(.featured-slide) { height: 480px; width: 100%; } }
+  @media (max-width: 760px) { :global(.featured-slide) { height: 380px; } }
+  @media (max-width: 450px) { :global(.featured-slide) { height: 300px; width: 450px; } }
 
   .featured-content {
     padding-left: 340px;
@@ -252,6 +259,7 @@ import { featuredTour } from '../data/featuredTour';
 
   const viewport = document.getElementById('featured-viewport')!;
   const embla = EmblaCarousel(viewport, { loop: true });
+  (window as any).__featuredEmbla = embla;
 
   document.getElementById('featured-prev')?.addEventListener('click', () => embla.scrollPrev());
   document.getElementById('featured-next')?.addEventListener('click', () => embla.scrollNext());

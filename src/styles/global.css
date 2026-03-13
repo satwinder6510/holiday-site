@@ -24,12 +24,12 @@
     color: inherit;
   }
   p {
-    font-size: 14px;
-    line-height: 26px;
-    color: #000000;
+    font-size: 16px;
+    line-height: 28px;
+    color: #424242;
   }
   @media (max-width: 768px) {
-    p { font-size: 12px; line-height: 24px; }
+    p { font-size: 15px; line-height: 26px; }
   }
   h2 {
     margin: 0 0 10px;

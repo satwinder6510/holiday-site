@@ -3,10 +3,13 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import MobileNav from '../../../components/MobileNav.astro';
 import Footer from '../../../components/Footer.astro';
+import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
+import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import { allPublishedHolidays } from '../../../data/holidays';
 import type { HolidayDetail } from '../../../data/holidays';
 import { allBlogs } from '../../../data/blogs';
+import { getPricingForHoliday } from '../../../data/pricing';
 
 export function getStaticPaths() {
   return allPublishedHolidays.map((h) => ({
@@ -16,10 +19,74 @@ export function getStaticPaths() {
 }
 
 const { holiday } = Astro.props as { holiday: HolidayDetail };
-const latestBlogs = allBlogs.slice(0, 4);
+const countryLower = holiday.country.toLowerCase();
+const matchedBlogs = allBlogs.filter(b => {
+  const text = (b.title + ' ' + b.excerpt).toLowerCase();
+  return text.includes(countryLower);
+});
+const latestBlogs = matchedBlogs.length >= 2 ? matchedBlogs.slice(0, 4) : allBlogs.slice(0, 4);
+
+const pricing = getPricingForHoliday(holiday.id);
+const hasPricing = !!pricing;
+const pricingJson = hasPricing ? JSON.stringify(pricing) : 'null';
+
+const localCharges = holiday.localChargesPp;
+const displayPrice = holiday.price + localCharges;
+const localChargesJson = JSON.stringify({ ppGbp: localCharges, breakdown: holiday.localChargesBreakdown });
+
+function fmtPrice(p: number): string {
+  return '\u00A3' + Math.round(p).toLocaleString('en-GB');
+}
+const displayPriceFormatted = fmtPrice(displayPrice);
+const cheapestInclusive = hasPricing ? fmtPrice(pricing!.cheapestPrice + localCharges) : displayPriceFormatted;
+const airportPrices = hasPricing ? pricing!.airports.map((ap: any) => ({
+  ...ap,
+  inclusiveFormatted: fmtPrice(ap.cheapestPrice + localCharges),
+})) : [];
+const initialDeps = hasPricing ? pricing!.departures
+  .filter((d: any) => d.airportCode === pricing!.airports[0].code)
+  .slice(0, 4)
+  .map((dep: any) => ({
+    ...dep,
+    inclusivePrice: dep.pricePp + localCharges,
+    inclusiveFormatted: fmtPrice(dep.pricePp + localCharges),
+  })) : [];
+
+const productSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: holiday.title,
+  description: holiday.overview ? holiday.overview.substring(0, 300) : holiday.description,
+  image: holiday.heroImage,
+  brand: { '@type': 'Organization', name: 'Flights and Packages' },
+};
+if (hasPricing) {
+  productSchema.offers = {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'GBP',
+    lowPrice: pricing!.cheapestPrice + localCharges,
+    availability: 'https://schema.org/InStock',
+    url: `https://holidays.flightsandpackages.com/Holidays/${holiday.countrySlug}/${holiday.slug}`,
+  };
+} else {
+  productSchema.offers = {
+    '@type': 'Offer',
+    priceCurrency: 'GBP',
+    price: displayPrice,
+    availability: 'https://schema.org/InStock',
+    url: `https://holidays.flightsandpackages.com/Holidays/${holiday.countrySlug}/${holiday.slug}`,
+  };
+}
 ---
 
-<BaseLayout title={`${holiday.title} | Holidays - Flights and Packages`} description={holiday.overview ? holiday.overview.substring(0, 160) : holiday.description}>
+<BaseLayout title={`${holiday.title} | Holidays - Flights and Packages`} description={holiday.overview ? holiday.overview.substring(0, 160) : holiday.description} image={holiday.heroImage} type="product">
+  <BreadcrumbSchema slot="head" items={[
+    { name: 'Home', url: '/' },
+    { name: 'Destinations', url: '/destinations' },
+    { name: holiday.country, url: `/Holidays/${holiday.countrySlug}` },
+    { name: holiday.title },
+  ]} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(productSchema)} />
   <Header />
   <MobileNav />
 
@@ -29,11 +96,11 @@ const latestBlogs = allBlogs.slice(0, 4);
     <div class="breadcrumbs">
       <a href="/">Home</a>
       <span class="icon-breadcrumb"></span>
-      <a href="/holidays">Destinations</a>
+      <a href="/Holidays">Destinations</a>
       <span class="icon-breadcrumb"></span>
-      <a href={`/holidays/${holiday.countrySlug}`}>{holiday.country}</a>
+      <a href={`/Holidays/${holiday.countrySlug}`}>{holiday.country}</a>
       <span class="icon-breadcrumb"></span>
-      <a href="javascript:void(0)">{holiday.title}</a>
+      <span aria-current="page">{holiday.title}</span>
     </div>
     <div class="hero-content">
       <div class="hero-label">discover</div>
@@ -43,20 +110,80 @@ const latestBlogs = allBlogs.slice(0, 4);
 
   <!-- Search / Price Bar -->
   <section class="search-section">
-    <div class="search-form section-container">
+    <div class={`search-form section-container ${hasPricing ? 'has-pricing' : ''}`}>
       <div class="form-box">
         <p class="form-p-title">{holiday.title}</p>
         <p class="para2">{holiday.destination} &bull; {holiday.duration} &bull; {holiday.boardBasis}</p>
       </div>
       <div class="price-area">
         <div class="price-wrap">
-          <span class="price-from">from</span>
-          <div class="price-amount">&pound;{holiday.price}<span class="price-pp">/pp</span></div>
+          <span class="price-from" id="hero-price-label">from</span>
+          <div class="price-amount" id="hero-price-value">{cheapestInclusive}<span class="price-pp">/pp</span></div>
         </div>
-        <a href="#" class="btn-check-price">Check Price &amp; Book<img src="/icons/more-icon-white.svg" alt="" class="icon-more" /></a>
+        <a href="#" class="btn-check-price" id="btn-check-price">{hasPricing ? 'Check Dates & Prices' : 'Check Price & Book'}<img src="/icons/more-icon-white.svg" alt="" class="icon-more" /></a>
       </div>
     </div>
   </section>
+
+  <!-- Local Charges Info -->
+  {localCharges > 0 && (
+    <section class="local-charges-bar">
+      <div class="local-charges-bar__inner section-container">
+        <div class="local-charges-bar__summary">
+          <span class="local-charges-bar__icon">&#9432;</span>
+          Price includes &pound;{Math.round(localCharges)}/pp local charges, payable at accommodation
+        </div>
+        <button type="button" class="local-charges-bar__toggle" id="local-charges-toggle">View breakdown</button>
+      </div>
+      <div class="local-charges-bar__breakdown" id="local-charges-breakdown" style="display:none;">
+        <div class="section-container">
+          <div class="local-charges-list">
+            {holiday.localChargesBreakdown.map((item: any) => (
+              <div class="local-charges-list__row">
+                <span class="local-charges-list__label">{item.label}</span>
+                <span class="local-charges-list__foreign">{item.currency} {item.foreignAmount.toFixed(2)}</span>
+                <span class="local-charges-list__rate">Rate: {item.exchangeRate}</span>
+                <span class="local-charges-list__gbp">&pound;{item.gbpAmount.toFixed(2)}</span>
+              </div>
+            ))}
+            <div class="local-charges-list__total">
+              <span>Total per person</span>
+              <span>&pound;{localCharges.toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Inline Pricing Section -->
+  {hasPricing && (
+    <section class="pricing-inline">
+      <div class="pricing-inline__inner section-container">
+        <div class="pricing-inline__controls">
+          <label class="pricing-inline__label" for="inline-airport-select">Departing from</label>
+          <select class="pricing-inline__select" id="inline-airport-select">
+            {airportPrices.map((ap: any) => (
+              <option value={ap.code}>{ap.name} — from {ap.inclusiveFormatted}/pp</option>
+            ))}
+          </select>
+        </div>
+        <div class="pricing-inline__cards" id="inline-date-cards">
+          {initialDeps.map((dep: any, i: number) => (
+              <button type="button" class={`pricing-card pricing-card--${dep.tier}`} data-date={dep.date} data-airport={dep.airportCode} data-price={dep.inclusivePrice}>
+                {i === 0 && <span class="pricing-card__badge">Best Price</span>}
+                <span class="pricing-card__day">{dep.dayOfWeek}</span>
+                <span class="pricing-card__date">{dep.dateShort}</span>
+                <span class="pricing-card__price">{dep.inclusiveFormatted}<small>/pp</small></span>
+              </button>
+            ))}
+        </div>
+        <button type="button" class="pricing-inline__view-all" id="btn-view-all-dates">
+          View All Dates &amp; Prices <img src="/icons/more-icon.svg" alt="" class="icon-more-teal" />
+        </button>
+      </div>
+    </section>
+  )}
 
   <!-- Tab Navigation -->
   <div class="tabs" id="tabs-container">
@@ -103,7 +230,7 @@ const latestBlogs = allBlogs.slice(0, 4);
 
             {holiday.whatsIncluded.length > 0 && (
               <>
-                <h3 style="margin-top: 40px;">What's Included</h3>
+                <h3 class="sub-heading">What's Included</h3>
                 <ul class="custom-bullets">
                   {holiday.whatsIncluded.map((item) => (
                     <li>{item}</li>
@@ -114,7 +241,7 @@ const latestBlogs = allBlogs.slice(0, 4);
 
             {holiday.highlights.length > 0 && (
               <>
-                <h3 style="margin-top: 40px;">Highlights</h3>
+                <h3 class="sub-heading">Highlights</h3>
                 <ul class="custom-bullets">
                   {holiday.highlights.map((h) => (
                     <li>{h}</li>
@@ -172,7 +299,7 @@ const latestBlogs = allBlogs.slice(0, 4);
               <p class="itinerary-desc">Explore the day-by-day breakdown of your journey through {holiday.destination}.</p>
               {holiday.itinerary.map((item, i) => (
                 <div class="accordion-panel">
-                  <div class="panel-header" data-panel={`panel-${i}`}>
+                  <div class="panel-header" data-panel={`panel-${i}`} role="button" tabindex="0" aria-expanded={i === 0 ? 'true' : 'false'}>
                     <div class="mobile-wrap">
                       <div class="day">{item.day}</div>
                       <div>
@@ -276,17 +403,17 @@ const latestBlogs = allBlogs.slice(0, 4);
             </div>
             <div class="details">
               <span>Departing from</span>
-              <p>London</p>
+              <p id="sidebar-airport">{hasPricing ? (pricing!.airports.length > 1 ? 'Multiple airports' : pricing!.airports[0].name) : 'London'}</p>
               <span>Departures</span>
-              <p>Multiple dates available</p>
+              <p id="sidebar-dates">{hasPricing ? 'Multiple dates available' : 'Multiple dates available'}</p>
               <span>Hotel class</span>
               <p>{holiday.hotelClass || 'Various'}</p>
             </div>
             <div class="sidebar-price">
-              <span>from</span>
-              <div>&pound;{holiday.price}</div>
+              <span id="sidebar-price-label">from</span>
+              <div id="sidebar-price-value">{cheapestInclusive}</div>
             </div>
-            <a href="#" class="btn-check-price-sidebar">Check Price &amp; Book<img src="/icons/more-icon-white.svg" alt="" class="icon-more" /></a>
+            <a href="#" class="btn-check-price-sidebar" id="btn-check-price-sidebar">{hasPricing ? 'Check Dates & Prices' : 'Check Price & Book'}<img src="/icons/more-icon-white.svg" alt="" class="icon-more" /></a>
           </div>
         </div>
       </div>
@@ -300,7 +427,7 @@ const latestBlogs = allBlogs.slice(0, 4);
         <div class="call-expert-text">
           <div class="call-expert-title">Can't decide on a destination?</div>
           <p>A nice problem to have! Why not speak to one of our travel experts?</p>
-          <div class="call-expert-phone">Call us on <span>0208 183 0518</span></div>
+          <div class="call-expert-phone">Call us on <a href="tel:02081830518"><span>0208 183 0518</span></a></div>
           <p>or alternatively</p>
           <a href="/contact" class="btn-primary call-expert-btn">Request A Call Back</a>
         </div>
@@ -328,23 +455,85 @@ const latestBlogs = allBlogs.slice(0, 4);
         ))}
       </div>
     </div>
-    <div class="footer-background"></div>
-    <div class="section-container">
-      <div class="newsletter">
-        <div class="newsletter-text">
-          <div class="newsletter-title">Subscribe to our newsletter</div>
-          <span class="newsletter-desc">Get our latest news and offers delivered right to your inbox</span>
-        </div>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Enter email address" />
-          <button type="submit" class="btn-primary newsletter-btn">Subscribe</button>
-        </form>
-      </div>
-    </div>
   </section>
 
+  <!-- Pricing Calendar Modal -->
+  {hasPricing && (
+    <div class="pricing-modal" id="pricing-modal" role="dialog" aria-modal="true" aria-label="Dates and Prices">
+      <div class="pricing-modal__card">
+        <div class="pricing-modal__header">
+          <div>
+            <div class="pricing-modal__title">{holiday.title}</div>
+            <div class="pricing-modal__meta">{holiday.destination} &bull; {holiday.duration} &bull; {holiday.boardBasis}</div>
+          </div>
+          <button class="pricing-modal__close" type="button" id="pricing-modal-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="pricing-modal__controls">
+          <div class="pricing-modal__control-group">
+            <label for="modal-airport-select">Departing from</label>
+            <select id="modal-airport-select" class="pricing-modal__select">
+              {airportPrices.map((ap: any) => (
+                <option value={ap.code}>{ap.name} — from {ap.inclusiveFormatted}/pp</option>
+              ))}
+            </select>
+          </div>
+          <div class="pricing-modal__control-group">
+            <label for="modal-pax-select">Passengers</label>
+            <select id="modal-pax-select" class="pricing-modal__select">
+              <option value="1">1 passenger</option>
+              <option value="2" selected>2 passengers</option>
+              <option value="3">3 passengers</option>
+              <option value="4">4 passengers</option>
+            </select>
+          </div>
+        </div>
+        <div class="pricing-modal__month-nav">
+          <button type="button" class="pricing-modal__month-arrow pricing-modal__month-arrow--prev" id="month-prev" aria-label="Previous month">
+            <img src="/icons/calendar-arrow.svg" alt="" />
+          </button>
+          <div class="pricing-modal__month-label" id="month-label"></div>
+          <button type="button" class="pricing-modal__month-arrow pricing-modal__month-arrow--next" id="month-next" aria-label="Next month">
+            <img src="/icons/calendar-arrow.svg" alt="" />
+          </button>
+        </div>
+        <div class="pricing-modal__calendar" id="pricing-calendar-grid"></div>
+        <div class="pricing-modal__legend">
+          <span class="pricing-modal__legend-item pricing-modal__legend-item--best">Best price</span>
+          <span class="pricing-modal__legend-item pricing-modal__legend-item--mid">Mid range</span>
+          <span class="pricing-modal__legend-item pricing-modal__legend-item--peak">Peak</span>
+        </div>
+        <div class="pricing-modal__summary" id="pricing-modal-summary">
+          <div class="pricing-modal__summary-info" id="modal-summary-info">Select a date to see pricing</div>
+          <button type="button" class="pricing-modal__book-btn" id="modal-book-btn" disabled>Select a Date</button>
+        </div>
+      </div>
+    </div>
+  )}
+
+  <!-- Mobile Bottom Bar -->
+  {hasPricing && (
+    <div class="mobile-price-bar" id="mobile-price-bar">
+      <div class="mobile-price-bar__price">
+        <span class="mobile-price-bar__label" id="mobile-price-label">from</span>
+        <span class="mobile-price-bar__value" id="mobile-price-value">{cheapestInclusive}<small>/pp</small></span>
+      </div>
+      <button type="button" class="mobile-price-bar__btn" id="btn-mobile-pricing">Check Dates &amp; Prices</button>
+    </div>
+  )}
+
+  <!-- Pricing data for client JS -->
+  {hasPricing && (
+    <script type="application/json" id="pricing-data" set:html={pricingJson} />
+  )}
+
+  <!-- Local charges data for client JS -->
+  {localCharges > 0 && (
+    <script type="application/json" id="local-charges-data" set:html={localChargesJson} />
+  )}
+
+  <Newsletter />
   <Footer />
-  <MobileCallCTA />
+  {hasPricing ? <Fragment /> : <MobileCallCTA />}
 </BaseLayout>
 
 <style>
@@ -377,6 +566,18 @@ const latestBlogs = allBlogs.slice(0, 4);
     background-size: cover;
     background-position: 66% 50%;
     background-repeat: no-repeat;
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0.05) 40%,
+      rgba(0, 0, 0, 0.35) 100%
+    );
+    z-index: 1;
   }
   @media (max-width: 768px) {
     .hero-bg {
@@ -511,6 +712,8 @@ const latestBlogs = allBlogs.slice(0, 4);
   }
   @media (max-width: 768px) {
     .search-section { top: 290px; }
+    .search-form.has-pricing .price-area { display: none; }
+    .search-form.has-pricing { padding: 15px 30px; }
   }
   @media (max-width: 480px) {
     .search-section { top: 170px; }
@@ -557,7 +760,8 @@ const latestBlogs = allBlogs.slice(0, 4);
     color: #ffffff;
   }
   .form-box .form-p-title {
-    font-size: 29px;
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
+    font-size: 26px;
     line-height: 30px;
     margin: 0;
   }
@@ -737,6 +941,11 @@ const latestBlogs = allBlogs.slice(0, 4);
   .tab-list li a:focus {
     outline: none;
   }
+  .tab-list li a:focus-visible {
+    outline: 2px solid #20A1AA;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
   @media (max-width: 1100px) and (min-width: 769px) {
     .tab-list li a {
       display: flex;
@@ -880,6 +1089,7 @@ const latestBlogs = allBlogs.slice(0, 4);
   }
   .content-inner {
     display: flex;
+    gap: 30px;
   }
   @media (max-width: 768px) {
     .content-inner {
@@ -889,7 +1099,8 @@ const latestBlogs = allBlogs.slice(0, 4);
 
   /* Main Content */
   .content {
-    width: calc(100% - 317px);
+    flex: 1;
+    min-width: 0;
   }
   @media (max-width: 768px) {
     .content { width: 100%; }
@@ -922,6 +1133,7 @@ const latestBlogs = allBlogs.slice(0, 4);
   /* Content sections — all visible, dividers between */
   .content-section {
     scroll-margin-top: 110px;
+    padding-bottom: 50px;
   }
   .content-section + .content-section {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -935,7 +1147,7 @@ const latestBlogs = allBlogs.slice(0, 4);
   }
   @media (max-width: 768px) {
     .overview-section p {
-      text-align: justify;
+      text-align: left;
       color: #424242;
     }
   }
@@ -1012,7 +1224,7 @@ const latestBlogs = allBlogs.slice(0, 4);
     width: 130px;
     min-width: 130px;
     height: 56px;
-    border: 2px #000000 solid;
+    border: 2px #424242 solid;
     border-radius: 4px;
     font-family: "BentonSansBold", sans-serif;
     font-size: 18px;
@@ -1102,7 +1314,7 @@ const latestBlogs = allBlogs.slice(0, 4);
     }
   }
   @media (max-width: 450px) {
-    .accommodation-section .desc .acc-title { font-size: 14px; }
+    .accommodation-section .desc .acc-title { font-size: 18px; }
   }
   .accommodation-section .desc p {
     margin-top: 25px;
@@ -1344,7 +1556,7 @@ const latestBlogs = allBlogs.slice(0, 4);
     padding-bottom: 20px;
   }
   @media (max-width: 768px) {
-    .other-info-section p { text-align: justify; }
+    .other-info-section p { text-align: left; }
   }
 
   /* ========================================
@@ -1352,9 +1564,9 @@ const latestBlogs = allBlogs.slice(0, 4);
      ======================================== */
   .sidebar {
     margin-top: 65px;
-    margin-left: 25px;
-    width: 291px;
-    min-width: 291px;
+    margin-left: 0;
+    width: 320px;
+    min-width: 320px;
   }
   @media (max-width: 768px) {
     .sidebar { display: none; }
@@ -1392,8 +1604,37 @@ const latestBlogs = allBlogs.slice(0, 4);
       font-size: 12px;
     }
   }
+  @media (max-width: 940px) and (min-width: 769px) {
+    .sidebar {
+      width: 260px;
+      min-width: 260px;
+    }
+    .sidebar .overview,
+    .sidebar .details {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+    .sidebar .sidebar-price {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+    .btn-check-price-sidebar {
+      width: calc(100% - 32px);
+      margin: 0 16px 16px 16px;
+      height: 50px;
+      font-size: 13px;
+    }
+    .sidebar .sidebar-price div {
+      font-size: 32px;
+    }
+    .content-inner {
+      gap: 20px;
+    }
+  }
 
   .sidebar .wrap {
+    position: sticky;
+    top: 120px;
     box-shadow: 0 6px 12px 2px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     overflow: hidden;
@@ -1408,7 +1649,7 @@ const latestBlogs = allBlogs.slice(0, 4);
   .sidebar .overview {
     margin-left: 22px;
     margin-right: 22px;
-    padding-top: 15px;
+    padding-top: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   }
@@ -1488,21 +1729,25 @@ const latestBlogs = allBlogs.slice(0, 4);
   }
 
   .sidebar .sidebar-price {
-    padding-top: 15px;
+    padding-top: 20px;
     margin-left: 22px;
-    display: inline-block;
+    margin-right: 22px;
+    display: block;
     padding-bottom: 20px;
   }
   .sidebar .sidebar-price span {
     font-family: "BentonSansMedium", sans-serif;
-    font-size: 14px;
-    line-height: 33px;
-    color: #424242;
+    font-size: 13px;
+    line-height: 1;
+    color: #888;
+    text-transform: lowercase;
+    display: block;
+    margin-bottom: 4px;
   }
   .sidebar .sidebar-price div {
     font-family: "CaslonGraphiqueEF", Georgia, serif;
     font-size: 40px;
-    line-height: 33px;
+    line-height: 1;
     color: #282828;
   }
 
@@ -1511,7 +1756,7 @@ const latestBlogs = allBlogs.slice(0, 4);
     align-items: center;
     justify-content: center;
     width: calc(100% - 44px);
-    margin: 0 22px 22px 22px;
+    margin: 0 22px 20px 22px;
     height: 58px;
     background-color: #ff7f00;
     color: #ffffff;
@@ -1520,7 +1765,7 @@ const latestBlogs = allBlogs.slice(0, 4);
     letter-spacing: 1px;
     border: none;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(255, 127, 0, 0.3);
+    box-shadow: 0 6px 14px rgba(255, 127, 0, 0.2);
     text-decoration: none;
     border-radius: 4px;
     line-height: 23px;
@@ -1540,6 +1785,7 @@ const latestBlogs = allBlogs.slice(0, 4);
   .call-expert-section {
     margin: 0;
     padding: 0;
+    padding-top: 40px;
     padding-bottom: 60px;
   }
   .call-expert {
@@ -1672,13 +1918,10 @@ const latestBlogs = allBlogs.slice(0, 4);
   }
   .blog-card img {
     width: 100%;
-    height: 280px;
+    aspect-ratio: 16 / 10;
     object-fit: cover;
     border-radius: 4px;
     display: block;
-  }
-  @media (max-width: 1260px) {
-    .blog-card img { height: 230px; }
   }
   .blog-card-title {
     margin-top: 15px;
@@ -1722,125 +1965,796 @@ const latestBlogs = allBlogs.slice(0, 4);
   }
 
   /* ========================================
-     FOOTER BACKGROUND + NEWSLETTER
+     LOCAL CHARGES BAR
      ======================================== */
-  .footer-background {
-    position: absolute;
-    background-image: url('/images/mink-mingle-unsplash.jpeg');
-    background-size: cover;
-    background-position: center;
-    width: 100%;
-    height: 440px;
-    bottom: -60px;
-    left: 0;
+  .local-charges-bar {
+    background: #fef9e7;
+    border-bottom: 1px solid #f0e6c0;
   }
-  @media (max-width: 1260px) {
-    .footer-background { height: 380px; }
-  }
-  @media (max-width: 610px) {
-    .footer-background { height: 300px; }
-  }
-  .footer-background::before {
-    content: "";
-    background-image: linear-gradient(180deg, black, transparent);
-    width: 100%;
-    height: 284px;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  .newsletter {
-    padding-top: 110px;
-    position: relative;
+  .local-charges-bar__inner {
     display: flex;
     align-items: center;
-    height: 279px;
-  }
-  @media (max-width: 1260px) {
-    .newsletter {
-      flex-direction: column;
-      justify-content: space-between;
-      text-align: center;
-      height: 250px;
-      padding-top: 30px;
-    }
-  }
-  @media (max-width: 610px) {
-    .newsletter { height: auto; }
-  }
-  .newsletter-text {
-    color: #ffffff;
-    padding-right: 35px;
-  }
-  @media (max-width: 1260px) {
-    .newsletter-text { padding-right: 0; }
-  }
-  .newsletter-title {
-    font-family: "BentonSansMedium", sans-serif;
-    font-size: 30px;
-    line-height: 24px;
-    color: #ffffff;
-    margin-bottom: 15px;
-  }
-  @media (max-width: 768px) {
-    .newsletter-title { font-size: 24px; }
-  }
-  @media (max-width: 450px) {
-    .newsletter-title { font-size: 20px; }
-  }
-  .newsletter-desc {
-    font-size: 18px;
-    line-height: 24px;
-    color: #ffffff;
-  }
-  @media (max-width: 768px) {
-    .newsletter-desc { font-size: 16px; }
-  }
-  .newsletter-form {
-    display: flex;
-    background: #ffffff;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-    height: 96px;
-    align-items: center;
-    min-width: 550px;
-  }
-  @media (max-width: 768px) {
-    .newsletter-form { min-width: 0; width: 100%; max-width: 550px; }
-  }
-  @media (max-width: 610px) {
-    .newsletter-form {
-      height: auto;
-      background: none;
-      box-shadow: none;
-      justify-content: center;
-    }
-  }
-  .newsletter-form input {
-    border: none;
-    outline: none;
-    font-family: "BentonSansMedium", sans-serif;
-    font-size: 16px;
-    color: #878787;
-    padding: 0 25px;
-    flex-grow: 1;
-    height: 100%;
-  }
-  @media (max-width: 610px) {
-    .newsletter-form input { display: none; }
-  }
-  .newsletter-btn {
-    width: 155px;
-    min-width: 155px;
-    height: 54px;
-    margin: 0 17px 0 0;
-    border-radius: 2px;
-    box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
-    letter-spacing: 1px;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
     font-size: 14px;
+    color: #555;
+    gap: 12px;
+  }
+  .local-charges-bar__icon {
+    margin-right: 6px;
+    font-size: 16px;
+  }
+  .local-charges-bar__summary {
+    display: flex;
+    align-items: center;
+  }
+  .local-charges-bar__toggle {
+    background: none;
+    border: none;
+    color: #20A1AA;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: underline;
+    padding: 0;
+  }
+  .local-charges-bar__toggle:hover {
+    color: #187880;
+  }
+  .local-charges-bar__breakdown {
+    background: #fdf6e3;
+    border-top: 1px solid #f0e6c0;
+    padding: 12px 0;
+  }
+  .local-charges-list {
+    max-width: 600px;
+    font-size: 13px;
+    color: #444;
+  }
+  .local-charges-list__row {
+    display: flex;
+    gap: 16px;
+    padding: 6px 0;
+    align-items: baseline;
+  }
+  .local-charges-list__label {
+    flex: 1;
+  }
+  .local-charges-list__foreign {
+    min-width: 80px;
+    text-align: right;
+    color: #666;
+  }
+  .local-charges-list__rate {
+    min-width: 70px;
+    text-align: right;
+    color: #999;
+    font-size: 12px;
+  }
+  .local-charges-list__gbp {
+    min-width: 60px;
+    text-align: right;
+    font-weight: 600;
+  }
+  .local-charges-list__total {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #e0d5b0;
+    padding-top: 8px;
+    margin-top: 4px;
+    font-weight: 600;
   }
   @media (max-width: 610px) {
-    .newsletter-btn { margin-right: 0; }
+    .local-charges-bar__inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+  }
+
+  /* ========================================
+     INLINE PRICING SECTION
+     ======================================== */
+  .pricing-inline {
+    background: linear-gradient(180deg, #f6fbfb 0%, #ffffff 100%);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(0,0,0,0.05);
+  }
+  .pricing-inline__inner {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+  .pricing-inline__controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .pricing-inline__label {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    color: #424242;
+    white-space: nowrap;
+  }
+  .pricing-inline__select {
+    padding: 8px 32px 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+    color: #424242;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23424242'/%3E%3C/svg%3E") no-repeat right 12px center;
+    appearance: none;
+    cursor: pointer;
+    max-width: 340px;
+  }
+  .pricing-inline__select:hover { border-color: #aaa; }
+  .pricing-inline__select:focus {
+    outline: none;
+    border-color: #20A1AA;
+    box-shadow: 0 0 0 3px rgba(32, 161, 170, 0.15);
+  }
+  .pricing-inline__cards {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-top: 14px;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  :global(.pricing-card) {
+    flex: 0 0 auto;
+    min-width: 130px;
+    padding: 16px 20px 14px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s ease;
+    font-family: "BentonSans", sans-serif;
+  }
+  :global(.pricing-card:hover) {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+  }
+  :global(.pricing-card:active) {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  :global(.pricing-card--best) { background: #E8F7F8; border-color: #20A1AA; }
+  :global(.pricing-card--mid) { background: #F8F8F8; border-color: #ddd; }
+  :global(.pricing-card--peak) { background: #FFF5EB; border-color: #E8A94E; }
+  :global(.pricing-card--selected) {
+    box-shadow: 0 0 0 3px #20A1AA;
+    border-color: #20A1AA;
+    transform: translateY(-2px);
+  }
+  :global(.pricing-card__badge) {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #20A1AA;
+    color: #fff;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+  }
+  :global(.pricing-card:has(.pricing-card__badge)) {
+    padding-top: 22px;
+  }
+  :global(.pricing-card__day) {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+  }
+  :global(.pricing-card__date) {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    color: #424242;
+  }
+  :global(.pricing-card__price) {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 22px;
+    color: #282828;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  :global(.pricing-card__price small) {
+    font-family: "BentonSans", sans-serif;
+    font-size: 12px;
+  }
+  .pricing-inline__view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    background: #fff;
+    border: 2px solid #20A1AA;
+    color: #20A1AA;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .pricing-inline__view-all:hover {
+    background: #20A1AA;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .pricing-inline__view-all:hover .icon-more-teal {
+    filter: brightness(0) invert(1);
+  }
+  .pricing-inline__view-all:focus-visible {
+    outline: 2px solid #20A1AA;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .pricing-inline__view-all .icon-more-teal {
+    width: 14px;
+    height: auto;
+    transition: filter 0.2s, transform 0.15s;
+  }
+
+  /* ========================================
+     PRICING CALENDAR MODAL
+     ======================================== */
+  .pricing-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    z-index: 1000;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+    overflow-y: auto;
+    transition: background 0.25s ease;
+  }
+  .pricing-modal.visible { display: flex; }
+  .pricing-modal.active { background: rgba(0,0,0,0.6); }
+  .pricing-modal__card {
+    background: #fff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 960px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    margin-bottom: 40px;
+    overflow: hidden;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .pricing-modal.active .pricing-modal__card {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .pricing-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+  }
+  .pricing-modal__title {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 24px;
+    color: #424242;
+    line-height: 1.2;
+  }
+  .pricing-modal__meta {
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+    color: #888;
+    margin-top: 6px;
+  }
+  .pricing-modal__close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.15s, background 0.15s;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .pricing-modal__close:hover {
+    color: #424242;
+    background: #f0f0f0;
+  }
+  .pricing-modal__close:focus-visible {
+    outline: 2px solid #20A1AA;
+    outline-offset: 2px;
+  }
+  .pricing-modal__controls {
+    display: flex;
+    gap: 16px;
+    padding: 16px 24px;
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+    flex-wrap: wrap;
+  }
+  .pricing-modal__control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .pricing-modal__control-group label {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .pricing-modal__select {
+    padding: 8px 32px 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+    color: #424242;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23424242'/%3E%3C/svg%3E") no-repeat right 12px center;
+    appearance: none;
+    cursor: pointer;
+    min-width: 200px;
+  }
+  .pricing-modal__select:hover { border-color: #aaa; }
+  .pricing-modal__select:focus {
+    outline: none;
+    border-color: #20A1AA;
+    box-shadow: 0 0 0 3px rgba(32, 161, 170, 0.15);
+  }
+  .pricing-modal__month-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 16px 24px 0;
+  }
+  .pricing-modal__month-label {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 20px;
+    color: #424242;
+    min-width: 200px;
+    text-align: center;
+  }
+  .pricing-modal__month-arrow {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s, background 0.15s;
+    flex-shrink: 0;
+  }
+  .pricing-modal__month-arrow:hover {
+    border-color: #20A1AA;
+    background: #f6fbfb;
+  }
+  .pricing-modal__month-arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    border-color: #ddd;
+    background: #fff;
+  }
+  .pricing-modal__month-arrow img {
+    width: 14px;
+    height: auto;
+  }
+  .pricing-modal__month-arrow--next img {
+    transform: scaleX(-1);
+  }
+  .pricing-modal__calendar {
+    padding: 12px 24px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  :global(.cal-month) { width: 100%; max-width: 480px; }
+  :global(.cal-month__title) {
+    display: none;
+  }
+  :global(.cal-month__grid) {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  :global(.cal-day-header) {
+    text-align: center;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 13px;
+    color: #999;
+    text-transform: uppercase;
+    padding: 6px 0;
+  }
+  :global(.cal-day) {
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 6px;
+    min-height: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #ccc;
+  }
+  :global(.cal-day--available) {
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s ease;
+    color: #424242;
+  }
+  :global(.cal-day--available:hover) {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    border-color: #bbb;
+    transform: scale(1.05);
+  }
+  :global(.cal-day--available:focus-visible) {
+    outline: 2px solid #20A1AA;
+    outline-offset: 1px;
+    border-radius: 4px;
+  }
+  :global(.cal-day--best) { background: #E8F7F8; }
+  :global(.cal-day--mid) { background: #F8F8F8; }
+  :global(.cal-day--peak) { background: #FFF5EB; }
+  :global(.cal-day--selected) {
+    border-color: #20A1AA;
+    box-shadow: 0 0 0 2px #20A1AA;
+    background: #d4f0f2 !important;
+    transform: scale(1.05);
+  }
+  :global(.cal-day__num) { font-family: "BentonSansMedium", sans-serif; font-size: 15px; }
+  :global(.cal-day__price) {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 13px;
+    color: #1b8f97;
+    line-height: 1;
+    margin-top: 3px;
+  }
+  :global(button.cal-day) {
+    font: inherit;
+    background: none;
+    padding: 6px 2px;
+  }
+  :global(button.cal-day--available) {
+    border: 1px solid transparent;
+  }
+  .pricing-modal__legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 8px 24px 16px;
+  }
+  .pricing-modal__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "BentonSans", sans-serif;
+    font-size: 12px;
+    color: #666;
+  }
+  .pricing-modal__legend-item::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+  }
+  .pricing-modal__legend-item--best::before { background: #E8F7F8; border: 1px solid #20A1AA; }
+  .pricing-modal__legend-item--mid::before { background: #F8F8F8; border: 1px solid #ddd; }
+  .pricing-modal__legend-item--peak::before { background: #FFF5EB; border: 1px solid #E8A94E; }
+  .pricing-modal__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px;
+    background: #073140;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .pricing-modal__summary-info {
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 1.6;
+  }
+  :global(.pricing-modal__summary-info strong) {
+    font-family: "BentonSansMedium", sans-serif;
+    color: #ffffff;
+  }
+  .pricing-modal__book-btn {
+    min-width: 180px;
+    height: 52px;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    background-color: #ff7f00;
+    color: #fff;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 15px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 12px rgba(255, 127, 0, 0.3);
+  }
+  .pricing-modal__book-btn:hover:not(:disabled) {
+    background-color: #e67300;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(255, 127, 0, 0.35);
+  }
+  .pricing-modal__book-btn:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  .pricing-modal__book-btn:focus-visible {
+    outline: 2px solid #ff7f00;
+    outline-offset: 3px;
+  }
+  .pricing-modal__book-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  /* ========================================
+     MOBILE BOTTOM BAR
+     ======================================== */
+  .mobile-price-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 98;
+    background: #fff;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+    padding: 12px 20px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    align-items: center;
+    justify-content: space-between;
+  }
+  .mobile-price-bar__price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .mobile-price-bar__label {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 12px;
+    color: #666;
+  }
+  .mobile-price-bar__value {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 24px;
+    color: #282828;
+    line-height: 1;
+  }
+  :global(.mobile-price-bar__value small) {
+    font-family: "BentonSans", sans-serif;
+    font-size: 12px;
+  }
+  .mobile-price-bar__btn {
+    padding: 0 24px;
+    height: 48px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    background: #ff7f00;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 8px rgba(255, 127, 0, 0.3);
+  }
+  .mobile-price-bar__btn:hover { background: #e67300; }
+  .mobile-price-bar__btn:active { background: #d66a00; }
+
+  /* ========================================
+     PRICING RESPONSIVE (768px)
+     ======================================== */
+  @media (max-width: 768px) {
+    .pricing-inline__inner {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .pricing-inline__cards {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      gap: 10px;
+      padding-top: 20px;
+      padding-bottom: 4px;
+      position: relative;
+      margin-right: -20px;
+      padding-right: 20px;
+      mask-image: linear-gradient(to right, black calc(100% - 30px), transparent);
+      -webkit-mask-image: linear-gradient(to right, black calc(100% - 30px), transparent);
+    }
+    :global(.pricing-card) {
+      min-width: 130px;
+      scroll-snap-align: start;
+    }
+    .pricing-inline__view-all {
+      align-self: center;
+    }
+    .mobile-price-bar {
+      display: flex;
+    }
+    .pricing-modal {
+      padding-top: 0;
+      align-items: stretch;
+    }
+    .pricing-modal__card {
+      max-width: 100%;
+      border-radius: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin-bottom: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .pricing-modal__calendar {
+      padding: 12px 16px 16px;
+    }
+    :global(.cal-month) {
+      max-width: 100%;
+    }
+    .pricing-modal__controls {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .pricing-modal__select {
+      min-width: 0;
+      width: 100%;
+    }
+    .pricing-modal__summary {
+      position: sticky;
+      bottom: 0;
+      flex-direction: column;
+      text-align: center;
+      gap: 12px;
+      padding: 16px 20px;
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+      z-index: 2;
+    }
+    .pricing-modal__book-btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 610px) {
+    .pricing-inline__controls {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .pricing-inline__select {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    :global(.pricing-card),
+    .pricing-modal__card,
+    .pricing-modal,
+    .pricing-inline__view-all .icon-more-teal,
+    .pricing-modal__book-btn,
+    .mobile-price-bar__btn {
+      transition: none !important;
+      transform: none !important;
+    }
+    :global(.cal-day--available) {
+      transition: none !important;
+    }
+  }
+
+
+  /* ========================================
+     ACCESSIBILITY & POLISH
+     ======================================== */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  .breadcrumbs span[aria-current="page"] {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 10px;
+    line-height: 12px;
+    color: #ffffff;
+    opacity: 0.7;
+  }
+  .content h3.sub-heading {
+    margin-top: 40px;
+    font-size: 28px;
+    line-height: 32px;
+  }
+  @media (max-width: 768px) {
+    .content h3.sub-heading {
+      font-size: 24px;
+      line-height: 28px;
+    }
+  }
+  .call-expert-phone a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+  .call-expert-phone a:hover {
+    text-decoration: underline;
+  }
+  /* Focus-visible states */
+  .btn-check-price:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px rgba(255, 127, 0, 0.5);
+  }
+  .btn-check-price-sidebar:focus-visible {
+    outline: 2px solid #ff7f00;
+    outline-offset: 3px;
+  }
+  .panel-header:focus-visible {
+    outline: 2px solid #20A1AA;
+    outline-offset: -2px;
+    border-radius: 4px;
+  }
+  .img-carousel-prev:focus-visible,
+  .img-carousel-next:focus-visible,
+  .img-carousel-expand:focus-visible {
+    outline: 2px solid #20A1AA;
+    outline-offset: 2px;
+  }
+  .lightbox-close:focus-visible,
+  .lightbox-prev:focus-visible,
+  .lightbox-next:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+  .blog-card a:focus-visible {
+    outline: 2px solid #20A1AA;
+    outline-offset: 2px;
+  }
+  /* Mobile bottom padding for fixed price bar */
+  @media (max-width: 768px) {
+    .blog-posts-section {
+      padding-bottom: 120px;
+    }
   }
 </style>
 
@@ -1896,11 +2810,376 @@ const latestBlogs = allBlogs.slice(0, 4);
     window.addEventListener('scroll', updateActiveTab, { passive: true });
     updateActiveTab();
 
+    // ===== LOCAL CHARGES =====
+    const localChargesEl = document.getElementById('local-charges-data');
+    const localChargesData = localChargesEl ? JSON.parse(localChargesEl.textContent || '{"ppGbp":0,"breakdown":[]}') : { ppGbp: 0, breakdown: [] };
+    const localChargesPp = localChargesData.ppGbp || 0;
+
+    // Local charges breakdown toggle
+    const lcToggle = document.getElementById('local-charges-toggle');
+    const lcBreakdown = document.getElementById('local-charges-breakdown');
+    if (lcToggle && lcBreakdown) {
+      lcToggle.addEventListener('click', () => {
+        const visible = lcBreakdown.style.display !== 'none';
+        lcBreakdown.style.display = visible ? 'none' : 'block';
+        lcToggle.textContent = visible ? 'View breakdown' : 'Hide breakdown';
+      });
+    }
+
+    // ===== DATE-WISE PRICING =====
+    const pricingDataEl = document.getElementById('pricing-data');
+    const pricingData = pricingDataEl ? JSON.parse(pricingDataEl.textContent || 'null') : null;
+
+    if (pricingData) {
+      // State
+      let selectedAirport = pricingData.airports[0]?.code || '';
+      let selectedDate = '';
+      let passengerCount = 2;
+
+      // DOM refs
+      const inlineAirportSelect = document.getElementById('inline-airport-select') as HTMLSelectElement | null;
+      const inlineDateCards = document.getElementById('inline-date-cards');
+      const btnViewAllDates = document.getElementById('btn-view-all-dates');
+      const btnCheckPrice = document.getElementById('btn-check-price');
+      const btnCheckPriceSidebar = document.getElementById('btn-check-price-sidebar');
+      const btnMobilePricing = document.getElementById('btn-mobile-pricing');
+      const modalEl = document.getElementById('pricing-modal');
+      const modalClose = document.getElementById('pricing-modal-close');
+      const modalAirportSelect = document.getElementById('modal-airport-select') as HTMLSelectElement | null;
+      const modalPaxSelect = document.getElementById('modal-pax-select') as HTMLSelectElement | null;
+      const calendarGrid = document.getElementById('pricing-calendar-grid');
+      const modalSummaryInfo = document.getElementById('modal-summary-info');
+      const modalBookBtn = document.getElementById('modal-book-btn') as HTMLButtonElement | null;
+      const heroPriceLabel = document.getElementById('hero-price-label');
+      const heroPriceValue = document.getElementById('hero-price-value');
+      const sidebarAirport = document.getElementById('sidebar-airport');
+      const sidebarDates = document.getElementById('sidebar-dates');
+      const sidebarPriceLabel = document.getElementById('sidebar-price-label');
+      const sidebarPriceValue = document.getElementById('sidebar-price-value');
+      const mobilePriceBar = document.getElementById('mobile-price-bar');
+      const mobilePriceLabel = document.getElementById('mobile-price-label');
+      const mobilePriceValue = document.getElementById('mobile-price-value');
+
+      // Helpers
+      const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+      function formatPrice(p: number): string {
+        return '\u00A3' + Math.round(p).toLocaleString('en-GB');
+      }
+
+      function getDepsForAirport(code: string) {
+        return pricingData.departures.filter((d: any) => d.airportCode === code);
+      }
+
+      function getCheapestForAirport(code: string): number {
+        const deps = getDepsForAirport(code);
+        if (deps.length === 0) return 0;
+        return Math.min(...deps.map((d: any) => d.pricePp)) + localChargesPp;
+      }
+
+      // Render inline date cards
+      function renderDateCards() {
+        if (!inlineDateCards) return;
+        const deps = getDepsForAirport(selectedAirport).slice(0, 4);
+        inlineDateCards.innerHTML = deps.map((dep: any, i: number) => `
+          <button type="button" class="pricing-card pricing-card--${dep.tier}${dep.date === selectedDate ? ' pricing-card--selected' : ''}" data-date="${dep.date}" data-airport="${dep.airportCode}" data-price="${dep.pricePp + localChargesPp}">
+            ${i === 0 ? '<span class="pricing-card__badge">Best Price</span>' : ''}
+            <span class="pricing-card__day">${dep.dayOfWeek}</span>
+            <span class="pricing-card__date">${dep.dateShort}</span>
+            <span class="pricing-card__price">${formatPrice(dep.pricePp + localChargesPp)}<small>/pp</small></span>
+          </button>
+        `).join('');
+
+        // Attach click handlers
+        inlineDateCards.querySelectorAll('.pricing-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const date = (card as HTMLElement).dataset.date || '';
+            handleDateSelect(date);
+          });
+        });
+      }
+
+      // Calendar month navigation state
+      let calMonthKeys: string[] = [];
+      let calMonthIndex = 0;
+      const monthLabel = document.getElementById('month-label');
+      const monthPrevBtn = document.getElementById('month-prev') as HTMLButtonElement | null;
+      const monthNextBtn = document.getElementById('month-next') as HTMLButtonElement | null;
+
+      // Build sorted month keys from current airport departures
+      function buildMonthKeys() {
+        const deps = getDepsForAirport(selectedAirport);
+        const keySet = new Set<string>();
+        for (const dep of deps) {
+          const d = new Date(dep.date + 'T00:00:00');
+          keySet.add(`${d.getFullYear()}-${String(d.getMonth()).padStart(2, '0')}`);
+        }
+        calMonthKeys = Array.from(keySet).sort();
+        calMonthIndex = 0;
+      }
+
+      // Render a single month grid
+      function renderCalendarMonth() {
+        if (!calendarGrid || calMonthKeys.length === 0) {
+          if (calendarGrid) calendarGrid.innerHTML = '<p style="text-align:center;color:#666;padding:24px;">No departures for this airport.</p>';
+          if (monthLabel) monthLabel.textContent = '';
+          return;
+        }
+
+        const monthKey = calMonthKeys[calMonthIndex];
+        const [year, mon] = monthKey.split('-').map(Number);
+        const deps = getDepsForAirport(selectedAirport);
+
+        // Build lookup for this month
+        const depsMap = new Map<number, any>();
+        for (const dep of deps) {
+          const d = new Date(dep.date + 'T00:00:00');
+          if (d.getFullYear() === year && d.getMonth() === mon) {
+            depsMap.set(d.getDate(), dep);
+          }
+        }
+
+        // Update month label
+        if (monthLabel) monthLabel.textContent = `${MONTHS[mon]} ${year}`;
+
+        // Update arrow states
+        if (monthPrevBtn) monthPrevBtn.disabled = calMonthIndex === 0;
+        if (monthNextBtn) monthNextBtn.disabled = calMonthIndex === calMonthKeys.length - 1;
+
+        const firstDay = new Date(year, mon, 1).getDay();
+        const daysInMonth = new Date(year, mon + 1, 0).getDate();
+
+        let html = '<div class="cal-month"><div class="cal-month__grid">';
+
+        // Day headers
+        for (const dh of DAYS_SHORT) {
+          html += `<div class="cal-day-header">${dh}</div>`;
+        }
+
+        // Empty cells for offset
+        for (let i = 0; i < firstDay; i++) {
+          html += '<div class="cal-day"></div>';
+        }
+
+        // Day cells
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dep = depsMap.get(day);
+          if (dep) {
+            const isSelected = dep.date === selectedDate;
+            html += `<button type="button" class="cal-day cal-day--available cal-day--${dep.tier}${isSelected ? ' cal-day--selected' : ''}" data-date="${dep.date}" data-price="${dep.pricePp + localChargesPp}">`;
+            html += `<span class="cal-day__num">${day}</span>`;
+            html += `<span class="cal-day__price">${formatPrice(dep.pricePp + localChargesPp)}</span>`;
+            html += `</button>`;
+          } else {
+            html += `<div class="cal-day"><span class="cal-day__num">${day}</span></div>`;
+          }
+        }
+
+        html += '</div></div>';
+        calendarGrid.innerHTML = html;
+
+        // Attach click handlers
+        calendarGrid.querySelectorAll('.cal-day--available').forEach(cell => {
+          cell.addEventListener('click', () => {
+            const date = (cell as HTMLElement).dataset.date || '';
+            handleDateSelect(date);
+          });
+        });
+      }
+
+      // Full calendar rebuild (called on airport change / modal open)
+      function renderCalendar() {
+        buildMonthKeys();
+        // If a date is selected, jump to that month
+        if (selectedDate) {
+          const d = new Date(selectedDate + 'T00:00:00');
+          const targetKey = `${d.getFullYear()}-${String(d.getMonth()).padStart(2, '0')}`;
+          const idx = calMonthKeys.indexOf(targetKey);
+          if (idx >= 0) calMonthIndex = idx;
+        }
+        renderCalendarMonth();
+      }
+
+      // Month nav events
+      monthPrevBtn?.addEventListener('click', () => {
+        if (calMonthIndex > 0) { calMonthIndex--; renderCalendarMonth(); }
+      });
+      monthNextBtn?.addEventListener('click', () => {
+        if (calMonthIndex < calMonthKeys.length - 1) { calMonthIndex++; renderCalendarMonth(); }
+      });
+
+      // Update sidebar
+      function updateSidebar() {
+        const airport = pricingData.airports.find((a: any) => a.code === selectedAirport);
+        if (sidebarAirport && airport) {
+          sidebarAirport.textContent = airport.name;
+        }
+
+        if (selectedDate) {
+          const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
+          if (dep) {
+            const inclusivePrice = formatPrice(dep.pricePp + localChargesPp);
+            if (sidebarDates) sidebarDates.textContent = dep.dateFormatted;
+            if (sidebarPriceLabel) sidebarPriceLabel.textContent = '';
+            if (sidebarPriceValue) sidebarPriceValue.textContent = inclusivePrice;
+            if (heroPriceLabel) heroPriceLabel.textContent = '';
+            if (heroPriceValue) heroPriceValue.innerHTML = inclusivePrice + '<span class="price-pp">/pp</span>';
+          }
+        } else {
+          if (sidebarDates) sidebarDates.textContent = 'Multiple dates available';
+          const cheapest = getCheapestForAirport(selectedAirport);
+          if (sidebarPriceLabel) sidebarPriceLabel.textContent = 'from';
+          if (sidebarPriceValue) sidebarPriceValue.textContent = formatPrice(cheapest);
+          if (heroPriceLabel) heroPriceLabel.textContent = 'from';
+          if (heroPriceValue) heroPriceValue.innerHTML = formatPrice(cheapest) + '<span class="price-pp">/pp</span>';
+        }
+      }
+
+      // Update mobile bar
+      function updateMobileBar() {
+        if (!mobilePriceBar) return;
+        if (selectedDate) {
+          const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
+          if (dep) {
+            if (mobilePriceLabel) mobilePriceLabel.textContent = '';
+            if (mobilePriceValue) mobilePriceValue.innerHTML = formatPrice(dep.pricePp + localChargesPp) + '<small>/pp</small>';
+          }
+        } else {
+          const cheapest = getCheapestForAirport(selectedAirport);
+          if (mobilePriceLabel) mobilePriceLabel.textContent = 'from';
+          if (mobilePriceValue) mobilePriceValue.innerHTML = formatPrice(cheapest) + '<small>/pp</small>';
+        }
+      }
+
+      // Update modal summary
+      function updateModalSummary() {
+        if (!modalSummaryInfo || !modalBookBtn) return;
+        if (selectedDate) {
+          const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
+          if (dep) {
+            const ppInclusive = dep.pricePp + localChargesPp;
+            const total = ppInclusive * passengerCount;
+            let html = `<strong>${dep.dateFormatted}</strong> from <strong>${dep.airportName}</strong><br>`;
+            if (localChargesPp > 0) {
+              const pkgTotal = dep.pricePp * passengerCount;
+              const lcTotal = localChargesPp * passengerCount;
+              html += `Package: ${passengerCount} &times; ${formatPrice(dep.pricePp)} = ${formatPrice(pkgTotal)}<br>`;
+              html += `Local charges: ${passengerCount} &times; ${formatPrice(localChargesPp)} = ${formatPrice(lcTotal)}<br>`;
+              html += `<strong>Total: ${formatPrice(total)}</strong>`;
+            } else {
+              html += `${passengerCount} passenger${passengerCount > 1 ? 's' : ''} &times; ${formatPrice(ppInclusive)} = <strong>${formatPrice(total)}</strong> total`;
+            }
+            modalSummaryInfo.innerHTML = html;
+            modalBookBtn.disabled = false;
+            modalBookBtn.textContent = 'Request Booking';
+          }
+        } else {
+          modalSummaryInfo.textContent = 'Select a date to see pricing';
+          modalBookBtn.disabled = true;
+          modalBookBtn.textContent = 'Select a Date';
+        }
+      }
+
+      // Handle airport change
+      function handleAirportChange(code: string) {
+        selectedAirport = code;
+        selectedDate = '';
+        // Sync both dropdowns
+        if (inlineAirportSelect) inlineAirportSelect.value = code;
+        if (modalAirportSelect) modalAirportSelect.value = code;
+        renderDateCards();
+        renderCalendar();
+        updateSidebar();
+        updateMobileBar();
+        updateModalSummary();
+      }
+
+      // Handle date select
+      function handleDateSelect(dateStr: string) {
+        selectedDate = selectedDate === dateStr ? '' : dateStr;
+        renderDateCards();
+        renderCalendar();
+        updateSidebar();
+        updateMobileBar();
+        updateModalSummary();
+      }
+
+      // Focus trap for modal
+      function trapFocus(modal: HTMLElement) {
+        modal.addEventListener('keydown', (e) => {
+          if (e.key !== 'Tab') return;
+          const focusable = modal.querySelectorAll(
+            'button:not([disabled]), select, [tabindex]:not([tabindex="-1"])'
+          ) as NodeListOf<HTMLElement>;
+          if (focusable.length === 0) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+          } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+        });
+      }
+
+      // Open / close modal
+      function openPricingModal() {
+        if (!modalEl) return;
+        renderCalendar();
+        updateModalSummary();
+        modalEl.classList.add('visible');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            modalEl.classList.add('active');
+          });
+        });
+        document.body.style.overflow = 'hidden';
+        const closeBtn = modalEl.querySelector('.pricing-modal__close') as HTMLElement;
+        closeBtn?.focus();
+        trapFocus(modalEl);
+      }
+
+      function closePricingModal() {
+        if (!modalEl) return;
+        modalEl.classList.remove('active');
+        setTimeout(() => {
+          modalEl.classList.remove('visible');
+          document.body.style.overflow = '';
+        }, 250);
+      }
+
+      // Event listeners
+      inlineAirportSelect?.addEventListener('change', () => handleAirportChange(inlineAirportSelect.value));
+      modalAirportSelect?.addEventListener('change', () => handleAirportChange(modalAirportSelect.value));
+      modalPaxSelect?.addEventListener('change', () => {
+        passengerCount = parseInt(modalPaxSelect.value, 10);
+        updateModalSummary();
+      });
+
+      btnViewAllDates?.addEventListener('click', openPricingModal);
+      btnCheckPrice?.addEventListener('click', (e) => { e.preventDefault(); openPricingModal(); });
+      btnCheckPriceSidebar?.addEventListener('click', (e) => { e.preventDefault(); openPricingModal(); });
+      btnMobilePricing?.addEventListener('click', openPricingModal);
+      modalClose?.addEventListener('click', closePricingModal);
+
+      // Close on overlay click
+      modalEl?.addEventListener('click', (e) => {
+        if (e.target === modalEl) closePricingModal();
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalEl?.classList.contains('active')) closePricingModal();
+      });
+    }
+
     // ===== ACCORDION =====
     const panelHeaders = document.querySelectorAll('.panel-header');
     panelHeaders.forEach(header => {
-      header.addEventListener('click', () => {
-        const panelContent = header.nextElementSibling;
+      const togglePanel = () => {
+        const panelContent = header.nextElementSibling as HTMLElement | null;
         const icon = header.querySelector('.panel-icon');
         if (!panelContent || !icon) return;
 
@@ -1908,10 +3187,19 @@ const latestBlogs = allBlogs.slice(0, 4);
           panelContent.style.display = 'block';
           icon.classList.remove('icon-more-plus');
           icon.classList.add('icon-less-minus');
+          header.setAttribute('aria-expanded', 'true');
         } else {
           panelContent.style.display = 'none';
           icon.classList.remove('icon-less-minus');
           icon.classList.add('icon-more-plus');
+          header.setAttribute('aria-expanded', 'false');
+        }
+      };
+      header.addEventListener('click', togglePanel);
+      header.addEventListener('keydown', (e) => {
+        if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') {
+          e.preventDefault();
+          togglePanel();
         }
       });
     });
@@ -1922,6 +3210,12 @@ const latestBlogs = allBlogs.slice(0, 4);
     if (dropDown && tabList) {
       dropDown.addEventListener('click', () => {
         tabList.classList.toggle('open-drop-down');
+      });
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (!dropDown.contains(e.target as Node) && !tabList.contains(e.target as Node)) {
+          tabList.classList.remove('open-drop-down');
+        }
       });
     }
 
@@ -1995,6 +3289,7 @@ const latestBlogs = allBlogs.slice(0, 4);
       lbImages = images;
       lbIndex = index;
       lightboxImg.src = lbImages[lbIndex];
+      lightboxImg.alt = `Image ${lbIndex + 1} of ${lbImages.length}`;
       lightboxCounter.textContent = `${lbIndex + 1} / ${lbImages.length}`;
       lightbox.classList.add('active');
       document.body.style.overflow = 'hidden';

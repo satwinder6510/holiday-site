@@ -3,7 +3,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import MobileNav from '../../components/MobileNav.astro';
 import Footer from '../../components/Footer.astro';
+import Newsletter from '../../components/Newsletter.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
+import BreadcrumbSchema from '../../components/BreadcrumbSchema.astro';
 import { allBlogs } from '../../data/blogs';
 import type { Blog } from '../../data/blogs';
 
@@ -24,9 +26,31 @@ const { blog, prevBlog, nextBlog } = Astro.props as { blog: Blog; prevBlog: Blog
 const relatedPosts = allBlogs
   .filter((b) => b.slug !== blog.slug && b.tags.some((tag: string) => blog.tags.includes(tag)))
   .slice(0, 4);
+
+const blogPostingSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: blog.title,
+  description: blog.excerpt,
+  image: blog.image,
+  author: { '@type': 'Person', name: blog.author },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Flights and Packages',
+    url: 'https://holidays.flightsandpackages.com',
+  },
+  datePublished: blog.date,
+  url: `https://holidays.flightsandpackages.com/blog/${blog.slug}`,
+};
 ---
 
-<BaseLayout title={`${blog.title} | Holidays - Flights and Packages`} description={blog.excerpt}>
+<BaseLayout title={`${blog.title} | Holidays - Flights and Packages`} description={blog.excerpt} image={blog.image} type="article">
+  <BreadcrumbSchema slot="head" items={[
+    { name: 'Home', url: '/' },
+    { name: 'Blog', url: '/blog' },
+    { name: blog.title },
+  ]} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
   <Header />
   <MobileNav />
 
@@ -103,6 +127,7 @@ const relatedPosts = allBlogs
     </section>
   </section>
 
+  <Newsletter />
   <Footer />
   <MobileCallCTA />
 </BaseLayout>

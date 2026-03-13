@@ -1,6 +1,8 @@
 // Data transformation layer — maps holiday-export.json to template interfaces
 // Replace this import with a DB/API call when ready
 
+import cityTaxData from './city-taxes.json';
+
 interface RawItineraryDay {
   day: number;
   title: string;
@@ -64,12 +66,20 @@ interface RawHoliday {
   additional_charge_name: string;
   additional_charge_exchange_rate: string;
   additional_charge_currency: string;
-  additional_charge_foreign_amount: number | null;
+  additional_charge_foreign_amount: number | string | null;
   city_tax_enabled: boolean;
   include_airlines: string | null;
 }
 
 // ── Exported interfaces ──────────────────────────────────────────────
+
+export interface LocalChargeItem {
+  label: string;
+  foreignAmount: number;
+  currency: string;
+  exchangeRate: number;
+  gbpAmount: number;
+}
 
 export interface Holiday {
   id: number;
@@ -81,6 +91,7 @@ export interface Holiday {
   duration: string;
   boardBasis: string;
   price: number;
+  localChargesPp: number;
   description: string;
   slug: string;
   galleryCount: number;
@@ -104,6 +115,7 @@ export interface HolidayDetail extends Holiday {
   otherInfoBullets: string[];
   hotelClass: string;
   sourceUrl: string;
+  localChargesBreakdown: LocalChargeItem[];
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────
@@ -117,7 +129,7 @@ function resolveImageUrl(path: string | null | undefined): string {
 }
 
 function slugify(text: string): string {
-  return text.trim().replace(/\s+/g, '-');
+  return text.trim().replace(/\s+/g, '-').toLowerCase();
 }
 
 function normaliseDuration(raw: string): string {
@@ -201,6 +213,155 @@ function extractStars(hotelOverride: string | null): number | null {
   return match[2] ? parseInt(match[2], 10) : parseInt(match[1], 10);
 }
 
+// ── City tax / local charges ─────────────────────────────────────────
+
+interface CityTaxEntry {
+  id: number;
+  cityName: string;
+  countryCode: string;
+  pricingType: 'flat' | 'star_rating';
+  taxPerNightPerPerson: number;
+  rate1Star: number | null;
+  rate2Star: number | null;
+  rate3Star: number | null;
+  rate4Star: number | null;
+  rate5Star: number | null;
+  currency: string;
+  exchangeRate: number;
+  notes: string;
+}
+
+const cityTaxes: CityTaxEntry[] = cityTaxData as CityTaxEntry[];
+
+const COUNTRY_NAME_TO_CODE: Record<string, string> = {
+  'Argentina': 'AR', 'Austria': 'AT', 'Belgium': 'BE', 'Bulgaria': 'BG',
+  'Cape Verde': 'CV', 'Costa Rica': 'CR', 'Croatia': 'HR', 'Cyprus': 'CY',
+  'Czech Republic': 'CZ', 'Denmark': 'DK', 'France': 'FR', 'Germany': 'DE',
+  'Greece': 'GR', 'Hungary': 'HU', 'Iceland': 'IS', 'India': 'IN',
+  'Indonesia': 'ID', 'Italy': 'IT', 'Japan': 'JP', 'Latvia': 'LV',
+  'Malaysia': 'MY', 'Maldives': 'MV', 'Malta': 'MT', 'Mauritius': 'MU',
+  'Montenegro': 'ME', 'Morocco': 'MA', 'Nepal': 'NP', 'Peru': 'PE',
+  'Poland': 'PL', 'Portugal': 'PT', 'Romania': 'RO', 'Slovakia': 'SK',
+  'Spain': 'ES', 'Sri Lanka': 'LK', 'Thailand': 'TH', 'Turkey': 'TR',
+  'UAE': 'AE', 'USA': 'US', 'Vietnam': 'VN',
+};
+
+function parseNights(duration: string): number {
+  const match = duration.match(/(\d+)\s*nights?/i);
+  if (match) return parseInt(match[1], 10);
+  const dayMatch = duration.match(/(\d+)\s*days?/i);
+  if (dayMatch) return Math.max(parseInt(dayMatch[1], 10) - 1, 1);
+  return 0;
+}
+
+function getRateForStars(entry: CityTaxEntry, stars: number): number {
+  if (entry.pricingType === 'flat') return entry.taxPerNightPerPerson;
+  const rounded = Math.round(stars);
+  if (rounded <= 1) return entry.rate1Star ?? 0;
+  if (rounded === 2) return entry.rate2Star ?? 0;
+  if (rounded === 3) return entry.rate3Star ?? 0;
+  if (rounded === 4) return entry.rate4Star ?? 0;
+  return entry.rate5Star ?? 0;
+}
+
+function findCityTax(cityName: string): CityTaxEntry | undefined {
+  return cityTaxes.find(t =>
+    t.cityName.toLowerCase() === cityName.toLowerCase()
+  );
+}
+
+function findHighestRateForCountry(code: string, stars: number): CityTaxEntry | undefined {
+  const entries = cityTaxes.filter(t => t.countryCode === code);
+  if (entries.length === 0) return undefined;
+  let best: CityTaxEntry | undefined;
+  let bestRate = -1;
+  for (const entry of entries) {
+    const rate = getRateForStars(entry, stars);
+    if (rate > bestRate) { bestRate = rate; best = entry; }
+  }
+  return best;
+}
+
+interface CityTaxConfigEntry {
+  city: string;
+  nights: number;
+  starRating?: number;
+}
+
+function calculateLocalCharges(raw: RawHoliday): { total: number; items: LocalChargeItem[] } {
+  const items: LocalChargeItem[] = [];
+  let total = 0;
+
+  if (!raw.city_tax_enabled) return { total: 0, items: [] };
+
+  const pkgStars = extractStars(raw.hotel_override) ?? 4;
+  const config = raw.city_tax_config as CityTaxConfigEntry[];
+
+  if (config && config.length > 0) {
+    for (const entry of config) {
+      const taxEntry = findCityTax(entry.city);
+      if (!taxEntry) continue;
+      const stars = entry.starRating ?? pkgStars;
+      const ratePerNight = getRateForStars(taxEntry, stars);
+      if (ratePerNight === 0) continue;
+      const foreignAmt = ratePerNight * entry.nights;
+      const gbpAmt = Math.round(foreignAmt * taxEntry.exchangeRate * 100) / 100;
+      items.push({
+        label: `City Tax \u2014 ${entry.city} (${entry.nights} nights \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
+        foreignAmount: foreignAmt,
+        currency: taxEntry.currency,
+        exchangeRate: taxEntry.exchangeRate,
+        gbpAmount: gbpAmt,
+      });
+      total += gbpAmt;
+    }
+  } else {
+    const country = normaliseCountryName(raw.category);
+    const firstCountry = country.split(',')[0].trim();
+    const code = COUNTRY_NAME_TO_CODE[firstCountry];
+    if (code) {
+      const taxEntry = findHighestRateForCountry(code, pkgStars);
+      if (taxEntry) {
+        const ratePerNight = getRateForStars(taxEntry, pkgStars);
+        if (ratePerNight > 0) {
+          const nights = parseNights(raw.duration);
+          if (nights > 0) {
+            const foreignAmt = ratePerNight * nights;
+            const gbpAmt = Math.round(foreignAmt * taxEntry.exchangeRate * 100) / 100;
+            items.push({
+              label: `City Tax \u2014 ${taxEntry.cityName} (${nights} nights \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
+              foreignAmount: foreignAmt,
+              currency: taxEntry.currency,
+              exchangeRate: taxEntry.exchangeRate,
+              gbpAmount: gbpAmt,
+            });
+            total += gbpAmt;
+          }
+        }
+      }
+    }
+  }
+
+  // Additional charges (e.g. port charges, tourist tax)
+  const addAmt = typeof raw.additional_charge_foreign_amount === 'string'
+    ? parseFloat(raw.additional_charge_foreign_amount)
+    : raw.additional_charge_foreign_amount;
+  const addRate = parseFloat(raw.additional_charge_exchange_rate);
+  if (addAmt && addAmt > 0 && addRate > 0) {
+    const gbpAmt = Math.round(addAmt * addRate * 100) / 100;
+    items.push({
+      label: raw.additional_charge_name || 'Additional charge',
+      foreignAmount: addAmt,
+      currency: raw.additional_charge_currency || 'EUR',
+      exchangeRate: addRate,
+      gbpAmount: gbpAmt,
+    });
+    total += gbpAmt;
+  }
+
+  return { total: Math.round(total * 100) / 100, items };
+}
+
 // ── Transform ────────────────────────────────────────────────────────
 
 function transformHoliday(raw: RawHoliday): HolidayDetail {
@@ -209,6 +370,7 @@ function transformHoliday(raw: RawHoliday): HolidayDetail {
   const { text: otherInfoText, bullets: otherInfoBullets } = parseOtherInfo(raw.other_info);
   const stars = extractStars(raw.hotel_override);
   const heroImage = resolveImageUrl(raw.featured_image);
+  const localCharges = calculateLocalCharges(raw);
 
   let description = '';
   if (raw.excerpt && raw.excerpt.trim()) {
@@ -229,6 +391,7 @@ function transformHoliday(raw: RawHoliday): HolidayDetail {
     duration: normaliseDuration(raw.duration),
     boardBasis: normaliseBoardBasis(raw.board_basis_override),
     price: raw.price,
+    localChargesPp: localCharges.total,
     description,
     slug: raw.slug,
     galleryCount: raw.gallery?.length || 0,
@@ -261,6 +424,7 @@ function transformHoliday(raw: RawHoliday): HolidayDetail {
     otherInfoBullets,
     hotelClass: normaliseHotelClass(raw.hotel_override),
     sourceUrl: raw.source_url || '',
+    localChargesBreakdown: localCharges.items,
   };
 }
 
@@ -367,6 +531,7 @@ function transformCruise(raw: RawCruise): HolidayDetail {
     duration: `${days} Days / ${String(nights).padStart(2, '0')} Nights`,
     boardBasis: raw.board_basis,
     price: raw.price,
+    localChargesPp: 0,
     description,
     slug: raw.slug,
     galleryCount: raw.gallery?.length || 0,
@@ -392,6 +557,7 @@ function transformCruise(raw: RawCruise): HolidayDetail {
     otherInfoBullets: [],
     hotelClass: raw.ship?.class || '',
     sourceUrl: '',
+    localChargesBreakdown: [],
   };
 }
 
@@ -436,8 +602,8 @@ export function getHolidayBySlug(slug: string): HolidayDetail | undefined {
 
 /** Price range across all listed holidays. */
 export const priceRange = {
-  min: Math.min(...listedHolidays.map(h => h.price)),
-  max: Math.max(...listedHolidays.map(h => h.price)),
+  min: Math.min(...listedHolidays.map(h => h.price + h.localChargesPp)),
+  max: Math.max(...listedHolidays.map(h => h.price + h.localChargesPp)),
 };
 
 /** Unique board basis values for filter sidebar. */

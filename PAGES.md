@@ -32,7 +32,7 @@ Holiday booking website for **Flights and Packages** (formerly "Cities and Beach
 |-------|------|-------------|
 | `/holidays/search` | `src/pages/holidays/search.astro` | Search results with sidebar filters (board basis, price range, airport), sort bar, holiday cards, "Load More Results" button. Dynamic board basis checkboxes from real data. |
 | `/holidays/[country]` | `src/pages/holidays/[country]/index.astro` | Country page with hero banner, search form overlay, intro section, holiday listings filtered by country. |
-| `/holidays/[country]/[slug]` | `src/pages/holidays/[country]/[slug].astro` | Holiday detail with tabbed content (Overview, Itinerary, Accommodation, Gallery, Other Info — conditional), gallery lightbox, sidebar with pricing and CTA, "Can't decide?" CTA section, blog posts section, newsletter subscription. |
+| `/holidays/[country]/[slug]` | `src/pages/holidays/[country]/[slug].astro` | Holiday detail with tabbed content (Overview, Itinerary, Accommodation, Gallery, Other Info — conditional), gallery lightbox, sidebar with pricing and CTA, date-wise pricing calendar (inline section + modal), "Can't decide?" CTA section, blog posts section, newsletter subscription. |
 
 **Pages generated:**
 - 28 country pages (from `holidayCountries` in `holidays.ts`)
@@ -42,6 +42,12 @@ Holiday booking website for **Flights and Packages** (formerly "Cities and Beach
 - **Conditional tabs:** Overview (always), Itinerary (53 holidays), Accommodation (all), Gallery (all), Other Info (67 holidays)
 - **What's Included:** Rendered in Overview tab before Highlights (not a separate tab)
 - **Gallery lightbox:** Custom overlay with prev/next arrows, keyboard navigation (Escape/Arrow keys), counter
+- **Date-wise pricing calendar** (conditional — only shown when `pricing-export.json` has data for the holiday):
+  - **Inline section** (between price bar and tabs): Airport dropdown, 4 cheapest date cards with price tier colours (best/mid/peak), "View All Dates & Prices" button
+  - **Calendar modal:** Single-month grid with prev/next arrow navigation, airport + passenger dropdowns, date cells with prices + tier colours, dark navy summary bar, orange "Request Booking" CTA, focus trapping for accessibility
+  - **Mobile bottom bar:** Fixed bottom bar (below 768px) with price + "Check Price & Book" button, safe-area-inset for iPhone
+  - **Dynamic updates:** Changing airport/date updates hero price, sidebar price, inline cards, calendar, and mobile bar
+  - **Graceful fallback:** Pages without pricing data render exactly as before (static price from holiday data)
 - **Below-tab sections:** Call Expert CTA (background image), Blog Posts grid (4 cards, black bg), Newsletter subscription (ocean background with gradient blend)
 
 ## Blog Pages (Complete — Real Data)
@@ -67,6 +73,8 @@ Holiday booking website for **Flights and Packages** (formerly "Cities and Beach
 | `src/data/holidays.ts` | Transformation layer. Normalises duration, board basis, hotel class, country names. Resolves relative image URLs. Exports: `listedHolidays` (135), `allPublishedHolidays` (139), `holidayCountries` (~28), `getHolidaysByCountry()`, `getHolidayBySlug()`, `priceRange`, `boardBasisOptions`. |
 | `src/data/blog-export.json` | 140 blog posts exported from live site. Fields: id, title, slug, content (HTML), excerpt, metaTitle, metaDescription, featuredImage, author (messy — contains name + date + tags), isPublished, publishedAt. |
 | `src/data/blogs.ts` | Transformation layer. Parses author field to extract name, date, and tags. Exports: `allBlogs` (140), `blogTags`, `getBlogBySlug()`. |
+| `src/data/pricing-export.json` | Date-wise pricing from admin API. Array of `{ holiday_id, departures: [{ date, airport_code, airport_name, price_pp, availability }] }`. Currently mock data for 7 holidays — admin API will export in this exact shape. |
+| `src/data/pricing.ts` | Transformation layer. Interfaces: `Departure`, `Airport`, `HolidayPricing`, `PriceTier`. Calculates tiers (best: ≤5% above cheapest, peak: ≥67% of range, mid: rest). Exports: `getPricingForHoliday(id)`, `getDeparturesForAirport(id, code)`, `hasHolidayPricing(id)`. |
 
 ---
 
@@ -114,6 +122,7 @@ Template page icons added:
 - `plus-icon.svg` / `minus-icon.svg` - Accordion expand/collapse
 - `bulletpoint.svg` - Custom bullet points
 - `expand-icon.svg` - Gallery expand
+- `calendar-arrow.svg` - Calendar month prev/next navigation arrows
 - `compass-black.svg` - Destination meta icon
 - `nights-black.svg` - Duration meta icon
 - `board-basis-black.svg` - Board basis meta icon

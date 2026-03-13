@@ -1,0 +1,207 @@
+<!-- Fetches homepage data from admin API and replaces hero/offers/featured tour -->
+<script>
+  import EmblaCarousel from 'embla-carousel';
+
+  const API_URL = 'https://holiday-admin-api.satwinder-30c.workers.dev/api/public/homepage';
+  const TIMEOUT_MS = 5000;
+
+  interface HeroSlide { image: string; title: string; duration: string; price: string; href: string; tinted: boolean; }
+  interface SpecialOffer { image: string; badge: string; title: string; country: string; duration: string; boardBasis: string; price: string; href: string; }
+  interface FeaturedTour { title: string; description: string; price: string; href: string; images: string[]; }
+  interface HomepageData { heroSlides: HeroSlide[]; specialOffers: SpecialOffer[]; featuredTour: FeaturedTour | null; }
+
+  // Start fetch immediately
+  const dataPromise = fetchHomepageData();
+
+  async function fetchHomepageData(): Promise<HomepageData | null> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    try {
+      const res = await fetch(API_URL, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (!res.ok) return null;
+      const json = await res.json();
+      return json.success ? json.data : null;
+    } catch {
+      clearTimeout(timeoutId);
+      return null;
+    }
+  }
+
+  function replaceHeroSlides(slides: HeroSlide[]) {
+    const container = document.getElementById('hero-container');
+    if (!container) return;
+
+    container.innerHTML = slides.map((slide, i) => `
+      <div class="hero-slide absolute inset-0 bg-cover bg-center transition-opacity duration-700"
+           style="background-image: url('${slide.image}'); opacity: ${i === 0 ? 1 : 0}; z-index: ${i === 0 ? 1 : 0};"
+           data-index="${i}">
+        ${slide.tinted ? '<div class="absolute inset-0 bg-black/10"></div>' : ''}
+        <div class="hero-content absolute text-white">
+          <div class="hero-type font-bold tracking-[5px] text-sm">DISCOVER</div>
+          <h2 class="hero-title font-display leading-none !text-white">${slide.title}</h2>
+          <p class="hero-duration !text-white text-[20px] leading-relaxed">${slide.duration}</p>
+          <div class="hero-price mt-5 h-[76px]">
+            <span class="text-sm font-medium">from</span>
+            <div class="font-display hero-price-num">${slide.price}<span class="font-sans text-sm font-medium">/pp</span></div>
+          </div>
+          <a href="${slide.href}" class="hero-btn inline-flex items-center justify-center bg-primary text-white font-bold uppercase text-sm tracking-wider">view more</a>
+        </div>
+      </div>
+    `).join('');
+
+    // Update counter
+    const indexContainer = document.querySelector('.hero-index');
+    if (indexContainer) indexContainer.innerHTML = `<span id="hero-index">1</span> of ${slides.length}`;
+
+    // Re-init hero carousel
+    const newSlides = document.querySelectorAll<HTMLElement>('.hero-slide');
+    const indexEl = document.getElementById('hero-index');
+    let current = 0;
+    let autoplayTimer: number;
+    const total = newSlides.length;
+
+    function goTo(index: number) {
+      newSlides[current].style.opacity = '0';
+      newSlides[current].style.zIndex = '0';
+      current = ((index % total) + total) % total;
+      newSlides[current].style.opacity = '1';
+      newSlides[current].style.zIndex = '1';
+      if (indexEl) indexEl.textContent = String(current + 1);
+    }
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+    function startAutoplay() { autoplayTimer = window.setInterval(next, 5000); }
+    function resetAutoplay() { clearInterval(autoplayTimer); startAutoplay(); }
+
+    const prevBtn = document.getElementById('hero-prev');
+    const nextBtn = document.getElementById('hero-next');
+    if (prevBtn) {
+      const np = prevBtn.cloneNode(true) as HTMLElement;
+      prevBtn.parentNode!.replaceChild(np, prevBtn);
+      np.addEventListener('click', () => { prev(); resetAutoplay(); });
+    }
+    if (nextBtn) {
+      const nn = nextBtn.cloneNode(true) as HTMLElement;
+      nextBtn.parentNode!.replaceChild(nn, nextBtn);
+      nn.addEventListener('click', () => { next(); resetAutoplay(); });
+    }
+    startAutoplay();
+  }
+
+  function replaceOfferCards(offers: SpecialOffer[]) {
+    const container = document.getElementById('offer-container');
+    if (!container) return;
+
+    container.innerHTML = offers.map(o => `
+      <div class="offer-card flex-shrink-0 relative flex flex-col justify-between">
+        <div>
+          <div class="offer-img bg-cover bg-no-repeat bg-center" style="background-image: url('${o.image}')"></div>
+          <div class="discount absolute top-[15px] left-0 h-[50px] bg-black/80 text-white flex items-center justify-center px-5 rounded-r-3xl">
+            <div class="font-medium text-sm leading-[17px] text-center px-1.5">${o.badge}</div>
+          </div>
+          <div class="offer-title font-bold text-secondary">${o.title}</div>
+          <ul class="pt-2.5">
+            <li class="font-medium text-sm text-[#878787] flex items-center pb-[5px]">
+              <img src="/icons/compass-grey.svg" alt="" class="pr-2 w-[22px]" />${o.country}
+            </li>
+            <li class="font-medium text-sm text-[#878787] flex items-center pb-[5px]">
+              <img src="/icons/nights-grey.svg" alt="" class="pr-2 w-[22px]" />${o.duration}
+            </li>
+            <li class="font-medium text-sm text-[#878787] flex items-center pb-[5px]">
+              <img src="/icons/board-basis-grey.svg" alt="" class="pr-2 w-[22px]" />${o.boardBasis}
+            </li>
+          </ul>
+        </div>
+        <div class="offer-bot-wrap flex justify-between items-end">
+          <div class="pt-1.5">
+            <span class="font-medium text-sm leading-[38px]">from</span>
+            <div class="font-display text-[40px] leading-[38px]">${o.price}<span class="font-medium text-sm">/pp</span></div>
+          </div>
+          <a href="${o.href}" class="offer-btn btn-primary">
+            View More
+            <img src="/icons/more-icon-white.svg" alt="" class="pl-[18px]" />
+          </a>
+        </div>
+      </div>
+    `).join('');
+
+    // Destroy old Embla and create new
+    if ((window as any).__offerEmbla) {
+      (window as any).__offerEmbla.destroy();
+    }
+    const viewport = document.getElementById('offer-viewport');
+    if (viewport) {
+      const embla = EmblaCarousel(viewport, { align: 'start', containScroll: 'trimSnaps', dragFree: true });
+      (window as any).__offerEmbla = embla;
+
+      const prevBtn = document.getElementById('offer-prev');
+      const nextBtn = document.getElementById('offer-next');
+      if (prevBtn) {
+        const np = prevBtn.cloneNode(true) as HTMLElement;
+        prevBtn.parentNode!.replaceChild(np, prevBtn);
+        np.addEventListener('click', () => embla.scrollPrev());
+      }
+      if (nextBtn) {
+        const nn = nextBtn.cloneNode(true) as HTMLElement;
+        nextBtn.parentNode!.replaceChild(nn, nextBtn);
+        nn.addEventListener('click', () => embla.scrollNext());
+      }
+    }
+  }
+
+  function replaceFeaturedTour(tour: FeaturedTour) {
+    const section = document.querySelector('.featured-tour-section');
+    if (!section) return;
+
+    const title = section.querySelector('.featured-content h2');
+    if (title) title.textContent = tour.title;
+
+    const desc = section.querySelector('.featured-content p');
+    if (desc) desc.textContent = tour.description;
+
+    const priceAmount = section.querySelector('.featured-price-amount');
+    if (priceAmount) priceAmount.innerHTML = `${tour.price}<span class="font-medium text-sm">/pp</span>`;
+
+    const learnMoreBtn = section.querySelector('.featured-btn') as HTMLAnchorElement;
+    if (learnMoreBtn) learnMoreBtn.href = tour.href;
+
+    const imageContainer = document.getElementById('featured-container');
+    if (imageContainer && tour.images?.length > 0) {
+      imageContainer.innerHTML = tour.images.map(img =>
+        `<div class="featured-slide flex-shrink-0 bg-cover bg-no-repeat bg-center" style="background-image: url('${img}')"></div>`
+      ).join('');
+
+      if ((window as any).__featuredEmbla) {
+        (window as any).__featuredEmbla.destroy();
+      }
+      const viewport = document.getElementById('featured-viewport');
+      if (viewport) {
+        const embla = EmblaCarousel(viewport, { loop: true });
+        (window as any).__featuredEmbla = embla;
+
+        const prevBtn = document.getElementById('featured-prev');
+        const nextBtn = document.getElementById('featured-next');
+        if (prevBtn) {
+          const np = prevBtn.cloneNode(true) as HTMLElement;
+          prevBtn.parentNode!.replaceChild(np, prevBtn);
+          np.addEventListener('click', () => embla.scrollPrev());
+        }
+        if (nextBtn) {
+          const nn = nextBtn.cloneNode(true) as HTMLElement;
+          nextBtn.parentNode!.replaceChild(nn, nextBtn);
+          nn.addEventListener('click', () => embla.scrollNext());
+        }
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const data = await dataPromise;
+    if (!data) return;
+
+    if (data.heroSlides?.length > 0) replaceHeroSlides(data.heroSlides);
+    if (data.specialOffers?.length > 0) replaceOfferCards(data.specialOffers);
+    if (data.featuredTour) replaceFeaturedTour(data.featuredTour);
+  });
+</script>

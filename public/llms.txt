@@ -1,0 +1,22 @@
+# Flights and Packages — Holiday Website
+
+> Flights and Packages is a UK-based travel agency offering quality holiday packages including flights, accommodation and transfers.
+
+## What We Offer
+- City Breaks across Europe and worldwide
+- Beach Holidays to Mediterranean, Caribbean and Indian Ocean destinations
+- Multi Centre and Twin Centre holiday packages
+- Tailor Made and Private Tour holidays
+- All Inclusive resort holidays
+- River Cruises along European waterways
+
+## Destinations
+We cover 40+ countries across Europe, Asia, the Americas, Africa, the Middle East and the Indian Ocean including Italy, Greece, Spain, Portugal, Turkey, Thailand, Sri Lanka, India, Vietnam, Morocco, Egypt, Maldives, Mauritius, Peru, Argentina, and more.
+
+## Contact
+- Phone: 0208 183 0518
+- Email: info@holidays.flightsandpackages.com
+- Website: https://holidays.flightsandpackages.com
+
+## Protection
+Flights and flight-inclusive holidays are financially protected by the ATOL scheme.

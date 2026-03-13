@@ -1,3 +1,6 @@
+import homepageData from './homepage-export.json';
+import { allPublishedHolidays } from './holidays';
+
 export interface HeroSlide {
   image: string;
   title: string;
@@ -7,7 +10,7 @@ export interface HeroSlide {
   tinted?: boolean;
 }
 
-export const heroSlides: HeroSlide[] = [
+const fallbackSlides: HeroSlide[] = [
   {
     image: 'https://admin.citiesandbeaches.com/PackageImages/WW2Banner/mark-boss-LdjT89jth2A-unsplash.jpg',
     title: 'Florence & Venice twin-centre',
@@ -56,3 +59,23 @@ export const heroSlides: HeroSlide[] = [
     tinted: true,
   },
 ];
+
+function inclusivePrice(href: string, fallbackPrice: string): string {
+  const slug = href.split('/').pop() || '';
+  const holiday = allPublishedHolidays.find((h) => h.slug === slug);
+  if (!holiday) return fallbackPrice;
+  const total = Math.round(holiday.price + holiday.localChargesPp);
+  return `£${total.toLocaleString('en-GB')}`;
+}
+
+function applyInclusivePrices(slides: typeof homepageData.heroSlides): HeroSlide[] {
+  return slides.map((s) => ({
+    ...s,
+    price: inclusivePrice(s.href, s.price),
+  }));
+}
+
+export const heroSlides: HeroSlide[] =
+  homepageData.heroSlides.length > 0
+    ? applyInclusivePrices(homepageData.heroSlides)
+    : fallbackSlides;

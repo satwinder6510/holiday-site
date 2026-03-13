@@ -4,11 +4,12 @@ import Header from '../../components/Header.astro';
 import MobileNav from '../../components/MobileNav.astro';
 import PageHero from '../../components/PageHero.astro';
 import Footer from '../../components/Footer.astro';
+import Newsletter from '../../components/Newsletter.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
 import { listedHolidays, boardBasisOptions, priceRange } from '../../data/holidays';
 ---
 
-<BaseLayout title="Search Results | Holidays - Flights and Packages" description="Browse our latest holiday deals. Find flights and packages to top destinations worldwide.">
+<BaseLayout title="Search Results | Holidays - Flights and Packages" description="Browse our latest holiday deals. Find flights and packages to top destinations worldwide." noindex={true}>
   <Header />
   <MobileNav />
   <PageHero
@@ -128,7 +129,7 @@ import { listedHolidays, boardBasisOptions, priceRange } from '../../data/holida
         {listedHolidays.map((holiday) => (
           <div class="holiday">
             <span class="holiday-img" style={`background-image: url('${holiday.image}')`}></span>
-            <a class="gallery-link" href={`/holidays/${holiday.countrySlug}/${holiday.slug}`}>
+            <a class="gallery-link" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
               <span class="icon-camera"></span>
               Gallery
             </a>
@@ -145,9 +146,9 @@ import { listedHolidays, boardBasisOptions, priceRange } from '../../data/holida
               <div class="horizontal">
                 <div class="price">
                   <span>from</span>
-                  <div>&pound;{holiday.price}<span>/pp</span></div>
+                  <div>&pound;{Math.round(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
                 </div>
-                <a class="btn-primary view-more-btn" href={`/holidays/${holiday.countrySlug}/${holiday.slug}`}>
+                <a class="btn-primary view-more-btn" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
                   View More
                   <img src="/icons/more-icon-white.svg" alt="" class="icon-more" />
                 </a>
@@ -164,6 +165,7 @@ import { listedHolidays, boardBasisOptions, priceRange } from '../../data/holida
     <div style="clear:both"></div>
   </section>
 
+  <Newsletter />
   <Footer />
   <MobileCallCTA />
 </BaseLayout>

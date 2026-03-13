@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import MobileNav from '../../components/MobileNav.astro';
 import PageHero from '../../components/PageHero.astro';
 import Footer from '../../components/Footer.astro';
+import Newsletter from '../../components/Newsletter.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
 import { allBlogs, blogTags } from '../../data/blogs';
 ---
@@ -54,6 +55,7 @@ import { allBlogs, blogTags } from '../../data/blogs';
     </section>
   </section>
 
+  <Newsletter />
   <Footer />
   <MobileCallCTA />
 </BaseLayout>

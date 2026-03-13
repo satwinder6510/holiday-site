@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /Holidays/search
+
+Sitemap: https://holidays.flightsandpackages.com/sitemap-index.xml

@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import MobileNav from '../../components/MobileNav.astro';
 import Footer from '../../components/Footer.astro';
+import Newsletter from '../../components/Newsletter.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
 import { destinations } from '../../data/destinations';
 import { countries } from '../../data/countries';
@@ -79,6 +80,7 @@ const bannerImage = `https://admin.citiesandbeaches.com/images/destinations/${de
     </div>
   </section>
 
+  <Newsletter />
   <Footer />
   <MobileCallCTA />
 </BaseLayout>

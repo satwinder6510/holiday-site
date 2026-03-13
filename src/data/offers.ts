@@ -1,3 +1,6 @@
+import homepageData from './homepage-export.json';
+import { allPublishedHolidays } from './holidays';
+
 export interface Offer {
   image: string;
   badge: string;
@@ -9,7 +12,7 @@ export interface Offer {
   href: string;
 }
 
-export const offers: Offer[] = [
+const fallbackOffers: Offer[] = [
   {
     image: 'https://admin.citiesandbeaches.com/PackageImages/SliderImage/5445/florence.jpg',
     badge: 'Breakfast & Train Transfer',
@@ -91,3 +94,30 @@ export const offers: Offer[] = [
     href: '/Holidays/Italy/Geneva-and-Lake-Maggiore-Twin-Centre-via-the-Alps',
   },
 ];
+
+/** Extract slug from href like "/Holidays/italy/some-slug" */
+function slugFromHref(href: string): string {
+  const parts = href.split('/');
+  return parts[parts.length - 1] || '';
+}
+
+/** Format inclusive price for a holiday (base + city tax) */
+function inclusivePrice(slug: string, fallbackPrice: string): string {
+  const holiday = allPublishedHolidays.find((h) => h.slug === slug);
+  if (!holiday) return fallbackPrice;
+  const total = Math.round(holiday.price + holiday.localChargesPp);
+  return `£${total.toLocaleString('en-GB')}`;
+}
+
+/** Apply inclusive pricing to offers from homepage export */
+function applyInclusivePrices(rawOffers: typeof homepageData.specialOffers): Offer[] {
+  return rawOffers.map((o) => ({
+    ...o,
+    price: inclusivePrice(slugFromHref(o.href), o.price),
+  }));
+}
+
+export const offers: Offer[] =
+  homepageData.specialOffers.length > 0
+    ? applyInclusivePrices(homepageData.specialOffers)
+    : fallbackOffers;

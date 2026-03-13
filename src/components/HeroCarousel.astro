@@ -1,8 +1,18 @@
 ---
-import { heroSlides } from '../data/heroSlides';
+import { heroSlides as fallbackSlides } from '../data/heroSlides';
+import type { HeroSlide } from '../lib/api';
+
+interface Props {
+  slides?: HeroSlide[];
+}
+
+const heroSlides = Astro.props.slides?.length ? Astro.props.slides : fallbackSlides;
 ---
 
 <div class="hero relative w-full overflow-hidden">
+  <!-- Hex pattern overlay -->
+  <div class="hex-overlay"></div>
+
   <!-- Slides container -->
   <div id="hero-viewport" class="h-full">
     <div id="hero-container" class="h-full relative">
@@ -104,6 +114,23 @@ import { heroSlides } from '../data/heroSlides';
 </script>
 
 <style>
+  .hex-overlay {
+    position: absolute;
+    top: -14%;
+    left: 0;
+    width: 38%;
+    height: 114%;
+    background-image: url('/images/hex-pattern.svg');
+    background-size: 100% 100%;
+    background-position: right top;
+    background-repeat: no-repeat;
+    z-index: 2;
+    pointer-events: none;
+  }
+  @media (max-width: 939px) {
+    .hex-overlay { display: none; }
+  }
+
   .hero {
     height: 484px;
     margin-top: 9px;
@@ -118,66 +145,55 @@ import { heroSlides } from '../data/heroSlides';
     .hero { height: 856px; }
   }
 
-  /* Hero content — positioned on the right
-     Original desktop-first values converted to mobile-first:
-     <=350: ml 20px       => base
-     351-450: ml 40px     => min-width: 351px
-     451-610: ml 60px     => min-width: 451px
-     611-768: ml 120px    => min-width: 611px
-     769-940: ml 220px    => min-width: 769px
-     941-1100: ml 530px   => min-width: 941px (top changes to 240px)
-     1101-1260: ml 700px  => min-width: 1101px
-     1261-1600: ml 800px  => min-width: 1261px
-     1601+: ml 960px      => min-width: 1601px
-  */
-  .hero-content {
+  /* Hero content — positioned on the right (`:global()` for JS-replaced elements) */
+  :global(.hero-content) {
     top: 80px;
     margin-left: 20px;
   }
-  @media (min-width: 351px) { .hero-content { margin-left: 40px; max-width: 365px; } }
-  @media (min-width: 451px) { .hero-content { margin-left: 60px; max-width: 500px; } }
-  @media (min-width: 611px) { .hero-content { margin-left: 120px; max-width: 580px; } }
-  @media (min-width: 769px) { .hero-content { margin-left: 220px; max-width: 730px; } }
-  @media (min-width: 941px) { .hero-content { margin-left: 530px; top: 240px; max-width: none; } }
-  @media (min-width: 1101px) { .hero-content { margin-left: 700px; } }
-  @media (min-width: 1261px) { .hero-content { margin-left: 800px; } }
-  @media (min-width: 1601px) { .hero-content { margin-left: 960px; } }
+  @media (min-width: 351px) { :global(.hero-content) { margin-left: 40px; max-width: 365px; } }
+  @media (min-width: 451px) { :global(.hero-content) { margin-left: 60px; max-width: 500px; } }
+  @media (min-width: 611px) { :global(.hero-content) { margin-left: 120px; max-width: 580px; } }
+  @media (min-width: 769px) { :global(.hero-content) { margin-left: 220px; max-width: 730px; } }
+  @media (min-width: 941px) { :global(.hero-content) { margin-left: 530px; top: 240px; max-width: none; } }
+  @media (min-width: 1101px) { :global(.hero-content) { margin-left: 700px; } }
+  @media (min-width: 1261px) { :global(.hero-content) { margin-left: 800px; } }
+  @media (min-width: 1601px) { :global(.hero-content) { margin-left: 960px; } }
 
-  .hero-title {
+  :global(.hero-title) {
     font-size: 36px;
     line-height: 36px;
     width: 361px;
   }
-  @media (min-width: 394px) { .hero-title { font-size: 40px; line-height: 40px; } }
-  @media (min-width: 450px) { .hero-title { font-size: 44px; } }
-  @media (min-width: 530px) { .hero-title { font-size: 48px; line-height: 48px; } }
-  @media (min-width: 610px) { .hero-title { font-size: 52px; } }
-  @media (min-width: 760px) { .hero-title { font-size: 56px; line-height: 56px; } }
-  @media (min-width: 940px) { .hero-title { font-size: 60px; line-height: 60px; } }
-  @media (min-width: 1100px) { .hero-title { font-size: 64px; line-height: 60px; } }
+  @media (min-width: 394px) { :global(.hero-title) { font-size: 40px; line-height: 40px; } }
+  @media (min-width: 450px) { :global(.hero-title) { font-size: 44px; } }
+  @media (min-width: 530px) { :global(.hero-title) { font-size: 48px; line-height: 48px; } }
+  @media (min-width: 610px) { :global(.hero-title) { font-size: 52px; } }
+  @media (min-width: 760px) { :global(.hero-title) { font-size: 56px; line-height: 56px; } }
+  @media (min-width: 940px) { :global(.hero-title) { font-size: 60px; line-height: 60px; } }
+  @media (min-width: 1100px) { :global(.hero-title) { font-size: 64px; line-height: 60px; } }
 
-  .hero-type {
+  :global(.hero-type) {
     font-size: 14px;
     letter-spacing: 5px;
   }
-  @media (max-width: 760px) { .hero-type { font-size: 12px; } }
-  @media (max-width: 450px) { .hero-type { font-size: 10px; } }
+  @media (max-width: 760px) { :global(.hero-type) { font-size: 12px; } }
+  @media (max-width: 450px) { :global(.hero-type) { font-size: 10px; } }
 
-  .hero-duration {
+  :global(.hero-duration) {
     font-size: 20px;
     line-height: 27px;
   }
-  @media (max-width: 760px) { .hero-duration { font-size: 16px; } }
-  @media (max-width: 450px) { .hero-duration { font-size: 14px; } }
+  @media (max-width: 760px) { :global(.hero-duration) { font-size: 16px; } }
+  @media (max-width: 450px) { :global(.hero-duration) { font-size: 14px; } }
 
-  .hero-price-num {
+  :global(.hero-price-num) {
     font-size: 40px;
     color: #fff;
   }
-  @media (max-width: 760px) { .hero-price-num { font-size: 34px; } }
-  @media (max-width: 450px) { .hero-price-num { font-size: 28px; } }
+  @media (max-width: 760px) { :global(.hero-price-num) { font-size: 34px; } }
+  @media (max-width: 450px) { :global(.hero-price-num) { font-size: 28px; } }
 
-  .hero-btn {
+  :global(.hero-btn) {
     width: 187px;
     height: 64px;
   }

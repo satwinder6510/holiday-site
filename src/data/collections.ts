@@ -5,7 +5,7 @@ export interface Collection {
 }
 
 export const collections: Collection[] = [
-  { name: '2022 Holidays', image: 'https://admin.citiesandbeaches.com/images/collections/2022 Holidays_icon.jpg', href: '/Holidays/2022-Holidays' },
+  { name: '2027 Holidays', image: 'https://admin.citiesandbeaches.com/images/collections/2022 Holidays_icon.jpg', href: '/Holidays/2027-Holidays' },
   { name: 'Italian Lakes', image: 'https://admin.citiesandbeaches.com/images/collections/Italian Lakes_icon.jpg', href: '/Holidays/Italian-Lakes' },
   { name: 'New & Exclusive Offers', image: 'https://admin.citiesandbeaches.com/images/collections/New and Exclusive Offers_icon.jpg', href: '/Holidays/New-&-Exclusive-Offers' },
   { name: 'City Breaks', image: 'https://admin.citiesandbeaches.com/images/collections/City Breaks_icon.jpg', href: '/Holidays/City-Break' },

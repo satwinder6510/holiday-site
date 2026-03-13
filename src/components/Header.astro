@@ -12,7 +12,7 @@ import { mainMenuItems, destinationRegions, collectionMenuItems } from '../data/
       {mainMenuItems.map((item) => (
         <li class="relative group">
           <a
-            class="menu-link text-white flex items-center gap-1"
+            class="menu-link flex items-center gap-1"
             href={item.href}
             target={item.external ? '_blank' : undefined}
             rel={item.external ? 'noopener noreferrer' : undefined}
@@ -69,7 +69,7 @@ import { mainMenuItems, destinationRegions, collectionMenuItems } from '../data/
         </li>
       ))}
     </ul>
-    <div class="contacts text-center text-white">
+    <div class="contacts text-center">
       <a href="tel:02081830518" class="phone-number block tracking-[2px]">0208 183 0518</a>
       <span class="phone-sub font-medium">We're open until 9pm</span>
     </div>
@@ -78,20 +78,20 @@ import { mainMenuItems, destinationRegions, collectionMenuItems } from '../data/
   <!-- Mobile Nav Bar -->
   <nav class="mobile-nav-bar flex md2:hidden items-center justify-between">
     <a class="mobile-contacts" href="tel:02081830518">
-      <img src="/icons/mobile-phone-icon.svg" alt="Call us" class="w-[15px] h-5 brightness-0 invert" />
+      <img src="/icons/mobile-phone-icon.svg" alt="Call us" class="w-[15px] h-5" />
     </a>
     <a class="logo" href="/" title="Flights and Packages">
-      <img src="/icons/flights-and-packages-logo.png" alt="Flights and Packages" class="h-[25px] w-auto brightness-0 invert" />
+      <img src="/icons/flights-and-packages-logo.png" alt="Flights and Packages" class="h-[25px] w-auto" />
     </a>
     <button type="button" id="mobile-menu-open" aria-label="Open menu">
-      <img src="/icons/mobile-menu-icon.svg" alt="" class="w-5 h-5 brightness-0 invert" />
+      <img src="/icons/mobile-menu-icon.svg" alt="" class="w-5 h-5" />
     </button>
   </nav>
 </header>
 
 <style>
   .header-bar {
-    background-color: #073140;
+    background-color: #ffffff;
     box-shadow: 0px 6px 12px 2px rgba(0, 0, 0, 0.1);
     height: 101px;
   }
@@ -125,6 +125,10 @@ import { mainMenuItems, destinationRegions, collectionMenuItems } from '../data/
     line-height: 24px;
     font-weight: 400;
     padding: 0 10px;
+    color: #424242;
+  }
+  .menu-link:hover {
+    color: #20A1AA;
   }
   @media (max-width: 1260px) { .menu-link { font-size: 14px; line-height: 16px; } }
   @media (max-width: 940px) { .menu-link { font-size: 12px; } }
@@ -140,12 +144,14 @@ import { mainMenuItems, destinationRegions, collectionMenuItems } from '../data/
     font-size: 29px;
     line-height: 27px;
     font-weight: 900;
+    color: #424242;
   }
   @media (max-width: 1260px) { .phone-number { font-size: 18px; } }
   @media (max-width: 940px) { .phone-number { font-size: 16px; letter-spacing: 1.5px; } }
 
   .phone-sub {
     font-size: 14px;
+    color: #878787;
   }
   @media (max-width: 1260px) { .phone-sub { font-size: 12px; } }
 

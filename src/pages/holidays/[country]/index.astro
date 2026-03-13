@@ -4,7 +4,9 @@ import Header from '../../../components/Header.astro';
 import MobileNav from '../../../components/MobileNav.astro';
 import PageHero from '../../../components/PageHero.astro';
 import Footer from '../../../components/Footer.astro';
+import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
+import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import { holidayCountries, getHolidaysByCountry, boardBasisOptions, priceRange } from '../../../data/holidays';
 
 export function getStaticPaths() {
@@ -15,12 +17,17 @@ export function getStaticPaths() {
 }
 
 const { countryName } = Astro.props;
-const countrySlug = countryName.replace(/\s+/g, '-');
+const countrySlug = countryName.replace(/\s+/g, '-').toLowerCase();
 const holidays = getHolidaysByCountry(countryName);
 const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroes/country.jpg';
 ---
 
-<BaseLayout title={`${countryName} Holidays | Flights and Packages`} description={`Browse our latest ${countryName} holiday deals. Find flights and packages to ${countryName}.`}>
+<BaseLayout title={`${countryName} Holidays | Flights and Packages`} description={`Browse our latest ${countryName} holiday deals. Find flights and packages to ${countryName}.`} image={bannerImage}>
+  <BreadcrumbSchema slot="head" items={[
+    { name: 'Home', url: '/' },
+    { name: 'Destinations', url: '/destinations' },
+    { name: countryName },
+  ]} />
   <Header />
   <MobileNav />
 
@@ -29,7 +36,7 @@ const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroe
     <div class="breadcrumbs">
       <a href="/">Home</a>
       <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
-      <a href="/holidays/destinations">Destinations</a>
+      <a href="/Holidays/destinations">Destinations</a>
       <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
       <span>{countryName}</span>
     </div>
@@ -98,7 +105,7 @@ const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroe
       </form>
     </div>
     <!-- Floating mobile search button -->
-    <a href="/holidays/search" class="btn-primary search-btn">
+    <a href="/Holidays/search" class="btn-primary search-btn">
       <span class="icon-search"></span>
       Search
     </a>
@@ -236,7 +243,7 @@ const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroe
         {holidays.map((holiday) => (
           <div class="holiday">
             <span class="holiday-img" style={`background-image: url('${holiday.image}')`}></span>
-            <a class="gallery-link" href={`/holidays/${holiday.countrySlug}/${holiday.slug}`}>
+            <a class="gallery-link" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
               <span class="icon-camera"></span>
               Gallery
             </a>
@@ -253,9 +260,9 @@ const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroe
               <div class="horizontal">
                 <div class="price">
                   <span>from</span>
-                  <div>&pound;{holiday.price}<span>/pp</span></div>
+                  <div>&pound;{Math.round(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
                 </div>
-                <a class="btn-primary view-more-btn" href={`/holidays/${holiday.countrySlug}/${holiday.slug}`}>
+                <a class="btn-primary view-more-btn" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
                   View More
                   <img src="/icons/more-icon-white.svg" alt="" class="icon-more" />
                 </a>
@@ -272,6 +279,7 @@ const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroe
     <div style="clear:both"></div>
   </section>
 
+  <Newsletter />
   <Footer />
   <MobileCallCTA />
 </BaseLayout>
