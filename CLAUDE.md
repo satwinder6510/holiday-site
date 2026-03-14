@@ -2,11 +2,13 @@
 
 ## Project
 
-Astro 5 static site (SSG) for a holiday booking website. Tailwind CSS v3 for utility classes, scoped `<style>` blocks for complex page-specific CSS. No React — pure Astro components with vanilla JS in `<script>` tags.
+Astro 5 hybrid site (SSG + SSR) for a holiday booking website. Holiday pages are SSR (live data from Neon Postgres via Hyperdrive). Blog, destination, and static pages remain SSG. Tailwind CSS v3 for utility classes, scoped `<style>` blocks for complex page-specific CSS. No React — pure Astro components with vanilla JS in `<script>` tags.
 
 ## Tech Stack
 
-- **Framework:** Astro 5.18 (`output: "static"`, `site: 'https://holidays.flightsandpackages.com'`)
+- **Framework:** Astro 5.18 (`output: "hybrid"`, `site: 'https://holidays.flightsandpackages.com'`)
+- **Database:** Neon Postgres via Cloudflare Hyperdrive (ID: `c69bec26333a4d76865bf2fe22445eca`)
+- **ORM:** Drizzle ORM with node-postgres driver
 - **Styling:** Tailwind CSS 3 + scoped CSS in `<style>` blocks
 - **Carousel:** Embla Carousel 8 (with fade plugin)
 - **SEO:** `@astrojs/sitemap` integration (auto-generates sitemap-index.xml)
@@ -28,19 +30,27 @@ Astro 5 static site (SSG) for a holiday booking website. Tailwind CSS v3 for uti
 ```
 src/
   components/    # Astro components (Header, Footer, PageHero, carousels, cards, BreadcrumbSchema)
-  data/          # Data layer: JSON exports + TypeScript transformation modules
-    holidays.ts  # Transforms holiday-export.json + cruise-export.json → typed Holiday/HolidayDetail arrays
+  data/          # Data layer: JSON exports + TypeScript transformation modules (used by SSG pages)
+    holidays.ts  # Re-exports from lib/holiday-transforms, used by SSG pages
     blogs.ts     # Transforms blog-export.json → typed Blog arrays
-    pricing.ts   # Transforms pricing-export.json → typed HolidayPricing with tier calculation
-    holiday-export.json  # 139 holidays from live site
-    cruise-export.json   # 160 river cruise offers (A-Rosa + CroisiEurope) from admin API
-    blog-export.json     # 140 blog posts from live site
-    pricing-export.json  # Date-wise pricing data (date × airport × price pp) from admin API
+    pricing.ts   # Re-exports from lib/pricing-transforms, used by SSG pages
+    collections-static.ts  # Static collection definitions (no data imports)
+    holiday-export.json    # 139 holidays from live site (SSG fallback)
+    cruise-export.json     # 160 river cruise offers (used by SSR pages directly)
+    blog-export.json       # 140 blog posts from live site
+    pricing-export.json    # Date-wise pricing data (SSG fallback)
+  lib/           # Shared libraries for SSR + SSG
+    holiday-transforms.ts  # Pure transform functions: transformHoliday, transformCruise, slugify, etc.
+    pricing-transforms.ts  # Pure pricing transforms: transformHolidayPricing, formatPrice, etc.
+    db.ts                  # pg Pool factory from Hyperdrive connection string
+    db-schema.ts           # Drizzle schema for flight_packages + package_pricing
+    get-db.ts              # getDb(Astro) helper — extracts DB from Astro.locals.runtime.env.HYPERDRIVE
+    holidays-db.ts         # SSR query functions: getHolidayBySlugFromDb, getAllListedHolidaysFromDb, etc.
   layouts/       # BaseLayout.astro (html wrapper, head, SEO meta, font imports)
   pages/         # Astro pages — file-based routing
-    Holidays/    # Search, country, and holiday detail pages (capital H for URL routing)
-    blog/        # Blog listing and post pages
-    destinations/# Region pages
+    Holidays/    # SSR: search, country/collection, holiday detail, river-cruises (capital H)
+    blog/        # SSG: Blog listing and post pages
+    destinations/# SSG: Region pages
 public/
   fonts/         # BentonSans + CaslonGraphiqueEF font files
   icons/         # SVG icons
@@ -53,10 +63,12 @@ public/
 
 - **Layout:** All pages use `BaseLayout.astro` which includes Header, Footer, MobileNav, MobileCallCTA
 - **Hero:** Use `PageHero.astro` for standard heroes. Holiday detail and country pages have custom inline heroes.
-- **Dynamic routes:** `getStaticPaths()` generates pages from data transformation modules (`holidays.ts`, `blogs.ts`)
-- **Data layer:** JSON exports are transformed via TypeScript modules in `src/data/`. Each module normalises raw data (image URLs, formatting inconsistencies, author parsing) and exports typed arrays + helper functions. Do not modify the exported interfaces without updating the pages that consume them.
-- **Pricing data layer:** `pricing.ts` imports `pricing-export.json` (admin API data contract), calculates price tiers (best/mid/peak), and exports `getPricingForHoliday(id)`, `getDeparturesForAirport(id, code)`, `hasHolidayPricing(id)`. Holidays without pricing data gracefully fall back to their static price.
-- **Holiday images:** All relative paths in holiday-export.json need `https://holidays.flightsandpackages.com` base URL prepended (handled by `resolveImageUrl()` in holidays.ts)
+- **SSR pages (live data):** Holiday detail `[slug].astro`, country/collection `[country]/index.astro`, search, river-cruises — use `export const prerender = false` and query Neon DB via `getDb(Astro)` + functions from `holidays-db.ts`. New offers/prices appear within ~60s (Hyperdrive caching).
+- **SSG pages (build-time):** Blog, destinations, collections listing, about, contact, T&Cs — use `getStaticPaths()` and data from JSON exports in `src/data/`.
+- **Country/Collection merged route:** `[country]/index.astro` handles both country pages (`/Holidays/italy/`) and collection pages (`/Holidays/Beach`). It checks `allCollections` first, falls back to country lookup.
+- **Data layer:** Pure transform functions live in `src/lib/holiday-transforms.ts` and `src/lib/pricing-transforms.ts`, shared by both SSR (DB rows → RawHoliday → HolidayDetail) and SSG (JSON → same pipeline).
+- **Pricing data layer:** SSR pages get pricing from `package_pricing` table. SSG pages use `pricing-export.json` as fallback. Both use `transformHolidayPricing()` from `pricing-transforms.ts`.
+- **Holiday images:** All relative paths need `https://holidays.flightsandpackages.com` base URL prepended (handled by `resolveImageUrl()` in holiday-transforms.ts)
 - **Blog images:** Already absolute URLs from `admin.citiesandbeaches.com`
 - **Pricing calendar:** Holiday detail pages with pricing data show an inline airport/date picker section, a single-month calendar modal with prev/next navigation, and a mobile bottom bar. Pricing data is embedded via `<script type="application/json">` and driven by vanilla JS. Uses `:global()` CSS selectors for JS-rendered elements (Astro scoped CSS workaround).
 - **Responsive:** Desktop-first with breakpoints at 1360, 1260, 1100, 940, 768, 610, 450px
@@ -93,6 +105,14 @@ River cruise offers are **mixed in with regular holidays** — no separate `/cru
 - Vanilla `<script>` tags for interactivity (accordions, tabs, carousels, filter toggles) — no framework JS
 - SVG icons stored in `public/icons/` and referenced via `<img src="/icons/name.svg">`
 - Image paths use absolute URLs from the original site's CDN where available, local paths in `public/images/` otherwise
+- **R2-served images:** `/objects/images/...` and `/api/media/...` paths are served from Cloudflare R2 bucket `holidays-images` via SSR API routes. ~10,148 images migrated from Replit (2026-03-14).
+
+## Analytics & Tracking (in BaseLayout.astro `<head>`)
+- **Facebook Pixel:** ID `2922972984621050` — PageView on every page
+- **PostHog:** Project `phc_CncpMTolnthosh7c98z3b7iqSHbhB1vokNzW2WgrC2R`, EU host (`eu.i.posthog.com`)
+- **Traffic source tracking:** vanilla JS, stores `lead_source` + `landing_page` in sessionStorage
+- **HappyFox Live Chat:** 9am–6pm UTC only, embed token `0799b060-00fb-11f1-a7bb-77728896a359`
+- **Cookie banner:** UK PECR/GDPR compliant, sets `cookie_consent=1` cookie for 1 year
 
 ## Reference
 
@@ -103,6 +123,7 @@ River cruise offers are **mixed in with regular holidays** — no separate `/cru
 ## Do Not
 
 - Do not add React, Vue, or other UI framework components
-- Do not change `output` from `"static"` — the site is fully static
+- Do not change `output` from `"hybrid"` — holiday pages are SSR, blog/static pages are SSG
 - Do not modify font files or font-face declarations
 - Do not delete the `backup/` or `assets/` directories — they are the original reference
+- Do not create a `[collection].astro` separate from `[country]/index.astro` — they share the same URL pattern and are merged into one handler

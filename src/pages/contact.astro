@@ -6,9 +6,14 @@ import PageHero from '../components/PageHero.astro';
 import Footer from '../components/Footer.astro';
 import Newsletter from '../components/Newsletter.astro';
 import MobileCallCTA from '../components/MobileCallCTA.astro';
+import BreadcrumbSchema from '../components/BreadcrumbSchema.astro';
 ---
 
-<BaseLayout title="Contact Us | Holidays - Flights and Packages">
+<BaseLayout title="Contact Us | Holidays - Flights and Packages" description="Get in touch with Flights and Packages. Call 0208 183 0518 or fill out our enquiry form. Airport House, Purley Way, Croydon, CR0 0XZ. We're open until 9pm.">
+  <BreadcrumbSchema slot="head" items={[
+    { name: 'Home', url: '/' },
+    { name: 'Contact Us' },
+  ]} />
   <Header />
   <MobileNav />
   <PageHero
@@ -42,30 +47,30 @@ import MobileCallCTA from '../components/MobileCallCTA.astro';
         <div class="field-wrap">
           <div class="form-block half">
             <label>First Name<span class="label-hint"> (Required)</span></label>
-            <input class="input" placeholder="First name" required />
+            <input class="input" name="first_name" placeholder="First name" required />
           </div>
           <div class="form-block half">
             <label>Last Name<span class="label-hint"> (Required)</span></label>
-            <input class="input" placeholder="Last name" required />
+            <input class="input" name="last_name" placeholder="Last name" required />
           </div>
         </div>
         <div class="form-block">
           <label>Email<span class="label-hint"> (Required)</span></label>
-          <input class="input" type="email" placeholder="Email" required />
+          <input class="input" name="email" type="email" placeholder="Email" required />
         </div>
         <div class="field-wrap">
           <div class="form-block half">
             <label>Phone number<span class="label-hint"> (Required)</span></label>
-            <input class="input" type="tel" placeholder="Phone number" required />
+            <input class="input" name="phone" type="tel" placeholder="Phone number" required />
           </div>
           <div class="form-block half">
             <label>Booking reference<span class="label-hint"> (Optional)</span></label>
-            <input class="input" placeholder="Booking reference" />
+            <input class="input" name="booking_ref" placeholder="Booking reference" />
           </div>
         </div>
         <div class="form-block">
           <label>Reason for contact</label>
-          <select class="input">
+          <select class="input" name="reason">
             <option value="" disabled selected hidden>Please select one...</option>
             <option value="I need more info on a holiday">I need more info on a holiday</option>
             <option value="I want to make a new reservation">I want to make a new reservation</option>
@@ -76,7 +81,7 @@ import MobileCallCTA from '../components/MobileCallCTA.astro';
         </div>
         <div class="form-block">
           <label>Please enter the details of your query below<span class="label-hint"> (Required)</span></label>
-          <textarea class="input textarea" placeholder="Please enter your query here..." required></textarea>
+          <textarea class="input textarea" name="message" placeholder="Please enter your query here..." required></textarea>
         </div>
         <div class="form-actions">
           <a href="#" class="form-reset" id="reset-form">Reset all fields</a>
@@ -247,8 +252,45 @@ import MobileCallCTA from '../components/MobileCallCTA.astro';
     (document.getElementById('contact-form') as HTMLFormElement)?.reset();
   });
 
-  document.getElementById('contact-form')?.addEventListener('submit', (e) => {
+  document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    alert('Thank you for your enquiry. We will respond to you shortly.');
+    const form = e.target as HTMLFormElement;
+    const btn = form.querySelector('.submit') as HTMLButtonElement;
+    const data = new FormData(form);
+
+    const payload: Record<string, string> = {};
+    data.forEach((val, key) => { payload[key] = val as string; });
+    payload.form_type = 'Contact Form';
+    payload.source = sessionStorage.getItem('lead_source') || 'Direct';
+    payload.landing_page = sessionStorage.getItem('landing_page') || '';
+    payload.page_url = window.location.pathname;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        form.reset();
+        btn.textContent = 'Sent!';
+        setTimeout(() => {
+          btn.textContent = 'Submit';
+          btn.disabled = false;
+        }, 3000);
+      } else {
+        btn.textContent = 'Submit';
+        btn.disabled = false;
+        alert('Sorry, there was a problem submitting your enquiry. Please call us on 0208 183 0518.');
+      }
+    } catch {
+      btn.textContent = 'Submit';
+      btn.disabled = false;
+      alert('Sorry, there was a problem submitting your enquiry. Please call us on 0208 183 0518.');
+    }
   });
 </script>

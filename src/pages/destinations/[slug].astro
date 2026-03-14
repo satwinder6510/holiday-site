@@ -5,6 +5,7 @@ import MobileNav from '../../components/MobileNav.astro';
 import Footer from '../../components/Footer.astro';
 import Newsletter from '../../components/Newsletter.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
+import BreadcrumbSchema from '../../components/BreadcrumbSchema.astro';
 import { destinations } from '../../data/destinations';
 import { countries } from '../../data/countries';
 
@@ -19,64 +20,98 @@ export function getStaticPaths() {
 }
 
 const { destination } = Astro.props;
-const slug = destination.name.replace(/\s+/g, '-');
 const regionCountries = countries.filter((c) => c.region === destination.name);
 
-// Title format from original
 let titleText = destination.name + ' Holidays';
 if (destination.name === 'Africa') titleText = 'Holidays in Africa';
 else if (destination.name === 'Asia') titleText = 'Holidays to Asia';
 
 const bannerImage = `https://admin.citiesandbeaches.com/images/destinations/${destination.name}_banner.jpg`;
+
+const introTexts: Record<string, { short: string; long: string }> = {
+  'Europe': {
+    short: 'From the sun-drenched coastlines of the Mediterranean to the fairy-tale cities of Central Europe, our European holiday packages combine flights, hotels and unforgettable experiences into one seamless trip.',
+    long: 'Whether you are exploring the canals of Venice, soaking up the Greek islands, cruising the Rhine or sampling tapas in Barcelona, Europe offers something for every kind of traveller. Browse our destinations below to find your next adventure.',
+  },
+  'Asia': {
+    short: 'Discover the ancient temples, pristine beaches and vibrant cultures of Asia with our expertly curated fly-and-stay packages from UK airports.',
+    long: 'From the backwaters of Kerala to the beaches of Bali, the street food of Bangkok to the serenity of Sri Lanka, Asia is a continent of contrasts that rewards every kind of traveller. Explore our destinations below.',
+  },
+  'Americas': {
+    short: 'From the Andes to the Amazon, the Americas offer extraordinary landscapes, rich cultures and once-in-a-lifetime experiences — all with flights included.',
+    long: 'Whether you dream of trekking Machu Picchu, exploring Costa Rica\'s rainforests, or road-tripping through the USA, our packages take the hassle out of long-haul travel. Browse our destinations below.',
+  },
+  'Africa': {
+    short: 'Experience the magic of Africa — from wildlife safaris to vibrant cities and stunning Indian Ocean coastlines, all with flights and accommodation included.',
+    long: 'Africa offers some of the most extraordinary travel experiences on earth. Whether it\'s the Big Five in Kenya, the souks of Marrakech, or the winelands of South Africa, we\'ll help you find the perfect trip.',
+  },
+  'Middle East': {
+    short: 'Explore the Middle East — a region where ancient heritage meets ultra-modern luxury, with year-round sunshine and world-class hospitality.',
+    long: 'From the futuristic skyline of Dubai to the ancient wonders of Egypt, the Middle East offers a fascinating blend of old and new. Our packages include flights and carefully selected hotels.',
+  },
+  'Indian Ocean': {
+    short: 'Escape to the Indian Ocean — turquoise lagoons, powder-white beaches and luxury resorts that define the ultimate tropical getaway.',
+    long: 'The Maldives and Mauritius offer two of the world\'s most coveted beach destinations. Whether you\'re looking for an overwater villa, a romantic honeymoon, or a family-friendly resort, our fly-and-stay packages make paradise easy to reach.',
+  },
+};
+
+const intro = introTexts[destination.name] || { short: `Explore our ${destination.name} holiday destinations.`, long: '' };
 ---
 
-<BaseLayout title={`${titleText} | Flights and Packages`}>
+<BaseLayout title={`${titleText} | Flights and Packages`} description={intro.short} image={bannerImage}>
+  <BreadcrumbSchema slot="head" items={[
+    { name: 'Home', url: '/' },
+    { name: 'Destinations' },
+    { name: destination.name },
+  ]} />
   <Header />
   <MobileNav />
 
-  <!-- Custom hero with overlay box -->
+  <!-- Hero -->
   <section class="dest-hero" style={`background-image: url('${bannerImage}')`}>
     <div class="breadcrumbs">
       <a href="/">Home</a>
       <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
       <span>Destinations</span>
+      <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
+      <span>{destination.name}</span>
     </div>
-    <div class="overview">
-      <div class="lhs">
-        <span class="discover-label">discover</span>
-        <h1 class="!text-white">{titleText}</h1>
-        <div class="dest-count">{regionCountries.length} Destinations</div>
-      </div>
+    <div class="hero-content">
+      <div class="hero-subtitle">discover</div>
+      <h1>{titleText}</h1>
+      <div class="hero-count">{regionCountries.length} {regionCountries.length === 1 ? 'Destination' : 'Destinations'}</div>
     </div>
   </section>
 
-  <!-- Countries Section -->
-  <section class="destinations-section section-container">
-    <h4>explore</h4>
+  <!-- Intro -->
+  <section class="intro-section section-container">
+    <p class="intro-text">{intro.short}</p>
+    {intro.long && (
+      <p class="intro-text-extra hide">{intro.long}</p>
+    )}
+    {intro.long && (
+      <a class="read-more" href="javascript:void(0)">
+        Read more
+        <span class="icon-dropdown"></span>
+      </a>
+    )}
+  </section>
+
+  <!-- Countries Grid -->
+  <section class="countries-section section-container">
+    <p class="section-label">explore</p>
     <h2>Our Destinations</h2>
 
-    <div class="carousel-wrap">
-      <div id="dest-viewport" class="dest-viewport">
-        <div id="dest-container" class="dest-container">
-          {regionCountries.map((country) => (
-            <a href={country.href} class="wrap-item">
-              <div class="item" style={`background-image: url('${country.image}')`}>
-                <div class="item-content">
-                  <div class="item-name">{country.name}</div>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-      <div class="dest-navigation">
-        <button type="button" id="dest-prev" class="dest-nav-btn">
-          <img src="/icons/arrow-icon.svg" alt="Previous" class="h-[14px] rotate-180 brightness-0 invert" />
-        </button>
-        <button type="button" id="dest-next" class="dest-nav-btn">
-          <img src="/icons/arrow-icon.svg" alt="Next" class="h-[14px] brightness-0 invert" />
-        </button>
-      </div>
+    <div class="countries-grid">
+      {regionCountries.map((country) => (
+        <a href={country.href} class="country-card">
+          <div class="card-image" style={`background-image: url('${country.image}')`}>
+            <div class="card-content">
+              <div class="card-name">{country.name}</div>
+            </div>
+          </div>
+        </a>
+      ))}
     </div>
   </section>
 
@@ -90,9 +125,9 @@ const bannerImage = `https://admin.citiesandbeaches.com/images/destinations/${de
   .dest-hero {
     margin-top: 100px;
     height: 500px;
+    background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: 100%;
     position: relative;
     color: #ffffff;
     display: flex;
@@ -101,15 +136,10 @@ const bannerImage = `https://admin.citiesandbeaches.com/images/destinations/${de
     max-width: 100%;
   }
   @media (max-width: 768px) {
-    .dest-hero {
-      margin-top: 50px;
-      height: auto;
-      padding: 35px 0;
-      background-position: center;
-    }
+    .dest-hero { margin-top: 50px; height: 400px; }
   }
   @media (max-width: 450px) {
-    .dest-hero { height: auto; }
+    .dest-hero { height: 300px; }
   }
 
   .breadcrumbs {
@@ -121,9 +151,7 @@ const bannerImage = `https://admin.citiesandbeaches.com/images/destinations/${de
     align-items: center;
     color: #ffffff;
   }
-  @media (max-width: 768px) {
-    .breadcrumbs { left: 20px; }
-  }
+  @media (max-width: 768px) { .breadcrumbs { left: 20px; } }
   .breadcrumbs a,
   .breadcrumbs span {
     font-family: "BentonSansMedium", sans-serif;
@@ -137,125 +165,131 @@ const bannerImage = `https://admin.citiesandbeaches.com/images/destinations/${de
     height: 8px;
   }
 
-  /* Overview box */
-  .overview {
-    width: 1028px;
-    min-height: 346px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #ffffff;
-    display: flex;
-    padding: 40px 85px;
-    align-items: center;
+  .hero-content {
+    text-align: center;
+    padding-bottom: 80px;
   }
-  @media (max-width: 1100px) {
-    .overview { width: 880px; }
-  }
-  @media (max-width: 940px) {
-    .overview { width: 730px; flex-direction: column; }
-  }
-  @media (max-width: 760px) {
-    .overview { width: 580px; padding: 35px 45px; }
-  }
-  @media (max-width: 610px) {
-    .overview { width: 500px; }
-  }
-  @media (max-width: 530px) {
-    .overview { width: 420px; padding: 25px 40px; }
-  }
-  @media (max-width: 450px) {
-    .overview { width: 365px; }
-  }
-  @media (max-width: 394px) {
-    .overview { width: 335px; }
-  }
-  @media (max-width: 350px) {
-    .overview { width: 290px; }
-  }
+  @media (max-width: 768px) { .hero-content { padding-bottom: 0; } }
 
-  .lhs {
-    padding-right: 75px;
-  }
-  @media (max-width: 940px) {
-    .lhs {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-right: 0;
-      padding-bottom: 35px;
-    }
-  }
-  @media (max-width: 760px) {
-    .lhs { padding-bottom: 25px; }
-  }
-
-  .discover-label {
+  .hero-subtitle {
     font-family: "BentonSansBold", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 24px;
     letter-spacing: 5px;
     text-transform: uppercase;
+    padding-bottom: 14px;
   }
 
-  .lhs h1 {
+  .hero-content h1 {
     color: #ffffff;
+    font-size: 64px;
+    line-height: 1;
+    padding-bottom: 15px;
     text-shadow: 2px 2px 5px #000;
   }
+  @media (max-width: 768px) { .hero-content h1 { font-size: 44px; } }
+  @media (max-width: 450px) { .hero-content h1 { font-size: 36px; } }
 
-  .dest-count {
+  .hero-count {
+    font-family: "BentonSansMedium", sans-serif;
     font-size: 16px;
     line-height: 27px;
+    letter-spacing: 1px;
   }
 
-  /* Destinations Section */
-  .destinations-section {
-    position: relative;
-    padding-top: 80px;
+  /* Intro */
+  .intro-section {
+    margin-top: 80px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 768px) { .intro-section { margin-top: 40px; margin-bottom: 10px; } }
+  .intro-section p { padding-bottom: 1px; }
+  @media (max-width: 768px) { .intro-section p { text-align: justify; } }
+
+  .intro-section .read-more {
+    vertical-align: middle;
+    font-family: "BentonSansBold", sans-serif;
+    color: #424242;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+    cursor: pointer;
+  }
+  .intro-section .read-more .icon-dropdown {
+    display: inline-block;
+    width: 12px;
+    height: 7px;
+    background-image: url('/icons/dropdown-icon.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-left: 15px;
+    transition: transform 0.3s;
+  }
+  .intro-section .read-more.expanded .icon-dropdown { transform: rotate(180deg); }
+
+  .hide { display: none; }
+
+  /* Countries Section */
+  .countries-section {
+    padding-top: 40px;
     padding-bottom: 80px;
   }
-  .destinations-section h2 {
+  .countries-section .section-label {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 14px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #878787;
+    margin-bottom: 8px;
+  }
+  .countries-section h2 {
     margin-bottom: 45px;
   }
 
-  .carousel-wrap {
-    position: relative;
+  /* Grid */
+  .countries-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
   }
-  @media (max-width: 1260px) {
-    .carousel-wrap {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+  @media (max-width: 940px) {
+    .countries-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 530px) {
+    .countries-grid { grid-template-columns: 1fr; }
   }
 
-  .dest-viewport {
+  /* Card */
+  .country-card {
+    display: block;
+    text-decoration: none;
+    position: relative;
     overflow: hidden;
+    border-radius: 2px;
+    transition: transform 0.3s, box-shadow 0.3s;
   }
-  .dest-container {
-    display: flex;
+  .country-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
   }
 
-  /* Country cards */
-  .wrap-item {
-    position: relative;
-    flex-shrink: 0;
-  }
-  .item {
-    width: 396px;
+  .card-image {
+    width: 100%;
     height: 310px;
-    margin: 14px 13px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
   }
-  @media (max-width: 940px) {
-    .item { width: 350px; margin: 12px 11px; }
-  }
   @media (max-width: 768px) {
-    .item { width: 213px; margin: 14px 5px; }
+    .card-image { height: 260px; }
+  }
+  @media (max-width: 450px) {
+    .card-image { height: 220px; }
   }
 
-  .item::before {
+  /* Compass icon */
+  .card-image::before {
     position: absolute;
     z-index: 2;
     content: "";
@@ -263,114 +297,50 @@ const bannerImage = `https://admin.citiesandbeaches.com/images/destinations/${de
     background-image: url('/icons/compass-icon.svg');
     background-size: contain;
     background-repeat: no-repeat;
-    width: 120px;
-    height: 120px;
-    bottom: -10px;
-    left: -13px;
-  }
-  @media (max-width: 940px) {
-    .item::before { left: -10px; }
+    width: 100px;
+    height: 100px;
+    bottom: -8px;
+    left: -8px;
   }
   @media (max-width: 768px) {
-    .item::before { width: 78px; height: 78px; bottom: 0; left: -5px; }
+    .card-image::before { width: 78px; height: 78px; bottom: 0; left: -5px; }
   }
 
-  .item-content {
+  /* Gradient overlay */
+  .card-content {
     position: absolute;
-    top: 250px;
-    left: 40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px 30px 24px;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
     color: #ffffff;
     z-index: 1;
   }
-  @media (max-width: 768px) {
-    .item-content { top: 260px; }
-  }
-  .item-content::before {
-    content: "";
-    width: 396px;
-    height: 156px;
-    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.6));
-    position: absolute;
-    top: -82px;
-    left: -27px;
-    z-index: -1;
-  }
-  @media (max-width: 940px) {
-    .item-content::before { width: 350px; top: -84px; left: -29px; }
-  }
-  @media (max-width: 768px) {
-    .item-content::before { width: 213px; top: -92px; left: -35px; }
-  }
 
-  .item-name {
+  .card-name {
     font-family: "CaslonGraphiqueEF", Georgia, serif;
-    font-size: 30px;
-    line-height: 27px;
-    text-align: left;
+    font-size: 28px;
+    line-height: 1;
   }
   @media (max-width: 768px) {
-    .item-name { font-size: 20px; }
-  }
-
-  /* Navigation */
-  .dest-navigation {
-    position: absolute;
-    width: 132px;
-    height: 66px;
-    top: 285px;
-    left: -34px;
-  }
-  @media (max-width: 1310px) {
-    .dest-navigation { left: -14px; }
-  }
-  @media (max-width: 1260px) {
-    .dest-navigation { left: 40px; top: 325px; }
-  }
-  @media (max-width: 1100px) {
-    .dest-navigation { left: 4px; }
-  }
-  @media (max-width: 940px) {
-    .dest-navigation { left: -10px; top: 321px; }
-  }
-  @media (max-width: 768px) {
-    .dest-navigation { display: none; }
-  }
-
-  .dest-nav-btn {
-    width: 66px;
-    height: 66px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 0;
-    cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.6);
-    position: absolute;
-  }
-  #dest-prev { left: 0; }
-  #dest-next {
-    left: 1240px;
-  }
-  @media (max-width: 1310px) {
-    #dest-next { left: 1200px; }
-  }
-  @media (max-width: 1260px) {
-    #dest-next { left: 905px; }
-  }
-  @media (max-width: 1100px) {
-    #dest-next { left: 820px; }
-  }
-  @media (max-width: 940px) {
-    #dest-next { left: 695px; }
+    .card-name { font-size: 24px; }
   }
 </style>
 
 <script>
-  import EmblaCarousel from 'embla-carousel';
-
-  const viewport = document.getElementById('dest-viewport')!;
-  const embla = EmblaCarousel(viewport, { loop: true, align: 'start' });
-
-  document.getElementById('dest-prev')?.addEventListener('click', () => embla.scrollPrev());
-  document.getElementById('dest-next')?.addEventListener('click', () => embla.scrollNext());
+  document.addEventListener('DOMContentLoaded', () => {
+    const readMoreLink = document.querySelector('.read-more');
+    const extraText = document.querySelector('.intro-text-extra');
+    if (readMoreLink && extraText) {
+      readMoreLink.addEventListener('click', () => {
+        const isHidden = extraText.classList.contains('hide');
+        extraText.classList.toggle('hide');
+        readMoreLink.innerHTML = isHidden
+          ? 'Read less <span class="icon-dropdown"></span>'
+          : 'Read more <span class="icon-dropdown"></span>';
+        readMoreLink.classList.toggle('expanded', isHidden);
+      });
+    }
+  });
 </script>

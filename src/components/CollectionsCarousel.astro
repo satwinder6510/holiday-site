@@ -4,7 +4,7 @@ import { collections } from '../data/collections';
 ---
 
 <section class="collections-section relative overflow-hidden">
-  <h4>that extra special something</h4>
+  <p class="section-label">that extra special something</p>
   <h2>Our Collections</h2>
   <div class="collections-carousel-wrap">
     <div id="collections-viewport" class="overflow-hidden">
@@ -51,11 +51,11 @@ import { collections } from '../data/collections';
   @media (max-width: 394px) { .collections-section { max-width: 335px; } }
   @media (max-width: 350px) { .collections-section { max-width: 290px; } }
 
-  .collections-section h4 {
+  .collections-section .section-label {
     margin-top: 130px;
   }
-  @media (max-width: 1100px) { .collections-section h4 { margin-top: 100px; } }
-  @media (max-width: 760px) { .collections-section h4 { margin-top: 70px; } }
+  @media (max-width: 1100px) { .collections-section .section-label { margin-top: 100px; } }
+  @media (max-width: 760px) { .collections-section .section-label { margin-top: 70px; } }
 
   .collections-section h2 {
     margin-bottom: 35px;
@@ -101,10 +101,12 @@ import { collections } from '../data/collections';
   @media (max-width: 760px) { .btn-wrap { justify-content: flex-start; } }
 
   .collection-btn {
-    width: 187px;
+    width: auto;
+    padding: 0 32px;
     height: 64px;
     margin-top: 65px;
     margin-bottom: 105px;
+    white-space: nowrap;
   }
   @media (max-width: 1100px) { .collection-btn { margin-bottom: 45px; } }
   @media (max-width: 760px) { .collection-btn { margin-bottom: 5px; margin-top: 45px; } }

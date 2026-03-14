@@ -1,49 +1,5 @@
 [
   {
-    "id": 10099,
-    "title": "Rhine Experience Netherlands & Belgium",
-    "slug": "a-rosa-cruises-rhine-experience-netherlands-belgium",
-    "price": 1099,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA AQUA",
-    "ship": {
-      "name": "A-ROSA AQUA",
-      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
     "id": 10100,
     "title": "Christmas Markets from Berlin to Prague: A Cultural Journey Filled with Magic (port-to-port cruise)",
     "slug": "croisieurope-christmas-markets-from-berlin-to-prague-a-cultural-journey-filled-with-magic-port-to-port-cruise",
@@ -137,137 +93,6 @@
     },
     "departure_port": "Berlin-Tegel",
     "disembark_port": "Prague",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10129,
-    "title": "Mini Cruise Main",
-    "slug": "a-rosa-cruises-mini-cruise-main",
-    "price": 729,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 4,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA CLEA",
-    "ship": {
-      "name": "A-ROSA CLEA",
-      "description": "New in 2024. Rhine cruises with the A-ROSA CLEA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/20/bb0aa0a1-ee59-4093-b25a-ac059446f0e9/A-ROSA, CLEA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/7a3b550a-7d15-4e3d-9703-3227c72fb968/A-ROSA, CLEA, Juliette balcony E.JPEG",
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/9b371178-de0d-4dd1-9243-4659bd3d8d78/A-ROSA, CLEA, Juliette balcony C D.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/104fcac4-727c-4dd7-863e-74f2a8c89ea5/A-ROSA, CLEA, Cabin S A.jpeg"
-      ],
-      "facts": {
-        "capacity": 140,
-        "cabins": 70,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Frankfurt",
-    "disembark_port": "Frankfurt",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10130,
-    "title": "Rhine Christmas Markets",
-    "slug": "a-rosa-cruises-rhine-christmas-markets",
-    "price": 759,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 4,
-    "description": "<h3>River Cruises during Advent and Holidays</h3><p>Experience the most beautiful Christmas markets and enjoy Christmas to the fullest.</p><p>As the year comes to an end and Christmas is fast approaching, we&acute;re sure you are looking forward to a well-deserved break. Spend the most festive time of the year <strong>on board A-ROSA</strong> &mdash; and treat yourself and your loved ones to a holiday cruise with our <strong>all-round carefree rate &ldquo;Premium All-Inclusive&ldquo;</strong>.&nbsp;</p><p>Visit the <strong>most beautiful Christmas markets</strong> along the rivers during Advent or book an unforgettable holiday cruise to celebrate Christmas.</p><p>We offer fantastic <strong>Christmas cruises</strong> on the Danube and Rhine. And, best of all, we&acute;ll take care of everything &mdash; all you have to think about is nothing but relaxing!</p>",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA BRAVA",
-    "ship": {
-      "name": "A-ROSA BRAVA",
-      "description": "River cruise on the Rhine with A-ROSA BRAVA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2011",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10131,
-    "title": "Rhine Enchanting New Year",
-    "slug": "a-rosa-cruises-rhine-enchanting-new-year",
-    "price": 1569,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA AQUA",
-    "ship": {
-      "name": "A-ROSA AQUA",
-      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Bonn",
     "board_basis": "Full Board"
   },
   {
@@ -367,136 +192,6 @@
     "board_basis": "Full Board"
   },
   {
-    "id": 10137,
-    "title": "Rhine Christmas City Experience",
-    "slug": "a-rosa-cruises-rhine-christmas-city-experience",
-    "price": 1819,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "<h3>River Cruises during Advent and Holidays</h3><p>Experience the most beautiful Christmas markets and enjoy Christmas to the fullest.</p><p>As the year comes to an end and Christmas is fast approaching, we&acute;re sure you are looking forward to a well-deserved break. Spend the most festive time of the year <strong>on board A-ROSA</strong> &mdash; and treat yourself and your loved ones to a holiday cruise with our <strong>all-round carefree rate &ldquo;Premium All-Inclusive&ldquo;</strong>.&nbsp;</p><p>Visit the <strong>most beautiful Christmas markets</strong> along the rivers during Advent or book an unforgettable holiday cruise to celebrate Christmas.</p><p>We offer fantastic <strong>Christmas cruises</strong> on the Danube and Rhine. And, best of all, we&acute;ll take care of everything &mdash; all you have to think about is nothing but relaxing!</p>",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SENA",
-    "ship": {
-      "name": "A-ROSA SENA",
-      "description": "The new E-Motion Ship on the Rhine sets completely new standards and is a pioneer on all levels.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/39/26/4459fa32-1a88-4b54-ae41-51950c87418f/A-ROSA, SENA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/b8990548-956a-4992-a47e-56d6e8919021/A-ROSA, SENA, Suite.jpg",
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/1ef8ad4c-a0e4-4928-bd85-0342d498e573/A-ROSA, SENA, Balcony cabin.jpg",
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/94edb1ba-ee4c-4b17-abab-d5cc3da9f769/A-ROSA, SENA, Family cabin.jpg"
-      ],
-      "facts": {
-        "capacity": 280,
-        "cabins": 140,
-        "decks": 5,
-        "built": "2022",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10138,
-    "title": "Southern Rhine Christmas",
-    "slug": "a-rosa-cruises-southern-rhine-christmas",
-    "price": 1499,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "<h3>River Cruises during Advent and Holidays</h3><p>Experience the most beautiful Christmas markets and enjoy Christmas to the fullest.</p><p>As the year comes to an end and Christmas is fast approaching, we&acute;re sure you are looking forward to a well-deserved break. Spend the most festive time of the year <strong>on board A-ROSA</strong> &mdash; and treat yourself and your loved ones to a holiday cruise with our <strong>all-round carefree rate &ldquo;Premium All-Inclusive&ldquo;</strong>.&nbsp;</p><p>Visit the <strong>most beautiful Christmas markets</strong> along the rivers during Advent or book an unforgettable holiday cruise to celebrate Christmas.</p><p>We offer fantastic <strong>Christmas cruises</strong> on the Danube and Rhine. And, best of all, we&acute;ll take care of everything &mdash; all you have to think about is nothing but relaxing!</p>",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA CLEA",
-    "ship": {
-      "name": "A-ROSA CLEA",
-      "description": "New in 2024. Rhine cruises with the A-ROSA CLEA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/20/bb0aa0a1-ee59-4093-b25a-ac059446f0e9/A-ROSA, CLEA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/7a3b550a-7d15-4e3d-9703-3227c72fb968/A-ROSA, CLEA, Juliette balcony E.JPEG",
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/9b371178-de0d-4dd1-9243-4659bd3d8d78/A-ROSA, CLEA, Juliette balcony C D.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/104fcac4-727c-4dd7-863e-74f2a8c89ea5/A-ROSA, CLEA, Cabin S A.jpeg"
-      ],
-      "facts": {
-        "capacity": 140,
-        "cabins": 70,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Frankfurt",
-    "disembark_port": "Frankfurt",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10139,
-    "title": "Rhine New Year",
-    "slug": "a-rosa-cruises-rhine-new-year",
-    "price": 1569,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA BRAVA",
-    "ship": {
-      "name": "A-ROSA BRAVA",
-      "description": "River cruise on the Rhine with A-ROSA BRAVA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2011",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
     "id": 10140,
     "title": "New year's in Prague (port-to-port cruise)",
     "slug": "croisieurope-new-year-s-in-prague-port-to-port-cruise",
@@ -542,180 +237,6 @@
     },
     "departure_port": "Prague",
     "disembark_port": "Prague",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10141,
-    "title": "Rhine New Year's City Experience",
-    "slug": "a-rosa-cruises-rhine-new-year-s-city-experience",
-    "price": 1839,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SENA",
-    "ship": {
-      "name": "A-ROSA SENA",
-      "description": "The new E-Motion Ship on the Rhine sets completely new standards and is a pioneer on all levels.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/39/26/4459fa32-1a88-4b54-ae41-51950c87418f/A-ROSA, SENA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/b8990548-956a-4992-a47e-56d6e8919021/A-ROSA, SENA, Suite.jpg",
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/1ef8ad4c-a0e4-4928-bd85-0342d498e573/A-ROSA, SENA, Balcony cabin.jpg",
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/94edb1ba-ee4c-4b17-abab-d5cc3da9f769/A-ROSA, SENA, Family cabin.jpg"
-      ],
-      "facts": {
-        "capacity": 280,
-        "cabins": 140,
-        "decks": 5,
-        "built": "2022",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10142,
-    "title": "Southern Rhine New Year's Dream",
-    "slug": "a-rosa-cruises-southern-rhine-new-year-s-dream",
-    "price": 1589,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA CLEA",
-    "ship": {
-      "name": "A-ROSA CLEA",
-      "description": "New in 2024. Rhine cruises with the A-ROSA CLEA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/20/bb0aa0a1-ee59-4093-b25a-ac059446f0e9/A-ROSA, CLEA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/7a3b550a-7d15-4e3d-9703-3227c72fb968/A-ROSA, CLEA, Juliette balcony E.JPEG",
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/9b371178-de0d-4dd1-9243-4659bd3d8d78/A-ROSA, CLEA, Juliette balcony C D.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/104fcac4-727c-4dd7-863e-74f2a8c89ea5/A-ROSA, CLEA, Cabin S A.jpeg"
-      ],
-      "facts": {
-        "capacity": 140,
-        "cabins": 70,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Frankfurt",
-    "disembark_port": "Frankfurt",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10143,
-    "title": "Rhine Experience Netherlands & Belgium - Family Cruise",
-    "slug": "a-rosa-cruises-rhine-experience-netherlands-belgium-family-cruise",
-    "price": 1149,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA AQUA",
-    "ship": {
-      "name": "A-ROSA AQUA",
-      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10144,
-    "title": "Seine Rendez-vous with Paris",
-    "slug": "a-rosa-cruises-seine-rendez-vous-with-paris",
-    "price": 889,
-    "destination": "Seine",
-    "country": "Europe",
-    "duration_nights": 5,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA VIVA",
-    "ship": {
-      "name": "A-ROSA VIVA",
-      "description": "River cruises on the Seine with A-ROSA VIVASailing along the Rhine, A-ROSA VIVA can accommodate up to 202 guests in her 99 outside cabins, some with Juliette Balcony.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/23/07060b65-3197-4ae3-a5ba-99b973b96153/A-ROSA, VIVA, Exterior.jpeg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/12/12/40/28/b0a94cca-7597-4c2b-bebd-cffd012e20db/A-ROSA, VIVA, Cabin A.jpg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2021/04/28/08/10/20/e928bec1-0a36-4ac8-a33f-d8fa3c30a833/a-rosa luna CAT D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2010",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Paris",
-    "disembark_port": "Paris",
     "board_basis": "Full Board"
   },
   {
@@ -897,93 +418,6 @@
     },
     "departure_port": "Strasbourg",
     "disembark_port": "Strasbourg",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10146,
-    "title": "Rhine Experience IJsselmeer - Family Cruise",
-    "slug": "a-rosa-cruises-rhine-experience-ijsselmeer-family-cruise",
-    "price": 1149,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA AQUA",
-    "ship": {
-      "name": "A-ROSA AQUA",
-      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10147,
-    "title": "Rhine Experience Amsterdam & Rotterdam - Family Cruise",
-    "slug": "a-rosa-cruises-rhine-experience-amsterdam-rotterdam-family-cruise",
-    "price": 1299,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SENA",
-    "ship": {
-      "name": "A-ROSA SENA",
-      "description": "The new E-Motion Ship on the Rhine sets completely new standards and is a pioneer on all levels.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/39/26/4459fa32-1a88-4b54-ae41-51950c87418f/A-ROSA, SENA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/b8990548-956a-4992-a47e-56d6e8919021/A-ROSA, SENA, Suite.jpg",
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/1ef8ad4c-a0e4-4928-bd85-0342d498e573/A-ROSA, SENA, Balcony cabin.jpg",
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/94edb1ba-ee4c-4b17-abab-d5cc3da9f769/A-ROSA, SENA, Family cabin.jpg"
-      ],
-      "facts": {
-        "capacity": 280,
-        "cabins": 140,
-        "decks": 5,
-        "built": "2022",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
     "board_basis": "Full Board"
   },
   {
@@ -1180,10 +614,10 @@
     "board_basis": "Full Board"
   },
   {
-    "id": 10102,
-    "title": "Rhine Experience IJsselmeer",
-    "slug": "a-rosa-cruises-rhine-experience-ijsselmeer",
-    "price": 1089,
+    "id": 10099,
+    "title": "Rhine Experience Netherlands & Belgium",
+    "slug": "a-rosa-cruises-rhine-experience-netherlands-belgium",
+    "price": 1099,
     "destination": "Rhine",
     "country": "Europe",
     "duration_nights": 7,
@@ -1194,25 +628,26 @@
       "Return Flights from the UK",
       "Hold Luggage",
       "Full Board Cruise",
-      "Premium All-Inclusive",
+      "Premium All-Inclusive (exc. Spirits)",
       "Free Wi-Fi"
     ],
     "itinerary": [],
     "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA ALEA",
+    "ship_name": "A-ROSA AQUA",
     "ship": {
-      "name": "A-ROSA ALEA",
-      "description": "During a Rhine cruise on the A-ROSA ALEA, however, there are also sections of the Main and Moselle to discover, each with its own unique character.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/14/4d2659d9-da5e-4fad-8a5c-d8829e977cf4/A-ROSA ALEA Exterior.jpg",
+      "name": "A-ROSA AQUA",
+      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
       "class": "",
       "cabin_images": [
-        "https://assets.widgety.co.uk/2023/10/19/11/34/48/ee7e5089-fa0c-4125-967f-2a8b18e15b18/A-ROSA CLEA CAT E.png",
-        "https://assets.widgety.co.uk/2024/05/20/06/17/56/ae421c39-8c0e-426b-b9e8-2f6b5f2a4d61/A-ROSA, A-ROSA ALEA Cabins Cat C & D.jpg",
-        "https://assets.widgety.co.uk/2024/05/20/06/17/56/94cd32e4-1737-429c-ae6a-3b522f9c6481/A-ROSA, A-ROSA ALEA Cabins Cat S & A.jpg"
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
+        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
       ],
       "facts": {
-        "capacity": 138,
-        "cabins": 69,
+        "capacity": 202,
+        "cabins": 99,
         "decks": 4,
         "built": "2009",
         "refurbished": ""
@@ -1223,13 +658,13 @@
     "board_basis": "Full Board"
   },
   {
-    "id": 10103,
-    "title": "Northern Rhine Experience",
-    "slug": "a-rosa-cruises-northern-rhine-experience",
-    "price": 1119,
+    "id": 10129,
+    "title": "Mini Cruise Main",
+    "slug": "a-rosa-cruises-mini-cruise-main",
+    "price": 729,
     "destination": "Rhine",
     "country": "Europe",
-    "duration_nights": 7,
+    "duration_nights": 4,
     "description": "",
     "featured_image": "",
     "gallery": [],
@@ -1237,7 +672,50 @@
       "Return Flights from the UK",
       "Hold Luggage",
       "Full Board Cruise",
-      "Premium All-Inclusive",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA CLEA",
+    "ship": {
+      "name": "A-ROSA CLEA",
+      "description": "New in 2024. Rhine cruises with the A-ROSA CLEA.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/20/bb0aa0a1-ee59-4093-b25a-ac059446f0e9/A-ROSA, CLEA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/7a3b550a-7d15-4e3d-9703-3227c72fb968/A-ROSA, CLEA, Juliette balcony E.JPEG",
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/9b371178-de0d-4dd1-9243-4659bd3d8d78/A-ROSA, CLEA, Juliette balcony C D.jpeg",
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/104fcac4-727c-4dd7-863e-74f2a8c89ea5/A-ROSA, CLEA, Cabin S A.jpeg"
+      ],
+      "facts": {
+        "capacity": 140,
+        "cabins": 70,
+        "decks": 4,
+        "built": "2009",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Frankfurt",
+    "disembark_port": "Frankfurt",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10130,
+    "title": "Rhine Christmas Markets",
+    "slug": "a-rosa-cruises-rhine-christmas-markets",
+    "price": 759,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 4,
+    "description": "<h3>River Cruises during Advent and Holidays</h3><p>Experience the most beautiful Christmas markets and enjoy Christmas to the fullest.</p><p>As the year comes to an end and Christmas is fast approaching, we&acute;re sure you are looking forward to a well-deserved break. Spend the most festive time of the year <strong>on board A-ROSA</strong> &mdash; and treat yourself and your loved ones to a holiday cruise with our <strong>all-round carefree rate &ldquo;Premium All-Inclusive&ldquo;</strong>.&nbsp;</p><p>Visit the <strong>most beautiful Christmas markets</strong> along the rivers during Advent or book an unforgettable holiday cruise to celebrate Christmas.</p><p>We offer fantastic <strong>Christmas cruises</strong> on the Danube and Rhine. And, best of all, we&acute;ll take care of everything &mdash; all you have to think about is nothing but relaxing!</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
       "Free Wi-Fi"
     ],
     "itinerary": [],
@@ -1267,10 +745,10 @@
     "board_basis": "Full Board"
   },
   {
-    "id": 10104,
-    "title": "Moselle Romance",
-    "slug": "a-rosa-cruises-moselle-romance",
-    "price": 1289,
+    "id": 10131,
+    "title": "Rhine Enchanting New Year",
+    "slug": "a-rosa-cruises-rhine-enchanting-new-year",
+    "price": 1569,
     "destination": "Rhine",
     "country": "Europe",
     "duration_nights": 7,
@@ -1281,51 +759,51 @@
       "Return Flights from the UK",
       "Hold Luggage",
       "Full Board Cruise",
-      "Premium All-Inclusive",
+      "Premium All-Inclusive (exc. Spirits)",
       "Free Wi-Fi"
     ],
     "itinerary": [],
     "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SILVA",
+    "ship_name": "A-ROSA AQUA",
     "ship": {
-      "name": "A-ROSA SILVA",
-      "description": "River cruise on the Rhine with A-ROSA SILVA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
+      "name": "A-ROSA AQUA",
+      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
       "class": "",
       "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
+        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
       ],
       "facts": {
-        "capacity": 186,
-        "cabins": 89,
+        "capacity": 202,
+        "cabins": 99,
         "decks": 4,
-        "built": "2012",
+        "built": "2009",
         "refurbished": ""
       }
     },
     "departure_port": "Cologne",
-    "disembark_port": "Cologne",
+    "disembark_port": "Bonn",
     "board_basis": "Full Board"
   },
   {
-    "id": 10105,
-    "title": "Southern Rhine City Experience",
-    "slug": "a-rosa-cruises-southern-rhine-city-experience",
-    "price": 1139,
+    "id": 10138,
+    "title": "Southern Rhine Christmas",
+    "slug": "a-rosa-cruises-southern-rhine-christmas",
+    "price": 1499,
     "destination": "Rhine",
     "country": "Europe",
     "duration_nights": 7,
-    "description": "",
+    "description": "<h3>River Cruises during Advent and Holidays</h3><p>Experience the most beautiful Christmas markets and enjoy Christmas to the fullest.</p><p>As the year comes to an end and Christmas is fast approaching, we&acute;re sure you are looking forward to a well-deserved break. Spend the most festive time of the year <strong>on board A-ROSA</strong> &mdash; and treat yourself and your loved ones to a holiday cruise with our <strong>all-round carefree rate &ldquo;Premium All-Inclusive&ldquo;</strong>.&nbsp;</p><p>Visit the <strong>most beautiful Christmas markets</strong> along the rivers during Advent or book an unforgettable holiday cruise to celebrate Christmas.</p><p>We offer fantastic <strong>Christmas cruises</strong> on the Danube and Rhine. And, best of all, we&acute;ll take care of everything &mdash; all you have to think about is nothing but relaxing!</p>",
     "featured_image": "",
     "gallery": [],
     "whats_included": [
       "Return Flights from the UK",
       "Hold Luggage",
       "Full Board Cruise",
-      "Premium All-Inclusive",
+      "Premium All-Inclusive (exc. Spirits)",
       "Free Wi-Fi"
     ],
     "itinerary": [],
@@ -1351,138 +829,6 @@
     },
     "departure_port": "Frankfurt",
     "disembark_port": "Frankfurt",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10106,
-    "title": "Rhône Route Méditerranée",
-    "slug": "a-rosa-cruises-rhone-route-mediterranee",
-    "price": 1099,
-    "destination": "Rhone",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA STELLA",
-    "ship": {
-      "name": "A-ROSA STELLA",
-      "description": "River cruises on the Rhône/saône with A-ROSA STELLA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/31/699a42a2-3d6d-456d-a24c-c590244ebd9e/A-ROSA, STELLA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/2f64dc2b-5638-4d99-9820-545f47d81ba7/A-ROSA, STELLA, Cabin S.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/dc0c6393-1040-46c2-ae5d-b93bbca132ee/A-ROSA, STELLA, Cabin A.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/ad1100d4-846e-47a8-bb11-12d18d901edf/A-ROSA, STELLA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/e8b346a7-29b7-4282-a2ed-ad6b06d21982/A-ROSA, STELLA, Cabin D.jpg"
-      ],
-      "facts": {
-        "capacity": 174,
-        "cabins": 86,
-        "decks": 4,
-        "built": "2005",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Lyon",
-    "disembark_port": "Lyon",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10107,
-    "title": "Douro Experience",
-    "slug": "a-rosa-cruises-douro-experience",
-    "price": 1359,
-    "destination": "Douro",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA ALVA",
-    "ship": {
-      "name": "A-ROSA ALVA",
-      "description": "Come aboard our A-ROSA ALVA, discover the beauty of the Douro and have a look directly into the soul of Portugal!",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/38/18/5264937e-2264-4c70-8f2f-f74aea9e8e76/A-ROSA, A-ROSA ALVA Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/11/09/12/c39b08db-812d-4e26-9d1e-dfb3b528bb56/A-ROSA, ALVA, Cabin F.jpg",
-        "https://assets.widgety.co.uk/2021/04/28/12/42/17/16fdf6a4-25b4-43a9-8579-85aa2b95dc3e/a-rosa alva CAT C.jpg",
-        "https://assets.widgety.co.uk/2020/10/20/10/54/59/3ab98de8-1349-4437-a971-0a55fa191800/A-ROSA ALVA Cat C_D.jpg",
-        "https://assets.widgety.co.uk/2024/07/08/12/19/11/7a1e74dd-a57a-47ef-9023-ed301e35ff68/A-ROSA, ALVA, Cabin S.jpg"
-      ],
-      "facts": {
-        "capacity": 126,
-        "cabins": 63,
-        "decks": 4,
-        "built": "2019",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Porto",
-    "disembark_port": "Porto",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10108,
-    "title": "Rhine Experience & the Sea",
-    "slug": "a-rosa-cruises-rhine-experience-the-sea",
-    "price": 1639,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 9,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SILVA",
-    "ship": {
-      "name": "A-ROSA SILVA",
-      "description": "River cruise on the Rhine with A-ROSA SILVA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
-      ],
-      "facts": {
-        "capacity": 186,
-        "cabins": 89,
-        "decks": 4,
-        "built": "2012",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
     "board_basis": "Full Board"
   },
   {
@@ -1582,400 +928,6 @@
     "board_basis": "Full Board"
   },
   {
-    "id": 10111,
-    "title": "Seine Panorama",
-    "slug": "a-rosa-cruises-seine-panorama",
-    "price": 1579,
-    "destination": "Seine",
-    "country": "Europe",
-    "duration_nights": 9,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA VIVA",
-    "ship": {
-      "name": "A-ROSA VIVA",
-      "description": "River cruises on the Seine with A-ROSA VIVASailing along the Rhine, A-ROSA VIVA can accommodate up to 202 guests in her 99 outside cabins, some with Juliette Balcony.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/23/07060b65-3197-4ae3-a5ba-99b973b96153/A-ROSA, VIVA, Exterior.jpeg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/12/12/40/28/b0a94cca-7597-4c2b-bebd-cffd012e20db/A-ROSA, VIVA, Cabin A.jpg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2021/04/28/08/10/20/e928bec1-0a36-4ac8-a33f-d8fa3c30a833/a-rosa luna CAT D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2010",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Paris",
-    "disembark_port": "Paris",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10112,
-    "title": "Main & Middle Rhine Experience",
-    "slug": "a-rosa-cruises-main-middle-rhine-experience",
-    "price": 1139,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA CLEA",
-    "ship": {
-      "name": "A-ROSA CLEA",
-      "description": "New in 2024. Rhine cruises with the A-ROSA CLEA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/20/bb0aa0a1-ee59-4093-b25a-ac059446f0e9/A-ROSA, CLEA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/7a3b550a-7d15-4e3d-9703-3227c72fb968/A-ROSA, CLEA, Juliette balcony E.JPEG",
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/9b371178-de0d-4dd1-9243-4659bd3d8d78/A-ROSA, CLEA, Juliette balcony C D.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/104fcac4-727c-4dd7-863e-74f2a8c89ea5/A-ROSA, CLEA, Cabin S A.jpeg"
-      ],
-      "facts": {
-        "capacity": 140,
-        "cabins": 70,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Frankfurt",
-    "disembark_port": "Frankfurt",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10113,
-    "title": "Rhine Experience Amsterdam & Rotterdam",
-    "slug": "a-rosa-cruises-rhine-experience-amsterdam-rotterdam",
-    "price": 1449,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SENA",
-    "ship": {
-      "name": "A-ROSA SENA",
-      "description": "The new E-Motion Ship on the Rhine sets completely new standards and is a pioneer on all levels.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/39/26/4459fa32-1a88-4b54-ae41-51950c87418f/A-ROSA, SENA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/b8990548-956a-4992-a47e-56d6e8919021/A-ROSA, SENA, Suite.jpg",
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/1ef8ad4c-a0e4-4928-bd85-0342d498e573/A-ROSA, SENA, Balcony cabin.jpg",
-        "https://assets.widgety.co.uk/2024/07/11/14/31/29/94edb1ba-ee4c-4b17-abab-d5cc3da9f769/A-ROSA, SENA, Family cabin.jpg"
-      ],
-      "facts": {
-        "capacity": 280,
-        "cabins": 140,
-        "decks": 5,
-        "built": "2022",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10114,
-    "title": "Main & Moselle Experience",
-    "slug": "a-rosa-cruises-main-moselle-experience",
-    "price": 1349,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SILVA",
-    "ship": {
-      "name": "A-ROSA SILVA",
-      "description": "River cruise on the Rhine with A-ROSA SILVA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
-      ],
-      "facts": {
-        "capacity": 186,
-        "cabins": 89,
-        "decks": 4,
-        "built": "2012",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10115,
-    "title": "Northern Rhine & Moselle Experience",
-    "slug": "a-rosa-cruises-northern-rhine-moselle-experience",
-    "price": 1629,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 9,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SILVA",
-    "ship": {
-      "name": "A-ROSA SILVA",
-      "description": "River cruise on the Rhine with A-ROSA SILVA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
-      ],
-      "facts": {
-        "capacity": 186,
-        "cabins": 89,
-        "decks": 4,
-        "built": "2012",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10116,
-    "title": "Moselle Discovery",
-    "slug": "a-rosa-cruises-moselle-discovery",
-    "price": 1009,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 5,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SILVA",
-    "ship": {
-      "name": "A-ROSA SILVA",
-      "description": "River cruise on the Rhine with A-ROSA SILVA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
-      ],
-      "facts": {
-        "capacity": 186,
-        "cabins": 89,
-        "decks": 4,
-        "built": "2012",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10117,
-    "title": "Southern Rhine Experience",
-    "slug": "a-rosa-cruises-southern-rhine-experience",
-    "price": 1339,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SILVA",
-    "ship": {
-      "name": "A-ROSA SILVA",
-      "description": "River cruise on the Rhine with A-ROSA SILVA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
-      ],
-      "facts": {
-        "capacity": 186,
-        "cabins": 89,
-        "decks": 4,
-        "built": "2012",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10118,
-    "title": "Rhône Route Provence",
-    "slug": "a-rosa-cruises-rhone-route-provence",
-    "price": 1079,
-    "destination": "Rhone",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA STELLA",
-    "ship": {
-      "name": "A-ROSA STELLA",
-      "description": "River cruises on the Rhône/saône with A-ROSA STELLA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/31/699a42a2-3d6d-456d-a24c-c590244ebd9e/A-ROSA, STELLA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/2f64dc2b-5638-4d99-9820-545f47d81ba7/A-ROSA, STELLA, Cabin S.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/dc0c6393-1040-46c2-ae5d-b93bbca132ee/A-ROSA, STELLA, Cabin A.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/ad1100d4-846e-47a8-bb11-12d18d901edf/A-ROSA, STELLA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/e8b346a7-29b7-4282-a2ed-ad6b06d21982/A-ROSA, STELLA, Cabin D.jpg"
-      ],
-      "facts": {
-        "capacity": 174,
-        "cabins": 86,
-        "decks": 4,
-        "built": "2005",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Lyon",
-    "disembark_port": "Lyon",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10119,
-    "title": "Seine Experience Normandy with Paris",
-    "slug": "a-rosa-cruises-seine-experience-normandy-with-paris",
-    "price": 1049,
-    "destination": "Seine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA VIVA",
-    "ship": {
-      "name": "A-ROSA VIVA",
-      "description": "River cruises on the Seine with A-ROSA VIVASailing along the Rhine, A-ROSA VIVA can accommodate up to 202 guests in her 99 outside cabins, some with Juliette Balcony.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/23/07060b65-3197-4ae3-a5ba-99b973b96153/A-ROSA, VIVA, Exterior.jpeg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/12/12/40/28/b0a94cca-7597-4c2b-bebd-cffd012e20db/A-ROSA, VIVA, Cabin A.jpg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2021/04/28/08/10/20/e928bec1-0a36-4ac8-a33f-d8fa3c30a833/a-rosa luna CAT D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2010",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Paris",
-    "disembark_port": "Paris",
-    "board_basis": "Full Board"
-  },
-  {
     "id": 10120,
     "title": "Christmas on the most beautiful stops of the Moldau and Elbe, between Prague and Berlin (port-to-port cruise)",
     "slug": "croisieurope-christmas-on-the-most-beautiful-stops-of-the-moldau-and-elbe-between-prague-and-berlin-port-to-port-cruise",
@@ -2021,270 +973,6 @@
     },
     "departure_port": "Prague",
     "disembark_port": "Berlin-Tegel",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10121,
-    "title": "Southern Rhine Nature Experience",
-    "slug": "a-rosa-cruises-southern-rhine-nature-experience",
-    "price": 1099,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA BRAVA",
-    "ship": {
-      "name": "A-ROSA BRAVA",
-      "description": "River cruise on the Rhine with A-ROSA BRAVA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2011",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10122,
-    "title": "Rhône Route Panorama",
-    "slug": "a-rosa-cruises-rhone-route-panorama",
-    "price": 1309,
-    "destination": "Rhone",
-    "country": "Europe",
-    "duration_nights": 9,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA STELLA",
-    "ship": {
-      "name": "A-ROSA STELLA",
-      "description": "River cruises on the Rhône/saône with A-ROSA STELLA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/31/699a42a2-3d6d-456d-a24c-c590244ebd9e/A-ROSA, STELLA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/2f64dc2b-5638-4d99-9820-545f47d81ba7/A-ROSA, STELLA, Cabin S.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/dc0c6393-1040-46c2-ae5d-b93bbca132ee/A-ROSA, STELLA, Cabin A.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/ad1100d4-846e-47a8-bb11-12d18d901edf/A-ROSA, STELLA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/e8b346a7-29b7-4282-a2ed-ad6b06d21982/A-ROSA, STELLA, Cabin D.jpg"
-      ],
-      "facts": {
-        "capacity": 174,
-        "cabins": 86,
-        "decks": 4,
-        "built": "2005",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Lyon",
-    "disembark_port": "Lyon",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10123,
-    "title": "Rhine Mini Cruise Main & Lorelei",
-    "slug": "a-rosa-cruises-rhine-mini-cruise-main-lorelei",
-    "price": 769,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 4,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA BRAVA",
-    "ship": {
-      "name": "A-ROSA BRAVA",
-      "description": "River cruise on the Rhine with A-ROSA BRAVA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2011",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10124,
-    "title": "Rhône Route Intensive",
-    "slug": "a-rosa-cruises-rhone-route-intensive",
-    "price": 2909,
-    "destination": "Rhone",
-    "country": "Europe",
-    "duration_nights": 14,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA LUNA",
-    "ship": {
-      "name": "A-ROSA LUNA",
-      "description": "River cruises on the Rhône/Saône with A-ROSA LUNA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/24/72292622-9ed3-4443-ac90-bccbf69885c7/A-ROSA, LUNA, Exterior 2.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/10/15/36/00/df2b9557-4c4a-4af0-9e58-b2cd4514530a/A-ROSA, LUNA, Cabin S.jpg",
-        "https://assets.widgety.co.uk/2015/10/30/15/13/48/353/A_ROSA_LUNA_A_ROSA_STELLA_Accommodation_2_Bed_Outdoor_Cabin.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/15/36/00/3e34122d-4a49-4be4-a561-9af674cfed62/A-ROSA, LUNA, Cabin C & D 1.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/15/36/00/1e692d20-8a6d-49d3-b0f8-114146ebf051/A-ROSA, LUNA, Cabin C & D 2.jpg"
-      ],
-      "facts": {
-        "capacity": 174,
-        "cabins": 86,
-        "decks": 4,
-        "built": "2005",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Lyon",
-    "disembark_port": "Lyon",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10125,
-    "title": "Rhône Route Rendez-Vous",
-    "slug": "a-rosa-cruises-rhone-route-rendez-vous",
-    "price": 1149,
-    "destination": "Rhone",
-    "country": "Europe",
-    "duration_nights": 5,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA STELLA",
-    "ship": {
-      "name": "A-ROSA STELLA",
-      "description": "River cruises on the Rhône/saône with A-ROSA STELLA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/31/699a42a2-3d6d-456d-a24c-c590244ebd9e/A-ROSA, STELLA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/2f64dc2b-5638-4d99-9820-545f47d81ba7/A-ROSA, STELLA, Cabin S.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/dc0c6393-1040-46c2-ae5d-b93bbca132ee/A-ROSA, STELLA, Cabin A.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/ad1100d4-846e-47a8-bb11-12d18d901edf/A-ROSA, STELLA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2024/07/12/10/21/17/e8b346a7-29b7-4282-a2ed-ad6b06d21982/A-ROSA, STELLA, Cabin D.jpg"
-      ],
-      "facts": {
-        "capacity": 174,
-        "cabins": 86,
-        "decks": 4,
-        "built": "2005",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Lyon",
-    "disembark_port": "Lyon",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10126,
-    "title": "Rhine Panorama",
-    "slug": "a-rosa-cruises-rhine-panorama",
-    "price": 1759,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 9,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SILVA",
-    "ship": {
-      "name": "A-ROSA SILVA",
-      "description": "River cruise on the Rhine with A-ROSA SILVA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
-      ],
-      "facts": {
-        "capacity": 186,
-        "cabins": 89,
-        "decks": 4,
-        "built": "2012",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
     "board_basis": "Full Board"
   },
   {
@@ -2336,266 +1024,46 @@
     "board_basis": "Full Board"
   },
   {
-    "id": 10148,
-    "title": "Seine Experience Normandy with Paris - Family Cruise",
-    "slug": "a-rosa-cruises-seine-experience-normandy-with-paris-family-cruise",
-    "price": 1079,
-    "destination": "Seine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA VIVA",
-    "ship": {
-      "name": "A-ROSA VIVA",
-      "description": "River cruises on the Seine with A-ROSA VIVASailing along the Rhine, A-ROSA VIVA can accommodate up to 202 guests in her 99 outside cabins, some with Juliette Balcony.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/23/07060b65-3197-4ae3-a5ba-99b973b96153/A-ROSA, VIVA, Exterior.jpeg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/12/12/40/28/b0a94cca-7597-4c2b-bebd-cffd012e20db/A-ROSA, VIVA, Cabin A.jpg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2021/04/28/08/10/20/e928bec1-0a36-4ac8-a33f-d8fa3c30a833/a-rosa luna CAT D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2010",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Paris",
-    "disembark_port": "Paris",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10149,
-    "title": "Seine Rendez-vous with Paris - Family Cruise",
-    "slug": "a-rosa-cruises-seine-rendez-vous-with-paris-family-cruise",
-    "price": 1029,
-    "destination": "Seine",
-    "country": "Europe",
-    "duration_nights": 5,
-    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA VIVA",
-    "ship": {
-      "name": "A-ROSA VIVA",
-      "description": "River cruises on the Seine with A-ROSA VIVASailing along the Rhine, A-ROSA VIVA can accommodate up to 202 guests in her 99 outside cabins, some with Juliette Balcony.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/23/07060b65-3197-4ae3-a5ba-99b973b96153/A-ROSA, VIVA, Exterior.jpeg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/12/12/40/28/b0a94cca-7597-4c2b-bebd-cffd012e20db/A-ROSA, VIVA, Cabin A.jpg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2021/04/28/08/10/20/e928bec1-0a36-4ac8-a33f-d8fa3c30a833/a-rosa luna CAT D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2010",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Paris",
-    "disembark_port": "Paris",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10150,
-    "title": "Rhône Route Rendez-Vous - Family Cruise",
-    "slug": "a-rosa-cruises-rhone-route-rendez-vous-family-cruise",
-    "price": 1019,
-    "destination": "Rhone",
-    "country": "Europe",
-    "duration_nights": 5,
-    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA LUNA",
-    "ship": {
-      "name": "A-ROSA LUNA",
-      "description": "River cruises on the Rhône/Saône with A-ROSA LUNA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/24/72292622-9ed3-4443-ac90-bccbf69885c7/A-ROSA, LUNA, Exterior 2.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/10/15/36/00/df2b9557-4c4a-4af0-9e58-b2cd4514530a/A-ROSA, LUNA, Cabin S.jpg",
-        "https://assets.widgety.co.uk/2015/10/30/15/13/48/353/A_ROSA_LUNA_A_ROSA_STELLA_Accommodation_2_Bed_Outdoor_Cabin.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/15/36/00/3e34122d-4a49-4be4-a561-9af674cfed62/A-ROSA, LUNA, Cabin C & D 1.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/15/36/00/1e692d20-8a6d-49d3-b0f8-114146ebf051/A-ROSA, LUNA, Cabin C & D 2.jpg"
-      ],
-      "facts": {
-        "capacity": 174,
-        "cabins": 86,
-        "decks": 4,
-        "built": "2005",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Lyon",
-    "disembark_port": "Lyon",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10151,
-    "title": "Rhine Metropolises",
-    "slug": "a-rosa-cruises-rhine-metropolises",
-    "price": 949,
+    "id": 10137,
+    "title": "Rhine Christmas City Experience",
+    "slug": "a-rosa-cruises-rhine-christmas-city-experience",
+    "price": 1819,
     "destination": "Rhine",
     "country": "Europe",
-    "duration_nights": 5,
-    "description": "",
+    "duration_nights": 7,
+    "description": "<h3>River Cruises during Advent and Holidays</h3><p>Experience the most beautiful Christmas markets and enjoy Christmas to the fullest.</p><p>As the year comes to an end and Christmas is fast approaching, we&acute;re sure you are looking forward to a well-deserved break. Spend the most festive time of the year <strong>on board A-ROSA</strong> &mdash; and treat yourself and your loved ones to a holiday cruise with our <strong>all-round carefree rate &ldquo;Premium All-Inclusive&ldquo;</strong>.&nbsp;</p><p>Visit the <strong>most beautiful Christmas markets</strong> along the rivers during Advent or book an unforgettable holiday cruise to celebrate Christmas.</p><p>We offer fantastic <strong>Christmas cruises</strong> on the Danube and Rhine. And, best of all, we&acute;ll take care of everything &mdash; all you have to think about is nothing but relaxing!</p>",
     "featured_image": "",
     "gallery": [],
     "whats_included": [
       "Return Flights from the UK",
       "Hold Luggage",
       "Full Board Cruise",
-      "Premium All-Inclusive",
+      "Premium All-Inclusive (exc. Spirits)",
       "Free Wi-Fi"
     ],
     "itinerary": [],
     "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA ALEA",
+    "ship_name": "A-ROSA SENA",
     "ship": {
-      "name": "A-ROSA ALEA",
-      "description": "During a Rhine cruise on the A-ROSA ALEA, however, there are also sections of the Main and Moselle to discover, each with its own unique character.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/14/4d2659d9-da5e-4fad-8a5c-d8829e977cf4/A-ROSA ALEA Exterior.jpg",
+      "name": "A-ROSA SENA",
+      "description": "The new E-Motion Ship on the Rhine sets completely new standards and is a pioneer on all levels.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/39/26/4459fa32-1a88-4b54-ae41-51950c87418f/A-ROSA, SENA, Exterior.jpg",
       "class": "",
       "cabin_images": [
-        "https://assets.widgety.co.uk/2023/10/19/11/34/48/ee7e5089-fa0c-4125-967f-2a8b18e15b18/A-ROSA CLEA CAT E.png",
-        "https://assets.widgety.co.uk/2024/05/20/06/17/56/ae421c39-8c0e-426b-b9e8-2f6b5f2a4d61/A-ROSA, A-ROSA ALEA Cabins Cat C & D.jpg",
-        "https://assets.widgety.co.uk/2024/05/20/06/17/56/94cd32e4-1737-429c-ae6a-3b522f9c6481/A-ROSA, A-ROSA ALEA Cabins Cat S & A.jpg"
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/b8990548-956a-4992-a47e-56d6e8919021/A-ROSA, SENA, Suite.jpg",
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/1ef8ad4c-a0e4-4928-bd85-0342d498e573/A-ROSA, SENA, Balcony cabin.jpg",
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/94edb1ba-ee4c-4b17-abab-d5cc3da9f769/A-ROSA, SENA, Family cabin.jpg"
       ],
       "facts": {
-        "capacity": 138,
-        "cabins": 69,
-        "decks": 4,
-        "built": "2009",
+        "capacity": 280,
+        "cabins": 140,
+        "decks": 5,
+        "built": "2022",
         "refurbished": ""
       }
     },
     "departure_port": "Cologne",
     "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10127,
-    "title": "Rhine Culinary Highlights",
-    "slug": "a-rosa-cruises-rhine-culinary-highlights",
-    "price": 1989,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA SILVA",
-    "ship": {
-      "name": "A-ROSA SILVA",
-      "description": "River cruise on the Rhine with A-ROSA SILVA",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
-        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
-      ],
-      "facts": {
-        "capacity": 186,
-        "cabins": 89,
-        "decks": 4,
-        "built": "2012",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10128,
-    "title": "Douro Wine & Gusto",
-    "slug": "a-rosa-cruises-douro-wine-gusto",
-    "price": 1999,
-    "destination": "Douro",
-    "country": "Europe",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA ALVA",
-    "ship": {
-      "name": "A-ROSA ALVA",
-      "description": "Come aboard our A-ROSA ALVA, discover the beauty of the Douro and have a look directly into the soul of Portugal!",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/38/18/5264937e-2264-4c70-8f2f-f74aea9e8e76/A-ROSA, A-ROSA ALVA Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/11/09/12/c39b08db-812d-4e26-9d1e-dfb3b528bb56/A-ROSA, ALVA, Cabin F.jpg",
-        "https://assets.widgety.co.uk/2021/04/28/12/42/17/16fdf6a4-25b4-43a9-8579-85aa2b95dc3e/a-rosa alva CAT C.jpg",
-        "https://assets.widgety.co.uk/2020/10/20/10/54/59/3ab98de8-1349-4437-a971-0a55fa191800/A-ROSA ALVA Cat C_D.jpg",
-        "https://assets.widgety.co.uk/2024/07/08/12/19/11/7a1e74dd-a57a-47ef-9023-ed301e35ff68/A-ROSA, ALVA, Cabin S.jpg"
-      ],
-      "facts": {
-        "capacity": 126,
-        "cabins": 63,
-        "decks": 4,
-        "built": "2019",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Porto",
-    "disembark_port": "Porto",
     "board_basis": "Full Board"
   },
   {
@@ -2649,86 +1117,42 @@
     "board_basis": "Full Board"
   },
   {
-    "id": 10152,
-    "title": "Northern Rhine Experience - Family Cruise",
-    "slug": "a-rosa-cruises-northern-rhine-experience-family-cruise",
-    "price": 1299,
+    "id": 10139,
+    "title": "Rhine New Year",
+    "slug": "a-rosa-cruises-rhine-new-year",
+    "price": 1569,
     "destination": "Rhine",
     "country": "Europe",
     "duration_nights": 7,
-    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
+    "description": "",
     "featured_image": "",
     "gallery": [],
     "whats_included": [
       "Return Flights from the UK",
       "Hold Luggage",
       "Full Board Cruise",
-      "Premium All-Inclusive",
+      "Premium All-Inclusive (exc. Spirits)",
       "Free Wi-Fi"
     ],
     "itinerary": [],
     "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA AQUA",
+    "ship_name": "A-ROSA BRAVA",
     "ship": {
-      "name": "A-ROSA AQUA",
-      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
+      "name": "A-ROSA BRAVA",
+      "description": "River cruise on the Rhine with A-ROSA BRAVA.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
       "class": "",
       "cabin_images": [
         "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
         "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
+        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
         "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
       ],
       "facts": {
         "capacity": 202,
         "cabins": 99,
         "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      }
-    },
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board"
-  },
-  {
-    "id": 10153,
-    "title": "Rhine Christmas Markets (Christmas Cruises)",
-    "slug": "a-rosa-cruises-rhine-christmas-markets-christmas-cruises",
-    "price": 809,
-    "destination": "Rhine",
-    "country": "Europe",
-    "duration_nights": 4,
-    "description": "<h3>River Cruises during Advent and Holidays</h3><p>Experience the most beautiful Christmas markets and enjoy Christmas to the fullest.</p><p>As the year comes to an end and Christmas is fast approaching, we&acute;re sure you are looking forward to a well-deserved break. Spend the most festive time of the year <strong>on board A-ROSA</strong> &mdash; and treat yourself and your loved ones to a holiday cruise with our <strong>all-round carefree rate &ldquo;Premium All-Inclusive&ldquo;</strong>.&nbsp;</p><p>Visit the <strong>most beautiful Christmas markets</strong> along the rivers during Advent or book an unforgettable holiday cruise to celebrate Christmas.</p><p>We offer fantastic <strong>Christmas cruises</strong> on the Danube and Rhine. And, best of all, we&acute;ll take care of everything &mdash; all you have to think about is nothing but relaxing!</p><h3>River Cruises during Advent and Holidays</h3><p>Experience the most beautiful Christmas markets and enjoy Christmas to the fullest.</p><p>As the year comes to an end and Christmas is fast approaching, we&acute;re sure you are looking forward to a well-deserved break. Spend the most festive time of the year <strong>on board A-ROSA</strong> &mdash; and treat yourself and your loved ones to a holiday cruise with our <strong>all-round carefree rate &ldquo;Premium All-Inclusive&ldquo;</strong>.&nbsp;</p><p>Visit the <strong>most beautiful Christmas markets</strong> along the rivers during Advent or book an unforgettable holiday cruise to celebrate Christmas.</p><p>We offer fantastic <strong>Christmas cruises</strong> on the Danube and Rhine. And, best of all, we&acute;ll take care of everything &mdash; all you have to think about is nothing but relaxing!</p>",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Full Board Cruise",
-      "Premium All-Inclusive",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA AQUA",
-    "ship": {
-      "name": "A-ROSA AQUA",
-      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2009",
+        "built": "2011",
         "refurbished": ""
       }
     },
@@ -12362,6 +10786,1582 @@
     },
     "departure_port": "Amsterdam",
     "disembark_port": "Spandau/Berlin",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10141,
+    "title": "Rhine New Year's City Experience",
+    "slug": "a-rosa-cruises-rhine-new-year-s-city-experience",
+    "price": 1839,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SENA",
+    "ship": {
+      "name": "A-ROSA SENA",
+      "description": "The new E-Motion Ship on the Rhine sets completely new standards and is a pioneer on all levels.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/39/26/4459fa32-1a88-4b54-ae41-51950c87418f/A-ROSA, SENA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/b8990548-956a-4992-a47e-56d6e8919021/A-ROSA, SENA, Suite.jpg",
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/1ef8ad4c-a0e4-4928-bd85-0342d498e573/A-ROSA, SENA, Balcony cabin.jpg",
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/94edb1ba-ee4c-4b17-abab-d5cc3da9f769/A-ROSA, SENA, Family cabin.jpg"
+      ],
+      "facts": {
+        "capacity": 280,
+        "cabins": 140,
+        "decks": 5,
+        "built": "2022",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10142,
+    "title": "Southern Rhine New Year's Dream",
+    "slug": "a-rosa-cruises-southern-rhine-new-year-s-dream",
+    "price": 1589,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA CLEA",
+    "ship": {
+      "name": "A-ROSA CLEA",
+      "description": "New in 2024. Rhine cruises with the A-ROSA CLEA.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/20/bb0aa0a1-ee59-4093-b25a-ac059446f0e9/A-ROSA, CLEA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/7a3b550a-7d15-4e3d-9703-3227c72fb968/A-ROSA, CLEA, Juliette balcony E.JPEG",
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/9b371178-de0d-4dd1-9243-4659bd3d8d78/A-ROSA, CLEA, Juliette balcony C D.jpeg",
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/104fcac4-727c-4dd7-863e-74f2a8c89ea5/A-ROSA, CLEA, Cabin S A.jpeg"
+      ],
+      "facts": {
+        "capacity": 140,
+        "cabins": 70,
+        "decks": 4,
+        "built": "2009",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Frankfurt",
+    "disembark_port": "Frankfurt",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10143,
+    "title": "Rhine Experience Netherlands & Belgium - Family Cruise",
+    "slug": "a-rosa-cruises-rhine-experience-netherlands-belgium-family-cruise",
+    "price": 1149,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA AQUA",
+    "ship": {
+      "name": "A-ROSA AQUA",
+      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
+        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2009",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10144,
+    "title": "Seine Rendez-vous with Paris",
+    "slug": "a-rosa-cruises-seine-rendez-vous-with-paris",
+    "price": 889,
+    "destination": "Seine",
+    "country": "Europe",
+    "duration_nights": 5,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA VIVA",
+    "ship": {
+      "name": "A-ROSA VIVA",
+      "description": "River cruises on the Seine with A-ROSA VIVASailing along the Rhine, A-ROSA VIVA can accommodate up to 202 guests in her 99 outside cabins, some with Juliette Balcony.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/23/07060b65-3197-4ae3-a5ba-99b973b96153/A-ROSA, VIVA, Exterior.jpeg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/12/12/40/28/b0a94cca-7597-4c2b-bebd-cffd012e20db/A-ROSA, VIVA, Cabin A.jpg",
+        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2021/04/28/08/10/20/e928bec1-0a36-4ac8-a33f-d8fa3c30a833/a-rosa luna CAT D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2010",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Paris",
+    "disembark_port": "Paris",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10146,
+    "title": "Rhine Experience IJsselmeer - Family Cruise",
+    "slug": "a-rosa-cruises-rhine-experience-ijsselmeer-family-cruise",
+    "price": 1149,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA AQUA",
+    "ship": {
+      "name": "A-ROSA AQUA",
+      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
+        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2009",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10147,
+    "title": "Rhine Experience Amsterdam & Rotterdam - Family Cruise",
+    "slug": "a-rosa-cruises-rhine-experience-amsterdam-rotterdam-family-cruise",
+    "price": 1299,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SENA",
+    "ship": {
+      "name": "A-ROSA SENA",
+      "description": "The new E-Motion Ship on the Rhine sets completely new standards and is a pioneer on all levels.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/39/26/4459fa32-1a88-4b54-ae41-51950c87418f/A-ROSA, SENA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/b8990548-956a-4992-a47e-56d6e8919021/A-ROSA, SENA, Suite.jpg",
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/1ef8ad4c-a0e4-4928-bd85-0342d498e573/A-ROSA, SENA, Balcony cabin.jpg",
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/94edb1ba-ee4c-4b17-abab-d5cc3da9f769/A-ROSA, SENA, Family cabin.jpg"
+      ],
+      "facts": {
+        "capacity": 280,
+        "cabins": 140,
+        "decks": 5,
+        "built": "2022",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10102,
+    "title": "Rhine Experience IJsselmeer",
+    "slug": "a-rosa-cruises-rhine-experience-ijsselmeer",
+    "price": 1089,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA ALEA",
+    "ship": {
+      "name": "A-ROSA ALEA",
+      "description": "During a Rhine cruise on the A-ROSA ALEA, however, there are also sections of the Main and Moselle to discover, each with its own unique character.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/14/4d2659d9-da5e-4fad-8a5c-d8829e977cf4/A-ROSA ALEA Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2023/10/19/11/34/48/ee7e5089-fa0c-4125-967f-2a8b18e15b18/A-ROSA CLEA CAT E.png",
+        "https://assets.widgety.co.uk/2024/05/20/06/17/56/ae421c39-8c0e-426b-b9e8-2f6b5f2a4d61/A-ROSA, A-ROSA ALEA Cabins Cat C & D.jpg",
+        "https://assets.widgety.co.uk/2024/05/20/06/17/56/94cd32e4-1737-429c-ae6a-3b522f9c6481/A-ROSA, A-ROSA ALEA Cabins Cat S & A.jpg"
+      ],
+      "facts": {
+        "capacity": 138,
+        "cabins": 69,
+        "decks": 4,
+        "built": "2009",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10103,
+    "title": "Northern Rhine Experience",
+    "slug": "a-rosa-cruises-northern-rhine-experience",
+    "price": 1119,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA BRAVA",
+    "ship": {
+      "name": "A-ROSA BRAVA",
+      "description": "River cruise on the Rhine with A-ROSA BRAVA.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
+        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2011",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10104,
+    "title": "Moselle Romance",
+    "slug": "a-rosa-cruises-moselle-romance",
+    "price": 1289,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SILVA",
+    "ship": {
+      "name": "A-ROSA SILVA",
+      "description": "River cruise on the Rhine with A-ROSA SILVA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
+      ],
+      "facts": {
+        "capacity": 186,
+        "cabins": 89,
+        "decks": 4,
+        "built": "2012",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10105,
+    "title": "Southern Rhine City Experience",
+    "slug": "a-rosa-cruises-southern-rhine-city-experience",
+    "price": 1139,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA CLEA",
+    "ship": {
+      "name": "A-ROSA CLEA",
+      "description": "New in 2024. Rhine cruises with the A-ROSA CLEA.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/20/bb0aa0a1-ee59-4093-b25a-ac059446f0e9/A-ROSA, CLEA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/7a3b550a-7d15-4e3d-9703-3227c72fb968/A-ROSA, CLEA, Juliette balcony E.JPEG",
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/9b371178-de0d-4dd1-9243-4659bd3d8d78/A-ROSA, CLEA, Juliette balcony C D.jpeg",
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/104fcac4-727c-4dd7-863e-74f2a8c89ea5/A-ROSA, CLEA, Cabin S A.jpeg"
+      ],
+      "facts": {
+        "capacity": 140,
+        "cabins": 70,
+        "decks": 4,
+        "built": "2009",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Frankfurt",
+    "disembark_port": "Frankfurt",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10106,
+    "title": "Rhône Route Méditerranée",
+    "slug": "a-rosa-cruises-rhone-route-mediterranee",
+    "price": 1099,
+    "destination": "Rhone",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA STELLA",
+    "ship": {
+      "name": "A-ROSA STELLA",
+      "description": "River cruises on the Rhône/saône with A-ROSA STELLA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/31/699a42a2-3d6d-456d-a24c-c590244ebd9e/A-ROSA, STELLA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/2f64dc2b-5638-4d99-9820-545f47d81ba7/A-ROSA, STELLA, Cabin S.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/dc0c6393-1040-46c2-ae5d-b93bbca132ee/A-ROSA, STELLA, Cabin A.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/ad1100d4-846e-47a8-bb11-12d18d901edf/A-ROSA, STELLA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/e8b346a7-29b7-4282-a2ed-ad6b06d21982/A-ROSA, STELLA, Cabin D.jpg"
+      ],
+      "facts": {
+        "capacity": 174,
+        "cabins": 86,
+        "decks": 4,
+        "built": "2005",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Lyon",
+    "disembark_port": "Lyon",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10107,
+    "title": "Douro Experience",
+    "slug": "a-rosa-cruises-douro-experience",
+    "price": 1359,
+    "destination": "Douro",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA ALVA",
+    "ship": {
+      "name": "A-ROSA ALVA",
+      "description": "Come aboard our A-ROSA ALVA, discover the beauty of the Douro and have a look directly into the soul of Portugal!",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/38/18/5264937e-2264-4c70-8f2f-f74aea9e8e76/A-ROSA, A-ROSA ALVA Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/11/09/12/c39b08db-812d-4e26-9d1e-dfb3b528bb56/A-ROSA, ALVA, Cabin F.jpg",
+        "https://assets.widgety.co.uk/2021/04/28/12/42/17/16fdf6a4-25b4-43a9-8579-85aa2b95dc3e/a-rosa alva CAT C.jpg",
+        "https://assets.widgety.co.uk/2020/10/20/10/54/59/3ab98de8-1349-4437-a971-0a55fa191800/A-ROSA ALVA Cat C_D.jpg",
+        "https://assets.widgety.co.uk/2024/07/08/12/19/11/7a1e74dd-a57a-47ef-9023-ed301e35ff68/A-ROSA, ALVA, Cabin S.jpg"
+      ],
+      "facts": {
+        "capacity": 126,
+        "cabins": 63,
+        "decks": 4,
+        "built": "2019",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Porto",
+    "disembark_port": "Porto",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10108,
+    "title": "Rhine Experience & the Sea",
+    "slug": "a-rosa-cruises-rhine-experience-the-sea",
+    "price": 1639,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 9,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SILVA",
+    "ship": {
+      "name": "A-ROSA SILVA",
+      "description": "River cruise on the Rhine with A-ROSA SILVA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
+      ],
+      "facts": {
+        "capacity": 186,
+        "cabins": 89,
+        "decks": 4,
+        "built": "2012",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10111,
+    "title": "Seine Panorama",
+    "slug": "a-rosa-cruises-seine-panorama",
+    "price": 1579,
+    "destination": "Seine",
+    "country": "Europe",
+    "duration_nights": 9,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA VIVA",
+    "ship": {
+      "name": "A-ROSA VIVA",
+      "description": "River cruises on the Seine with A-ROSA VIVASailing along the Rhine, A-ROSA VIVA can accommodate up to 202 guests in her 99 outside cabins, some with Juliette Balcony.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/23/07060b65-3197-4ae3-a5ba-99b973b96153/A-ROSA, VIVA, Exterior.jpeg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/12/12/40/28/b0a94cca-7597-4c2b-bebd-cffd012e20db/A-ROSA, VIVA, Cabin A.jpg",
+        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2021/04/28/08/10/20/e928bec1-0a36-4ac8-a33f-d8fa3c30a833/a-rosa luna CAT D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2010",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Paris",
+    "disembark_port": "Paris",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10112,
+    "title": "Main & Middle Rhine Experience",
+    "slug": "a-rosa-cruises-main-middle-rhine-experience",
+    "price": 1139,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA CLEA",
+    "ship": {
+      "name": "A-ROSA CLEA",
+      "description": "New in 2024. Rhine cruises with the A-ROSA CLEA.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/20/bb0aa0a1-ee59-4093-b25a-ac059446f0e9/A-ROSA, CLEA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/7a3b550a-7d15-4e3d-9703-3227c72fb968/A-ROSA, CLEA, Juliette balcony E.JPEG",
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/9b371178-de0d-4dd1-9243-4659bd3d8d78/A-ROSA, CLEA, Juliette balcony C D.jpeg",
+        "https://assets.widgety.co.uk/2024/07/09/14/35/00/104fcac4-727c-4dd7-863e-74f2a8c89ea5/A-ROSA, CLEA, Cabin S A.jpeg"
+      ],
+      "facts": {
+        "capacity": 140,
+        "cabins": 70,
+        "decks": 4,
+        "built": "2009",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Frankfurt",
+    "disembark_port": "Frankfurt",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10113,
+    "title": "Rhine Experience Amsterdam & Rotterdam",
+    "slug": "a-rosa-cruises-rhine-experience-amsterdam-rotterdam",
+    "price": 1449,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SENA",
+    "ship": {
+      "name": "A-ROSA SENA",
+      "description": "The new E-Motion Ship on the Rhine sets completely new standards and is a pioneer on all levels.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/39/26/4459fa32-1a88-4b54-ae41-51950c87418f/A-ROSA, SENA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/b8990548-956a-4992-a47e-56d6e8919021/A-ROSA, SENA, Suite.jpg",
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/1ef8ad4c-a0e4-4928-bd85-0342d498e573/A-ROSA, SENA, Balcony cabin.jpg",
+        "https://assets.widgety.co.uk/2024/07/11/14/31/29/94edb1ba-ee4c-4b17-abab-d5cc3da9f769/A-ROSA, SENA, Family cabin.jpg"
+      ],
+      "facts": {
+        "capacity": 280,
+        "cabins": 140,
+        "decks": 5,
+        "built": "2022",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10114,
+    "title": "Main & Moselle Experience",
+    "slug": "a-rosa-cruises-main-moselle-experience",
+    "price": 1349,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SILVA",
+    "ship": {
+      "name": "A-ROSA SILVA",
+      "description": "River cruise on the Rhine with A-ROSA SILVA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
+      ],
+      "facts": {
+        "capacity": 186,
+        "cabins": 89,
+        "decks": 4,
+        "built": "2012",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10115,
+    "title": "Northern Rhine & Moselle Experience",
+    "slug": "a-rosa-cruises-northern-rhine-moselle-experience",
+    "price": 1629,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 9,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SILVA",
+    "ship": {
+      "name": "A-ROSA SILVA",
+      "description": "River cruise on the Rhine with A-ROSA SILVA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
+      ],
+      "facts": {
+        "capacity": 186,
+        "cabins": 89,
+        "decks": 4,
+        "built": "2012",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10116,
+    "title": "Moselle Discovery",
+    "slug": "a-rosa-cruises-moselle-discovery",
+    "price": 1009,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 5,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SILVA",
+    "ship": {
+      "name": "A-ROSA SILVA",
+      "description": "River cruise on the Rhine with A-ROSA SILVA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
+      ],
+      "facts": {
+        "capacity": 186,
+        "cabins": 89,
+        "decks": 4,
+        "built": "2012",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10117,
+    "title": "Southern Rhine Experience",
+    "slug": "a-rosa-cruises-southern-rhine-experience",
+    "price": 1339,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SILVA",
+    "ship": {
+      "name": "A-ROSA SILVA",
+      "description": "River cruise on the Rhine with A-ROSA SILVA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
+      ],
+      "facts": {
+        "capacity": 186,
+        "cabins": 89,
+        "decks": 4,
+        "built": "2012",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10118,
+    "title": "Rhône Route Provence",
+    "slug": "a-rosa-cruises-rhone-route-provence",
+    "price": 1079,
+    "destination": "Rhone",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA STELLA",
+    "ship": {
+      "name": "A-ROSA STELLA",
+      "description": "River cruises on the Rhône/saône with A-ROSA STELLA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/31/699a42a2-3d6d-456d-a24c-c590244ebd9e/A-ROSA, STELLA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/2f64dc2b-5638-4d99-9820-545f47d81ba7/A-ROSA, STELLA, Cabin S.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/dc0c6393-1040-46c2-ae5d-b93bbca132ee/A-ROSA, STELLA, Cabin A.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/ad1100d4-846e-47a8-bb11-12d18d901edf/A-ROSA, STELLA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/e8b346a7-29b7-4282-a2ed-ad6b06d21982/A-ROSA, STELLA, Cabin D.jpg"
+      ],
+      "facts": {
+        "capacity": 174,
+        "cabins": 86,
+        "decks": 4,
+        "built": "2005",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Lyon",
+    "disembark_port": "Lyon",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10119,
+    "title": "Seine Experience Normandy with Paris",
+    "slug": "a-rosa-cruises-seine-experience-normandy-with-paris",
+    "price": 1049,
+    "destination": "Seine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA VIVA",
+    "ship": {
+      "name": "A-ROSA VIVA",
+      "description": "River cruises on the Seine with A-ROSA VIVASailing along the Rhine, A-ROSA VIVA can accommodate up to 202 guests in her 99 outside cabins, some with Juliette Balcony.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/23/07060b65-3197-4ae3-a5ba-99b973b96153/A-ROSA, VIVA, Exterior.jpeg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/12/12/40/28/b0a94cca-7597-4c2b-bebd-cffd012e20db/A-ROSA, VIVA, Cabin A.jpg",
+        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2021/04/28/08/10/20/e928bec1-0a36-4ac8-a33f-d8fa3c30a833/a-rosa luna CAT D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2010",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Paris",
+    "disembark_port": "Paris",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10121,
+    "title": "Southern Rhine Nature Experience",
+    "slug": "a-rosa-cruises-southern-rhine-nature-experience",
+    "price": 1099,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA BRAVA",
+    "ship": {
+      "name": "A-ROSA BRAVA",
+      "description": "River cruise on the Rhine with A-ROSA BRAVA.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
+        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2011",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10122,
+    "title": "Rhône Route Panorama",
+    "slug": "a-rosa-cruises-rhone-route-panorama",
+    "price": 1309,
+    "destination": "Rhone",
+    "country": "Europe",
+    "duration_nights": 9,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA STELLA",
+    "ship": {
+      "name": "A-ROSA STELLA",
+      "description": "River cruises on the Rhône/saône with A-ROSA STELLA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/31/699a42a2-3d6d-456d-a24c-c590244ebd9e/A-ROSA, STELLA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/2f64dc2b-5638-4d99-9820-545f47d81ba7/A-ROSA, STELLA, Cabin S.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/dc0c6393-1040-46c2-ae5d-b93bbca132ee/A-ROSA, STELLA, Cabin A.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/ad1100d4-846e-47a8-bb11-12d18d901edf/A-ROSA, STELLA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/e8b346a7-29b7-4282-a2ed-ad6b06d21982/A-ROSA, STELLA, Cabin D.jpg"
+      ],
+      "facts": {
+        "capacity": 174,
+        "cabins": 86,
+        "decks": 4,
+        "built": "2005",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Lyon",
+    "disembark_port": "Lyon",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10123,
+    "title": "Rhine Mini Cruise Main & Lorelei",
+    "slug": "a-rosa-cruises-rhine-mini-cruise-main-lorelei",
+    "price": 769,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 4,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA BRAVA",
+    "ship": {
+      "name": "A-ROSA BRAVA",
+      "description": "River cruise on the Rhine with A-ROSA BRAVA.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
+        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2011",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10124,
+    "title": "Rhône Route Intensive",
+    "slug": "a-rosa-cruises-rhone-route-intensive",
+    "price": 2909,
+    "destination": "Rhone",
+    "country": "Europe",
+    "duration_nights": 14,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA LUNA",
+    "ship": {
+      "name": "A-ROSA LUNA",
+      "description": "River cruises on the Rhône/Saône with A-ROSA LUNA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/24/72292622-9ed3-4443-ac90-bccbf69885c7/A-ROSA, LUNA, Exterior 2.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/10/15/36/00/df2b9557-4c4a-4af0-9e58-b2cd4514530a/A-ROSA, LUNA, Cabin S.jpg",
+        "https://assets.widgety.co.uk/2015/10/30/15/13/48/353/A_ROSA_LUNA_A_ROSA_STELLA_Accommodation_2_Bed_Outdoor_Cabin.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/15/36/00/3e34122d-4a49-4be4-a561-9af674cfed62/A-ROSA, LUNA, Cabin C & D 1.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/15/36/00/1e692d20-8a6d-49d3-b0f8-114146ebf051/A-ROSA, LUNA, Cabin C & D 2.jpg"
+      ],
+      "facts": {
+        "capacity": 174,
+        "cabins": 86,
+        "decks": 4,
+        "built": "2005",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Lyon",
+    "disembark_port": "Lyon",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10125,
+    "title": "Rhône Route Rendez-Vous",
+    "slug": "a-rosa-cruises-rhone-route-rendez-vous",
+    "price": 1149,
+    "destination": "Rhone",
+    "country": "Europe",
+    "duration_nights": 5,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA STELLA",
+    "ship": {
+      "name": "A-ROSA STELLA",
+      "description": "River cruises on the Rhône/saône with A-ROSA STELLA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/31/699a42a2-3d6d-456d-a24c-c590244ebd9e/A-ROSA, STELLA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/2f64dc2b-5638-4d99-9820-545f47d81ba7/A-ROSA, STELLA, Cabin S.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/dc0c6393-1040-46c2-ae5d-b93bbca132ee/A-ROSA, STELLA, Cabin A.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/ad1100d4-846e-47a8-bb11-12d18d901edf/A-ROSA, STELLA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2024/07/12/10/21/17/e8b346a7-29b7-4282-a2ed-ad6b06d21982/A-ROSA, STELLA, Cabin D.jpg"
+      ],
+      "facts": {
+        "capacity": 174,
+        "cabins": 86,
+        "decks": 4,
+        "built": "2005",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Lyon",
+    "disembark_port": "Lyon",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10126,
+    "title": "Rhine Panorama",
+    "slug": "a-rosa-cruises-rhine-panorama",
+    "price": 1759,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 9,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SILVA",
+    "ship": {
+      "name": "A-ROSA SILVA",
+      "description": "River cruise on the Rhine with A-ROSA SILVA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
+      ],
+      "facts": {
+        "capacity": 186,
+        "cabins": 89,
+        "decks": 4,
+        "built": "2012",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10148,
+    "title": "Seine Experience Normandy with Paris - Family Cruise",
+    "slug": "a-rosa-cruises-seine-experience-normandy-with-paris-family-cruise",
+    "price": 1079,
+    "destination": "Seine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA VIVA",
+    "ship": {
+      "name": "A-ROSA VIVA",
+      "description": "River cruises on the Seine with A-ROSA VIVASailing along the Rhine, A-ROSA VIVA can accommodate up to 202 guests in her 99 outside cabins, some with Juliette Balcony.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/23/07060b65-3197-4ae3-a5ba-99b973b96153/A-ROSA, VIVA, Exterior.jpeg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/12/12/40/28/b0a94cca-7597-4c2b-bebd-cffd012e20db/A-ROSA, VIVA, Cabin A.jpg",
+        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2021/04/28/08/10/20/e928bec1-0a36-4ac8-a33f-d8fa3c30a833/a-rosa luna CAT D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2010",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Paris",
+    "disembark_port": "Paris",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10149,
+    "title": "Seine Rendez-vous with Paris - Family Cruise",
+    "slug": "a-rosa-cruises-seine-rendez-vous-with-paris-family-cruise",
+    "price": 1029,
+    "destination": "Seine",
+    "country": "Europe",
+    "duration_nights": 5,
+    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA VIVA",
+    "ship": {
+      "name": "A-ROSA VIVA",
+      "description": "River cruises on the Seine with A-ROSA VIVASailing along the Rhine, A-ROSA VIVA can accommodate up to 202 guests in her 99 outside cabins, some with Juliette Balcony.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/23/07060b65-3197-4ae3-a5ba-99b973b96153/A-ROSA, VIVA, Exterior.jpeg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/12/12/40/28/b0a94cca-7597-4c2b-bebd-cffd012e20db/A-ROSA, VIVA, Cabin A.jpg",
+        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2021/04/28/08/10/20/e928bec1-0a36-4ac8-a33f-d8fa3c30a833/a-rosa luna CAT D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2010",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Paris",
+    "disembark_port": "Paris",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10150,
+    "title": "Rhône Route Rendez-Vous - Family Cruise",
+    "slug": "a-rosa-cruises-rhone-route-rendez-vous-family-cruise",
+    "price": 1019,
+    "destination": "Rhone",
+    "country": "Europe",
+    "duration_nights": 5,
+    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA LUNA",
+    "ship": {
+      "name": "A-ROSA LUNA",
+      "description": "River cruises on the Rhône/Saône with A-ROSA LUNA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/24/72292622-9ed3-4443-ac90-bccbf69885c7/A-ROSA, LUNA, Exterior 2.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/10/15/36/00/df2b9557-4c4a-4af0-9e58-b2cd4514530a/A-ROSA, LUNA, Cabin S.jpg",
+        "https://assets.widgety.co.uk/2015/10/30/15/13/48/353/A_ROSA_LUNA_A_ROSA_STELLA_Accommodation_2_Bed_Outdoor_Cabin.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/15/36/00/3e34122d-4a49-4be4-a561-9af674cfed62/A-ROSA, LUNA, Cabin C & D 1.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/15/36/00/1e692d20-8a6d-49d3-b0f8-114146ebf051/A-ROSA, LUNA, Cabin C & D 2.jpg"
+      ],
+      "facts": {
+        "capacity": 174,
+        "cabins": 86,
+        "decks": 4,
+        "built": "2005",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Lyon",
+    "disembark_port": "Lyon",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10151,
+    "title": "Rhine Metropolises",
+    "slug": "a-rosa-cruises-rhine-metropolises",
+    "price": 949,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 5,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA ALEA",
+    "ship": {
+      "name": "A-ROSA ALEA",
+      "description": "During a Rhine cruise on the A-ROSA ALEA, however, there are also sections of the Main and Moselle to discover, each with its own unique character.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/14/4d2659d9-da5e-4fad-8a5c-d8829e977cf4/A-ROSA ALEA Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2023/10/19/11/34/48/ee7e5089-fa0c-4125-967f-2a8b18e15b18/A-ROSA CLEA CAT E.png",
+        "https://assets.widgety.co.uk/2024/05/20/06/17/56/ae421c39-8c0e-426b-b9e8-2f6b5f2a4d61/A-ROSA, A-ROSA ALEA Cabins Cat C & D.jpg",
+        "https://assets.widgety.co.uk/2024/05/20/06/17/56/94cd32e4-1737-429c-ae6a-3b522f9c6481/A-ROSA, A-ROSA ALEA Cabins Cat S & A.jpg"
+      ],
+      "facts": {
+        "capacity": 138,
+        "cabins": 69,
+        "decks": 4,
+        "built": "2009",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10127,
+    "title": "Rhine Culinary Highlights",
+    "slug": "a-rosa-cruises-rhine-culinary-highlights",
+    "price": 1989,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA SILVA",
+    "ship": {
+      "name": "A-ROSA SILVA",
+      "description": "River cruise on the Rhine with A-ROSA SILVA",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/25/33ac0e8b-4b81-48c1-8c9c-0348bf5afa15/A-ROSA, SILVA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/10/12/40/13/483b64ac-128e-4c05-b96e-9a841c46016f/A-ROSA, FLORA, Cabin cat. suite_F-02.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/15/37939140-5108-4a06-b594-0d81ed00cbe7/A-ROSA, FLORA, SUITE-E_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/04cb0519-be9e-4228-a1eb-ea053237f484/A-ROSA, FLORA, CABIN_C_D_01.jpg",
+        "https://assets.widgety.co.uk/2024/07/10/12/40/14/610b93bf-e040-49e4-a3eb-f5de4fec2522/A-ROSA, FLORA, Cabin cat.S.jpg"
+      ],
+      "facts": {
+        "capacity": 186,
+        "cabins": 89,
+        "decks": 4,
+        "built": "2012",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10128,
+    "title": "Douro Wine & Gusto",
+    "slug": "a-rosa-cruises-douro-wine-gusto",
+    "price": 1999,
+    "destination": "Douro",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA ALVA",
+    "ship": {
+      "name": "A-ROSA ALVA",
+      "description": "Come aboard our A-ROSA ALVA, discover the beauty of the Douro and have a look directly into the soul of Portugal!",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/38/18/5264937e-2264-4c70-8f2f-f74aea9e8e76/A-ROSA, A-ROSA ALVA Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/11/09/12/c39b08db-812d-4e26-9d1e-dfb3b528bb56/A-ROSA, ALVA, Cabin F.jpg",
+        "https://assets.widgety.co.uk/2021/04/28/12/42/17/16fdf6a4-25b4-43a9-8579-85aa2b95dc3e/a-rosa alva CAT C.jpg",
+        "https://assets.widgety.co.uk/2020/10/20/10/54/59/3ab98de8-1349-4437-a971-0a55fa191800/A-ROSA ALVA Cat C_D.jpg",
+        "https://assets.widgety.co.uk/2024/07/08/12/19/11/7a1e74dd-a57a-47ef-9023-ed301e35ff68/A-ROSA, ALVA, Cabin S.jpg"
+      ],
+      "facts": {
+        "capacity": 126,
+        "cabins": 63,
+        "decks": 4,
+        "built": "2019",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Porto",
+    "disembark_port": "Porto",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10152,
+    "title": "Northern Rhine Experience - Family Cruise",
+    "slug": "a-rosa-cruises-northern-rhine-experience-family-cruise",
+    "price": 1299,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 7,
+    "description": "<h3>Family Cruises with A-ROSA</h3><p>Families are always on the go. So, it&acute;s not easy to get everyone together and simply spend time in one another&acute;s company. Playing, telling stories, listening, laughing, hugging and enjoying delicious food are the glue that binds families together. We believe that our A-ROSA ships are the perfect place to spend time like this.</p><p>Family means adventures every day. Particularly when everybody travels together to explore new exciting places. One such place is the family cabin. This has a generously sized double bed and two high-quality single beds. The perfect place to make your own little retreat or plan your next excursion.</p><p><strong>The A-ROSA Kids Club</strong><br />\u000bThe A-ROSA child and youth care does not let boredom arise.</p><p>Delicious favourite dishes, family tables and special surprises await you on all rivers. On board, an experienced host takes care of the youngest. The offer for the Kids Club takes place on selected family ships.</p><p><strong>ENTERTAINMENT PROGRAMME</strong>: Design their own T-Shirt, Creative Studio, Pop-Up Cards, Ship Rally, Face Painting, Theme days, such as Pirate Day, Board Games, Painting and Crafting, Different Exercises, Photo and Movie Activities, Ship Newspaper, Children/Youth Show. The specific program always depends on the conditions onboard; e.g. weather, space, the number and age of the children and teens, and of course on the interests of children and teens.</p><p><strong>AGE GROUP</strong>: Children and teenagers between the ages of 4 and 15 years</p><p><strong>ANIMATION TIMES</strong>: Up to three times per day.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA AQUA",
+    "ship": {
+      "name": "A-ROSA AQUA",
+      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
+        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2009",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
+    "board_basis": "Full Board"
+  },
+  {
+    "id": 10153,
+    "title": "Rhine Christmas Markets (Christmas Cruises)",
+    "slug": "a-rosa-cruises-rhine-christmas-markets-christmas-cruises",
+    "price": 809,
+    "destination": "Rhine",
+    "country": "Europe",
+    "duration_nights": 4,
+    "description": "<h3>River Cruises during Advent and Holidays</h3><p>Experience the most beautiful Christmas markets and enjoy Christmas to the fullest.</p><p>As the year comes to an end and Christmas is fast approaching, we&acute;re sure you are looking forward to a well-deserved break. Spend the most festive time of the year <strong>on board A-ROSA</strong> &mdash; and treat yourself and your loved ones to a holiday cruise with our <strong>all-round carefree rate &ldquo;Premium All-Inclusive&ldquo;</strong>.&nbsp;</p><p>Visit the <strong>most beautiful Christmas markets</strong> along the rivers during Advent or book an unforgettable holiday cruise to celebrate Christmas.</p><p>We offer fantastic <strong>Christmas cruises</strong> on the Danube and Rhine. And, best of all, we&acute;ll take care of everything &mdash; all you have to think about is nothing but relaxing!</p><h3>River Cruises during Advent and Holidays</h3><p>Experience the most beautiful Christmas markets and enjoy Christmas to the fullest.</p><p>As the year comes to an end and Christmas is fast approaching, we&acute;re sure you are looking forward to a well-deserved break. Spend the most festive time of the year <strong>on board A-ROSA</strong> &mdash; and treat yourself and your loved ones to a holiday cruise with our <strong>all-round carefree rate &ldquo;Premium All-Inclusive&ldquo;</strong>.&nbsp;</p><p>Visit the <strong>most beautiful Christmas markets</strong> along the rivers during Advent or book an unforgettable holiday cruise to celebrate Christmas.</p><p>We offer fantastic <strong>Christmas cruises</strong> on the Danube and Rhine. And, best of all, we&acute;ll take care of everything &mdash; all you have to think about is nothing but relaxing!</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "Premium All-Inclusive (exc. Spirits)",
+      "Free Wi-Fi"
+    ],
+    "itinerary": [],
+    "operator_name": "A-ROSA",
+    "ship_name": "A-ROSA AQUA",
+    "ship": {
+      "name": "A-ROSA AQUA",
+      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
+      "class": "",
+      "cabin_images": [
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
+        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
+      ],
+      "facts": {
+        "capacity": 202,
+        "cabins": 99,
+        "decks": 4,
+        "built": "2009",
+        "refurbished": ""
+      }
+    },
+    "departure_port": "Cologne",
+    "disembark_port": "Cologne",
     "board_basis": "Full Board"
   }
 ]

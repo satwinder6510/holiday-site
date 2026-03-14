@@ -103,8 +103,17 @@ const { title, subtitle, breadcrumbLabel, backgroundImage } = Astro.props;
   }
 
   .hero-content h1 {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 60px;
+    line-height: 1.1;
     color: #ffffff;
     padding-bottom: 25px;
     text-shadow: 2px 2px 5px #000;
+  }
+  @media (max-width: 768px) {
+    .hero-content h1 { font-size: 42px; }
+  }
+  @media (max-width: 450px) {
+    .hero-content h1 { font-size: 32px; }
   }
 </style>

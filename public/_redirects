@@ -1,0 +1,7 @@
+# Old Replit URL redirects (301 permanent)
+/packages  /  301
+/packages/*  /Holidays/search  301
+/terms  /terms-and-conditions  301
+/faq  /contact  301
+/special-offers  /  301
+/destinations/*/holiday-deals  /Holidays/:splat  301

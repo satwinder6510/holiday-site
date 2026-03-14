@@ -2,4 +2,29 @@ User-agent: *
 Allow: /
 Disallow: /Holidays/search
 
-Sitemap: https://holidays.flightsandpackages.com/sitemap-index.xml
+# AI Search Crawlers - Explicitly allowed
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+Sitemap: https://holidays.flightsandpackages.com/sitemaps.xml

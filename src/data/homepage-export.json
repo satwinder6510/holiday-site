@@ -1,34 +1,60 @@
 {
   "heroSlides": [
     {
-      "image": "https://holidays.flightsandpackages.com/objects/images/6bcf62b2-2af4-4a71-98dc-c4e0b0c46825-featured-5-star-all-inclusive-hurghada-holiday.jpg",
-      "title": "5 Star All Inclusive Hurghada Holiday",
-      "duration": "7 Days",
-      "price": "£399",
-      "href": "/Holidays/world/5-star-all-inclusive-hurghada-holiday",
+      "image": "https://holidays.flightsandpackages.com/api/media/unsplash-lcwx8uhb2r0-mm3n7d23-01a03630/card",
+      "title": "Rome to Sicily – A Mediterranean Journey",
+      "duration": "8 Days / 7 Nights",
+      "price": "£478",
+      "href": "/Holidays/world/rome-to-sicily-a-mediterranean-journey",
+      "tinted": false
+    },
+    {
+      "image": "https://holidays.flightsandpackages.com/objects/images/78715c3a-cd2d-4560-90ea-59309e579dad-adobe-express-file-36.jpg",
+      "title": "6 Nights Best Cities Of Italy Rome Florence And Venice",
+      "duration": "7 Days / 6 Nights",
+      "price": "£329",
+      "href": "/Holidays/italy/6-nights-best-cities-of-italy-rome-florence-and-venice",
+      "tinted": false
+    },
+    {
+      "image": "https://holidays.flightsandpackages.com/api/media/unsplash-k3xgeozga0s-mjcnq9ea-0027fa54/card",
+      "title": "Lisbon And Porto Twin Centre Break With Breakfast",
+      "duration": "5 Days / 4 Nights",
+      "price": "£249",
+      "href": "/Holidays/world/lisbon-and-porto-twin-centre-break-with-breakfast",
       "tinted": false
     }
   ],
   "specialOffers": [
     {
-      "image": "https://holidays.flightsandpackages.com/objects/images/78715c3a-cd2d-4560-90ea-59309e579dad-adobe-express-file-36.jpg",
+      "image": "https://holidays.flightsandpackages.com/api/media/unsplash-lcwx8uhb2r0-mm3n7d23-01a03630/card",
       "badge": "Italy",
+      "title": "Rome to Sicily – A Mediterranean Journey",
+      "country": "",
+      "duration": "8 Days / 7 Nights",
+      "boardBasis": "Bed & Breakfast ",
+      "price": "£478",
+      "href": "/Holidays/world/rome-to-sicily-a-mediterranean-journey"
+    },
+    {
+      "image": "https://holidays.flightsandpackages.com/objects/images/78715c3a-cd2d-4560-90ea-59309e579dad-adobe-express-file-36.jpg",
+      "badge": "City Break",
       "title": "6 Nights Best Cities Of Italy Rome Florence And Venice",
       "country": "Italy",
       "duration": "7 Days / 6 Nights",
       "boardBasis": "Bed & Breakfast ",
-      "price": "£299",
+      "price": "£329",
       "href": "/Holidays/italy/6-nights-best-cities-of-italy-rome-florence-and-venice"
     },
     {
-      "image": "https://holidays.flightsandpackages.com/objects/images/73f1e806-1155-475c-bd82-fb33e02108da-nastro-bottom.jpg",
-      "badge": "Italy",
-      "title": "Serene Sorrento: Peaceful Adults-Only Getaway",
-      "country": "Italy",
+      "image": "https://holidays.flightsandpackages.com/api/media/unsplash-uesznsv7gze-mj1wzww7-c414b314/card",
+      "badge": "Spain",
+      "title": "Seville and Madrid Twin Centre with Scenic Train Ride",
+      "country": "",
       "duration": "5 Days / 4 Nights",
-      "boardBasis": "All Inclusive",
-      "price": "£499",
-      "href": "/Holidays/italy/serene-sorrento-peaceful-adults-only-getaway"
+      "boardBasis": "Bed & Breakfast ",
+      "price": "£349",
+      "href": "/Holidays/world/seville-and-madrid-twin-centre-with-scenic-train-ride"
     },
     {
       "image": "https://holidays.flightsandpackages.com/api/media/unsplash-k3xgeozga0s-mjcnq9ea-0027fa54/card",
@@ -37,71 +63,23 @@
       "country": "",
       "duration": "5 Days / 4 Nights",
       "boardBasis": "Bed & Breakfast ",
-      "price": "£229",
+      "price": "£249",
       "href": "/Holidays/world/lisbon-and-porto-twin-centre-break-with-breakfast"
-    },
-    {
-      "image": "https://holidays.flightsandpackages.com/api/media/pexels-17847436-mjco3bag-045704c5/card",
-      "badge": "Portugal",
-      "title": "Journey Through Porto And The Picturesque Douro Valley",
-      "country": "",
-      "duration": "6 Days / 5 Nights",
-      "boardBasis": "All Inclusive",
-      "price": "£799",
-      "href": "/Holidays/world/journey-through-porto-and-the-picturesque-douro-valley"
-    },
-    {
-      "image": "https://holidays.flightsandpackages.com/api/media/unsplash-awrdiizj4yk-mj1wf0rx-daa26ce1/card",
-      "badge": "Austria",
-      "title": "Danube Elegance A Timeless River Journey",
-      "country": "",
-      "duration": "5 Days / 4 Nights",
-      "boardBasis": "All Inclusive",
-      "price": "£499",
-      "href": "/Holidays/world/danube-elegance-a-timeless-river-journey"
-    },
-    {
-      "image": "https://holidays.flightsandpackages.com/api/media/unsplash-zd4mfl-1c6g-mj1vxn6p-4206f306/card",
-      "badge": "India",
-      "title": "Golden Triangle Tour With Tiger Safari And Beach Stay",
-      "country": "",
-      "duration": "12 Days/11 Nights",
-      "boardBasis": "Bed and Breakfast",
-      "price": "£1,199",
-      "href": "/Holidays/world/golden-triangle-tour-with-tiger-safari-and-beach-stay"
-    },
-    {
-      "image": "https://holidays.flightsandpackages.com/objects/images/6bcf62b2-2af4-4a71-98dc-c4e0b0c46825-featured-5-star-all-inclusive-hurghada-holiday.jpg",
-      "badge": "Beach",
-      "title": "5 Star All Inclusive Hurghada Holiday",
-      "country": "",
-      "duration": "7 Days",
-      "boardBasis": "",
-      "price": "£399",
-      "href": "/Holidays/world/5-star-all-inclusive-hurghada-holiday"
     }
   ],
   "featuredTour": {
-    "title": "5 Star All Inclusive Hurghada Holiday",
-    "description": "Hurghada lies on the east coast of Egypt where the desert meets the Red Sea and is noted for its natural beauty - beautiful sandy beach beaches and crystal clear waters backed by a distant range of mountains.\n\nLocated in the heart of the popular resort town of Hurghada with uninterrupted sea views, ",
-    "price": "£399",
-    "href": "/Holidays/world/5-star-all-inclusive-hurghada-holiday",
+    "title": "Vienna and Venice A Twin City European Escape By Sleeper Train",
+    "description": "From imperial elegance to canal-side charm – discover two unforgettable cities in one magical journey - Save £200 per person!\n\nEmbark on a 5-night European escape that combines the cultural richness of Vienna with the romantic allure of Venice. Begin in Austria’s capital, where grand architecture, c",
+    "price": "£299",
+    "href": "/Holidays/world/vienna-and-venice-a-twin-city-european-escape-by-sleeper-train",
     "images": [
-      "https://holidays.flightsandpackages.com/objects/images/440ce8df-1868-4ead-a1a9-726bbd48e531-gallery-5-star-all-inclusive-hurghada-holiday-0.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/6fae4ad0-66f5-4aa9-b47c-23ed2629b54f-gallery-5-star-all-inclusive-hurghada-holiday-1.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/d4cc53c5-b3fa-435b-aa4a-cabfb5e5cb89-gallery-5-star-all-inclusive-hurghada-holiday-2.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/3700ca2e-5f2d-460e-92ec-754033ce0858-gallery-5-star-all-inclusive-hurghada-holiday-3.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/38538df8-8871-4c1d-a003-dc4327bcd604-gallery-5-star-all-inclusive-hurghada-holiday-4.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/cd80dec0-3695-4554-9b2b-caad94d78adf-gallery-5-star-all-inclusive-hurghada-holiday-5.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/46ad8038-6a74-42cf-9584-fd53e12742de-gallery-5-star-all-inclusive-hurghada-holiday-6.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/9b6747f0-093f-4176-bf4d-a55f51955a12-gallery-5-star-all-inclusive-hurghada-holiday-7.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/3ff14bb9-d1dd-4dce-8125-9e43ba3491b2-gallery-5-star-all-inclusive-hurghada-holiday-8.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/ffeb1367-356c-4e10-a13f-0fa8cb4608bb-gallery-5-star-all-inclusive-hurghada-holiday-9.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/5ff30a6d-4dd5-4c0d-ab29-534a60310938-gallery-5-star-all-inclusive-hurghada-holiday-10.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/ef9a4ecb-df47-4634-b57d-68845569330b-gallery-5-star-all-inclusive-hurghada-holiday-11.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/5ccb567f-d9d6-4af1-a9ac-73e00e4e4207-gallery-5-star-all-inclusive-hurghada-holiday-12.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/e7712532-9700-4ebe-ae4a-0db8dfdb5ec7-gallery-5-star-all-inclusive-hurghada-holiday-13.jpg",
-      "https://holidays.flightsandpackages.com/objects/images/bf4fd298-18ac-47f3-bdf2-5e42df9eb1e6-gallery-5-star-all-inclusive-hurghada-holiday-14.jpg"
+      "https://holidays.flightsandpackages.com/objects/images/3368db20-9893-49b1-9d2d-fdd8aa9c80c5-gallery-vienna-and-venice-a-twin-city-european-esc.jpg",
+      "https://holidays.flightsandpackages.com/objects/images/99865e7f-2ae7-4f37-9bb4-a34fd4908fc4-gallery-vienna-and-venice-a-twin-city-european-esc.jpg",
+      "https://holidays.flightsandpackages.com/objects/images/86d68bd7-2bb9-4baa-933a-fd8443940885-gallery-vienna-and-venice-a-twin-city-european-esc.jpg",
+      "https://holidays.flightsandpackages.com/objects/images/20c6eef8-636d-4514-a316-824521c7ace6-gallery-vienna-and-venice-a-twin-city-european-esc.jpg",
+      "https://holidays.flightsandpackages.com/objects/images/bd714178-c60e-4245-a4a0-c14e95c4abb0-gallery-vienna-and-venice-a-twin-city-european-esc.jpg",
+      "https://holidays.flightsandpackages.com/objects/images/9c0d5963-4cfd-405e-8a67-2b7910961d16-gallery-vienna-and-venice-a-twin-city-european-esc.jpg",
+      "https://holidays.flightsandpackages.com/objects/images/f4b137e5-f9c3-4964-87f5-6dae560ca2d3-gallery-vienna-and-venice-a-twin-city-european-esc.jpg"
     ]
   }
 }

@@ -6,9 +6,14 @@ import PageHero from '../components/PageHero.astro';
 import Footer from '../components/Footer.astro';
 import Newsletter from '../components/Newsletter.astro';
 import MobileCallCTA from '../components/MobileCallCTA.astro';
+import BreadcrumbSchema from '../components/BreadcrumbSchema.astro';
 ---
 
 <BaseLayout title="About Us | Holidays - Flights and Packages" description="Flights and Packages offer high-quality, tailor-made tours and holidays at the best possible price, with 55 destinations to choose from.">
+  <BreadcrumbSchema slot="head" items={[
+    { name: 'Home', url: '/' },
+    { name: 'About Us' },
+  ]} />
   <Header />
   <MobileNav />
   <PageHero
@@ -78,7 +83,7 @@ import MobileCallCTA from '../components/MobileCallCTA.astro';
     <p>The wonderful hotels across all our getaways have been handpicked and checked on <strong>TripAdvisor</strong> for quality assurance, before being included in the itinerary. We believe that accommodation should be one of the many highlights of your trip, which is why we work hard to ensure our hotels exceed your expectations. We even have a collection of all-inclusive holidays, where the emphasis is firmly on relaxation and enjoying the resort facilities.</p>
 
     <h4>Our Background</h4>
-    <p>At Flights and Packages we offer tours and holidays to <strong>55 destinations</strong>. Some of our most popular adventures include our <strong>Golden Triangle Tour</strong> in India and our <strong>Cambodia and Vietnam tour</strong>. We also offer a wide range of <strong>package holidays</strong> and <strong>city breaks</strong> with <strong>Italy</strong> our top-selling European destination. We hold <strong>ATOL and PTS</strong> so you can book your holiday safe in the knowledge you are financially protected.</p>
+    <p>At Flights and Packages we offer tours and holidays to <strong>55 destinations</strong>. Some of our most popular adventures include our <strong>Golden Triangle Tour</strong> in India and our <strong>Cambodia and Vietnam tour</strong>. We also offer a wide range of <strong>package holidays</strong> and <strong>city breaks</strong> with <strong>Italy</strong> our top-selling European destination. We are members of the <strong>Travel Trust Association</strong> so you can book your holiday safe in the knowledge you are 100% financially protected.</p>
 
     <h4>Why Book with Us?</h4>
     <p>As well as our focus on <strong>quality, value</strong> and exceptional <strong>customer service</strong> our well-travelled, passionate team also have the <strong>travel expertise</strong> to ensure that when you book with us you can expect a wonderful time. Our location experts have multiple contracts with top international airlines including Virgin Atlantic, Emirates, Etihad and Qatar and through these contracts we are able to offer you competitive fares on flights from <strong>all UK airports</strong> as part of our tours and holidays. It's contracts like these that allow us to maintain our high quality but still offer you affordable packages.</p>
@@ -88,23 +93,19 @@ import MobileCallCTA from '../components/MobileCallCTA.astro';
   <!-- Safety Section -->
   <section class="safety-section">
     <div class="section-container">
-      <h4>in safe hands</h4>
+      <p class="section-label">in safe hands</p>
       <h2>Total Peace of Mind</h2>
       <div class="card-wrap">
         <div class="card">
-          <img src="/images/atol-logo.png" alt="ATOL Protection" />
-          <p>ATOL stands for Air Travel Organiser's Licence and is backed by the UK Government and is the UK's financial protection scheme when you book a holiday with a UK ATOL holder. Our ATOL number is 11847.</p>
-          <p>For more information about financial protection and the ATOL Certificate please visit the ATOL website <a href="https://www.caa.co.uk/atol-protection/" target="_blank" class="text-primary">Visit ATOL website</a></p>
+          <img src="/images/travel-trust-logo.png" alt="Travel Trust Association - Your Holidays 100% Financially Protected" />
+          <p>Flights and Packages is a proud member of the <strong>Travel Trust Association</strong>, the world's largest travel trade association providing 100% financial protection for your holiday.</p>
+          <p>When you book with a TTA member, your money is held in a trust account until your holiday is complete, ensuring your funds are fully protected at all times.</p>
+          <p>For more information, visit the <a href="https://www.traveltrust.co.uk" target="_blank" rel="noopener" class="text-primary">Travel Trust Association website</a></p>
         </div>
-        <div class="card">
-          <img src="/images/pts-logo.png" alt="PTS Protection" />
-          <ul class="safety-list">
-            <li>PTS offers all member companies a trust account and insurance model which ensures all consumer money is fully protected.</li>
-            <li>PTS members are fully package travel regulation compliant.</li>
-            <li>All consumers can check the PTS membership of a company prior to booking. Simply contact PTS directly for peace of mind.</li>
-            <li>If a consumer has any concerns about the allocation of their monies and the holiday supplied by a PTS member they can contact PTS directly.</li>
-            <li>PTS is FCA registered to ensure trust and confidence when booking with any PTS member.</li>
-          </ul>
+        <div class="card card--dark">
+          <img src="/images/atol-logo-white.png" alt="ATOL Protected" />
+          <p>ATOL stands for Air Travel Organiser's Licence and is backed by the UK Government and is the UK's financial protection scheme when you book a holiday with a UK ATOL holder. Our ATOL number is 11847.</p>
+          <p>For more information about financial protection and the ATOL Certificate please visit the <a href="https://www.caa.co.uk/atol-protection/" target="_blank" rel="noopener" class="text-primary">ATOL website</a></p>
         </div>
       </div>
     </div>
@@ -366,6 +367,13 @@ import MobileCallCTA from '../components/MobileCallCTA.astro';
   }
   @media (max-width: 350px) {
     .card { width: 290px; }
+  }
+  .card--dark {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  .card--dark a.text-primary {
+    color: #20A1AA;
   }
   .card img {
     margin-bottom: 20px;

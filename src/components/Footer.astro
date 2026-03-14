@@ -78,6 +78,17 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
       <img src="/images/travel-trust.png" alt="Travel Trust" class="h-12" />
     </div>
 
+    <!-- Agent Reference Search -->
+    <div class="ref-search">
+      <form id="ref-search-form" class="ref-search__form">
+        <label for="ref-input" class="ref-search__label">Agent reference lookup</label>
+        <div class="ref-search__row">
+          <input id="ref-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Enter reference number" class="ref-search__input" required />
+          <button type="submit" class="ref-search__btn">Go</button>
+        </div>
+      </form>
+    </div>
+
     <!-- Disclaimer -->
     <p class="footer-disclaimer">{disclaimer}</p>
 
@@ -180,6 +191,53 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
   }
   @media (max-width: 768px) { .footer-copyright { margin-bottom: 30px; } }
 
+  .ref-search {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .ref-search__label {
+    font-family: "BentonSans", sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .ref-search__row {
+    display: flex;
+    gap: 8px;
+    max-width: 280px;
+  }
+  .ref-search__input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .ref-search__input::placeholder { color: rgba(255,255,255,0.3); }
+  .ref-search__input:focus { border-color: #20A1AA; }
+  .ref-search__btn {
+    padding: 8px 18px;
+    background: #20A1AA;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+  }
+  .ref-search__btn:hover { background: #1a8a92; }
+
   .return-top {
     right: -125px;
     top: 0;
@@ -206,5 +264,13 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
   // Return to top
   document.getElementById('return-to-top')?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Reference lookup
+  document.getElementById('ref-search-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.getElementById('ref-input') as HTMLInputElement;
+    const id = input.value.trim();
+    if (id) window.location.href = `/api/ref?id=${encodeURIComponent(id)}`;
   });
 </script>

@@ -1,5 +1,6 @@
 ---
-import { destinations, airports, months, passengers } from '../data/searchOptions';
+import { destinations, airports, getMonths, passengers } from '../data/searchOptions';
+const months = getMonths();
 ---
 
 <!-- Desktop search form — overlaid on hero left side (hidden below 940px) -->
@@ -136,7 +137,7 @@ import { destinations, airports, months, passengers } from '../data/searchOption
       if (value) params.set(key, value as string);
     }
     const query = params.toString();
-    window.location.href = `/search${query ? '?' + query : ''}`;
+    window.location.href = `/Holidays/search${query ? '?' + query : ''}`;
   }
 
   document.getElementById('search-form-desktop')?.addEventListener('submit', handleSearch);

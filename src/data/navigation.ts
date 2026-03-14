@@ -1,8 +1,8 @@
 export const mainMenuItems = [
-  { label: 'Cruises', href: 'https://www.flightsandpackages.com', external: true },
+  { label: 'River Cruises', href: '/Holidays/river-cruises' },
   { label: 'Destinations', href: 'javascript:void(0)', hasDropdown: true },
   { label: 'Collections', href: '/collections', hasDropdown: true },
-  { label: 'Offers', href: '/Holidays/SpecialOffer' },
+  { label: 'Offers', href: '/Holidays/New-&-Exclusive-Offers' },
   { label: 'Blogs', href: '/blog' },
 ];
 
@@ -76,45 +76,15 @@ export const destinationRegions = [
   },
 ];
 
-export const collectionMenuItems = [
-  // Column 1
-  { name: '2027 Holidays', href: '/Holidays/2027-Holidays' },
-  { name: 'Italian Lakes', href: '/Holidays/Italian-Lakes' },
-  { name: 'New & Exclusive Offers', href: '/Holidays/New-&-Exclusive-Offers' },
-  { name: 'City Breaks', href: '/Holidays/City-Break' },
-  { name: 'All Inclusive', href: '/Holidays/All-Inclusive' },
-  { name: 'Beach', href: '/Holidays/Beach' },
-  // Column 2
-  { name: 'European Tours', href: '/Holidays/European' },
-  { name: 'Multi Centre', href: '/Holidays/Multicentre' },
-  { name: 'WorldWide Tours', href: '/Holidays/Tour' },
-  { name: 'Twin Centre', href: '/Holidays/Twin-Centre' },
-  { name: 'Luxury', href: '/Holidays/Luxury-Breaks' },
-  { name: 'Summer Holidays', href: '/Holidays/Summer-Holiday' },
-  // Column 3
-  { name: 'Family Holidays', href: '/Holidays/Family-Holiday' },
-  { name: 'Adults Only', href: '/Holidays/Adults-Only' },
-  { name: 'Winter City Break', href: '/Holidays/Winter-City-Break' },
-  { name: 'Winter Sun Holidays', href: '/Holidays/Winter-Sun-Holidays' },
-  { name: 'Weekend Breaks', href: '/Holidays/Weekend-Breaks' },
-  { name: 'Honeymoons', href: '/Holidays/Honeymoons' },
-  { name: 'Couples Holidays', href: '/Holidays/Couples-Holidays' },
-  { name: 'Solo Traveller', href: '/Holidays/Solo-Traveller' },
-  { name: 'Greek Island Hopping', href: '/Greek-Island-Hopping' },
-  { name: 'Vietnam and Cambodia', href: '/Vietnam-and-cambodia-holidays' },
-  { name: 'India Golden Triangle', href: '/Golden-triangle-holidays' },
-  // Column 4 (Multi-Centre)
-  { name: 'Europe Twin Centre', href: '/Holidays/europe-twin-centre' },
-  { name: 'Europe Triple Centre', href: '/Holidays/europe-triple-centre' },
-  { name: 'South America Twin Centre', href: '/Holidays/south-america-twin-centre' },
-  { name: 'Asia Twin Centre', href: '/Holidays/asia-twin-centre' },
-  { name: 'Asia Triple Centre', href: '/Holidays/asia-triple-centre' },
-];
+import { collections } from './collections';
+
+/** Collection menu items — only collections with published holidays. */
+export const collectionMenuItems = collections.map(c => ({ name: c.name, href: c.href }));
 
 export const mobileMenuItems = [
   { label: 'Destinations', hasSubmenu: true },
   { label: 'Collections', hasSubmenu: true },
-  { label: 'Offers', href: '/Holidays/SpecialOffer' },
+  { label: 'Offers', href: '/Holidays/New-&-Exclusive-Offers' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];

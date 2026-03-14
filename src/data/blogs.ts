@@ -23,12 +23,14 @@ export interface Blog {
   slug: string;
   image: string;
   date: string;
+  publishedAt: string;
   author: string;
   excerpt: string;
   tags: string[];
   content: string;
   metaTitle: string;
   metaDescription: string;
+  updatedAt: string;
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────
@@ -101,12 +103,14 @@ function transformBlog(raw: RawBlog): Blog {
     slug: raw.slug,
     image: raw.featuredImage || FALLBACK_IMAGE,
     date,
+    publishedAt: raw.publishedAt || '',
     author,
     excerpt: raw.excerpt || '',
     tags,
     content: raw.content || '',
     metaTitle: raw.metaTitle || raw.title,
     metaDescription: raw.metaDescription || raw.excerpt || '',
+    updatedAt: raw.updatedAt || '',
   };
 }
 

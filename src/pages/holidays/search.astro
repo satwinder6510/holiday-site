@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import MobileNav from '../../components/MobileNav.astro';
@@ -6,15 +8,44 @@ import PageHero from '../../components/PageHero.astro';
 import Footer from '../../components/Footer.astro';
 import Newsletter from '../../components/Newsletter.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
-import { listedHolidays, boardBasisOptions, priceRange } from '../../data/holidays';
+import { getDb } from '../../lib/get-db';
+import { getAllListedHolidaysFromDb, getFilterData } from '../../lib/holidays-db';
+
+const destination = Astro.url.searchParams.get('destination') || '';
+
+let listedHolidays;
+let boardBasisOptions: string[];
+let priceRange: { min: number; max: number };
+try {
+  const db = getDb(Astro);
+  let allHolidays = await getAllListedHolidaysFromDb(db);
+
+  // Filter by destination (country) if provided
+  if (destination) {
+    const destLower = destination.toLowerCase();
+    allHolidays = allHolidays.filter(h => h.country.toLowerCase() === destLower);
+  }
+
+  listedHolidays = allHolidays;
+  const filterData = getFilterData(listedHolidays);
+  boardBasisOptions = filterData.boardBasisOptions;
+  priceRange = filterData.priceRange;
+} catch (e) {
+  console.error('DB error on search:', e);
+  return new Response('Service temporarily unavailable', { status: 503 });
+}
+
+const pageTitle = destination
+  ? `${destination} Holidays | Flights and Packages`
+  : 'Search Results | Holidays - Flights and Packages';
 ---
 
-<BaseLayout title="Search Results | Holidays - Flights and Packages" description="Browse our latest holiday deals. Find flights and packages to top destinations worldwide." noindex={true}>
+<BaseLayout title={pageTitle} description="Browse our latest holiday deals. Find flights and packages to top destinations worldwide." noindex={true}>
   <Header />
   <MobileNav />
   <PageHero
-    title="Search Results"
-    breadcrumbLabel="Search Results"
+    title={destination ? `${destination} Holidays` : 'Search Results'}
+    breadcrumbLabel={destination ? `${destination} Holidays` : 'Search Results'}
     backgroundImage="/images/heroes/search.jpg"
     subtitle="discover"
   />

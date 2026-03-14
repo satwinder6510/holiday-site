@@ -1,0 +1,649 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import MobileNav from '../../components/MobileNav.astro';
+import Footer from '../../components/Footer.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import MobileCallCTA from '../../components/MobileCallCTA.astro';
+import BreadcrumbSchema from '../../components/BreadcrumbSchema.astro';
+import { getDb } from '../../lib/get-db';
+import { getAllListedHolidaysFromDb } from '../../lib/holidays-db';
+
+let holidays;
+try {
+  const db = getDb(Astro);
+  const all = await getAllListedHolidaysFromDb(db);
+  holidays = all
+    .filter(h => h.tags.includes('River Cruise'))
+    .sort((a, b) => (a.price + a.localChargesPp) - (b.price + b.localChargesPp));
+} catch (e) {
+  console.error('DB error on river-cruises:', e);
+  return new Response('Service temporarily unavailable', { status: 503 });
+}
+const bannerImage = '/images/heroes/river-cruises.jpg';
+---
+
+<BaseLayout title="River Cruises | Flights and Packages" description="Explore our fly-cruise river cruise packages across Europe. All-inclusive sailings with CroisiEurope and A-Rosa, with flights from UK airports." image={bannerImage}>
+  <BreadcrumbSchema slot="head" items={[
+    { name: 'Home', url: '/' },
+    { name: 'River Cruises' },
+  ]} />
+  <Header />
+  <MobileNav />
+
+  <!-- Custom Hero -->
+  <section class="country-hero" style={`background-image: url('${bannerImage}')`}>
+    <div class="breadcrumbs">
+      <a href="/">Home</a>
+      <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
+      <span>River Cruises</span>
+    </div>
+    <div class="hero-content">
+      <div class="hero-subtitle">discover</div>
+      <h1>River Cruises</h1>
+    </div>
+  </section>
+
+  <!-- Intro Section -->
+  <section class="intro-section section-container">
+    <p class="intro-text">
+      Discover the beauty of Europe from the water with our fly-cruise river cruise packages.
+      Sail along the Rhine, Danube, Douro and more with award-winning operators CroisiEurope and A-Rosa.
+      All packages include return flights from UK airports, full-board dining, and unforgettable itineraries
+      through some of the continent's most charming towns and cities.
+    </p>
+    <p class="intro-text-extra hide">
+      Whether you prefer the intimate charm of a boutique vessel or the modern luxury of a premium ship,
+      our river cruise collection has something for every traveller. Glide past medieval castles,
+      world-class vineyards, and vibrant capitals — all while enjoying exceptional onboard service.
+      Browse our latest departures below or call our team for expert advice on choosing the perfect sailing.
+    </p>
+    <a class="read-more" href="javascript:void(0)">
+      Read more
+      <span class="icon-dropdown"></span>
+    </a>
+  </section>
+
+  <!-- Holiday List Section -->
+  <section class="holiday-list-section section-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="filter">
+        <div class="sidebar-header">
+          <div class="type">Filters</div>
+          <div class="reset">Reset</div>
+        </div>
+      </div>
+
+      <!-- River filter -->
+      <div class="filter">
+        <div class="sidebar-header">
+          <div class="type">River</div>
+          <span class="icon-pullup"></span>
+        </div>
+        <div class="sidebar-content">
+          {[...new Set(holidays.map(h => h.destination))].sort().map((river) => (
+            <div class="checkbox-option">
+              <input type="checkbox" name="river" id={`r-${river.toLowerCase().replace(/[\s,&]+/g, '-')}`} value={river} />
+              <label for={`r-${river.toLowerCase().replace(/[\s,&]+/g, '-')}`}>{river}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Duration filter -->
+      <div class="filter">
+        <div class="sidebar-header">
+          <div class="type">Duration</div>
+          <span class="icon-pullup"></span>
+        </div>
+        <div class="sidebar-content">
+          {[...new Set(holidays.map(h => {
+            const m = h.duration.match(/(\d+)\s*Nights/);
+            return m ? parseInt(m[1]) : 0;
+          }))].sort((a, b) => a - b).filter(n => n > 0).map((nights) => (
+            <div class="checkbox-option">
+              <input type="checkbox" name="duration" id={`d-${nights}`} value={String(nights)} />
+              <label for={`d-${nights}`}>{nights} Nights</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Country filter -->
+      <div class="filter">
+        <div class="sidebar-header">
+          <div class="type">Country</div>
+          <span class="icon-pullup"></span>
+        </div>
+        <div class="sidebar-content">
+          {[...new Set(holidays.map(h => h.country))].sort().map((country) => (
+            <div class="checkbox-option">
+              <input type="checkbox" name="country" id={`c-${country.toLowerCase().replace(/\s+/g, '-')}`} value={country} />
+              <label for={`c-${country.toLowerCase().replace(/\s+/g, '-')}`}>{country}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Operator filter -->
+      <div class="filter">
+        <div class="sidebar-header">
+          <div class="type">Operator</div>
+          <span class="icon-pullup"></span>
+        </div>
+        <div class="sidebar-content">
+          <div class="checkbox-option">
+            <input type="checkbox" name="operator" id="croisieurope" value="CroisiEurope" />
+            <label for="croisieurope">CroisiEurope</label>
+          </div>
+          <div class="checkbox-option">
+            <input type="checkbox" name="operator" id="a-rosa" value="A-Rosa" />
+            <label for="a-rosa">A-Rosa</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile actions -->
+      <div class="mobile-actions">
+        <button class="btn-primary filter-apply-btn">Apply</button>
+        <span class="reset">Reset</span>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="search-sort">
+        <div class="results">{holidays.length} river cruises found</div>
+        <div class="order">
+          <div class="price">
+            Price
+            <div class="price-order active">Low to high</div>
+            <div class="price-order">High to low</div>
+          </div>
+          <div class="mobile-filter-wrap">
+            <div class="filter-btn">
+              <span class="icon-filter"></span>
+              Filter
+            </div>
+            <div class="sort">
+              Sort by
+              <div class="sort-order">
+                <span class="current-option">Price</span>
+                <span class="icon-dropdown"></span>
+              </div>
+              <ul class="sort-order-list">
+                <li class="sort-option">Price</li>
+                <li class="sort-option">Newest</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Holiday cards -->
+      <div class="holidays">
+        {holidays.map((holiday) => {
+          const nights = holiday.duration.match(/(\d+)\s*Nights/)?.[1] || '';
+          return (
+          <div class="holiday"
+            data-river={holiday.destination}
+            data-country={holiday.country}
+            data-duration={nights}
+            data-operator={holiday.operator}
+            data-price={holiday.price + holiday.localChargesPp}
+          >
+            <span class="holiday-img" style={`background-image: url('${holiday.image}')`}></span>
+            <a class="gallery-link" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
+              <span class="icon-camera"></span>
+              Gallery
+            </a>
+            <div class="details">
+              <div>
+                <div class="title">{holiday.title}</div>
+                <ul>
+                  <li><span class="icon-compass"></span>{holiday.destination}</li>
+                  <li><span class="icon-nights"></span>{holiday.duration}</li>
+                  <li><span class="icon-board-basis"></span>{holiday.boardBasis}</li>
+                </ul>
+              </div>
+              <p>{holiday.description}</p>
+              <div class="horizontal">
+                <div class="price">
+                  <span>from</span>
+                  <div>&pound;{Math.round(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
+                </div>
+                <a class="btn-primary view-more-btn" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
+                  View More
+                  <img src="/icons/more-icon-white.svg" alt="" class="icon-more" />
+                </a>
+              </div>
+            </div>
+          </div>
+        )})}
+      </div>
+
+      {holidays.length === 0 && (
+        <div class="no-results">
+          <p>No river cruises are currently available. Please check back soon or call us on <a href="tel:02081830518">0208 183 0518</a> for the latest sailings.</p>
+        </div>
+      )}
+    </div>
+
+    <div style="clear:both"></div>
+  </section>
+
+  <Newsletter />
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>
+
+<style>
+  .country-hero {
+    margin-top: 100px;
+    height: 500px;
+    background-position: 100%;
+    background-size: cover;
+    position: relative;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+  }
+  @media (max-width: 768px) {
+    .country-hero { margin-top: 50px; height: 400px; background-position: center; }
+  }
+  @media (max-width: 450px) {
+    .country-hero { height: 300px; }
+  }
+
+  .breadcrumbs {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    z-index: 3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+  }
+  @media (max-width: 768px) { .breadcrumbs { left: 20px; } }
+  .breadcrumbs a, .breadcrumbs span {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 10px;
+    line-height: 12px;
+    color: #ffffff;
+  }
+  .breadcrumb-icon {
+    padding: 0 5px;
+    width: auto;
+    height: 8px;
+  }
+
+  .hero-content {
+    text-align: center;
+    padding-bottom: 80px;
+  }
+  @media (max-width: 768px) { .hero-content { padding-bottom: 0px; } }
+  .hero-subtitle {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    padding-bottom: 14px;
+  }
+  .hero-content h1 {
+    color: #ffffff;
+    font-size: 64px;
+    line-height: 1;
+    padding-bottom: 25px;
+    text-shadow: 2px 2px 5px #000;
+  }
+  @media (max-width: 768px) { .hero-content h1 { font-size: 44px; } }
+  @media (max-width: 450px) { .hero-content h1 { font-size: 36px; } }
+
+  .intro-section {
+    margin-top: 80px;
+    margin-bottom: 95px;
+  }
+  @media (max-width: 768px) { .intro-section { margin-top: 40px; margin-bottom: 50px; } }
+  .intro-section p { padding-bottom: 1px; }
+  @media (max-width: 768px) { .intro-section p { text-align: justify; } }
+  .intro-section .read-more {
+    vertical-align: middle;
+    font-family: "BentonSansBold", sans-serif;
+    color: #424242;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+    cursor: pointer;
+  }
+  .intro-section .read-more .icon-dropdown {
+    display: inline-block;
+    width: 12px;
+    height: 7px;
+    background-image: url('/icons/dropdown-icon.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-left: 15px;
+    transition: transform 0.3s;
+  }
+  .intro-section .read-more.expanded .icon-dropdown { transform: rotate(180deg); }
+
+  .holiday-list-section { margin-top: 60px; margin-bottom: 0px; }
+  @media (max-width: 768px) { .holiday-list-section { margin: 90px 0px 0px 0px; max-width: 100%; } }
+
+  .holiday-list-section .sidebar {
+    width: 281px;
+    display: inline-block;
+    padding-right: 32px;
+  }
+  @media (max-width: 768px) { .holiday-list-section .sidebar { display: none; margin: auto; padding-right: 0px; } }
+  .holiday-list-section .sidebar.show { display: block; }
+
+  .holiday-list-section .sidebar .filter {
+    padding-bottom: 25px;
+    padding-top: 25px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  .holiday-list-section .sidebar .filter:first-child { padding-top: 0px; padding-bottom: 2px; }
+  .holiday-list-section .sidebar .filter:first-child .sidebar-header { cursor: default; }
+  @media (min-width: 768px) { .holiday-list-section .sidebar .filter:nth-last-child(2) { border: none; } }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 20px;
+    cursor: pointer;
+  }
+  .sidebar-header .type { font-family: "BentonSansBold", sans-serif; font-size: 18px; color: #424242; }
+  .sidebar-header .reset { font-family: "BentonSansMedium", sans-serif; font-size: 14px; color: #B7B7B7; cursor: pointer; }
+  .sidebar-header .icon-pullup {
+    width: 12px; height: 7px;
+    background-image: url('/icons/dropdown-icon.svg');
+    background-repeat: no-repeat; background-size: cover;
+    display: inline-block; transform: rotate(180deg);
+  }
+
+  .sidebar-content { display: block; }
+  .checkbox-option { padding-left: 23px; font-size: 14px; padding-top: 10px; display: flex; }
+  .checkbox-option input { display: none; }
+  .checkbox-option input:checked + label:before {
+    content: ""; background-image: url('/icons/tick.svg'); background-repeat: no-repeat; background-position-y: 2px;
+  }
+  .checkbox-option label { display: flex; color: #000000; cursor: pointer; }
+  .checkbox-option label:before {
+    background: #FFF; content: ""; width: 14px; min-width: 14px; height: 14px;
+    border: 1px solid #5e5e5e; border-radius: 2px; margin-right: 14px;
+  }
+
+  .mobile-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
+  @media (min-width: 769px) { .mobile-actions { display: none; } }
+  .mobile-actions .filter-apply-btn { margin: 0px; width: 140px; height: 45px; }
+  .mobile-actions .reset { font-family: "BentonSansMedium", sans-serif; font-size: 14px; color: #B7B7B7; }
+
+  .holiday-list-section .content { width: calc(100% - 281px); float: right; padding-left: 32px; }
+  @media (max-width: 768px) { .holiday-list-section .content { width: 100%; padding-left: 0px; } }
+
+  .search-sort {
+    display: flex; font-family: "BentonSansBold", sans-serif; color: #424242;
+    padding-bottom: 22px; border-bottom: solid 1px rgba(66, 66, 66, 0.2); margin-bottom: 38px;
+  }
+  @media (max-width: 940px) { .search-sort { flex-direction: column; } }
+  @media (max-width: 768px) { .search-sort { border: none; align-items: center; padding-bottom: 0px; } }
+  .search-sort .results { flex-grow: 2; }
+  .search-sort .order { display: flex; flex-grow: 1; justify-content: space-between; }
+  @media (max-width: 1100px) { .search-sort .order { flex-direction: column; align-items: flex-end; } }
+  @media (max-width: 940px) { .search-sort .order { align-items: flex-start; } }
+
+  .search-sort .order .price { display: inline-block; }
+  .search-sort .order .price .price-order {
+    display: inline-block; font-family: "BentonSansMedium", sans-serif; color: #878787; padding-left: 20px; cursor: pointer;
+  }
+  .search-sort .order .price .price-order:last-child { border-left: 0.5px solid rgba(0, 0, 0, 0.5); margin-left: 15px; }
+  .search-sort .order .price .price-order.active { color: #20A1AA; }
+
+  .mobile-filter-wrap { display: none; }
+  @media (max-width: 768px) {
+    .mobile-filter-wrap {
+      position: absolute; width: 100%; top: -90px; left: 0px; right: 0px;
+      background-color: #ffffff; box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+      display: flex; justify-content: space-between; padding: 20px; z-index: 3;
+    }
+  }
+  .filter-btn {
+    font-size: 16px; font-family: "BentonSansMedium", sans-serif; cursor: pointer;
+  }
+  @media (min-width: 769px) { .filter-btn { display: none; } }
+  .filter-btn .icon-filter {
+    background-image: url('/icons/filter-icon.svg'); background-repeat: no-repeat; background-size: cover;
+    width: 17px; height: 14px; margin-right: 10px; display: inline-block;
+  }
+  .sort { position: relative; display: inline-flex; }
+  .sort .sort-order {
+    font-family: "BentonSansMedium", sans-serif; color: #878787; padding-left: 15px;
+    min-width: 111px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  }
+  .sort .sort-order .icon-dropdown {
+    margin-left: 20px; background-image: url('/icons/dropdown-icon.svg');
+    background-repeat: no-repeat; background-size: cover; width: 12px; height: 7px; display: inline-block;
+  }
+  .sort .sort-order-list {
+    position: absolute; top: 30px; left: 65px; width: 110px; list-style-type: none;
+    padding: 10px; box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2); background-color: #ffffff; z-index: 1; display: none;
+  }
+  .sort .sort-order-list .sort-option {
+    font-family: "BentonSansMedium", sans-serif; color: #878787; padding: 5px; cursor: pointer;
+  }
+
+  .holidays { position: relative; }
+  @media (min-width: 769px) {
+    .holidays:before {
+      content: ""; position: absolute; left: -32px; height: 100%; width: 1px; background: rgba(0, 0, 0, 0.2);
+    }
+  }
+  @media (max-width: 768px) { .holidays { max-width: 730px; margin-left: auto; margin-right: auto; } }
+  @media (max-width: 760px) { .holidays { max-width: 580px; } }
+  @media (max-width: 610px) { .holidays { max-width: 500px; } }
+  @media (max-width: 530px) { .holidays { max-width: 420px; } }
+  @media (max-width: 450px) { .holidays { max-width: 365px; } }
+  @media (max-width: 394px) { .holidays { max-width: 335px; } }
+
+  .holiday {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08); display: flex; margin-top: 20px; position: relative;
+  }
+  @media (max-width: 1100px) { .holiday { flex-direction: column; } }
+  @media (max-width: 768px) { .holiday { flex-direction: row; } }
+  @media (max-width: 760px) { .holiday { flex-direction: column; } }
+
+  .holiday .holiday-img {
+    min-width: 291px; display: block; background-size: cover; background-repeat: no-repeat; height: 340px;
+  }
+  @media (max-width: 1100px) { .holiday .holiday-img { width: 567px; } }
+  @media (max-width: 940px) { .holiday .holiday-img { width: 417px; } }
+  @media (max-width: 768px) { .holiday .holiday-img { width: 291px; } }
+  @media (max-width: 760px) { .holiday .holiday-img { width: 580px; } }
+  @media (max-width: 610px) { .holiday .holiday-img { width: 500px; } }
+  @media (max-width: 530px) { .holiday .holiday-img { width: 420px; } }
+  @media (max-width: 450px) { .holiday .holiday-img { width: 365px; background-position: bottom; } }
+  @media (max-width: 394px) { .holiday .holiday-img { width: 335px; height: 210px; } }
+
+  .holiday .gallery-link {
+    display: flex; align-items: center; flex-direction: column; justify-content: center;
+    position: absolute; top: 236px; left: 0px; width: 104px; height: 104px;
+    background-color: rgba(0, 0, 0, 0.6); color: #ffffff;
+    font-family: "BentonSansMedium", sans-serif; font-size: 14px; text-decoration: none;
+  }
+  @media (max-width: 394px) { .holiday .gallery-link { width: 64px; height: 64px; top: 146px; font-size: 12px; } }
+  .holiday .gallery-link .icon-camera {
+    width: 35px; height: 29px; margin-bottom: 10px;
+    background-image: url('/icons/camera-icon.svg'); background-size: contain; background-repeat: no-repeat; display: block;
+  }
+  @media (max-width: 394px) { .holiday .gallery-link .icon-camera { width: 24px; height: 20px; margin-bottom: 5px; } }
+
+  .holiday .details {
+    display: flex; flex-direction: column; justify-content: space-between; padding: 30px; width: 100%;
+  }
+  @media (max-width: 450px) { .holiday .details { padding: 20px; } }
+  .holiday .details .title { font-family: "BentonSansBold", sans-serif; font-size: 24px; line-height: 27px; color: #424242; }
+  @media (max-width: 450px) { .holiday .details .title { font-size: 20px; } }
+  .holiday .details ul { list-style-type: none; padding-top: 5px; padding-bottom: 20px; display: flex; }
+  @media (max-width: 1260px) { .holiday .details ul { flex-direction: column; } }
+  @media (max-width: 1100px) { .holiday .details ul { flex-direction: row; } }
+  @media (max-width: 940px) { .holiday .details ul { flex-direction: column; } }
+  .holiday .details ul li {
+    display: inline-flex; font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px; color: #878787; align-items: center; padding-right: 20px;
+  }
+  .holiday .details ul li .icon-compass {
+    display: inline-block; width: 16px; height: 16px;
+    background-image: url('/icons/compass-grey.svg'); background-size: contain; background-repeat: no-repeat;
+    padding-right: 10px; margin-right: 6px;
+  }
+  .holiday .details ul li .icon-nights {
+    display: inline-block; width: 16px; height: 16px;
+    background-image: url('/icons/nights-grey.svg'); background-size: contain; background-repeat: no-repeat;
+    padding-right: 10px; margin-right: 6px;
+  }
+  .holiday .details ul li .icon-board-basis {
+    display: inline-block; width: 16px; height: 16px;
+    background-image: url('/icons/board-basis-grey.svg'); background-size: contain; background-repeat: no-repeat;
+    padding-right: 10px; margin-right: 6px;
+  }
+
+  .holiday .details .horizontal { display: flex; justify-content: space-between; align-items: center; }
+  .holiday .details .horizontal .price { display: inline-block; }
+  .holiday .details .horizontal .price span { font-family: "BentonSansMedium", sans-serif; font-size: 14px; line-height: 38px; }
+  .holiday .details .horizontal .price div { font-family: "CaslonGraphiqueEF", serif; font-size: 40px; line-height: 38px; }
+  @media (max-width: 610px) { .holiday .details .horizontal .price div { font-size: 34px; } }
+  @media (max-width: 450px) { .holiday .details .horizontal .price div { font-size: 28px; line-height: 28px; } }
+
+  .view-more-btn {
+    width: 185px; height: 64px; box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.25);
+    letter-spacing: 1px; margin-top: 0px; text-decoration: none;
+  }
+  .view-more-btn .icon-more { padding-left: 18px; width: auto; height: 12px; }
+  @media (max-width: 450px) { .view-more-btn { min-width: unset; width: 140px; height: 45px; font-size: 12px; } }
+
+  .no-results {
+    text-align: center;
+    padding: 80px 20px;
+    color: #878787;
+    font-size: 18px;
+  }
+  .no-results a { color: #20A1AA; }
+
+  .hide { display: none; }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Read more toggle
+    const readMoreLink = document.querySelector('.read-more');
+    const extraText = document.querySelector('.intro-text-extra');
+    if (readMoreLink && extraText) {
+      readMoreLink.addEventListener('click', () => {
+        const isHidden = extraText.classList.contains('hide');
+        extraText.classList.toggle('hide');
+        readMoreLink.innerHTML = isHidden
+          ? 'Read less <span class="icon-dropdown"></span>'
+          : 'Read more <span class="icon-dropdown"></span>';
+        readMoreLink.classList.toggle('expanded', isHidden);
+      });
+    }
+
+    // Mobile sidebar toggle
+    const filterBtn = document.querySelector('.filter-btn');
+    const sidebar = document.querySelector('.sidebar');
+    if (filterBtn && sidebar) {
+      filterBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
+    }
+    const applyBtn = document.querySelector('.filter-apply-btn');
+    if (applyBtn && sidebar) {
+      applyBtn.addEventListener('click', () => { applyFilters(); sidebar.classList.remove('show'); });
+    }
+
+    // Sidebar accordion
+    const filterHeaders = document.querySelectorAll('.filter .sidebar-header');
+    filterHeaders.forEach((header, index) => {
+      if (index === 0) return;
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling as HTMLElement;
+        const icon = header.querySelector('.icon-pullup, .icon-dropdown') as HTMLElement;
+        if (content && content.classList.contains('sidebar-content')) {
+          const isVisible = content.style.display !== 'none';
+          content.style.display = isVisible ? 'none' : 'block';
+          if (icon) icon.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+      });
+    });
+
+    // ── Filtering ──
+    const cards = document.querySelectorAll<HTMLElement>('.holiday[data-river]');
+    const resultsEl = document.querySelector('.results');
+    const totalCount = cards.length;
+
+    function getChecked(name: string): string[] {
+      return Array.from(document.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`))
+        .map(el => el.value);
+    }
+
+    function applyFilters() {
+      const rivers = getChecked('river');
+      const durations = getChecked('duration');
+      const countries = getChecked('country');
+      const operators = getChecked('operator');
+      let visible = 0;
+
+      cards.forEach(card => {
+        const matchRiver = rivers.length === 0 || rivers.includes(card.dataset.river || '');
+        const matchDuration = durations.length === 0 || durations.includes(card.dataset.duration || '');
+        const matchCountry = countries.length === 0 || countries.includes(card.dataset.country || '');
+        const matchOperator = operators.length === 0 || operators.includes(card.dataset.operator || '');
+
+        const show = matchRiver && matchDuration && matchCountry && matchOperator;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+
+      if (resultsEl) resultsEl.textContent = `${visible} river cruises found`;
+    }
+
+    // Listen for checkbox changes
+    document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', applyFilters);
+    });
+
+    // Reset buttons
+    document.querySelectorAll('.reset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll<HTMLInputElement>('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+        applyFilters();
+      });
+    });
+
+    // ── Price sort ──
+    const holidaysContainer = document.querySelector('.holidays');
+    const priceOrders = document.querySelectorAll('.search-sort .order .price .price-order');
+    priceOrders.forEach((el) => {
+      el.addEventListener('click', () => {
+        priceOrders.forEach((p) => p.classList.remove('active'));
+        el.classList.add('active');
+        if (!holidaysContainer) return;
+        const sorted = Array.from(cards).sort((a, b) => {
+          const pa = parseFloat(a.dataset.price || '0');
+          const pb = parseFloat(b.dataset.price || '0');
+          return el.textContent?.includes('High') ? pb - pa : pa - pb;
+        });
+        sorted.forEach(card => holidaysContainer.appendChild(card));
+      });
+    });
+  });
+</script>

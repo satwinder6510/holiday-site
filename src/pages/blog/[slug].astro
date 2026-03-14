@@ -27,6 +27,34 @@ const relatedPosts = allBlogs
   .filter((b) => b.slug !== blog.slug && b.tags.some((tag: string) => blog.tags.includes(tag)))
   .slice(0, 4);
 
+// Parse FAQ content from blog posts with "Frequently-Asked-Questions" in slug
+const isFaqPost = blog.slug.toLowerCase().includes('frequently-asked-questions') || blog.slug.toLowerCase().includes('-faq');
+let faqSchema: Record<string, unknown> | null = null;
+if (isFaqPost && blog.content) {
+  const faqPairs: { question: string; answer: string }[] = [];
+  const parts = blog.content.split(/<h2[^>]*>/i);
+  for (let i = 1; i < parts.length; i++) {
+    const [questionHtml, ...rest] = parts[i].split(/<\/h2>/i);
+    const question = questionHtml.replace(/<[^>]+>/g, '').trim();
+    const answerHtml = rest.join('</h2>');
+    const answer = answerHtml.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim();
+    if (question && answer) {
+      faqPairs.push({ question, answer });
+    }
+  }
+  if (faqPairs.length >= 2) {
+    faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqPairs.map(({ question, answer }) => ({
+        '@type': 'Question',
+        name: question,
+        acceptedAnswer: { '@type': 'Answer', text: answer },
+      })),
+    };
+  }
+}
+
 const blogPostingSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -38,19 +66,32 @@ const blogPostingSchema = {
     '@type': 'Organization',
     name: 'Flights and Packages',
     url: 'https://holidays.flightsandpackages.com',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://holidays.flightsandpackages.com/icons/flights-and-packages-logo.png',
+    },
   },
-  datePublished: blog.date,
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `https://holidays.flightsandpackages.com/blog/${blog.slug}`,
+  },
+  datePublished: blog.publishedAt || blog.date,
+  ...(blog.updatedAt ? { dateModified: blog.updatedAt } : {}),
   url: `https://holidays.flightsandpackages.com/blog/${blog.slug}`,
 };
 ---
 
-<BaseLayout title={`${blog.title} | Holidays - Flights and Packages`} description={blog.excerpt} image={blog.image} type="article">
+<BaseLayout title={blog.metaTitle || `${blog.title} | Holidays - Flights and Packages`} description={blog.metaDescription || blog.excerpt} image={blog.image} type="article">
   <BreadcrumbSchema slot="head" items={[
     { name: 'Home', url: '/' },
     { name: 'Blog', url: '/blog' },
     { name: blog.title },
   ]} />
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
+  {faqSchema && <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+  {blog.publishedAt && <meta slot="head" property="article:published_time" content={blog.publishedAt} />}
+  {blog.updatedAt && <meta slot="head" property="article:modified_time" content={blog.updatedAt} />}
+  <meta slot="head" property="article:author" content={blog.author} />
   <Header />
   <MobileNav />
 

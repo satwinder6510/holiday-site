@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import MobileNav from '../../../components/MobileNav.astro';
@@ -6,19 +8,30 @@ import Footer from '../../../components/Footer.astro';
 import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
-import { allPublishedHolidays } from '../../../data/holidays';
-import type { HolidayDetail } from '../../../data/holidays';
+import type { HolidayDetail } from '../../../lib/holiday-transforms';
 import { allBlogs } from '../../../data/blogs';
-import { getPricingForHoliday } from '../../../data/pricing';
+import { getDb } from '../../../lib/get-db';
+import { getHolidayBySlugFromDb } from '../../../lib/holidays-db';
 
-export function getStaticPaths() {
-  return allPublishedHolidays.map((h) => ({
-    params: { country: h.countrySlug, slug: h.slug },
-    props: { holiday: h },
-  }));
+const { slug } = Astro.params;
+
+let holiday: HolidayDetail;
+let pricing: any;
+let hasPricing: boolean;
+try {
+  const db = getDb(Astro);
+  const result = await getHolidayBySlugFromDb(db, slug!);
+  if (!result) {
+    return new Response(null, { status: 404, statusText: 'Not Found' });
+  }
+  holiday = result.holiday;
+  pricing = result.pricing;
+  hasPricing = !!pricing;
+} catch (e) {
+  console.error('DB error on holiday detail:', e);
+  return new Response('Service temporarily unavailable', { status: 503 });
 }
 
-const { holiday } = Astro.props as { holiday: HolidayDetail };
 const countryLower = holiday.country.toLowerCase();
 const matchedBlogs = allBlogs.filter(b => {
   const text = (b.title + ' ' + b.excerpt).toLowerCase();
@@ -26,8 +39,6 @@ const matchedBlogs = allBlogs.filter(b => {
 });
 const latestBlogs = matchedBlogs.length >= 2 ? matchedBlogs.slice(0, 4) : allBlogs.slice(0, 4);
 
-const pricing = getPricingForHoliday(holiday.id);
-const hasPricing = !!pricing;
 const pricingJson = hasPricing ? JSON.stringify(pricing) : 'null';
 
 const localCharges = holiday.localChargesPp;
@@ -52,21 +63,38 @@ const initialDeps = hasPricing ? pricing!.departures
     inclusiveFormatted: fmtPrice(dep.pricePp + localCharges),
   })) : [];
 
+// Truncate description at sentence boundary
+const rawDesc = holiday.overview || holiday.description || '';
+let productDesc = rawDesc;
+if (productDesc.length > 300) {
+  const truncated = productDesc.substring(0, 300);
+  const lastSentence = truncated.lastIndexOf('.');
+  productDesc = lastSentence > 100 ? truncated.substring(0, lastSentence + 1) : truncated;
+}
+
+const productImages = [holiday.heroImage, ...holiday.galleryImages.slice(0, 4)].filter(Boolean);
+
 const productSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'Product',
   name: holiday.title,
-  description: holiday.overview ? holiday.overview.substring(0, 300) : holiday.description,
-  image: holiday.heroImage,
+  description: productDesc,
+  image: productImages.length > 1 ? productImages : holiday.heroImage,
   brand: { '@type': 'Organization', name: 'Flights and Packages' },
+  sku: `FP-${holiday.id}`,
+  category: 'Holiday Package',
 };
 if (hasPricing) {
+  const highPrice = Math.max(...pricing!.departures.map((d: any) => d.pricePp)) + localCharges;
   productSchema.offers = {
     '@type': 'AggregateOffer',
     priceCurrency: 'GBP',
     lowPrice: pricing!.cheapestPrice + localCharges,
+    highPrice,
+    offerCount: pricing!.departures.length,
     availability: 'https://schema.org/InStock',
     url: `https://holidays.flightsandpackages.com/Holidays/${holiday.countrySlug}/${holiday.slug}`,
+    offeredBy: { '@type': 'Organization', name: 'Flights and Packages' },
   };
 } else {
   productSchema.offers = {
@@ -75,11 +103,22 @@ if (hasPricing) {
     price: displayPrice,
     availability: 'https://schema.org/InStock',
     url: `https://holidays.flightsandpackages.com/Holidays/${holiday.countrySlug}/${holiday.slug}`,
+    offeredBy: { '@type': 'Organization', name: 'Flights and Packages' },
   };
 }
+
+// Build page description: prefer meta description, fall back to structured summary
+const pageDescription = holiday.metaDescription || (() => {
+  const parts: string[] = [`Book ${holiday.title}`];
+  if (displayPrice) parts.push(`from ${displayPriceFormatted}pp`);
+  if (holiday.duration) parts.push(`${holiday.duration} in ${holiday.destination || holiday.country}`);
+  if (holiday.boardBasis) parts.push(holiday.boardBasis);
+  parts.push('Flights included. ATOL protected.');
+  return parts.join('. ');
+})();
 ---
 
-<BaseLayout title={`${holiday.title} | Holidays - Flights and Packages`} description={holiday.overview ? holiday.overview.substring(0, 160) : holiday.description} image={holiday.heroImage} type="product">
+<BaseLayout title={holiday.metaTitle || `${holiday.title} | Holidays - Flights and Packages`} description={pageDescription} image={holiday.heroImage} type="product">
   <BreadcrumbSchema slot="head" items={[
     { name: 'Home', url: '/' },
     { name: 'Destinations', url: '/destinations' },
@@ -96,7 +135,7 @@ if (hasPricing) {
     <div class="breadcrumbs">
       <a href="/">Home</a>
       <span class="icon-breadcrumb"></span>
-      <a href="/Holidays">Destinations</a>
+      <a href="/destinations">Destinations</a>
       <span class="icon-breadcrumb"></span>
       <a href={`/Holidays/${holiday.countrySlug}`}>{holiday.country}</a>
       <span class="icon-breadcrumb"></span>
@@ -225,7 +264,7 @@ if (hasPricing) {
 
           {/* Overview */}
           <div id="overview" class="overview-section content-section">
-            <h3>Overview</h3>
+            <h2>Overview</h2>
             <Fragment set:html={holiday.overview.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
 
             {holiday.whatsIncluded.length > 0 && (
@@ -254,7 +293,7 @@ if (hasPricing) {
           {/* Accommodation */}
           {holiday.accommodations.length > 0 && (
             <div id="accommodation" class="accommodation-section content-section">
-              <h3>Accommodation &amp; Facilities</h3>
+              <h2>Accommodation &amp; Facilities</h2>
               {holiday.accommodations.map((acc, accIdx) => (
                 <div class="desc">
                   <div class="acc-title">{acc.name}</div>
@@ -295,7 +334,7 @@ if (hasPricing) {
           {/* Itinerary */}
           {holiday.itinerary.length > 0 && (
             <div id="itinerary" class="itinerary-section content-section">
-              <h3>Itinerary</h3>
+              <h2>Itinerary</h2>
               <p class="itinerary-desc">Explore the day-by-day breakdown of your journey through {holiday.destination}.</p>
               {holiday.itinerary.map((item, i) => (
                 <div class="accordion-panel">
@@ -321,7 +360,7 @@ if (hasPricing) {
           {/* Reviews */}
           {holiday.review && (
             <div id="reviews" class="reviews-section content-section">
-              <h3>Reviews</h3>
+              <h2>Reviews</h2>
               <div class="reviews-content">
                 <Fragment set:html={holiday.review.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
               </div>
@@ -331,7 +370,7 @@ if (hasPricing) {
           {/* Gallery */}
           {holiday.galleryImages.length > 0 && (
             <div id="gallery" class="gallery-section content-section">
-              <h3>Gallery</h3>
+              <h2>Gallery</h2>
               <div class="img-carousel" data-carousel="gallery">
                 <div class="img-carousel-viewport">
                   {holiday.galleryImages.map((img, i) => (
@@ -361,7 +400,7 @@ if (hasPricing) {
           {/* More Info */}
           {(holiday.otherInfo || holiday.otherInfoBullets.length > 0) && (
             <div id="otherinfo" class="other-info-section content-section">
-              <h3>More Information</h3>
+              <h2>More Information</h2>
               {holiday.otherInfo && (
                 <Fragment set:html={holiday.otherInfo.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
               )}
@@ -402,13 +441,18 @@ if (hasPricing) {
               </ul>
             </div>
             <div class="details">
-              <span>Departing from</span>
-              <p id="sidebar-airport">{hasPricing ? (pricing!.airports.length > 1 ? 'Multiple airports' : pricing!.airports[0].name) : 'London'}</p>
-              <span>Departures</span>
-              <p id="sidebar-dates">{hasPricing ? 'Multiple dates available' : 'Multiple dates available'}</p>
-              <span>Hotel class</span>
-              <p>{holiday.hotelClass || 'Various'}</p>
+              <span>{holiday.accommodations.length > 1 ? 'Hotels' : 'Hotel'} — {holiday.hotelClass || 'Various'}</span>
+              {holiday.accommodations.length > 0 ? (
+                <ul class="sidebar-hotels">
+                  {holiday.accommodations.map((acc) => (
+                    <li>{acc.name}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>{holiday.hotelClass || 'Various'}</p>
+              )}
             </div>
+            <div class="sidebar-ref">Ref: {holiday.id}</div>
             <div class="sidebar-price">
               <span id="sidebar-price-label">from</span>
               <div id="sidebar-price-value">{cheapestInclusive}</div>
@@ -438,7 +482,7 @@ if (hasPricing) {
   <!-- Blog Posts + Newsletter Section -->
   <section class="blog-posts-section">
     <div class="section-container">
-      <h4>read all about it</h4>
+      <p class="section-label">read all about it</p>
       <h2>Our Latest Blog Posts</h2>
       <div class="blog-grid">
         {latestBlogs.map((blog) => (
@@ -530,6 +574,68 @@ if (hasPricing) {
   {localCharges > 0 && (
     <script type="application/json" id="local-charges-data" set:html={localChargesJson} />
   )}
+
+  <!-- Holiday meta for enquiry form -->
+  <script type="application/json" id="holiday-meta" set:html={JSON.stringify({
+    id: holiday.id,
+    title: holiday.title,
+    destination: holiday.destination,
+    duration: holiday.duration,
+    boardBasis: holiday.boardBasis,
+  })} />
+
+  <!-- Package Enquiry Modal -->
+  <div class="enquiry-modal" id="enquiry-modal" role="dialog" aria-modal="true" aria-label="Package Enquiry">
+    <div class="enquiry-modal__card">
+      <div class="enquiry-modal__header">
+        <div>
+          <div class="enquiry-modal__title">Booking Requested</div>
+          <div class="enquiry-modal__subtitle">{holiday.title}</div>
+        </div>
+        <button class="enquiry-modal__close" type="button" id="enquiry-modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="enquiry-modal__summary" id="enquiry-summary">
+        <div class="enquiry-modal__summary-row">
+          <span>{holiday.destination}</span>
+          <span>&bull;</span>
+          <span>{holiday.duration}</span>
+          <span>&bull;</span>
+          <span>{holiday.boardBasis}</span>
+        </div>
+        <div class="enquiry-modal__summary-details" id="enquiry-selected-details"></div>
+      </div>
+      <form id="enquiry-form" class="enquiry-modal__form">
+        <div class="enquiry-modal__field-row">
+          <div class="enquiry-modal__field">
+            <label for="enq-first-name">First Name <span class="enquiry-modal__required">(Required)</span></label>
+            <input id="enq-first-name" name="first_name" type="text" placeholder="First name" required />
+          </div>
+          <div class="enquiry-modal__field">
+            <label for="enq-last-name">Last Name <span class="enquiry-modal__required">(Required)</span></label>
+            <input id="enq-last-name" name="last_name" type="text" placeholder="Last name" required />
+          </div>
+        </div>
+        <div class="enquiry-modal__field">
+          <label for="enq-email">Email <span class="enquiry-modal__required">(Required)</span></label>
+          <input id="enq-email" name="email" type="email" placeholder="Email" required />
+        </div>
+        <div class="enquiry-modal__field">
+          <label for="enq-phone">Phone Number <span class="enquiry-modal__required">(Required)</span></label>
+          <input id="enq-phone" name="phone" type="tel" placeholder="Phone number" required />
+        </div>
+        <div class="enquiry-modal__actions">
+          <button type="submit" class="enquiry-modal__submit" id="enquiry-submit-btn">Submit Enquiry</button>
+        </div>
+        <p class="enquiry-modal__note">Or call us on <a href="tel:02081830518">0208 183 0518</a></p>
+      </form>
+      <div class="enquiry-modal__success" id="enquiry-success" style="display:none;">
+        <div class="enquiry-modal__success-icon">&#10003;</div>
+        <h3>Thank you!</h3>
+        <p>Your enquiry has been submitted.<br />One of our travel experts will be in touch shortly.</p>
+        <p class="enquiry-modal__success-phone">Or call us now on <a href="tel:02081830518">0208 183 0518</a></p>
+      </div>
+    </div>
+  </div>
 
   <Newsletter />
   <Footer />
@@ -1108,7 +1214,7 @@ if (hasPricing) {
   .content.close {
     display: none;
   }
-  .content h3 {
+  .content h2 {
     margin-top: 65px;
     letter-spacing: -0.5px;
     font-family: 'CaslonGraphiqueEF', Georgia, serif;
@@ -1118,13 +1224,13 @@ if (hasPricing) {
     margin-bottom: 0;
   }
   @media (max-width: 768px) {
-    .content h3 {
+    .content h2 {
       font-size: 32px;
       line-height: 34px;
     }
   }
   @media (max-width: 450px) {
-    .content h3 {
+    .content h2 {
       font-size: 26px;
       line-height: 28px;
     }
@@ -1142,7 +1248,7 @@ if (hasPricing) {
   /* ========================================
      OVERVIEW SECTION
      ======================================== */
-  .overview-section h3 {
+  .overview-section h2 {
     padding-bottom: 20px;
   }
   @media (max-width: 768px) {
@@ -1437,7 +1543,7 @@ if (hasPricing) {
   /* ========================================
      REVIEWS SECTION
      ======================================== */
-  .reviews-section h3 {
+  .reviews-section h2 {
     padding-bottom: 20px;
   }
   .reviews-content {
@@ -1451,7 +1557,7 @@ if (hasPricing) {
   /* ========================================
      GALLERY SECTION
      ======================================== */
-  .gallery-section h3 {
+  .gallery-section h2 {
     padding-bottom: 20px;
   }
 
@@ -1552,7 +1658,7 @@ if (hasPricing) {
   /* ========================================
      OTHER INFO SECTION
      ======================================== */
-  .other-info-section h3 {
+  .other-info-section h2 {
     padding-bottom: 20px;
   }
   @media (max-width: 768px) {
@@ -1727,9 +1833,38 @@ if (hasPricing) {
   .sidebar .details p:last-child {
     margin-bottom: 0;
   }
+  .sidebar-hotels {
+    list-style: none;
+    margin: 4px 0 15px;
+    padding: 0;
+  }
+  .sidebar-hotels li {
+    font-size: 14px;
+    color: #424242;
+    padding: 3px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .sidebar-hotels li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 5px;
+    height: 5px;
+    background: #20A1AA;
+    border-radius: 50%;
+  }
 
+  .sidebar .sidebar-ref {
+    font-family: "BentonSans", sans-serif;
+    font-size: 12px;
+    color: #999;
+    padding: 12px 22px 0;
+  }
   .sidebar .sidebar-price {
-    padding-top: 20px;
+    padding-top: 8px;
     margin-left: 22px;
     margin-right: 22px;
     display: block;
@@ -1869,7 +2004,7 @@ if (hasPricing) {
   @media (max-width: 940px) {
     .blog-posts-section { padding-top: 60px; }
   }
-  .blog-posts-section h4 {
+  .blog-posts-section .section-label {
     font-family: "BentonSansBold", sans-serif;
     font-size: 14px;
     letter-spacing: 5px;
@@ -2057,13 +2192,13 @@ if (hasPricing) {
      INLINE PRICING SECTION
      ======================================== */
   .pricing-inline {
-    background: linear-gradient(180deg, #f6fbfb 0%, #ffffff 100%);
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    border-top: 1px solid rgba(0,0,0,0.05);
+    background: #f0f9fa;
+    border-bottom: 2px solid #d0e8ea;
+    border-top: 1px solid #d0e8ea;
   }
   .pricing-inline__inner {
-    padding-top: 28px;
-    padding-bottom: 28px;
+    padding-top: 36px;
+    padding-bottom: 36px;
   }
   .pricing-inline__controls {
     display: flex;
@@ -2091,22 +2226,23 @@ if (hasPricing) {
   }
   .pricing-inline__select:hover { border-color: #aaa; }
   .pricing-inline__select:focus {
-    outline: none;
+    outline: 2px solid #20A1AA;
+    outline-offset: -1px;
     border-color: #20A1AA;
     box-shadow: 0 0 0 3px rgba(32, 161, 170, 0.15);
   }
   .pricing-inline__cards {
     display: flex;
-    gap: 12px;
+    gap: 16px;
     overflow-x: auto;
-    padding-top: 14px;
-    padding-bottom: 4px;
+    padding-top: 20px;
+    padding-bottom: 8px;
     -webkit-overflow-scrolling: touch;
   }
   :global(.pricing-card) {
     flex: 0 0 auto;
-    min-width: 130px;
-    padding: 16px 20px 14px;
+    min-width: 145px;
+    padding: 18px 22px 16px;
     border: 2px solid transparent;
     border-radius: 8px;
     text-align: center;
@@ -2115,7 +2251,7 @@ if (hasPricing) {
     background: #fff;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
     transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s ease;
     font-family: "BentonSans", sans-serif;
   }
@@ -2126,6 +2262,11 @@ if (hasPricing) {
   :global(.pricing-card:active) {
     transform: translateY(0);
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  :global(.pricing-card:focus-visible) {
+    outline: 2px solid #20A1AA;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(32, 161, 170, 0.2);
   }
   :global(.pricing-card--best) { background: #E8F7F8; border-color: #20A1AA; }
   :global(.pricing-card--mid) { background: #F8F8F8; border-color: #ddd; }
@@ -2155,14 +2296,14 @@ if (hasPricing) {
   }
   :global(.pricing-card__day) {
     font-family: "BentonSansMedium", sans-serif;
-    font-size: 12px;
-    color: #666;
+    font-size: 13px;
+    color: #555;
     text-transform: uppercase;
   }
   :global(.pricing-card__date) {
     font-family: "BentonSansMedium", sans-serif;
-    font-size: 14px;
-    color: #424242;
+    font-size: 16px;
+    color: #282828;
   }
   :global(.pricing-card__price) {
     font-family: "CaslonGraphiqueEF", Georgia, serif;
@@ -2180,25 +2321,25 @@ if (hasPricing) {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-top: 20px;
-    background: #fff;
+    margin-top: 24px;
+    background: #20A1AA;
     border: 2px solid #20A1AA;
-    color: #20A1AA;
+    color: #fff;
     font-family: "BentonSansMedium", sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 4px;
+    padding: 12px 28px;
+    border-radius: 6px;
     transition: background 0.2s, color 0.2s, transform 0.15s;
     letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(32, 161, 170, 0.25);
   }
   .pricing-inline__view-all:hover {
-    background: #20A1AA;
+    background: #1b8f97;
+    border-color: #1b8f97;
     color: #fff;
     transform: translateY(-1px);
-  }
-  .pricing-inline__view-all:hover .icon-more-teal {
-    filter: brightness(0) invert(1);
+    box-shadow: 0 6px 16px rgba(32, 161, 170, 0.3);
   }
   .pricing-inline__view-all:focus-visible {
     outline: 2px solid #20A1AA;
@@ -2208,6 +2349,7 @@ if (hasPricing) {
   .pricing-inline__view-all .icon-more-teal {
     width: 14px;
     height: auto;
+    filter: brightness(0) invert(1);
     transition: filter 0.2s, transform 0.15s;
   }
 
@@ -2291,8 +2433,8 @@ if (hasPricing) {
   }
   .pricing-modal__controls {
     display: flex;
-    gap: 16px;
-    padding: 16px 24px;
+    gap: 24px;
+    padding: 20px 28px;
     background: #f9f9f9;
     border-bottom: 1px solid #eee;
     flex-wrap: wrap;
@@ -2304,7 +2446,7 @@ if (hasPricing) {
   }
   .pricing-modal__control-group label {
     font-family: "BentonSansMedium", sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     color: #666;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -2323,7 +2465,8 @@ if (hasPricing) {
   }
   .pricing-modal__select:hover { border-color: #aaa; }
   .pricing-modal__select:focus {
-    outline: none;
+    outline: 2px solid #20A1AA;
+    outline-offset: -1px;
     border-color: #20A1AA;
     box-shadow: 0 0 0 3px rgba(32, 161, 170, 0.15);
   }
@@ -2340,6 +2483,14 @@ if (hasPricing) {
     color: #424242;
     min-width: 200px;
     text-align: center;
+  }
+  :global(.month-position) {
+    display: block;
+    font-family: "BentonSans", sans-serif;
+    font-size: 12px;
+    color: #999;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
   }
   .pricing-modal__month-arrow {
     width: 44px;
@@ -2376,14 +2527,14 @@ if (hasPricing) {
     display: flex;
     justify-content: center;
   }
-  :global(.cal-month) { width: 100%; max-width: 480px; }
+  :global(.cal-month) { width: 100%; max-width: 560px; }
   :global(.cal-month__title) {
     display: none;
   }
   :global(.cal-month__grid) {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
+    gap: 8px;
   }
   :global(.cal-day-header) {
     text-align: center;
@@ -2395,19 +2546,19 @@ if (hasPricing) {
   }
   :global(.cal-day) {
     text-align: center;
-    padding: 8px 4px;
-    border-radius: 6px;
-    min-height: 56px;
+    padding: 10px 4px;
+    border-radius: 8px;
+    min-height: 64px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-size: 14px;
-    color: #ccc;
+    color: #d9d9d9;
   }
   :global(.cal-day--available) {
     cursor: pointer;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s ease;
     color: #424242;
   }
@@ -2421,30 +2572,30 @@ if (hasPricing) {
     outline-offset: 1px;
     border-radius: 4px;
   }
-  :global(.cal-day--best) { background: #E8F7F8; }
-  :global(.cal-day--mid) { background: #F8F8F8; }
-  :global(.cal-day--peak) { background: #FFF5EB; }
+  :global(.cal-day--best) { background: #E8F7F8; border-color: #b8e2e5; }
+  :global(.cal-day--mid) { background: #F8F8F8; border-color: #ddd; }
+  :global(.cal-day--peak) { background: #FFF5EB; border-color: #f0d4a8; }
   :global(.cal-day--selected) {
     border-color: #20A1AA;
     box-shadow: 0 0 0 2px #20A1AA;
     background: #d4f0f2 !important;
     transform: scale(1.05);
   }
-  :global(.cal-day__num) { font-family: "BentonSansMedium", sans-serif; font-size: 15px; }
+  :global(.cal-day__num) { font-family: "BentonSansMedium", sans-serif; font-size: 16px; }
   :global(.cal-day__price) {
     font-family: "BentonSansMedium", sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     color: #1b8f97;
     line-height: 1;
-    margin-top: 3px;
+    margin-top: 4px;
   }
   :global(button.cal-day) {
     font: inherit;
     background: none;
-    padding: 6px 2px;
+    padding: 8px 2px;
   }
   :global(button.cal-day--available) {
-    border: 1px solid transparent;
+    border: 2px solid transparent;
   }
   .pricing-modal__legend {
     display: flex;
@@ -2455,17 +2606,17 @@ if (hasPricing) {
   .pricing-modal__legend-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-family: "BentonSans", sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     color: #666;
   }
   .pricing-modal__legend-item::before {
     content: '';
     display: inline-block;
-    width: 14px;
-    height: 14px;
-    border-radius: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
   }
   .pricing-modal__legend-item--best::before { background: #E8F7F8; border: 1px solid #20A1AA; }
   .pricing-modal__legend-item--mid::before { background: #F8F8F8; border: 1px solid #ddd; }
@@ -2481,9 +2632,9 @@ if (hasPricing) {
   }
   .pricing-modal__summary-info {
     font-family: "BentonSans", sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     color: #ffffff;
-    line-height: 1.6;
+    line-height: 1.7;
   }
   :global(.pricing-modal__summary-info strong) {
     font-family: "BentonSansMedium", sans-serif;
@@ -2663,11 +2814,231 @@ if (hasPricing) {
     }
   }
 
+  /* ========================================
+     ENQUIRY MODAL
+     ======================================== */
+  .enquiry-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1001;
+    background: rgba(0,0,0,0);
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 60px;
+    transition: background 0.25s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .enquiry-modal.visible { display: flex; }
+  .enquiry-modal.active { background: rgba(0,0,0,0.6); }
+  .enquiry-modal__card {
+    background: #fff;
+    border-radius: 12px;
+    width: 520px;
+    max-width: 95vw;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    margin-bottom: 40px;
+  }
+  .enquiry-modal.active .enquiry-modal__card {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .enquiry-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 24px 24px 0;
+  }
+  .enquiry-modal__title {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 24px;
+    color: #282828;
+    line-height: 1.2;
+  }
+  .enquiry-modal__subtitle {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    color: #20A1AA;
+    margin-top: 4px;
+  }
+  .enquiry-modal__close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    color: #999;
+    padding: 0 4px;
+    transition: color 0.15s;
+  }
+  .enquiry-modal__close:hover { color: #333; }
+  .enquiry-modal__close:focus-visible {
+    outline: 2px solid #20A1AA;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  .enquiry-modal__summary {
+    background: #F4F4F4;
+    margin: 16px 24px 0;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-family: "BentonSans", sans-serif;
+    font-size: 13px;
+    color: #424242;
+    line-height: 1.5;
+  }
+  .enquiry-modal__summary-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .enquiry-modal__summary-details {
+    margin-top: 6px;
+    font-family: "BentonSansMedium", sans-serif;
+    color: #282828;
+  }
+  .enquiry-modal__form {
+    padding: 20px 24px 24px;
+  }
+  .enquiry-modal__field-row {
+    display: flex;
+    gap: 12px;
+  }
+  .enquiry-modal__field {
+    flex: 1;
+    margin-bottom: 16px;
+  }
+  .enquiry-modal__field label {
+    display: block;
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 14px;
+    color: #424242;
+    margin-bottom: 6px;
+  }
+  .enquiry-modal__required {
+    font-family: "BentonSans", sans-serif;
+    font-size: 12px;
+    color: #888;
+  }
+  .enquiry-modal__field input {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+    color: #282828;
+    outline: none;
+    transition: border-color 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .enquiry-modal__field input:focus {
+    border-color: #20A1AA;
+    box-shadow: 0 0 0 3px rgba(32, 161, 170, 0.15);
+  }
+  .enquiry-modal__actions {
+    margin-top: 4px;
+  }
+  .enquiry-modal__submit {
+    width: 100%;
+    padding: 14px;
+    background: #ff7f00;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 4px 12px rgba(255, 127, 0, 0.3);
+  }
+  .enquiry-modal__submit:hover { background: #e67300; }
+  .enquiry-modal__submit:active { background: #d66a00; }
+  .enquiry-modal__submit:focus-visible {
+    outline: 2px solid #ff7f00;
+    outline-offset: 3px;
+  }
+  .enquiry-modal__submit:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .enquiry-modal__note {
+    text-align: center;
+    margin-top: 14px;
+    font-family: "BentonSans", sans-serif;
+    font-size: 13px;
+    color: #666;
+  }
+  .enquiry-modal__note a {
+    color: #20A1AA;
+    font-family: "BentonSansMedium", sans-serif;
+  }
+  .enquiry-modal__success {
+    text-align: center;
+    padding: 48px 32px 40px;
+  }
+  .enquiry-modal__success-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #20A1AA;
+    color: #fff;
+    font-size: 28px;
+    line-height: 56px;
+    margin: 0 auto 20px;
+  }
+  .enquiry-modal__success h3 {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 26px;
+    color: #282828;
+    margin-bottom: 10px;
+  }
+  .enquiry-modal__success p {
+    font-family: "BentonSans", sans-serif;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+  }
+  .enquiry-modal__success-phone {
+    margin-top: 16px;
+  }
+  .enquiry-modal__success-phone a {
+    color: #20A1AA;
+    font-family: "BentonSansMedium", sans-serif;
+  }
+
+  @media (max-width: 610px) {
+    .enquiry-modal {
+      padding-top: 0;
+      align-items: stretch;
+    }
+    .enquiry-modal__card {
+      border-radius: 0;
+      max-width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin-bottom: 0;
+    }
+    .enquiry-modal__field-row {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     :global(.pricing-card),
     .pricing-modal__card,
     .pricing-modal,
+    .enquiry-modal,
+    .enquiry-modal__card,
     .pricing-inline__view-all .icon-more-teal,
     .pricing-modal__book-btn,
     .mobile-price-bar__btn {
@@ -2852,8 +3223,6 @@ if (hasPricing) {
       const modalBookBtn = document.getElementById('modal-book-btn') as HTMLButtonElement | null;
       const heroPriceLabel = document.getElementById('hero-price-label');
       const heroPriceValue = document.getElementById('hero-price-value');
-      const sidebarAirport = document.getElementById('sidebar-airport');
-      const sidebarDates = document.getElementById('sidebar-dates');
       const sidebarPriceLabel = document.getElementById('sidebar-price-label');
       const sidebarPriceValue = document.getElementById('sidebar-price-value');
       const mobilePriceBar = document.getElementById('mobile-price-bar');
@@ -2941,8 +3310,10 @@ if (hasPricing) {
           }
         }
 
-        // Update month label
-        if (monthLabel) monthLabel.textContent = `${MONTHS[mon]} ${year}`;
+        // Update month label with position indicator
+        if (monthLabel) {
+          monthLabel.innerHTML = `${MONTHS[mon]} ${year}<span class="month-position">${calMonthIndex + 1} of ${calMonthKeys.length}</span>`;
+        }
 
         // Update arrow states
         if (monthPrevBtn) monthPrevBtn.disabled = calMonthIndex === 0;
@@ -3012,23 +3383,16 @@ if (hasPricing) {
 
       // Update sidebar
       function updateSidebar() {
-        const airport = pricingData.airports.find((a: any) => a.code === selectedAirport);
-        if (sidebarAirport && airport) {
-          sidebarAirport.textContent = airport.name;
-        }
-
         if (selectedDate) {
           const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
           if (dep) {
             const inclusivePrice = formatPrice(dep.pricePp + localChargesPp);
-            if (sidebarDates) sidebarDates.textContent = dep.dateFormatted;
             if (sidebarPriceLabel) sidebarPriceLabel.textContent = '';
             if (sidebarPriceValue) sidebarPriceValue.textContent = inclusivePrice;
             if (heroPriceLabel) heroPriceLabel.textContent = '';
             if (heroPriceValue) heroPriceValue.innerHTML = inclusivePrice + '<span class="price-pp">/pp</span>';
           }
         } else {
-          if (sidebarDates) sidebarDates.textContent = 'Multiple dates available';
           const cheapest = getCheapestForAirport(selectedAirport);
           if (sidebarPriceLabel) sidebarPriceLabel.textContent = 'from';
           if (sidebarPriceValue) sidebarPriceValue.textContent = formatPrice(cheapest);
@@ -3082,10 +3446,15 @@ if (hasPricing) {
         }
       }
 
-      // Handle airport change
+      // Handle airport change — preserve selected date if available for new airport
       function handleAirportChange(code: string) {
         selectedAirport = code;
-        selectedDate = '';
+        // Check if current selected date exists for new airport
+        if (selectedDate) {
+          const newDeps = getDepsForAirport(code);
+          const dateStillAvailable = newDeps.some(d => d.date === selectedDate);
+          if (!dateStillAvailable) selectedDate = '';
+        }
         // Sync both dropdowns
         if (inlineAirportSelect) inlineAirportSelect.value = code;
         if (modalAirportSelect) modalAirportSelect.value = code;
@@ -3096,9 +3465,10 @@ if (hasPricing) {
         updateModalSummary();
       }
 
-      // Handle date select
+      // Handle date select (no toggle-off: once selected, stays selected)
       function handleDateSelect(dateStr: string) {
-        selectedDate = selectedDate === dateStr ? '' : dateStr;
+        if (dateStr === selectedDate) return;
+        selectedDate = dateStr;
         renderDateCards();
         renderCalendar();
         updateSidebar();
@@ -3106,11 +3476,11 @@ if (hasPricing) {
         updateModalSummary();
       }
 
-      // Focus trap for modal
-      function trapFocus(modal: HTMLElement) {
-        modal.addEventListener('keydown', (e) => {
+      // Focus trap for modal (one-time setup)
+      if (modalEl) {
+        modalEl.addEventListener('keydown', (e) => {
           if (e.key !== 'Tab') return;
-          const focusable = modal.querySelectorAll(
+          const focusable = modalEl.querySelectorAll(
             'button:not([disabled]), select, [tabindex]:not([tabindex="-1"])'
           ) as NodeListOf<HTMLElement>;
           if (focusable.length === 0) return;
@@ -3124,9 +3494,13 @@ if (hasPricing) {
         });
       }
 
+      // Track which element opened the modal for focus restore
+      let modalTriggerEl: HTMLElement | null = null;
+
       // Open / close modal
       function openPricingModal() {
         if (!modalEl) return;
+        modalTriggerEl = document.activeElement as HTMLElement | null;
         renderCalendar();
         updateModalSummary();
         modalEl.classList.add('visible');
@@ -3138,7 +3512,6 @@ if (hasPricing) {
         document.body.style.overflow = 'hidden';
         const closeBtn = modalEl.querySelector('.pricing-modal__close') as HTMLElement;
         closeBtn?.focus();
-        trapFocus(modalEl);
       }
 
       function closePricingModal() {
@@ -3148,6 +3521,11 @@ if (hasPricing) {
           modalEl.classList.remove('visible');
           document.body.style.overflow = '';
         }, 250);
+        // Restore focus to the element that opened the modal
+        if (modalTriggerEl && typeof modalTriggerEl.focus === 'function') {
+          modalTriggerEl.focus();
+          modalTriggerEl = null;
+        }
       }
 
       // Event listeners
@@ -3163,6 +3541,20 @@ if (hasPricing) {
       btnCheckPriceSidebar?.addEventListener('click', (e) => { e.preventDefault(); openPricingModal(); });
       btnMobilePricing?.addEventListener('click', openPricingModal);
       modalClose?.addEventListener('click', closePricingModal);
+
+      // Book button → open enquiry modal with selected details
+      modalBookBtn?.addEventListener('click', () => {
+        if (!selectedDate || modalBookBtn.disabled) return;
+        const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
+        if (dep) {
+          openEnquiryModal({
+            date: dep.dateFormatted,
+            airport: dep.airportName,
+            adults: String(passengerCount),
+          });
+          closePricingModal();
+        }
+      });
 
       // Close on overlay click
       modalEl?.addEventListener('click', (e) => {
@@ -3322,5 +3714,164 @@ if (hasPricing) {
       if (e.key === 'ArrowLeft') lbPrev();
       if (e.key === 'ArrowRight') lbNext();
     });
+
+    // ===== ENQUIRY MODAL =====
+    const holidayMetaEl = document.getElementById('holiday-meta');
+    const holidayMeta = holidayMetaEl ? JSON.parse(holidayMetaEl.textContent || '{}') : {};
+
+    const enquiryModal = document.getElementById('enquiry-modal');
+    const enquiryClose = document.getElementById('enquiry-modal-close');
+    const enquiryForm = document.getElementById('enquiry-form') as HTMLFormElement | null;
+    const enquirySubmitBtn = document.getElementById('enquiry-submit-btn') as HTMLButtonElement | null;
+    const enquiryDetails = document.getElementById('enquiry-selected-details');
+    let enquiryTriggerEl: HTMLElement | null = null;
+    let enquiryExtra: Record<string, string> = {};
+
+    function openEnquiryModal(details?: { date?: string; airport?: string; adults?: string }) {
+      if (!enquiryModal) return;
+      enquiryTriggerEl = document.activeElement as HTMLElement | null;
+      enquiryExtra = {};
+
+      if (details && enquiryDetails) {
+        const parts: string[] = [];
+        if (details.date) { parts.push(details.date); enquiryExtra.departure_date = details.date; }
+        if (details.airport) { parts.push('from ' + details.airport); }
+        if (details.adults) { parts.push(details.adults + ' passenger' + (details.adults !== '1' ? 's' : '')); enquiryExtra.num_adults = details.adults; }
+        enquiryDetails.textContent = parts.join(' \u2022 ');
+        enquiryDetails.style.display = parts.length ? '' : 'none';
+      } else if (enquiryDetails) {
+        enquiryDetails.style.display = 'none';
+      }
+
+      enquiryModal.classList.add('visible');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          enquiryModal.classList.add('active');
+        });
+      });
+      document.body.style.overflow = 'hidden';
+      (enquiryModal.querySelector('#enq-first-name') as HTMLElement)?.focus();
+    }
+
+    function closeEnquiryModal() {
+      if (!enquiryModal) return;
+      enquiryModal.classList.remove('active');
+      setTimeout(() => {
+        enquiryModal.classList.remove('visible');
+        document.body.style.overflow = '';
+      }, 250);
+      if (enquiryTriggerEl && typeof enquiryTriggerEl.focus === 'function') {
+        enquiryTriggerEl.focus();
+        enquiryTriggerEl = null;
+      }
+    }
+
+    // Expose openEnquiryModal globally so pricing modal JS can call it
+    (window as any).__openEnquiryModal = openEnquiryModal;
+
+    enquiryClose?.addEventListener('click', closeEnquiryModal);
+    enquiryModal?.addEventListener('click', (e) => {
+      if (e.target === enquiryModal) closeEnquiryModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && enquiryModal?.classList.contains('active')) closeEnquiryModal();
+    });
+
+    // Focus trap
+    if (enquiryModal) {
+      enquiryModal.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab') return;
+        const focusable = enquiryModal.querySelectorAll(
+          'input:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) as NodeListOf<HTMLElement>;
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+    }
+
+    // Form submit
+    enquiryForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!enquirySubmitBtn) return;
+      // Validate required fields
+      if (!enquiryForm.checkValidity()) {
+        enquiryForm.reportValidity();
+        return;
+      }
+      const data = new FormData(enquiryForm);
+      const payload: Record<string, string> = {};
+      data.forEach((val, key) => { payload[key] = val as string; });
+
+      payload.form_type = 'Package Enquiry';
+      payload.package_name = holidayMeta.title || '';
+      payload.package_id = String(holidayMeta.id || '');
+      payload.source = sessionStorage.getItem('lead_source') || 'Direct';
+      payload.landing_page = sessionStorage.getItem('landing_page') || '';
+      payload.page_url = window.location.pathname;
+
+      // Merge date/adults from pricing selection
+      if (enquiryExtra.departure_date) payload.departure_date = enquiryExtra.departure_date;
+      if (enquiryExtra.num_adults) payload.num_adults = enquiryExtra.num_adults;
+
+      enquirySubmitBtn.disabled = true;
+      enquirySubmitBtn.textContent = 'Sending...';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+          // Hide form + summary, show success
+          const summary = document.getElementById('enquiry-summary');
+          const success = document.getElementById('enquiry-success');
+          if (enquiryForm) enquiryForm.style.display = 'none';
+          if (summary) summary.style.display = 'none';
+          if (success) success.style.display = '';
+          setTimeout(() => {
+            closeEnquiryModal();
+            // Reset for next use
+            if (enquiryForm) { enquiryForm.reset(); enquiryForm.style.display = ''; }
+            if (summary) summary.style.display = '';
+            if (success) success.style.display = 'none';
+            enquirySubmitBtn.textContent = 'Submit Enquiry';
+            enquirySubmitBtn.disabled = false;
+          }, 10000);
+        } else {
+          enquirySubmitBtn.textContent = 'Submit Enquiry';
+          enquirySubmitBtn.disabled = false;
+          alert('Sorry, there was a problem submitting your enquiry. Please call us on 0208 183 0518.');
+        }
+      } catch {
+        enquirySubmitBtn.textContent = 'Submit Enquiry';
+        enquirySubmitBtn.disabled = false;
+        alert('Sorry, there was a problem submitting your enquiry. Please call us on 0208 183 0518.');
+      }
+    });
+
+    // For non-pricing holidays, "Check Price & Book" opens the enquiry form directly
+    if (!pricingData) {
+      const btnCheckPrice = document.getElementById('btn-check-price');
+      const btnCheckPriceSidebar = document.getElementById('btn-check-price-sidebar');
+      btnCheckPrice?.addEventListener('click', (e) => { e.preventDefault(); openEnquiryModal(); });
+      btnCheckPriceSidebar?.addEventListener('click', (e) => { e.preventDefault(); openEnquiryModal(); });
+    }
+
+    // "Request A Call Back" → open enquiry modal
+    const callBackBtn = document.querySelector('.call-expert-btn') as HTMLElement | null;
+    if (callBackBtn) {
+      callBackBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openEnquiryModal();
+      });
+    }
   });
 </script>

@@ -6,6 +6,7 @@ import PageHero from '../components/PageHero.astro';
 import Footer from '../components/Footer.astro';
 import Newsletter from '../components/Newsletter.astro';
 import MobileCallCTA from '../components/MobileCallCTA.astro';
+import BreadcrumbSchema from '../components/BreadcrumbSchema.astro';
 import { collections } from '../data/collections';
 
 const extraCollections = [
@@ -17,7 +18,11 @@ const extraCollections = [
 const allCollections = [...collections, ...extraCollections];
 ---
 
-<BaseLayout title="Our Collections | Holidays - Flights and Packages">
+<BaseLayout title="Our Collections | Holidays - Flights and Packages" description="Browse our holiday collections including City Breaks, Beach Holidays, All Inclusive, River Cruises, Multi Centre, European Tours and more. All packages include flights from the UK.">
+  <BreadcrumbSchema slot="head" items={[
+    { name: 'Home', url: '/' },
+    { name: 'Collections' },
+  ]} />
   <Header />
   <MobileNav />
   <PageHero
@@ -29,7 +34,7 @@ const allCollections = [...collections, ...extraCollections];
 
   <section class="collections-section">
     <div class="section-container">
-      <h4>that extra special something</h4>
+      <p class="section-label">that extra special something</p>
       <h2>Our Collections</h2>
     </div>
     <div class="collections-carousel">

@@ -1,21 +1,40 @@
 # Flights and Packages — Holiday Website
 
-> Flights and Packages is a UK-based travel agency offering quality holiday packages including flights, accommodation and transfers.
+> Flights and Packages is a UK-based travel agency offering quality holiday packages including flights, accommodation and transfers. ATOL protected.
+
+## Key Pages
+- [Homepage](https://holidays.flightsandpackages.com/): Search and browse all holiday packages
+- [River Cruises](https://holidays.flightsandpackages.com/Holidays/river-cruises): European river cruise fly-cruise packages with CroisiEurope and A-Rosa
+- [Italy Holidays](https://holidays.flightsandpackages.com/Holidays/italy): City breaks, tours and beach holidays to Italy
+- [Greece Holidays](https://holidays.flightsandpackages.com/Holidays/greece): Island hopping, cruises and beach holidays to Greece
+- [Spain Holidays](https://holidays.flightsandpackages.com/Holidays/spain): City breaks and beach holidays to Spain
+- [Portugal Holidays](https://holidays.flightsandpackages.com/Holidays/portugal): City breaks and twin centre holidays to Portugal
+- [India Holidays](https://holidays.flightsandpackages.com/Holidays/india): Golden Triangle tours, Kerala and Rajasthan packages
+- [Thailand Holidays](https://holidays.flightsandpackages.com/Holidays/thailand): Beach holidays and multi centre tours to Thailand
+- [Blog](https://holidays.flightsandpackages.com/blog): Travel guides, tips and inspiration
+- [Collections](https://holidays.flightsandpackages.com/collections): Browse by holiday type
+- [Contact](https://holidays.flightsandpackages.com/contact): Contact information and enquiry form
 
 ## What We Offer
 - City Breaks across Europe and worldwide
 - Beach Holidays to Mediterranean, Caribbean and Indian Ocean destinations
 - Multi Centre and Twin Centre holiday packages
-- Tailor Made and Private Tour holidays
+- European Tours and Worldwide Tours
 - All Inclusive resort holidays
-- River Cruises along European waterways
+- River Cruises along European waterways (CroisiEurope and A-Rosa)
+- Family Holidays, Adults Only and Solo Traveller packages
+- Luxury holidays and Winter Sun getaways
 
 ## Destinations
-We cover 40+ countries across Europe, Asia, the Americas, Africa, the Middle East and the Indian Ocean including Italy, Greece, Spain, Portugal, Turkey, Thailand, Sri Lanka, India, Vietnam, Morocco, Egypt, Maldives, Mauritius, Peru, Argentina, and more.
+We cover 40+ countries across Europe, Asia, the Americas, Africa, the Middle East and the Indian Ocean including Italy, Greece, Spain, Portugal, Turkey, Cyprus, Malta, Czech Republic, Hungary, Poland, Thailand, Sri Lanka, India, Indonesia, Vietnam, Japan, Morocco, Kenya, South Africa, Egypt, Maldives, Mauritius, Peru, Argentina, Costa Rica, Mexico, USA, UAE, Oman and more.
+
+## Pricing
+All prices shown are per person and include return flights from UK airports, accommodation and transfers where stated. Prices start from around £199pp for European city breaks. Local charges such as city taxes are included in displayed prices.
 
 ## Contact
-- Phone: 0208 183 0518
+- Phone: 0208 183 0518 (open until 9pm)
 - Email: info@holidays.flightsandpackages.com
+- Address: Airport House, Purley Way, Croydon, CR0 0XZ
 - Website: https://holidays.flightsandpackages.com
 
 ## Protection

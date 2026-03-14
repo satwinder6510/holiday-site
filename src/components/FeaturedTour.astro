@@ -9,44 +9,40 @@ interface Props {
 const featuredTour = Astro.props.tour || fallbackTour;
 ---
 
-<section class="featured-tour-section relative overflow-hidden">
-  <!-- Image carousel — positioned absolutely behind content on desktop -->
-  <div class="featured-carousel absolute z-[-1]">
-    <div id="featured-viewport" class="overflow-hidden h-full">
-      <div id="featured-container" class="flex h-full">
-        {featuredTour.images.map((img, i) => (
-          <div class="featured-slide flex-shrink-0 bg-cover bg-no-repeat bg-center" style={`background-image: url('${img}')`}></div>
-        ))}
+<section class="featured-tour-section">
+  <div class="featured-inner">
+    <!-- Left: text content -->
+    <div class="featured-text">
+      <p class="section-label">featured tours</p>
+      <h2>{featuredTour.title}</h2>
+      <p>{featuredTour.description}</p>
+      <div class="featured-price">
+        <span class="price-label">from</span>
+        <div class="price-amount font-display">{featuredTour.price}<span class="price-pp">/pp</span></div>
       </div>
-    </div>
-  </div>
-
-  <!-- Content -->
-  <div class="featured-content text-white relative">
-    <h4 class="!text-white/70">featured tours</h4>
-    <h2 class="!text-white">{featuredTour.title}</h2>
-
-    <div class="featured-navigation relative">
-      <button type="button" id="featured-prev" class="feat-nav-btn bg-black/60">
-        <img src="/icons/arrow-icon.svg" alt="Previous" class="h-[14px] rotate-180 brightness-0 invert" />
-      </button>
-      <button type="button" id="featured-next" class="feat-nav-btn bg-black/60">
-        <img src="/icons/arrow-icon.svg" alt="Next" class="h-[14px] brightness-0 invert" />
-      </button>
-    </div>
-
-    <p class="!text-white leading-relaxed">{featuredTour.description}</p>
-
-    <div class="featured-price">
-      <span class="font-medium text-sm leading-[30px]">from</span>
-      <div class="font-display featured-price-amount">{featuredTour.price}<span class="font-medium text-sm">/pp</span></div>
-    </div>
-
-    <div class="featured-btn-wrap">
       <a href={featuredTour.href} class="btn-primary featured-btn">
         Learn More
         <img src="/icons/more-icon-white.svg" alt="" class="pl-[18px]" />
       </a>
+    </div>
+
+    <!-- Right: image carousel + nav -->
+    <div class="featured-gallery">
+      <div id="featured-viewport" class="featured-viewport">
+        <div id="featured-container" class="featured-container">
+          {featuredTour.images.map((img) => (
+            <div class="featured-slide" style={`background-image: url('${img}')`}></div>
+          ))}
+        </div>
+      </div>
+      <div class="featured-navigation">
+        <button type="button" id="featured-prev" class="feat-nav-btn">
+          <img src="/icons/arrow-icon.svg" alt="Previous" class="h-[14px] rotate-180 brightness-0 invert" />
+        </button>
+        <button type="button" id="featured-next" class="feat-nav-btn">
+          <img src="/icons/arrow-icon.svg" alt="Next" class="h-[14px] brightness-0 invert" />
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -54,126 +50,105 @@ const featuredTour = Astro.props.tour || fallbackTour;
 <style>
   .featured-tour-section {
     background: linear-gradient(135deg, #484848, #000000);
-    padding-top: 210px;
-    padding-bottom: 75px;
-    max-width: 100%;
-    min-height: 850px;
-  }
-  @media (max-width: 940px) {
-    .featured-tour-section {
-      padding-top: 35px;
-      padding-bottom: 55px;
-    }
-  }
-  @media (max-width: 768px) {
-    .featured-tour-section { min-height: unset; }
+    color: white;
   }
 
-  .featured-carousel {
-    pointer-events: auto;
-    top: -95px;
-    left: 212px;
-    height: 580px;
-    width: 1030px;
+  .featured-inner {
+    display: flex;
+    max-width: 1240px;
+    margin: 0 auto;
+    min-height: 480px;
   }
-  @media (max-width: 1260px) { .featured-carousel { width: 830px; } }
-  @media (max-width: 1100px) { .featured-carousel { width: 670px; } }
-  @media (max-width: 940px) {
-    .featured-carousel {
-      position: static;
-      left: 0;
-      height: 480px;
-      width: 100%;
-      top: 80px;
-    }
+
+  /* Left text column */
+  .featured-text {
+    flex: 0 0 45%;
+    padding: 80px 40px 80px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
-  @media (max-width: 760px) { .featured-carousel { height: 380px; } }
-  @media (max-width: 450px) { .featured-carousel { height: 300px; } }
+
+  .featured-text .section-label {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 14px;
+  }
+
+  .featured-text h2 {
+    color: white !important;
+    margin-bottom: 0;
+  }
+
+  .featured-text p {
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 20px;
+    line-height: 1.7;
+    max-width: 420px;
+  }
+
+  .featured-price {
+    margin-top: 28px;
+  }
+
+  .price-label {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 30px;
+  }
+
+  .price-amount {
+    font-size: 40px;
+  }
+
+  .price-pp {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .featured-btn {
+    width: 187px;
+    height: 64px;
+    margin-top: 28px;
+    cursor: pointer;
+  }
+
+  /* Right gallery column */
+  .featured-gallery {
+    flex: 1;
+    position: relative;
+    max-height: 480px;
+    align-self: center;
+  }
+
+  .featured-viewport {
+    overflow: hidden;
+    width: 100%;
+    height: 480px;
+  }
+
+  .featured-container {
+    display: flex;
+    height: 100%;
+  }
 
   :global(.featured-slide) {
-    height: 580px;
-    width: 1030px;
-  }
-  @media (max-width: 940px) { :global(.featured-slide) { height: 480px; width: 100%; } }
-  @media (max-width: 760px) { :global(.featured-slide) { height: 380px; } }
-  @media (max-width: 450px) { :global(.featured-slide) { height: 300px; width: 450px; } }
-
-  .featured-content {
-    padding-left: 340px;
-  }
-  @media (max-width: 1600px) { .featured-content { padding-left: 180px; } }
-  @media (max-width: 1100px) { .featured-content { padding-left: 60px; } }
-  @media (max-width: 940px) {
-    .featured-content {
-      padding-left: 0;
-    }
-    .featured-content h4,
-    .featured-content h2 {
-      max-width: 730px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-  @media (max-width: 760px) {
-    .featured-content h4,
-    .featured-content h2 { max-width: 580px; }
-  }
-  @media (max-width: 610px) {
-    .featured-content h4,
-    .featured-content h2 { max-width: 500px; }
-  }
-  @media (max-width: 530px) {
-    .featured-content h4,
-    .featured-content h2 { max-width: 420px; }
-  }
-  @media (max-width: 450px) {
-    .featured-content h4,
-    .featured-content h2 { max-width: 365px; }
-    .featured-content h2 { font-size: 26px; }
-  }
-  @media (max-width: 394px) {
-    .featured-content h4,
-    .featured-content h2 { max-width: 335px; }
-  }
-  @media (max-width: 350px) {
-    .featured-content h4,
-    .featured-content h2 { max-width: 290px; }
+    flex: 0 0 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
-  .featured-content p {
-    margin-top: 25px;
-    width: 420px;
-  }
-  @media (max-width: 940px) {
-    .featured-content p {
-      max-width: 730px;
-      width: 100%;
-      margin: 25px auto 10px;
-      line-height: 22px;
-    }
-  }
-  @media (max-width: 760px) { .featured-content p { max-width: 580px; } }
-  @media (max-width: 610px) { .featured-content p { max-width: 500px; } }
-  @media (max-width: 530px) { .featured-content p { max-width: 420px; } }
-  @media (max-width: 450px) { .featured-content p { max-width: 365px; } }
-  @media (max-width: 394px) { .featured-content p { max-width: 335px; } }
-  @media (max-width: 350px) { .featured-content p { max-width: 290px; } }
-
+  /* Nav arrows — bottom right of gallery */
   .featured-navigation {
-    width: 132px;
-    height: 66px;
     position: absolute;
-    top: 398px;
-    right: -2px;
-  }
-  @media (max-width: 940px) {
-    .featured-navigation {
-      width: 100%;
-      height: 1px;
-      position: relative;
-      top: 0;
-      right: 0;
-    }
+    bottom: 0;
+    right: 0;
+    display: flex;
+    z-index: 2;
   }
 
   .feat-nav-btn {
@@ -184,72 +159,53 @@ const featuredTour = Astro.props.tour || fallbackTour;
     justify-content: center;
     border: 0;
     cursor: pointer;
+    background: rgba(0, 0, 0, 0.6);
+    transition: background-color 0.2s;
   }
+  .feat-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.85);
+  }
+
+  /* Mobile: stack vertically, gallery on top */
   @media (max-width: 940px) {
-    #featured-prev {
-      position: absolute;
-      top: -66px;
-      right: 66px;
+    .featured-inner {
+      flex-direction: column-reverse;
+      min-height: unset;
     }
-    #featured-next {
-      position: absolute;
-      top: -66px;
-      right: 0;
+
+    .featured-text {
+      flex: none;
+      padding: 40px 20px 50px;
     }
-  }
 
-  .featured-price {
-    margin-top: 35px;
-  }
-  @media (max-width: 940px) {
-    .featured-price {
-      max-width: 730px;
-      width: 100%;
-      margin: 0 auto;
+    .featured-text p {
+      max-width: 100%;
     }
-  }
-  @media (max-width: 760px) { .featured-price { max-width: 580px; } }
-  @media (max-width: 610px) { .featured-price { max-width: 500px; } }
-  @media (max-width: 530px) { .featured-price { max-width: 420px; } }
-  @media (max-width: 450px) { .featured-price { max-width: 365px; } }
-  @media (max-width: 394px) { .featured-price { max-width: 335px; } }
-  @media (max-width: 350px) { .featured-price { max-width: 290px; } }
 
-  .featured-price-amount {
-    font-size: 40px;
-  }
-  @media (max-width: 768px) { .featured-price-amount { font-size: 32px; } }
-  @media (max-width: 450px) { .featured-price-amount { font-size: 28px; line-height: 26px; } }
-
-  .featured-btn-wrap {
-    margin-top: 0;
-  }
-  @media (max-width: 940px) {
-    .featured-btn-wrap {
-      max-width: 730px;
-      margin: 0 auto;
+    .featured-gallery {
+      height: 380px;
     }
-  }
-  @media (max-width: 760px) { .featured-btn-wrap { max-width: 580px; } }
-  @media (max-width: 610px) { .featured-btn-wrap { max-width: 500px; } }
-  @media (max-width: 530px) { .featured-btn-wrap { max-width: 420px; } }
-  @media (max-width: 450px) { .featured-btn-wrap { max-width: 365px; } }
-  @media (max-width: 394px) { .featured-btn-wrap { max-width: 335px; } }
-  @media (max-width: 350px) { .featured-btn-wrap { max-width: 290px; } }
 
-  .featured-btn {
-    width: 187px;
-    height: 64px;
-    margin-top: 36px;
-    pointer-events: auto;
-    cursor: pointer;
-  }
-  @media (max-width: 768px) {
     .featured-btn {
       width: 139px;
       height: 45px;
       font-size: 12px;
       letter-spacing: 1px;
+    }
+
+    .price-amount {
+      font-size: 32px;
+    }
+  }
+
+  @media (max-width: 450px) {
+    .featured-gallery {
+      height: 280px;
+    }
+
+    .price-amount {
+      font-size: 28px;
+      line-height: 26px;
     }
   }
 </style>

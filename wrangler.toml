@@ -1,0 +1,19 @@
+name = "holiday-site"
+pages_build_output_dir = "dist/"
+compatibility_date = "2026-03-01"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true
+
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "c69bec26333a4d76865bf2fe22445eca"
+localConnectionString = "postgresql://neondb_owner:npg_LwzOS9u8bpka@ep-muddy-hat-a6r1gwd8.us-west-2.aws.neon.tech/neondb?sslmode=require"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "holidays-images"
+
+[vars]
+PRIVYR_WEBHOOK_URL = "https://www.privyr.com/api/v1/incoming-leads/0vZfjMQw/b7XVsZZO"

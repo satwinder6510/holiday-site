@@ -36,7 +36,7 @@ export const footerCollections = [
 ];
 
 export const footerUsefulLinks = [
-  { name: 'Offers', href: '/Holidays/SpecialOffer' },
+  { name: 'Offers', href: '/Holidays/New-&-Exclusive-Offers' },
   { name: 'Blogs', href: '/blog' },
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },

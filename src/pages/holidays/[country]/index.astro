@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import MobileNav from '../../../components/MobileNav.astro';
@@ -7,27 +9,100 @@ import Footer from '../../../components/Footer.astro';
 import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
-import { holidayCountries, getHolidaysByCountry, boardBasisOptions, priceRange } from '../../../data/holidays';
+import { allCollections, type Collection } from '../../../data/collections-static';
+import { getDb } from '../../../lib/get-db';
+import { getHolidaysByCountryFromDb, getAllListedHolidaysFromDb, getFilterData } from '../../../lib/holidays-db';
 
-export function getStaticPaths() {
-  return holidayCountries.map(({ name, slug }) => ({
-    params: { country: slug },
-    props: { countryName: name },
-  }));
+const { country: countrySlug } = Astro.params;
+
+// Check if this slug matches a collection (collections and countries share the same URL pattern)
+const matchedCollection = allCollections.find(c => {
+  const slug = c.href.replace('/Holidays/', '');
+  return slug === countrySlug;
+});
+const isCollection = !!matchedCollection && matchedCollection.href !== '/Holidays/river-cruises';
+
+let pageTitle: string;
+let pageDescription: string;
+let countryName: string;
+let holidays: any[];
+let boardBasisOptions: string[];
+let priceRange: { min: number; max: number };
+let collection: Collection | undefined;
+
+try {
+  const db = getDb(Astro);
+
+  if (isCollection) {
+    collection = matchedCollection;
+    pageTitle = `${collection!.name} Holidays | Flights and Packages`;
+    countryName = collection!.name;
+    const all = await getAllListedHolidaysFromDb(db);
+    holidays = all
+      .filter(h => h.tags.includes(collection!.tag))
+      .sort((a, b) => (a.price + a.localChargesPp) - (b.price + b.localChargesPp));
+    const filterData = getFilterData(holidays);
+    boardBasisOptions = filterData.boardBasisOptions;
+    priceRange = filterData.priceRange;
+    const cheapest = holidays.length > 0 ? Math.round(holidays[0].price + holidays[0].localChargesPp) : null;
+    pageDescription = cheapest
+      ? `Explore ${holidays.length} ${collection!.name} holidays${cheapest ? ` from £${cheapest}pp` : ''}. Flights, hotel and transfers included. ATOL protected.`
+      : `Browse our ${collection!.name} holiday deals. Flights and accommodation included.`;
+  } else {
+    const result = await getHolidaysByCountryFromDb(db, countrySlug!);
+    if (!result) {
+      return new Response(null, { status: 404, statusText: 'Not Found' });
+    }
+    countryName = result.countryName;
+    holidays = result.holidays;
+    pageTitle = `${countryName} Holidays | Flights and Packages`;
+    const cheapest = holidays.length > 0 ? Math.round(Math.min(...holidays.map(h => h.price + h.localChargesPp))) : null;
+    pageDescription = cheapest
+      ? `Discover ${holidays.length} ${countryName} holidays from £${cheapest}pp. Flights, hotel and transfers included. ATOL protected. Book online or call 020 8183 0518.`
+      : `Browse our latest ${countryName} holiday deals. Find flights and packages to ${countryName}.`;
+    const filterData = getFilterData(holidays);
+    boardBasisOptions = filterData.boardBasisOptions;
+    priceRange = filterData.priceRange;
+  }
+} catch (e) {
+  console.error('DB error on listing page:', e);
+  return new Response('Service temporarily unavailable', { status: 503 });
 }
 
-const { countryName } = Astro.props;
-const countrySlug = countryName.replace(/\s+/g, '-').toLowerCase();
-const holidays = getHolidaysByCountry(countryName);
-const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroes/country.jpg';
+const heroOverrides: Record<string, string> = {
+  'Special Offer': '/images/heroes/special-offers.jpg',
+};
+const bannerImage = isCollection
+  ? (heroOverrides[collection!.tag] || (holidays.length > 0 ? holidays[0].heroImage : collection!.image))
+  : (holidays.length > 0 ? holidays[0].heroImage : '/images/heroes/country.jpg');
+
+// ItemList schema for first 20 holidays
+const itemListSchema = holidays.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `${countryName} Holidays`,
+  numberOfItems: holidays.length,
+  itemListElement: holidays.slice(0, 20).map((h, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: h.title,
+    url: `https://holidays.flightsandpackages.com/Holidays/${h.countrySlug}/${h.slug}`,
+    image: h.image,
+  })),
+} : null;
 ---
 
-<BaseLayout title={`${countryName} Holidays | Flights and Packages`} description={`Browse our latest ${countryName} holiday deals. Find flights and packages to ${countryName}.`} image={bannerImage}>
-  <BreadcrumbSchema slot="head" items={[
+<BaseLayout title={pageTitle} description={pageDescription} image={bannerImage}>
+  <BreadcrumbSchema slot="head" items={isCollection ? [
+    { name: 'Home', url: '/' },
+    { name: 'Collections', url: '/collections' },
+    { name: countryName },
+  ] : [
     { name: 'Home', url: '/' },
     { name: 'Destinations', url: '/destinations' },
     { name: countryName },
   ]} />
+  {itemListSchema && <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />}
   <Header />
   <MobileNav />
 
@@ -36,8 +111,11 @@ const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroe
     <div class="breadcrumbs">
       <a href="/">Home</a>
       <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
-      <a href="/Holidays/destinations">Destinations</a>
-      <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
+      {isCollection ? (
+        <><a href="/collections">Collections</a><img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" /></>
+      ) : (
+        <><a href="/collections">Destinations</a><img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" /></>
+      )}
       <span>{countryName}</span>
     </div>
     <div class="hero-content">
@@ -144,6 +222,23 @@ const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroe
         </div>
       </div>
 
+      {isCollection && (
+        <div class="filter">
+          <div class="sidebar-header">
+            <div class="type">Country</div>
+            <span class="icon-pullup"></span>
+          </div>
+          <div class="sidebar-content">
+            {[...new Set(holidays.map((h: any) => h.country))].sort().map((country: string) => (
+              <div class="checkbox-option">
+                <input type="checkbox" name="country" id={`c-${country.toLowerCase().replace(/\s+/g, '-')}`} value={country} />
+                <label for={`c-${country.toLowerCase().replace(/\s+/g, '-')}`}>{country}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <!-- Board Basis filter -->
       <div class="filter">
         <div class="sidebar-header">
@@ -153,52 +248,54 @@ const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroe
         <div class="sidebar-content">
           {boardBasisOptions.map((basis) => (
             <div class="checkbox-option">
-              <input type="checkbox" name="mealplan" id={`country-${basis.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`} value={basis} />
-              <label for={`country-${basis.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`}>{basis}</label>
+              <input type="checkbox" name="board" id={`b-${basis.toLowerCase().replace(/[\s&]+/g, '-')}`} value={basis} />
+              <label for={`b-${basis.toLowerCase().replace(/[\s&]+/g, '-')}`}>{basis}</label>
             </div>
           ))}
         </div>
       </div>
 
-      <!-- Price Range filter -->
-      <div class="filter">
-        <div class="sidebar-header">
-          <div class="type">Price range</div>
-          <span class="icon-pullup"></span>
-        </div>
-        <div class="sidebar-content">
-          <div class="price-boxes">
-            <div>&pound;<span>{priceRange.min}</span></div>
-            <div>&pound;<span>{priceRange.max}</span></div>
+      {!isCollection && (
+        <>
+          <div class="filter">
+            <div class="sidebar-header">
+              <div class="type">Price range</div>
+              <span class="icon-pullup"></span>
+            </div>
+            <div class="sidebar-content">
+              <div class="price-boxes">
+                <div>&pound;<span>{priceRange.min}</span></div>
+                <div>&pound;<span>{priceRange.max}</span></div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Airport filter -->
-      <div class="filter">
-        <div class="sidebar-header">
-          <div class="type">Airport</div>
-          <span class="icon-pullup"></span>
-        </div>
-        <div class="sidebar-content">
-          <div class="checkbox-option">
-            <input type="checkbox" name="airport" id="london-heathrow" value="London Heathrow" />
-            <label for="london-heathrow">London Heathrow</label>
+          <div class="filter">
+            <div class="sidebar-header">
+              <div class="type">Airport</div>
+              <span class="icon-pullup"></span>
+            </div>
+            <div class="sidebar-content">
+              <div class="checkbox-option">
+                <input type="checkbox" name="airport" id="london-heathrow" value="London Heathrow" />
+                <label for="london-heathrow">London Heathrow</label>
+              </div>
+              <div class="checkbox-option">
+                <input type="checkbox" name="airport" id="london-gatwick" value="London Gatwick" />
+                <label for="london-gatwick">London Gatwick</label>
+              </div>
+              <div class="checkbox-option">
+                <input type="checkbox" name="airport" id="manchester" value="Manchester" />
+                <label for="manchester">Manchester</label>
+              </div>
+              <div class="checkbox-option">
+                <input type="checkbox" name="airport" id="birmingham" value="Birmingham" />
+                <label for="birmingham">Birmingham</label>
+              </div>
+            </div>
           </div>
-          <div class="checkbox-option">
-            <input type="checkbox" name="airport" id="london-gatwick" value="London Gatwick" />
-            <label for="london-gatwick">London Gatwick</label>
-          </div>
-          <div class="checkbox-option">
-            <input type="checkbox" name="airport" id="manchester" value="Manchester" />
-            <label for="manchester">Manchester</label>
-          </div>
-          <div class="checkbox-option">
-            <input type="checkbox" name="airport" id="birmingham" value="Birmingham" />
-            <label for="birmingham">Birmingham</label>
-          </div>
-        </div>
-      </div>
+        </>
+      )}
 
       <!-- Mobile actions -->
       <div class="mobile-actions">
@@ -241,7 +338,11 @@ const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroe
       <!-- Holiday cards -->
       <div class="holidays">
         {holidays.map((holiday) => (
-          <div class="holiday">
+          <div class="holiday"
+            data-country={holiday.country}
+            data-board={holiday.boardBasis}
+            data-price={holiday.price + holiday.localChargesPp}
+          >
             <span class="holiday-img" style={`background-image: url('${holiday.image}')`}></span>
             <a class="gallery-link" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
               <span class="icon-camera"></span>
@@ -372,17 +473,29 @@ const bannerImage = holidays.length > 0 ? holidays[0].heroImage : '/images/heroe
 
   .hero-subtitle {
     font-family: "BentonSansBold", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 24px;
     letter-spacing: 5px;
     text-transform: uppercase;
-    padding-bottom: 10px;
+    padding-bottom: 14px;
   }
 
   .hero-content h1 {
     color: #ffffff;
+    font-size: 64px;
+    line-height: 1;
     padding-bottom: 25px;
     text-shadow: 2px 2px 5px #000;
+  }
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 44px;
+    }
+  }
+  @media (max-width: 450px) {
+    .hero-content h1 {
+      font-size: 36px;
+    }
   }
 
   /* ===========================

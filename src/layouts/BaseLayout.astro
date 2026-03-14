@@ -21,18 +21,55 @@ const ogImage = image || 'https://holidays.flightsandpackages.com/images/og-defa
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'TravelAgency',
+  '@id': 'https://holidays.flightsandpackages.com/#organization',
   name: 'Flights and Packages',
   url: 'https://holidays.flightsandpackages.com',
-  telephone: '0208 183 0518',
+  telephone: '+44 208 183 0518',
   email: 'info@holidays.flightsandpackages.com',
   description: 'Quality City Breaks, Beach Holidays, Multi Centre Holidays, Tailor Made Holidays and Private Tours at Affordable Prices.',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://holidays.flightsandpackages.com/icons/flights-and-packages-logo.png',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Airport House, Purley Way',
+    addressLocality: 'Croydon',
+    postalCode: 'CR0 0XZ',
+    addressCountry: 'GB',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+44 208 183 0518',
+    contactType: 'customer service',
+    availableLanguage: 'English',
+    areaServed: 'GB',
+  },
+  sameAs: [
+    'https://www.facebook.com/flightsandpackages',
+  ],
+  areaServed: 'GB',
+  priceRange: '$$',
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Flights and Packages',
+  url: 'https://holidays.flightsandpackages.com',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://holidays.flightsandpackages.com/Holidays/search?destination={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
 };
 ---
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#20A1AA" />
   <meta name="description" content={description} />
   <title>{title}</title>
 
@@ -65,11 +102,102 @@ const orgSchema = {
 
   <!-- Organization Schema -->
   <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+  <!-- WebSite Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+
+  <!-- Facebook Pixel -->
+  <script is:inline>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2922972984621050');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2922972984621050&ev=PageView&noscript=1" /></noscript>
+
+  <!-- PostHog Analytics -->
+  <script is:inline>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_CncpMTolnthosh7c98z3b7iqSHbhB1vokNzW2WgrC2R', {
+        api_host: 'https://eu.i.posthog.com',
+        defaults: '2026-01-30'
+    })
+  </script>
 
   <slot name="head" />
 </head>
 <body>
   <slot />
+
+  <!-- Traffic source tracking -->
+  <script is:inline>
+    (function () {
+      if (sessionStorage.getItem('lead_source')) return;
+      var params = new URLSearchParams(window.location.search);
+      var src = params.get('utm_source');
+      if (!src && document.referrer) {
+        try {
+          var host = new URL(document.referrer).hostname.replace('www.', '');
+          if (host.indexOf('google') >= 0) src = 'Google';
+          else if (host.indexOf('bing') >= 0) src = 'Bing';
+          else if (host.indexOf('facebook') >= 0 || host.indexOf('fb.') >= 0) src = 'Facebook';
+          else if (host.indexOf('instagram') >= 0) src = 'Instagram';
+          else if (host.indexOf('twitter') >= 0 || host.indexOf('x.com') >= 0) src = 'Twitter/X';
+          else if (host.indexOf('tiktok') >= 0) src = 'TikTok';
+          else if (host.indexOf('youtube') >= 0) src = 'YouTube';
+          else if (host.indexOf(window.location.hostname) >= 0) src = null;
+          else src = host;
+        } catch (e) { src = null; }
+      }
+      sessionStorage.setItem('lead_source', src || 'Direct');
+      if (!sessionStorage.getItem('landing_page')) {
+        sessionStorage.setItem('landing_page', window.location.pathname);
+      }
+    })();
+  </script>
+
+  <!-- Cookie Banner (UK PECR/GDPR) -->
+  <div id="cookie-banner" style="display:none; position:fixed; bottom:0; left:0; right:0; background:#073140; color:#fff; padding:14px 20px; z-index:9999; font-family:'BentonSans',sans-serif; font-size:14px; line-height:22px;">
+    <div style="max-width:1240px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+      <p style="margin:0; flex:1; min-width:200px;">We use cookies to improve your experience on our site. By continuing to browse, you accept our use of cookies. <a href="/cookies-policy" style="color:#20A1AA; text-decoration:underline;">Cookie Policy</a></p>
+      <button id="cookie-accept" style="background:#20A1AA; color:#fff; border:none; padding:8px 24px; border-radius:4px; font-size:14px; font-family:'BentonSans',sans-serif; font-weight:700; cursor:pointer; white-space:nowrap;">Accept</button>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      if (!document.cookie.includes('cookie_consent=1')) {
+        document.getElementById('cookie-banner').style.display = 'block';
+      }
+      document.getElementById('cookie-accept').addEventListener('click', function () {
+        document.cookie = 'cookie_consent=1; path=/; max-age=' + (365 * 24 * 60 * 60) + '; SameSite=Lax';
+        document.getElementById('cookie-banner').style.display = 'none';
+      });
+    })();
+  </script>
+
+  <!-- HappyFox Live Chat (9am–6pm GMT only) -->
+  <script is:inline>
+    (function () {
+      var hour = new Date().getUTCHours();
+      if (hour >= 9 && hour < 18) {
+        window.HFCHAT_CONFIG = {
+          EMBED_TOKEN: '0799b060-00fb-11f1-a7bb-77728896a359',
+          ASSETS_URL: 'https://widget.happyfoxchat.com/v2/visitor'
+        };
+        var scriptTag = document.createElement('script');
+        scriptTag.type = 'text/javascript';
+        scriptTag.async = true;
+        scriptTag.src = window.HFCHAT_CONFIG.ASSETS_URL + '/js/widget-loader.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(scriptTag, s);
+      }
+    })();
+  </script>
 </body>
 </html>
 

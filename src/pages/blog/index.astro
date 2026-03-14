@@ -6,10 +6,31 @@ import PageHero from '../../components/PageHero.astro';
 import Footer from '../../components/Footer.astro';
 import Newsletter from '../../components/Newsletter.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
-import { allBlogs, blogTags } from '../../data/blogs';
+import BreadcrumbSchema from '../../components/BreadcrumbSchema.astro';
+import { allBlogs } from '../../data/blogs';
+
+const BLOGS_PER_PAGE = 9;
+const totalPages = Math.ceil(allBlogs.length / BLOGS_PER_PAGE);
+
+// Build archive data — group blogs by month/year
+const archiveMap = new Map<string, number>();
+for (const blog of allBlogs) {
+  if (!blog.date) continue;
+  // blog.date is like "22 September 2019"
+  const parts = blog.date.split(' ');
+  if (parts.length >= 3) {
+    const key = `${parts[1]} ${parts[2]}`;
+    archiveMap.set(key, (archiveMap.get(key) || 0) + 1);
+  }
+}
+const archiveEntries = Array.from(archiveMap.entries());
 ---
 
-<BaseLayout title="Our Blog | Holidays - Flights and Packages" description="Read the latest travel blogs, tips and guides from Flights and Packages.">
+<BaseLayout title="Our Blog | Holidays - Flights and Packages" description="Read the latest travel blogs, destination guides and holiday inspiration from Flights and Packages. Expert tips on city breaks, beach holidays, river cruises and tours across Europe, Asia and beyond.">
+  <BreadcrumbSchema slot="head" items={[
+    { name: 'Home', url: '/' },
+    { name: 'Blog' },
+  ]} />
   <Header />
   <MobileNav />
   <PageHero
@@ -23,31 +44,47 @@ import { allBlogs, blogTags } from '../../data/blogs';
     <section class="section-container">
       <div class="content">
         <div class="blogs">
-          {allBlogs.map((blog) => (
-            <div class="blog">
-              <a href={`/blog/${blog.slug}`}>
-                <img src={blog.image} alt={blog.title} />
-              </a>
-              <div class="blog-title">{blog.title}</div>
-              <div class="blog-date">
-                <img src="/icons/calendar-icon-black.svg" alt="" class="icon-calendar" />
-                {blog.date}
+          {allBlogs.map((blog, i) => {
+            const page = Math.floor(i / BLOGS_PER_PAGE);
+            const excerpt = blog.excerpt.length > 130 ? blog.excerpt.substring(0, 130) + '...' : blog.excerpt;
+            return (
+              <div class={`blog page-${page}`} style={page === 0 ? '' : 'display:none'}>
+                <a href={`/blog/${blog.slug}`}>
+                  <img src={blog.image} alt={blog.title} class="blog-img" />
+                </a>
+                <div class="blog-title">{blog.title}</div>
+                <div class="blog-date">
+                  <img src="/icons/calendar-icon-black.svg" alt="" class="icon-calendar" />
+                  {blog.date}
+                </div>
+                <p>{excerpt}</p>
+                <a href={`/blog/${blog.slug}`} class="read-more">
+                  Read More
+                  <img src="/icons/more-icon.svg" alt="" class="icon-more" />
+                </a>
               </div>
-              <p>{blog.excerpt}</p>
-              <a href={`/blog/${blog.slug}`} class="read-more">
-                Read More
-                <img src="/icons/more-icon.svg" alt="" class="icon-more" />
-              </a>
-            </div>
-          ))}
+            );
+          })}
+        </div>
+        <!-- Pagination -->
+        <div class="pagination">
+          <ul>
+            <li class="disabled"><a class="nav-btn first-btn">&laquo;</a></li>
+            <li class="disabled"><a class="nav-btn prev-btn">&lsaquo;</a></li>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <li class={i === 0 ? 'active' : ''}><a class="page-btn" data-page={i}>{i + 1}</a></li>
+            ))}
+            <li><a class="nav-btn next-btn">&rsaquo;</a></li>
+            <li><a class="nav-btn last-btn">&raquo;</a></li>
+          </ul>
         </div>
       </div>
       <div class="sidebar">
-        <div class="popular-tags">
-          Popular Tags
+        <div class="archive">
+          Archive
           <ul>
-            {blogTags.slice(0, 12).map((tag) => (
-              <li>{tag}</li>
+            {archiveEntries.slice(0, 8).map(([month, count]) => (
+              <li>{month}<span>({count})</span></li>
             ))}
           </ul>
         </div>
@@ -59,6 +96,48 @@ import { allBlogs, blogTags } from '../../data/blogs';
   <Footer />
   <MobileCallCTA />
 </BaseLayout>
+
+<script define:vars={{ totalPages: totalPages }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    let currentPage = 0;
+    const total = totalPages;
+
+    function showPage(page) {
+      currentPage = page;
+      document.querySelectorAll('.blogs .blog').forEach(el => el.style.display = 'none');
+      document.querySelectorAll(`.blogs .page-${page}`).forEach(el => el.style.display = '');
+
+      // Update page buttons
+      document.querySelectorAll('.pagination .page-btn').forEach(btn => {
+        btn.parentElement.classList.toggle('active', parseInt(btn.dataset.page) === page);
+      });
+
+      // Update nav buttons
+      const firstBtn = document.querySelector('.first-btn');
+      const prevBtn = document.querySelector('.prev-btn');
+      const nextBtn = document.querySelector('.next-btn');
+      const lastBtn = document.querySelector('.last-btn');
+      firstBtn.parentElement.classList.toggle('disabled', page === 0);
+      prevBtn.parentElement.classList.toggle('disabled', page === 0);
+      nextBtn.parentElement.classList.toggle('disabled', page === total - 1);
+      lastBtn.parentElement.classList.toggle('disabled', page === total - 1);
+
+      // Scroll to top of blog list
+      const section = document.querySelector('.blog-list-section');
+      if (section) {
+        window.scrollTo({ top: section.offsetTop - 150, behavior: 'smooth' });
+      }
+    }
+
+    document.querySelectorAll('.page-btn').forEach(btn => {
+      btn.addEventListener('click', () => showPage(parseInt(btn.dataset.page)));
+    });
+    document.querySelector('.first-btn')?.addEventListener('click', () => { if (currentPage > 0) showPage(0); });
+    document.querySelector('.prev-btn')?.addEventListener('click', () => { if (currentPage > 0) showPage(currentPage - 1); });
+    document.querySelector('.next-btn')?.addEventListener('click', () => { if (currentPage < total - 1) showPage(currentPage + 1); });
+    document.querySelector('.last-btn')?.addEventListener('click', () => { if (currentPage < total - 1) showPage(total - 1); });
+  });
+</script>
 
 <style>
   /* Blog list section layout */
@@ -135,35 +214,35 @@ import { allBlogs, blogTags } from '../../data/blogs';
   }
 
   /* Blog card image */
-  .blog img {
+  .blog-img {
     height: 320px;
     object-fit: cover;
     width: 100%;
   }
   @media (max-width: 1100px) {
-    .blog img {
+    .blog-img {
       width: 284px;
     }
   }
   @media (max-width: 940px) {
-    .blog img {
+    .blog-img {
       width: 291px;
     }
   }
   @media (max-width: 760px) {
-    .blog img {
+    .blog-img {
       float: left;
       margin-right: 20px;
     }
   }
   @media (max-width: 610px) {
-    .blog img {
+    .blog-img {
       float: none;
       margin-right: 0px;
     }
   }
   @media (max-width: 350px) {
-    .blog img {
+    .blog-img {
       width: 284px;
     }
   }
@@ -217,6 +296,39 @@ import { allBlogs, blogTags } from '../../data/blogs';
     width: auto;
   }
 
+  /* Pagination */
+  :global(.pagination ul) {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  :global(.pagination ul li) {
+    width: 34px;
+    height: 34px;
+    border: 3px solid #000000;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    cursor: pointer;
+  }
+  :global(.pagination ul li.active) {
+    border-color: #20A1AA;
+    background-color: #20A1AA;
+    color: #ffffff;
+  }
+  :global(.pagination ul li.disabled) {
+    display: none;
+  }
+  :global(.pagination ul li a) {
+    font-size: 14px;
+    font-family: "BentonSans", sans-serif;
+    font-weight: 700;
+    user-select: none;
+  }
 
   /* Sidebar */
   .sidebar {
@@ -237,8 +349,8 @@ import { allBlogs, blogTags } from '../../data/blogs';
     }
   }
 
-  /* Popular Tags */
-  .popular-tags {
+  /* Archive */
+  .archive {
     width: 291px;
     background-color: #F4F4F4;
     padding: 20px;
@@ -247,31 +359,36 @@ import { allBlogs, blogTags } from '../../data/blogs';
     font-size: 24px;
     color: #282828;
   }
+  @media (max-width: 940px) {
+    .archive {
+      margin-top: 0px;
+    }
+  }
   @media (max-width: 760px) {
-    .popular-tags {
+    .archive {
+      margin-top: 40px;
+      margin-bottom: 40px;
       width: 100%;
     }
   }
-  .popular-tags ul {
+  .archive ul {
     padding-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
     list-style: none;
     padding-left: 0;
   }
-  .popular-tags ul li {
+  .archive ul li {
     position: relative;
+    display: block;
     border-radius: 4px;
     height: 31px;
     background-color: #d8d8d8;
     cursor: pointer;
     margin: 5px;
     font-size: 14px;
-    display: flex;
-    align-items: center;
+    line-height: 31px;
     padding: 0px 13px;
   }
-  .popular-tags ul li:before {
+  .archive ul li:before {
     display: inline-block;
     content: "";
     height: 31px;
@@ -280,5 +397,8 @@ import { allBlogs, blogTags } from '../../data/blogs';
     left: 0;
     background-color: #20A1AA;
     border-radius: 4px 0px 0px 4px;
+  }
+  .archive ul li span {
+    float: right;
   }
 </style>

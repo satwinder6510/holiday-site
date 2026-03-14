@@ -27,11 +27,11 @@ const heroSlides = Astro.props.slides?.length ? Astro.props.slides : fallbackSli
             <div class="hero-type font-bold tracking-[5px] text-sm">DISCOVER</div>
             <h2 class="hero-title font-display leading-none !text-white">{slide.title}</h2>
             <p class="hero-duration !text-white text-[20px] leading-relaxed">{slide.duration}</p>
-            <div class="hero-price mt-5 h-[76px]">
+            <div class="hero-price mt-3">
               <span class="text-sm font-medium">from</span>
               <div class="font-display hero-price-num">{slide.price}<span class="font-sans text-sm font-medium">/pp</span></div>
             </div>
-            <a href={slide.href} class="hero-btn inline-flex items-center justify-center bg-primary text-white font-bold uppercase text-sm tracking-wider">view more</a>
+            <a href={slide.href} class="hero-btn mt-4 inline-flex items-center justify-center bg-primary text-white font-bold uppercase text-sm tracking-wider">view more</a>
           </div>
         </div>
       ))}
@@ -118,7 +118,7 @@ const heroSlides = Astro.props.slides?.length ? Astro.props.slides : fallbackSli
     position: absolute;
     top: -14%;
     left: 0;
-    width: 38%;
+    width: 656px;
     height: 114%;
     background-image: url('/images/hex-pattern.svg');
     background-size: 100% 100%;
@@ -127,6 +127,8 @@ const heroSlides = Astro.props.slides?.length ? Astro.props.slides : fallbackSli
     z-index: 2;
     pointer-events: none;
   }
+  @media (max-width: 1599px) { .hex-overlay { width: 496px; } }
+  @media (max-width: 1259px) { .hex-overlay { width: 426px; } }
   @media (max-width: 939px) {
     .hex-overlay { display: none; }
   }
@@ -154,7 +156,7 @@ const heroSlides = Astro.props.slides?.length ? Astro.props.slides : fallbackSli
   @media (min-width: 451px) { :global(.hero-content) { margin-left: 60px; max-width: 500px; } }
   @media (min-width: 611px) { :global(.hero-content) { margin-left: 120px; max-width: 580px; } }
   @media (min-width: 769px) { :global(.hero-content) { margin-left: 220px; max-width: 730px; } }
-  @media (min-width: 941px) { :global(.hero-content) { margin-left: 530px; top: 240px; max-width: none; } }
+  @media (min-width: 941px) { :global(.hero-content) { margin-left: 530px; top: 160px; max-width: none; } }
   @media (min-width: 1101px) { :global(.hero-content) { margin-left: 700px; } }
   @media (min-width: 1261px) { :global(.hero-content) { margin-left: 800px; } }
   @media (min-width: 1601px) { :global(.hero-content) { margin-left: 960px; } }

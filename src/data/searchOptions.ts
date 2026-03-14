@@ -15,10 +15,21 @@ export const airports = [
   'London Luton', 'Manchester', 'Newcastle', 'Stansted',
 ];
 
-export const months = [
-  'February 2023', 'March 2023', 'April 2023', 'May 2023', 'June 2023',
-  'July 2023', 'August 2023', 'September 2023', 'October 2023',
+const MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
 ];
+
+/** Generate next 12 months from today. Call at request time, not module scope. */
+export function getMonths(): string[] {
+  const now = new Date();
+  const result: string[] = [];
+  for (let i = 0; i < 12; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+    result.push(`${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`);
+  }
+  return result;
+}
 
 export const passengers = [
   '2 adults', '3 adults', '4 adults', '5 adults', '6 adults', '7 adults', '8 adults',
