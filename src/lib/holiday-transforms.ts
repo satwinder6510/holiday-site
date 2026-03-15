@@ -180,6 +180,10 @@ export function slugify(text: string): string {
   return text.trim().replace(/\s+/g, '-').toLowerCase();
 }
 
+export function slugifyRiver(text: string): string {
+  return text.trim().replace(/[,&]+/g, '').replace(/\s+/g, '-').toLowerCase();
+}
+
 function normaliseDuration(raw: string): string {
   if (!raw) return '';
   const cleaned = raw.trim();

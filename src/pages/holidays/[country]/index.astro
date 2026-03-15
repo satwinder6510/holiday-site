@@ -107,17 +107,18 @@ const itemListSchema = holidays.length > 0 ? {
   <MobileNav />
 
   <!-- Custom Hero -->
-  <section class="country-hero" style={`background-image: url('${bannerImage}')`}>
-    <div class="breadcrumbs">
+  <section class="country-hero" aria-label="Page hero">
+    <img src={bannerImage} alt="" class="hero-bg" fetchpriority="high" decoding="async" width="1920" height="500" />
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
       <a href="/">Home</a>
       <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
       {isCollection ? (
         <><a href="/collections">Collections</a><img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" /></>
       ) : (
-        <><a href="/collections">Destinations</a><img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" /></>
+        <><a href="/destinations">Destinations</a><img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" /></>
       )}
       <span>{countryName}</span>
-    </div>
+    </nav>
     <div class="hero-content">
       <div class="hero-subtitle">discover</div>
       <h1>{countryName} Holidays</h1>
@@ -127,7 +128,7 @@ const itemListSchema = holidays.length > 0 ? {
   <!-- Search Bar Section -->
   <div class="search-section section-container">
     <div class="search-form">
-      <form>
+      <form role="search" aria-label="Search holidays">
         <div class="mobile-wrap">
           <div class="form-box">
             <label for="destination">Destination</label>
@@ -183,9 +184,9 @@ const itemListSchema = holidays.length > 0 ? {
       </form>
     </div>
     <!-- Floating mobile search button -->
-    <a href="/Holidays/search" class="btn-primary search-btn">
+    <a href="/Holidays/search" class="btn-primary search-btn" aria-label="Search holidays">
       <span class="icon-search"></span>
-      Search
+      <span class="sr-only">Search</span>
     </a>
   </div>
 
@@ -197,37 +198,39 @@ const itemListSchema = holidays.length > 0 ? {
       Whether you are looking for relaxation on sun-drenched beaches, adventure in the great outdoors,
       or a journey through centuries of fascinating heritage, {countryName} delivers an unforgettable holiday experience.
     </p>
-    <p class="intro-text-extra hide">
+    <p class="intro-text-extra hide" id="intro-extra-text">
       Our carefully curated {countryName} holiday packages include flights, accommodation, and transfers to take the
       stress out of planning. Choose from luxury resorts, boutique hotels, and charming guesthouses, all handpicked
       by our travel experts. With departures from major UK airports and flexible booking options, your dream
       {countryName} holiday is just a click away. Browse our latest deals below or speak to one of our
       friendly travel advisors for a tailor-made quote.
     </p>
-    <a class="read-more" href="javascript:void(0)">
+    <button type="button" class="read-more" aria-expanded="false" aria-controls="intro-extra-text">
       Read more
       <span class="icon-dropdown"></span>
-    </a>
+    </button>
   </section>
 
   <!-- Holiday List Section -->
   <section class="holiday-list-section section-container">
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar-backdrop"></div>
+    <div class="sidebar" id="sidebar-filters">
       <!-- Filter header -->
       <div class="filter">
         <div class="sidebar-header">
           <div class="type">Filters</div>
-          <div class="reset">Reset</div>
+          <button type="button" class="reset">Reset</button>
+          <button type="button" class="sidebar-close" aria-label="Close filters">&times;</button>
         </div>
       </div>
 
       {isCollection && (
         <div class="filter">
-          <div class="sidebar-header">
+          <button type="button" class="sidebar-header" aria-expanded="true">
             <div class="type">Country</div>
             <span class="icon-pullup"></span>
-          </div>
+          </button>
           <div class="sidebar-content">
             {[...new Set(holidays.map((h: any) => h.country))].sort().map((country: string) => (
               <div class="checkbox-option">
@@ -241,10 +244,10 @@ const itemListSchema = holidays.length > 0 ? {
 
       <!-- Board Basis filter -->
       <div class="filter">
-        <div class="sidebar-header">
+        <button type="button" class="sidebar-header" aria-expanded="true">
           <div class="type">Board basis</div>
           <span class="icon-pullup"></span>
-        </div>
+        </button>
         <div class="sidebar-content">
           {boardBasisOptions.map((basis) => (
             <div class="checkbox-option">
@@ -258,23 +261,23 @@ const itemListSchema = holidays.length > 0 ? {
       {!isCollection && (
         <>
           <div class="filter">
-            <div class="sidebar-header">
+            <button type="button" class="sidebar-header" aria-expanded="true">
               <div class="type">Price range</div>
               <span class="icon-pullup"></span>
-            </div>
+            </button>
             <div class="sidebar-content">
               <div class="price-boxes">
-                <div>&pound;<span>{priceRange.min}</span></div>
-                <div>&pound;<span>{priceRange.max}</span></div>
+                <div aria-label="Minimum price">&pound;<span>{priceRange.min}</span></div>
+                <div aria-label="Maximum price">&pound;<span>{priceRange.max}</span></div>
               </div>
             </div>
           </div>
 
           <div class="filter">
-            <div class="sidebar-header">
+            <button type="button" class="sidebar-header" aria-expanded="true">
               <div class="type">Airport</div>
               <span class="icon-pullup"></span>
-            </div>
+            </button>
             <div class="sidebar-content">
               <div class="checkbox-option">
                 <input type="checkbox" name="airport" id="london-heathrow" value="London Heathrow" />
@@ -299,8 +302,8 @@ const itemListSchema = holidays.length > 0 ? {
 
       <!-- Mobile actions -->
       <div class="mobile-actions">
-        <button class="btn-primary filter-apply-btn">Apply</button>
-        <span class="reset">Reset</span>
+        <button type="button" class="btn-primary filter-apply-btn" aria-label="Apply filters">Apply</button>
+        <button type="button" class="reset">Reset</button>
       </div>
     </div>
 
@@ -308,27 +311,27 @@ const itemListSchema = holidays.length > 0 ? {
     <div class="content">
       <!-- Sort bar -->
       <div class="search-sort">
-        <div class="results">{holidays.length} results found</div>
+        <div class="results" aria-live="polite" aria-atomic="true"></div>
         <div class="order">
-          <div class="price">
+          <div class="price" role="group" aria-label="Sort order">
             Price
-            <div class="price-order active">Low to high</div>
-            <div class="price-order">High to low</div>
+            <button type="button" class="price-order active" aria-pressed="true">Low to high</button>
+            <button type="button" class="price-order" aria-pressed="false">High to low</button>
           </div>
           <div class="mobile-filter-wrap">
-            <div class="filter-btn">
+            <button type="button" class="filter-btn" aria-expanded="false" aria-controls="sidebar-filters">
               <span class="icon-filter"></span>
               Filter
-            </div>
+            </button>
             <div class="sort">
               Sort by
-              <div class="sort-order">
-                <span class="current-option">Newest</span>
+              <button type="button" class="sort-order" aria-haspopup="listbox" aria-expanded="false">
+                <span class="current-option">Price: Low to high</span>
                 <span class="icon-dropdown"></span>
-              </div>
-              <ul class="sort-order-list">
-                <li class="sort-option">Newest</li>
-                <li class="sort-option">Oldest</li>
+              </button>
+              <ul class="sort-order-list" role="listbox" aria-label="Sort order">
+                <li class="sort-option" role="option" tabindex="0" aria-selected="true">Price: Low to high</li>
+                <li class="sort-option" role="option" tabindex="0" aria-selected="false">Price: High to low</li>
               </ul>
             </div>
           </div>
@@ -343,25 +346,25 @@ const itemListSchema = holidays.length > 0 ? {
             data-board={holiday.boardBasis}
             data-price={holiday.price + holiday.localChargesPp}
           >
-            <span class="holiday-img" style={`background-image: url('${holiday.image}')`}></span>
-            <a class="gallery-link" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
+            <img class="holiday-img" src={holiday.image} alt={holiday.title} loading="lazy" decoding="async" width="291" height="340" />
+            <a class="gallery-link" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`} aria-hidden="true" tabindex="-1">
               <span class="icon-camera"></span>
               Gallery
             </a>
             <div class="details">
               <div>
-                <div class="title">{holiday.title}</div>
+                <a class="title" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>{holiday.title}</a>
                 <ul>
-                  <li><span class="icon-compass"></span>{holiday.destination}</li>
-                  <li><span class="icon-nights"></span>{holiday.duration}</li>
-                  <li><span class="icon-board-basis"></span>{holiday.boardBasis}</li>
+                  <li><span class="icon-compass" aria-hidden="true"></span>{holiday.destination}</li>
+                  <li><span class="icon-nights" aria-hidden="true"></span>{holiday.duration}</li>
+                  <li><span class="icon-board-basis" aria-hidden="true"></span>{holiday.boardBasis}</li>
                 </ul>
               </div>
               <p>{holiday.description}</p>
               <div class="horizontal">
-                <div class="price">
-                  <span>from</span>
-                  <div>&pound;{Math.round(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
+                <div class="price" aria-label={`from £${Math.round(holiday.price + holiday.localChargesPp)} per person`}>
+                  <span aria-hidden="true">from</span>
+                  <div aria-hidden="true">&pound;{Math.round(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
                 </div>
                 <a class="btn-primary view-more-btn" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
                   View More
@@ -374,10 +377,19 @@ const itemListSchema = holidays.length > 0 ? {
       </div>
 
       <!-- Load More button -->
-      <button class="btn-primary more-holidays">Load More Results</button>
+      <button class="btn-primary more-holidays" style="display:none">Load More Results</button>
+
+      <div class="no-filter-results" style="display:none">
+        <p>No holidays match your selected filters. <button type="button" class="clear-filters">Clear all filters</button></p>
+      </div>
+
+      {holidays.length === 0 && (
+        <div class="no-results">
+          <p>No holidays are currently available for {countryName}. Please check back soon or call us on <a href="tel:02081830518">0208 183 0518</a> for the latest deals.</p>
+        </div>
+      )}
     </div>
 
-    <div style="clear:both"></div>
   </section>
 
   <Newsletter />
@@ -392,21 +404,41 @@ const itemListSchema = holidays.length > 0 ? {
   .country-hero {
     margin-top: 100px;
     height: 500px;
-    background-position: 100%;
-    background-size: cover;
     position: relative;
     color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     max-width: 100%;
+    overflow: hidden;
+  }
+  .country-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.35) 100%);
+    z-index: 1;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 100% center;
+    z-index: 0;
+  }
+  .country-hero .breadcrumbs,
+  .country-hero .hero-content {
+    position: relative;
+    z-index: 2;
   }
   @media (max-width: 768px) {
     .country-hero {
       margin-top: 50px;
       height: 400px;
-      background-position: center;
     }
+    .hero-bg { object-position: center; }
   }
   @media (max-width: 450px) {
     .country-hero {
@@ -430,23 +462,14 @@ const itemListSchema = holidays.length > 0 ? {
     .breadcrumbs { left: 20px; }
   }
   @media (max-width: 530px) {
-    .breadcrumbs { max-width: 400px; }
-  }
-  @media (max-width: 450px) {
-    .breadcrumbs { max-width: 335px; }
-  }
-  @media (max-width: 394px) {
-    .breadcrumbs { max-width: 305px; }
-  }
-  @media (max-width: 350px) {
-    .breadcrumbs { max-width: 240px; }
+    .breadcrumbs { max-width: calc(100vw - 40px); }
   }
 
   .breadcrumbs a,
   .breadcrumbs span {
     font-family: "BentonSansMedium", sans-serif;
-    font-size: 10px;
-    line-height: 12px;
+    font-size: 13px;
+    line-height: 16px;
     color: #ffffff;
   }
 
@@ -600,6 +623,12 @@ const itemListSchema = holidays.length > 0 ? {
     -moz-appearance: none;
     appearance: none;
   }
+  .search-form .form-box .input input:focus-visible,
+  .search-form .form-box .input select:focus-visible {
+    outline: 2px solid #20A1AA;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 
   .search-submit-btn {
     width: 161px;
@@ -665,9 +694,15 @@ const itemListSchema = holidays.length > 0 ? {
     font-family: "BentonSansBold", sans-serif;
     color: #424242;
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     margin-top: 15px;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
   }
   .intro-section .read-more .icon-dropdown {
     display: inline-block;
@@ -690,6 +725,7 @@ const itemListSchema = holidays.length > 0 ? {
     margin-top: 60px;
     margin-bottom: 0px;
   }
+  .holiday-list-section::after { content: ""; display: table; clear: both; }
   @media (max-width: 768px) {
     .holiday-list-section {
       margin: 90px 0px 0px 0px;
@@ -749,8 +785,12 @@ const itemListSchema = holidays.length > 0 ? {
   .sidebar-header .reset {
     font-family: "BentonSansMedium", sans-serif;
     font-size: 14px;
-    color: #B7B7B7;
+    color: #767676;
     cursor: pointer;
+    background: none; border: none; padding: 8px 12px;
+  }
+  .sidebar-header .reset:focus-visible {
+    outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px;
   }
   .sidebar-header .icon-dropdown {
     width: 12px;
@@ -779,11 +819,18 @@ const itemListSchema = holidays.length > 0 ? {
   .checkbox-option {
     padding-left: 23px;
     font-size: 14px;
-    padding-top: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     display: flex;
+    align-items: center;
+    min-height: 44px;
   }
   .checkbox-option input {
-    display: none;
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+  .checkbox-option input:focus-visible + label:before {
+    outline: 2px solid #20A1AA; outline-offset: 2px;
   }
   .checkbox-option input:checked + label:before {
     content: "";
@@ -844,7 +891,32 @@ const itemListSchema = holidays.length > 0 ? {
   .mobile-actions .reset {
     font-family: "BentonSansMedium", sans-serif;
     font-size: 14px;
-    color: #B7B7B7;
+    color: #767676;
+    background: none; border: none; cursor: pointer; padding: 8px 12px;
+  }
+
+  /* Sidebar close button — mobile only */
+  .sidebar-close {
+    display: none; background: none; border: none; font-size: 24px; color: #767676;
+    cursor: pointer; padding: 4px 8px; line-height: 1;
+  }
+  @media (max-width: 768px) { .sidebar-close { display: block; } }
+
+  /* Sidebar backdrop overlay — mobile only */
+  .sidebar-backdrop {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9;
+  }
+  .sidebar-backdrop.active { display: block; }
+  @media (max-width: 768px) {
+    .holiday-list-section .sidebar.show { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; background: #fff; overflow-y: auto; padding: 20px; width: 100%; }
+  }
+
+  /* Filter badge on mobile button */
+  .filter-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #20A1AA; color: #fff; border-radius: 50%;
+    width: 20px; height: 20px; font-size: 11px; margin-left: 6px;
+    font-family: "BentonSansBold", sans-serif;
   }
 
   /* Content area */
@@ -936,6 +1008,7 @@ const itemListSchema = holidays.length > 0 ? {
     color: #878787;
     padding-left: 20px;
     cursor: pointer;
+    background: none; border: none; font-size: inherit;
   }
   .search-sort .order .price .price-order:last-child {
     border-left: 0.5px solid rgba(0, 0, 0, 0.5);
@@ -953,6 +1026,10 @@ const itemListSchema = holidays.length > 0 ? {
   }
   .search-sort .order .price .price-order.active {
     color: #20A1AA;
+    text-decoration: underline; text-underline-offset: 4px;
+  }
+  .search-sort .order .price .price-order:focus-visible {
+    outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px;
   }
   .search-sort .order .price.hide {
     display: none;
@@ -993,6 +1070,10 @@ const itemListSchema = holidays.length > 0 ? {
     font-size: 16px;
     font-family: "BentonSansMedium", sans-serif;
     cursor: pointer;
+    background: none; border: none; color: inherit; padding: 0; display: flex; align-items: center;
+  }
+  .filter-btn:focus-visible {
+    outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px;
   }
   @media (min-width: 769px) {
     .filter-btn {
@@ -1028,6 +1109,10 @@ const itemListSchema = holidays.length > 0 ? {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: none; border: none; font-size: inherit;
+  }
+  .sort .sort-order:focus-visible {
+    outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px;
   }
   @media (max-width: 768px) {
     .sort .sort-order {
@@ -1066,15 +1151,25 @@ const itemListSchema = holidays.length > 0 ? {
   }
   @media (max-width: 768px) {
     .sort .sort-order-list {
-      left: 49px;
+      left: auto;
+      right: 0;
       width: 100px;
     }
   }
   .sort .sort-order-list .sort-option {
     font-family: "BentonSansMedium", sans-serif;
     color: #878787;
-    padding: 5px;
+    padding: 10px;
     cursor: pointer;
+  }
+  .sort .sort-order-list .sort-option:hover {
+    background-color: rgba(32, 161, 170, 0.08);
+    color: #20A1AA;
+    outline: none;
+  }
+  .sort .sort-order-list .sort-option:focus-visible {
+    background-color: rgba(32, 161, 170, 0.08);
+    color: #20A1AA;
   }
 
   /* Holidays container with vertical divider */
@@ -1099,22 +1194,7 @@ const itemListSchema = holidays.length > 0 ? {
     }
   }
   @media (max-width: 760px) {
-    .holidays { max-width: 580px; }
-  }
-  @media (max-width: 610px) {
-    .holidays { max-width: 500px; }
-  }
-  @media (max-width: 530px) {
-    .holidays { max-width: 420px; }
-  }
-  @media (max-width: 450px) {
-    .holidays { max-width: 365px; }
-  }
-  @media (max-width: 394px) {
-    .holidays { max-width: 335px; }
-  }
-  @media (max-width: 350px) {
-    .holidays { max-width: 290px; }
+    .holidays { max-width: 100%; }
   }
 
   /* Holiday card */
@@ -1144,42 +1224,30 @@ const itemListSchema = holidays.length > 0 ? {
   .holiday .holiday-img {
     min-width: 291px;
     display: block;
-    background-size: cover;
-    background-repeat: no-repeat;
+    object-fit: cover;
     height: 340px;
   }
   @media (max-width: 1100px) {
-    .holiday .holiday-img { width: 567px; }
+    .holiday .holiday-img { width: 100%; max-width: 567px; }
   }
   @media (max-width: 940px) {
-    .holiday .holiday-img { width: 417px; }
+    .holiday .holiday-img { width: 100%; max-width: 417px; }
   }
   @media (max-width: 768px) {
     .holiday .holiday-img { width: 291px; }
   }
   @media (max-width: 760px) {
-    .holiday .holiday-img { width: 580px; }
-  }
-  @media (max-width: 610px) {
-    .holiday .holiday-img { width: 500px; }
-  }
-  @media (max-width: 530px) {
-    .holiday .holiday-img { width: 420px; }
+    .holiday .holiday-img { width: 100%; }
   }
   @media (max-width: 450px) {
     .holiday .holiday-img {
-      width: 365px;
-      background-position: bottom;
+      object-position: bottom;
     }
   }
   @media (max-width: 394px) {
     .holiday .holiday-img {
-      width: 335px;
       height: 210px;
     }
-  }
-  @media (max-width: 350px) {
-    .holiday .holiday-img { width: 284px; }
   }
 
   /* Gallery link overlay */
@@ -1189,7 +1257,7 @@ const itemListSchema = holidays.length > 0 ? {
     flex-direction: column;
     justify-content: center;
     position: absolute;
-    top: 236px;
+    top: 230px;
     left: 0px;
     width: 104px;
     height: 104px;
@@ -1242,7 +1310,11 @@ const itemListSchema = holidays.length > 0 ? {
     font-size: 24px;
     line-height: 27px;
     color: #424242;
+    text-decoration: none;
+    display: block;
   }
+  .holiday .details .title:hover { color: #20A1AA; }
+  .holiday .details .title:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 2px; color: #20A1AA; }
   @media (max-width: 450px) {
     .holiday .details .title {
       font-size: 20px;
@@ -1409,30 +1481,33 @@ const itemListSchema = holidays.length > 0 ? {
     letter-spacing: 1px;
     display: flex;
   }
-  @media (max-width: 768px) {
-    .more-holidays {
-      max-width: 730px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
   @media (max-width: 760px) {
-    .more-holidays { max-width: 580px; }
+    .more-holidays { max-width: 100%; }
   }
-  @media (max-width: 610px) {
-    .more-holidays { max-width: 500px; }
+
+  /* No results / no filter results empty state */
+  .no-results, .no-filter-results {
+    text-align: center; padding: 80px 20px; color: #767676; font-size: 18px;
   }
-  @media (max-width: 530px) {
-    .more-holidays { max-width: 420px; }
+  .no-results a { color: #20A1AA; }
+  .clear-filters {
+    background: none; border: none; color: #20A1AA; cursor: pointer;
+    font-size: inherit; font-family: inherit; text-decoration: underline;
   }
-  @media (max-width: 450px) {
-    .more-holidays { max-width: 365px; }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .intro-section .read-more .icon-dropdown { transition: none; }
+    .mobile-filter-wrap, .mobile-filter-wrap.stick { transition: none; }
   }
-  @media (max-width: 394px) {
-    .more-holidays { max-width: 335px; }
+
+  /* Accordion header button reset + focus */
+  button.sidebar-header {
+    background: none; border: none; font: inherit; color: inherit;
+    text-align: left; width: 100%; appearance: none;
   }
-  @media (max-width: 350px) {
-    .more-holidays { max-width: 290px; }
+  button.sidebar-header:focus-visible {
+    outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px;
   }
 
   /* Utility */
@@ -1444,106 +1519,283 @@ const itemListSchema = holidays.length > 0 ? {
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     // Read more toggle
-    const readMoreLink = document.querySelector('.read-more');
+    const readMoreLink = document.querySelector<HTMLButtonElement>('.read-more');
     const extraText = document.querySelector('.intro-text-extra');
-
     if (readMoreLink && extraText) {
       readMoreLink.addEventListener('click', () => {
         const isHidden = extraText.classList.contains('hide');
-        if (isHidden) {
-          extraText.classList.remove('hide');
-          readMoreLink.textContent = '';
-          readMoreLink.innerHTML = 'Read less <span class="icon-dropdown"></span>';
-          readMoreLink.classList.add('expanded');
-        } else {
-          extraText.classList.add('hide');
-          readMoreLink.textContent = '';
-          readMoreLink.innerHTML = 'Read more <span class="icon-dropdown"></span>';
-          readMoreLink.classList.remove('expanded');
-        }
+        extraText.classList.toggle('hide');
+        readMoreLink.innerHTML = isHidden
+          ? 'Read less <span class="icon-dropdown"></span>'
+          : 'Read more <span class="icon-dropdown"></span>';
+        readMoreLink.classList.toggle('expanded', isHidden);
+        readMoreLink.setAttribute('aria-expanded', String(isHidden));
       });
     }
 
-    // Sort dropdown toggle
-    const sortOrder = document.querySelector('.sort-order');
-    const sortOrderList = document.querySelector('.sort-order-list');
+    // ── Mobile sidebar with backdrop ──
+    const filterBtn = document.querySelector<HTMLButtonElement>('.filter-btn');
+    const sidebar = document.querySelector<HTMLElement>('.sidebar');
+    const backdrop = document.querySelector<HTMLElement>('.sidebar-backdrop');
+    const closeBtn = document.querySelector<HTMLButtonElement>('.sidebar-close');
 
-    if (sortOrder && sortOrderList) {
-      sortOrder.addEventListener('click', () => {
-        const isVisible = sortOrderList.style.display === 'block';
-        sortOrderList.style.display = isVisible ? 'none' : 'block';
-      });
-
-      // Close dropdown when clicking a sort option
-      const sortOptions = document.querySelectorAll('.sort-option');
-      sortOptions.forEach((option) => {
-        option.addEventListener('click', () => {
-          const currentOption = document.querySelector('.current-option');
-          if (currentOption) {
-            currentOption.textContent = option.textContent;
-          }
-          sortOrderList.style.display = 'none';
-        });
-      });
-
-      // Close dropdown when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!sortOrder.contains(e.target as Node) && !sortOrderList.contains(e.target as Node)) {
-          sortOrderList.style.display = 'none';
-        }
-      });
+    function openSidebar() {
+      if (!sidebar || !backdrop) return;
+      sidebar.classList.add('show');
+      backdrop.classList.add('active');
+      if (filterBtn) filterBtn.setAttribute('aria-expanded', 'true');
+      // Focus the close button
+      if (closeBtn) closeBtn.focus();
+      // Trap focus inside sidebar
+      document.addEventListener('keydown', trapFocus);
+    }
+    function closeSidebar() {
+      if (!sidebar || !backdrop) return;
+      sidebar.classList.remove('show');
+      backdrop.classList.remove('active');
+      if (filterBtn) { filterBtn.setAttribute('aria-expanded', 'false'); filterBtn.focus(); }
+      document.removeEventListener('keydown', trapFocus);
+    }
+    function trapFocus(e: KeyboardEvent) {
+      if (e.key === 'Escape') { closeSidebar(); return; }
+      if (e.key !== 'Tab' || !sidebar) return;
+      const focusable = sidebar.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
 
-    // Filter sidebar toggle on mobile
-    const filterBtn = document.querySelector('.filter-btn');
-    const sidebar = document.querySelector('.sidebar');
+    if (filterBtn) filterBtn.addEventListener('click', () => sidebar?.classList.contains('show') ? closeSidebar() : openSidebar());
+    if (backdrop) backdrop.addEventListener('click', closeSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
 
-    if (filterBtn && sidebar) {
-      filterBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('show');
-      });
-    }
-
-    // Apply button closes sidebar on mobile
     const applyBtn = document.querySelector('.filter-apply-btn');
-    if (applyBtn && sidebar) {
-      applyBtn.addEventListener('click', () => {
-        sidebar.classList.remove('show');
-      });
+    if (applyBtn) {
+      applyBtn.addEventListener('click', () => { applyFilters(); closeSidebar(); });
     }
 
-    // Sidebar header accordion (skip the first filter header which is just "Filters")
-    const filterHeaders = document.querySelectorAll('.filter .sidebar-header');
+    // ── Sidebar accordion with ARIA + keyboard ──
+    const filterHeaders = document.querySelectorAll<HTMLElement>('.filter .sidebar-header');
     filterHeaders.forEach((header, index) => {
-      if (index === 0) return; // Skip the "Filters" header
-      header.addEventListener('click', () => {
+      if (index === 0) return;
+      function toggleAccordion() {
         const content = header.nextElementSibling as HTMLElement;
         const icon = header.querySelector('.icon-pullup, .icon-dropdown') as HTMLElement;
         if (content && content.classList.contains('sidebar-content')) {
           const isVisible = content.style.display !== 'none';
           content.style.display = isVisible ? 'none' : 'block';
-          if (icon) {
-            if (isVisible) {
-              icon.classList.remove('icon-pullup');
-              icon.classList.add('icon-dropdown');
-              icon.style.transform = 'rotate(0deg)';
-            } else {
-              icon.classList.remove('icon-dropdown');
-              icon.classList.add('icon-pullup');
-              icon.style.transform = 'rotate(180deg)';
-            }
-          }
+          header.setAttribute('aria-expanded', String(!isVisible));
+          if (icon) icon.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
         }
+      }
+      header.addEventListener('click', toggleAccordion);
+      header.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAccordion(); }
       });
     });
 
-    // Price order toggle
-    const priceOrders = document.querySelectorAll('.search-sort .order .price .price-order');
-    priceOrders.forEach((el) => {
-      el.addEventListener('click', () => {
-        priceOrders.forEach((p) => p.classList.remove('active'));
-        el.classList.add('active');
+    // Sync aria-expanded from DOM on load
+    filterHeaders.forEach((header, index) => {
+      if (index === 0) return;
+      const content = header.nextElementSibling as HTMLElement;
+      if (content && content.classList.contains('sidebar-content')) {
+        const isVisible = content.style.display !== 'none';
+        header.setAttribute('aria-expanded', String(isVisible));
+      }
+    });
+
+    // ── Filtering + Pagination ──
+    const PAGE_SIZE = 20;
+    const cards = document.querySelectorAll<HTMLElement>('.holiday[data-country]');
+    const resultsEl = document.querySelector('.results');
+    const loadMoreBtn = document.querySelector<HTMLButtonElement>('.more-holidays');
+    const noFilterResults = document.querySelector<HTMLElement>('.no-filter-results');
+    let shownCount = 0;
+
+    function getChecked(name: string): string[] {
+      return Array.from(document.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`))
+        .map(el => el.value);
+    }
+
+    function getVisibleCards(): HTMLElement[] {
+      return Array.from(cards).filter(c => !c.classList.contains('filtered-out'));
+    }
+
+    function updateFilterBadge() {
+      const count = document.querySelectorAll('.sidebar input[type="checkbox"]:checked').length;
+      if (filterBtn) {
+        filterBtn.innerHTML = count > 0
+          ? `<span class="icon-filter"></span>Filter <span class="filter-badge">${count}</span>`
+          : '<span class="icon-filter"></span>Filter';
+      }
+    }
+
+    function applyPagination(reset: boolean) {
+      const visible = getVisibleCards();
+      const totalVisible = visible.length;
+
+      if (reset) shownCount = Math.min(PAGE_SIZE, totalVisible);
+
+      visible.forEach((card, i) => {
+        card.style.display = i < shownCount ? '' : 'none';
+      });
+
+      if (resultsEl) {
+        resultsEl.textContent = `Showing ${Math.min(shownCount, totalVisible)} of ${totalVisible} holidays`;
+      }
+
+      if (loadMoreBtn) {
+        const remaining = totalVisible - shownCount;
+        if (remaining <= 0) {
+          loadMoreBtn.style.display = 'none';
+        } else {
+          loadMoreBtn.style.display = 'flex';
+          const nextBatch = Math.min(PAGE_SIZE, remaining);
+          loadMoreBtn.textContent = `Load ${nextBatch} More${remaining > nextBatch ? ` (${remaining} remaining)` : ''}`;
+        }
+      }
+
+      if (noFilterResults) {
+        noFilterResults.style.display = totalVisible === 0 ? 'block' : 'none';
+      }
+
+      updateFilterBadge();
+    }
+
+    function applyFilters() {
+      const boards = getChecked('board');
+      const countries = getChecked('country');
+
+      cards.forEach(card => {
+        const matchBoard = boards.length === 0 || boards.includes(card.dataset.board || '');
+        const matchCountry = countries.length === 0 || countries.includes(card.dataset.country || '');
+        const passes = matchBoard && matchCountry;
+        card.classList.toggle('filtered-out', !passes);
+        if (!passes) card.style.display = 'none';
+      });
+
+      applyPagination(true);
+    }
+
+    // Load More click — scroll to first new card
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        const visible = getVisibleCards();
+        const firstNewIndex = shownCount;
+        shownCount = Math.min(shownCount + PAGE_SIZE, visible.length);
+        applyPagination(false);
+        if (visible[firstNewIndex]) {
+          const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          visible[firstNewIndex].scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+        }
+      });
+    }
+
+    // Clear filters button (in empty state)
+    const clearFiltersBtn = document.querySelector('.clear-filters');
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener('click', () => {
+        document.querySelectorAll<HTMLInputElement>('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+        applyFilters();
+      });
+    }
+
+    // Listen for checkbox changes (instant apply on desktop)
+    document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', applyFilters);
+    });
+
+    // Reset buttons
+    document.querySelectorAll('.reset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll<HTMLInputElement>('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+        applyFilters();
       });
     });
+
+    // ── Price sort (desktop + mobile sync) ──
+    const holidaysContainer = document.querySelector('.holidays');
+    const priceOrders = document.querySelectorAll<HTMLElement>('.search-sort .order .price .price-order');
+
+    function sortCards(descending: boolean) {
+      if (!holidaysContainer) return;
+      const sorted = Array.from(cards).sort((a, b) => {
+        const pa = parseFloat(a.dataset.price || '0');
+        const pb = parseFloat(b.dataset.price || '0');
+        return descending ? pb - pa : pa - pb;
+      });
+      sorted.forEach(card => holidaysContainer.appendChild(card));
+      applyPagination(true);
+    }
+
+    priceOrders.forEach((el) => {
+      el.addEventListener('click', () => {
+        priceOrders.forEach((p) => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
+        el.classList.add('active');
+        el.setAttribute('aria-pressed', 'true');
+        const isDesc = el.textContent?.includes('High') ?? false;
+        sortCards(isDesc);
+        const currentOption = document.querySelector('.current-option');
+        if (currentOption) currentOption.textContent = isDesc ? 'Price: High to low' : 'Price: Low to high';
+      });
+    });
+
+    // ── Mobile sort dropdown ──
+    const sortOrder = document.querySelector('.sort-order');
+    const sortOrderList = document.querySelector<HTMLElement>('.sort-order-list');
+    if (sortOrder && sortOrderList) {
+      sortOrder.addEventListener('click', () => {
+        const isVisible = sortOrderList.style.display === 'block';
+        sortOrderList.style.display = isVisible ? 'none' : 'block';
+        sortOrder.setAttribute('aria-expanded', String(!isVisible));
+      });
+
+      const sortOptions = document.querySelectorAll<HTMLElement>('.sort-option');
+      function selectSortOption(option: HTMLElement) {
+        const currentOption = document.querySelector('.current-option');
+        if (currentOption) currentOption.textContent = option.textContent;
+        sortOrderList.style.display = 'none';
+        sortOrder.setAttribute('aria-expanded', 'false');
+        sortOptions.forEach(o => o.setAttribute('aria-selected', 'false'));
+        option.setAttribute('aria-selected', 'true');
+        const isDesc = option.textContent?.includes('High') ?? false;
+        priceOrders.forEach((p) => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
+        const matchBtn = isDesc ? priceOrders[1] : priceOrders[0];
+        if (matchBtn) { matchBtn.classList.add('active'); matchBtn.setAttribute('aria-pressed', 'true'); }
+        sortCards(isDesc);
+        (sortOrder as HTMLElement).focus();
+      }
+      sortOptions.forEach((option) => {
+        option.addEventListener('click', () => selectSortOption(option));
+        option.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectSortOption(option); }
+          if (e.key === 'ArrowDown') { e.preventDefault(); const next = option.nextElementSibling as HTMLElement; if (next) next.focus(); }
+          if (e.key === 'ArrowUp') { e.preventDefault(); const prev = option.previousElementSibling as HTMLElement; if (prev) prev.focus(); }
+          if (e.key === 'Home') { e.preventDefault(); sortOptions[0].focus(); }
+          if (e.key === 'End') { e.preventDefault(); sortOptions[sortOptions.length - 1].focus(); }
+        });
+      });
+
+      // Close dropdown on outside click
+      document.addEventListener('click', (e) => {
+        if (!sortOrder.contains(e.target as Node) && !sortOrderList.contains(e.target as Node)) {
+          sortOrderList.style.display = 'none';
+          sortOrder.setAttribute('aria-expanded', 'false');
+        }
+      });
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sortOrderList.style.display === 'block') {
+          sortOrderList.style.display = 'none';
+          sortOrder.setAttribute('aria-expanded', 'false');
+          (sortOrder as HTMLElement).focus();
+        }
+      });
+    }
+
+    // Initial pagination on page load
+    applyPagination(true);
   });
 </script>

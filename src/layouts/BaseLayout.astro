@@ -129,6 +129,15 @@ const websiteSchema = {
     })
   </script>
 
+  <!-- Microsoft Clarity — rage clicks, dead clicks, session replay, heatmaps -->
+  <script is:inline>
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "vvtl8xkgpk");
+  </script>
+
   <slot name="head" />
 </head>
 <body>
@@ -176,6 +185,51 @@ const websiteSchema = {
       document.getElementById('cookie-accept').addEventListener('click', function () {
         document.cookie = 'cookie_consent=1; path=/; max-age=' + (365 * 24 * 60 * 60) + '; SameSite=Lax';
         document.getElementById('cookie-banner').style.display = 'none';
+      });
+    })();
+  </script>
+
+  <!-- Error Monitoring — beacon to admin API -->
+  <script is:inline>
+    (function () {
+      var BEACON_URL = 'https://holiday-admin-api.satwinder-30c.workers.dev/api/monitor/errors';
+      var reported = {};
+      try { reported = JSON.parse(sessionStorage.getItem('_err_reported') || '{}'); } catch (e) {}
+
+      function report(type, detail) {
+        var key = type + ':' + (detail || '').slice(0, 120);
+        if (reported[key]) return;
+        reported[key] = 1;
+        try { sessionStorage.setItem('_err_reported', JSON.stringify(reported)); } catch (e) {}
+        var payload = JSON.stringify({
+          type: type,
+          url: location.href,
+          detail: detail ? detail.slice(0, 2000) : null,
+          userAgent: navigator.userAgent,
+          referrer: document.referrer || null
+        });
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(BEACON_URL, new Blob([payload], { type: 'application/json' }));
+        }
+      }
+
+      // JS errors
+      window.addEventListener('error', function (e) {
+        if (e.target && (e.target.tagName === 'IMG' || e.target.tagName === 'SCRIPT')) return;
+        report('js_error', (e.message || 'Unknown error') + ' at ' + (e.filename || '') + ':' + (e.lineno || 0));
+      });
+
+      // Broken images (capture phase)
+      document.addEventListener('error', function (e) {
+        if (e.target && e.target.tagName === 'IMG') {
+          report('broken_image', e.target.src || e.target.getAttribute('data-src') || 'unknown');
+        }
+      }, true);
+
+      // Unhandled promise rejections
+      window.addEventListener('unhandledrejection', function (e) {
+        var msg = e.reason ? (e.reason.message || String(e.reason)) : 'Unhandled rejection';
+        report('js_error', msg);
       });
     })();
   </script>

@@ -1,0 +1,1085 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import MobileNav from '../../../components/MobileNav.astro';
+import Footer from '../../../components/Footer.astro';
+import Newsletter from '../../../components/Newsletter.astro';
+import MobileCallCTA from '../../../components/MobileCallCTA.astro';
+import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
+import { getDb } from '../../../lib/get-db';
+import { getAllListedHolidaysFromDb } from '../../../lib/holidays-db';
+import { slugifyRiver } from '../../../lib/holiday-transforms';
+
+const riverSlug = Astro.params.river as string | undefined;
+
+let allCruises;
+try {
+  const db = getDb(Astro);
+  const all = await getAllListedHolidaysFromDb(db);
+  allCruises = all
+    .filter(h => h.tags.includes('River Cruise'))
+    .sort((a, b) => (a.price + a.localChargesPp) - (b.price + b.localChargesPp));
+} catch (e) {
+  console.error('DB error on river-cruises:', e);
+  return new Response('Service temporarily unavailable', { status: 503 });
+}
+
+// Build river slug → display name lookup, excluding destinations that are just country names
+const countryNames = new Set(allCruises.map(c => c.country));
+const riverMap = new Map<string, string>();
+for (const c of allCruises) {
+  if (countryNames.has(c.destination)) continue;
+  const slug = slugifyRiver(c.destination);
+  if (!riverMap.has(slug)) {
+    riverMap.set(slug, c.destination);
+  }
+}
+
+// Validate river slug if provided
+let activeRiverName: string | null = null;
+if (riverSlug) {
+  activeRiverName = riverMap.get(riverSlug) ?? null;
+  if (!activeRiverName) {
+    return new Response(null, { status: 404, statusText: 'Not Found' });
+  }
+}
+
+// Filter holidays by river if a slug is active
+const holidays = activeRiverName
+  ? allCruises.filter(h => {
+      // Exact destination match (cruise-export cruises have river as destination)
+      if (h.destination === activeRiverName) return true;
+      // Multi-river destinations like "Danube, Main" when filtering by "Danube"
+      if (h.destination.includes(activeRiverName)) return true;
+      // DB holidays tagged 'River Cruise' have country as destination — match by title
+      if (countryNames.has(h.destination)) {
+        return h.title.toLowerCase().includes(activeRiverName.toLowerCase());
+      }
+      return false;
+    })
+  : allCruises;
+
+// Sorted river list for sidebar links (with counts)
+const rivers = [...riverMap.entries()]
+  .map(([slug, name]) => {
+    const count = allCruises.filter(c =>
+      c.destination === name || c.destination.includes(name) ||
+      (countryNames.has(c.destination) && c.title.toLowerCase().includes(name.toLowerCase()))
+    ).length;
+    return { slug, name, count };
+  })
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+// SEO
+const pageTitle = activeRiverName
+  ? `${activeRiverName} River Cruises | Flights and Packages`
+  : 'River Cruises | Flights and Packages';
+const pageDescription = activeRiverName
+  ? `Explore our ${activeRiverName} fly-cruise river cruise packages. All-inclusive sailings with flights from UK airports.`
+  : 'Explore our fly-cruise river cruise packages across Europe. All-inclusive sailings with CroisiEurope and A-Rosa, with flights from UK airports.';
+const heroTitle = activeRiverName
+  ? `${activeRiverName} River Cruises`
+  : 'River Cruises';
+
+const breadcrumbItems = activeRiverName
+  ? [
+      { name: 'Home', url: '/' },
+      { name: 'River Cruises', url: '/Holidays/river-cruises' },
+      { name: `${activeRiverName}` },
+    ]
+  : [
+      { name: 'Home', url: '/' },
+      { name: 'River Cruises' },
+    ];
+
+const bannerImage = '/images/heroes/river-cruises.webp';
+const bannerFallback = '/images/heroes/river-cruises.jpg';
+
+// ItemList schema for first 20 cruises
+const itemListName = activeRiverName ? `${activeRiverName} River Cruises` : 'River Cruises';
+const itemListSchema = holidays.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: itemListName,
+  numberOfItems: holidays.length,
+  itemListElement: holidays.slice(0, 20).map((h, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: h.title,
+    url: `https://holidays.flightsandpackages.com/Holidays/${h.countrySlug}/${h.slug}`,
+    image: h.image,
+  })),
+} : null;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} image={bannerFallback}>
+  <link slot="head" rel="preload" as="image" type="image/webp" href={bannerImage} />
+  <BreadcrumbSchema slot="head" items={breadcrumbItems} />
+  {itemListSchema && <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />}
+  <Header />
+  <MobileNav />
+
+  <!-- Custom Hero -->
+  <section class="country-hero" aria-label="Page hero">
+    <img src={bannerImage} alt="" class="hero-bg" fetchpriority="high" decoding="async" width="1920" height="776" />
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
+      {activeRiverName ? (
+        <>
+          <a href="/Holidays/river-cruises">River Cruises</a>
+          <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
+          <span>{activeRiverName}</span>
+        </>
+      ) : (
+        <span>River Cruises</span>
+      )}
+    </nav>
+    <div class="hero-content">
+      <div class="hero-subtitle">discover</div>
+      <h1>{heroTitle}</h1>
+    </div>
+  </section>
+
+  <!-- Intro Section -->
+  <section class="intro-section section-container">
+    <p class="intro-text">
+      {activeRiverName
+        ? `Discover the beauty of the ${activeRiverName} with our fly-cruise river cruise packages. All packages include return flights from UK airports, full-board dining, and unforgettable itineraries.`
+        : 'Discover the beauty of Europe from the water with our fly-cruise river cruise packages. Sail along the Rhine, Danube, Douro and more with award-winning operators CroisiEurope and A-Rosa. All packages include return flights from UK airports, full-board dining, and unforgettable itineraries through some of the continent\'s most charming towns and cities.'}
+    </p>
+    <p class="intro-text-extra hide" id="intro-extra-text">
+      Whether you prefer the intimate charm of a boutique vessel or the modern luxury of a premium ship,
+      our river cruise collection has something for every traveller. Glide past medieval castles,
+      world-class vineyards, and vibrant capitals — all while enjoying exceptional onboard service.
+      Browse our latest departures below or call our team for expert advice on choosing the perfect sailing.
+    </p>
+    <button type="button" class="read-more" aria-expanded="false" aria-controls="intro-extra-text">
+      Read more
+      <span class="icon-dropdown"></span>
+    </button>
+  </section>
+
+  <!-- Holiday List Section -->
+  <section class="holiday-list-section section-container">
+    <!-- Sidebar -->
+    <div class="sidebar-backdrop"></div>
+    <div class="sidebar" id="sidebar-filters">
+      <div class="filter">
+        <div class="sidebar-header">
+          <div class="type">Filters</div>
+          <button type="button" class="reset">Reset</button>
+          <button type="button" class="sidebar-close" aria-label="Close filters">&times;</button>
+        </div>
+      </div>
+
+      <!-- River filter — links instead of checkboxes -->
+      <div class="filter">
+        <button type="button" class="sidebar-header" aria-expanded="true">
+          <div class="type">River</div>
+          <span class="icon-pullup"></span>
+        </button>
+        <div class="sidebar-content">
+          <a
+            class:list={['river-link', { active: !activeRiverName }]}
+            href="/Holidays/river-cruises"
+          >All Rivers ({allCruises.length})</a>
+          {rivers.map(({ slug, name, count }) => (
+            <a
+              class:list={['river-link', { active: activeRiverName === name }]}
+              href={`/Holidays/river-cruises/${slug}`}
+            >{name} ({count})</a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Duration filter -->
+      <div class="filter">
+        <button type="button" class="sidebar-header" aria-expanded="true">
+          <div class="type">Duration</div>
+          <span class="icon-pullup"></span>
+        </button>
+        <div class="sidebar-content">
+          {[...new Set(holidays.map(h => {
+            const m = h.duration.match(/(\d+)\s*Nights/);
+            return m ? parseInt(m[1]) : 0;
+          }))].sort((a, b) => a - b).filter(n => n > 0).map((nights) => (
+            <div class="checkbox-option">
+              <input type="checkbox" name="duration" id={`d-${nights}`} value={String(nights)} />
+              <label for={`d-${nights}`}>{nights} Nights</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Country filter -->
+      <div class="filter">
+        <button type="button" class="sidebar-header" aria-expanded="true">
+          <div class="type">Country</div>
+          <span class="icon-pullup"></span>
+        </button>
+        <div class="sidebar-content">
+          {[...new Set(holidays.map(h => h.country))].sort().map((country) => (
+            <div class="checkbox-option">
+              <input type="checkbox" name="country" id={`c-${country.toLowerCase().replace(/\s+/g, '-')}`} value={country} />
+              <label for={`c-${country.toLowerCase().replace(/\s+/g, '-')}`}>{country}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Operator filter -->
+      <div class="filter">
+        <button type="button" class="sidebar-header" aria-expanded="true">
+          <div class="type">Operator</div>
+          <span class="icon-pullup"></span>
+        </button>
+        <div class="sidebar-content">
+          <div class="checkbox-option">
+            <input type="checkbox" name="operator" id="croisieurope" value="CroisiEurope" />
+            <label for="croisieurope">CroisiEurope</label>
+          </div>
+          <div class="checkbox-option">
+            <input type="checkbox" name="operator" id="a-rosa" value="A-Rosa" />
+            <label for="a-rosa">A-Rosa</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile actions -->
+      <div class="mobile-actions">
+        <button type="button" class="btn-primary filter-apply-btn" aria-label="Apply filters">Apply</button>
+        <button type="button" class="reset">Reset</button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="search-sort">
+        <div class="results" aria-live="polite" aria-atomic="true"></div>
+        <div class="order">
+          <div class="price" role="group" aria-label="Sort order">
+            Price
+            <button type="button" class="price-order active" aria-pressed="true">Low to high</button>
+            <button type="button" class="price-order" aria-pressed="false">High to low</button>
+          </div>
+          <div class="mobile-filter-wrap">
+            <button type="button" class="filter-btn" aria-expanded="false" aria-controls="sidebar-filters">
+              <span class="icon-filter"></span>
+              Filter
+            </button>
+            <div class="sort">
+              Sort by
+              <button type="button" class="sort-order" aria-haspopup="listbox" aria-expanded="false">
+                <span class="current-option">Price: Low to high</span>
+                <span class="icon-dropdown"></span>
+              </button>
+              <ul class="sort-order-list" role="listbox" aria-label="Sort order">
+                <li class="sort-option" role="option" tabindex="0" aria-selected="true">Price: Low to high</li>
+                <li class="sort-option" role="option" tabindex="0" aria-selected="false">Price: High to low</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Holiday cards -->
+      <div class="holidays">
+        {holidays.map((holiday) => {
+          const nights = holiday.duration.match(/(\d+)\s*Nights/)?.[1] || '';
+          return (
+          <div class="holiday"
+            data-country={holiday.country}
+            data-duration={nights}
+            data-operator={holiday.operator}
+            data-price={holiday.price + holiday.localChargesPp}
+          >
+            <img class="holiday-img" src={holiday.image} alt={holiday.title} loading="lazy" decoding="async" width="291" height="340" />
+            <a class="gallery-link" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`} aria-hidden="true" tabindex="-1">
+              <span class="icon-camera"></span>
+              Gallery
+            </a>
+            <div class="details">
+              <div>
+                <a class="title" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>{holiday.title}</a>
+                <ul>
+                  <li><span class="icon-compass" aria-hidden="true"></span>{holiday.destination}</li>
+                  <li><span class="icon-nights" aria-hidden="true"></span>{holiday.duration}</li>
+                  <li><span class="icon-board-basis" aria-hidden="true"></span>{holiday.boardBasis}</li>
+                  <li><span class="icon-flights" aria-hidden="true"></span>Flights Included</li>
+                </ul>
+              </div>
+              <p>{holiday.description}</p>
+              <div class="horizontal">
+                <div class="price" aria-label={`from £${Math.round(holiday.price + holiday.localChargesPp)} per person`}>
+                  <span aria-hidden="true">from</span>
+                  <div aria-hidden="true">&pound;{Math.round(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
+                </div>
+                <a class="btn-primary view-more-btn" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
+                  View More
+                  <img src="/icons/more-icon-white.svg" alt="" class="icon-more" />
+                </a>
+              </div>
+            </div>
+          </div>
+        )})}
+      </div>
+
+      <button class="load-more-btn btn-primary">Load More</button>
+
+      <div class="no-filter-results" style="display:none">
+        <p>No cruises match your selected filters. <button type="button" class="clear-filters">Clear all filters</button></p>
+      </div>
+
+      {holidays.length === 0 && (
+        <div class="no-results">
+          <p>No river cruises are currently available. Please check back soon or call us on <a href="tel:02081830518">0208 183 0518</a> for the latest sailings.</p>
+        </div>
+      )}
+    </div>
+
+  </section>
+
+  <Newsletter />
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>
+
+<style>
+  .country-hero {
+    margin-top: 100px;
+    height: 500px;
+    position: relative;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .country-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.35) 100%);
+    z-index: 1;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 100% center;
+    z-index: 0;
+  }
+  .country-hero .breadcrumbs,
+  .country-hero .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  @media (max-width: 768px) {
+    .country-hero { margin-top: 50px; height: 400px; }
+    .hero-bg { object-position: center; }
+  }
+  @media (max-width: 450px) {
+    .country-hero { height: 300px; }
+  }
+
+  .breadcrumbs {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    z-index: 3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+  }
+  @media (max-width: 768px) { .breadcrumbs { left: 20px; } }
+  @media (max-width: 530px) { .breadcrumbs { max-width: calc(100vw - 40px); } }
+  .breadcrumbs a, .breadcrumbs span {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 13px;
+    line-height: 16px;
+    color: #ffffff;
+  }
+  @media (max-width: 768px) {
+    .breadcrumbs a, .breadcrumbs span { font-size: 14px; line-height: 18px; }
+  }
+  .breadcrumb-icon {
+    padding: 0 5px;
+    width: auto;
+    height: 8px;
+  }
+
+  .hero-content {
+    text-align: center;
+    padding-bottom: 80px;
+  }
+  @media (max-width: 768px) { .hero-content { padding-bottom: 0px; } }
+  .hero-subtitle {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    padding-bottom: 14px;
+  }
+  .hero-content h1 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 64px;
+    line-height: 1;
+    padding-bottom: 25px;
+    text-shadow: 2px 2px 5px #000;
+  }
+  @media (max-width: 768px) { .hero-content h1 { font-size: 44px; } }
+  @media (max-width: 450px) { .hero-content h1 { font-size: 36px; } }
+
+  .intro-section {
+    margin-top: 80px;
+    margin-bottom: 95px;
+  }
+  @media (max-width: 768px) { .intro-section { margin-top: 40px; margin-bottom: 50px; } }
+  .intro-section p { padding-bottom: 1px; }
+  @media (max-width: 768px) { .intro-section p { text-align: justify; } }
+  .intro-section .read-more {
+    vertical-align: middle;
+    font-family: "BentonSansBold", sans-serif;
+    color: #424242;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 15px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+  }
+  .intro-section .read-more .icon-dropdown {
+    display: inline-block;
+    width: 12px;
+    height: 7px;
+    background-image: url('/icons/dropdown-icon.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-left: 15px;
+    transition: transform 0.3s;
+  }
+  .intro-section .read-more.expanded .icon-dropdown { transform: rotate(180deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .intro-section .read-more .icon-dropdown { transition: none; }
+  }
+
+  .holiday-list-section { margin-top: 60px; margin-bottom: 0px; }
+  .holiday-list-section::after { content: ""; display: table; clear: both; }
+  @media (max-width: 768px) { .holiday-list-section { margin: 90px 0px 0px 0px; max-width: 100%; } }
+
+  .holiday-list-section .sidebar {
+    width: 281px;
+    display: inline-block;
+    padding-right: 32px;
+  }
+  @media (max-width: 768px) { .holiday-list-section .sidebar { display: none; width: 100%; padding: 0 20px; } }
+  .holiday-list-section .sidebar.show { display: block; }
+
+  .holiday-list-section .sidebar .filter {
+    padding-bottom: 25px;
+    padding-top: 25px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  .holiday-list-section .sidebar .filter:first-child { padding-top: 0px; padding-bottom: 2px; }
+  .holiday-list-section .sidebar .filter:first-child .sidebar-header { cursor: default; }
+  @media (min-width: 768px) { .holiday-list-section .sidebar .filter:nth-last-child(2) { border: none; } }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 20px;
+    cursor: pointer;
+  }
+  .sidebar-header .type { font-family: "BentonSansBold", sans-serif; font-size: 18px; color: #424242; }
+  .sidebar-header .reset { font-family: "BentonSansMedium", sans-serif; font-size: 14px; color: #767676; cursor: pointer; }
+  .sidebar-header .icon-pullup {
+    width: 12px; height: 7px;
+    background-image: url('/icons/dropdown-icon.svg');
+    background-repeat: no-repeat; background-size: cover;
+    display: inline-block; transform: rotate(180deg);
+  }
+
+  .sidebar-content { display: block; }
+
+  /* River links */
+  .river-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 23px;
+    min-height: 44px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+  }
+  .river-link:hover {
+    background-color: rgba(32, 161, 170, 0.08);
+    color: #20A1AA;
+  }
+  .river-link.active {
+    background-color: rgba(32, 161, 170, 0.12);
+    color: #20A1AA;
+    font-family: "BentonSansBold", sans-serif;
+  }
+
+  .checkbox-option { padding-left: 23px; font-size: 14px; padding-top: 6px; padding-bottom: 6px; display: flex; align-items: center; min-height: 44px; }
+  .checkbox-option input {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+  .checkbox-option input:focus-visible + label:before {
+    outline: 2px solid #20A1AA; outline-offset: 2px;
+  }
+  .checkbox-option input:checked + label:before {
+    content: ""; background-image: url('/icons/tick.svg'); background-repeat: no-repeat; background-position-y: 2px;
+  }
+  .checkbox-option label { display: flex; color: #000000; cursor: pointer; }
+  .checkbox-option label:before {
+    background: #FFF; content: ""; width: 14px; min-width: 14px; height: 14px;
+    border: 1px solid #5e5e5e; border-radius: 2px; margin-right: 14px;
+  }
+
+  .mobile-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
+  @media (min-width: 769px) { .mobile-actions { display: none; } }
+  .mobile-actions .filter-apply-btn { margin: 0px; width: 140px; height: 45px; }
+  .mobile-actions .reset {
+    font-family: "BentonSansMedium", sans-serif; font-size: 14px; color: #767676;
+    background: none; border: none; cursor: pointer; padding: 8px 12px;
+  }
+
+  /* Sidebar close button — mobile only */
+  .sidebar-close {
+    display: none; background: none; border: none; font-size: 24px; color: #767676;
+    cursor: pointer; padding: 4px 8px; line-height: 1;
+  }
+  @media (max-width: 768px) { .sidebar-close { display: block; } }
+
+  /* Sidebar backdrop overlay — mobile only */
+  .sidebar-backdrop {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9;
+  }
+  .sidebar-backdrop.active { display: block; }
+  @media (max-width: 768px) {
+    .holiday-list-section .sidebar.show { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; background: #fff; overflow-y: auto; padding: 20px; }
+  }
+
+  /* Filter badge on mobile button */
+  .filter-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #20A1AA; color: #fff; border-radius: 50%;
+    width: 20px; height: 20px; font-size: 11px; margin-left: 6px;
+    font-family: "BentonSansBold", sans-serif;
+  }
+
+  .holiday-list-section .content { width: calc(100% - 281px); float: right; padding-left: 32px; }
+  @media (max-width: 768px) { .holiday-list-section .content { width: 100%; padding-left: 0px; position: relative; } }
+
+  .search-sort {
+    display: flex; font-family: "BentonSansBold", sans-serif; color: #424242;
+    padding-bottom: 22px; border-bottom: solid 1px rgba(66, 66, 66, 0.2); margin-bottom: 38px;
+  }
+  @media (max-width: 1100px) { .search-sort { padding-bottom: 2px; } }
+  @media (max-width: 940px) { .search-sort { flex-direction: column; } }
+  @media (max-width: 768px) { .search-sort { border: none; align-items: center; padding-bottom: 0px; } }
+  .search-sort .results { flex-grow: 2; }
+  .search-sort .order { display: flex; flex-grow: 1; justify-content: space-between; }
+  @media (max-width: 1100px) { .search-sort .order { flex-direction: column; align-items: flex-end; } }
+  @media (max-width: 940px) { .search-sort .order { align-items: flex-start; } }
+
+  .search-sort .order .price { display: inline-block; }
+  .search-sort .order .price .price-order {
+    display: inline-block; font-family: "BentonSansMedium", sans-serif; color: #767676; padding-left: 20px; cursor: pointer;
+    background: none; border: none; font-size: inherit;
+  }
+  .search-sort .order .price .price-order:last-child { border-left: 0.5px solid rgba(0, 0, 0, 0.5); margin-left: 15px; }
+  .search-sort .order .price .price-order.active { color: #20A1AA; text-decoration: underline; text-underline-offset: 4px; }
+  .search-sort .order .price .price-order:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px; }
+
+  .mobile-filter-wrap { display: none; }
+  @media (max-width: 768px) {
+    .mobile-filter-wrap {
+      position: absolute; width: 100%; top: -90px; left: 0px; right: 0px;
+      background-color: #ffffff; box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+      display: flex; justify-content: space-between; padding: 20px; z-index: 3;
+    }
+  }
+  .filter-btn {
+    font-size: 16px; font-family: "BentonSansMedium", sans-serif; cursor: pointer;
+    background: none; border: none; color: inherit; padding: 0; display: flex; align-items: center;
+  }
+  @media (min-width: 769px) { .filter-btn { display: none; } }
+  .filter-btn .icon-filter {
+    background-image: url('/icons/filter-icon.svg'); background-repeat: no-repeat; background-size: cover;
+    width: 17px; height: 14px; margin-right: 10px; display: inline-block;
+  }
+  .filter-btn:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px; }
+  .sort { position: relative; display: inline-flex; }
+  .sort .sort-order {
+    font-family: "BentonSansMedium", sans-serif; color: #767676; padding-left: 15px;
+    min-width: 111px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    background: none; border: none; font-size: inherit;
+  }
+  .sort .sort-order:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px; }
+  .sort .sort-order .icon-dropdown {
+    margin-left: 20px; background-image: url('/icons/dropdown-icon.svg');
+    background-repeat: no-repeat; background-size: cover; width: 12px; height: 7px; display: inline-block;
+  }
+  .sort .sort-order-list {
+    position: absolute; top: 30px; left: 65px; width: 110px; list-style-type: none;
+    padding: 10px; box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2); background-color: #ffffff; z-index: 1; display: none;
+  }
+  @media (max-width: 768px) { .sort .sort-order-list { left: auto; right: 0; } }
+  .sort .sort-order-list .sort-option {
+    font-family: "BentonSansMedium", sans-serif; color: #767676; padding: 10px; cursor: pointer;
+  }
+  .sort .sort-order-list .sort-option:hover {
+    background-color: rgba(32, 161, 170, 0.08); color: #20A1AA; outline: none;
+  }
+  .sort .sort-order-list .sort-option:focus-visible {
+    background-color: rgba(32, 161, 170, 0.08); color: #20A1AA;
+  }
+
+  .holidays { position: relative; }
+  @media (min-width: 769px) {
+    .holidays:before {
+      content: ""; position: absolute; left: -32px; height: 100%; width: 1px; background: rgba(0, 0, 0, 0.2);
+    }
+  }
+  @media (max-width: 768px) { .holidays { max-width: 730px; margin-left: auto; margin-right: auto; } }
+  @media (max-width: 760px) { .holidays { max-width: 100%; } }
+
+  .holiday {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08); display: flex; margin-top: 20px; position: relative; overflow: hidden;
+  }
+  @media (max-width: 1100px) { .holiday { flex-direction: column; } }
+  @media (max-width: 768px) { .holiday { flex-direction: row; } }
+  @media (max-width: 760px) { .holiday { flex-direction: column; } }
+
+  .holiday .holiday-img {
+    min-width: 291px; display: block; object-fit: cover; height: 340px;
+  }
+  @media (max-width: 1100px) { .holiday .holiday-img { width: 100%; max-width: 567px; } }
+  @media (max-width: 940px) { .holiday .holiday-img { width: 100%; max-width: 417px; } }
+  @media (max-width: 768px) { .holiday .holiday-img { width: 291px; } }
+  @media (max-width: 760px) { .holiday .holiday-img { width: 100%; } }
+  @media (max-width: 450px) { .holiday .holiday-img { object-position: bottom; } }
+  @media (max-width: 394px) { .holiday .holiday-img { height: 210px; } }
+
+  .holiday .gallery-link {
+    display: flex; align-items: center; flex-direction: column; justify-content: center;
+    position: absolute; top: 230px; left: 0px; width: 104px; height: 104px;
+    background-color: rgba(0, 0, 0, 0.6); color: #ffffff;
+    font-family: "BentonSansMedium", sans-serif; font-size: 14px; text-decoration: none;
+  }
+  @media (max-width: 394px) { .holiday .gallery-link { width: 64px; height: 64px; top: 146px; font-size: 12px; } }
+  .holiday .gallery-link .icon-camera {
+    width: 35px; height: 29px; margin-bottom: 10px;
+    background-image: url('/icons/camera-icon.svg'); background-size: contain; background-repeat: no-repeat; display: block;
+  }
+  @media (max-width: 394px) { .holiday .gallery-link .icon-camera { width: 24px; height: 20px; margin-bottom: 5px; } }
+
+  .holiday .details {
+    display: flex; flex-direction: column; justify-content: space-between; padding: 30px; width: 100%;
+  }
+  @media (max-width: 450px) { .holiday .details { padding: 20px; } }
+  .holiday .details .title { font-family: "BentonSansBold", sans-serif; font-size: 24px; line-height: 27px; color: #424242; text-decoration: none; display: block; }
+  .holiday .details .title:hover { color: #20A1AA; }
+  .holiday .details .title:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 2px; color: #20A1AA; }
+  @media (max-width: 450px) { .holiday .details .title { font-size: 20px; } }
+  .holiday .details ul { list-style-type: none; padding-top: 5px; padding-bottom: 20px; display: flex; }
+  @media (max-width: 1260px) { .holiday .details ul { flex-direction: column; } }
+  @media (max-width: 1100px) { .holiday .details ul { flex-direction: row; } }
+  @media (max-width: 940px) { .holiday .details ul { flex-direction: column; } }
+  .holiday .details ul li {
+    display: inline-flex; font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px; color: #767676; align-items: center; padding-right: 20px;
+  }
+  .holiday .details ul li .icon-compass {
+    display: inline-block; width: 16px; height: 16px;
+    background-image: url('/icons/compass-grey.svg'); background-size: contain; background-repeat: no-repeat;
+    padding-right: 10px; margin-right: 6px;
+  }
+  .holiday .details ul li .icon-nights {
+    display: inline-block; width: 16px; height: 16px;
+    background-image: url('/icons/nights-grey.svg'); background-size: contain; background-repeat: no-repeat;
+    padding-right: 10px; margin-right: 6px;
+  }
+  .holiday .details ul li .icon-board-basis {
+    display: inline-block; width: 16px; height: 16px;
+    background-image: url('/icons/board-basis-grey.svg'); background-size: contain; background-repeat: no-repeat;
+    padding-right: 10px; margin-right: 6px;
+  }
+  .holiday .details ul li .icon-flights {
+    display: inline-block; width: 16px; height: 16px;
+    background-image: url('/icons/flights-grey.png'); background-size: contain; background-repeat: no-repeat;
+    padding-right: 10px; margin-right: 6px;
+  }
+
+  .holiday .details .horizontal { display: flex; justify-content: space-between; align-items: center; }
+  .holiday .details .horizontal .price { display: inline-block; }
+  .holiday .details .horizontal .price span { font-family: "BentonSansMedium", sans-serif; font-size: 14px; line-height: 38px; }
+  .holiday .details .horizontal .price div { font-family: "CaslonGraphiqueEF", serif; font-size: 40px; line-height: 38px; }
+  @media (max-width: 610px) { .holiday .details .horizontal .price div { font-size: 34px; } }
+  @media (max-width: 450px) { .holiday .details .horizontal .price div { font-size: 28px; line-height: 28px; } }
+
+  .view-more-btn {
+    width: 185px; height: 64px; box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.25);
+    letter-spacing: 1px; margin-top: 0px; text-decoration: none;
+  }
+  .view-more-btn .icon-more { padding-left: 18px; width: auto; height: 12px; }
+  @media (max-width: 450px) { .view-more-btn { min-width: unset; width: 140px; height: 45px; font-size: 12px; } }
+  @media (max-width: 350px) {
+    .view-more-btn { width: 113px; padding: 0 10px; font-size: 11px; }
+    .holiday .details .horizontal .price div { font-size: 22px; }
+  }
+
+  .load-more-btn {
+    display: block;
+    margin: 40px auto 20px;
+    width: 220px;
+    height: 56px;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .load-more-btn.hidden { display: none; }
+  @media (max-width: 350px) { .load-more-btn { width: 100%; max-width: 290px; } }
+
+  .no-results, .no-filter-results {
+    text-align: center;
+    padding: 80px 20px;
+    color: #767676;
+    font-size: 18px;
+  }
+  .no-results a, .no-filter-results a { color: #20A1AA; }
+  .clear-filters {
+    background: none; border: none; color: #20A1AA; cursor: pointer;
+    font-size: inherit; font-family: inherit; text-decoration: underline;
+  }
+
+  /* Reset button styling */
+  .sidebar-header .reset {
+    background: none; border: none; cursor: pointer; padding: 8px 12px;
+  }
+  .sidebar-header .reset:focus-visible {
+    outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px;
+  }
+
+  /* Accordion header button reset + focus */
+  button.sidebar-header {
+    background: none; border: none; font: inherit; color: inherit;
+    text-align: left; width: 100%; appearance: none;
+  }
+  button.sidebar-header:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px; }
+
+  /* River link focus */
+  .river-link:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; }
+
+  .hide { display: none; }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Read more toggle
+    const readMoreLink = document.querySelector<HTMLButtonElement>('.read-more');
+    const extraText = document.querySelector('.intro-text-extra');
+    if (readMoreLink && extraText) {
+      readMoreLink.addEventListener('click', () => {
+        const isHidden = extraText.classList.contains('hide');
+        extraText.classList.toggle('hide');
+        readMoreLink.innerHTML = isHidden
+          ? 'Read less <span class="icon-dropdown"></span>'
+          : 'Read more <span class="icon-dropdown"></span>';
+        readMoreLink.classList.toggle('expanded', isHidden);
+        readMoreLink.setAttribute('aria-expanded', String(isHidden));
+      });
+    }
+
+    // ── Mobile sidebar with backdrop ──
+    const filterBtn = document.querySelector<HTMLButtonElement>('.filter-btn');
+    const sidebar = document.querySelector<HTMLElement>('.sidebar');
+    const backdrop = document.querySelector<HTMLElement>('.sidebar-backdrop');
+    const closeBtn = document.querySelector<HTMLButtonElement>('.sidebar-close');
+
+    function openSidebar() {
+      if (!sidebar || !backdrop) return;
+      sidebar.classList.add('show');
+      backdrop.classList.add('active');
+      if (filterBtn) filterBtn.setAttribute('aria-expanded', 'true');
+      if (closeBtn) closeBtn.focus();
+      document.addEventListener('keydown', trapFocus);
+    }
+    function closeSidebar() {
+      if (!sidebar || !backdrop) return;
+      sidebar.classList.remove('show');
+      backdrop.classList.remove('active');
+      if (filterBtn) { filterBtn.setAttribute('aria-expanded', 'false'); filterBtn.focus(); }
+      document.removeEventListener('keydown', trapFocus);
+    }
+    function trapFocus(e: KeyboardEvent) {
+      if (e.key === 'Escape') { closeSidebar(); return; }
+      if (e.key !== 'Tab' || !sidebar) return;
+      const focusable = sidebar.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+
+    if (filterBtn) filterBtn.addEventListener('click', () => sidebar?.classList.contains('show') ? closeSidebar() : openSidebar());
+    if (backdrop) backdrop.addEventListener('click', closeSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+
+    const applyBtn = document.querySelector('.filter-apply-btn');
+    if (applyBtn) {
+      applyBtn.addEventListener('click', () => { applyFilters(); closeSidebar(); });
+    }
+
+    // ── Sidebar accordion with ARIA + keyboard ──
+    const filterHeaders = document.querySelectorAll<HTMLElement>('.filter .sidebar-header');
+    filterHeaders.forEach((header, index) => {
+      if (index === 0) return;
+      function toggleAccordion() {
+        const content = header.nextElementSibling as HTMLElement;
+        const icon = header.querySelector('.icon-pullup, .icon-dropdown') as HTMLElement;
+        if (content && content.classList.contains('sidebar-content')) {
+          const isVisible = content.style.display !== 'none';
+          content.style.display = isVisible ? 'none' : 'block';
+          header.setAttribute('aria-expanded', String(!isVisible));
+          if (icon) icon.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+      }
+      header.addEventListener('click', toggleAccordion);
+      header.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAccordion(); }
+      });
+    });
+
+    // Sync aria-expanded from DOM on load
+    filterHeaders.forEach((header, index) => {
+      if (index === 0) return;
+      const content = header.nextElementSibling as HTMLElement;
+      if (content && content.classList.contains('sidebar-content')) {
+        const isVisible = content.style.display !== 'none';
+        header.setAttribute('aria-expanded', String(isVisible));
+      }
+    });
+
+    // ── Filtering + Pagination ──
+    const PAGE_SIZE = 20;
+    const cards = document.querySelectorAll<HTMLElement>('.holiday[data-country]');
+    const resultsEl = document.querySelector('.results');
+    const loadMoreBtn = document.querySelector<HTMLButtonElement>('.load-more-btn');
+    const noFilterResults = document.querySelector<HTMLElement>('.no-filter-results');
+    let shownCount = 0;
+
+    function getChecked(name: string): string[] {
+      return Array.from(document.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`))
+        .map(el => el.value);
+    }
+
+    function getVisibleCards(): HTMLElement[] {
+      return Array.from(cards).filter(c => !c.classList.contains('filtered-out'));
+    }
+
+    function updateFilterBadge() {
+      const count = document.querySelectorAll('.sidebar input[type="checkbox"]:checked').length;
+      if (filterBtn) {
+        filterBtn.innerHTML = count > 0
+          ? `<span class="icon-filter"></span>Filter <span class="filter-badge">${count}</span>`
+          : '<span class="icon-filter"></span>Filter';
+      }
+    }
+
+    function applyPagination(reset: boolean) {
+      const visible = getVisibleCards();
+      const totalVisible = visible.length;
+
+      if (reset) shownCount = Math.min(PAGE_SIZE, totalVisible);
+
+      visible.forEach((card, i) => {
+        card.style.display = i < shownCount ? '' : 'none';
+      });
+
+      // Results count — consistent format
+      if (resultsEl) {
+        resultsEl.textContent = `Showing ${Math.min(shownCount, totalVisible)} of ${totalVisible} river cruises`;
+      }
+
+      // Load More button with remaining count
+      if (loadMoreBtn) {
+        const remaining = totalVisible - shownCount;
+        if (remaining <= 0) {
+          loadMoreBtn.classList.add('hidden');
+        } else {
+          loadMoreBtn.classList.remove('hidden');
+          const nextBatch = Math.min(PAGE_SIZE, remaining);
+          loadMoreBtn.textContent = `Load ${nextBatch} More${remaining > nextBatch ? ` (${remaining} remaining)` : ''}`;
+        }
+      }
+
+      // Empty state for filtered results
+      if (noFilterResults) {
+        noFilterResults.style.display = totalVisible === 0 ? 'block' : 'none';
+      }
+
+      updateFilterBadge();
+    }
+
+    function applyFilters() {
+      const durations = getChecked('duration');
+      const countries = getChecked('country');
+      const operators = getChecked('operator');
+
+      cards.forEach(card => {
+        const matchDuration = durations.length === 0 || durations.includes(card.dataset.duration || '');
+        const matchCountry = countries.length === 0 || countries.includes(card.dataset.country || '');
+        const matchOperator = operators.length === 0 || operators.includes(card.dataset.operator || '');
+
+        const passes = matchDuration && matchCountry && matchOperator;
+        card.classList.toggle('filtered-out', !passes);
+        if (!passes) card.style.display = 'none';
+      });
+
+      applyPagination(true);
+    }
+
+    // Load More click — scroll to first new card
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        const visible = getVisibleCards();
+        const firstNewIndex = shownCount;
+        shownCount = Math.min(shownCount + PAGE_SIZE, visible.length);
+        applyPagination(false);
+        if (visible[firstNewIndex]) {
+          const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          visible[firstNewIndex].scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+        }
+      });
+    }
+
+    // Clear filters button (in empty state)
+    const clearFiltersBtn = document.querySelector('.clear-filters');
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener('click', () => {
+        document.querySelectorAll<HTMLInputElement>('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+        applyFilters();
+      });
+    }
+
+    // Listen for checkbox changes (instant apply on desktop)
+    document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', applyFilters);
+    });
+
+    // Reset buttons
+    document.querySelectorAll('.reset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll<HTMLInputElement>('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+        applyFilters();
+      });
+    });
+
+    // ── Price sort (desktop + mobile sync) ──
+    const holidaysContainer = document.querySelector('.holidays');
+    const priceOrders = document.querySelectorAll<HTMLElement>('.search-sort .order .price .price-order');
+
+    function sortCards(descending: boolean) {
+      if (!holidaysContainer) return;
+      const sorted = Array.from(cards).sort((a, b) => {
+        const pa = parseFloat(a.dataset.price || '0');
+        const pb = parseFloat(b.dataset.price || '0');
+        return descending ? pb - pa : pa - pb;
+      });
+      sorted.forEach(card => holidaysContainer.appendChild(card));
+      applyPagination(true);
+    }
+
+    priceOrders.forEach((el) => {
+      el.addEventListener('click', () => {
+        priceOrders.forEach((p) => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
+        el.classList.add('active');
+        el.setAttribute('aria-pressed', 'true');
+        const isDesc = el.textContent?.includes('High') ?? false;
+        sortCards(isDesc);
+        // Sync mobile sort label
+        const currentOption = document.querySelector('.current-option');
+        if (currentOption) currentOption.textContent = isDesc ? 'Price: High to low' : 'Price: Low to high';
+      });
+    });
+
+    // ── Mobile sort dropdown ──
+    const sortOrder = document.querySelector('.sort-order');
+    const sortOrderList = document.querySelector<HTMLElement>('.sort-order-list');
+    if (sortOrder && sortOrderList) {
+      sortOrder.addEventListener('click', () => {
+        const isVisible = sortOrderList.style.display === 'block';
+        sortOrderList.style.display = isVisible ? 'none' : 'block';
+        sortOrder.setAttribute('aria-expanded', String(!isVisible));
+      });
+
+      const sortOptions = document.querySelectorAll<HTMLElement>('.sort-option');
+      function selectSortOption(option: HTMLElement) {
+        const currentOption = document.querySelector('.current-option');
+        if (currentOption) currentOption.textContent = option.textContent;
+        sortOrderList.style.display = 'none';
+        sortOrder.setAttribute('aria-expanded', 'false');
+        sortOptions.forEach(o => o.setAttribute('aria-selected', 'false'));
+        option.setAttribute('aria-selected', 'true');
+        const isDesc = option.textContent?.includes('High') ?? false;
+        priceOrders.forEach((p) => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
+        const matchBtn = isDesc ? priceOrders[1] : priceOrders[0];
+        if (matchBtn) { matchBtn.classList.add('active'); matchBtn.setAttribute('aria-pressed', 'true'); }
+        sortCards(isDesc);
+        (sortOrder as HTMLElement).focus();
+      }
+      sortOptions.forEach((option) => {
+        option.addEventListener('click', () => selectSortOption(option));
+        option.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectSortOption(option); }
+          if (e.key === 'ArrowDown') { e.preventDefault(); const next = option.nextElementSibling as HTMLElement; if (next) next.focus(); }
+          if (e.key === 'ArrowUp') { e.preventDefault(); const prev = option.previousElementSibling as HTMLElement; if (prev) prev.focus(); }
+          if (e.key === 'Home') { e.preventDefault(); sortOptions[0].focus(); }
+          if (e.key === 'End') { e.preventDefault(); sortOptions[sortOptions.length - 1].focus(); }
+        });
+      });
+
+      // Close dropdown on outside click
+      document.addEventListener('click', (e) => {
+        if (!sortOrder.contains(e.target as Node) && !sortOrderList.contains(e.target as Node)) {
+          sortOrderList.style.display = 'none';
+          sortOrder.setAttribute('aria-expanded', 'false');
+        }
+      });
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sortOrderList.style.display === 'block') {
+          sortOrderList.style.display = 'none';
+          sortOrder.setAttribute('aria-expanded', 'false');
+          (sortOrder as HTMLElement).focus();
+        }
+      });
+    }
+
+    // Initial pagination on page load
+    applyPagination(true);
+  });
+</script>
