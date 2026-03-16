@@ -73,6 +73,8 @@ export const flightPackages = pgTable('flight_packages', {
   }),
   cityTaxEnabled: boolean('city_tax_enabled').default(true).notNull(),
   includeAirlines: text('include_airlines'),
+  displayPrice: real('display_price'),
+  cities: jsonb('cities').default([]).notNull(),
 });
 
 export const packagePricing = pgTable('package_pricing', {

@@ -1,5 +1,6 @@
 import homepageData from './homepage-export.json';
 import { allPublishedHolidays } from './holidays';
+import { roundToNine } from '../lib/pricing-transforms';
 
 export interface Offer {
   image: string;
@@ -105,7 +106,7 @@ function slugFromHref(href: string): string {
 function inclusivePrice(slug: string, fallbackPrice: string): string {
   const holiday = allPublishedHolidays.find((h) => h.slug === slug);
   if (!holiday) return fallbackPrice;
-  const total = Math.round(holiday.price + holiday.localChargesPp);
+  const total = holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp);
   return `£${total.toLocaleString('en-GB')}`;
 }
 

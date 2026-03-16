@@ -10,6 +10,7 @@ import Newsletter from '../../components/Newsletter.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
 import { getDb } from '../../lib/get-db';
 import { getAllListedHolidaysFromDb, getFilterData } from '../../lib/holidays-db';
+import { roundToNine } from '../../lib/pricing-transforms';
 
 const destination = Astro.url.searchParams.get('destination') || '';
 
@@ -177,7 +178,7 @@ const pageTitle = destination
               <div class="horizontal">
                 <div class="price">
                   <span>from</span>
-                  <div>&pound;{Math.round(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
+                  <div>&pound;{holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
                 </div>
                 <a class="btn-primary view-more-btn" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
                   View More

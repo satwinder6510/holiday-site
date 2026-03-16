@@ -11,6 +11,7 @@ import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import { getDb } from '../../../lib/get-db';
 import { getAllListedHolidaysFromDb } from '../../../lib/holidays-db';
 import { slugifyRiver } from '../../../lib/holiday-transforms';
+import { roundToNine } from '../../../lib/pricing-transforms';
 
 const riverSlug = Astro.params.river as string | undefined;
 
@@ -294,7 +295,7 @@ const itemListSchema = holidays.length > 0 ? {
             data-country={holiday.country}
             data-duration={nights}
             data-operator={holiday.operator}
-            data-price={holiday.price + holiday.localChargesPp}
+            data-price={holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp)}
           >
             <img class="holiday-img" src={holiday.image} alt={holiday.title} loading="lazy" decoding="async" width="291" height="340" />
             <a class="gallery-link" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`} aria-hidden="true" tabindex="-1">
@@ -313,9 +314,9 @@ const itemListSchema = holidays.length > 0 ? {
               </div>
               <p>{holiday.description}</p>
               <div class="horizontal">
-                <div class="price" aria-label={`from £${Math.round(holiday.price + holiday.localChargesPp)} per person`}>
+                <div class="price" aria-label={`from £${holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp)} per person`}>
                   <span aria-hidden="true">from</span>
-                  <div aria-hidden="true">&pound;{Math.round(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
+                  <div aria-hidden="true">&pound;{holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
                 </div>
                 <a class="btn-primary view-more-btn" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
                   View More

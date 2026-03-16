@@ -16,6 +16,7 @@ export type { Holiday, HolidayDetail, LocalChargeItem } from '../lib/holiday-tra
 import rawHolidays from './holiday-export.json';
 import rawCruises from './cruise-export.json';
 import { getPricingForHoliday } from './pricing';
+import { roundToNine } from '../lib/pricing-transforms';
 
 const allHolidays: HolidayDetail[] = [
   ...(rawHolidays as RawHoliday[]).map(transformHoliday),
@@ -61,8 +62,8 @@ export function getHolidayBySlug(slug: string): HolidayDetail | undefined {
 
 /** Price range across all listed holidays. */
 export const priceRange = {
-  min: Math.min(...listedHolidays.map(h => h.price + h.localChargesPp)),
-  max: Math.max(...listedHolidays.map(h => h.price + h.localChargesPp)),
+  min: Math.min(...listedHolidays.map(h => h.displayPrice ?? roundToNine(h.price + h.localChargesPp))),
+  max: Math.max(...listedHolidays.map(h => h.displayPrice ?? roundToNine(h.price + h.localChargesPp))),
 };
 
 /** Unique board basis values for filter sidebar. */

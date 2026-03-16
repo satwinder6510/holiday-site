@@ -87,6 +87,15 @@ River cruise offers are **mixed in with regular holidays** — no separate `/cru
 - **ID offset:** Cruise offer IDs start at 10001+ to avoid collisions with flight_packages IDs
 - **To update cruise data:** Re-run the pipeline in holiday-admin-api (sync → batch-create-offers → export), then rebuild + deploy this site
 
+### River Cruises Listing Page
+
+- **Route:** `src/pages/Holidays/river-cruises/[...river].astro` — SSR catch-all route
+- **URL pattern:** `/Holidays/river-cruises/` (all rivers) or `/Holidays/river-cruises/danube` (specific river)
+- **Sidebar:** Accordion nav grouped by river name, with collapsible route listings
+- **`slugifyRiver()`** in `holiday-transforms.ts` — converts river names to URL slugs
+- **Filters:** Price range (min/max), duration, board type, cabin type, operator — all via JS-driven accordion sidebar
+- **Sort:** Price (low/high), duration (short/long), departure date — ARIA listbox with keyboard navigation (ArrowUp/Down/Home/End)
+
 ## SEO Infrastructure
 
 - **URL routing:** Pages directory is `src/pages/Holidays/` (capital H). `slugify()` lowercases country names. URLs match live site: `/Holidays/italy/slug`.
@@ -99,6 +108,23 @@ River cruise offers are **mixed in with regular holidays** — no separate `/cru
 - **robots.txt / llms.txt:** Static files in `public/`.
 - **Blog cross-linking:** Holiday detail pages show destination-relevant blog cards (filtered by country name), falling back to latest 4 if fewer than 2 matches.
 
+## Accessibility (UX audit applied 2026-03-15)
+
+Listing pages (`[country]/index.astro`, `river-cruises/[...river].astro`) have had 4 rounds of UX + 1 responsive audit:
+
+- **Accordion headers:** Native `<button>` elements (not `<div role="button">`) with `aria-expanded`
+- **Card titles:** `<a>` links (not `<div>`) with `focus-visible` outline
+- **Decorative elements:** `aria-hidden="true"` on icon spans, gallery links, hero images
+- **Price display:** `aria-label` with readable price, inner symbols `aria-hidden`
+- **Sort selector:** ARIA listbox with Home/End/ArrowUp/ArrowDown/Enter/Space keyboard nav
+- **Focus-visible states:** `.btn-primary`, card links, accordion headers, form inputs, sort options
+- **Screen reader text:** `.sr-only` class in `global.css` for visually hidden labels
+- **prefers-reduced-motion:** CSS transitions and JS scroll behavior
+- **Search form:** `role="search"` + `aria-label` on country page
+- **Responsive images:** `width: 100%; max-width: Xpx` pattern for fluid images
+- **Touch targets:** Min 44px height on interactive elements at mobile
+- **Breadcrumbs:** 13px font, `max-width: calc(100vw - 40px)` for mobile wrapping
+
 ## Conventions
 
 - Scoped `<style>` for page-specific CSS (not Tailwind) when porting complex layouts from the original CSS files
@@ -106,13 +132,16 @@ River cruise offers are **mixed in with regular holidays** — no separate `/cru
 - SVG icons stored in `public/icons/` and referenced via `<img src="/icons/name.svg">`
 - Image paths use absolute URLs from the original site's CDN where available, local paths in `public/images/` otherwise
 - **R2-served images:** `/objects/images/...` and `/api/media/...` paths are served from Cloudflare R2 bucket `holidays-images` via SSR API routes. ~10,148 images migrated from Replit (2026-03-14).
+- **Global CSS utilities:** `global.css` has `.btn-primary` (with `:focus-visible`), `.sr-only`, `.section-container`
 
 ## Analytics & Tracking (in BaseLayout.astro `<head>`)
 - **Facebook Pixel:** ID `2922972984621050` — PageView on every page
 - **PostHog:** Project `phc_CncpMTolnthosh7c98z3b7iqSHbhB1vokNzW2WgrC2R`, EU host (`eu.i.posthog.com`)
+- **Microsoft Clarity:** Added for session replay and heatmaps
 - **Traffic source tracking:** vanilla JS, stores `lead_source` + `landing_page` in sessionStorage
 - **HappyFox Live Chat:** 9am–6pm UTC only, embed token `0799b060-00fb-11f1-a7bb-77728896a359`
 - **Cookie banner:** UK PECR/GDPR compliant, sets `cookie_consent=1` cookie for 1 year
+- **Error monitoring:** JS beacon sends uncaught errors + broken images to `holiday-admin-api /api/monitor/errors`
 
 ## Reference
 

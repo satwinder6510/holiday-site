@@ -15,6 +15,7 @@ import {
   type RawHolidayPricing,
   type HolidayPricing,
   transformHolidayPricing,
+  roundToNine,
 } from './pricing-transforms';
 import rawCruises from '../data/cruise-export.json';
 
@@ -77,6 +78,8 @@ function dbRowToRawHoliday(row: DbRow): RawHoliday {
     additional_charge_foreign_amount: row.additionalChargeForeignAmount,
     city_tax_enabled: row.cityTaxEnabled,
     include_airlines: row.includeAirlines,
+    display_price: row.displayPrice ?? null,
+    cities: (row.cities ?? []) as string[],
   };
 }
 
@@ -214,11 +217,22 @@ export function getFilterData(holidays: HolidayDetail[]) {
     ...new Set(holidays.map(h => h.boardBasis).filter(Boolean)),
   ].sort();
 
-  const prices = holidays.map(h => h.price + h.localChargesPp);
+  const prices = holidays.map(h => h.displayPrice ?? roundToNine(h.price + h.localChargesPp));
   const priceRange = {
     min: prices.length > 0 ? Math.min(...prices) : 0,
     max: prices.length > 0 ? Math.max(...prices) : 0,
   };
 
-  return { boardBasisOptions, priceRange };
+  // Collect unique cities across all holidays, with counts
+  const cityMap = new Map<string, number>();
+  for (const h of holidays) {
+    for (const city of h.cities) {
+      cityMap.set(city, (cityMap.get(city) || 0) + 1);
+    }
+  }
+  const cityOptions = Array.from(cityMap.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  return { boardBasisOptions, priceRange, cityOptions };
 }

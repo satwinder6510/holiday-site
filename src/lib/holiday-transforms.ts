@@ -69,6 +69,8 @@ export interface RawHoliday {
   additional_charge_foreign_amount: number | string | null;
   city_tax_enabled: boolean;
   include_airlines: string | null;
+  display_price: number | null;
+  cities: string[];
 }
 
 export interface RawCruiseItinerary {
@@ -144,6 +146,8 @@ export interface Holiday {
   isUnlisted: boolean;
   displayOrder: number;
   operator: string;
+  displayPrice: number | null;
+  cities: string[];
 }
 
 export interface HolidayDetail extends Holiday {
@@ -442,6 +446,8 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
     boardBasis: normaliseBoardBasis(raw.board_basis_override),
     price: raw.price,
     localChargesPp: localCharges.total,
+    displayPrice: raw.display_price ?? null,
+    cities: raw.cities || [],
     description,
     slug: raw.slug,
     galleryCount: raw.gallery?.length || 0,
@@ -543,6 +549,8 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     boardBasis: 'All Inclusive',
     price: raw.price,
     localChargesPp: 0,
+    displayPrice: null,
+    cities: [],
     description,
     slug: raw.slug,
     galleryCount: raw.gallery?.length || 0,

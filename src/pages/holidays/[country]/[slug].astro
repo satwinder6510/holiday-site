@@ -9,6 +9,7 @@ import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import type { HolidayDetail } from '../../../lib/holiday-transforms';
+import { roundToNine } from '../../../lib/pricing-transforms';
 import { allBlogs } from '../../../data/blogs';
 import { getDb } from '../../../lib/get-db';
 import { getHolidayBySlugFromDb } from '../../../lib/holidays-db';
@@ -42,25 +43,30 @@ const latestBlogs = matchedBlogs.length >= 2 ? matchedBlogs.slice(0, 4) : allBlo
 const pricingJson = hasPricing ? JSON.stringify(pricing) : 'null';
 
 const localCharges = holiday.localChargesPp;
-const displayPrice = holiday.price + localCharges;
 const localChargesJson = JSON.stringify({ ppGbp: localCharges, breakdown: holiday.localChargesBreakdown });
 
 function fmtPrice(p: number): string {
   return '\u00A3' + Math.round(p).toLocaleString('en-GB');
 }
-const displayPriceFormatted = fmtPrice(displayPrice);
-const cheapestInclusive = hasPricing ? fmtPrice(pricing!.cheapestPrice + localCharges) : displayPriceFormatted;
+
+// Hero price: override > auto-rounded cheapest departure > auto-rounded base
+const heroPrice = holiday.displayPrice
+  ?? (hasPricing
+    ? roundToNine(pricing!.cheapestPrice + localCharges)
+    : roundToNine(holiday.price + localCharges));
+const cheapestInclusive = fmtPrice(heroPrice);
+const displayPriceFormatted = cheapestInclusive;
 const airportPrices = hasPricing ? pricing!.airports.map((ap: any) => ({
   ...ap,
-  inclusiveFormatted: fmtPrice(ap.cheapestPrice + localCharges),
+  inclusiveFormatted: fmtPrice(roundToNine(ap.cheapestPrice + localCharges)),
 })) : [];
 const initialDeps = hasPricing ? pricing!.departures
   .filter((d: any) => d.airportCode === pricing!.airports[0].code)
   .slice(0, 4)
   .map((dep: any) => ({
     ...dep,
-    inclusivePrice: dep.pricePp + localCharges,
-    inclusiveFormatted: fmtPrice(dep.pricePp + localCharges),
+    inclusivePrice: roundToNine(dep.pricePp + localCharges),
+    inclusiveFormatted: fmtPrice(roundToNine(dep.pricePp + localCharges)),
   })) : [];
 
 // Truncate description at sentence boundary
@@ -85,11 +91,11 @@ const productSchema: Record<string, unknown> = {
   category: 'Holiday Package',
 };
 if (hasPricing) {
-  const highPrice = Math.max(...pricing!.departures.map((d: any) => d.pricePp)) + localCharges;
+  const highPrice = roundToNine(Math.max(...pricing!.departures.map((d: any) => d.pricePp)) + localCharges);
   productSchema.offers = {
     '@type': 'AggregateOffer',
     priceCurrency: 'GBP',
-    lowPrice: pricing!.cheapestPrice + localCharges,
+    lowPrice: heroPrice,
     highPrice,
     offerCount: pricing!.departures.length,
     availability: 'https://schema.org/InStock',
@@ -100,7 +106,7 @@ if (hasPricing) {
   productSchema.offers = {
     '@type': 'Offer',
     priceCurrency: 'GBP',
-    price: displayPrice,
+    price: heroPrice,
     availability: 'https://schema.org/InStock',
     url: `https://holidays.flightsandpackages.com/Holidays/${holiday.countrySlug}/${holiday.slug}`,
     offeredBy: { '@type': 'Organization', name: 'Flights and Packages' },
@@ -110,7 +116,7 @@ if (hasPricing) {
 // Build page description: prefer meta description, fall back to structured summary
 const pageDescription = holiday.metaDescription || (() => {
   const parts: string[] = [`Book ${holiday.title}`];
-  if (displayPrice) parts.push(`from ${displayPriceFormatted}pp`);
+  if (heroPrice) parts.push(`from ${displayPriceFormatted}pp`);
   if (holiday.duration) parts.push(`${holiday.duration} in ${holiday.destination || holiday.country}`);
   if (holiday.boardBasis) parts.push(holiday.boardBasis);
   parts.push('Flights included. ATOL protected.');
@@ -997,14 +1003,14 @@ const pageDescription = holiday.metaDescription || (() => {
     height: 100px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
     z-index: 3;
-    position: relative;
-    transform: translateY(0);
-    transition: transform 0.2s;
+    position: sticky;
+    top: 101px;
   }
   @media (max-width: 768px) {
     .itinerary-header {
       height: 70px;
       background-color: #f4f4f4;
+      top: 51px;
     }
   }
   .header-inner {
@@ -1176,15 +1182,6 @@ const pageDescription = holiday.metaDescription || (() => {
     background-color: #878787;
   }
 
-  /* Sticky */
-  .itinerary-header.stick {
-    position: fixed;
-    top: 60px;
-    width: 100%;
-    transition: transform 0.2s;
-    z-index: 4;
-    transform: translateY(-60px);
-  }
 
   /* ========================================
      CONTENT AREA (Main + Sidebar)
@@ -1747,7 +1744,7 @@ const pageDescription = holiday.metaDescription || (() => {
   }
   .sidebar .wrap > img {
     width: 100%;
-    min-height: 199px;
+    aspect-ratio: 16 / 10;
     object-fit: cover;
     display: block;
   }
@@ -3234,7 +3231,16 @@ const pageDescription = holiday.metaDescription || (() => {
       const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
       const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
+      function roundToNine(n: number): number {
+        const f = Math.floor(n);
+        return Math.max(0, f - ((f + 1) % 10));
+      }
+
       function formatPrice(p: number): string {
+        return '\u00A3' + roundToNine(p).toLocaleString('en-GB');
+      }
+
+      function formatPriceExact(p: number): string {
         return '\u00A3' + Math.round(p).toLocaleString('en-GB');
       }
 
@@ -3245,7 +3251,7 @@ const pageDescription = holiday.metaDescription || (() => {
       function getCheapestForAirport(code: string): number {
         const deps = getDepsForAirport(code);
         if (deps.length === 0) return 0;
-        return Math.min(...deps.map((d: any) => d.pricePp)) + localChargesPp;
+        return roundToNine(Math.min(...deps.map((d: any) => d.pricePp)) + localChargesPp);
       }
 
       // Render inline date cards
@@ -3429,11 +3435,11 @@ const pageDescription = holiday.metaDescription || (() => {
             if (localChargesPp > 0) {
               const pkgTotal = dep.pricePp * passengerCount;
               const lcTotal = localChargesPp * passengerCount;
-              html += `Package: ${passengerCount} &times; ${formatPrice(dep.pricePp)} = ${formatPrice(pkgTotal)}<br>`;
-              html += `Local charges: ${passengerCount} &times; ${formatPrice(localChargesPp)} = ${formatPrice(lcTotal)}<br>`;
-              html += `<strong>Total: ${formatPrice(total)}</strong>`;
+              html += `Package: ${passengerCount} &times; ${formatPriceExact(dep.pricePp)} = ${formatPriceExact(pkgTotal)}<br>`;
+              html += `Local charges: ${passengerCount} &times; ${formatPriceExact(localChargesPp)} = ${formatPriceExact(lcTotal)}<br>`;
+              html += `<strong>Total: ${formatPriceExact(total)}</strong>`;
             } else {
-              html += `${passengerCount} passenger${passengerCount > 1 ? 's' : ''} &times; ${formatPrice(ppInclusive)} = <strong>${formatPrice(total)}</strong> total`;
+              html += `${passengerCount} passenger${passengerCount > 1 ? 's' : ''} &times; ${formatPriceExact(ppInclusive)} = <strong>${formatPriceExact(total)}</strong> total`;
             }
             modalSummaryInfo.innerHTML = html;
             modalBookBtn.disabled = false;
@@ -3632,18 +3638,7 @@ const pageDescription = holiday.metaDescription || (() => {
       });
     }
 
-    // ===== STICKY HEADER =====
-    const tabNav = document.getElementById('tab_navigation');
-    if (tabNav) {
-      const tabNavTop = tabNav.offsetTop;
-      window.addEventListener('scroll', () => {
-        if (window.scrollY >= tabNavTop) {
-          tabNav.classList.add('stick');
-        } else {
-          tabNav.classList.remove('stick');
-        }
-      });
-    }
+    // Sticky header now handled by CSS position: sticky (no JS needed)
 
     // ===== IMAGE CAROUSELS (Accommodation + Gallery) =====
     document.querySelectorAll('.img-carousel').forEach((carousel) => {

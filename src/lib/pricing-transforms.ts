@@ -56,6 +56,12 @@ export function formatPrice(p: number): string {
   return '\u00A3' + Math.round(p).toLocaleString('en-GB');
 }
 
+/** Round down to nearest number ending in 9 (e.g. 501→499, 1302→1299, 999→999). */
+export function roundToNine(n: number): number {
+  const floored = Math.floor(n);
+  return Math.max(0, floored - ((floored + 1) % 10));
+}
+
 function formatDate(iso: string): string {
   const d = new Date(iso + 'T00:00:00');
   return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
