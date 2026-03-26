@@ -57,6 +57,39 @@ function fmtPrice(p: number): string {
   return '\u00A3' + Math.round(p).toLocaleString('en-GB');
 }
 
+/** Normalize excluded/requirements/attention text into clean bullet-point HTML.
+ *  Handles: proper <ul><li>, malformed <ul>text</li>, plain text with \n, and <p> blocks. */
+function toBulletList(html: string): string {
+  const trimmed = html.trim();
+  if (!trimmed) return '';
+
+  // Already has <li> tags — strip inline styles, fix malformed HTML, apply custom-bullets class
+  if (trimmed.includes('<li')) {
+    let clean = trimmed
+      .replace(/ style="[^"]*"/g, '')         // strip inline styles
+      .replace(/ style='[^']*'/g, '');
+    // Fix malformed: <ul>text</li> → <ul><li>text</li>
+    clean = clean.replace(/<ul>\s*(?!<li)/gi, '<ul><li>');
+    // Ensure items between </li> and next text get <li> openers
+    clean = clean.replace(/<\/li>\s*(?!<\/ul>|<li>|$)/gi, '</li><li>');
+    // Remove empty <li></li> pairs
+    clean = clean.replace(/<li>\s*<\/li>/g, '');
+    // Add custom-bullets class to <ul> tags
+    clean = clean.replace(/<ul>/gi, '<ul class="custom-bullets">');
+    return clean;
+  }
+
+  // Has <p> tags — render as-is (paragraphs)
+  if (trimmed.includes('<p>') || trimmed.includes('<p ')) {
+    return trimmed.replace(/ style="[^"]*"/g, '');
+  }
+
+  // Plain text — split by newlines into bullet list
+  const lines = trimmed.split(/\n+/).map(l => l.trim()).filter(Boolean);
+  if (lines.length <= 1) return `<p>${lines[0] || ''}</p>`;
+  return '<ul class="custom-bullets">' + lines.map(l => `<li>${l}</li>`).join('') + '</ul>';
+}
+
 // Hero price: override > auto-rounded base + exact local charges
 const heroPrice = holiday.displayPrice
   ?? (hasPricing
@@ -451,19 +484,19 @@ const pageDescription = holiday.metaDescription || (() => {
             {holiday.excluded && (
               <>
                 <h3 class="sub-heading">Excluded</h3>
-                <Fragment set:html={holiday.excluded} />
+                <Fragment set:html={toBulletList(holiday.excluded)} />
               </>
             )}
             {holiday.requirements && (
               <>
                 <h3 class="sub-heading">Requirements</h3>
-                <Fragment set:html={holiday.requirements} />
+                <Fragment set:html={toBulletList(holiday.requirements)} />
               </>
             )}
             {holiday.attention && (
               <>
                 <h3 class="sub-heading">Please Note</h3>
-                <Fragment set:html={holiday.attention} />
+                <Fragment set:html={toBulletList(holiday.attention)} />
               </>
             )}
           </div>
