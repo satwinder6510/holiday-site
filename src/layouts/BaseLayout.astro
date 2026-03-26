@@ -5,6 +5,7 @@ interface Props {
   image?: string;
   type?: string;
   noindex?: boolean;
+  preloadImage?: string;
 }
 
 const {
@@ -13,6 +14,7 @@ const {
   image,
   type = 'website',
   noindex = false,
+  preloadImage,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -98,6 +100,9 @@ const websiteSchema = {
   <link rel="preload" href="/fonts/BentonSans-Bold.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/CaslonGraphiqueEF.woff2" as="font" type="font/woff2" crossorigin />
 
+  {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+  <link rel="preconnect" href="https://admin.citiesandbeaches.com" />
+
   <link rel="icon" type="image/png" href="/favicon.png" />
 
   <!-- Organization Schema -->
@@ -105,43 +110,13 @@ const websiteSchema = {
   <!-- WebSite Schema -->
   <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
-  <!-- Facebook Pixel -->
-  <script is:inline>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '2922972984621050');
-    fbq('track', 'PageView');
-  </script>
+  <!-- FB Pixel noscript fallback (no perf impact) -->
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2922972984621050&ev=PageView&noscript=1" /></noscript>
-
-  <!-- PostHog Analytics -->
-  <script is:inline>
-    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-    posthog.init('phc_CncpMTolnthosh7c98z3b7iqSHbhB1vokNzW2WgrC2R', {
-        api_host: 'https://eu.i.posthog.com',
-        defaults: '2026-01-30'
-    })
-  </script>
-
-  <!-- Microsoft Clarity — rage clicks, dead clicks, session replay, heatmaps -->
-  <script is:inline>
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "vvtl8xkgpk");
-  </script>
 
   <slot name="head" />
 </head>
 <body>
-  <slot />
+  <main><slot /></main>
 
   <!-- Traffic source tracking -->
   <script is:inline>
@@ -234,21 +209,46 @@ const websiteSchema = {
     })();
   </script>
 
-  <!-- HappyFox Live Chat (9am–6pm GMT only) -->
+  <!-- Crisp Live Chat -->
+  <script is:inline>
+    window.$crisp=[];window.CRISP_WEBSITE_ID="ea4c76fc-b59b-4e94-9935-c08ff84ce851";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+  </script>
+
+  <!-- Deferred Analytics — FB Pixel, PostHog, Clarity (loaded after main content) -->
   <script is:inline>
     (function () {
-      var hour = new Date().getUTCHours();
-      if (hour >= 9 && hour < 18) {
-        window.HFCHAT_CONFIG = {
-          EMBED_TOKEN: '0799b060-00fb-11f1-a7bb-77728896a359',
-          ASSETS_URL: 'https://widget.happyfoxchat.com/v2/visitor'
-        };
-        var scriptTag = document.createElement('script');
-        scriptTag.type = 'text/javascript';
-        scriptTag.async = true;
-        scriptTag.src = window.HFCHAT_CONFIG.ASSETS_URL + '/js/widget-loader.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(scriptTag, s);
+      function loadAnalytics() {
+        // Facebook Pixel
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2922972984621050');
+        fbq('track', 'PageView');
+
+        // PostHog
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('phc_CncpMTolnthosh7c98z3b7iqSHbhB1vokNzW2WgrC2R', {
+            api_host: 'https://eu.i.posthog.com',
+            defaults: '2026-01-30'
+        });
+
+        // Microsoft Clarity
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "vvtl8xkgpk");
+      }
+
+      if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(loadAnalytics);
+      } else {
+        setTimeout(loadAnalytics, 2000);
       }
     })();
   </script>

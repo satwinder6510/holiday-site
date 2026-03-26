@@ -56,10 +56,17 @@ export function formatPrice(p: number): string {
   return '\u00A3' + Math.round(p).toLocaleString('en-GB');
 }
 
-/** Round down to nearest number ending in 9 (e.g. 501→499, 1302→1299, 999→999). */
+/** Round to the closest price point ending in 29, 49, 69, or 99. */
 export function roundToNine(n: number): number {
-  const floored = Math.floor(n);
-  return Math.max(0, floored - ((floored + 1) % 10));
+  const base = Math.floor(n / 100) * 100;
+  const targets = [base + 29, base + 49, base + 69, base + 99];
+  let closest = targets[0];
+  let minDist = Math.abs(n - closest);
+  for (let i = 1; i < targets.length; i++) {
+    const dist = Math.abs(n - targets[i]);
+    if (dist < minDist) { closest = targets[i]; minDist = dist; }
+  }
+  return Math.max(0, closest);
 }
 
 function formatDate(iso: string): string {
@@ -90,13 +97,19 @@ function computeTier(price: number, cheapest: number, mostExpensive: number): Pr
   return 'mid';
 }
 
-// ── Transform ───────────────────────────────────────────────────────
-export function transformHolidayPricing(raw: RawHolidayPricing): HolidayPricing {
-  const prices = raw.departures.map(d => d.price_pp);
+// ── Transform ────────────────────────────────────────────────────────
+export function transformHolidayPricing(raw: RawHolidayPricing): HolidayPricing | null {
+  // Filter out past dates
+  const today = new Date().toISOString().slice(0, 10);
+  const futureDepartures = raw.departures.filter(d => d.date >= today);
+
+  if (futureDepartures.length === 0) return null;
+
+  const prices = futureDepartures.map(d => d.price_pp);
   const cheapest = Math.min(...prices);
   const mostExpensive = Math.max(...prices);
 
-  const departures: Departure[] = raw.departures
+  const departures: Departure[] = futureDepartures
     .map(d => ({
       date: d.date,
       dateFormatted: formatDate(d.date),

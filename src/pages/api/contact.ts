@@ -44,7 +44,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     if (body.package_name) other_fields['Package Name'] = body.package_name;
     if (body.package_id) other_fields['Package ID'] = body.package_id;
     if (body.departure_date) other_fields['Departure Date'] = body.departure_date;
+    if (body.departure_airport) other_fields['Departure Airport'] = body.departure_airport;
     if (body.num_adults) other_fields['Number of Adults'] = body.num_adults;
+    if (body.price_per_person) other_fields['Price Per Person'] = body.price_per_person;
+    if (body.total_price) other_fields['Total Price'] = body.total_price;
   } else {
     other_fields['Booking Reference'] = body.booking_ref || 'N/A';
     if (body.reason) other_fields['Reason'] = body.reason;

@@ -16,7 +16,8 @@ export type { PriceTier, Departure, Airport, HolidayPricing } from '../lib/prici
 const pricingMap = new Map<number, HolidayPricing>();
 for (const raw of pricingExport as RawHolidayPricing[]) {
   if (raw.departures.length > 0) {
-    pricingMap.set(raw.holiday_id, transformHolidayPricing(raw));
+    const pricing = transformHolidayPricing(raw);
+    if (pricing) pricingMap.set(raw.holiday_id, pricing);
   }
 }
 

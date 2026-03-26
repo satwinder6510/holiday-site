@@ -20,7 +20,7 @@ const featuredTour = Astro.props.tour || fallbackTour;
         <span class="price-label">from</span>
         <div class="price-amount font-display">{featuredTour.price}<span class="price-pp">/pp</span></div>
       </div>
-      <a href={featuredTour.href} class="btn-primary featured-btn">
+      <a href={featuredTour.href} class="btn-primary featured-btn" aria-label={`Learn more about ${featuredTour.title}`}>
         Learn More
         <img src="/icons/more-icon-white.svg" alt="" class="pl-[18px]" />
       </a>

@@ -45,28 +45,36 @@ const pricingJson = hasPricing ? JSON.stringify(pricing) : 'null';
 const localCharges = holiday.localChargesPp;
 const localChargesJson = JSON.stringify({ ppGbp: localCharges, breakdown: holiday.localChargesBreakdown });
 
+function formatOverview(text: string): string {
+  return text.split(/\n\n+/).map(block => {
+    const inner = block.replace(/\n/g, '<br>');
+    const isShort = block.trim().length < 100 && !block.includes('\n');
+    return `<p${isShort ? ' class="short"' : ''}>${inner}</p>`;
+  }).join('');
+}
+
 function fmtPrice(p: number): string {
   return '\u00A3' + Math.round(p).toLocaleString('en-GB');
 }
 
-// Hero price: override > auto-rounded cheapest departure > auto-rounded base
+// Hero price: override > auto-rounded base + exact local charges
 const heroPrice = holiday.displayPrice
   ?? (hasPricing
-    ? roundToNine(pricing!.cheapestPrice + localCharges)
-    : roundToNine(holiday.price + localCharges));
+    ? roundToNine(pricing!.cheapestPrice) + localCharges
+    : roundToNine(holiday.price) + localCharges);
 const cheapestInclusive = fmtPrice(heroPrice);
 const displayPriceFormatted = cheapestInclusive;
 const airportPrices = hasPricing ? pricing!.airports.map((ap: any) => ({
   ...ap,
-  inclusiveFormatted: fmtPrice(roundToNine(ap.cheapestPrice + localCharges)),
+  inclusiveFormatted: fmtPrice(roundToNine(ap.cheapestPrice) + localCharges),
 })) : [];
 const initialDeps = hasPricing ? pricing!.departures
   .filter((d: any) => d.airportCode === pricing!.airports[0].code)
   .slice(0, 4)
   .map((dep: any) => ({
     ...dep,
-    inclusivePrice: roundToNine(dep.pricePp + localCharges),
-    inclusiveFormatted: fmtPrice(roundToNine(dep.pricePp + localCharges)),
+    inclusivePrice: roundToNine(dep.pricePp) + localCharges,
+    inclusiveFormatted: fmtPrice(roundToNine(dep.pricePp) + localCharges),
   })) : [];
 
 // Truncate description at sentence boundary
@@ -91,7 +99,7 @@ const productSchema: Record<string, unknown> = {
   category: 'Holiday Package',
 };
 if (hasPricing) {
-  const highPrice = roundToNine(Math.max(...pricing!.departures.map((d: any) => d.pricePp)) + localCharges);
+  const highPrice = roundToNine(Math.max(...pricing!.departures.map((d: any) => d.pricePp))) + localCharges;
   productSchema.offers = {
     '@type': 'AggregateOffer',
     priceCurrency: 'GBP',
@@ -255,9 +263,7 @@ const pageDescription = holiday.metaDescription || (() => {
           {holiday.galleryImages.length > 0 && (
             <li><a href="#gallery">Gallery</a></li>
           )}
-          {(holiday.otherInfo || holiday.otherInfoBullets.length > 0) && (
-            <li><a href="#otherinfo">More Info</a></li>
-          )}
+          <li><a href="#otherinfo">More Info</a></li>
         </ul>
       </div>
     </div>
@@ -271,7 +277,7 @@ const pageDescription = holiday.metaDescription || (() => {
           {/* Overview */}
           <div id="overview" class="overview-section content-section">
             <h2>Overview</h2>
-            <Fragment set:html={holiday.overview.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+            <Fragment set:html={formatOverview(holiday.overview)} />
 
             {holiday.whatsIncluded.length > 0 && (
               <>
@@ -331,7 +337,7 @@ const pageDescription = holiday.metaDescription || (() => {
                       <div class="img-carousel-counter">{`1 / ${acc.images.length}`}</div>
                     </div>
                   )}
-                  <Fragment set:html={acc.description.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+                  <Fragment set:html={acc.description.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>')} />
                 </div>
               ))}
             </div>
@@ -355,7 +361,7 @@ const pageDescription = holiday.metaDescription || (() => {
                   </div>
                   <div class="panel-content" style={i === 0 ? 'display:block;' : 'display:none;'}>
                     <div class="desc">
-                      <Fragment set:html={item.description.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+                      <Fragment set:html={item.description.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>')} />
                     </div>
                   </div>
                 </div>
@@ -368,7 +374,7 @@ const pageDescription = holiday.metaDescription || (() => {
             <div id="reviews" class="reviews-section content-section">
               <h2>Reviews</h2>
               <div class="reviews-content">
-                <Fragment set:html={holiday.review.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+                <Fragment set:html={holiday.review.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>')} />
               </div>
             </div>
           )}
@@ -379,15 +385,31 @@ const pageDescription = holiday.metaDescription || (() => {
               <h2>Gallery</h2>
               <div class="img-carousel" data-carousel="gallery">
                 <div class="img-carousel-viewport">
-                  {holiday.galleryImages.map((img, i) => (
-                    <img
-                      src={img}
-                      alt={`${holiday.title} - ${i + 1}`}
-                      loading="lazy"
-                      class={i === 0 ? 'img-carousel-slide active' : 'img-carousel-slide'}
-                      data-slide-index={i}
-                    />
-                  ))}
+                  {holiday.galleryImages.map((img, i) => {
+                    const isVideo = img.split('?')[0].toLowerCase().endsWith('.mp4') || img.split('?')[0].toLowerCase().endsWith('.webm');
+                    return isVideo ? (
+                      <video
+                        src={img}
+                        muted
+                        playsinline
+                        loop
+                        preload="metadata"
+                        controls
+                        class={i === 0 ? 'img-carousel-slide active' : 'img-carousel-slide'}
+                        data-slide-index={i}
+                        data-media-type="video"
+                      />
+                    ) : (
+                      <img
+                        src={img}
+                        alt={`${holiday.title} - ${i + 1}`}
+                        loading="lazy"
+                        class={i === 0 ? 'img-carousel-slide active' : 'img-carousel-slide'}
+                        data-slide-index={i}
+                        data-media-type="image"
+                      />
+                    );
+                  })}
                 </div>
                 {holiday.galleryImages.length > 1 && (
                   <>
@@ -404,21 +426,47 @@ const pageDescription = holiday.metaDescription || (() => {
           )}
 
           {/* More Info */}
-          {(holiday.otherInfo || holiday.otherInfoBullets.length > 0) && (
-            <div id="otherinfo" class="other-info-section content-section">
-              <h2>More Information</h2>
-              {holiday.otherInfo && (
-                <Fragment set:html={holiday.otherInfo.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
-              )}
-              {holiday.otherInfoBullets.length > 0 && (
-                <ul class="custom-bullets">
-                  {holiday.otherInfoBullets.map((bullet) => (
-                    <li>{bullet}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )}
+          <div id="otherinfo" class="other-info-section content-section">
+            <h2>More Information</h2>
+            {holiday.otherInfo && (
+              <Fragment set:html={holiday.otherInfo.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+            )}
+            {holiday.otherInfoBullets.length > 0 && (
+              <ul class="custom-bullets">
+                {holiday.otherInfoBullets.map((bullet) => (
+                  <li>{bullet}</li>
+                ))}
+              </ul>
+            )}
+
+            <h3 class="sub-heading">Unless specifically stated as Included</h3>
+            <ul class="custom-bullets">
+              <li>Travel Insurance</li>
+              <li>Personal Expenses</li>
+              <li>Gratuities</li>
+              <li>Optional Activities / Highlights</li>
+              <li>Meals and drinks not specifically stated as included</li>
+            </ul>
+
+            {holiday.excluded && (
+              <>
+                <h3 class="sub-heading">Excluded</h3>
+                <Fragment set:html={holiday.excluded} />
+              </>
+            )}
+            {holiday.requirements && (
+              <>
+                <h3 class="sub-heading">Requirements</h3>
+                <Fragment set:html={holiday.requirements} />
+              </>
+            )}
+            {holiday.attention && (
+              <>
+                <h3 class="sub-heading">Please Note</h3>
+                <Fragment set:html={holiday.attention} />
+              </>
+            )}
+          </div>
 
           {/* Lightbox */}
           <div class="lightbox" id="gallery-lightbox">
@@ -428,6 +476,7 @@ const pageDescription = holiday.metaDescription || (() => {
             <button class="lightbox-next">&#10095;</button>
             <div class="lightbox-content">
               <img src="" alt="" class="lightbox-img" />
+              <video src="" class="lightbox-video" controls playsinline style="display:none;"></video>
               <div class="lightbox-counter"></div>
             </div>
           </div>
@@ -768,19 +817,7 @@ const pageDescription = holiday.metaDescription || (() => {
     .hero-content { max-width: 580px; }
   }
   @media (max-width: 610px) {
-    .hero-content { max-width: 500px; top: 55px; }
-  }
-  @media (max-width: 530px) {
-    .hero-content { max-width: 420px; }
-  }
-  @media (max-width: 450px) {
-    .hero-content { max-width: 365px; }
-  }
-  @media (max-width: 394px) {
-    .hero-content { max-width: 335px; }
-  }
-  @media (max-width: 350px) {
-    .hero-content { max-width: 290px; }
+    .hero-content { display: none; }
   }
   .hero-label {
     font-family: "BentonSansBold", sans-serif;
@@ -1248,6 +1285,13 @@ const pageDescription = holiday.metaDescription || (() => {
   .overview-section h2 {
     padding-bottom: 20px;
   }
+  .overview-section :global(p + p) {
+    margin-top: 16px;
+  }
+  .overview-section :global(p.short + p),
+  .overview-section :global(p + p.short) {
+    margin-top: 6px;
+  }
   @media (max-width: 768px) {
     .overview-section p {
       text-align: left;
@@ -1596,6 +1640,11 @@ const pageDescription = holiday.metaDescription || (() => {
     object-fit: contain;
     border-radius: 4px;
   }
+  .lightbox-video {
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 4px;
+  }
   .lightbox-counter {
     color: #ffffff;
     font-family: "BentonSansMedium", sans-serif;
@@ -1668,8 +1717,8 @@ const pageDescription = holiday.metaDescription || (() => {
   .sidebar {
     margin-top: 65px;
     margin-left: 0;
-    width: 320px;
-    min-width: 320px;
+    width: 350px;
+    min-width: 350px;
   }
   @media (max-width: 768px) {
     .sidebar { display: none; }
@@ -1709,8 +1758,8 @@ const pageDescription = holiday.metaDescription || (() => {
   }
   @media (max-width: 940px) and (min-width: 769px) {
     .sidebar {
-      width: 260px;
-      min-width: 260px;
+      width: 280px;
+      min-width: 280px;
     }
     .sidebar .overview,
     .sidebar .details {
@@ -1855,9 +1904,9 @@ const pageDescription = holiday.metaDescription || (() => {
   }
 
   .sidebar .sidebar-ref {
-    font-family: "BentonSans", sans-serif;
-    font-size: 12px;
-    color: #999;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 13px;
+    color: #20A1AA;
     padding: 12px 22px 0;
   }
   .sidebar .sidebar-price {
@@ -3232,12 +3281,19 @@ const pageDescription = holiday.metaDescription || (() => {
       const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
       function roundToNine(n: number): number {
-        const f = Math.floor(n);
-        return Math.max(0, f - ((f + 1) % 10));
+        const base = Math.floor(n / 100) * 100;
+        const targets = [base + 29, base + 49, base + 69, base + 99];
+        let closest = targets[0];
+        let minDist = Math.abs(n - closest);
+        for (let i = 1; i < targets.length; i++) {
+          const dist = Math.abs(n - targets[i]);
+          if (dist < minDist) { closest = targets[i]; minDist = dist; }
+        }
+        return Math.max(0, closest);
       }
 
       function formatPrice(p: number): string {
-        return '\u00A3' + roundToNine(p).toLocaleString('en-GB');
+        return '\u00A3' + Math.round(p).toLocaleString('en-GB');
       }
 
       function formatPriceExact(p: number): string {
@@ -3251,7 +3307,7 @@ const pageDescription = holiday.metaDescription || (() => {
       function getCheapestForAirport(code: string): number {
         const deps = getDepsForAirport(code);
         if (deps.length === 0) return 0;
-        return roundToNine(Math.min(...deps.map((d: any) => d.pricePp)) + localChargesPp);
+        return roundToNine(Math.min(...deps.map((d: any) => d.pricePp))) + localChargesPp;
       }
 
       // Render inline date cards
@@ -3259,11 +3315,11 @@ const pageDescription = holiday.metaDescription || (() => {
         if (!inlineDateCards) return;
         const deps = getDepsForAirport(selectedAirport).slice(0, 4);
         inlineDateCards.innerHTML = deps.map((dep: any, i: number) => `
-          <button type="button" class="pricing-card pricing-card--${dep.tier}${dep.date === selectedDate ? ' pricing-card--selected' : ''}" data-date="${dep.date}" data-airport="${dep.airportCode}" data-price="${dep.pricePp + localChargesPp}">
+          <button type="button" class="pricing-card pricing-card--${dep.tier}${dep.date === selectedDate ? ' pricing-card--selected' : ''}" data-date="${dep.date}" data-airport="${dep.airportCode}" data-price="${roundToNine(dep.pricePp) + localChargesPp}">
             ${i === 0 ? '<span class="pricing-card__badge">Best Price</span>' : ''}
             <span class="pricing-card__day">${dep.dayOfWeek}</span>
             <span class="pricing-card__date">${dep.dateShort}</span>
-            <span class="pricing-card__price">${formatPrice(dep.pricePp + localChargesPp)}<small>/pp</small></span>
+            <span class="pricing-card__price">${formatPrice(roundToNine(dep.pricePp) + localChargesPp)}<small>/pp</small></span>
           </button>
         `).join('');
 
@@ -3345,9 +3401,9 @@ const pageDescription = holiday.metaDescription || (() => {
           const dep = depsMap.get(day);
           if (dep) {
             const isSelected = dep.date === selectedDate;
-            html += `<button type="button" class="cal-day cal-day--available cal-day--${dep.tier}${isSelected ? ' cal-day--selected' : ''}" data-date="${dep.date}" data-price="${dep.pricePp + localChargesPp}">`;
+            html += `<button type="button" class="cal-day cal-day--available cal-day--${dep.tier}${isSelected ? ' cal-day--selected' : ''}" data-date="${dep.date}" data-price="${roundToNine(dep.pricePp) + localChargesPp}">`;
             html += `<span class="cal-day__num">${day}</span>`;
-            html += `<span class="cal-day__price">${formatPrice(dep.pricePp + localChargesPp)}</span>`;
+            html += `<span class="cal-day__price">${formatPrice(roundToNine(dep.pricePp) + localChargesPp)}</span>`;
             html += `</button>`;
           } else {
             html += `<div class="cal-day"><span class="cal-day__num">${day}</span></div>`;
@@ -3392,7 +3448,7 @@ const pageDescription = holiday.metaDescription || (() => {
         if (selectedDate) {
           const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
           if (dep) {
-            const inclusivePrice = formatPrice(dep.pricePp + localChargesPp);
+            const inclusivePrice = formatPrice(roundToNine(dep.pricePp) + localChargesPp);
             if (sidebarPriceLabel) sidebarPriceLabel.textContent = '';
             if (sidebarPriceValue) sidebarPriceValue.textContent = inclusivePrice;
             if (heroPriceLabel) heroPriceLabel.textContent = '';
@@ -3414,7 +3470,7 @@ const pageDescription = holiday.metaDescription || (() => {
           const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
           if (dep) {
             if (mobilePriceLabel) mobilePriceLabel.textContent = '';
-            if (mobilePriceValue) mobilePriceValue.innerHTML = formatPrice(dep.pricePp + localChargesPp) + '<small>/pp</small>';
+            if (mobilePriceValue) mobilePriceValue.innerHTML = formatPrice(roundToNine(dep.pricePp) + localChargesPp) + '<small>/pp</small>';
           }
         } else {
           const cheapest = getCheapestForAirport(selectedAirport);
@@ -3429,13 +3485,14 @@ const pageDescription = holiday.metaDescription || (() => {
         if (selectedDate) {
           const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
           if (dep) {
-            const ppInclusive = dep.pricePp + localChargesPp;
+            const roundedBase = roundToNine(dep.pricePp);
+            const ppInclusive = roundedBase + localChargesPp;
             const total = ppInclusive * passengerCount;
             let html = `<strong>${dep.dateFormatted}</strong> from <strong>${dep.airportName}</strong><br>`;
             if (localChargesPp > 0) {
-              const pkgTotal = dep.pricePp * passengerCount;
+              const pkgTotal = roundedBase * passengerCount;
               const lcTotal = localChargesPp * passengerCount;
-              html += `Package: ${passengerCount} &times; ${formatPriceExact(dep.pricePp)} = ${formatPriceExact(pkgTotal)}<br>`;
+              html += `Package: ${passengerCount} &times; ${formatPriceExact(roundedBase)} = ${formatPriceExact(pkgTotal)}<br>`;
               html += `Local charges: ${passengerCount} &times; ${formatPriceExact(localChargesPp)} = ${formatPriceExact(lcTotal)}<br>`;
               html += `<strong>Total: ${formatPriceExact(total)}</strong>`;
             } else {
@@ -3443,7 +3500,7 @@ const pageDescription = holiday.metaDescription || (() => {
             }
             modalSummaryInfo.innerHTML = html;
             modalBookBtn.disabled = false;
-            modalBookBtn.textContent = 'Request Booking';
+            modalBookBtn.textContent = 'Enquire';
           }
         } else {
           modalSummaryInfo.textContent = 'Select a date to see pricing';
@@ -3553,10 +3610,14 @@ const pageDescription = holiday.metaDescription || (() => {
         if (!selectedDate || modalBookBtn.disabled) return;
         const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
         if (dep) {
+          const ppInclusive = roundToNine(dep.pricePp) + localChargesPp;
+          const total = ppInclusive * passengerCount;
           openEnquiryModal({
             date: dep.dateFormatted,
             airport: dep.airportName,
             adults: String(passengerCount),
+            pricePp: formatPriceExact(ppInclusive),
+            totalPrice: formatPriceExact(total),
           });
           closePricingModal();
         }
@@ -3642,42 +3703,64 @@ const pageDescription = holiday.metaDescription || (() => {
 
     // ===== IMAGE CAROUSELS (Accommodation + Gallery) =====
     document.querySelectorAll('.img-carousel').forEach((carousel) => {
-      const slides = carousel.querySelectorAll('.img-carousel-slide') as NodeListOf<HTMLImageElement>;
+      const slides = carousel.querySelectorAll('.img-carousel-slide') as NodeListOf<HTMLElement>;
       const counter = carousel.querySelector('.img-carousel-counter');
       const total = slides.length;
       let idx = 0;
 
       function show(newIdx: number) {
-        slides[idx].classList.remove('active');
+        const prev = slides[idx];
+        prev.classList.remove('active');
+        if (prev.tagName === 'VIDEO') { (prev as HTMLVideoElement).pause(); }
         idx = (newIdx + total) % total;
-        slides[idx].classList.add('active');
+        const cur = slides[idx];
+        cur.classList.add('active');
+        if (cur.tagName === 'VIDEO') { (cur as HTMLVideoElement).play().catch(() => {}); }
         if (counter) counter.textContent = `${idx + 1} / ${total}`;
       }
+
+      // Auto-play first slide if it's a video
+      if (slides[0]?.tagName === 'VIDEO') { (slides[0] as HTMLVideoElement).play().catch(() => {}); }
 
       carousel.querySelector('.img-carousel-prev')?.addEventListener('click', () => show(idx - 1));
       carousel.querySelector('.img-carousel-next')?.addEventListener('click', () => show(idx + 1));
 
-      // Expand button opens lightbox with this carousel's images
+      // Expand button opens lightbox with this carousel's media
       carousel.querySelector('.img-carousel-expand')?.addEventListener('click', () => {
-        const srcs = Array.from(slides).map(s => s.src);
-        openLightbox(srcs, idx);
+        const media = Array.from(slides).map(s => ({
+          src: (s as HTMLImageElement).src || (s as HTMLVideoElement).src,
+          isVideo: s.tagName === 'VIDEO',
+        }));
+        openLightbox(media, idx);
       });
     });
 
     // ===== LIGHTBOX =====
     const lightbox = document.getElementById('gallery-lightbox');
     const lightboxImg = lightbox?.querySelector('.lightbox-img') as HTMLImageElement;
+    const lightboxVideo = lightbox?.querySelector('.lightbox-video') as HTMLVideoElement;
     const lightboxCounter = lightbox?.querySelector('.lightbox-counter');
-    let lbImages: string[] = [];
+    let lbMedia: Array<{ src: string; isVideo: boolean }> = [];
     let lbIndex = 0;
 
-    function openLightbox(images: string[], index: number) {
-      if (!lightbox || !lightboxImg || !lightboxCounter) return;
-      lbImages = images;
+    function openLightbox(media: Array<{ src: string; isVideo: boolean }>, index: number) {
+      if (!lightbox || !lightboxImg || !lightboxVideo || !lightboxCounter) return;
+      lbMedia = media;
       lbIndex = index;
-      lightboxImg.src = lbImages[lbIndex];
-      lightboxImg.alt = `Image ${lbIndex + 1} of ${lbImages.length}`;
-      lightboxCounter.textContent = `${lbIndex + 1} / ${lbImages.length}`;
+      const item = lbMedia[lbIndex];
+      if (item.isVideo) {
+        lightboxImg.style.display = 'none';
+        lightboxVideo.style.display = 'block';
+        lightboxVideo.src = item.src;
+        lightboxVideo.play().catch(() => {});
+      } else {
+        lightboxVideo.style.display = 'none';
+        lightboxVideo.pause();
+        lightboxImg.style.display = 'block';
+        lightboxImg.src = item.src;
+        lightboxImg.alt = `Image ${lbIndex + 1} of ${lbMedia.length}`;
+      }
+      lightboxCounter.textContent = `${lbIndex + 1} / ${lbMedia.length}`;
       lightbox.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -3686,16 +3769,17 @@ const pageDescription = holiday.metaDescription || (() => {
       if (!lightbox) return;
       lightbox.classList.remove('active');
       document.body.style.overflow = '';
+      lightboxVideo?.pause();
     }
 
     function lbPrev() {
-      lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
-      openLightbox(lbImages, lbIndex);
+      lbIndex = (lbIndex - 1 + lbMedia.length) % lbMedia.length;
+      openLightbox(lbMedia, lbIndex);
     }
 
     function lbNext() {
-      lbIndex = (lbIndex + 1) % lbImages.length;
-      openLightbox(lbImages, lbIndex);
+      lbIndex = (lbIndex + 1) % lbMedia.length;
+      openLightbox(lbMedia, lbIndex);
     }
 
     lightbox?.querySelector('.lightbox-close')?.addEventListener('click', closeLightbox);
@@ -3722,7 +3806,7 @@ const pageDescription = holiday.metaDescription || (() => {
     let enquiryTriggerEl: HTMLElement | null = null;
     let enquiryExtra: Record<string, string> = {};
 
-    function openEnquiryModal(details?: { date?: string; airport?: string; adults?: string }) {
+    function openEnquiryModal(details?: { date?: string; airport?: string; adults?: string; pricePp?: string; totalPrice?: string }) {
       if (!enquiryModal) return;
       enquiryTriggerEl = document.activeElement as HTMLElement | null;
       enquiryExtra = {};
@@ -3730,8 +3814,10 @@ const pageDescription = holiday.metaDescription || (() => {
       if (details && enquiryDetails) {
         const parts: string[] = [];
         if (details.date) { parts.push(details.date); enquiryExtra.departure_date = details.date; }
-        if (details.airport) { parts.push('from ' + details.airport); }
+        if (details.airport) { parts.push('from ' + details.airport); enquiryExtra.departure_airport = details.airport; }
         if (details.adults) { parts.push(details.adults + ' passenger' + (details.adults !== '1' ? 's' : '')); enquiryExtra.num_adults = details.adults; }
+        if (details.pricePp) { enquiryExtra.price_per_person = details.pricePp; }
+        if (details.totalPrice) { parts.push(details.totalPrice + ' total'); enquiryExtra.total_price = details.totalPrice; }
         enquiryDetails.textContent = parts.join(' \u2022 ');
         enquiryDetails.style.display = parts.length ? '' : 'none';
       } else if (enquiryDetails) {
@@ -3810,9 +3896,12 @@ const pageDescription = holiday.metaDescription || (() => {
       payload.landing_page = sessionStorage.getItem('landing_page') || '';
       payload.page_url = window.location.pathname;
 
-      // Merge date/adults from pricing selection
+      // Merge pricing selection details
       if (enquiryExtra.departure_date) payload.departure_date = enquiryExtra.departure_date;
+      if (enquiryExtra.departure_airport) payload.departure_airport = enquiryExtra.departure_airport;
       if (enquiryExtra.num_adults) payload.num_adults = enquiryExtra.num_adults;
+      if (enquiryExtra.price_per_person) payload.price_per_person = enquiryExtra.price_per_person;
+      if (enquiryExtra.total_price) payload.total_price = enquiryExtra.total_price;
 
       enquirySubmitBtn.disabled = true;
       enquirySubmitBtn.textContent = 'Sending...';
@@ -3831,6 +3920,14 @@ const pageDescription = holiday.metaDescription || (() => {
           if (enquiryForm) enquiryForm.style.display = 'none';
           if (summary) summary.style.display = 'none';
           if (success) success.style.display = '';
+          // Fire Meta Pixel Lead event on successful submission
+          if (typeof window !== 'undefined' && typeof (window as any).fbq !== 'undefined') {
+            (window as any).fbq('track', 'Lead', {
+              content_name: document.title,
+              content_category: 'Holiday Enquiry',
+              currency: 'GBP',
+            });
+          }
           setTimeout(() => {
             closeEnquiryModal();
             // Reset for next use

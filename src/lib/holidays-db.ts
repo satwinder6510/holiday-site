@@ -1,5 +1,5 @@
 // SSR query functions — fetch holidays + pricing from Neon Postgres via Hyperdrive
-import { eq, and, inArray } from 'drizzle-orm';
+import { eq, and, inArray, gte } from 'drizzle-orm';
 import type { Database } from './db';
 import { flightPackages, packagePricing } from './db-schema';
 import {
@@ -13,6 +13,7 @@ import {
 } from './holiday-transforms';
 import {
   type RawHolidayPricing,
+  type RawDeparture,
   type HolidayPricing,
   transformHolidayPricing,
   roundToNine,
@@ -88,10 +89,14 @@ function dbRowToRawHoliday(row: DbRow): RawHoliday {
 async function getPricingForIds(db: Database, ids: number[]): Promise<Map<number, HolidayPricing>> {
   if (ids.length === 0) return new Map();
 
+  const today = new Date().toISOString().slice(0, 10);
   const rows = await db
     .select()
     .from(packagePricing)
-    .where(inArray(packagePricing.packageId, ids));
+    .where(and(
+      inArray(packagePricing.packageId, ids),
+      gte(packagePricing.departureDate, today)
+    ));
 
   // Group by package_id
   const grouped = new Map<number, RawHolidayPricing>();
@@ -111,7 +116,8 @@ async function getPricingForIds(db: Database, ids: number[]): Promise<Map<number
   const result = new Map<number, HolidayPricing>();
   for (const [id, raw] of grouped) {
     if (raw.departures.length > 0) {
-      result.set(id, transformHolidayPricing(raw));
+      const pricing = transformHolidayPricing(raw);
+      if (pricing) result.set(id, pricing);
     }
   }
   return result;
@@ -130,6 +136,35 @@ function applyPricing(holidays: HolidayDetail[], pricingMap: Map<number, Holiday
 
 const cruiseHolidays: HolidayDetail[] = (rawCruises as RawCruise[]).map(transformCruise);
 
+// Build cruise pricing lookup from enriched sailing departures (for listing pages)
+const cruisePricingMap = new Map<number, HolidayPricing>();
+for (const raw of rawCruises as RawCruise[]) {
+  if (!raw.sailings) continue;
+  const departures: RawDeparture[] = [];
+  for (const sailing of raw.sailings) {
+    if (sailing.departures) {
+      for (const dep of sailing.departures) {
+        departures.push({
+          date: sailing.date,
+          airport_code: dep.airport_code,
+          airport_name: dep.airport_name,
+          price_pp: dep.price_pp,
+          availability: 'available',
+        });
+      }
+    }
+  }
+  if (departures.length > 0) {
+    const pricing = transformHolidayPricing({ holiday_id: raw.id, departures });
+    if (pricing) {
+      cruisePricingMap.set(raw.id, pricing);
+      // Update the shared cruise holiday price to cheapest fly-cruise price
+      const cruise = cruiseHolidays.find(c => c.id === raw.id);
+      if (cruise) cruise.price = pricing.cheapestPrice;
+    }
+  }
+}
+
 // ── Query functions ─────────────────────────────────────────────────
 
 /** Get a single holiday by slug, with full pricing data. */
@@ -137,10 +172,11 @@ export async function getHolidayBySlugFromDb(
   db: Database,
   slug: string
 ): Promise<{ holiday: HolidayDetail; pricing: HolidayPricing | null } | null> {
-  // Check cruises first (static data, no DB hit needed)
+  // Check cruises first (static data with per-airport pricing from cruise-export.json)
   const cruise = cruiseHolidays.find(c => c.slug === slug);
   if (cruise) {
-    return { holiday: cruise, pricing: null };
+    const pricing = cruisePricingMap.get(cruise.id) ?? null;
+    return { holiday: cruise, pricing };
   }
 
   const rows = await db
@@ -211,13 +247,35 @@ export async function getHolidayCountriesFromDb(
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/** Lightweight: get active country names for navigation (DB holidays + cruises). */
+export async function getNavCountriesFromDb(
+  db: Database
+): Promise<{ name: string; slug: string }[]> {
+  const rows = await db
+    .select({ category: flightPackages.category })
+    .from(flightPackages)
+    .where(and(eq(flightPackages.isPublished, true), eq(flightPackages.isUnlisted, false)));
+
+  const names = new Set<string>();
+  for (const row of rows) {
+    names.add(row.category);
+  }
+  // Also add cruise countries
+  for (const c of cruiseHolidays) {
+    names.add(c.country);
+  }
+  return Array.from(names)
+    .map(name => ({ name, slug: slugify(name) }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
 /** Compute filter data from a list of holidays. */
 export function getFilterData(holidays: HolidayDetail[]) {
   const boardBasisOptions = [
     ...new Set(holidays.map(h => h.boardBasis).filter(Boolean)),
   ].sort();
 
-  const prices = holidays.map(h => h.displayPrice ?? roundToNine(h.price + h.localChargesPp));
+  const prices = holidays.map(h => h.displayPrice ?? Math.round(roundToNine(h.price) + h.localChargesPp));
   const priceRange = {
     min: prices.length > 0 ? Math.min(...prices) : 0,
     max: prices.length > 0 ? Math.max(...prices) : 0,

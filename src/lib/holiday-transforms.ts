@@ -95,6 +95,18 @@ export interface RawCruiseShip {
   };
 }
 
+export interface RawCruiseSailing {
+  date: string;
+  returnDate: string;
+  pricePp: number;
+  cabinPricePp: number;
+  departures?: Array<{
+    airport_code: string;
+    airport_name: string;
+    price_pp: number;
+  }>;
+}
+
 export interface RawCruise {
   id: number;
   title: string;
@@ -114,6 +126,8 @@ export interface RawCruise {
   departure_port: string;
   disembark_port: string;
   board_basis: string;
+  port_fee_pp?: number;
+  sailings?: RawCruiseSailing[];
 }
 
 // ── Exported interfaces ─────────────────────────────────────────────
@@ -347,56 +361,58 @@ export function calculateLocalCharges(raw: RawHoliday): { total: number; items: 
   const items: LocalChargeItem[] = [];
   let total = 0;
 
-  if (!raw.city_tax_enabled) return { total: 0, items: [] };
+  // City tax (only when enabled)
+  if (raw.city_tax_enabled) {
+    const pkgStars = extractStars(raw.hotel_override) ?? 4;
+    const config = raw.city_tax_config as CityTaxConfigEntry[];
 
-  const pkgStars = extractStars(raw.hotel_override) ?? 4;
-  const config = raw.city_tax_config as CityTaxConfigEntry[];
-
-  if (config && config.length > 0) {
-    for (const entry of config) {
-      const taxEntry = findCityTax(entry.city);
-      if (!taxEntry) continue;
-      const stars = entry.starRating ?? pkgStars;
-      const ratePerNight = getRateForStars(taxEntry, stars);
-      if (ratePerNight === 0) continue;
-      const foreignAmt = ratePerNight * entry.nights;
-      const gbpAmt = Math.round(foreignAmt * taxEntry.exchangeRate * 100) / 100;
-      items.push({
-        label: `City Tax \u2014 ${entry.city} (${entry.nights} nights \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
-        foreignAmount: foreignAmt,
-        currency: taxEntry.currency,
-        exchangeRate: taxEntry.exchangeRate,
-        gbpAmount: gbpAmt,
-      });
-      total += gbpAmt;
-    }
-  } else {
-    const country = normaliseCountryName(raw.category);
-    const firstCountry = country.split(',')[0].trim();
-    const code = COUNTRY_NAME_TO_CODE[firstCountry];
-    if (code) {
-      const taxEntry = findHighestRateForCountry(code, pkgStars);
-      if (taxEntry) {
-        const ratePerNight = getRateForStars(taxEntry, pkgStars);
-        if (ratePerNight > 0) {
-          const nights = parseNights(raw.duration);
-          if (nights > 0) {
-            const foreignAmt = ratePerNight * nights;
-            const gbpAmt = Math.round(foreignAmt * taxEntry.exchangeRate * 100) / 100;
-            items.push({
-              label: `City Tax \u2014 ${taxEntry.cityName} (${nights} nights \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
-              foreignAmount: foreignAmt,
-              currency: taxEntry.currency,
-              exchangeRate: taxEntry.exchangeRate,
-              gbpAmount: gbpAmt,
-            });
-            total += gbpAmt;
+    if (config && config.length > 0) {
+      for (const entry of config) {
+        const taxEntry = findCityTax(entry.city);
+        if (!taxEntry) continue;
+        const stars = entry.starRating ?? pkgStars;
+        const ratePerNight = getRateForStars(taxEntry, stars);
+        if (ratePerNight === 0) continue;
+        const foreignAmt = ratePerNight * entry.nights;
+        const gbpAmt = Math.round(foreignAmt * taxEntry.exchangeRate * 100) / 100;
+        items.push({
+          label: `City Tax \u2014 ${entry.city} (${entry.nights} nights \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
+          foreignAmount: foreignAmt,
+          currency: taxEntry.currency,
+          exchangeRate: taxEntry.exchangeRate,
+          gbpAmount: gbpAmt,
+        });
+        total += gbpAmt;
+      }
+    } else {
+      const country = normaliseCountryName(raw.category);
+      const firstCountry = country.split(',')[0].trim();
+      const code = COUNTRY_NAME_TO_CODE[firstCountry];
+      if (code) {
+        const taxEntry = findHighestRateForCountry(code, pkgStars);
+        if (taxEntry) {
+          const ratePerNight = getRateForStars(taxEntry, pkgStars);
+          if (ratePerNight > 0) {
+            const nights = parseNights(raw.duration);
+            if (nights > 0) {
+              const foreignAmt = ratePerNight * nights;
+              const gbpAmt = Math.round(foreignAmt * taxEntry.exchangeRate * 100) / 100;
+              items.push({
+                label: `City Tax \u2014 ${taxEntry.cityName} (${nights} nights \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
+                foreignAmount: foreignAmt,
+                currency: taxEntry.currency,
+                exchangeRate: taxEntry.exchangeRate,
+                gbpAmount: gbpAmt,
+              });
+              total += gbpAmt;
+            }
           }
         }
       }
     }
   }
 
+  // Additional charges (port fees etc) — always processed, independent of city tax
   const addAmt = typeof raw.additional_charge_foreign_amount === 'string'
     ? parseFloat(raw.additional_charge_foreign_amount)
     : raw.additional_charge_foreign_amount;
@@ -459,8 +475,8 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
     operator: '',
 
     heroImage,
-    sidebarImage: raw.accommodations?.[0]?.images?.[0]
-      ? resolveImageUrl(raw.accommodations[0].images[0])
+    sidebarImage: raw.gallery?.length > 1
+      ? resolveImageUrl(raw.gallery[1])
       : heroImage,
     overview: raw.description || '',
     highlights: raw.highlights || [],
@@ -483,6 +499,9 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
     hotelClass: normaliseHotelClass(raw.hotel_override),
     sourceUrl: raw.source_url || '',
     localChargesBreakdown: localCharges.items,
+    excluded: raw.excluded || null,
+    requirements: raw.requirements || null,
+    attention: raw.attention || null,
     metaTitle: raw.meta_title || '',
     metaDescription: raw.meta_description || '',
     updatedAt: raw.updated_at || '',
@@ -548,7 +567,7 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     duration: `${days} Days / ${String(nights).padStart(2, '0')} Nights`,
     boardBasis: 'All Inclusive',
     price: raw.price,
-    localChargesPp: 0,
+    localChargesPp: raw.port_fee_pp || 0,
     displayPrice: null,
     cities: [],
     description,
@@ -578,8 +597,13 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     otherInfoBullets: [],
     hotelClass: raw.ship?.class || '',
     sourceUrl: '',
-    localChargesBreakdown: [],
+    localChargesBreakdown: raw.port_fee_pp && raw.port_fee_pp > 0
+      ? [{ label: 'Port Fee', foreignAmount: raw.port_fee_pp, currency: 'GBP', exchangeRate: 1, gbpAmount: raw.port_fee_pp }]
+      : [],
     metaTitle: '',
+    excluded: null,
+    requirements: null,
+    attention: null,
     metaDescription: '',
     updatedAt: '',
   };

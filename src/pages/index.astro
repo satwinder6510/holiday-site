@@ -16,11 +16,13 @@ import Footer from '../components/Footer.astro';
 import Newsletter from '../components/Newsletter.astro';
 import MobileCallCTA from '../components/MobileCallCTA.astro';
 import { fetchHomepageData } from '../lib/api';
+import { heroSlides as fallbackHeroSlides } from '../data/heroSlides';
 
 const data = await fetchHomepageData();
+const firstHeroImage = data?.heroSlides?.[0]?.image || fallbackHeroSlides[0]?.image;
 ---
 
-<BaseLayout title="Flights and Packages | ATOL-Protected Holidays from the UK" description="Book ATOL-protected holidays with flights included. Beach breaks, tours, city escapes and river cruises to 55+ destinations. Call 020 8183 0518.">
+<BaseLayout title="Flights and Packages | ATOL-Protected Holidays from the UK" description="Book ATOL-protected holidays with flights included. Beach breaks, tours, city escapes and river cruises to 55+ destinations. Call 020 8183 0518." preloadImage={firstHeroImage}>
   <Header />
   <MobileNav />
 
