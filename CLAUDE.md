@@ -184,7 +184,7 @@ Listing pages (`[country]/index.astro`, `river-cruises/[...river].astro`) have h
 
 - **Sidebar:** 350px desktop, 280px tablet. Image from gallery (2nd image), falls back to hero.
 - **Ref number:** Teal (`#20A1AA`), BentonSansMedium, 13px — displayed at top of sidebar
-- **More Info tab:** Always visible. Shows default exclusion bullets (Travel Insurance, Personal Expenses, Gratuities, Optional Activities, Meals not included) plus DB-driven `excluded`, `requirements`, `attention` fields when populated.
+- **More Info tab:** Always visible. Shows default exclusion bullets (Travel Insurance, Personal Expenses, Gratuities, Optional Activities, Meals not included) plus DB-driven `excluded`, `requirements`, `attention` fields when populated. `toBulletList()` helper normalizes three DB data formats (plain text with `\n`, malformed HTML, proper `<ul><li>`) into consistent bullet lists with `custom-bullets` class.
 - **Tabs:** Overview, Itinerary, Accommodation, More Info — vanilla JS tab switching
 
 ## Enquiry Form & Webhook
