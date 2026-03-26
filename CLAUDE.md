@@ -61,6 +61,35 @@ public/
   llms.txt       # AI crawler site description
 ```
 
+## City Tax & Price Rounding
+
+### Price Display Formula
+
+All customer-facing prices use this formula:
+```
+displayPrice ?? Math.round(roundToNine(basePrice) + localChargesPp)
+```
+
+1. `roundToNine(basePrice)` — rounds to nearest price point ending in 29, 49, 69, or 99
+2. `+ localChargesPp` — adds exact per-person local charges (city tax + port fees) as a decimal
+3. `Math.round()` — eliminates decimal places from the sum
+
+**Important:** Round the base price first, THEN add local charges. Never round the combined total.
+
+### City Tax System
+
+- **Data:** `src/data/city-taxes.json` — per-city tax rates by star rating, with exchange rates
+- **Transform:** `calculateLocalCharges()` in `holiday-transforms.ts` — returns `{ total, items: LocalChargeItem[] }`
+- **Per-city config:** Each holiday can have `cityTaxConfig[]` with city, nights, optional starRating per stop
+- **Fallback:** If no per-city config, uses highest rate for the country based on star rating
+- **Additional charges:** Port fees etc. processed independently via `additionalCharge*` fields
+- **Display:** Detail pages show local charges breakdown below the main price
+- **DB fields:** `city_tax_enabled` (boolean), `city_tax_config` (JSON array), `display_price` (manual override)
+
+### Display Price Overrides
+
+`displayPrice` field on holidays allows manual price override. Priority: `displayPrice` > auto-calculated price.
+
 ## Key Patterns
 
 - **Layout:** All pages use `BaseLayout.astro` which includes Header, Footer, MobileNav, MobileCallCTA
@@ -77,6 +106,8 @@ public/
 - **Past-date filtering:** Three layers prevent stale prices: (1) DB query filters `departure_date >= today`, (2) `transformHolidayPricing()` filters individual dates and returns null if empty, (3) export script filters at query time. Callers handle null return gracefully.
 - **Responsive:** Desktop-first with breakpoints at 1360, 1260, 1100, 940, 768, 610, 450px
 - **Section container:** `.section-container` class = `max-width: 1240px; margin: 0 auto;` with responsive padding
+- **Country hero overrides:** `heroOverrides` map in `[country]/index.astro` provides custom hero images for select countries (Italy, Spain, France, Hungary, Austria, Greece) and collections (Special Offer). Falls back to first holiday's hero image.
+- **Ref lookup API:** `GET /api/ref?id=123` — SSR endpoint that redirects to the correct holiday detail page by package ID (checks cruises first, then DB)
 
 ## River Cruises
 
