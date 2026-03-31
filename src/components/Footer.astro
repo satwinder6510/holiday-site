@@ -64,8 +64,8 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
     <!-- Contact & Legal -->
     <div class="footer-contacts">
       <div class="footer-contact-wrap">
-        <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} class="footer-phone flex items-center gap-2 text-white hover:text-primary transition-colors">
-          <img src="/icons/phone-icon.svg" alt="" class="w-4 h-4 brightness-0 invert" />
+        <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} class="footer-phone flex items-center gap-2 text-white hover:text-primary transition-colors whitespace-nowrap">
+          <img src="/icons/phone-icon.svg" alt="" class="w-4 h-4 brightness-0 invert flex-shrink-0" />
           <span class="font-bold">{contactInfo.phone}</span>
         </a>
         <a href={`mailto:${contactInfo.email}`} class="footer-email-link flex items-center gap-2 text-white/70 hover:text-primary transition-colors text-sm">
@@ -291,6 +291,10 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
     display: flex;
     align-items: center;
     gap: 16px;
+  }
+  .footer-legal img {
+    height: 48px;
+    width: auto;
   }
   @media (max-width: 940px) {
     .footer-legal { padding-top: 10px; }
