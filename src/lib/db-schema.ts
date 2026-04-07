@@ -77,6 +77,25 @@ export const flightPackages = pgTable('flight_packages', {
   cities: jsonb('cities').default([]).notNull(),
 });
 
+export const cruiseFlightPrices = pgTable('cruise_flight_prices', {
+  id: serial('id').primaryKey().notNull(),
+  offerId: integer('offer_id').notNull(),
+  sailingId: integer('sailing_id').notNull(),
+  departureDate: text('departure_date').notNull(),
+  returnDate: text('return_date').notNull(),
+  airportCode: text('airport_code').notNull(),
+  airportName: text('airport_name').notNull(),
+  flightPricePp: numeric('flight_price_pp', { precision: 10, scale: 2 }).notNull(),
+  totalPricePp: numeric('total_price_pp', { precision: 10, scale: 2 }).notNull(),
+  source: text('source').notNull(),
+  pricedAt: timestamp('priced_at', { mode: 'string' }).defaultNow().notNull(),
+});
+
+export const cruiseOffers = pgTable('cruise_offers', {
+  id: serial('id').primaryKey().notNull(),
+  cheapestTotalPp: numeric('cheapest_total_pp', { precision: 10, scale: 2 }),
+});
+
 export const packagePricing = pgTable('package_pricing', {
   id: serial('id').primaryKey().notNull(),
   packageId: integer('package_id').notNull(),

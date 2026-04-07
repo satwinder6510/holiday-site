@@ -1,7 +1,7 @@
 // SSR query functions — fetch holidays + pricing from Neon Postgres via Hyperdrive
 import { eq, and, inArray, gte } from 'drizzle-orm';
 import type { Database } from './db';
-import { flightPackages, packagePricing } from './db-schema';
+import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable } from './db-schema';
 import {
   type RawHoliday,
   type RawCruise,
@@ -165,6 +165,40 @@ for (const raw of rawCruises as RawCruise[]) {
   }
 }
 
+// ── DB-backed cruise pricing ────────────────────────────────────────
+
+// Cruise IDs in cruise-export.json are offset by 10000 to avoid collision with flight_packages IDs
+const CRUISE_ID_OFFSET = 10000;
+
+/** Query cruise_flight_prices for a specific offer, return HolidayPricing or null. */
+async function getCruisePricingFromDb(db: Database, offerId: number): Promise<HolidayPricing | null> {
+  // offerId here is the holiday-site ID (offset by 10000), convert to DB offer ID
+  const dbOfferId = offerId - CRUISE_ID_OFFSET;
+  if (dbOfferId <= 0) return null;
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  const rows = await db
+    .select()
+    .from(cruiseFlightPrices)
+    .where(and(
+      eq(cruiseFlightPrices.offerId, dbOfferId),
+      gte(cruiseFlightPrices.departureDate, today),
+    ));
+
+  if (rows.length === 0) return null;
+
+  const departures: RawDeparture[] = rows.map(row => ({
+    date: row.departureDate,
+    airport_code: row.airportCode,
+    airport_name: row.airportName,
+    price_pp: Number(row.totalPricePp),
+    availability: 'available' as const,
+  }));
+
+  return transformHolidayPricing({ holiday_id: offerId, departures });
+}
+
 // ── Query functions ─────────────────────────────────────────────────
 
 /** Get a single holiday by slug, with full pricing data. */
@@ -172,10 +206,15 @@ export async function getHolidayBySlugFromDb(
   db: Database,
   slug: string
 ): Promise<{ holiday: HolidayDetail; pricing: HolidayPricing | null } | null> {
-  // Check cruises first (static data with per-airport pricing from cruise-export.json)
+  // Check cruises first
   const cruise = cruiseHolidays.find(c => c.slug === slug);
   if (cruise) {
-    const pricing = cruisePricingMap.get(cruise.id) ?? null;
+    // Try DB pricing first, fall back to static cruisePricingMap
+    const dbPricing = await getCruisePricingFromDb(db, cruise.id);
+    const pricing = dbPricing ?? cruisePricingMap.get(cruise.id) ?? null;
+    if (pricing) {
+      cruise.price = pricing.cheapestPrice;
+    }
     return { holiday: cruise, pricing };
   }
 
@@ -211,6 +250,27 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
 
   // Merge in cruises
   const all = [...holidays, ...cruiseHolidays];
+
+  // Overlay DB lead prices on cruise holidays (from cruise_offers.cheapest_total_pp)
+  const dbCruiseIds = cruiseHolidays.map(c => c.id - CRUISE_ID_OFFSET).filter(id => id > 0);
+  if (dbCruiseIds.length > 0) {
+    const offerRows = await db
+      .select({ id: cruiseOffersTable.id, cheapestTotalPp: cruiseOffersTable.cheapestTotalPp })
+      .from(cruiseOffersTable)
+      .where(inArray(cruiseOffersTable.id, dbCruiseIds));
+
+    for (const row of offerRows) {
+      if (row.cheapestTotalPp) {
+        const price = Number(row.cheapestTotalPp);
+        if (price > 0) {
+          // Map DB offer ID back to holiday-site ID (add offset)
+          const cruise = all.find(h => h.id === row.id + CRUISE_ID_OFFSET);
+          if (cruise) cruise.price = price;
+        }
+      }
+    }
+  }
+
   all.sort((a, b) => a.displayOrder - b.displayOrder);
 
   return all;
