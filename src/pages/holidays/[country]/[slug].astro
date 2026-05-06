@@ -29,7 +29,7 @@ try {
   const db = getDb(Astro);
   const result = await getHolidayBySlugFromDb(db, slug!);
   if (!result) {
-    return new Response(null, { status: 404, statusText: 'Not Found' });
+    return Astro.redirect('/', 301);
   }
   holiday = result.holiday;
   pricing = result.pricing;
