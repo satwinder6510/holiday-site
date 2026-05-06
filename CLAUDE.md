@@ -2,13 +2,13 @@
 
 ## Project
 
-Astro 5 hybrid site (SSG + SSR) for a holiday booking website. Holiday pages are SSR (live data from Neon Postgres via Hyperdrive). Blog, destination, and static pages remain SSG. Tailwind CSS v3 for utility classes, scoped `<style>` blocks for complex page-specific CSS. No React — pure Astro components with vanilla JS in `<script>` tags.
+Astro 5 hybrid site (SSG + SSR) for a holiday booking website. Holiday pages are SSR (live data from Cloudflare D1). Blog, destination, and static pages remain SSG. Tailwind CSS v3 for utility classes, scoped `<style>` blocks for complex page-specific CSS. No React — pure Astro components with vanilla JS in `<script>` tags.
 
 ## Tech Stack
 
 - **Framework:** Astro 5.18 (`output: "hybrid"`, `site: 'https://holidays.flightsandpackages.com'`)
-- **Database:** Neon Postgres via Cloudflare Hyperdrive (ID: `c69bec26333a4d76865bf2fe22445eca`)
-- **ORM:** Drizzle ORM with node-postgres driver
+- **Database:** Cloudflare D1 (ID: `fd1870e7-9ad7-45a3-97fc-71f904189066`, holiday-flights-db)
+- **ORM:** Drizzle ORM with D1 driver
 - **Styling:** Tailwind CSS 3 + scoped CSS in `<style>` blocks
 - **Carousel:** Embla Carousel 8 (with fade plugin)
 - **SEO:** `@astrojs/sitemap` integration (auto-generates sitemap-index.xml)
@@ -44,9 +44,9 @@ src/
   lib/           # Shared libraries for SSR + SSG
     holiday-transforms.ts  # Pure transform functions: transformHoliday, transformCruise, slugify, etc.
     pricing-transforms.ts  # Pure pricing transforms: transformHolidayPricing, formatPrice, etc.
-    db.ts                  # pg Pool factory from Hyperdrive connection string
-    db-schema.ts           # Drizzle schema for flight_packages + package_pricing
-    get-db.ts              # getDb(Astro) helper — extracts DB from Astro.locals.runtime.env.HYPERDRIVE
+    db.ts                  # D1 database client factory
+    db-schema.ts           # Drizzle D1 schema for flight_packages + package_pricing
+    get-db.ts              # getDb(Astro) helper — extracts DB from Astro.locals.runtime.env.DB
     holidays-db.ts         # SSR query functions: getHolidayBySlugFromDb, getAllListedHolidaysFromDb, etc.
   layouts/       # BaseLayout.astro (html wrapper, head, SEO meta, font imports)
   pages/         # Astro pages — file-based routing
@@ -94,12 +94,12 @@ displayPrice ?? Math.round(roundToNine(basePrice) + localChargesPp)
 
 - **Layout:** All pages use `BaseLayout.astro` which includes Header, Footer, MobileNav, MobileCallCTA
 - **Hero:** Use `PageHero.astro` for standard heroes. Holiday detail and country pages have custom inline heroes. Detail page hero hides `.hero-content` (discover label + h1) at ≤610px — only the overlay bar (`.search-section`) shows on mobile.
-- **SSR pages (live data):** Holiday detail `[slug].astro`, country/collection `[country]/index.astro`, search, river-cruises — use `export const prerender = false` and query Neon DB via `getDb(Astro)` + functions from `holidays-db.ts`. New offers/prices appear within ~60s (Hyperdrive caching).
+- **SSR pages (live data):** Holiday detail `[slug].astro`, country/collection `[country]/index.astro`, search, river-cruises — use `export const prerender = false` and query D1 via `getDb(Astro)` + functions from `holidays-db.ts`. New offers/prices appear instantly from D1.
 - **SSG pages (build-time):** Blog, destinations, collections listing, about, contact, T&Cs — use `getStaticPaths()` and data from JSON exports in `src/data/`.
-- **Dynamic navigation:** Header.astro and MobileNav.astro query DB via Hyperdrive for active countries on SSR pages, falling back to static data from `navigation.ts` on SSG pages. `buildDestinationRegions()` in `navigation.ts` accepts any country list and groups into regions. `getNavCountriesFromDb()` in `holidays-db.ts` provides the lightweight DB query.
+- **Dynamic navigation:** Header.astro and MobileNav.astro query D1 for active countries on SSR pages, falling back to static data from `navigation.ts` on SSG pages. `buildDestinationRegions()` in `navigation.ts` accepts any country list and groups into regions. `getNavCountriesFromDb()` in `holidays-db.ts` provides the lightweight DB query.
 - **Country/Collection merged route:** `[country]/index.astro` handles both country pages (`/Holidays/italy/`) and collection pages (`/Holidays/Beach`). It checks `allCollections` first, falls back to country lookup.
 - **Data layer:** Pure transform functions live in `src/lib/holiday-transforms.ts` and `src/lib/pricing-transforms.ts`, shared by both SSR (DB rows → RawHoliday → HolidayDetail) and SSG (JSON → same pipeline).
-- **Pricing data layer:** SSR pages get pricing from `package_pricing` table (filtered to future dates via `gte(departureDate, today)`). SSG pages use `pricing-export.json` as fallback (also filtered at export time). Both use `transformHolidayPricing()` from `pricing-transforms.ts`, which filters past dates and returns `null` when no future dates remain.
+- **Pricing data layer:** SSR pages get pricing from D1 `package_pricing` table (filtered to future dates via `gte(departureDate, today)`). SSG pages use `pricing-export.json` as fallback (also filtered at export time). Both use `transformHolidayPricing()` from `pricing-transforms.ts`, which filters past dates and returns `null` when no future dates remain.
 - **Holiday images:** All relative paths need `https://holidays.flightsandpackages.com` base URL prepended (handled by `resolveImageUrl()` in holiday-transforms.ts)
 - **Blog images:** Already absolute URLs from `admin.citiesandbeaches.com`
 - **Pricing calendar:** Holiday detail pages with pricing data show an inline airport/date picker section, a single-month calendar modal with prev/next navigation, and a mobile bottom bar. Pricing data is embedded via `<script type="application/json">` and driven by vanilla JS. Uses `:global()` CSS selectors for JS-rendered elements (Astro scoped CSS workaround).
@@ -127,7 +127,7 @@ River cruise offers are **mixed in with regular holidays** — no separate `/cru
 | Path | Source | Updated by | Deploy needed? |
 |------|--------|-----------|---------------|
 | **Static JSON** | `cruise-export.json` → `cruisePricingMap` (module-level) | Manual scripts + deploy | Yes |
-| **Live DB** | `cruise_flight_prices` table via Hyperdrive | Weekly cron queue (automatic) | No |
+| **Live DB** | `cruise_flight_prices` table via D1 | Weekly cron queue (automatic) | No |
 
 - **Detail pages try DB first** (`getCruisePricingFromDb()` in `holidays-db.ts`), fall back to static `cruisePricingMap`
 - **Pricing calendar:** Same UI as regular holidays — airport dropdown → date grid → per-person price
@@ -194,7 +194,6 @@ Listing pages (`[country]/index.astro`, `river-cruises/[...river].astro`) have h
 
 ## Analytics & Tracking (in BaseLayout.astro `<head>`)
 - **Facebook Pixel:** ID `2922972984621050` — PageView on every page
-- **PostHog:** Project `phc_CncpMTolnthosh7c98z3b7iqSHbhB1vokNzW2WgrC2R`, EU host (`eu.i.posthog.com`)
 - **Microsoft Clarity:** Added for session replay and heatmaps
 - **Traffic source tracking:** vanilla JS, stores `lead_source` + `landing_page` in sessionStorage
 - **Cookie banner:** UK PECR/GDPR compliant, sets `cookie_consent=1` cookie for 1 year

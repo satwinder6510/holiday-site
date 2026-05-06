@@ -1,16 +1,9 @@
-// Database connection factory — creates a Drizzle client per request via Hyperdrive
-import { drizzle } from 'drizzle-orm/node-postgres';
-import pg from 'pg';
+// Database connection factory — creates a Drizzle client per request via D1
+import { drizzle } from 'drizzle-orm/d1';
 import * as schema from './db-schema';
 
-const { Pool } = pg;
-
-export function createDb(connectionString: string) {
-  const pool = new Pool({
-    connectionString,
-    max: 1,
-  });
-  return drizzle(pool, { schema });
+export function createDb(d1: D1Database) {
+  return drizzle(d1, { schema });
 }
 
 export type Database = ReturnType<typeof createDb>;

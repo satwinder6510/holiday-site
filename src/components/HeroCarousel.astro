@@ -164,7 +164,7 @@ const heroSlides = Astro.props.slides?.length ? Astro.props.slides : fallbackSli
   :global(.hero-title) {
     font-size: 36px;
     line-height: 36px;
-    width: 361px;
+    max-width: 361px;
   }
   @media (min-width: 394px) { :global(.hero-title) { font-size: 40px; line-height: 40px; } }
   @media (min-width: 450px) { :global(.hero-title) { font-size: 44px; } }

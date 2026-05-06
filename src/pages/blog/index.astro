@@ -26,7 +26,7 @@ for (const blog of allBlogs) {
 const archiveEntries = Array.from(archiveMap.entries());
 ---
 
-<BaseLayout title="Our Blog | Holidays - Flights and Packages" description="Read the latest travel blogs, destination guides and holiday inspiration from Flights and Packages. Expert tips on city breaks, beach holidays, river cruises and tours across Europe, Asia and beyond.">
+<BaseLayout title="Our Blog | Holidays - Flights and Packages" description="Read the latest travel blogs, destination guides and holiday inspiration from Flights and Packages. Expert tips on city breaks, beach holidays, river cruises and tours across Europe, Asia and beyond." preloadImage="/images/heroes/blog.webp">
   <BreadcrumbSchema slot="head" items={[
     { name: 'Home', url: '/' },
     { name: 'Blog' },
@@ -37,7 +37,7 @@ const archiveEntries = Array.from(archiveMap.entries());
     title="Our Blog"
     subtitle="read all about it"
     breadcrumbLabel="Blogs"
-    backgroundImage="/images/heroes/blog.jpg"
+    backgroundImage="/images/heroes/blog.webp"
   />
 
   <section class="blog-list-section">
@@ -50,7 +50,7 @@ const archiveEntries = Array.from(archiveMap.entries());
             return (
               <div class={`blog page-${page}`} style={page === 0 ? '' : 'display:none'}>
                 <a href={`/blog/${blog.slug}`}>
-                  <img src={blog.image} alt={blog.title} class="blog-img" />
+                  <img src={blog.image} alt={blog.title} class="blog-img" loading="lazy" />
                 </a>
                 <div class="blog-title">{blog.title}</div>
                 <div class="blog-date">
@@ -218,6 +218,7 @@ const archiveEntries = Array.from(archiveMap.entries());
     height: 320px;
     object-fit: cover;
     width: 100%;
+    aspect-ratio: 291 / 320;
   }
   @media (max-width: 1100px) {
     .blog-img {

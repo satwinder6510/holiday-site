@@ -118,6 +118,27 @@ const websiteSchema = {
 <body>
   <main><slot /></main>
 
+  <!-- Lazy background-image loader -->
+  <script is:inline>
+    (function () {
+      var els = document.querySelectorAll('[data-bg]');
+      if (!els.length) return;
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.style.backgroundImage = "url('" + el.getAttribute('data-bg') + "')"; });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.style.backgroundImage = "url('" + e.target.getAttribute('data-bg') + "')";
+            io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '200px' });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+
   <!-- Traffic source tracking -->
   <script is:inline>
     (function () {
@@ -127,7 +148,13 @@ const websiteSchema = {
       if (!src && document.referrer) {
         try {
           var host = new URL(document.referrer).hostname.replace('www.', '');
-          if (host.indexOf('google') >= 0) src = 'Google';
+          if (host.indexOf('chat.openai') >= 0 || host.indexOf('chatgpt') >= 0) src = 'ChatGPT';
+          else if (host.indexOf('perplexity') >= 0) src = 'Perplexity';
+          else if (host.indexOf('claude.ai') >= 0) src = 'Claude';
+          else if (host.indexOf('copilot.microsoft') >= 0) src = 'Microsoft Copilot';
+          else if (host.indexOf('gemini.google') >= 0) src = 'Gemini';
+          else if (host.indexOf('you.com') >= 0) src = 'You.com';
+          else if (host.indexOf('google') >= 0) src = 'Google';
           else if (host.indexOf('bing') >= 0) src = 'Bing';
           else if (host.indexOf('facebook') >= 0 || host.indexOf('fb.') >= 0) src = 'Facebook';
           else if (host.indexOf('instagram') >= 0) src = 'Instagram';
@@ -214,7 +241,7 @@ const websiteSchema = {
     window.$crisp=[];window.CRISP_WEBSITE_ID="ea4c76fc-b59b-4e94-9935-c08ff84ce851";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
   </script>
 
-  <!-- Deferred Analytics — FB Pixel, PostHog, Clarity (loaded after main content) -->
+  <!-- Deferred Analytics — FB Pixel, Clarity (loaded after main content) -->
   <script is:inline>
     (function () {
       function loadAnalytics() {
@@ -231,10 +258,9 @@ const websiteSchema = {
         fbq('track', 'PageView');
 
         // PostHog
-        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
         posthog.init('phc_CncpMTolnthosh7c98z3b7iqSHbhB1vokNzW2WgrC2R', {
-            api_host: 'https://eu.i.posthog.com',
-            defaults: '2026-01-30'
+            api_host: 'https://eu.i.posthog.com'
         });
 
         // Microsoft Clarity

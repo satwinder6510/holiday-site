@@ -15,22 +15,22 @@ const { image, badge, title, country, duration, boardBasis, price, href } = Astr
 
 <div class="offer-card flex-shrink-0 relative flex flex-col justify-between">
   <div>
-    <div class="offer-img bg-cover bg-no-repeat bg-center" style={`background-image: url('${image}')`}></div>
+    <div class="offer-img bg-cover bg-no-repeat bg-center" data-bg={image}></div>
     <div class="discount absolute top-[15px] left-0 h-[50px] bg-black/80 text-white flex items-center justify-center px-5 rounded-r-3xl">
       <div class="font-medium text-sm leading-[17px] text-center px-1.5">{badge}</div>
     </div>
     <div class="offer-title font-bold text-secondary">{title}</div>
     <ul class="pt-2.5">
       <li class="font-medium text-sm text-[#6B6B6B] flex items-center pb-[5px]">
-        <img src="/icons/compass-grey.svg" alt="" class="pr-2 w-[22px]" />
+        <img src="/icons/compass-grey.svg" alt="" class="pr-2 w-[22px]" width="22" height="22" loading="lazy" />
         {country}
       </li>
       <li class="font-medium text-sm text-[#6B6B6B] flex items-center pb-[5px]">
-        <img src="/icons/nights-grey.svg" alt="" class="pr-2 w-[22px]" />
+        <img src="/icons/nights-grey.svg" alt="" class="pr-2 w-[22px]" width="22" height="22" loading="lazy" />
         {duration}
       </li>
       <li class="font-medium text-sm text-[#6B6B6B] flex items-center pb-[5px]">
-        <img src="/icons/board-basis-grey.svg" alt="" class="pr-2 w-[22px]" />
+        <img src="/icons/board-basis-grey.svg" alt="" class="pr-2 w-[22px]" width="22" height="22" loading="lazy" />
         {boardBasis}
       </li>
     </ul>
@@ -54,9 +54,9 @@ const { image, badge, title, country, duration, boardBasis, price, href } = Astr
     padding: 0 22px 28px;
     margin: 0 3px 20px;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 420px) {
     :global(.offer-card) {
-      width: 285px;
+      width: calc(100vw - 6px);
       padding-left: 15px;
       padding-right: 15px;
     }
@@ -67,6 +67,7 @@ const { image, badge, title, country, duration, boardBasis, price, href } = Astr
     height: 240px;
     margin-left: -22px;
     margin-right: -22px;
+    background-color: #1a1a1a;
   }
   @media (max-width: 320px) {
     :global(.offer-img) {

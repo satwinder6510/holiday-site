@@ -74,17 +74,17 @@ try {
 }
 
 const heroOverrides: Record<string, string> = {
-  'Special Offer': '/images/heroes/special-offers.jpg',
-  'Italy': '/images/heroes/italy.jpg',
-  'Spain': '/images/heroes/spain.jpg',
-  'France': '/images/heroes/france.jpg',
-  'Hungary': '/images/heroes/hungary.jpg',
-  'Austria': '/images/heroes/austria.jpg',
-  'Greece': '/images/heroes/greece.jpg',
+  'Special Offer': '/images/heroes/special-offers.webp',
+  'Italy': '/images/heroes/italy.webp',
+  'Spain': '/images/heroes/spain.webp',
+  'France': '/images/heroes/france.webp',
+  'Hungary': '/images/heroes/hungary.webp',
+  'Austria': '/images/heroes/austria.webp',
+  'Greece': '/images/heroes/greece.webp',
 };
 const bannerImage = isCollection
   ? (heroOverrides[collection!.tag] || (holidays.length > 0 ? holidays[0].heroImage : collection!.image))
-  : (heroOverrides[countryName] || (holidays.length > 0 ? holidays[0].heroImage : '/images/heroes/country.jpg'));
+  : (heroOverrides[countryName] || (holidays.length > 0 ? holidays[0].heroImage : '/images/heroes/country.webp'));
 
 // ItemList schema for first 20 holidays
 const itemListSchema = holidays.length > 0 ? {

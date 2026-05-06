@@ -9,17 +9,17 @@ export interface Collection {
 }
 
 export const allCollections: Collection[] = [
-  { name: 'River Cruises', tag: 'River Cruise', image: '/images/collections/river-cruise.jpg', href: '/Holidays/river-cruises' },
+  { name: 'River Cruises', tag: 'River Cruise', image: '/images/collections/river-cruise.webp', href: '/Holidays/river-cruises' },
   { name: '2027 Holidays', tag: '2027 Holidays', image: 'https://admin.citiesandbeaches.com/images/collections/2022 Holidays_icon.jpg', href: '/Holidays/2027-Holidays' },
   { name: 'Italian Lakes', tag: 'Italian Lakes', image: 'https://admin.citiesandbeaches.com/images/collections/Italian Lakes_icon.jpg', href: '/Holidays/Italian-Lakes' },
-  { name: 'New & Exclusive Offers', tag: 'Special Offer', image: '/images/collections/special-offer.jpg', href: '/Holidays/New-&-Exclusive-Offers' },
+  { name: 'New & Exclusive Offers', tag: 'Special Offer', image: '/images/collections/special-offer.webp', href: '/Holidays/New-&-Exclusive-Offers' },
   { name: 'City Breaks', tag: 'City Break', image: 'https://admin.citiesandbeaches.com/images/collections/City Breaks_icon.jpg', href: '/Holidays/City-Break' },
   { name: 'All Inclusive', tag: 'All Inclusive', image: 'https://admin.citiesandbeaches.com/images/collections/All Inclusive_icon.jpg', href: '/Holidays/All-Inclusive' },
   { name: 'Beach', tag: 'Beach', image: 'https://admin.citiesandbeaches.com/images/collections/Beach_icon.jpg', href: '/Holidays/Beach' },
   { name: 'European Tours', tag: 'European Tour', image: 'https://admin.citiesandbeaches.com/images/collections/European Tours_icon.jpg', href: '/Holidays/European' },
-  { name: 'Multi Centre', tag: 'Multi-Centre', image: '/images/collections/multi-centre.jpg', href: '/Holidays/Multicentre' },
+  { name: 'Multi Centre', tag: 'Multi-Centre', image: '/images/collections/multi-centre.webp', href: '/Holidays/Multicentre' },
   { name: 'WorldWide Tours', tag: 'Tour', image: 'https://admin.citiesandbeaches.com/images/collections/WorldWide Tours_icon.jpg', href: '/Holidays/Tour' },
-  { name: 'Twin Centre', tag: 'Twin-Centre', image: '/images/collections/twin-centre.jpg', href: '/Holidays/Twin-Centre' },
+  { name: 'Twin Centre', tag: 'Twin-Centre', image: '/images/collections/twin-centre.webp', href: '/Holidays/Twin-Centre' },
   { name: 'Luxury', tag: 'Luxury', image: 'https://admin.citiesandbeaches.com/images/collections/Luxury_icon.jpg', href: '/Holidays/Luxury-Breaks' },
   { name: 'Summer Holidays', tag: 'Summer Holiday', image: 'https://admin.citiesandbeaches.com/images/collections/Summer Holidays_icon.jpg', href: '/Holidays/Summer-Holiday' },
   { name: 'Family Holidays', tag: 'Family', image: 'https://admin.citiesandbeaches.com/images/collections/Family Holidays_icon.jpg', href: '/Holidays/Family-Holiday' },

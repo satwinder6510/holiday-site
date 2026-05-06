@@ -5,3 +5,12 @@
 /faq  /contact  301
 /special-offers  /  301
 /destinations/*/holiday-deals  /Holidays/:splat  301
+
+# Viva Cruises → promo page (301 permanent)
+/Holidays/germany/viva-cruises-danube-highlights-nuremberg-to-budapest  /promo/viva-cruises/  301
+/Holidays/hungary/viva-cruises-danube-city-highlights-budapest-to-nuremberg  /promo/viva-cruises/  301
+/Holidays/netherlands/viva-cruises-from-amsterdams-charm-to-bavarian-romance  /promo/viva-cruises/  301
+/Holidays/germany/viva-cruises-between-bavaria-and-switzerland  /promo/viva-cruises/  301
+/Holidays/germany/viva-cruises-summer-magic-from-basel-to-vienna  /promo/viva-cruises/  301
+/Holidays/netherlands/viva-cruises-royal-waterways-amsterdam-to-budapest  /promo/viva-cruises/  301
+/Holidays/hungary/viva-cruises-europas-river-passage  /promo/viva-cruises/  301

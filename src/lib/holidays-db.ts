@@ -1,4 +1,4 @@
-// SSR query functions — fetch holidays + pricing from Neon Postgres via Hyperdrive
+// SSR query functions — fetch holidays + pricing from D1
 import { eq, and, inArray, gte } from 'drizzle-orm';
 import type { Database } from './db';
 import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable } from './db-schema';
@@ -86,17 +86,32 @@ function dbRowToRawHoliday(row: DbRow): RawHoliday {
 
 // ── Pricing helpers ─────────────────────────────────────────────────
 
+function chunkArray<T>(arr: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size));
+  }
+  return chunks;
+}
+
 async function getPricingForIds(db: Database, ids: number[]): Promise<Map<number, HolidayPricing>> {
   if (ids.length === 0) return new Map();
 
   const today = new Date().toISOString().slice(0, 10);
-  const rows = await db
-    .select()
-    .from(packagePricing)
-    .where(and(
-      inArray(packagePricing.packageId, ids),
-      gte(packagePricing.departureDate, today)
-    ));
+
+  // D1 has ~100 parameter limit — chunk large ID lists
+  const chunks = chunkArray(ids, 80);
+  const rows: (typeof packagePricing.$inferSelect)[] = [];
+  for (const chunk of chunks) {
+    const chunkRows = await db
+      .select()
+      .from(packagePricing)
+      .where(and(
+        inArray(packagePricing.packageId, chunk),
+        gte(packagePricing.departureDate, today)
+      ));
+    rows.push(...chunkRows);
+  }
 
   // Group by package_id
   const grouped = new Map<number, RawHolidayPricing>();
@@ -254,10 +269,15 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
   // Overlay DB lead prices on cruise holidays (from cruise_offers.cheapest_total_pp)
   const dbCruiseIds = cruiseHolidays.map(c => c.id - CRUISE_ID_OFFSET).filter(id => id > 0);
   if (dbCruiseIds.length > 0) {
-    const offerRows = await db
-      .select({ id: cruiseOffersTable.id, cheapestTotalPp: cruiseOffersTable.cheapestTotalPp })
-      .from(cruiseOffersTable)
-      .where(inArray(cruiseOffersTable.id, dbCruiseIds));
+    const offerChunks = chunkArray(dbCruiseIds, 80);
+    const offerRows: { id: number; cheapestTotalPp: string | null }[] = [];
+    for (const chunk of offerChunks) {
+      const chunkRows = await db
+        .select({ id: cruiseOffersTable.id, cheapestTotalPp: cruiseOffersTable.cheapestTotalPp })
+        .from(cruiseOffersTable)
+        .where(inArray(cruiseOffersTable.id, chunk));
+      offerRows.push(...chunkRows);
+    }
 
     for (const row of offerRows) {
       if (row.cheapestTotalPp) {

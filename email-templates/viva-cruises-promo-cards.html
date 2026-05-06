@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viva Cruises Promo Cards</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #e8e8e8;
+      padding: 40px 20px;
+    }
+
+    .card {
+      width: 600px;
+      margin: 0 auto 60px;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+      page-break-after: always;
+    }
+
+    /* A - Hero image with teal swoop */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 320px;
+      background-size: cover;
+      background-position: center;
+      background-color: #2a6b7c;
+    }
+    .hero-placeholder {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 2;
+    }
+
+    /* Teal swoop - SVG wave at bottom of hero */
+    .hero-swoop {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      display: block;
+      z-index: 1;
+    }
+
+    /* E - Ship name badge on image */
+    .book-by {
+      position: absolute;
+      right: 0;
+      top: 16px;
+      background: rgba(255,255,255,0.95);
+      color: #073140;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 5px 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 2;
+    }
+
+    /* F - All-inclusive banner - sits on the swoop */
+    .offer-banner {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 3;
+      white-space: nowrap;
+    }
+    .offer-banner .label {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 20px;
+      font-weight: 900;
+      font-style: italic;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .offer-banner .price-now {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      margin-top: 1px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* B - Title row */
+    .title-row {
+      display: flex;
+      border-bottom: 2px solid #073140;
+    }
+    .cruise-name {
+      flex: 1;
+      padding: 12px 16px;
+      background: #ffffff;
+    }
+    .cruise-name h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: #073140;
+      line-height: 1.2;
+      font-style: italic;
+    }
+
+    /* G - Duration */
+    .duration-box {
+      width: 220px;
+      padding: 12px 16px;
+      background: #20A1AA;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .duration-box span {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    /* C + H - Info columns */
+    .info-row {
+      display: flex;
+      min-height: 180px;
+    }
+
+    .included-col {
+      flex: 1;
+      padding: 12px 16px;
+      background: #ffffff;
+      border-right: 1px solid #ddd;
+    }
+    .included-col h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #073140;
+      margin-bottom: 6px;
+      font-style: italic;
+    }
+    .included-col ul {
+      list-style: none;
+      padding: 0;
+    }
+    .included-col li {
+      font-size: 13px;
+      color: #333;
+      line-height: 1.6;
+      padding-left: 12px;
+      position: relative;
+    }
+    .included-col li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #20A1AA;
+      font-weight: bold;
+    }
+
+    .itinerary-col {
+      width: 220px;
+      padding: 12px 16px;
+      background: #20A1AA;
+    }
+    .itinerary-col h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      font-style: italic;
+    }
+    .itinerary-col ul {
+      list-style: none;
+      padding: 0;
+    }
+    .itinerary-col li {
+      font-size: 13px;
+      color: #fff;
+      line-height: 1.6;
+      padding-left: 12px;
+      position: relative;
+    }
+    .itinerary-col li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #f5d442;
+      font-weight: bold;
+    }
+
+    /* J - Cabin pricing */
+    .pricing-bar {
+      display: flex;
+      background: #073140;
+      border: 3px solid #20A1AA;
+      border-top: none;
+    }
+    .pricing-bar .cabin {
+      flex: 1;
+      text-align: center;
+      padding: 8px 4px;
+      border-right: 1px solid #20A1AA;
+    }
+    .pricing-bar .cabin:last-child {
+      border-right: none;
+    }
+    .pricing-bar .cabin-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 11px;
+      font-style: italic;
+      color: #f5d442;
+      margin-bottom: 2px;
+    }
+    .pricing-bar .cabin-price {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 11px;
+      color: #ffffff;
+    }
+    .pricing-bar .cabin-price .amount {
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    /* D - Date/ref footer */
+    .footer-bar {
+      background: #073140;
+      border: 3px solid #20A1AA;
+      border-top: 1px solid #20A1AA;
+      text-align: center;
+      padding: 8px 16px;
+    }
+    .footer-bar .date {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      font-style: italic;
+    }
+    .footer-bar .ref {
+      font-size: 10px;
+      color: #6bc4cc;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .operator-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 2;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .card { box-shadow: none; margin-bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Summer Magic: Basel to Vienna -->
+  <div class="card">
+    <div class="hero" style="background-image: url(''); background-color: #3a7ca5;">
+      <div class="hero-placeholder">Add image: Basel / Rhine / Vienna</div>
+      <div class="operator-badge">VIVA Cruises</div>
+      <div class="book-by">MS VIVA ENJOY</div>
+      <svg class="hero-swoop" viewBox="0 0 600 80" preserveAspectRatio="none">
+        <path d="M0,55 C80,70 180,15 300,25 C420,35 520,65 600,40 L600,80 L0,80 Z" fill="#20A1AA"/>
+      </svg>
+      <div class="offer-banner">
+        <div class="label">VIVA All-Inclusive</div>
+        <div class="price-now">Drinks, Dining &amp; Gratuities</div>
+      </div>
+    </div>
+    <div class="title-row">
+      <div class="cruise-name"><h2>Summer Magic<br>Basel to Vienna</h2></div>
+      <div class="duration-box"><span>13 Days Cruise -<br>12 Nights VIVA ENJOY</span></div>
+    </div>
+    <div class="info-row">
+      <div class="included-col">
+        <h3>What's Included:</h3>
+        <ul>
+          <li>Return flights from UK</li>
+          <li>Hold luggage</li>
+          <li>12nts all-inclusive cruise</li>
+          <li>Gourmet multi-course dining</li>
+          <li>Premium drinks package</li>
+          <li>Free Wi-Fi &amp; gratuities</li>
+        </ul>
+      </div>
+      <div class="itinerary-col">
+        <h3>Itinerary:</h3>
+        <ul>
+          <li>Basel</li>
+          <li>Strasbourg</li>
+          <li>Mannheim</li>
+          <li>Frankfurt</li>
+          <li>W&uuml;rzburg</li>
+          <li>Bamberg</li>
+          <li>Nuremberg</li>
+          <li>Regensburg</li>
+          <li>Passau</li>
+          <li>Linz</li>
+          <li>Melk</li>
+          <li>Vienna</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pricing-bar">
+      <div class="cabin">
+        <div class="cabin-name">Emerald</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">2975</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Ruby</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">3475</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Diamond</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">3750</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Suite</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">4950</span>pp</div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <div class="date">09 JUNE 2026</div>
+      <div class="ref">REF: FP-474</div>
+    </div>
+  </div>
+
+  <!-- 2. Between Bavaria and Switzerland -->
+  <div class="card">
+    <div class="hero" style="background-image: url(''); background-color: #5a8c4a;">
+      <div class="hero-placeholder">Add image: Bamberg / Rhine / Bavaria</div>
+      <div class="operator-badge">VIVA Cruises</div>
+      <div class="book-by">MS VIVA ENJOY</div>
+      <svg class="hero-swoop" viewBox="0 0 600 80" preserveAspectRatio="none">
+        <path d="M0,55 C80,70 180,15 300,25 C420,35 520,65 600,40 L600,80 L0,80 Z" fill="#20A1AA"/>
+      </svg>
+      <div class="offer-banner">
+        <div class="label">VIVA All-Inclusive</div>
+        <div class="price-now">Drinks, Dining &amp; Gratuities</div>
+      </div>
+    </div>
+    <div class="title-row">
+      <div class="cruise-name"><h2>Between Bavaria<br>&amp; Switzerland</h2></div>
+      <div class="duration-box"><span>8 Days Cruise -<br>7 Nights VIVA ENJOY</span></div>
+    </div>
+    <div class="info-row">
+      <div class="included-col">
+        <h3>What's Included:</h3>
+        <ul>
+          <li>Return flights from UK</li>
+          <li>Hold luggage</li>
+          <li>7nts all-inclusive cruise</li>
+          <li>Gourmet multi-course dining</li>
+          <li>Premium drinks package</li>
+          <li>Free Wi-Fi &amp; gratuities</li>
+        </ul>
+      </div>
+      <div class="itinerary-col">
+        <h3>Itinerary:</h3>
+        <ul>
+          <li>Nuremberg</li>
+          <li>Bamberg</li>
+          <li>W&uuml;rzburg</li>
+          <li>Miltenberg</li>
+          <li>Mainz</li>
+          <li>Strasbourg</li>
+          <li>Breisach</li>
+          <li>Basel</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pricing-bar">
+      <div class="cabin">
+        <div class="cabin-name">Emerald</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">1795</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Ruby</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">2275</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Diamond</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">2425</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Suite</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">3095</span>pp</div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <div class="date">02 JUNE 2026</div>
+      <div class="ref">REF: FP-475</div>
+    </div>
+  </div>
+
+  <!-- 3. Europa's River Passage -->
+  <div class="card">
+    <div class="hero" style="background-image: url(''); background-color: #6a4c93;">
+      <div class="hero-placeholder">Add image: Budapest / Danube / Vienna</div>
+      <div class="operator-badge">VIVA Cruises</div>
+      <div class="book-by">MS VIVA ENJOY</div>
+      <svg class="hero-swoop" viewBox="0 0 600 80" preserveAspectRatio="none">
+        <path d="M0,55 C80,70 180,15 300,25 C420,35 520,65 600,40 L600,80 L0,80 Z" fill="#20A1AA"/>
+      </svg>
+      <div class="offer-banner">
+        <div class="label">VIVA All-Inclusive</div>
+        <div class="price-now">Drinks, Dining &amp; Gratuities</div>
+      </div>
+    </div>
+    <div class="title-row">
+      <div class="cruise-name"><h2>Europa's River<br>Passage</h2></div>
+      <div class="duration-box"><span>15 Days Cruise -<br>14 Nights VIVA ENJOY</span></div>
+    </div>
+    <div class="info-row">
+      <div class="included-col">
+        <h3>What's Included:</h3>
+        <ul>
+          <li>Return flights from UK</li>
+          <li>Hold luggage</li>
+          <li>14nts all-inclusive cruise</li>
+          <li>Gourmet multi-course dining</li>
+          <li>Premium drinks package</li>
+          <li>Free Wi-Fi &amp; gratuities</li>
+        </ul>
+      </div>
+      <div class="itinerary-col">
+        <h3>Itinerary:</h3>
+        <ul>
+          <li>Budapest</li>
+          <li>Bratislava</li>
+          <li>Vienna</li>
+          <li>D&uuml;rnstein &amp; Melk</li>
+          <li>Passau</li>
+          <li>Regensburg</li>
+          <li>Nuremberg</li>
+          <li>Bamberg</li>
+          <li>W&uuml;rzburg</li>
+          <li>Mainz</li>
+          <li>Strasbourg</li>
+          <li>Basel</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pricing-bar">
+      <div class="cabin">
+        <div class="cabin-name">Emerald</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">3595</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Ruby</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">4090</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Diamond</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">4370</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Suite</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">5575</span>pp</div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <div class="date">26 MAY 2026</div>
+      <div class="ref">REF: FP-476</div>
+    </div>
+  </div>
+
+  <!-- 4. Danube City Highlights: Budapest to Nuremberg -->
+  <div class="card">
+    <div class="hero" style="background-image: url(''); background-color: #c4723a;">
+      <div class="hero-placeholder">Add image: Budapest Parliament / Danube</div>
+      <div class="operator-badge">VIVA Cruises</div>
+      <div class="book-by">MS VIVA ENJOY</div>
+      <svg class="hero-swoop" viewBox="0 0 600 80" preserveAspectRatio="none">
+        <path d="M0,55 C80,70 180,15 300,25 C420,35 520,65 600,40 L600,80 L0,80 Z" fill="#20A1AA"/>
+      </svg>
+      <div class="offer-banner">
+        <div class="label">VIVA All-Inclusive</div>
+        <div class="price-now">Drinks, Dining &amp; Gratuities</div>
+      </div>
+    </div>
+    <div class="title-row">
+      <div class="cruise-name"><h2>Danube City Highlights<br>Budapest to Nuremberg</h2></div>
+      <div class="duration-box"><span>8 Days Cruise -<br>7 Nights VIVA ENJOY</span></div>
+    </div>
+    <div class="info-row">
+      <div class="included-col">
+        <h3>What's Included:</h3>
+        <ul>
+          <li>Return flights from UK</li>
+          <li>Hold luggage</li>
+          <li>7nts all-inclusive cruise</li>
+          <li>Gourmet multi-course dining</li>
+          <li>Premium drinks package</li>
+          <li>Free Wi-Fi &amp; gratuities</li>
+        </ul>
+      </div>
+      <div class="itinerary-col">
+        <h3>Itinerary:</h3>
+        <ul>
+          <li>Budapest</li>
+          <li>Bratislava</li>
+          <li>Vienna</li>
+          <li>D&uuml;rnstein</li>
+          <li>Melk</li>
+          <li>Passau</li>
+          <li>Regensburg</li>
+          <li>Nuremberg</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pricing-bar">
+      <div class="cabin">
+        <div class="cabin-name">Emerald</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">1995</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Ruby</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">2275</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Diamond</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">2425</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Suite</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">3095</span>pp</div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <div class="date">26 MAY 2026</div>
+      <div class="ref">REF: FP-477</div>
+    </div>
+  </div>
+
+  <!-- 5. Danube Highlights: Nuremberg to Budapest -->
+  <div class="card">
+    <div class="hero" style="background-image: url(''); background-color: #2d6a4f;">
+      <div class="hero-placeholder">Add image: Vienna / Wachau Valley</div>
+      <div class="operator-badge">VIVA Cruises</div>
+      <div class="book-by">MS VIVA ENJOY</div>
+      <svg class="hero-swoop" viewBox="0 0 600 80" preserveAspectRatio="none">
+        <path d="M0,55 C80,70 180,15 300,25 C420,35 520,65 600,40 L600,80 L0,80 Z" fill="#20A1AA"/>
+      </svg>
+      <div class="offer-banner">
+        <div class="label">VIVA All-Inclusive</div>
+        <div class="price-now">Drinks, Dining &amp; Gratuities</div>
+      </div>
+    </div>
+    <div class="title-row">
+      <div class="cruise-name"><h2>Danube Highlights<br>Nuremberg to Budapest</h2></div>
+      <div class="duration-box"><span>7 Days Cruise -<br>6 Nights VIVA ENJOY</span></div>
+    </div>
+    <div class="info-row">
+      <div class="included-col">
+        <h3>What's Included:</h3>
+        <ul>
+          <li>Return flights from UK</li>
+          <li>Hold luggage</li>
+          <li>6nts all-inclusive cruise</li>
+          <li>Gourmet multi-course dining</li>
+          <li>Premium drinks package</li>
+          <li>Free Wi-Fi &amp; gratuities</li>
+        </ul>
+      </div>
+      <div class="itinerary-col">
+        <h3>Itinerary:</h3>
+        <ul>
+          <li>Nuremberg</li>
+          <li>Regensburg</li>
+          <li>Passau</li>
+          <li>Melk</li>
+          <li>Vienna</li>
+          <li>Bratislava</li>
+          <li>Budapest</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pricing-bar">
+      <div class="cabin">
+        <div class="cabin-name">Emerald</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">1695</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Ruby</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">1950</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Diamond</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">2075</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Suite</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">2650</span>pp</div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <div class="date">20 MAY 2026</div>
+      <div class="ref">REF: FP-478</div>
+    </div>
+  </div>
+
+  <!-- 6. Royal Waterways: Amsterdam to Budapest -->
+  <div class="card">
+    <div class="hero" style="background-image: url(''); background-color: #1a5276;">
+      <div class="hero-placeholder">Add image: Amsterdam canals / Rhine</div>
+      <div class="operator-badge">VIVA Cruises</div>
+      <div class="book-by">MS VIVA ENJOY</div>
+      <svg class="hero-swoop" viewBox="0 0 600 80" preserveAspectRatio="none">
+        <path d="M0,55 C80,70 180,15 300,25 C420,35 520,65 600,40 L600,80 L0,80 Z" fill="#20A1AA"/>
+      </svg>
+      <div class="offer-banner">
+        <div class="label">VIVA All-Inclusive</div>
+        <div class="price-now">Drinks, Dining &amp; Gratuities</div>
+      </div>
+    </div>
+    <div class="title-row">
+      <div class="cruise-name"><h2>Royal Waterways<br>Amsterdam to Budapest</h2></div>
+      <div class="duration-box"><span>15 Days Cruise -<br>14 Nights VIVA ENJOY</span></div>
+    </div>
+    <div class="info-row">
+      <div class="included-col">
+        <h3>What's Included:</h3>
+        <ul>
+          <li>Return flights from UK</li>
+          <li>Hold luggage</li>
+          <li>14nts all-inclusive cruise</li>
+          <li>Gourmet multi-course dining</li>
+          <li>Premium drinks package</li>
+          <li>Free Wi-Fi &amp; gratuities</li>
+        </ul>
+      </div>
+      <div class="itinerary-col">
+        <h3>Itinerary:</h3>
+        <ul>
+          <li>Amsterdam</li>
+          <li>Cologne</li>
+          <li>Koblenz</li>
+          <li>Mainz</li>
+          <li>W&uuml;rzburg</li>
+          <li>Bamberg</li>
+          <li>Nuremberg</li>
+          <li>Regensburg</li>
+          <li>Passau</li>
+          <li>Melk &amp; Vienna</li>
+          <li>Bratislava</li>
+          <li>Budapest</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pricing-bar">
+      <div class="cabin">
+        <div class="cabin-name">Emerald</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">3995</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Ruby</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">4550</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Diamond</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">4850</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Suite</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">6195</span>pp</div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <div class="date">12 MAY 2026</div>
+      <div class="ref">REF: FP-479</div>
+    </div>
+  </div>
+
+  <!-- 7. From Amsterdam's Charm to Bavarian Romance -->
+  <div class="card">
+    <div class="hero" style="background-image: url(''); background-color: #7b4b2a;">
+      <div class="hero-placeholder">Add image: Amsterdam / Cologne Cathedral</div>
+      <div class="operator-badge">VIVA Cruises</div>
+      <div class="book-by">MS VIVA ENJOY</div>
+      <svg class="hero-swoop" viewBox="0 0 600 80" preserveAspectRatio="none">
+        <path d="M0,55 C80,70 180,15 300,25 C420,35 520,65 600,40 L600,80 L0,80 Z" fill="#20A1AA"/>
+      </svg>
+      <div class="offer-banner">
+        <div class="label">VIVA All-Inclusive</div>
+        <div class="price-now">Drinks, Dining &amp; Gratuities</div>
+      </div>
+    </div>
+    <div class="title-row">
+      <div class="cruise-name"><h2>Amsterdam's Charm to<br>Bavarian Romance</h2></div>
+      <div class="duration-box"><span>9 Days Cruise -<br>8 Nights VIVA ENJOY</span></div>
+    </div>
+    <div class="info-row">
+      <div class="included-col">
+        <h3>What's Included:</h3>
+        <ul>
+          <li>Return flights from UK</li>
+          <li>Hold luggage</li>
+          <li>8nts all-inclusive cruise</li>
+          <li>Gourmet multi-course dining</li>
+          <li>Premium drinks package</li>
+          <li>Free Wi-Fi &amp; gratuities</li>
+        </ul>
+      </div>
+      <div class="itinerary-col">
+        <h3>Itinerary:</h3>
+        <ul>
+          <li>Amsterdam</li>
+          <li>Cologne</li>
+          <li>Koblenz</li>
+          <li>Mainz</li>
+          <li>Wertheim</li>
+          <li>W&uuml;rzburg</li>
+          <li>Bamberg</li>
+          <li>Nuremberg</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pricing-bar">
+      <div class="cabin">
+        <div class="cabin-name">Emerald</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">2295</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Ruby</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">2595</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Diamond</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">2775</span>pp</div>
+      </div>
+      <div class="cabin">
+        <div class="cabin-name">Suite</div>
+        <div class="cabin-price">fr.<br>&pound;<span class="amount">3550</span>pp</div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <div class="date">12 MAY 2026</div>
+      <div class="ref">REF: FP-480</div>
+    </div>
+  </div>
+
+</body>
+</html>

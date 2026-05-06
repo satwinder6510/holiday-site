@@ -16,6 +16,12 @@ import { getHolidayBySlugFromDb } from '../../../lib/holidays-db';
 
 const { slug } = Astro.params;
 
+// Redirects for removed/legacy slugs
+const redirects: Record<string, string> = {};
+if (slug && redirects[slug]) {
+  return Astro.redirect(redirects[slug], 301);
+}
+
 let holiday: HolidayDetail;
 let pricing: any;
 let hasPricing: boolean;
@@ -165,7 +171,7 @@ const pageDescription = holiday.metaDescription || (() => {
 })();
 ---
 
-<BaseLayout title={holiday.metaTitle || `${holiday.title} | Holidays - Flights and Packages`} description={pageDescription} image={holiday.heroImage} type="product">
+<BaseLayout title={holiday.metaTitle || `${holiday.title} | Holidays - Flights and Packages`} description={pageDescription} image={holiday.heroImage} type="product" preloadImage={holiday.heroImage}>
   <BreadcrumbSchema slot="head" items={[
     { name: 'Home', url: '/' },
     { name: 'Destinations', url: '/destinations' },
@@ -1189,7 +1195,8 @@ const pageDescription = holiday.metaDescription || (() => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 400px;
+    width: calc(100vw - 40px);
+    max-width: 400px;
     height: 50px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
     background-color: #ffffff;
@@ -2003,7 +2010,7 @@ const pageDescription = holiday.metaDescription || (() => {
     padding-bottom: 60px;
   }
   .call-expert {
-    background-image: url('/images/call-expert-background.jpg');
+    background-image: url('/images/call-expert-background.webp');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

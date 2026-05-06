@@ -31,7 +31,7 @@ const featuredTour = Astro.props.tour || fallbackTour;
       <div id="featured-viewport" class="featured-viewport">
         <div id="featured-container" class="featured-container">
           {featuredTour.images.map((img) => (
-            <div class="featured-slide" style={`background-image: url('${img}')`}></div>
+            <div class="featured-slide" data-bg={img}></div>
           ))}
         </div>
       </div>
@@ -140,6 +140,7 @@ const featuredTour = Astro.props.tour || fallbackTour;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-color: #1a1a1a;
   }
 
   /* Nav arrows — bottom right of gallery */

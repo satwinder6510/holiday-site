@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>VIVA Cruises — Premium All-Inclusive River Cruises | Flights and Packages</title>
+  <style>
+    @font-face { font-family: 'BentonSans'; src: url('/fonts/BentonSans-Regular.woff2') format('woff2'); font-weight: 400; }
+    @font-face { font-family: 'BentonSans'; src: url('/fonts/BentonSans-Medium.woff2') format('woff2'); font-weight: 500; }
+    @font-face { font-family: 'BentonSans'; src: url('/fonts/BentonSans-Bold.woff2') format('woff2'); font-weight: 700; }
+    @font-face { font-family: 'BentonSans'; src: url('/fonts/BentonSans-Light.woff2') format('woff2'); font-weight: 300; }
+    @font-face { font-family: 'CaslonGraphiqueEF'; src: url('/fonts/CaslonGraphiqueEF.woff2') format('woff2'); }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'BentonSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 400;
+      color: #333;
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page-wrap {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .site-header img { height: 40px; }
+    .header-cta {
+      background: #ff7f00;
+      color: #fff;
+      font-family: 'BentonSans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 10px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: background 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .header-cta:hover { background: #e67300; }
+
+    /* ── Flash Sale Banner ── */
+    .flash-banner {
+      background: #d32f2f;
+      color: #fff;
+      text-align: center;
+      padding: 10px 24px;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+    .flash-banner strong {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      height: 520px;
+      background: url('https://cdn.viva-cruises.com/image/resize/2560x-/24b5f8f6-01bf-4be1-99cd-32ca0bc06a5d/viva-enjoy-exterior-3.jpeg') center/cover no-repeat;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(7,49,64,0.85) 0%, rgba(7,49,64,0.3) 50%, transparent 100%);
+    }
+    .hero-content {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 48px;
+      width: 100%;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: #ff7f00;
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 5px 14px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 48px;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.9);
+      max-width: 640px;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* ── Section containers ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; width: 100%; }
+    section { padding: 64px 0; }
+
+    /* ── Intro strip ── */
+    .intro-strip {
+      background: #073140;
+      padding: 40px 0;
+    }
+    .intro-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+    .intro-item .icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .intro-item h3 {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    .intro-item p {
+      color: rgba(255,255,255,0.7);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* ── Ship section ── */
+    .ship-section { background: #f8f8f8; }
+    .ship-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .ship-grid img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+    .ship-info h2 {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 32px;
+      color: #073140;
+      margin-bottom: 16px;
+    }
+    .ship-info p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 16px;
+    }
+    .ship-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .stat {
+      text-align: center;
+      padding: 16px 8px;
+      background: #fff;
+      border-radius: 6px;
+      border: 1px solid #e5e5e5;
+    }
+    .stat-value {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 24px;
+      color: #20A1AA;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    /* ── Cruises section ── */
+    .cruises-section h2 {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 36px;
+      color: #073140;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .cruises-subtitle {
+      text-align: center;
+      color: #777;
+      font-size: 16px;
+      margin-bottom: 48px;
+    }
+
+    /* ── Cruise card ── */
+    .cruise-card {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      margin-bottom: 32px;
+      transition: box-shadow 0.2s;
+    }
+    .cruise-card:hover {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.14);
+    }
+    .card-image {
+      position: relative;
+      min-height: 320px;
+      background-size: cover;
+      background-position: center;
+    }
+    .card-image .badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(7,49,64,0.85);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .card-image .duration-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      background: #20A1AA;
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 3px;
+    }
+    .card-body {
+      padding: 28px 28px 20px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .card-body h3 {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 24px;
+      color: #073140;
+      margin-bottom: 4px;
+      line-height: 1.25;
+    }
+    .card-route {
+      font-size: 13px;
+      color: #20A1AA;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    /* ── "From" price line ── */
+    .card-from-price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #555;
+    }
+    .was-price {
+      font-size: 13px;
+      color: #999;
+      text-decoration: line-through;
+    }
+    .now-price {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 26px;
+      color: #073140;
+    }
+    .from-pp {
+      font-size: 13px;
+      color: #888;
+    }
+    .save-badge {
+      display: inline-block;
+      background: #ff7f00;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #666;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+    .card-ports {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 16px;
+      line-height: 1.6;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .card-ports strong {
+      color: #073140;
+    }
+
+    /* ── Pricing grid inside card ── */
+    .cabin-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .cabin-tile {
+      text-align: center;
+      background: #f5f9fa;
+      border: 2px solid #e0eeef;
+      border-radius: 4px;
+      padding: 0;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .cabin-tile:hover { border-color: #20A1AA; }
+    .cabin-tile.active { border-color: #20A1AA; }
+    .cabin-tile .cabin-thumb {
+      width: 100%;
+      height: 72px;
+      object-fit: cover;
+      display: block;
+      aspect-ratio: 16/7;
+    }
+    .cabin-tile .cabin-info {
+      padding: 8px 4px 10px;
+    }
+    .cabin-tile .cabin-name {
+      font-size: 11px;
+      color: #20A1AA;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .cabin-tile .cabin-meta {
+      font-size: 10px;
+      color: #999;
+      margin-bottom: 4px;
+    }
+    .cabin-tile .cabin-was {
+      font-size: 12px;
+      color: #999;
+      text-decoration: line-through;
+      margin-bottom: 2px;
+    }
+    .cabin-tile .cabin-price {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 20px;
+      color: #073140;
+      white-space: nowrap;
+    }
+    .cabin-tile .cabin-pp {
+      font-size: 11px;
+      color: #888;
+    }
+    .cabin-tile.sold-out {
+      opacity: 0.5;
+      cursor: default;
+    }
+    .cabin-tile.sold-out .cabin-price {
+      font-size: 14px;
+      color: #999;
+    }
+    .cabin-tile.sold-out .cabin-thumb {
+      filter: grayscale(100%);
+    }
+
+    /* ── Cabin detail panel (below grid, shown on tile click) ── */
+    .cabin-detail-panel {
+      display: none;
+      grid-template-columns: 200px 1fr;
+      gap: 20px;
+      align-items: start;
+      background: #f5f9fa;
+      border: 1px solid #e0eeef;
+      border-top: 2px solid #20A1AA;
+      border-radius: 0 0 4px 4px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+    .cabin-detail-panel.open { display: grid; }
+    .cabin-detail-panel img {
+      width: 100%;
+      border-radius: 4px;
+    }
+    .cabin-detail-content h4 {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 18px;
+      color: #073140;
+      margin-bottom: 4px;
+    }
+    .cabin-detail-content .detail-meta {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    .cabin-detail-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      columns: 2;
+      column-gap: 16px;
+    }
+    .cabin-detail-content li {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.5;
+      padding: 2px 0 2px 18px;
+      position: relative;
+      break-inside: avoid;
+    }
+    .cabin-detail-content li::before {
+      content: '\2713';
+      position: absolute;
+      left: 0;
+      color: #20A1AA;
+      font-weight: 700;
+    }
+
+    .flight-note {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 16px;
+      line-height: 1.6;
+      padding: 10px 14px;
+      background: #f0f7f8;
+      border-radius: 4px;
+      border-left: 3px solid #20A1AA;
+      word-wrap: break-word;
+    }
+    .flight-note strong {
+      color: #073140;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+    .card-date {
+      font-size: 13px;
+      color: #888;
+    }
+    .card-date strong {
+      color: #073140;
+    }
+
+    /* ── CTA row ── */
+    .card-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .btn-call {
+      display: inline-block;
+      background: #ff7f00;
+      color: #fff;
+      font-family: 'BentonSans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn-call:hover { background: #e67300; }
+    .btn-enquire {
+      display: inline-block;
+      background: #20A1AA;
+      color: #fff;
+      font-family: 'BentonSans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 24px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn-enquire:hover { background: #1a8a92; }
+    .btn-itinerary {
+      display: none;
+    }
+
+    /* ── Inline enquiry form ── */
+    .enquiry-form {
+      margin-top: 16px;
+      padding: 20px;
+      background: #f5f9fa;
+      border: 1px solid #e0eeef;
+      border-radius: 6px;
+    }
+    .enquiry-form h4 {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 18px;
+      color: #073140;
+      margin-bottom: 16px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .form-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #073140;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: 'BentonSans', sans-serif;
+      font-size: 14px;
+      color: #333;
+      transition: border-color 0.2s;
+    }
+    .form-field input:focus {
+      outline: none;
+      border-color: #20A1AA;
+      box-shadow: 0 0 0 2px rgba(32,161,170,0.15);
+    }
+    .btn-submit {
+      background: #ff7f00;
+      color: #fff;
+      font-family: 'BentonSans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 36px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: #e67300; }
+    .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+    .form-status {
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .form-status.success { color: #20A1AA; }
+    .form-status.error { color: #d32f2f; }
+
+    /* ── All-Inclusive banner ── */
+    .ai-banner {
+      background: #073140;
+      padding: 48px 0;
+      text-align: center;
+    }
+    .ai-banner h2 {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 30px;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .ai-item { text-align: center; }
+    .ai-item .ai-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .ai-item p {
+      color: rgba(255,255,255,0.85);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── Gallery strip ── */
+    .gallery-strip {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+      padding: 4px 0;
+    }
+    .gallery-strip img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    /* ── CTA section ── */
+    .cta-section {
+      background: linear-gradient(135deg, #20A1AA 0%, #073140 100%);
+      padding: 64px 0;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 32px;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .cta-section p {
+      color: rgba(255,255,255,0.85);
+      font-size: 16px;
+      margin-bottom: 28px;
+    }
+    .btn-cta-large {
+      display: inline-block;
+      background: #ff7f00;
+      color: #fff;
+      font-weight: 700;
+      font-size: 18px;
+      padding: 16px 48px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin: 0 8px 12px;
+      transition: background 0.2s;
+    }
+    .btn-cta-large:hover { background: #e67300; }
+    .btn-cta-outline {
+      display: inline-block;
+      border: 2px solid #fff;
+      color: #fff;
+      font-weight: 700;
+      font-size: 18px;
+      padding: 14px 48px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin: 0 8px 12px;
+      transition: all 0.2s;
+    }
+    .btn-cta-outline:hover { background: #fff; color: #073140; }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: #073140;
+      padding: 32px 0;
+      text-align: center;
+    }
+    .site-footer p {
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+    .site-footer a { color: rgba(255,255,255,0.7); }
+    .trust-badges { margin-bottom: 16px; }
+    .trust-badges span {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 3px;
+      margin: 0 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .cruise-card { grid-template-columns: 340px 1fr; }
+      .cabin-tile .cabin-price { font-size: 17px; }
+      .cabin-tile .cabin-thumb { height: 60px; }
+      .cabin-detail-panel { grid-template-columns: 160px 1fr; }
+    }
+
+    @media (max-width: 960px) {
+      .cruise-card { grid-template-columns: 1fr; }
+      .card-image { min-height: 240px; }
+      .ship-grid { grid-template-columns: 1fr; }
+      .hero { height: 420px; }
+      .hero h1 { font-size: 36px; }
+      .gallery-strip { grid-template-columns: repeat(3, 1fr); }
+      .gallery-strip img { height: 140px; }
+    }
+
+    @media (max-width: 640px) {
+      .hero { height: 360px; }
+      .hero h1 { font-size: 28px; }
+      .hero p { font-size: 15px; }
+      .intro-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+      .cabin-grid { grid-template-columns: repeat(2, 1fr); }
+      .cabin-detail-panel { grid-template-columns: 1fr; }
+      .cabin-detail-panel img { max-width: 280px; }
+      .cabin-detail-content ul { columns: 1; }
+      .card-footer { flex-direction: column; align-items: stretch; text-align: center; }
+      .card-cta-row { flex-direction: column; align-items: stretch; }
+      .btn-call, .btn-enquire, .btn-itinerary { text-align: center; }
+      .form-grid { grid-template-columns: 1fr; }
+      .ai-grid { grid-template-columns: repeat(2, 1fr); }
+      .ship-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .gallery-strip { grid-template-columns: repeat(2, 1fr); }
+      .gallery-strip img { height: 120px; }
+      .site-header { padding: 10px 16px; }
+      .header-cta { padding: 8px 16px; font-size: 13px; }
+      .cruises-section h2 { font-size: 28px; }
+      section { padding: 40px 0; }
+      .container { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Header -->
+  <header class="site-header">
+    <span>
+      <img src="/icons/flights-and-packages-logo.png" alt="Flights and Packages">
+    </span>
+    <a href="tel:02081830502" class="header-cta">0208 183 0502</a>
+  </header>
+
+  <!-- Flash Sale Banner -->
+  <div class="flash-banner">
+    <div class="container">
+      <strong>Flash Sale</strong> &mdash; Huge Savings on select VIVA Cruises departures. Don't miss out!
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Flash Sale</div>
+      <h1>VIVA Cruises</h1>
+      <p>Premium all-inclusive river cruises aboard the brand-new MS VIVA ENJOY. Rhine, Main &amp; Danube voyages departing May &amp; June 2026.</p>
+    </div>
+  </section>
+
+  <!-- Intro strip -->
+  <div class="intro-strip">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="intro-item">
+          <span class="icon" aria-hidden="true">&#127863;</span>
+          <h3>All-Inclusive</h3>
+          <p>Premium drinks, gourmet dining &amp; gratuities all included</p>
+        </div>
+        <div class="intro-item">
+          <span class="icon" aria-hidden="true">&#9992;&#65039;</span>
+          <h3>Flights Included</h3>
+          <p>Return flights from UK airports with hold luggage</p>
+        </div>
+        <div class="intro-item">
+          <span class="icon" aria-hidden="true">&#128674;</span>
+          <h3>Brand New Ship</h3>
+          <p>MS VIVA ENJOY launched 2024 &mdash; 95 cabins, 3 decks</p>
+        </div>
+        <div class="intro-item">
+          <span class="icon" aria-hidden="true">&#127757;</span>
+          <h3>7 Voyages</h3>
+          <p>6 to 14 nights across 7 countries on Europe's great rivers</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ship section -->
+  <section class="ship-section">
+    <div class="container">
+      <div class="ship-grid">
+        <img src="https://cdn.viva-cruises.com/image/resize/1600x-/24b5f8f6-01bf-4be1-99cd-32ca0bc06a5d/viva-enjoy-exterior-3.jpeg" alt="MS VIVA ENJOY exterior" loading="lazy">
+        <div class="ship-info">
+          <h2>MS VIVA ENJOY</h2>
+          <p>Launched in 2024, MS VIVA ENJOY is VIVA Cruises' newest addition. With 95 cabins across 3 decks, she carries just 190 guests for an intimate river cruise experience.</p>
+          <p>Choose from four cabin types: Emerald (panoramic window), Ruby (French balcony), Diamond (French balcony), or Suite Diamond (24m&#178;). Every cabin includes a Nespresso machine, RITUALS products, daily-restocked minibar, and complimentary Wi-Fi.</p>
+          <div class="ship-stats">
+            <div class="stat">
+              <div class="stat-value">190</div>
+              <div class="stat-label">Guests</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">95</div>
+              <div class="stat-label">Cabins</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">3</div>
+              <div class="stat-label">Decks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery strip -->
+  <div class="gallery-strip">
+    <img src="https://cdn.viva-cruises.com/image/resize/800x-/ef02c569-e1a8-4345-abbc-6280c06c9be3/viva-enjoy-suite.jpeg" alt="Suite cabin" loading="lazy">
+    <img src="https://cdn.viva-cruises.com/image/resize/800x-/4a6480dd-16a5-49f3-9ab3-a0123936cd66/viva-enjoy-moments.jpeg" alt="Restaurant MOMENTS" loading="lazy">
+    <img src="https://cdn.viva-cruises.com/image/resize/800x-/36388b76-fd08-497f-9455-af86e717f5af/viva-enjoy-lounge.jpeg" alt="Lounge &amp; Bar" loading="lazy">
+    <img src="https://cdn.viva-cruises.com/image/resize/800x-/8d731979-05e3-4455-83a4-909b036754ba/viva-enjoy-riverside-restaurant.jpeg" alt="Riverside Restaurant" loading="lazy">
+    <img src="https://cdn.viva-cruises.com/image/resize/800x-/a70a9372-c9c9-4982-ae5d-12d2181cca97/viva-enjoy-yoga.jpeg" alt="Yoga room" loading="lazy">
+    <img src="https://cdn.viva-cruises.com/image/resize/800x-/a8f627fd-2c46-471d-b3a9-2c007cd4e48f/viva-enjoy-massage.jpeg" alt="Spa" loading="lazy">
+  </div>
+
+  <!-- Cruises section -->
+  <section class="cruises-section">
+    <div class="container">
+      <h2>Choose Your Voyage</h2>
+      <p class="cruises-subtitle">7 itineraries from 6 to 14 nights &mdash; all departing May &amp; June 2026</p>
+
+      <!-- 1. Danube Highlights: Nuremberg to Budapest -->
+      <div class="cruise-card" id="cruise-fp478">
+        <div class="card-image" style="background-image: url('https://cdn.viva-cruises.com/image/resize/1600x-/5e99025f-2002-4840-8a66-b09b6b8fb686/budapest-adobestock-269812810.jpeg');">
+          <span class="badge">Danube</span>
+          <span class="duration-badge">7 Days / 6 Nights</span>
+        </div>
+        <div class="card-body">
+          <h3>Danube Highlights</h3>
+          <div class="card-route">Nuremberg &rarr; Budapest</div>
+          <div class="card-from-price">
+            <span class="was-price" style="display:none"></span>
+            From <span class="now-price">&pound;1,199</span> <span class="from-pp">pp</span>
+            <span class="save-badge" style="display:none"></span>
+          </div>
+          <p class="card-desc">The shortest and most accessible Danube cruise. Medieval Regensburg, three-river Passau, Melk Abbey, imperial Vienna, charming Bratislava, and a full day in magnificent Budapest.</p>
+          <p class="card-ports"><strong>Ports:</strong> Nuremberg, Regensburg, Passau, Melk, Vienna, Bratislava, Budapest</p>
+          <div class="cabin-grid">
+            <div class="cabin-tile" data-was="1550" data-now="1199">
+              <div class="cabin-name">Emerald</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,199</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile sold-out">
+              <div class="cabin-name">Ruby</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">Sold Out</div>
+              <div class="cabin-pp">&nbsp;</div>
+            </div>
+            <div class="cabin-tile" data-was="1875" data-now="1381">
+              <div class="cabin-name">Diamond</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,381</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="2275" data-now="1601">
+              <div class="cabin-name">Suite</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,601</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+          </div>
+          <div class="flight-note">
+            <strong>Prices include return flights from London Stansted.</strong>
+          </div>
+          <div class="card-footer">
+            <div class="card-date">Departs: <strong>20 May 2026</strong> &bull; Ref: FP-478</div>
+          </div>
+          <div class="card-cta-row">
+            <a href="tel:02081830502" class="btn-call">Call to Book</a>
+            <button type="button" class="btn-enquire">Enquire Online</button>
+            <a href="https://holidays.flightsandpackages.com/Holidays/germany/viva-cruises-danube-highlights-nuremberg-to-budapest" class="btn-itinerary">View Full Itinerary &rarr;</a>
+          </div>
+          <div class="enquiry-form" style="display:none">
+            <h4>Enquire About This Cruise</h4>
+            <form>
+              <input type="hidden" name="form_type" value="Package Enquiry">
+              <input type="hidden" name="package_name" value="VIVA Cruises - Danube Highlights">
+              <input type="hidden" name="package_id" value="FP-478">
+              <input type="hidden" name="departure_date" value="20 May 2026">
+              <input type="hidden" name="source" value="VIVA Promo Page">
+              <input type="hidden" name="page_url" value="/promo/viva-cruises/">
+              <div class="form-grid">
+                <div class="form-field"><label for="fn-478">First Name</label><input type="text" id="fn-478" name="first_name" required autocomplete="given-name"></div>
+                <div class="form-field"><label for="ln-478">Last Name</label><input type="text" id="ln-478" name="last_name" required autocomplete="family-name"></div>
+                <div class="form-field"><label for="em-478">Email</label><input type="email" id="em-478" name="email" required autocomplete="email"></div>
+                <div class="form-field"><label for="ph-478">Phone</label><input type="tel" id="ph-478" name="phone" required autocomplete="tel"></div>
+              </div>
+              <button type="submit" class="btn-submit">Send Enquiry</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Danube City Highlights: Budapest to Nuremberg -->
+      <div class="cruise-card" id="cruise-fp477">
+        <div class="card-image" style="background-image: url('https://cdn.viva-cruises.com/image/resize/1600x-/45058d96-b148-48c1-b797-779e1242686a/nuernberg-adobestock-296592408.jpeg');">
+          <span class="badge">Danube</span>
+          <span class="duration-badge">8 Days / 7 Nights</span>
+        </div>
+        <div class="card-body">
+          <h3>Danube City Highlights</h3>
+          <div class="card-route">Budapest &rarr; Nuremberg</div>
+          <div class="card-from-price">
+            <span class="was-price" style="display:none"></span>
+            From <span class="now-price">&pound;1,349</span> <span class="from-pp">pp</span>
+            <span class="save-badge" style="display:none"></span>
+          </div>
+          <p class="card-desc">Cruise the Danube from Budapest's grand Parliament and thermal baths through imperial Vienna, the Wachau Valley's vineyards, three-river Passau, and medieval Regensburg to Nuremberg.</p>
+          <p class="card-ports"><strong>Ports:</strong> Budapest, Bratislava, Vienna, D&uuml;rnstein, Melk, Passau, Regensburg, Nuremberg</p>
+          <div class="cabin-grid">
+            <div class="cabin-tile" data-was="1795" data-now="1349">
+              <div class="cabin-name">Emerald</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,349</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="1995" data-now="1467">
+              <div class="cabin-name">Ruby</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,467</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="2195" data-now="1577">
+              <div class="cabin-name">Diamond</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,577</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="2795" data-now="1907">
+              <div class="cabin-name">Suite</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,907</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+          </div>
+          <div class="flight-note">
+            <strong>Prices include return flights from London Stansted.</strong>
+          </div>
+          <div class="card-footer">
+            <div class="card-date">Departs: <strong>26 May 2026</strong> &bull; Ref: FP-477</div>
+          </div>
+          <div class="card-cta-row">
+            <a href="tel:02081830502" class="btn-call">Call to Book</a>
+            <button type="button" class="btn-enquire">Enquire Online</button>
+            <a href="https://holidays.flightsandpackages.com/Holidays/hungary/viva-cruises-danube-city-highlights-budapest-to-nuremberg" class="btn-itinerary">View Full Itinerary &rarr;</a>
+          </div>
+          <div class="enquiry-form" style="display:none">
+            <h4>Enquire About This Cruise</h4>
+            <form>
+              <input type="hidden" name="form_type" value="Package Enquiry">
+              <input type="hidden" name="package_name" value="VIVA Cruises - Danube City Highlights">
+              <input type="hidden" name="package_id" value="FP-477">
+              <input type="hidden" name="departure_date" value="26 May 2026">
+              <input type="hidden" name="source" value="VIVA Promo Page">
+              <input type="hidden" name="page_url" value="/promo/viva-cruises/">
+              <div class="form-grid">
+                <div class="form-field"><label for="fn-477">First Name</label><input type="text" id="fn-477" name="first_name" required autocomplete="given-name"></div>
+                <div class="form-field"><label for="ln-477">Last Name</label><input type="text" id="ln-477" name="last_name" required autocomplete="family-name"></div>
+                <div class="form-field"><label for="em-477">Email</label><input type="email" id="em-477" name="email" required autocomplete="email"></div>
+                <div class="form-field"><label for="ph-477">Phone</label><input type="tel" id="ph-477" name="phone" required autocomplete="tel"></div>
+              </div>
+              <button type="submit" class="btn-submit">Send Enquiry</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Amsterdam's Charm to Bavarian Romance -->
+      <div class="cruise-card" id="cruise-fp480">
+        <div class="card-image" style="background-image: url('https://cdn.viva-cruises.com/image/resize/1600x-/2db9fd7f-f8c6-4390-8e0b-1a9b9ff6e587/amsterdam-adobestock-257372551.jpeg');">
+          <span class="badge">Rhine &amp; Main</span>
+          <span class="duration-badge">9 Days / 8 Nights</span>
+        </div>
+        <div class="card-body">
+          <h3>Amsterdam's Charm to Bavarian Romance</h3>
+          <div class="card-route">Amsterdam &rarr; Nuremberg</div>
+          <div class="card-from-price">
+            <span class="was-price" style="display:none"></span>
+            From <span class="now-price">&pound;1,449</span> <span class="from-pp">pp</span>
+            <span class="save-badge" style="display:none"></span>
+          </div>
+          <p class="card-desc">Cruise from Amsterdam to Nuremberg along the Rhine and Main rivers. Cologne's mighty cathedral, Koblenz, the Rhine capital Mainz, wine-rich W&uuml;rzburg, and medieval Nuremberg.</p>
+          <p class="card-ports"><strong>Ports:</strong> Amsterdam, Cologne, Koblenz, Mainz, Wertheim, W&uuml;rzburg, Hassfurt, Bamberg, Nuremberg</p>
+          <div class="cabin-grid">
+            <div class="cabin-tile" data-was="2050" data-now="1449">
+              <div class="cabin-name">Emerald</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,449</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="2275" data-now="1584">
+              <div class="cabin-name">Ruby</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,584</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="2495" data-now="1705">
+              <div class="cabin-name">Diamond</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,705</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="3295" data-now="2145">
+              <div class="cabin-name">Suite</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;2,145</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+          </div>
+          <div class="flight-note">
+            <strong>Prices include return flights from London Stansted.</strong>
+          </div>
+          <div class="card-footer">
+            <div class="card-date">Departs: <strong>12 May 2026</strong> &bull; Ref: FP-480</div>
+          </div>
+          <div class="card-cta-row">
+            <a href="tel:02081830502" class="btn-call">Call to Book</a>
+            <button type="button" class="btn-enquire">Enquire Online</button>
+            <a href="https://holidays.flightsandpackages.com/Holidays/netherlands/viva-cruises-from-amsterdams-charm-to-bavarian-romance" class="btn-itinerary">View Full Itinerary &rarr;</a>
+          </div>
+          <div class="enquiry-form" style="display:none">
+            <h4>Enquire About This Cruise</h4>
+            <form>
+              <input type="hidden" name="form_type" value="Package Enquiry">
+              <input type="hidden" name="package_name" value="VIVA Cruises - Amsterdam's Charm to Bavarian Romance">
+              <input type="hidden" name="package_id" value="FP-480">
+              <input type="hidden" name="departure_date" value="12 May 2026">
+              <input type="hidden" name="source" value="VIVA Promo Page">
+              <input type="hidden" name="page_url" value="/promo/viva-cruises/">
+              <div class="form-grid">
+                <div class="form-field"><label for="fn-480">First Name</label><input type="text" id="fn-480" name="first_name" required autocomplete="given-name"></div>
+                <div class="form-field"><label for="ln-480">Last Name</label><input type="text" id="ln-480" name="last_name" required autocomplete="family-name"></div>
+                <div class="form-field"><label for="em-480">Email</label><input type="email" id="em-480" name="email" required autocomplete="email"></div>
+                <div class="form-field"><label for="ph-480">Phone</label><input type="tel" id="ph-480" name="phone" required autocomplete="tel"></div>
+              </div>
+              <button type="submit" class="btn-submit">Send Enquiry</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Between Bavaria and Switzerland -->
+      <div class="cruise-card" id="cruise-fp475">
+        <div class="card-image" style="background-image: url('https://cdn.viva-cruises.com/image/resize/1600x-/2c6f0ceb-a322-4d8b-9750-33e9ac5a40ef/basel-adobestock-201087099-1.jpeg');">
+          <span class="badge">Rhine &amp; Main</span>
+          <span class="duration-badge">8 Days / 7 Nights</span>
+        </div>
+        <div class="card-body">
+          <h3>Between Bavaria and Switzerland</h3>
+          <div class="card-route">Nuremberg &rarr; Basel</div>
+          <div class="card-from-price">
+            <span class="was-price" style="display:none"></span>
+            From <span class="now-price">&pound;1,999</span> <span class="from-pp">pp</span>
+            <span class="save-badge" style="display:none"></span>
+          </div>
+          <p class="card-desc">From Nuremberg's imperial heritage to Basel's cultural sophistication. Wind through UNESCO Bamberg, W&uuml;rzburg's baroque vineyards, Strasbourg's Gothic grandeur, and the Rhine Valley.</p>
+          <p class="card-ports"><strong>Ports:</strong> Nuremberg, Bamberg, W&uuml;rzburg, Miltenberg, Mainz, Strasbourg, Breisach, Basel</p>
+          <div class="cabin-grid">
+            <div class="cabin-tile sold-out">
+              <div class="cabin-name">Emerald</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">Sold Out</div>
+              <div class="cabin-pp">&nbsp;</div>
+            </div>
+            <div class="cabin-tile sold-out">
+              <div class="cabin-name">Ruby</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">Sold Out</div>
+              <div class="cabin-pp">&nbsp;</div>
+            </div>
+            <div class="cabin-tile sold-out">
+              <div class="cabin-name">Diamond</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">Sold Out</div>
+              <div class="cabin-pp">&nbsp;</div>
+            </div>
+            <div class="cabin-tile" data-was="2795" data-now="1999">
+              <div class="cabin-name">Suite</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;1,999</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+          </div>
+          <div class="flight-note">
+            <strong>Prices include return flights from London Stansted.</strong>
+          </div>
+          <div class="card-footer">
+            <div class="card-date">Departs: <strong>2 June 2026</strong> &bull; Ref: FP-475</div>
+          </div>
+          <div class="card-cta-row">
+            <a href="tel:02081830502" class="btn-call">Call to Book</a>
+            <button type="button" class="btn-enquire">Enquire Online</button>
+            <a href="https://holidays.flightsandpackages.com/Holidays/germany/viva-cruises-between-bavaria-and-switzerland" class="btn-itinerary">View Full Itinerary &rarr;</a>
+          </div>
+          <div class="enquiry-form" style="display:none">
+            <h4>Enquire About This Cruise</h4>
+            <form>
+              <input type="hidden" name="form_type" value="Package Enquiry">
+              <input type="hidden" name="package_name" value="VIVA Cruises - Between Bavaria and Switzerland">
+              <input type="hidden" name="package_id" value="FP-475">
+              <input type="hidden" name="departure_date" value="2 June 2026">
+              <input type="hidden" name="source" value="VIVA Promo Page">
+              <input type="hidden" name="page_url" value="/promo/viva-cruises/">
+              <div class="form-grid">
+                <div class="form-field"><label for="fn-475">First Name</label><input type="text" id="fn-475" name="first_name" required autocomplete="given-name"></div>
+                <div class="form-field"><label for="ln-475">Last Name</label><input type="text" id="ln-475" name="last_name" required autocomplete="family-name"></div>
+                <div class="form-field"><label for="em-475">Email</label><input type="email" id="em-475" name="email" required autocomplete="email"></div>
+                <div class="form-field"><label for="ph-475">Phone</label><input type="tel" id="ph-475" name="phone" required autocomplete="tel"></div>
+              </div>
+              <button type="submit" class="btn-submit">Send Enquiry</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Summer Magic: Basel to Vienna -->
+      <div class="cruise-card" id="cruise-fp474">
+        <div class="card-image" style="background-image: url('https://cdn.viva-cruises.com/image/resize/1600x-/e7339f0a-3ab8-4de8-b3de-85dd016f2bd2/basel-adobestock-234795588.jpeg');">
+          <span class="badge">Best Seller</span>
+          <span class="duration-badge">13 Days / 12 Nights</span>
+        </div>
+        <div class="card-body">
+          <h3>Summer Magic: Basel to Vienna</h3>
+          <div class="card-route">Basel &rarr; Vienna</div>
+          <div class="card-from-price">
+            <span class="was-price" style="display:none"></span>
+            From <span class="now-price">&pound;2,199</span> <span class="from-pp">pp</span>
+            <span class="save-badge" style="display:none"></span>
+          </div>
+          <p class="card-desc">Sail three of Europe's great rivers from Basel's 2,000-year-old heritage through Franconian vineyards and baroque Bavaria to the imperial grandeur of Vienna.</p>
+          <p class="card-ports"><strong>Ports:</strong> Basel, Strasbourg, Mannheim, Frankfurt, Wertheim, W&uuml;rzburg, Bamberg, Nuremberg, Regensburg, Passau, Linz, Melk, Vienna</p>
+          <div class="cabin-grid">
+            <div class="cabin-tile" data-was="2975" data-now="2199">
+              <div class="cabin-name">Emerald</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;2,199</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="3350" data-now="2393">
+              <div class="cabin-name">Ruby</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;2,393</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="3750" data-now="2613">
+              <div class="cabin-name">Diamond</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;2,613</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="4950" data-now="3273">
+              <div class="cabin-name">Suite</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;3,273</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+          </div>
+          <div class="flight-note">
+            <strong>Prices include return flights from London Heathrow.</strong>
+          </div>
+          <div class="card-footer">
+            <div class="card-date">Departs: <strong>9 June 2026</strong> &bull; Ref: FP-474</div>
+          </div>
+          <div class="card-cta-row">
+            <a href="tel:02081830502" class="btn-call">Call to Book</a>
+            <button type="button" class="btn-enquire">Enquire Online</button>
+            <a href="https://holidays.flightsandpackages.com/Holidays/germany/viva-cruises-summer-magic-from-basel-to-vienna" class="btn-itinerary">View Full Itinerary &rarr;</a>
+          </div>
+          <div class="enquiry-form" style="display:none">
+            <h4>Enquire About This Cruise</h4>
+            <form>
+              <input type="hidden" name="form_type" value="Package Enquiry">
+              <input type="hidden" name="package_name" value="VIVA Cruises - Summer Magic: Basel to Vienna">
+              <input type="hidden" name="package_id" value="FP-474">
+              <input type="hidden" name="departure_date" value="9 June 2026">
+              <input type="hidden" name="source" value="VIVA Promo Page">
+              <input type="hidden" name="page_url" value="/promo/viva-cruises/">
+              <div class="form-grid">
+                <div class="form-field"><label for="fn-474">First Name</label><input type="text" id="fn-474" name="first_name" required autocomplete="given-name"></div>
+                <div class="form-field"><label for="ln-474">Last Name</label><input type="text" id="ln-474" name="last_name" required autocomplete="family-name"></div>
+                <div class="form-field"><label for="em-474">Email</label><input type="email" id="em-474" name="email" required autocomplete="email"></div>
+                <div class="form-field"><label for="ph-474">Phone</label><input type="tel" id="ph-474" name="phone" required autocomplete="tel"></div>
+              </div>
+              <button type="submit" class="btn-submit">Send Enquiry</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Royal Waterways: Amsterdam to Budapest -->
+      <div class="cruise-card" id="cruise-fp479">
+        <div class="card-image" style="background-image: url('https://cdn.viva-cruises.com/image/resize/1600x-/e5064b18-a50e-4fc1-99c1-6d6a0ffcc517/donau-adobestock-177398328.jpeg');">
+          <span class="badge">Grand Voyage</span>
+          <span class="duration-badge">15 Days / 14 Nights</span>
+        </div>
+        <div class="card-body">
+          <h3>Royal Waterways</h3>
+          <div class="card-route">Amsterdam &rarr; Budapest</div>
+          <div class="card-from-price">
+            <span class="was-price" style="display:none"></span>
+            From <span class="now-price">&pound;2,299</span> <span class="from-pp">pp</span>
+            <span class="save-badge" style="display:none"></span>
+          </div>
+          <p class="card-desc">The grandest river journey in Europe. Three legendary rivers, 15 ports, 7 countries. From Amsterdam's canals through Cologne, the Rhine Valley, Franconian wine country, Vienna, and into Budapest.</p>
+          <p class="card-ports"><strong>Ports:</strong> Amsterdam, Cologne, Koblenz, Mainz, Wertheim, W&uuml;rzburg, Bamberg, Nuremberg, Regensburg, Passau, Melk, Vienna, Bratislava, Budapest</p>
+          <div class="cabin-grid">
+            <div class="cabin-tile" data-was="3595" data-now="2299">
+              <div class="cabin-name">Emerald</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;2,299</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile sold-out">
+              <div class="cabin-name">Ruby</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">Sold Out</div>
+              <div class="cabin-pp">&nbsp;</div>
+            </div>
+            <div class="cabin-tile" data-was="4375" data-now="2746">
+              <div class="cabin-name">Diamond</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;2,746</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+            <div class="cabin-tile" data-was="5575" data-now="3406">
+              <div class="cabin-name">Suite</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;3,406</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+          </div>
+          <div class="flight-note">
+            <strong>Prices include return flights from London Stansted.</strong>
+            Gatwick +&pound;50pp &bull; Manchester +&pound;50pp &bull; Bristol +&pound;40pp
+          </div>
+          <div class="card-footer">
+            <div class="card-date">Departs: <strong>12 May 2026</strong> &bull; Ref: FP-479</div>
+          </div>
+          <div class="card-cta-row">
+            <a href="tel:02081830502" class="btn-call">Call to Book</a>
+            <button type="button" class="btn-enquire">Enquire Online</button>
+            <a href="https://holidays.flightsandpackages.com/Holidays/netherlands/viva-cruises-royal-waterways-amsterdam-to-budapest" class="btn-itinerary">View Full Itinerary &rarr;</a>
+          </div>
+          <div class="enquiry-form" style="display:none">
+            <h4>Enquire About This Cruise</h4>
+            <form>
+              <input type="hidden" name="form_type" value="Package Enquiry">
+              <input type="hidden" name="package_name" value="VIVA Cruises - Royal Waterways">
+              <input type="hidden" name="package_id" value="FP-479">
+              <input type="hidden" name="departure_date" value="12 May 2026">
+              <input type="hidden" name="source" value="VIVA Promo Page">
+              <input type="hidden" name="page_url" value="/promo/viva-cruises/">
+              <div class="form-grid">
+                <div class="form-field"><label for="fn-479">First Name</label><input type="text" id="fn-479" name="first_name" required autocomplete="given-name"></div>
+                <div class="form-field"><label for="ln-479">Last Name</label><input type="text" id="ln-479" name="last_name" required autocomplete="family-name"></div>
+                <div class="form-field"><label for="em-479">Email</label><input type="email" id="em-479" name="email" required autocomplete="email"></div>
+                <div class="form-field"><label for="ph-479">Phone</label><input type="tel" id="ph-479" name="phone" required autocomplete="tel"></div>
+              </div>
+              <button type="submit" class="btn-submit">Send Enquiry</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Europa's River Passage -->
+      <div class="cruise-card" id="cruise-fp476">
+        <div class="card-image" style="background-image: url('https://cdn.viva-cruises.com/image/resize/1600x-/61f1ced7-fe4e-489d-8f73-739fa1f8b223/donau-112021-g20f25eb71-1920.jpeg');">
+          <span class="badge">Grand Voyage</span>
+          <span class="duration-badge">15 Days / 14 Nights</span>
+        </div>
+        <div class="card-body">
+          <h3>Europa's River Passage</h3>
+          <div class="card-route">Budapest &rarr; Basel</div>
+          <div class="card-from-price">
+            <span class="was-price" style="display:none"></span>
+            From <span class="now-price">&pound;3,499</span> <span class="from-pp">pp</span>
+            <span class="save-badge" style="display:none"></span>
+          </div>
+          <p class="card-desc">The complete river experience in reverse. Start at the Pearl of the Danube and travel the full length of three rivers to Basel. Imperial Vienna, medieval Nuremberg, Strasbourg, and the Wachau Valley all feature.</p>
+          <p class="card-ports"><strong>Ports:</strong> Budapest, Bratislava, Vienna, D&uuml;rnstein, Melk, Passau, Regensburg, Nuremberg, Bamberg, W&uuml;rzburg, Miltenberg, Mainz, Strasbourg, Breisach, Basel</p>
+          <div class="cabin-grid">
+            <div class="cabin-tile sold-out">
+              <div class="cabin-name">Emerald</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">Sold Out</div>
+              <div class="cabin-pp">&nbsp;</div>
+            </div>
+            <div class="cabin-tile sold-out">
+              <div class="cabin-name">Ruby</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">Sold Out</div>
+              <div class="cabin-pp">&nbsp;</div>
+            </div>
+            <div class="cabin-tile sold-out">
+              <div class="cabin-name">Diamond</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">Sold Out</div>
+              <div class="cabin-pp">&nbsp;</div>
+            </div>
+            <div class="cabin-tile" data-was="5575" data-now="3499">
+              <div class="cabin-name">Suite</div>
+              <div class="cabin-was" style="display:none"></div>
+              <div class="cabin-price">&pound;3,499</div>
+              <div class="cabin-pp">per person</div>
+            </div>
+          </div>
+          <div class="flight-note">
+            <strong>Prices include return flights from London Gatwick.</strong>
+            Heathrow +&pound;85pp
+          </div>
+          <div class="card-footer">
+            <div class="card-date">Departs: <strong>26 May 2026</strong> &bull; Ref: FP-476</div>
+          </div>
+          <div class="card-cta-row">
+            <a href="tel:02081830502" class="btn-call">Call to Book</a>
+            <button type="button" class="btn-enquire">Enquire Online</button>
+            <a href="https://holidays.flightsandpackages.com/Holidays/hungary/viva-cruises-europas-river-passage" class="btn-itinerary">View Full Itinerary &rarr;</a>
+          </div>
+          <div class="enquiry-form" style="display:none">
+            <h4>Enquire About This Cruise</h4>
+            <form>
+              <input type="hidden" name="form_type" value="Package Enquiry">
+              <input type="hidden" name="package_name" value="VIVA Cruises - Europa's River Passage">
+              <input type="hidden" name="package_id" value="FP-476">
+              <input type="hidden" name="departure_date" value="26 May 2026">
+              <input type="hidden" name="source" value="VIVA Promo Page">
+              <input type="hidden" name="page_url" value="/promo/viva-cruises/">
+              <div class="form-grid">
+                <div class="form-field"><label for="fn-476">First Name</label><input type="text" id="fn-476" name="first_name" required autocomplete="given-name"></div>
+                <div class="form-field"><label for="ln-476">Last Name</label><input type="text" id="ln-476" name="last_name" required autocomplete="family-name"></div>
+                <div class="form-field"><label for="em-476">Email</label><input type="email" id="em-476" name="email" required autocomplete="email"></div>
+                <div class="form-field"><label for="ph-476">Phone</label><input type="tel" id="ph-476" name="phone" required autocomplete="tel"></div>
+              </div>
+              <button type="submit" class="btn-submit">Send Enquiry</button>
+              <div class="form-status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- All-Inclusive banner -->
+  <div class="ai-banner">
+    <div class="container">
+      <h2>VIVA All-Inclusive</h2>
+      <div class="ai-grid">
+        <div class="ai-item">
+          <span class="ai-icon" aria-hidden="true">&#127860;</span>
+          <p>Gourmet multi-course dining in 3 restaurants</p>
+        </div>
+        <div class="ai-item">
+          <span class="ai-icon" aria-hidden="true">&#127863;</span>
+          <p>Premium alcoholic &amp; non-alcoholic drinks</p>
+        </div>
+        <div class="ai-item">
+          <span class="ai-icon" aria-hidden="true">&#128246;</span>
+          <p>Free Wi-Fi, minibar &amp; crew gratuities</p>
+        </div>
+        <div class="ai-item">
+          <span class="ai-icon" aria-hidden="true">&#128139;</span>
+          <p>RITUALS products, Nespresso &amp; welcome champagne</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Book?</h2>
+      <p>Call our cruise specialists or enquire online. Prices shown are cruise-only &mdash; we'll find you the best flights from your nearest UK airport.</p>
+      <a href="tel:02081830502" class="btn-cta-large">Call 0208 183 0502</a>
+      <a href="tel:02081830502" class="btn-cta-outline">Call 0208 183 0502</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="trust-badges">
+        <span>ATOL PROTECTED</span>
+        <span>CLIA MEMBER</span>
+      </div>
+      <p>
+        Flights and Packages is a trading name of Flights and Packages Ltd.<br>
+        Prices are per person based on 2 adults sharing. Subject to availability. Prices shown are cruise-only cabin fares &mdash; flight supplements vary by departure airport.<br>
+        Terms &amp; Conditions &bull; Privacy Policy
+      </p>
+    </div>
+  </footer>
+</div><!-- .page-wrap -->
+
+  <!-- Umami Analytics -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="db8ba08d-4b65-4702-9634-6822820070bb"></script>
+
+  <!-- FB Pixel noscript fallback -->
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2922972984621050&ev=PageView&noscript=1" /></noscript>
+
+  <!-- Deferred Analytics — FB Pixel, Clarity -->
+  <script>
+    (function () {
+      function loadAnalytics() {
+        // Facebook Pixel
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2922972984621050');
+        fbq('track', 'PageView');
+
+        // Microsoft Clarity
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "vvtl8xkgpk");
+      }
+
+      if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(loadAnalytics);
+      } else {
+        setTimeout(loadAnalytics, 2000);
+      }
+    })();
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var fmt = function(n) { return n.toLocaleString('en-GB'); };
+
+      // Traffic source capture (standalone page — no BaseLayout)
+      (function () {
+        if (sessionStorage.getItem('lead_source')) return;
+        var params = new URLSearchParams(window.location.search);
+        var src = params.get('utm_source');
+        if (!src && document.referrer) {
+          try {
+            var host = new URL(document.referrer).hostname.replace('www.', '');
+            if (host.indexOf('google') >= 0) src = 'Google';
+            else if (host.indexOf('bing') >= 0) src = 'Bing';
+            else if (host.indexOf('facebook') >= 0 || host.indexOf('fb.') >= 0) src = 'Facebook';
+            else if (host.indexOf('instagram') >= 0) src = 'Instagram';
+            else if (host.indexOf('twitter') >= 0 || host.indexOf('x.com') >= 0) src = 'Twitter/X';
+            else if (host.indexOf('tiktok') >= 0) src = 'TikTok';
+            else if (host.indexOf('youtube') >= 0) src = 'YouTube';
+            else if (host.indexOf(window.location.hostname) >= 0) src = null;
+            else src = host;
+          } catch (e) { src = null; }
+        }
+        sessionStorage.setItem('lead_source', src || 'Direct');
+        if (!sessionStorage.getItem('landing_page')) {
+          sessionStorage.setItem('landing_page', window.location.pathname);
+        }
+        if (params.get('utm_medium')) sessionStorage.setItem('utm_medium', params.get('utm_medium'));
+        if (params.get('utm_campaign')) sessionStorage.setItem('utm_campaign', params.get('utm_campaign'));
+        if (params.get('utm_content')) sessionStorage.setItem('utm_content', params.get('utm_content'));
+        if (params.get('utm_term')) sessionStorage.setItem('utm_term', params.get('utm_term'));
+        if (document.referrer && !sessionStorage.getItem('referrer')) {
+          sessionStorage.setItem('referrer', document.referrer);
+        }
+      })();
+
+      // Move referred cruise card to top
+      var ref = new URLSearchParams(window.location.search).get('ref');
+      if (ref) {
+        var card = document.getElementById('cruise-' + ref);
+        if (card) {
+          var container = card.parentNode;
+          var firstCard = container.querySelector('.cruise-card');
+          if (firstCard && firstCard !== card) {
+            container.insertBefore(card, firstCard);
+          }
+          setTimeout(function() {
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 300);
+        }
+      }
+
+      // 1. Compute sale pricing from data attributes
+      document.querySelectorAll('.cruise-card').forEach(function(card) {
+        var tiles = card.querySelectorAll('.cabin-tile');
+        var minNow = Infinity, maxSaving = 0;
+
+        tiles.forEach(function(tile) {
+          var was = parseInt(tile.dataset.was, 10);
+          var now = parseInt(tile.dataset.now, 10);
+          var saving = was - now;
+
+          if (saving > 0) {
+            var wasEl = tile.querySelector('.cabin-was');
+            wasEl.textContent = 'Was \u00A3' + fmt(was);
+            wasEl.style.display = '';
+            tile.querySelector('.cabin-price').textContent = '\u00A3' + fmt(now);
+            if (saving > maxSaving) maxSaving = saving;
+          }
+
+          if (now < minNow) minNow = now;
+        });
+
+        if (minNow < Infinity) {
+          card.querySelector('.now-price').textContent = '\u00A3' + fmt(minNow);
+          if (maxSaving > 0) {
+            var sb = card.querySelector('.save-badge');
+            sb.textContent = 'Save up to \u00A3' + fmt(maxSaving) + ' pp';
+            sb.style.display = '';
+          }
+        }
+      });
+
+      // 2. Inject cabin thumbnails + detail panels
+      var cabinData = {
+        'Emerald': {
+          img: '/promo/viva-cruises/emerald-cabin.webp',
+          meta: '15m\u00B2 \u00B7 Panoramic window',
+          features: [
+            'Panoramic window (fixed)',
+            'Two single beds (set apart on request)',
+            'Table and two armchairs',
+            'RITUALS\u00AE beauty products',
+            'Nespresso\u00AE machine',
+            'Minibar refilled daily',
+            '32\u201D LED TV & free Wi-Fi',
+            'Bathroom with shower'
+          ]
+        },
+        'Ruby': {
+          img: '/promo/viva-cruises/ruby-cabin.webp',
+          meta: '15m\u00B2 \u00B7 French balcony',
+          features: [
+            'French balcony',
+            'Two single beds (set apart on request)',
+            'Table and two armchairs',
+            'RITUALS\u00AE beauty products',
+            'Nespresso\u00AE machine',
+            'Minibar refilled daily',
+            '32\u201D LED TV & free Wi-Fi',
+            'Bathroom with shower'
+          ]
+        },
+        'Diamond': {
+          img: '/promo/viva-cruises/diamond-cabin.webp',
+          meta: '15m\u00B2 \u00B7 French balcony \u00B7 Top deck',
+          features: [
+            'French balcony \u2014 top passenger deck',
+            'Two single beds (set apart on request)',
+            'Table and two armchairs',
+            'RITUALS\u00AE beauty products',
+            'Nespresso\u00AE machine',
+            'Minibar refilled daily',
+            '32\u201D LED TV & free Wi-Fi',
+            'Bathroom with shower'
+          ]
+        },
+        'Suite': {
+          img: '/promo/viva-cruises/suite-cabin.webp',
+          meta: '24m\u00B2 \u00B7 French balcony \u00B7 Top deck',
+          features: [
+            'French balcony \u2014 top passenger deck',
+            'Priority embarkation (1 hour early)',
+            'Welcome aperitif with wine & canap\u00E9s',
+            '\u20AC50 laundry credit per cabin',
+            'Lounge area with seating',
+            'SPA bathrobe & slippers',
+            'RITUALS\u00AE & Nespresso\u00AE',
+            'Minibar refilled daily & free Wi-Fi'
+          ]
+        }
+      };
+
+      document.querySelectorAll('.cabin-grid').forEach(function(grid) {
+        // Create detail panel after each grid
+        var panel = document.createElement('div');
+        panel.className = 'cabin-detail-panel';
+        panel.innerHTML = '<img src="" alt=""><div class="cabin-detail-content"><h4></h4><div class="detail-meta"></div><ul></ul></div>';
+        grid.after(panel);
+
+        grid.querySelectorAll('.cabin-tile').forEach(function(tile) {
+          var name = tile.querySelector('.cabin-name').textContent.trim();
+          var data = cabinData[name];
+          if (!data) return;
+
+          // Wrap existing content in .cabin-info
+          var info = document.createElement('div');
+          info.className = 'cabin-info';
+          while (tile.firstChild) info.appendChild(tile.firstChild);
+          tile.appendChild(info);
+
+          // Add thumbnail
+          var img = document.createElement('img');
+          img.src = data.img;
+          img.alt = name + ' cabin';
+          img.className = 'cabin-thumb';
+          img.loading = 'lazy';
+          tile.insertBefore(img, info);
+
+          // Add meta line
+          var meta = document.createElement('div');
+          meta.className = 'cabin-meta';
+          meta.textContent = data.meta;
+          info.querySelector('.cabin-name').after(meta);
+
+          // Click handler
+          tile.addEventListener('click', function() {
+            if (tile.classList.contains('sold-out')) return;
+            var wasActive = tile.classList.contains('active');
+
+            // Clear all active in this grid
+            grid.querySelectorAll('.cabin-tile').forEach(function(t) { t.classList.remove('active'); });
+
+            if (wasActive) {
+              panel.classList.remove('open');
+            } else {
+              tile.classList.add('active');
+              panel.querySelector('img').src = data.img;
+              panel.querySelector('img').alt = name + ' cabin';
+              panel.querySelector('h4').textContent = name + ' Cabin';
+              panel.querySelector('.detail-meta').textContent = data.meta;
+              var ul = panel.querySelector('ul');
+              ul.innerHTML = '';
+              data.features.forEach(function(f) {
+                var li = document.createElement('li');
+                li.textContent = f;
+                ul.appendChild(li);
+              });
+              panel.classList.add('open');
+            }
+          });
+        });
+      });
+
+      // Enquiry form toggle
+      document.querySelectorAll('.btn-enquire').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var formWrap = btn.closest('.card-body').querySelector('.enquiry-form');
+          var isHidden = formWrap.style.display === 'none';
+          formWrap.style.display = isHidden ? '' : 'none';
+          if (isHidden) {
+            var first = formWrap.querySelector('input[type="text"]');
+            if (first) setTimeout(function() { first.focus(); }, 50);
+          }
+        });
+      });
+
+      // Form submissions
+      document.querySelectorAll('.enquiry-form form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var submitBtn = form.querySelector('.btn-submit');
+          var statusEl = form.querySelector('.form-status');
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending\u2026';
+          statusEl.textContent = '';
+          statusEl.className = 'form-status';
+
+          var data = {};
+          new FormData(form).forEach(function(v, k) { data[k] = v; });
+          data.source = sessionStorage.getItem('lead_source') || 'Direct';
+          data.landing_page = sessionStorage.getItem('landing_page') || '';
+          data.utm_medium = sessionStorage.getItem('utm_medium') || '';
+          data.utm_campaign = sessionStorage.getItem('utm_campaign') || '';
+          data.utm_content = sessionStorage.getItem('utm_content') || '';
+          data.referrer = sessionStorage.getItem('referrer') || '';
+
+          fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          })
+          .then(function(res) {
+            if (!res.ok) throw new Error('Failed');
+            if (typeof window.umami !== 'undefined') {
+              window.umami.track('enquiry-submit', {
+                package: data.package_name || '',
+                source: data.source || 'Direct',
+                utm_campaign: data.utm_campaign || '',
+                page: '/promo/viva-cruises/'
+              });
+            }
+            statusEl.textContent = 'Thank you! We\u2019ll be in touch shortly.';
+            statusEl.className = 'form-status success';
+            form.reset();
+          })
+          .catch(function() {
+            statusEl.textContent = 'Something went wrong. Please try calling us instead.';
+            statusEl.className = 'form-status error';
+          })
+          .finally(function() {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Enquiry';
+          });
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

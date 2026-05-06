@@ -1,12 +1,9 @@
 /// <reference path="../.astro/types.d.ts" />
 
-type Hyperdrive = {
-  connectionString: string;
-};
-
 type Runtime = import('@astrojs/cloudflare').Runtime<{
-  HYPERDRIVE: Hyperdrive;
+  DB: D1Database;
   PRIVYR_WEBHOOK_URL: string;
+  IMAGES: R2Bucket;
 }>;
 
 declare namespace App {

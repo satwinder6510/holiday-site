@@ -11,7 +11,7 @@ export const GET: APIRoute = async ({ locals }) => {
   const runtime = (locals as any).runtime;
 
   try {
-    const db = createDb(runtime.env.HYPERDRIVE.connectionString);
+    const db = createDb(runtime.env.DB);
     const holidays = await getAllListedHolidaysFromDb(db);
 
     // Collect unique country slugs with latest update date

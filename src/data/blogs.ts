@@ -90,7 +90,7 @@ function formatDate(raw: string): string {
   return `${day} ${month} ${year}`;
 }
 
-const FALLBACK_IMAGE = '/images/heroes/blog.jpg';
+const FALLBACK_IMAGE = '/images/heroes/blog.webp';
 
 // ── Transform ────────────────────────────────────────────────────────
 

@@ -18,7 +18,7 @@ const extraCollections = [
 const allCollections = [...collections, ...extraCollections];
 ---
 
-<BaseLayout title="Our Collections | Holidays - Flights and Packages" description="Browse our holiday collections including City Breaks, Beach Holidays, All Inclusive, River Cruises, Multi Centre, European Tours and more. All packages include flights from the UK.">
+<BaseLayout title="Our Collections | Holidays - Flights and Packages" description="Browse our holiday collections including City Breaks, Beach Holidays, All Inclusive, River Cruises, Multi Centre, European Tours and more. All packages include flights from the UK." preloadImage="/images/heroes/collections.webp">
   <BreadcrumbSchema slot="head" items={[
     { name: 'Home', url: '/' },
     { name: 'Collections' },
@@ -29,7 +29,7 @@ const allCollections = [...collections, ...extraCollections];
     title="Collections"
     subtitle="discover"
     breadcrumbLabel="Collections"
-    backgroundImage="/images/heroes/collections.jpg"
+    backgroundImage="/images/heroes/collections.webp"
   />
 
   <section class="collections-section">
@@ -41,7 +41,7 @@ const allCollections = [...collections, ...extraCollections];
       <div id="collections-viewport" class="collections-viewport">
         <div id="collections-container" class="collections-container">
           {allCollections.map((c) => (
-            <a href={c.href} class="coll-item" style={`background-image: url('${c.image}')`}>
+            <a href={c.href} class="coll-item" data-bg={c.image}>
               <div class="coll-content">
                 <div class="coll-name">{c.name}</div>
               </div>
@@ -141,6 +141,7 @@ const allCollections = [...collections, ...extraCollections];
     position: relative;
     display: block;
     flex-shrink: 0;
+    background-color: #1a1a1a;
   }
   @media (max-width: 940px) {
     .coll-item {

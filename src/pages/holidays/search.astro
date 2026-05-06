@@ -47,7 +47,7 @@ const pageTitle = destination
   <PageHero
     title={destination ? `${destination} Holidays` : 'Search Results'}
     breadcrumbLabel={destination ? `${destination} Holidays` : 'Search Results'}
-    backgroundImage="/images/heroes/search.jpg"
+    backgroundImage="/images/heroes/search.webp"
     subtitle="discover"
   />
 
@@ -160,7 +160,7 @@ const pageTitle = destination
       <div class="holidays">
         {listedHolidays.map((holiday) => (
           <div class="holiday">
-            <span class="holiday-img" style={`background-image: url('${holiday.image}')`}></span>
+            <span class="holiday-img" data-bg={holiday.image}></span>
             <a class="gallery-link" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
               <span class="icon-camera"></span>
               Gallery
@@ -665,6 +665,7 @@ const pageTitle = destination
     background-size: cover;
     background-repeat: no-repeat;
     height: 340px;
+    background-color: #1a1a1a;
   }
   @media (max-width: 1100px) {
     .holiday .holiday-img { width: 567px; }

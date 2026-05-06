@@ -1,7 +1,7 @@
 export const destinations = [
   'Argentina', 'Asia Triple Centre', 'Asia Twin Centre', 'Austria', 'Brazil',
   'Bulgaria', 'Cambodia', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark',
-  'Egypt', 'Estonia', 'Europe Triple Centre', 'Europe Twin Centre', 'Finland',
+  'Ecuador', 'Egypt', 'Estonia', 'Europe Triple Centre', 'Europe Twin Centre', 'Finland',
   'France', 'Germany', 'Greece', 'Hungary', 'Iceland', 'India', 'Indonesia',
   'Italy', 'Kenya', 'Latvia', 'Malaysia', 'Maldives', 'Malta', 'Mauritius',
   'Montenegro', 'Morocco', 'Nepal', 'Peru', 'Poland', 'Portugal', 'Singapore',

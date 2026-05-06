@@ -74,9 +74,9 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
         </a>
       </div>
       <div class="footer-legal">
-        <img src="/images/atol.png" alt="ATOL Protected" class="h-12" width="48" height="48" />
-        <img src="/images/clia-logo.png" alt="CLIA Member" class="h-12" width="48" height="48" />
-        <img src="/images/travel-trust.png" alt="Travel Trust" class="h-12" width="48" height="48" />
+        <img src="/images/atol.png" alt="ATOL Protected" class="h-12" width="48" height="48" loading="lazy" />
+        <img src="/images/clia-logo.png" alt="CLIA Member" class="h-12" width="48" height="48" loading="lazy" />
+        <img src="/images/travel-trust.png" alt="Travel Trust" class="h-12" width="48" height="48" loading="lazy" />
       </div>
     </div>
 
@@ -183,10 +183,7 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
     }
   }
   @media (max-width: 394px) {
-    .footer-col { width: 335px; }
-  }
-  @media (max-width: 350px) {
-    .footer-col { width: 290px; }
+    .footer-col { width: 100%; max-width: 335px; }
   }
 
   .footer-email-text {
@@ -278,10 +275,7 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
     }
   }
   @media (max-width: 394px) {
-    .footer-contact-wrap { width: 335px; }
-  }
-  @media (max-width: 350px) {
-    .footer-contact-wrap { width: 290px; }
+    .footer-contact-wrap { width: 100%; max-width: 335px; }
   }
   .footer-phone, .footer-email-link {
     padding-top: 4px;

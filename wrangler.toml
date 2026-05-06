@@ -6,10 +6,10 @@ compatibility_flags = ["nodejs_compat"]
 [observability]
 enabled = true
 
-[[hyperdrive]]
-binding = "HYPERDRIVE"
-id = "c69bec26333a4d76865bf2fe22445eca"
-localConnectionString = "postgresql://neondb_owner:npg_LwzOS9u8bpka@ep-muddy-hat-a6r1gwd8.us-west-2.aws.neon.tech/neondb?sslmode=require"
+[[d1_databases]]
+binding = "DB"
+database_name = "holiday-flights-db"
+database_id = "fd1870e7-9ad7-45a3-97fc-71f904189066"
 
 [[r2_buckets]]
 binding = "IMAGES"
