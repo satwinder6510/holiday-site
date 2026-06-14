@@ -355,7 +355,7 @@ export function getFilterData(holidays: HolidayDetail[]) {
     ...new Set(holidays.map(h => h.boardBasis).filter(Boolean)),
   ].sort();
 
-  const prices = holidays.map(h => h.displayPrice ?? Math.round(roundToNine(h.price) + h.localChargesPp));
+  const prices = holidays.map(h => h.displayPrice ?? roundToNine(h.price + h.localChargesPp));
   const priceRange = {
     min: prices.length > 0 ? Math.min(...prices) : 0,
     max: prices.length > 0 ? Math.max(...prices) : 0,

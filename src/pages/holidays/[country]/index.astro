@@ -42,12 +42,12 @@ try {
     const all = await getAllListedHolidaysFromDb(db);
     holidays = all
       .filter(h => h.tags.includes(collection!.tag))
-      .sort((a, b) => (a.displayPrice ?? Math.round(roundToNine(a.price) + a.localChargesPp)) - (b.displayPrice ?? Math.round(roundToNine(b.price) + b.localChargesPp)));
+      .sort((a, b) => (a.displayPrice ?? roundToNine(a.price + a.localChargesPp)) - (b.displayPrice ?? roundToNine(b.price + b.localChargesPp)));
     const filterData = getFilterData(holidays);
     boardBasisOptions = filterData.boardBasisOptions;
     priceRange = filterData.priceRange;
     cityOptions = filterData.cityOptions;
-    const cheapest = holidays.length > 0 ? (holidays[0].displayPrice ?? Math.round(roundToNine(holidays[0].price) + holidays[0].localChargesPp)) : null;
+    const cheapest = holidays.length > 0 ? (holidays[0].displayPrice ?? roundToNine(holidays[0].price + holidays[0].localChargesPp)) : null;
     pageDescription = cheapest
       ? `Explore ${holidays.length} ${collection!.name} holidays${cheapest ? ` from £${cheapest}pp` : ''}. Flights, hotel and transfers included. ATOL protected.`
       : `Browse our ${collection!.name} holiday deals. Flights and accommodation included.`;
@@ -59,7 +59,7 @@ try {
     countryName = result.countryName;
     holidays = result.holidays;
     pageTitle = `${countryName} Holidays | Flights and Packages`;
-    const cheapest = holidays.length > 0 ? Math.min(...holidays.map(h => h.displayPrice ?? Math.round(roundToNine(h.price) + h.localChargesPp))) : null;
+    const cheapest = holidays.length > 0 ? Math.min(...holidays.map(h => h.displayPrice ?? roundToNine(h.price + h.localChargesPp))) : null;
     pageDescription = cheapest
       ? `Discover ${holidays.length} ${countryName} holidays from £${cheapest}pp. Flights, hotel and transfers included. ATOL protected. Book online or call 020 8183 0518.`
       : `Browse our latest ${countryName} holiday deals. Find flights and packages to ${countryName}.`;
@@ -377,7 +377,7 @@ const itemListSchema = holidays.length > 0 ? {
           <div class="holiday"
             data-country={holiday.country}
             data-board={holiday.boardBasis}
-            data-price={holiday.displayPrice ?? Math.round(roundToNine(holiday.price) + holiday.localChargesPp)}
+            data-price={holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp)}
             data-cities={holiday.cities.join(',')}
           >
             <img class="holiday-img" src={holiday.image} alt={holiday.title} loading="lazy" decoding="async" width="291" height="340" />
@@ -396,9 +396,9 @@ const itemListSchema = holidays.length > 0 ? {
               </div>
               <p>{holiday.description}</p>
               <div class="horizontal">
-                <div class="price" aria-label={`from £${holiday.displayPrice ?? Math.round(roundToNine(holiday.price) + holiday.localChargesPp)} per person`}>
+                <div class="price" aria-label={`from £${holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp)} per person`}>
                   <span aria-hidden="true">from</span>
-                  <div aria-hidden="true">&pound;{holiday.displayPrice ?? Math.round(roundToNine(holiday.price) + holiday.localChargesPp)}<span>/pp</span></div>
+                  <div aria-hidden="true">&pound;{holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
                 </div>
                 <a class="btn-primary view-more-btn" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
                   View More

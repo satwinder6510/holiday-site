@@ -8,9 +8,27 @@ import Newsletter from '../../components/Newsletter.astro';
 import MobileCallCTA from '../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../components/BreadcrumbSchema.astro';
 import { allBlogs } from '../../data/blogs';
+import { publishedExperiences } from '../../data/experiences';
+
+// Experiential posts surface at the top of the blog listing, linking to their own route.
+const experienceCards = publishedExperiences.map((e) => ({
+  url: `/blog/experiences/${e.slug}`,
+  image: e.seo.image,
+  title: e.hero.title,
+  date: e.date,
+  excerpt: e.seo.excerpt,
+}));
+const blogCards = allBlogs.map((b) => ({
+  url: `/blog/${b.slug}`,
+  image: b.image,
+  title: b.title,
+  date: b.date,
+  excerpt: b.excerpt,
+}));
+const allCards = [...experienceCards, ...blogCards];
 
 const BLOGS_PER_PAGE = 9;
-const totalPages = Math.ceil(allBlogs.length / BLOGS_PER_PAGE);
+const totalPages = Math.ceil(allCards.length / BLOGS_PER_PAGE);
 
 // Build archive data — group blogs by month/year
 const archiveMap = new Map<string, number>();
@@ -26,7 +44,7 @@ for (const blog of allBlogs) {
 const archiveEntries = Array.from(archiveMap.entries());
 ---
 
-<BaseLayout title="Our Blog | Holidays - Flights and Packages" description="Read the latest travel blogs, destination guides and holiday inspiration from Flights and Packages. Expert tips on city breaks, beach holidays, river cruises and tours across Europe, Asia and beyond." preloadImage="/images/heroes/blog.webp">
+<BaseLayout title="Our Blog | Holidays - Flights and Packages" description="Read the latest travel blogs, destination guides and holiday inspiration from Flights and Packages. Expert tips on city breaks, beach holidays, river cruises and tours across Europe, Asia and beyond." preloadImage="/images/heroes/blog.jpg">
   <BreadcrumbSchema slot="head" items={[
     { name: 'Home', url: '/' },
     { name: 'Blog' },
@@ -37,28 +55,28 @@ const archiveEntries = Array.from(archiveMap.entries());
     title="Our Blog"
     subtitle="read all about it"
     breadcrumbLabel="Blogs"
-    backgroundImage="/images/heroes/blog.webp"
+    backgroundImage="/images/heroes/blog.jpg"
   />
 
   <section class="blog-list-section">
     <section class="section-container">
       <div class="content">
         <div class="blogs">
-          {allBlogs.map((blog, i) => {
+          {allCards.map((card, i) => {
             const page = Math.floor(i / BLOGS_PER_PAGE);
-            const excerpt = blog.excerpt.length > 130 ? blog.excerpt.substring(0, 130) + '...' : blog.excerpt;
+            const excerpt = card.excerpt && card.excerpt.length > 130 ? card.excerpt.substring(0, 130) + '...' : card.excerpt;
             return (
               <div class={`blog page-${page}`} style={page === 0 ? '' : 'display:none'}>
-                <a href={`/blog/${blog.slug}`}>
-                  <img src={blog.image} alt={blog.title} class="blog-img" loading="lazy" />
+                <a href={card.url}>
+                  <img src={card.image} alt={card.title} class="blog-img" loading="lazy" />
                 </a>
-                <div class="blog-title">{blog.title}</div>
+                <div class="blog-title">{card.title}</div>
                 <div class="blog-date">
                   <img src="/icons/calendar-icon-black.svg" alt="" class="icon-calendar" />
-                  {blog.date}
+                  {card.date}
                 </div>
                 <p>{excerpt}</p>
-                <a href={`/blog/${blog.slug}`} class="read-more">
+                <a href={card.url} class="read-more">
                   Read More
                   <img src="/icons/more-icon.svg" alt="" class="icon-more" />
                 </a>
@@ -141,6 +159,10 @@ const archiveEntries = Array.from(archiveMap.entries());
 
 <style>
   /* Blog list section layout */
+  .blog-list-section {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
   .blog-list-section section {
     max-width: 100%;
     display: flex;
@@ -251,7 +273,7 @@ const archiveEntries = Array.from(archiveMap.entries());
   /* Blog card title */
   .blog-title {
     margin-top: 15px;
-    font-family: "CaslonGraphiqueEF";
+    font-family: "BentonSansMedium", sans-serif;
     font-size: 22px;
     line-height: 24px;
     text-align: left;
@@ -260,7 +282,7 @@ const archiveEntries = Array.from(archiveMap.entries());
   /* Blog card date */
   .blog-date {
     margin-top: 15px;
-    font-family: "CaslonGraphiqueEF";
+    font-family: "BentonSansMedium", sans-serif;
     font-size: 14px;
     line-height: 14px;
     text-align: left;
@@ -353,12 +375,14 @@ const archiveEntries = Array.from(archiveMap.entries());
   /* Archive */
   .archive {
     width: 291px;
+    min-height: 311px;
     background-color: #F4F4F4;
     padding: 20px;
     position: relative;
     font-family: "BentonSansMedium", sans-serif;
     font-size: 24px;
     color: #282828;
+    margin-top: 40px;
   }
   @media (max-width: 940px) {
     .archive {
@@ -373,7 +397,8 @@ const archiveEntries = Array.from(archiveMap.entries());
     }
   }
   .archive ul {
-    padding-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     list-style: none;
     padding-left: 0;
   }

@@ -1,0 +1,23 @@
+---
+// Experiential blog route → /blog/experiences/<slug>
+//
+// getStaticPaths uses `buildExperiences`: in DEV that includes drafts (so you
+// can preview them locally), but a production build only generates routes for
+// PUBLISHED posts — so drafts never reach the live site, the sitemap, or any
+// feed. Lives under /blog/experiences/ so it never collides with the 151
+// standard posts at /blog/<slug>, and does not fork blog/[slug].astro.
+import ExperientialPost from '../../../layouts/ExperientialPost.astro';
+import { buildExperiences } from '../../../data/experiences';
+import type { Experience } from '../../../data/experiences';
+
+export function getStaticPaths() {
+  return buildExperiences.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props as { post: Experience };
+---
+
+<ExperientialPost post={post} />

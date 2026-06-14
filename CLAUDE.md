@@ -67,14 +67,13 @@ public/
 
 All customer-facing prices use this formula:
 ```
-displayPrice ?? Math.round(roundToNine(basePrice) + localChargesPp)
+displayPrice ?? roundToNine(basePrice + localChargesPp)
 ```
 
-1. `roundToNine(basePrice)` — rounds to nearest price point ending in 29, 49, 69, or 99
-2. `+ localChargesPp` — adds exact per-person local charges (city tax + port fees) as a decimal
-3. `Math.round()` — eliminates decimal places from the sum
+1. `basePrice + localChargesPp` — adds exact per-person local charges (city tax + port fees) to the base price
+2. `roundToNine()` — rounds the combined total to the nearest price point ending in 9 (09, 19, 29, …, 99)
 
-**Important:** Round the base price first, THEN add local charges. Never round the combined total.
+**Important:** Add local charges first, THEN round the combined total. Never round the base price separately.
 
 ### City Tax System
 
@@ -229,3 +228,4 @@ Listing pages (`[country]/index.astro`, `river-cruises/[...river].astro`) have h
 - Do not modify font files or font-face declarations
 - Do not delete the `backup/` or `assets/` directories — they are the original reference
 - Do not create a `[collection].astro` separate from `[country]/index.astro` — they share the same URL pattern and are merged into one handler
+- Do not round the base price before adding local charges — always `roundToNine(base + localCharges)`, never `roundToNine(base) + localCharges`. The rounding must happen AFTER city tax and port fees are added, so the final customer-facing price ends in 9

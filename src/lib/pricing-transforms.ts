@@ -56,17 +56,9 @@ export function formatPrice(p: number): string {
   return '\u00A3' + Math.round(p).toLocaleString('en-GB');
 }
 
-/** Round to the closest price point ending in 29, 49, 69, or 99. */
+/** Round to the nearest price point ending in 9 (09, 19, 29, …, 99). */
 export function roundToNine(n: number): number {
-  const base = Math.floor(n / 100) * 100;
-  const targets = [base + 29, base + 49, base + 69, base + 99];
-  let closest = targets[0];
-  let minDist = Math.abs(n - closest);
-  for (let i = 1; i < targets.length; i++) {
-    const dist = Math.abs(n - targets[i]);
-    if (dist < minDist) { closest = targets[i]; minDist = dist; }
-  }
-  return Math.max(0, closest);
+  return Math.max(0, Math.round((n - 9) / 10) * 10 + 9);
 }
 
 function formatDate(iso: string): string {

@@ -99,21 +99,21 @@ function toBulletList(html: string): string {
 // Hero price: override > auto-rounded base + exact local charges
 const heroPrice = holiday.displayPrice
   ?? (hasPricing
-    ? roundToNine(pricing!.cheapestPrice) + localCharges
-    : roundToNine(holiday.price) + localCharges);
+    ? roundToNine(pricing!.cheapestPrice + localCharges)
+    : roundToNine(holiday.price + localCharges));
 const cheapestInclusive = fmtPrice(heroPrice);
 const displayPriceFormatted = cheapestInclusive;
 const airportPrices = hasPricing ? pricing!.airports.map((ap: any) => ({
   ...ap,
-  inclusiveFormatted: fmtPrice(roundToNine(ap.cheapestPrice) + localCharges),
+  inclusiveFormatted: fmtPrice(roundToNine(ap.cheapestPrice + localCharges)),
 })) : [];
 const initialDeps = hasPricing ? pricing!.departures
   .filter((d: any) => d.airportCode === pricing!.airports[0].code)
   .slice(0, 4)
   .map((dep: any) => ({
     ...dep,
-    inclusivePrice: roundToNine(dep.pricePp) + localCharges,
-    inclusiveFormatted: fmtPrice(roundToNine(dep.pricePp) + localCharges),
+    inclusivePrice: roundToNine(dep.pricePp + localCharges),
+    inclusiveFormatted: fmtPrice(roundToNine(dep.pricePp + localCharges)),
   })) : [];
 
 // Truncate description at sentence boundary
@@ -138,7 +138,7 @@ const productSchema: Record<string, unknown> = {
   category: 'Holiday Package',
 };
 if (hasPricing) {
-  const highPrice = roundToNine(Math.max(...pricing!.departures.map((d: any) => d.pricePp))) + localCharges;
+  const highPrice = roundToNine(Math.max(...pricing!.departures.map((d: any) => d.pricePp)) + localCharges);
   productSchema.offers = {
     '@type': 'AggregateOffer',
     priceCurrency: 'GBP',
@@ -618,10 +618,7 @@ const pageDescription = holiday.metaDescription || (() => {
           <div class="pricing-modal__control-group">
             <label for="modal-pax-select">Passengers</label>
             <select id="modal-pax-select" class="pricing-modal__select">
-              <option value="1">1 passenger</option>
               <option value="2" selected>2 passengers</option>
-              <option value="3">3 passengers</option>
-              <option value="4">4 passengers</option>
             </select>
           </div>
         </div>
@@ -3321,15 +3318,7 @@ const pageDescription = holiday.metaDescription || (() => {
       const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
       function roundToNine(n: number): number {
-        const base = Math.floor(n / 100) * 100;
-        const targets = [base + 29, base + 49, base + 69, base + 99];
-        let closest = targets[0];
-        let minDist = Math.abs(n - closest);
-        for (let i = 1; i < targets.length; i++) {
-          const dist = Math.abs(n - targets[i]);
-          if (dist < minDist) { closest = targets[i]; minDist = dist; }
-        }
-        return Math.max(0, closest);
+        return Math.max(0, Math.round((n - 9) / 10) * 10 + 9);
       }
 
       function formatPrice(p: number): string {
@@ -3347,7 +3336,7 @@ const pageDescription = holiday.metaDescription || (() => {
       function getCheapestForAirport(code: string): number {
         const deps = getDepsForAirport(code);
         if (deps.length === 0) return 0;
-        return roundToNine(Math.min(...deps.map((d: any) => d.pricePp))) + localChargesPp;
+        return roundToNine(Math.min(...deps.map((d: any) => d.pricePp)) + localChargesPp);
       }
 
       // Render inline date cards
@@ -3355,11 +3344,11 @@ const pageDescription = holiday.metaDescription || (() => {
         if (!inlineDateCards) return;
         const deps = getDepsForAirport(selectedAirport).slice(0, 4);
         inlineDateCards.innerHTML = deps.map((dep: any, i: number) => `
-          <button type="button" class="pricing-card pricing-card--${dep.tier}${dep.date === selectedDate ? ' pricing-card--selected' : ''}" data-date="${dep.date}" data-airport="${dep.airportCode}" data-price="${roundToNine(dep.pricePp) + localChargesPp}">
+          <button type="button" class="pricing-card pricing-card--${dep.tier}${dep.date === selectedDate ? ' pricing-card--selected' : ''}" data-date="${dep.date}" data-airport="${dep.airportCode}" data-price="${roundToNine(dep.pricePp + localChargesPp)}">
             ${i === 0 ? '<span class="pricing-card__badge">Best Price</span>' : ''}
             <span class="pricing-card__day">${dep.dayOfWeek}</span>
             <span class="pricing-card__date">${dep.dateShort}</span>
-            <span class="pricing-card__price">${formatPrice(roundToNine(dep.pricePp) + localChargesPp)}<small>/pp</small></span>
+            <span class="pricing-card__price">${formatPrice(roundToNine(dep.pricePp + localChargesPp))}<small>/pp</small></span>
           </button>
         `).join('');
 
@@ -3441,9 +3430,9 @@ const pageDescription = holiday.metaDescription || (() => {
           const dep = depsMap.get(day);
           if (dep) {
             const isSelected = dep.date === selectedDate;
-            html += `<button type="button" class="cal-day cal-day--available cal-day--${dep.tier}${isSelected ? ' cal-day--selected' : ''}" data-date="${dep.date}" data-price="${roundToNine(dep.pricePp) + localChargesPp}">`;
+            html += `<button type="button" class="cal-day cal-day--available cal-day--${dep.tier}${isSelected ? ' cal-day--selected' : ''}" data-date="${dep.date}" data-price="${roundToNine(dep.pricePp + localChargesPp)}">`;
             html += `<span class="cal-day__num">${day}</span>`;
-            html += `<span class="cal-day__price">${formatPrice(roundToNine(dep.pricePp) + localChargesPp)}</span>`;
+            html += `<span class="cal-day__price">${formatPrice(roundToNine(dep.pricePp + localChargesPp))}</span>`;
             html += `</button>`;
           } else {
             html += `<div class="cal-day"><span class="cal-day__num">${day}</span></div>`;
@@ -3488,7 +3477,7 @@ const pageDescription = holiday.metaDescription || (() => {
         if (selectedDate) {
           const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
           if (dep) {
-            const inclusivePrice = formatPrice(roundToNine(dep.pricePp) + localChargesPp);
+            const inclusivePrice = formatPrice(roundToNine(dep.pricePp + localChargesPp));
             if (sidebarPriceLabel) sidebarPriceLabel.textContent = '';
             if (sidebarPriceValue) sidebarPriceValue.textContent = inclusivePrice;
             if (heroPriceLabel) heroPriceLabel.textContent = '';
@@ -3510,7 +3499,7 @@ const pageDescription = holiday.metaDescription || (() => {
           const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
           if (dep) {
             if (mobilePriceLabel) mobilePriceLabel.textContent = '';
-            if (mobilePriceValue) mobilePriceValue.innerHTML = formatPrice(roundToNine(dep.pricePp) + localChargesPp) + '<small>/pp</small>';
+            if (mobilePriceValue) mobilePriceValue.innerHTML = formatPrice(roundToNine(dep.pricePp + localChargesPp)) + '<small>/pp</small>';
           }
         } else {
           const cheapest = getCheapestForAirport(selectedAirport);
@@ -3525,14 +3514,13 @@ const pageDescription = holiday.metaDescription || (() => {
         if (selectedDate) {
           const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
           if (dep) {
-            const roundedBase = roundToNine(dep.pricePp);
-            const ppInclusive = roundedBase + localChargesPp;
+            const ppInclusive = roundToNine(dep.pricePp + localChargesPp);
             const total = ppInclusive * passengerCount;
             let html = `<strong>${dep.dateFormatted}</strong> from <strong>${dep.airportName}</strong><br>`;
             if (localChargesPp > 0) {
-              const pkgTotal = roundedBase * passengerCount;
               const lcTotal = localChargesPp * passengerCount;
-              html += `Package: ${passengerCount} &times; ${formatPriceExact(roundedBase)} = ${formatPriceExact(pkgTotal)}<br>`;
+              const pkgTotal = total - lcTotal;
+              html += `Package: ${formatPriceExact(pkgTotal)}<br>`;
               html += `Local charges: ${passengerCount} &times; ${formatPriceExact(localChargesPp)} = ${formatPriceExact(lcTotal)}<br>`;
               html += `<strong>Total: ${formatPriceExact(total)}</strong>`;
             } else {
@@ -3650,7 +3638,7 @@ const pageDescription = holiday.metaDescription || (() => {
         if (!selectedDate || modalBookBtn.disabled) return;
         const dep = pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport);
         if (dep) {
-          const ppInclusive = roundToNine(dep.pricePp) + localChargesPp;
+          const ppInclusive = roundToNine(dep.pricePp + localChargesPp);
           const total = ppInclusive * passengerCount;
           openEnquiryModal({
             date: dep.dateFormatted,

@@ -114,7 +114,6 @@ const blogPostingSchema = {
     <section class="section-container">
       <div class="content">
         <div class="blog">
-          <p class="description">{blog.excerpt}</p>
           <Fragment set:html={blog.content} />
         </div>
         <div class="pagination">
@@ -269,6 +268,10 @@ const blogPostingSchema = {
   }
 
   /* Blog post section layout */
+  .blog-post-section {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
   .blog-post-section section {
     max-width: 100%;
     display: flex;
@@ -296,21 +299,52 @@ const blogPostingSchema = {
   .blog img {
     display: block;
     width: 100%;
-    margin: 30px auto;
+    max-height: 360px;
+    object-fit: cover;
+    object-position: center;
+    margin: 25px 0;
+  }
+  .blog img.deckplan {
+    max-height: none;
+    object-fit: contain;
   }
   .blog :global(h2) {
-    margin: 0 0 10px;
+    margin: 25px 0 10px;
     font-size: 18px;
-    line-height: 18px;
+    line-height: 22px;
     position: relative;
     font-family: "CaslonGraphiqueEF";
     color: #424242;
-    margin-top: 25px;
+  }
+  .blog :global(h3) {
+    margin: 20px 0 8px;
+    font-size: 16px;
+    line-height: 20px;
+    font-family: "CaslonGraphiqueEF";
+    color: #424242;
+  }
+  .blog :global(ul) {
+    list-style: disc;
+    margin: 10px 0 15px 25px;
+    padding-left: 0;
+  }
+  .blog :global(ol) {
+    list-style: decimal;
+    margin: 10px 0 15px 25px;
+    padding-left: 0;
+  }
+  .blog :global(li) {
+    display: list-item;
+    font-size: 16px;
+    line-height: 28px;
+    color: #424242;
+    margin-bottom: 4px;
+  }
+  .blog :global(a) {
+    color: #20A1AA;
+    text-decoration: underline;
   }
 
-  .description {
-    margin-bottom: 20px;
-  }
 
   /* Pagination */
   .pagination {

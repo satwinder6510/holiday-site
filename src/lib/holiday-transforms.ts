@@ -333,10 +333,14 @@ function getRateForStars(entry: CityTaxEntry, stars: number): number {
   return entry.rate5Star ?? 0;
 }
 
+const CITY_ALIASES: Record<string, string> = {
+  'syracuse': 'siracusa',
+};
+
 function findCityTax(cityName: string): CityTaxEntry | undefined {
-  return cityTaxes.find(t =>
-    t.cityName.toLowerCase() === cityName.toLowerCase()
-  );
+  const key = cityName.toLowerCase();
+  const resolved = CITY_ALIASES[key] ?? key;
+  return cityTaxes.find(t => t.cityName.toLowerCase() === resolved);
 }
 
 function findHighestRateForCountry(code: string, stars: number): CityTaxEntry | undefined {
