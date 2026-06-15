@@ -14,7 +14,7 @@ Keep the `ar` (aspect ratio) on each slot so the layout never shifts.
 | File | Slot | Aspect |
 |---|---|---|
 | `hero-poster.jpg`        | hero (also the poster if you use a hero video) | 21/9 |
-| `chapter-1-johannesburg.jpg` | Day 1 — Soweto / Mandela house     | 4/3  |
+| `chapter-1-croisi-welcome.jpg` | Day 1 — CroisiEurope hotel welcome desk | 9/16 |
 | `chapter-2-border-boat.jpg`  | Day 2 — small boat river crossing  | 3/2  |
 | `chapter-3-chobe.jpg`        | Day 3 — Chobe game drive           | 3/2  |
 | `chapter-4-impalila.jpg`     | Day 4 — Impalila sunset cruise     | 4/3  |

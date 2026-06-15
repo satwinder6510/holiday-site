@@ -153,7 +153,7 @@ const southernAfricaZambezi: Experience = {
       title: 'Beginning in Johannesburg',
       place: 'Johannesburg · South Africa',
       body: 'Before the wild, a day with South Africa’s story. You settle into a hotel in leafy Rosebank — wired straight into a smart mall — then spend the afternoon at the Apartheid Museum and out in Soweto, standing outside the modest house where Nelson Mandela once lived and, a few doors along, Archbishop Tutu’s: the only street in the world to have raised two Nobel Peace laureates. Dinner is back at the hotel, the bush still a flight away.',
-      media: { kind: 'image', ar: '4/3', label: 'Day 1 — Apartheid Museum ticket', alt: 'An Apartheid Museum entry ticket that has randomly classified the holder as "Nie-Blankes / Non-Whites"', src: `${M}/images/chapter-1-johannesburg.jpg` },
+      media: { kind: 'image', ar: '9/16', label: 'Day 1 — CroisiEurope welcome at the Johannesburg hotel', alt: 'The CroisiEurope welcome desk at the 54 on Bath hotel in Johannesburg, with a framed CroisiEurope logo and the group welcome letter', src: `${M}/images/chapter-1-croisi-welcome.jpg` },
     },
     {
       day: 'Day 2',
