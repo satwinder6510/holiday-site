@@ -30,6 +30,10 @@ export interface MediaSlot {
   /** Video sources (mp4 always; webm optional). Paths under /blog-media/<slug>/videos/. */
   mp4?: string;
   webm?: string;
+  /** HLS manifest (.m3u8) for adaptive streaming — e.g. a Cloudflare Stream URL.
+   *  On an ambient hero, hls.js streams it (Safari plays it natively), with any
+   *  mp4/webm below as fallback. Empty/omitted → the hero shows the poster only. */
+  hls?: string;
   /** Hero ambient video — silent, looping background. Honours prefers-reduced-motion. */
   ambient?: boolean;
 }
@@ -106,6 +110,12 @@ export interface Experience {
 const ZAMBEZI_SLUG = 'southern-africa-zambezi-safari-cruise';
 const M = `/blog-media/${ZAMBEZI_SLUG}`;
 
+// Cloudflare Stream HLS manifest for the hero (adaptive, CDN-served).
+// Paste the URL here AFTER uploading the hero clip to Stream — until then the
+// hero gracefully shows the poster image, so the live page never breaks.
+// Format: https://customer-<CODE>.cloudflarestream.com/<UID>/manifest/video.m3u8
+const ZAMBEZI_HERO_HLS = 'https://customer-wj01kterp4hvns4u.cloudflarestream.com/4cf127b917f4dd107ae3e5fc270ffeee/manifest/video.m3u8';
+
 const southernAfricaZambezi: Experience = {
   slug: ZAMBEZI_SLUG,
   draft: false,
@@ -119,11 +129,14 @@ const southernAfricaZambezi: Experience = {
     eyebrow: 'Southern Africa · River Safari',
     meta: '9 days · Johannesburg → Victoria Falls · South Africa, Botswana, Namibia, Zimbabwe',
     media: {
-      kind: 'image',
+      kind: 'video',
+      ambient: true,
       ar: '21/9',
       label: 'hero — five-anchor ship on Lake Kariba at golden hour',
       alt: 'A five-anchor cruise ship at anchor on Lake Kariba, mirrored in still water at sunset',
-      src: `${M}/images/hero-poster.jpg`,
+      src: `${M}/images/hero-video-poster.jpg`,
+      mp4: `${M}/videos/hero.mp4`,
+      hls: ZAMBEZI_HERO_HLS,
     },
   },
 

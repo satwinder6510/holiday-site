@@ -185,14 +185,32 @@ const articleSchema = {
   <Footer />
   <MobileCallCTA />
 
-  <!-- Reduced-motion guard for hero ambient video -->
+  <!-- Hero ambient video: reduced-motion guard + lazy HLS player.
+       Safari plays HLS natively; other browsers lazy-load hls.js only when an
+       HLS hero is on the page. Self-hosted mp4/webm <source> needs no JS. -->
   <script is:inline>
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.querySelectorAll('.hero-video[autoplay]').forEach(function (v) {
-        v.removeAttribute('autoplay');
-        v.pause();
+    (function () {
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelectorAll('.hero-video').forEach(function (v) {
+        if (reduce) { v.removeAttribute('autoplay'); v.pause(); return; }
+        var src = v.getAttribute('data-hls');
+        if (!src) return; // mp4/webm <source> already handles playback
+        if (v.canPlayType('application/vnd.apple.mpegurl')) {
+          v.src = src; // Safari / iOS — native HLS
+          return;
+        }
+        var s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/hls.js@1.5/dist/hls.min.js';
+        s.onload = function () {
+          if (window.Hls && window.Hls.isSupported()) {
+            var hls = new window.Hls({ capLevelToPlayerSize: true });
+            hls.loadSource(src);
+            hls.attachMedia(v);
+          }
+        };
+        document.head.appendChild(s);
       });
-    }
+    })();
   </script>
 </BaseLayout>
 

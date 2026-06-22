@@ -40,12 +40,31 @@ const isHeroVideo = slot.kind === 'video' && slot.ambient;
   </figure>
 )}
 
-{slot.kind === 'video' && isHeroVideo && (
+{slot.kind === 'video' && isHeroVideo && (slot.hls || slot.mp4 || slot.webm) && (
   <figure class="shot" style={ar ? `--ar:${ar}` : undefined}>
-    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster={slot.src}>
+    <video
+      class="hero-video"
+      autoplay muted loop playsinline preload="metadata"
+      poster={slot.src}
+      data-hls={slot.hls || undefined}
+    >
       {slot.webm && <source src={slot.webm} type="video/webm" />}
       {slot.mp4 && <source src={slot.mp4} type="video/mp4" />}
     </video>
+  </figure>
+)}
+
+{/* Hero declared as video but no source yet (e.g. Stream URL not filled in) →
+    show the poster as a static image so the live hero never breaks. */}
+{slot.kind === 'video' && isHeroVideo && !(slot.hls || slot.mp4 || slot.webm) && slot.src && (
+  <figure class="shot" style={ar ? `--ar:${ar}` : undefined}>
+    <img
+      src={slot.src}
+      alt={slot.alt || ''}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding="async"
+      fetchpriority={priority ? 'high' : undefined}
+    />
   </figure>
 )}
 

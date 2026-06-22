@@ -215,6 +215,40 @@ Listing pages (`[country]/index.astro`, `river-cruises/[...river].astro`) have h
 - **Calendar → Enquiry bridge:** `enquiryExtra` object populated by `openEnquiryModal()` when coming from pricing calendar — carries date, airport, adults, price pp, total price
 - **Contact page:** `src/pages/contact.astro` — standalone form (no calendar), different fields (booking_ref, reason, message)
 
+## Experiential Blog Posts (long-form storytelling)
+
+A SEPARATE artifact from the standard blog (`src/data/blogs.ts` + `blog-export.json`).
+
+- **Route:** `src/pages/blog/experiences/[slug].astro` → URL `/blog/experiences/<slug>` (never collides with the 151 standard posts at `/blog/<slug>`)
+- **Layout:** `src/layouts/ExperientialPost.astro` — full-bleed: hero → bookable strip → intro → at-a-glance → journey chapters → gallery → teal CTA → related. Composes site Header/Footer (does NOT fork the product template).
+- **Data:** `src/data/experiences.ts` — structured `Experience` objects (hero / intro / chapters / gallery / cta / seo). Drafts (`draft: true`) render in DEV only, excluded from prod build + sitemap.
+- **Media:** every image/video is a `MediaSlot` (`kind: 'placeholder' | 'image' | 'video'`) rendered by `src/components/experiential/Figure.astro`. Slots keep an `ar` (aspect ratio) so swapping media never shifts layout. Files live under `public/blog-media/<slug>/{images,videos}/`.
+
+### Hero video — self-hosted MP4 and/or adaptive HLS (Cloudflare Stream)
+
+The hero `MediaSlot` supports `kind: 'video', ambient: true` with any of: `mp4`/`webm` (self-hosted), `hls` (a `.m3u8` manifest), and `src` (poster). Behaviour:
+
+- **`hls` set** → `Figure.astro` adds `data-hls`; the inline player in `ExperientialPost.astro` streams it: Safari plays HLS natively, other browsers **lazy-load hls.js from jsDelivr only when an HLS hero is present**. The mp4/webm `<source>` stays as automatic fallback.
+- **No `hls`, only `mp4`/`webm`** → plays the self-hosted file directly, no JS.
+- **No playable source at all** → Figure renders the poster `src` as a plain `<img>`, so a half-configured hero never breaks the live page.
+- **prefers-reduced-motion** → autoplay removed, poster shown (handled in the layout's inline script).
+
+**Rule of thumb:** short clips (≲10 MB) → self-host MP4 (free, simple). Long/heavy hero loops → Cloudflare Stream (adaptive HLS + CDN). Same Cloudflare account; ~$5/1000 min stored + $1/1000 min delivered.
+
+**Prep a self-hosted clip** (strip audio for muted hero, add fast-start, pull a matching poster frame):
+```bash
+ffmpeg -y -i in.mp4 -c:v copy -an -movflags +faststart public/blog-media/<slug>/videos/hero.mp4
+ffmpeg -y -ss 0.3 -i in.mp4 -frames:v 1 -q:v 3 public/blog-media/<slug>/images/hero-video-poster.jpg
+```
+
+**Put a hero on Cloudflare Stream:**
+1. Dashboard → Media → Stream → Videos → **Upload video**; wait for "Ready".
+2. Open the video → **Video details** → copy the **HLS Manifest URL** (`https://customer-<CODE>.cloudflarestream.com/<UID>/manifest/video.m3u8`). (Every video is also reachable at `https://videodelivery.net/<UID>/manifest/video.m3u8`.)
+3. In `experiences.ts`, set the post's hero `hls` to that URL (keep the mp4 as fallback if present).
+4. `npm run build` then `./deploy.sh`.
+
+**Live example:** Zambezi post hero — `customer-wj01kterp4hvns4u.cloudflarestream.com` (Stream HLS) + `videos/hero.mp4` fallback.
+
 ## Reference
 
 - Original CSHTML templates: `backup/070722/Views/`
