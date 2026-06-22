@@ -51,15 +51,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
   }
 
-  // ── Fallback path: post straight to Privyr so a lead is never lost ──
-  if (!webhookUrl) {
-    return new Response(JSON.stringify({ error: 'Webhook not configured' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-
-  // Build other_fields based on form type
+  // Build other_fields based on form type (used by both Privyr + emergency capture).
   const other_fields: Record<string, string> = {
     'Form Type': form_type || 'Contact Form',
     'Source': body.source || 'Direct',
@@ -82,38 +74,70 @@ export const POST: APIRoute = async ({ request, locals }) => {
     if (body.message) other_fields['Message'] = body.message;
   }
 
-  const privyrPayload = {
-    name: `${first_name} ${last_name}`,
-    email,
-    phone,
-    display_name: first_name,
-    other_fields,
-  };
-
-  try {
-    const res = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(privyrPayload),
-    });
-
-    if (!res.ok) {
-      console.error('Privyr webhook error:', res.status, await res.text());
-      return new Response(JSON.stringify({ error: 'Failed to submit enquiry' }), {
-        status: 502,
+  // ── Fallback 1: post to Privyr ──
+  if (webhookUrl) {
+    try {
+      const res = await fetch(webhookUrl, {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: `${first_name} ${last_name}`, email, phone, display_name: first_name, other_fields }),
       });
+      if (res.ok) {
+        return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+      }
+      console.error('Privyr webhook non-OK, trying emergency capture:', res.status, await res.text());
+    } catch (err) {
+      console.error('Privyr webhook error, trying emergency capture:', err);
     }
-
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (err) {
-    console.error('Privyr webhook error:', err);
-    return new Response(JSON.stringify({ error: 'Failed to submit enquiry' }), {
-      status: 502,
-      headers: { 'Content-Type': 'application/json' },
-    });
   }
+
+  // ── Last resort: write the lead straight to D1 so it is NEVER lost. The admin
+  // API's every-15-min silent-fail scan picks it up (status='new') to run the SMS
+  // cadence and alert admins. ──
+  if (await emergencyCapture((locals as any).runtime?.env?.DB, body, other_fields)) {
+    console.error('Lead captured via emergency D1 fallback (intake + Privyr both failed)');
+    return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  }
+
+  // Everything failed — the lead is genuinely at risk. Log loudly for monitoring.
+  console.error('LEAD LOST: intake, Privyr and emergency capture all failed', { email, phone, form_type });
+  return new Response(JSON.stringify({ error: 'Failed to submit enquiry' }), { status: 502, headers: { 'Content-Type': 'application/json' } });
 };
+
+/**
+ * Emergency capture — insert the lead directly into D1 when both intake and Privyr
+ * are unavailable. Bypasses all the speed-to-lead processing (the silent-fail scan
+ * resumes that), but guarantees the customer's details are never lost.
+ */
+async function emergencyCapture(db: any, body: any, other_fields: Record<string, string>): Promise<boolean> {
+  if (!db) return false;
+  try {
+    const now = new Date().toISOString();
+    const phoneNorm = String(body.phone || '').replace(/[^\d+]/g, '');
+    const subject = body.package_name || 'your holiday';
+    other_fields['Capture'] = 'emergency-fallback';
+    await db
+      .prepare(
+        `INSERT INTO leads (first_name, last_name, email, phone, phone_normalized, form_type, subject, other_fields, status, cadence_step, pipeline_stage, source, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'new', 0, 'new', ?, ?, ?)`,
+      )
+      .bind(
+        body.first_name,
+        body.last_name,
+        body.email,
+        body.phone,
+        phoneNorm,
+        body.form_type || 'Contact Form',
+        subject,
+        JSON.stringify(other_fields),
+        body.source || 'website',
+        now,
+        now,
+      )
+      .run();
+    return true;
+  } catch (err) {
+    console.error('Emergency D1 capture failed:', err);
+    return false;
+  }
+}
