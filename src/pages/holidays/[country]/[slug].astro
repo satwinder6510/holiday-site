@@ -3923,6 +3923,7 @@ const pageDescription = holiday.metaDescription || (() => {
       payload.source = sessionStorage.getItem('lead_source') || 'Direct';
       payload.landing_page = sessionStorage.getItem('landing_page') || '';
       payload.page_url = window.location.pathname;
+      payload.page_title = document.title;
 
       // Merge pricing selection details
       if (enquiryExtra.departure_date) payload.departure_date = enquiryExtra.departure_date;

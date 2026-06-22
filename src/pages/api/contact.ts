@@ -5,13 +5,8 @@ import type { APIRoute } from 'astro';
 export const POST: APIRoute = async ({ request, locals }) => {
   const runtime = (locals as any).runtime;
   const webhookUrl = runtime?.env?.PRIVYR_WEBHOOK_URL;
-
-  if (!webhookUrl) {
-    return new Response(JSON.stringify({ error: 'Webhook not configured' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
+  const intakeUrl = runtime?.env?.LEADS_INTAKE_URL;
+  const intakeSecret = runtime?.env?.LEADS_INTAKE_SECRET;
 
   let body: any;
   try {
@@ -32,6 +27,38 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
   }
 
+  // ── Primary path: speed-to-lead intake (auto-response + follow-ups + handoff) ──
+  // The intake service holds the lead and only forwards warm ones to Privyr.
+  if (intakeUrl && intakeSecret) {
+    try {
+      const res = await fetch(intakeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${intakeSecret}`,
+        },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) {
+        return new Response(JSON.stringify({ success: true }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+      console.error('Lead intake non-OK, falling back to Privyr:', res.status, await res.text());
+    } catch (err) {
+      console.error('Lead intake error, falling back to Privyr:', err);
+    }
+  }
+
+  // ── Fallback path: post straight to Privyr so a lead is never lost ──
+  if (!webhookUrl) {
+    return new Response(JSON.stringify({ error: 'Webhook not configured' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   // Build other_fields based on form type
   const other_fields: Record<string, string> = {
     'Form Type': form_type || 'Contact Form',
@@ -39,6 +66,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     'Landing Page': body.landing_page || '',
     'Page URL': body.page_url || '',
   };
+  if (body.page_title) other_fields['Page Title'] = body.page_title;
 
   if (form_type === 'Package Enquiry') {
     if (body.package_name) other_fields['Package Name'] = body.package_name;
