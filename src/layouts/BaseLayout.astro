@@ -221,10 +221,17 @@ const websiteSchema = {
         report('js_error', (e.message || 'Unknown error') + ' at ' + (e.filename || '') + ':' + (e.lineno || 0));
       });
 
-      // Broken images (capture phase)
+      // Broken images (capture phase) — report once for visibility, then swap
+      // in a neutral placeholder so users never see a broken-image glyph.
+      var PLACEHOLDER = '/images/placeholder.svg';
       document.addEventListener('error', function (e) {
-        if (e.target && e.target.tagName === 'IMG') {
-          report('broken_image', e.target.src || e.target.getAttribute('data-src') || 'unknown');
+        var img = e.target;
+        if (img && img.tagName === 'IMG') {
+          report('broken_image', img.src || img.getAttribute('data-src') || 'unknown');
+          if (img.getAttribute('data-fallback') !== '1' && img.src.indexOf(PLACEHOLDER) === -1) {
+            img.setAttribute('data-fallback', '1');
+            img.src = PLACEHOLDER;
+          }
         }
       }, true);
 

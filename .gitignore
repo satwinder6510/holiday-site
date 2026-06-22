@@ -3,3 +3,11 @@ node_modules/
 dist/
 .astro/
 .wrangler/
+
+# Junk / local artifacts
+.DS_Store
+*.xlsx
+*.rar
+
+# Stray nested clone (962MB, has its own uncommitted work) — never commit as a gitlink
+/holiday-site/

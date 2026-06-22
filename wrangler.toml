@@ -17,3 +17,6 @@ bucket_name = "holidays-images"
 
 [vars]
 PRIVYR_WEBHOOK_URL = "https://www.privyr.com/api/v1/incoming-leads/0vZfjMQw/b7XVsZZO"
+# Speed-to-lead intake (holiday-admin-api). Leads go here first; Privyr is the fallback.
+LEADS_INTAKE_URL = "https://holiday-admin-api.satwinder-30c.workers.dev/api/leads/intake"
+# LEADS_INTAKE_SECRET is set as a secret: `wrangler pages secret put LEADS_INTAKE_SECRET`
