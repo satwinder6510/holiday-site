@@ -1,0 +1,8 @@
+# Static/SSG responses only — SSR routes get the SAME headers from src/middleware.ts.
+# KEEP BOTH FILES IN SYNC. See SECURITY-CHANGES-2026-07-02.md §3.
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains

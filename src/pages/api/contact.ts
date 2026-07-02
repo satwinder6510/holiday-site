@@ -2,6 +2,29 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 
+// Simple RFC-lite email check — deliberately loose, just blocks obvious garbage.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+// Per-field length caps; any other string field is capped at 500.
+const FIELD_LIMITS: Record<string, number> = {
+  first_name: 100,
+  last_name: 100,
+  email: 200,
+  phone: 40,
+  message: 5000,
+  booking_ref: 50,
+};
+const DEFAULT_FIELD_LIMIT = 500;
+
+// Only these fields are ever forwarded downstream — never relay unknown keys.
+const ALLOWED_FIELDS = [
+  'first_name', 'last_name', 'email', 'phone', 'form_type',
+  'source', 'landing_page', 'page_url', 'page_title',
+  'package_name', 'package_id', 'departure_date', 'departure_airport',
+  'num_adults', 'price_per_person', 'total_price',
+  'booking_ref', 'reason', 'message',
+] as const;
+
 export const POST: APIRoute = async ({ request, locals }) => {
   const runtime = (locals as any).runtime;
   const webhookUrl = runtime?.env?.PRIVYR_WEBHOOK_URL;
@@ -18,6 +41,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
   }
 
+  // ── Honeypot: the hidden "company" field is invisible to humans — if it comes
+  // back non-empty it's a bot. Pretend success so it gets no failure signal. ──
+  if (typeof body.company === 'string' && body.company.trim() !== '') {
+    console.warn('[contact] honeypot triggered');
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   const { first_name, last_name, email, phone, form_type } = body;
 
   if (!first_name || !last_name || !email || !phone) {
@@ -25,6 +58,28 @@ export const POST: APIRoute = async ({ request, locals }) => {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     });
+  }
+
+  // ── Validation: email shape + per-field length caps. ──
+  let invalid = typeof email !== 'string' || !EMAIL_RE.test(email);
+  if (!invalid) {
+    for (const [key, val] of Object.entries(body)) {
+      if (typeof val !== 'string') continue;
+      if (val.length > (FIELD_LIMITS[key] ?? DEFAULT_FIELD_LIMIT)) { invalid = true; break; }
+    }
+  }
+  if (invalid) {
+    return new Response(JSON.stringify({ error: 'Invalid submission' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Allowlisted copy of the body — the only thing ever forwarded downstream.
+  const lead: Record<string, string> = {};
+  for (const key of ALLOWED_FIELDS) {
+    const val = body[key];
+    if (typeof val === 'string' && val !== '') lead[key] = val;
   }
 
   // ── Primary path: speed-to-lead intake (auto-response + follow-ups + handoff) ──
@@ -37,7 +92,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${intakeSecret}`,
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(lead),
       });
       if (res.ok) {
         return new Response(JSON.stringify({ success: true }), {

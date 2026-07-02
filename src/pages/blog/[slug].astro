@@ -8,6 +8,7 @@ import MobileCallCTA from '../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../components/BreadcrumbSchema.astro';
 import { allBlogs } from '../../data/blogs';
 import type { Blog } from '../../data/blogs';
+import { sanitizeHtml } from '../../lib/sanitize';
 
 export function getStaticPaths() {
   return allBlogs.map((blog, index) => {
@@ -114,7 +115,7 @@ const blogPostingSchema = {
     <section class="section-container">
       <div class="content">
         <div class="blog">
-          <Fragment set:html={blog.content} />
+          <Fragment set:html={sanitizeHtml(blog.content)} />
         </div>
         <div class="pagination">
           {prevBlog && (

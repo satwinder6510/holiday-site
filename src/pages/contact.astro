@@ -44,6 +44,8 @@ import BreadcrumbSchema from '../components/BreadcrumbSchema.astro';
 
     <div class="contact-form">
       <form id="contact-form">
+        <!-- Honeypot: hidden from humans; bots that fill it are silently dropped server-side -->
+        <input type="text" name="company" value="" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px" />
         <div class="field-wrap">
           <div class="form-block half">
             <label>First Name<span class="label-hint"> (Required)</span></label>

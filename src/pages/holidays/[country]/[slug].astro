@@ -13,6 +13,7 @@ import { roundToNine } from '../../../lib/pricing-transforms';
 import { allBlogs } from '../../../data/blogs';
 import { getDb } from '../../../lib/get-db';
 import { getHolidayBySlugFromDb } from '../../../lib/holidays-db';
+import { sanitizeHtml } from '../../../lib/sanitize';
 
 const { country, slug } = Astro.params;
 
@@ -55,10 +56,14 @@ const matchedBlogs = allBlogs.filter(b => {
 });
 const latestBlogs = matchedBlogs.length >= 2 ? matchedBlogs.slice(0, 4) : allBlogs.slice(0, 4);
 
-const pricingJson = hasPricing ? JSON.stringify(pricing) : 'null';
+// Escape '<' inside the JSON so a string value can never contain '</script>' and
+// break out of the <script type="application/json"> tags below (JSON.parse is unaffected).
+const escapeJsonForScript = (json: string) => json.replace(/</g, '\\u003c');
+
+const pricingJson = hasPricing ? escapeJsonForScript(JSON.stringify(pricing)) : 'null';
 
 const localCharges = holiday.localChargesPp;
-const localChargesJson = JSON.stringify({ ppGbp: localCharges, breakdown: holiday.localChargesBreakdown });
+const localChargesJson = escapeJsonForScript(JSON.stringify({ ppGbp: localCharges, breakdown: holiday.localChargesBreakdown }));
 
 function formatOverview(text: string): string {
   return text.split(/\n\n+/).map(block => {
@@ -347,7 +352,7 @@ const pageDescription = holiday.metaDescription || (() => {
             {holiday.operatedByLabel && (
               <p class="operated-by-note"><span class="operated-by-icon" aria-hidden="true">⚓</span> {holiday.operatedByLabel}</p>
             )}
-            <Fragment set:html={formatOverview(holiday.overview)} />
+            <Fragment set:html={sanitizeHtml(formatOverview(holiday.overview))} />
 
             {holiday.whatsIncluded.length > 0 && (
               <>
@@ -407,7 +412,7 @@ const pageDescription = holiday.metaDescription || (() => {
                       <div class="img-carousel-counter">{`1 / ${acc.images.length}`}</div>
                     </div>
                   )}
-                  <Fragment set:html={acc.description.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+                  <Fragment set:html={sanitizeHtml(acc.description.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>'))} />
                 </div>
               ))}
             </div>
@@ -431,7 +436,7 @@ const pageDescription = holiday.metaDescription || (() => {
                   </div>
                   <div class="panel-content" style={i === 0 ? 'display:block;' : 'display:none;'}>
                     <div class="desc">
-                      <Fragment set:html={item.description.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+                      <Fragment set:html={sanitizeHtml(item.description.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>'))} />
                     </div>
                   </div>
                 </div>
@@ -444,7 +449,7 @@ const pageDescription = holiday.metaDescription || (() => {
             <div id="reviews" class="reviews-section content-section">
               <h2>Reviews</h2>
               <div class="reviews-content">
-                <Fragment set:html={holiday.review.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+                <Fragment set:html={sanitizeHtml(holiday.review.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>'))} />
               </div>
             </div>
           )}
@@ -499,7 +504,7 @@ const pageDescription = holiday.metaDescription || (() => {
           <div id="otherinfo" class="other-info-section content-section">
             <h2>More Information</h2>
             {holiday.otherInfo && (
-              <Fragment set:html={holiday.otherInfo.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')} />
+              <Fragment set:html={sanitizeHtml(holiday.otherInfo.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>'))} />
             )}
             {holiday.otherInfoBullets.length > 0 && (
               <ul class="custom-bullets">
@@ -521,19 +526,19 @@ const pageDescription = holiday.metaDescription || (() => {
             {holiday.excluded && (
               <>
                 <h3 class="sub-heading">Excluded</h3>
-                <Fragment set:html={toBulletList(holiday.excluded)} />
+                <Fragment set:html={sanitizeHtml(toBulletList(holiday.excluded))} />
               </>
             )}
             {holiday.requirements && (
               <>
                 <h3 class="sub-heading">Requirements</h3>
-                <Fragment set:html={toBulletList(holiday.requirements)} />
+                <Fragment set:html={sanitizeHtml(toBulletList(holiday.requirements))} />
               </>
             )}
             {holiday.attention && (
               <>
                 <h3 class="sub-heading">Please Note</h3>
-                <Fragment set:html={toBulletList(holiday.attention)} />
+                <Fragment set:html={sanitizeHtml(toBulletList(holiday.attention))} />
               </>
             )}
           </div>
@@ -698,13 +703,13 @@ const pageDescription = holiday.metaDescription || (() => {
   )}
 
   <!-- Holiday meta for enquiry form -->
-  <script type="application/json" id="holiday-meta" set:html={JSON.stringify({
+  <script type="application/json" id="holiday-meta" set:html={escapeJsonForScript(JSON.stringify({
     id: holiday.id,
     title: holiday.title,
     destination: holiday.destination,
     duration: holiday.duration,
     boardBasis: holiday.boardBasis,
-  })} />
+  }))} />
 
   <!-- Package Enquiry Modal -->
   <div class="enquiry-modal" id="enquiry-modal" role="dialog" aria-modal="true" aria-label="Package Enquiry">
@@ -727,6 +732,8 @@ const pageDescription = holiday.metaDescription || (() => {
         <div class="enquiry-modal__summary-details" id="enquiry-selected-details"></div>
       </div>
       <form id="enquiry-form" class="enquiry-modal__form">
+        <!-- Honeypot: hidden from humans; bots that fill it are silently dropped server-side -->
+        <input type="text" name="company" value="" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px" />
         <div class="enquiry-modal__field-row">
           <div class="enquiry-modal__field">
             <label for="enq-first-name">First Name <span class="enquiry-modal__required">(Required)</span></label>
@@ -4024,7 +4031,7 @@ const pageDescription = holiday.metaDescription || (() => {
       enquiryModal.addEventListener('keydown', (e) => {
         if (e.key !== 'Tab') return;
         const focusable = enquiryModal.querySelectorAll(
-          'input:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          'input:not([disabled]):not([tabindex="-1"]), button:not([disabled]), [tabindex]:not([tabindex="-1"])'
         ) as NodeListOf<HTMLElement>;
         if (focusable.length === 0) return;
         const first = focusable[0];
