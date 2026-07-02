@@ -14,7 +14,7 @@ import { allBlogs } from '../../../data/blogs';
 import { getDb } from '../../../lib/get-db';
 import { getHolidayBySlugFromDb } from '../../../lib/holidays-db';
 
-const { slug } = Astro.params;
+const { country, slug } = Astro.params;
 
 // Redirects for removed/legacy slugs
 const redirects: Record<string, string> = {};
@@ -37,6 +37,15 @@ try {
 } catch (e) {
   console.error('DB error on holiday detail:', e);
   return new Response('Service temporarily unavailable', { status: 503 });
+}
+
+// Canonical-country safeguard: a cruise's country is DERIVED from its ports, so it can
+// change over time. The lookup is by slug (country-agnostic), so a stale/mismatched
+// country in the URL — e.g. an old /Holidays/europe/<slug> — still resolves. Redirect
+// it (301) to the canonical country URL to keep old/external links working and avoid
+// duplicate content. (Also normalises any wrong-case country for regular holidays.)
+if (country && holiday.countrySlug && country.toLowerCase() !== holiday.countrySlug.toLowerCase()) {
+  return Astro.redirect(`/Holidays/${holiday.countrySlug}/${slug}`, 301);
 }
 
 const countryLower = holiday.country.toLowerCase();
@@ -116,6 +125,9 @@ const initialDeps = hasPricing ? pricing!.departures
     inclusiveFormatted: fmtPrice(roundToNine(dep.pricePp + localCharges)),
   })) : [];
 
+const isCruise = holiday.tags.includes('River Cruise');
+const shipHeading = holiday.accommodations.length > 1 ? 'Your Ships' : 'Your Ship';
+
 // Truncate description at sentence boundary
 const rawDesc = holiday.overview || holiday.description || '';
 let productDesc = rawDesc;
@@ -184,7 +196,22 @@ const pageDescription = holiday.metaDescription || (() => {
 
   <!-- Hero Section -->
   <section class="itinerary-hero">
-    <div class="hero-bg" style={`background-image: url('${holiday.heroImage}')`}></div>
+    {holiday.heroVideo ? (
+      <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster={holiday.heroImage}
+        data-video-desktop={holiday.heroVideo}
+        data-video-mobile={holiday.heroVideoMobile || undefined}
+      ></video>
+    ) : (
+      <div class="hero-bg" style={`background-image: url('${holiday.heroImage}')`}></div>
+    )}
+    <div class="hero-scrim"></div>
     <div class="breadcrumbs">
       <a href="/">Home</a>
       <span class="icon-breadcrumb"></span>
@@ -267,6 +294,7 @@ const pageDescription = holiday.metaDescription || (() => {
                 <span class="pricing-card__day">{dep.dayOfWeek}</span>
                 <span class="pricing-card__date">{dep.dateShort}</span>
                 <span class="pricing-card__price">{dep.inclusiveFormatted}<small>/pp</small></span>
+                {dep.shipName && <span class="pricing-card__ship">{dep.shipName}</span>}
               </button>
             ))}
         </div>
@@ -291,7 +319,7 @@ const pageDescription = holiday.metaDescription || (() => {
         <ul class="tab-list">
           <li class="ui-tabs-active"><a href="#overview">Overview</a></li>
           {holiday.accommodations.length > 0 && (
-            <li><a href="#accommodation">Accommodation</a></li>
+            <li><a href="#accommodation">{isCruise ? shipHeading : 'Accommodation'}</a></li>
           )}
           {holiday.itinerary.length > 0 && (
             <li><a href="#itinerary">Itinerary</a></li>
@@ -316,6 +344,9 @@ const pageDescription = holiday.metaDescription || (() => {
           {/* Overview */}
           <div id="overview" class="overview-section content-section">
             <h2>Overview</h2>
+            {holiday.operatedByLabel && (
+              <p class="operated-by-note"><span class="operated-by-icon" aria-hidden="true">⚓</span> {holiday.operatedByLabel}</p>
+            )}
             <Fragment set:html={formatOverview(holiday.overview)} />
 
             {holiday.whatsIncluded.length > 0 && (
@@ -344,7 +375,7 @@ const pageDescription = holiday.metaDescription || (() => {
           {/* Accommodation */}
           {holiday.accommodations.length > 0 && (
             <div id="accommodation" class="accommodation-section content-section">
-              <h2>Accommodation &amp; Facilities</h2>
+              <h2>{isCruise ? shipHeading : 'Accommodation & Facilities'}</h2>
               {holiday.accommodations.map((acc, accIdx) => (
                 <div class="desc">
                   <div class="acc-title">{acc.name}</div>
@@ -731,6 +762,56 @@ const pageDescription = holiday.metaDescription || (() => {
   <Newsletter />
   <Footer />
   {hasPricing ? <Fragment /> : <MobileCallCTA />}
+
+  <!-- Hero ambient video: device-aware, lazy, reduced-motion safe.
+       Picks the mobile clip on phones (falls back to desktop), and loads
+       NOTHING until that choice is made — so mobile never downloads the
+       desktop clip. Reduced-motion or no JS → the poster image stays.
+       HLS streams via hls.js (Safari plays it natively); capLevelToPlayerSize
+       caps the bitrate to the player size, so small screens pull a lighter
+       stream. A self-hosted mp4 is set directly. -->
+  <script is:inline>
+    (function () {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var isMobile = matchMedia('(max-width: 610px)').matches;
+      document.querySelectorAll('.hero-video').forEach(function (v) {
+        var desktop = v.getAttribute('data-video-desktop');
+        var mobile = v.getAttribute('data-video-mobile');
+        var url = (isMobile && mobile) ? mobile : desktop;
+        if (!url) return;
+        // Muted autoplay is permitted, but some browsers (notably Safari with
+        // native HLS) need a nudge — try play() on every readiness event.
+        var start = function () { var p = v.play(); if (p) p.catch(function () {}); };
+        ['loadeddata', 'canplay', 'canplaythrough'].forEach(function (ev) {
+          v.addEventListener(ev, start);
+        });
+
+        if (url.indexOf('.m3u8') === -1) {
+          v.src = url; // self-hosted mp4
+          v.load();
+          start();
+          return;
+        }
+        if (v.canPlayType('application/vnd.apple.mpegurl')) {
+          v.src = url; // Safari / iOS — native HLS
+          v.load();
+          start();
+          return;
+        }
+        var s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/hls.js@1.5/dist/hls.min.js';
+        s.onload = function () {
+          if (window.Hls && window.Hls.isSupported()) {
+            var hls = new window.Hls({ capLevelToPlayerSize: true });
+            hls.loadSource(url);
+            hls.attachMedia(v);
+            hls.on(window.Hls.Events.MANIFEST_PARSED, start);
+          }
+        };
+        document.head.appendChild(s);
+      });
+    })();
+  </script>
 </BaseLayout>
 
 <style>
@@ -764,7 +845,16 @@ const pageDescription = holiday.metaDescription || (() => {
     background-position: 66% 50%;
     background-repeat: no-repeat;
   }
-  .hero-bg::after {
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 66% 50%;
+    z-index: 0;
+  }
+  .hero-scrim {
     content: '';
     position: absolute;
     inset: 0;
@@ -775,10 +865,14 @@ const pageDescription = holiday.metaDescription || (() => {
       rgba(0, 0, 0, 0.35) 100%
     );
     z-index: 1;
+    pointer-events: none;
   }
   @media (max-width: 768px) {
     .hero-bg {
       background-position: 12% 50%;
+    }
+    .hero-video {
+      object-position: 50% 50%;
     }
   }
 
@@ -1322,6 +1416,20 @@ const pageDescription = holiday.metaDescription || (() => {
   .overview-section h2 {
     padding-bottom: 20px;
   }
+  .operated-by-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f0f7f8;
+    border-left: 3px solid #20A1AA;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin: 0 0 18px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 14px;
+    color: #073140;
+  }
+  .operated-by-icon { color: #20A1AA; font-size: 16px; }
   .overview-section :global(p + p) {
     margin-top: 16px;
   }
@@ -2400,6 +2508,14 @@ const pageDescription = holiday.metaDescription || (() => {
     font-family: "BentonSans", sans-serif;
     font-size: 12px;
   }
+  :global(.pricing-card__ship) {
+    display: block;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 11px;
+    color: #777;
+    margin-top: 4px;
+    line-height: 1.2;
+  }
   .pricing-inline__view-all {
     display: inline-flex;
     align-items: center;
@@ -2671,6 +2787,18 @@ const pageDescription = holiday.metaDescription || (() => {
     color: #1b8f97;
     line-height: 1;
     margin-top: 4px;
+  }
+  :global(.cal-day__ship) {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 9px;
+    color: #777;
+    line-height: 1.1;
+    margin-top: 3px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 2px;
   }
   :global(button.cal-day) {
     font: inherit;
@@ -3349,6 +3477,7 @@ const pageDescription = holiday.metaDescription || (() => {
             <span class="pricing-card__day">${dep.dayOfWeek}</span>
             <span class="pricing-card__date">${dep.dateShort}</span>
             <span class="pricing-card__price">${formatPrice(roundToNine(dep.pricePp + localChargesPp))}<small>/pp</small></span>
+            ${dep.shipName ? `<span class="pricing-card__ship">${dep.shipName}</span>` : ''}
           </button>
         `).join('');
 
@@ -3433,6 +3562,7 @@ const pageDescription = holiday.metaDescription || (() => {
             html += `<button type="button" class="cal-day cal-day--available cal-day--${dep.tier}${isSelected ? ' cal-day--selected' : ''}" data-date="${dep.date}" data-price="${roundToNine(dep.pricePp + localChargesPp)}">`;
             html += `<span class="cal-day__num">${day}</span>`;
             html += `<span class="cal-day__price">${formatPrice(roundToNine(dep.pricePp + localChargesPp))}</span>`;
+            if (dep.shipName) html += `<span class="cal-day__ship">${dep.shipName.replace(/^MS\s+/i, '')}</span>`;
             html += `</button>`;
           } else {
             html += `<div class="cal-day"><span class="cal-day__num">${day}</span></div>`;
@@ -3517,6 +3647,7 @@ const pageDescription = holiday.metaDescription || (() => {
             const ppInclusive = roundToNine(dep.pricePp + localChargesPp);
             const total = ppInclusive * passengerCount;
             let html = `<strong>${dep.dateFormatted}</strong> from <strong>${dep.airportName}</strong><br>`;
+            if (dep.shipName) html += `Ship: <strong>${dep.shipName}</strong><br>`;
             if (localChargesPp > 0) {
               const lcTotal = localChargesPp * passengerCount;
               const pkgTotal = total - lcTotal;
@@ -3646,6 +3777,7 @@ const pageDescription = holiday.metaDescription || (() => {
             adults: String(passengerCount),
             pricePp: formatPriceExact(ppInclusive),
             totalPrice: formatPriceExact(total),
+            ship: dep.shipName || undefined,
           });
           closePricingModal();
         }
@@ -3834,7 +3966,7 @@ const pageDescription = holiday.metaDescription || (() => {
     let enquiryTriggerEl: HTMLElement | null = null;
     let enquiryExtra: Record<string, string> = {};
 
-    function openEnquiryModal(details?: { date?: string; airport?: string; adults?: string; pricePp?: string; totalPrice?: string }) {
+    function openEnquiryModal(details?: { date?: string; airport?: string; adults?: string; pricePp?: string; totalPrice?: string; ship?: string }) {
       if (!enquiryModal) return;
       enquiryTriggerEl = document.activeElement as HTMLElement | null;
       enquiryExtra = {};
@@ -3843,6 +3975,7 @@ const pageDescription = holiday.metaDescription || (() => {
         const parts: string[] = [];
         if (details.date) { parts.push(details.date); enquiryExtra.departure_date = details.date; }
         if (details.airport) { parts.push('from ' + details.airport); enquiryExtra.departure_airport = details.airport; }
+        if (details.ship) { parts.push(details.ship); enquiryExtra.ship = details.ship; }
         if (details.adults) { parts.push(details.adults + ' passenger' + (details.adults !== '1' ? 's' : '')); enquiryExtra.num_adults = details.adults; }
         if (details.pricePp) { enquiryExtra.price_per_person = details.pricePp; }
         if (details.totalPrice) { parts.push(details.totalPrice + ' total'); enquiryExtra.total_price = details.totalPrice; }

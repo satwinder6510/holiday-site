@@ -6,14 +6,77 @@
         <div class="newsletter-title">Subscribe to our newsletter</div>
         <span class="newsletter-desc">Get our latest news and offers delivered right to your inbox</span>
       </div>
-      <form class="newsletter-form">
-        <label for="newsletter-email" class="sr-only">Email address</label>
-        <input type="email" id="newsletter-email" placeholder="Enter email address" required />
-        <button type="submit" class="btn-primary newsletter-btn">Subscribe</button>
-      </form>
+      <div class="newsletter-form-mount">
+        <!-- Spotler Mail+ dynamic sign-up form renders here -->
+        <div id="mpform1302"></div>
+      </div>
     </div>
   </div>
 </section>
+
+<script is:inline>
+  // Lazy-load the Spotler Mail+ form only when the newsletter scrolls into view,
+  // so jQuery / jQuery UI (~300KB) don't load on every page upfront.
+  (function () {
+    var mount = document.getElementById('mpform1302');
+    if (!mount) return;
+    var started = false;
+
+    function addCss(href) {
+      var l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.type = 'text/css';
+      l.href = href;
+      document.head.appendChild(l);
+    }
+
+    function addScript(src) {
+      return new Promise(function (resolve, reject) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = false; // keep execution order
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    function loadSpotler() {
+      if (started) return;
+      started = true;
+      addCss('https://static.mailplus.nl/jq/ui/jquery-ui-1.13.2.custom.min.css');
+      addScript('https://static.mailplus.nl/jq/jquery-3.6.0.min.js')
+        .then(function () { return addScript('https://static.mailplus.nl/jq/jquery.validate.1.19.5.min.js'); })
+        .then(function () { return addScript('https://static.mailplus.nl/jq/ui/jquery-ui-1.13.2.custom.min.js'); })
+        .then(function () { return addScript('https://m4.mailplus.nl/genericservice/code/servlet/React?command=getFormJs&uid=503101206&feid=hbErRHprFNaN2U6ekmPx&p=https&om=d&of=x&c=1&jq=3'); })
+        .then(function () {
+          // Spotler's loader normally self-initialises on the window 'load' event.
+          // Because we lazy-load it on scroll (after 'load' has already fired),
+          // that listener never runs — so trigger its init manually. The init
+          // function name derives from the mount id: mpform1302 -> initShowHideform1302.
+          var formId = mount.id.replace(/^mp/, '');
+          var initFn = window['initShowHide' + formId];
+          if (typeof initFn === 'function') {
+            initFn();
+          } else {
+            window.dispatchEvent(new Event('load'));
+          }
+        })
+        .catch(function (e) { console.error('[Spotler] sign-up form failed to load', e); });
+    }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { loadSpotler(); io.disconnect(); }
+        });
+      }, { rootMargin: '300px' });
+      io.observe(mount);
+    } else {
+      loadSpotler();
+    }
+  })();
+</script>
 
 <style>
   .newsletter-section {
@@ -79,70 +142,129 @@
   @media (max-width: 768px) {
     .newsletter-desc { font-size: 16px; }
   }
-  .newsletter-form {
-    display: flex;
+  .newsletter-form-mount {
     background: #ffffff;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-    height: 96px;
-    align-items: center;
+    border-radius: 6px;
+    padding: 24px 28px;
     min-width: 550px;
   }
   @media (max-width: 768px) {
-    .newsletter-form { min-width: 0; width: 100%; max-width: 550px; }
+    .newsletter-form-mount { min-width: 0; width: 100%; max-width: 550px; padding: 20px; }
   }
   @media (max-width: 610px) {
-    .newsletter-form {
-      height: auto;
-      background: none;
-      box-shadow: none;
-      justify-content: center;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
+    .newsletter-form-mount {
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       margin: 0 auto;
     }
   }
-  .newsletter-form input {
-    border: none;
-    outline: none;
+  /* ---- Spotler Mail+ form styling (injected at runtime into the card) ---- */
+  /* Uses :global() because Astro scoped CSS can't reach JS-injected markup. */
+  .newsletter-form-mount :global(.mpForm) {
     font-family: "BentonSansMedium", sans-serif;
-    font-size: 16px;
-    color: #878787;
-    padding: 0 25px;
-    flex-grow: 1;
-    height: 100%;
+    margin: 0;
   }
-  @media (max-width: 610px) {
-    .newsletter-form input {
-      display: block;
-      width: 100%;
-      height: 50px;
-      border-radius: 4px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      padding: 0 16px;
-      font-size: 15px;
-    }
-    .newsletter-form input::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
+  .newsletter-form-mount :global(.mpFormTable) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
-  .newsletter-btn {
-    width: 155px;
-    min-width: 155px;
-    height: 54px;
-    margin: 0 17px 0 0;
-    border-radius: 2px;
-    box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
-    letter-spacing: 1px;
+  /* Force a single, stacked column even if Spotler sets a two-column layout */
+  .newsletter-form-mount :global(.mpFormTable.mpTwoColumnLayout),
+  .newsletter-form-mount :global(.mpQuestionTable) {
+    display: block;
+    width: 100%;
+    float: none;
+  }
+  .newsletter-form-mount :global(.mpQuestionTable) {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+  }
+  .newsletter-form-mount :global(.mpFormLabel) {
+    margin-bottom: 6px;
+  }
+  .newsletter-form-mount :global(.descriptionLabel) {
     font-size: 14px;
+    font-weight: 600;
+    color: #073140;
   }
-  @media (max-width: 610px) {
-    .newsletter-btn { margin-right: 0; width: 100%; min-width: 0; }
+  .newsletter-form-mount :global(.mandatorySign) {
+    color: #ff7f00;
+    margin-left: 2px;
+  }
+  .newsletter-form-mount :global(.mpFormField input[type="text"]),
+  .newsletter-form-mount :global(.mpFormField input[type="email"]),
+  .newsletter-form-mount :global(.mpFormField input[type="tel"]) {
+    width: 100%;
+    box-sizing: border-box;
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid #d8dee0;
+    border-radius: 4px;
+    font-size: 15px;
+    color: #424242;
+    background: #ffffff;
+  }
+  .newsletter-form-mount :global(.mpFormField input[type="text"]:focus),
+  .newsletter-form-mount :global(.mpFormField input[type="email"]:focus),
+  .newsletter-form-mount :global(.mpFormField input[type="tel"]:focus) {
+    outline: none;
+    border-color: #20A1AA;
+    box-shadow: 0 0 0 3px rgba(32, 161, 170, 0.15);
+  }
+  .newsletter-form-mount :global(.sublabel) {
+    font-size: 12px;
+    color: #888888;
+    margin-top: 4px;
+  }
+  /* Radio / checkbox lists (e.g. gender) */
+  .newsletter-form-mount :global(.mpFormField ul) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .newsletter-form-mount :global(.mpFormField ul li) {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0 16px 4px 0;
+    font-size: 14px;
+    color: #424242;
+  }
+  /* Submit button → brand orange */
+  .newsletter-form-mount :global(.submitButton) {
+    background: #ff7f00;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 13px 40px;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    font-family: "BentonSansMedium", sans-serif;
+    transition: opacity 0.2s ease;
+  }
+  .newsletter-form-mount :global(.submitButton:hover) {
+    opacity: 0.9;
+  }
+  .newsletter-form-mount :global(.submitCell) {
+    margin-top: 6px;
+  }
+  /* Validation errors */
+  .newsletter-form-mount :global(.mpErrorSummary) {
+    color: #c0392b;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .newsletter-form-mount :global(.mpErrorMessage),
+  .newsletter-form-mount :global(label.error) {
+    color: #c0392b;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
   }
   .sr-only {
     position: absolute;

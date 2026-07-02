@@ -1,23 +1,47 @@
 ---
 // Experiential blog route → /blog/experiences/<slug>
 //
-// getStaticPaths uses `buildExperiences`: in DEV that includes drafts (so you
-// can preview them locally), but a production build only generates routes for
-// PUBLISHED posts — so drafts never reach the live site, the sitemap, or any
-// feed. Lives under /blog/experiences/ so it never collides with the 151
-// standard posts at /blog/<slug>, and does not fork blog/[slug].astro.
+// SSR (prerender=false) so a post mapped to a cruise can pull that cruise's LIVE
+// availability calendar from D1. `buildExperiences` is published-only in a prod
+// build, so draft slugs 404 in production but still preview in dev. Lives under
+// /blog/experiences/ so it never collides with the standard posts at /blog/<slug>.
+export const prerender = false;
+
 import ExperientialPost from '../../../layouts/ExperientialPost.astro';
 import { buildExperiences } from '../../../data/experiences';
-import type { Experience } from '../../../data/experiences';
+import { getDb } from '../../../lib/get-db';
+import { getHolidayBySlugFromDb } from '../../../lib/holidays-db';
+import type { HolidayPricing } from '../../../lib/pricing-transforms';
 
-export function getStaticPaths() {
-  return buildExperiences.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+const { slug } = Astro.params;
+const post = buildExperiences.find((p) => p.slug === slug);
+if (!post) return new Response(null, { status: 404 });
+
+// If the post maps to a cruise, fetch its live pricing for the availability calendar.
+let cruisePricing: HolidayPricing | null = null;
+let cruiseUrl = '';
+let cruiseTitle = '';
+let cruiseId: number | string = '';
+if (post.cruiseSlug) {
+  try {
+    const db = getDb(Astro);
+    const result = await getHolidayBySlugFromDb(db, post.cruiseSlug);
+    if (result) {
+      cruisePricing = result.pricing;
+      cruiseUrl = `/Holidays/${result.holiday.countrySlug}/${result.holiday.slug}`;
+      cruiseTitle = result.holiday.title;
+      cruiseId = result.holiday.id;
+    }
+  } catch {
+    // Pricing is best-effort — never let it break the post.
+  }
 }
-
-const { post } = Astro.props as { post: Experience };
 ---
 
-<ExperientialPost post={post} />
+<ExperientialPost
+  post={post}
+  cruisePricing={cruisePricing}
+  cruiseUrl={cruiseUrl}
+  cruiseTitle={cruiseTitle}
+  cruiseId={cruiseId}
+/>

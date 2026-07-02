@@ -4,6 +4,7 @@ import type { APIRoute } from 'astro';
 import { createDb } from '../lib/db';
 import { getAllListedHolidaysFromDb } from '../lib/holidays-db';
 import { allCollections } from '../data/collections-static';
+import { publishedExperiences } from '../data/experiences';
 
 const SITE = 'https://holidays.flightsandpackages.com';
 
@@ -46,6 +47,11 @@ export const GET: APIRoute = async ({ locals }) => {
     // Individual holiday detail pages
     for (const h of holidays) {
       urls.push({ loc: `${SITE}/Holidays/${h.countrySlug}/${h.slug}`, lastmod: h.updatedAt ? h.updatedAt.substring(0, 10) : undefined });
+    }
+
+    // Experiential blog posts (SSR — not in the static sitemap-0.xml)
+    for (const e of publishedExperiences) {
+      urls.push({ loc: `${SITE}/blog/experiences/${e.slug}/` });
     }
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>

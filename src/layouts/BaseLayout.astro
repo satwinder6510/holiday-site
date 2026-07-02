@@ -17,6 +17,8 @@ const {
   preloadImage,
 } = Astro.props;
 
+import NewsletterPopup from '../components/NewsletterPopup.astro';
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImage = image || 'https://holidays.flightsandpackages.com/images/og-default.jpg';
 
@@ -117,6 +119,8 @@ const websiteSchema = {
 </head>
 <body>
   <main><slot /></main>
+
+  <NewsletterPopup />
 
   <!-- Lazy background-image loader -->
   <script is:inline>

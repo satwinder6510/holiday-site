@@ -147,10 +147,27 @@ River cruise offers are **mixed in with regular holidays** — no separate `/cru
 
 - **Route:** `src/pages/Holidays/river-cruises/[...river].astro` — SSR catch-all route
 - **URL pattern:** `/Holidays/river-cruises/` (all rivers) or `/Holidays/river-cruises/danube` (specific river)
+- **Data source:** `getAllListedHolidaysFromDb` → cruises from `cruise-export.json` (`cruiseHolidays`) **+** any `flight_packages` rows tagged `'River Cruise'` (manually-created cruise holidays, from D1). Both are filtered by `tags.includes('River Cruise')`.
 - **Sidebar:** Accordion nav grouped by river name, with collapsible route listings
 - **`slugifyRiver()`** in `holiday-transforms.ts` — converts river names to URL slugs
-- **Filters:** Price range (min/max), duration, board type, cabin type, operator — all via JS-driven accordion sidebar
+- **Filters:** Price range (min/max), duration, board type, cabin type, operator — all via JS-driven accordion sidebar. **Operator match is case-insensitive** (cards emit `operator_name` e.g. `A-ROSA`; checkbox value is `A-Rosa`).
 - **Sort:** Price (low/high), duration (short/long), departure date — ARIA listbox with keyboard navigation (ArrowUp/Down/Home/End)
+
+#### Card design (2026-06, promo-style — `public/promo/viva-cruises/index.html` reference)
+Horizontal `.cruise-card` (kept `class="cruise-card holiday"` + `data-country/duration/operator/price` so the filter/sort/load-more JS is unchanged):
+- **Image = a gallery:** the **main image fills the column (cover-crop, `flex:1 1 auto; min-height:210px`)** so every card is a uniform height regardless of body length/photo count; a **fixed 2-row thumbnail strip** (`grid-auto-rows:62px; flex:0 0 auto`) is pinned below it. (Earlier kept a 4:3 no-crop main with flex-filling thumbnails, but that ballooned thumbnails on the ~18 cards with 2–3 photos — switched to cover-crop for uniformity, 2026-06-29.) Images = `[holiday.image, ...cabinImages, ...galleryImages]` deduped. Thumbnail click swaps the main (delegated JS on `holidaysContainer`).
+- **UX pass (2026-06-29, ux-designer agent):** badge reads "N nights" (was "5 Days / 04 Nights"); real `BentonSansBold` faces (was faux-bold); route line + small greys darkened to pass WCAG AA (`#0d6066` / `#6b6b6b`); price separated with a hairline + 30px figure; flight-note flattened from a boxed panel to a ✓ line; SSR results heading ("N river cruises"); sticky filter sidebar; CTAs stack at 610px.
+- **Title** clamped to 2 lines; **route line** = full cleaned port sequence (`buildPortSequence()` strips Widgety junk like "Board your ship"/"River Day", dedupes, caps long ones), falls back to `routeFrom → routeTo`.
+- **Cabin prices** = collapsible `<details>` ("Cabin options"), cheapest pp per cabin type from live D1 via **`getCabinPricingForOfferIds`** (`holidays-db.ts`), **scoped to the cheapest-entry SHIP** (a route can run on several ships with different decks). CroisiEurope: `bucketByDeck()` collapses "Cat X" (=position, irrelevant) → cheapest per **deck** (Main/Middle/Upper) + Suite. A-ROSA: keeps cabin-type names via `shortenCabinName()`. Headline "from" = cheapest cabin row.
+- **Call to Book** (`tel:`) + **View More** CTAs; operator + duration badges on the image.
+- New Drizzle tables in `db-schema.ts`: `cruiseSailings` (id, ship_id, departure_date), `cruiseOfferSailingCabins` (offer×sailing×cabin_type×net_cost_pp).
+
+#### Multi-ship cruises (detail page + calendar)
+A cruise = a route that can be sailed by **multiple ships** on different dates (~43% of offers), with different decks/cabins/prices. Everything anchors to the **cheapest-entry ship**:
+- **Export** (`holiday-admin-api/scripts/export-cruises.ts`) emits `ships[]` (all ships with future sailings + details) and sets the primary `ship` = cheapest sailing's ship.
+- **Detail page** (`[country]/[slug].astro`): renders a card per ship ("Your Ship(s)" heading) + an **"Operated by X & Y on selected dates"** line (`operatedByLabel` from `transformCruise`, multi-ship only).
+- **Pricing calendar shows the ship per date** — `getCruisePricingFromDb` joins `cruise_sailings.ship_id`, dedupes to cheapest per (date,airport), maps shipId→name via the export `ships[]`. `Departure`/`RawDeparture` carry `shipId`/`shipName`. Shown on date cards, calendar cells (`.cal-day__ship`), the selected-date summary, and the enquiry payload (`enquiryExtra.ship`).
+- **Canonical-country redirect:** cruise country is derived from ports (itinerary), so it can change. `[country]/[slug].astro` looks up by slug (country-agnostic) and 301-redirects a mismatched/stale country to the canonical URL (keeps old `…/europe/…` links alive, avoids duplicate content). Applies to regular holidays too (normalises case).
 
 ## SEO Infrastructure
 
@@ -214,6 +231,13 @@ Listing pages (`[country]/index.astro`, `river-cruises/[...river].astro`) have h
 - **Payload (Contact Form):** Form Type, Booking Reference, Reason, Message, Source, Landing Page, Page URL
 - **Calendar → Enquiry bridge:** `enquiryExtra` object populated by `openEnquiryModal()` when coming from pricing calendar — carries date, airport, adults, price pp, total price
 - **Contact page:** `src/pages/contact.astro` — standalone form (no calendar), different fields (booking_ref, reason, message)
+
+## Newsletter & Exit Popup (Spotler Mail+)
+
+- **Inline newsletter** (`src/components/Newsletter.astro`, on most pages via the footer area): embeds the Spotler Mail+ **Dynamic** form (`#mpform1302`, uid `503101206`). Scripts (jQuery/jQuery UI/validate + Spotler loader) are **lazy-loaded on scroll** (IntersectionObserver) to protect page speed. **Gotcha:** Spotler's loader self-inits on the `window.load` event, which has already fired by the time we lazy-load it, so we trigger it manually: `window['initShowHide' + formId]()` (mount `mpform1302` → `initShowHideform1302`). The loader uses **JSONP** (`callback=?`) so it is NOT domain-restricted; a blank box = the lazy-load/`window.load` timing issue, not CORS. Brand-styled via `:global(.mpForm …)`.
+- **Exit-intent popup** (`src/components/NewsletterPopup.astro`, mounted globally in `BaseLayout`): a SECOND Spotler form (`#mpform1303`, feid `uK9T7KIKqIUPpxKvyZdK`) — the inline form can't be reused on the same page (duplicate `#mpformXXXX` ids break it). Desktop exit-intent + mobile 25s/60%-scroll trigger; 30-day frequency cookie (`fp_newsletter_popup`); suppressed for subscribers (`fp_newsletter_subscribed`, set on the thank-you page). **Must stay hidden when closed via `.np-overlay[hidden]{display:none}`** — the `.np-overlay{display:flex}` rule otherwise overrides the `hidden` attribute and the invisible full-screen layer swallows all clicks site-wide.
+- **Thank-you page:** `src/pages/newsletter-thank-you.astro` (`noindex`) — Spotler's post-submit redirect target.
+- Spotler forms have a built-in **anti-spam "sum" field** (auto-filled by their JS) — submissions need it; if a form ever rejects with "incorrect sum total", check the form's spam setting in Spotler.
 
 ## Experiential Blog Posts (long-form storytelling)
 

@@ -1,0 +1,397 @@
+---
+// Self-contained availability calendar for experiential posts that map to a cruise.
+// Renders the live pricing (same data the cruise detail page uses) as an inline
+// month grid: airport dropdown → month grid with per-date prices/tiers → pick a
+// date → enquire INLINE (same /api/contact flow as the cruise page; no redirect).
+import type { HolidayPricing } from '../../lib/pricing-transforms';
+
+interface Props {
+  pricing: HolidayPricing;
+  packageName: string;
+  packageId: number | string;
+  bookingUrl?: string; // optional "see full cruise page" link
+  phone?: string;
+  title?: string;
+}
+const {
+  pricing,
+  packageName,
+  packageId,
+  bookingUrl = '',
+  phone = '0208 183 0518',
+  title = 'Availability & Prices',
+} = Astro.props;
+const pricingJson = JSON.stringify(pricing);
+const telHref = `tel:${phone.replace(/\s/g, '')}`;
+---
+
+<section
+  class="cpc"
+  id="availability"
+  aria-label="Availability and prices"
+  data-package-name={packageName}
+  data-package-id={String(packageId)}
+  data-phone={phone}
+>
+  <div class="cpc__inner">
+    <div class="cpc__head">
+      <p class="cpc__eyebrow">Plan your trip</p>
+      <h2 class="cpc__title">{title}</h2>
+      <p class="cpc__sub">Live fly-cruise prices per person, including return UK flights. Pick a date to enquire.</p>
+    </div>
+
+    <div class="cpc__card">
+      <div class="cpc__controls">
+        <label class="cpc__label" for="cpc-airport">Departing from</label>
+        <select class="cpc__select" id="cpc-airport">
+          {pricing.airports.map((a) => (
+            <option value={a.code}>{a.name} — from {a.cheapestPriceFormatted}</option>
+          ))}
+        </select>
+      </div>
+
+      <div class="cpc__monthnav">
+        <button type="button" class="cpc__arrow" id="cpc-prev" aria-label="Previous month">&lsaquo;</button>
+        <span class="cpc__month-label" id="cpc-month-label"></span>
+        <button type="button" class="cpc__arrow" id="cpc-next" aria-label="Next month">&rsaquo;</button>
+      </div>
+
+      <div class="cpc__grid" id="cpc-grid"></div>
+
+      <div class="cpc__legend" aria-hidden="true">
+        <span class="cpc__legend-item cpc__legend-item--best">Best price</span>
+        <span class="cpc__legend-item cpc__legend-item--mid">Mid range</span>
+        <span class="cpc__legend-item cpc__legend-item--peak">Peak</span>
+      </div>
+
+      <div class="cpc__summary cpc__summary--empty">
+        <div class="cpc__summary-info" id="cpc-summary-info">Select a date to see the price</div>
+        <button type="button" class="cpc__btn" id="cpc-enquire">Enquire now</button>
+      </div>
+    </div>
+
+    {bookingUrl && <a class="cpc__fulllink" href={bookingUrl}>See the full cruise page &rsaquo;</a>}
+  </div>
+
+  <!-- Inline enquiry modal -->
+  <div class="cpc-enq" id="cpc-enq" hidden>
+    <div class="cpc-enq__card" role="dialog" aria-modal="true" aria-label="Cruise enquiry">
+      <button type="button" class="cpc-enq__close" id="cpc-enq-close" aria-label="Close">&times;</button>
+      <div class="cpc-enq__head">Enquire about this cruise</div>
+      <div class="cpc-enq__pkg">{packageName}</div>
+      <div class="cpc-enq__detail" id="cpc-enq-detail"></div>
+      <form id="cpc-enq-form" class="cpc-enq__form">
+        <div class="cpc-enq__row">
+          <input name="first_name" type="text" placeholder="First name" autocomplete="given-name" required />
+          <input name="last_name" type="text" placeholder="Last name" autocomplete="family-name" required />
+        </div>
+        <input name="email" type="email" placeholder="Email" autocomplete="email" required />
+        <input name="phone" type="tel" placeholder="Phone number" autocomplete="tel" required />
+        <button type="submit" class="cpc__btn cpc-enq__submit" id="cpc-enq-submit">Submit Enquiry</button>
+        <p class="cpc-enq__err" id="cpc-enq-err" hidden></p>
+        <p class="cpc-enq__note">Or call us on <a href={telHref}>{phone}</a></p>
+      </form>
+      <div class="cpc-enq__success" id="cpc-enq-success" hidden>
+        <div class="cpc-enq__success-icon">&#10003;</div>
+        <p class="cpc-enq__success-msg">Thank you — one of our cruise specialists will be in touch shortly.</p>
+        <p class="cpc-enq__note">Or call us now on <a href={telHref}>{phone}</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/json" id="cpc-data" set:html={pricingJson}></script>
+</section>
+
+<style>
+  .cpc { background: #f4f8f9; padding: 80px 0 72px; scroll-margin-top: 90px; }
+  .cpc__inner { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  .cpc__head { text-align: center; max-width: 620px; margin: 0 auto 28px; }
+  .cpc__eyebrow { font-family: "BentonSans", sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #177D85; margin: 0 0 12px; }
+  .cpc__title { font-family: "CaslonGraphiqueEF", Georgia, serif; font-size: clamp(28px, 4vw, 38px); line-height: 1.1; color: #073140; margin: 0 0 10px; }
+  .cpc__sub { color: #5a6668; font-size: 16px; line-height: 1.5; margin: 0; }
+
+  .cpc__card { background: #fff; border: 1px solid #e1edee; border-radius: 16px; padding: 28px; box-shadow: 0 1px 3px rgba(7,49,64,.04); }
+
+  .cpc__controls { display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; }
+  .cpc__label { font-family: "BentonSansMedium", sans-serif; font-size: 12px; letter-spacing: .4px; text-transform: uppercase; color: #177D85; }
+  .cpc__select {
+    width: 100%; min-height: 48px; padding: 13px 42px 13px 14px;
+    border: 1px solid #cfe0e2; border-radius: 10px; font-size: 15px; color: #073140;
+    -webkit-appearance: none; appearance: none;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%2320A1AA' stroke-width='2' d='M1 1.5 6 6.5l5-5'/%3E%3C/svg%3E") no-repeat right 14px center;
+  }
+  .cpc__select:focus-visible { outline: 2px solid #20A1AA; outline-offset: 1px; border-color: #20A1AA; }
+
+  .cpc__monthnav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 14px; }
+  .cpc__arrow { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border: 1px solid #cfe0e2; border-radius: 50%; background: #fff; font-size: 20px; line-height: 1; color: #20A1AA; cursor: pointer; }
+  .cpc__arrow:hover:not(:disabled) { background: #eef6f7; }
+  .cpc__arrow:disabled { opacity: .35; cursor: default; }
+  .cpc__month-label { font-family: "CaslonGraphiqueEF", Georgia, serif; font-size: 20px; color: #073140; min-width: 170px; text-align: center; }
+
+  .cpc__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  /* Day headers + cells are injected by JS, so they need :global() — Astro's
+     scoped hash is only applied to markup present at build time. */
+  :global(.cpc-dh) { text-align: center; font-size: 11px; letter-spacing: .4px; text-transform: uppercase; color: #9aa8aa; font-family: "BentonSansMedium", sans-serif; padding: 0 0 8px; }
+
+  :global(.cpc-day) { min-height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 4px 2px; border-radius: 10px; font: inherit; background: none; border: 1px solid transparent; }
+  :global(.cpc-day--empty) { min-height: 0; border: none; }
+  :global(.cpc-day:not(button) .cpc-day__num) { font-size: 12px; color: #cdd6d8; }
+  :global(button.cpc-day) { cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
+  :global(button.cpc-day .cpc-day__num) { font-size: 15px; line-height: 1; color: #073140; font-family: "BentonSansMedium", sans-serif; }
+  :global(button.cpc-day .cpc-day__price) { display: block; font-size: 11px; line-height: 1.1; color: #3a4344; }
+  :global(.cpc-day--best) { background: #E3F4F5; border-color: #9DD6DA; }
+  :global(.cpc-day--mid)  { background: #ffffff; border-color: #dbe6e8; }
+  :global(.cpc-day--peak) { background: #FFF1E2; border-color: #F4C98A; }
+  :global(button.cpc-day:hover) { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(7,49,64,.12); }
+  :global(button.cpc-day:focus-visible) { outline: 2px solid #20A1AA; outline-offset: 2px; }
+  :global(.cpc-day--selected), :global(.cpc-day--selected:hover) { box-shadow: 0 0 0 2px #20A1AA inset; border-color: #20A1AA; transform: none; }
+  @media (prefers-reduced-motion: reduce) { :global(button.cpc-day) { transition: none; } }
+
+  .cpc__legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 18px; margin: 16px 0 0; font-size: 12px; color: #5a6668; }
+  .cpc__legend-item::before { content: ""; display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .cpc__legend-item--best::before { background: #E3F4F5; border: 1px solid #9DD6DA; }
+  .cpc__legend-item--mid::before  { background: #ffffff; border: 1px solid #dbe6e8; }
+  .cpc__legend-item--peak::before { background: #FFF1E2; border: 1px solid #F4C98A; }
+
+  .cpc__summary { margin-top: 24px; padding: 18px 20px; background: #f4f8f9; border: 1px solid #e1edee; border-radius: 12px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; }
+  .cpc__summary-info { display: flex; flex-direction: column; gap: 2px; }
+  .cpc__summary--empty .cpc__summary-info { color: #5a6668; font-size: 14px; }
+  /* Summary detail is injected by JS → :global() */
+  :global(.cpc__sum-date) { font-family: "BentonSansMedium", sans-serif; font-size: 15px; color: #073140; }
+  :global(.cpc__sum-meta) { font-size: 13px; color: #5a6668; }
+  :global(.cpc__sum-price) { font-size: 14px; color: #177D85; margin-top: 4px; }
+  :global(.cpc__sum-price strong) { font-family: "BentonSansMedium", sans-serif; font-size: 22px; }
+  :global(.cpc__sum-price .cpc__sum-pp) { color: #5a6668; }
+
+  .cpc__btn { background: #ff7f00; color: #fff; min-height: 48px; padding: 0 24px; border-radius: 8px; border: none; cursor: pointer; font-family: "BentonSansMedium", sans-serif; font-size: 15px; white-space: nowrap; }
+  .cpc__btn:hover { filter: brightness(1.06); }
+  .cpc__fulllink { display: block; text-align: center; margin-top: 16px; color: #20A1AA; font-size: 14px; text-decoration: none; }
+  .cpc__fulllink:hover { text-decoration: underline; }
+
+  /* Inline enquiry modal */
+  .cpc-enq { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(0,0,0,0.6); }
+  .cpc-enq[hidden] { display: none; }
+  .cpc-enq__card { position: relative; background: #fff; border-radius: 16px; width: 100%; max-width: 480px; padding: 28px; max-height: 92vh; overflow-y: auto; border-top: 4px solid #20A1AA; animation: cpcPop .18s ease-out; }
+  @keyframes cpcPop { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .cpc-enq__card { animation: none; } }
+  .cpc-enq__close { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: none; border: none; font-size: 26px; line-height: 1; color: #999; cursor: pointer; }
+  .cpc-enq__close:hover { color: #073140; }
+  .cpc-enq__head { font-family: "CaslonGraphiqueEF", Georgia, serif; font-size: 22px; color: #073140; }
+  .cpc-enq__pkg { font-size: 14px; color: #555; margin: 2px 0 12px; }
+  .cpc-enq__detail { background: #f4f8f9; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #073140; margin-bottom: 16px; }
+  .cpc-enq__detail:empty { display: none; }
+  .cpc-enq__form { display: flex; flex-direction: column; gap: 10px; }
+  .cpc-enq__row { display: flex; gap: 10px; }
+  .cpc-enq__row input { flex: 1 1 0; min-width: 0; }
+  .cpc-enq__form input { padding: 11px 12px; border: 1px solid #cfe0e2; border-radius: 8px; font-size: 14px; width: 100%; }
+  .cpc-enq__form input:focus-visible { outline: 2px solid #20A1AA; outline-offset: 1px; border-color: #20A1AA; }
+  .cpc-enq__submit { margin-top: 4px; width: 100%; text-align: center; }
+  .cpc-enq__err { color: #c0392b; font-size: 13px; margin: 0; }
+  .cpc-enq__err[hidden] { display: none; }
+  .cpc-enq__note { font-size: 13px; color: #666; text-align: center; margin: 8px 0 0; }
+  .cpc-enq__note a { color: #20A1AA; }
+  .cpc-enq__success { text-align: center; padding: 14px 0; }
+  .cpc-enq__success[hidden] { display: none; }
+  .cpc-enq__success-icon { width: 54px; height: 54px; margin: 0 auto 12px; border-radius: 50%; background: #20A1AA; color: #fff; font-size: 28px; line-height: 54px; }
+  .cpc-enq__success-msg { font-size: 16px; color: #073140; }
+
+  @media (max-width: 520px) {
+    .cpc { padding: 56px 0 52px; }
+    .cpc__card { padding: 18px; }
+    .cpc__grid { gap: 4px; }
+    :global(.cpc-day) { min-height: 54px; border-radius: 8px; }
+    :global(button.cpc-day .cpc-day__num) { font-size: 14px; }
+    :global(button.cpc-day .cpc-day__price) { font-size: 10px; }
+    .cpc__summary { grid-template-columns: 1fr; text-align: left; }
+    .cpc__btn { width: 100%; }
+    .cpc-enq__row { flex-direction: column; }
+  }
+  @media (max-width: 400px) {
+    :global(button.cpc-day .cpc-day__price) { display: none; } /* tint + summary carry it */
+  }
+</style>
+
+<script>
+  (() => {
+    const root = document.querySelector('.cpc') as HTMLElement | null;
+    if (!root) return;
+    const dataEl = document.getElementById('cpc-data');
+    if (!dataEl) return;
+    const data = JSON.parse(dataEl.textContent || '{}');
+    if (!data.departures || !data.airports || !data.airports.length) return;
+
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const grid = document.getElementById('cpc-grid');
+    const monthLabel = document.getElementById('cpc-month-label');
+    const airportSel = document.getElementById('cpc-airport') as HTMLSelectElement | null;
+    const summaryInfo = document.getElementById('cpc-summary-info');
+    const summaryBox = root.querySelector('.cpc__summary');
+    const enquireBtn = document.getElementById('cpc-enquire');
+
+    let selectedAirport = data.airports[0].code;
+    let monthKeys: string[] = [];
+    let monthIdx = 0;
+    let selectedDate = '';
+
+    const depsFor = (code: string) => data.departures.filter((d: any) => d.airportCode === code);
+    const findDep = (date: string) => data.departures.find((d: any) => d.date === date && d.airportCode === selectedAirport);
+
+    function buildMonthKeys() {
+      const set = new Set<string>();
+      for (const d of depsFor(selectedAirport)) {
+        const dt = new Date(d.date + 'T00:00:00');
+        set.add(`${dt.getFullYear()}-${String(dt.getMonth()).padStart(2, '0')}`);
+      }
+      monthKeys = [...set].sort();
+      monthIdx = 0;
+    }
+
+    function renderMonth() {
+      if (!grid || !monthLabel) return;
+      if (!monthKeys.length) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#666;padding:20px;">No departures for this airport.</p>'; monthLabel.textContent = ''; return; }
+      const [y, m] = monthKeys[monthIdx].split('-').map(Number);
+      monthLabel.textContent = `${MONTHS[m]} ${y}`;
+      const deps = depsFor(selectedAirport).filter((d: any) => {
+        const dt = new Date(d.date + 'T00:00:00');
+        return dt.getFullYear() === y && dt.getMonth() === m;
+      });
+      const depsMap = new Map<number, any>();
+      for (const d of deps) { depsMap.set(new Date(d.date + 'T00:00:00').getDate(), d); }
+      const startOffset = (new Date(y, m, 1).getDay() + 6) % 7;
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      let html = '';
+      for (const dh of ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']) html += `<div class="cpc-dh">${dh}</div>`;
+      for (let i = 0; i < startOffset; i++) html += '<div class="cpc-day cpc-day--empty"></div>';
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dep = depsMap.get(day);
+        if (dep) {
+          const sel = dep.date === selectedDate ? ' cpc-day--selected' : '';
+          const aria = `${dep.dateFormatted}, from ${dep.priceFormatted} per person`;
+          html += `<button type="button" class="cpc-day cpc-day--${dep.tier}${sel}" data-date="${dep.date}" aria-label="${aria}"${sel ? ' aria-pressed="true"' : ''}>`;
+          html += `<span class="cpc-day__num">${day}</span><span class="cpc-day__price">${dep.priceFormatted}</span></button>`;
+        } else {
+          html += `<div class="cpc-day"><span class="cpc-day__num">${day}</span></div>`;
+        }
+      }
+      grid.innerHTML = html;
+      const prevBtn = document.getElementById('cpc-prev') as HTMLButtonElement | null;
+      const nextBtn = document.getElementById('cpc-next') as HTMLButtonElement | null;
+      if (prevBtn) prevBtn.disabled = monthIdx <= 0;
+      if (nextBtn) nextBtn.disabled = monthIdx >= monthKeys.length - 1;
+      grid.querySelectorAll('button.cpc-day').forEach((c) => c.addEventListener('click', () => selectDate((c as HTMLElement).dataset.date || '')));
+    }
+
+    function selectDate(date: string) {
+      selectedDate = date;
+      const dep = findDep(date);
+      if (dep && summaryInfo) {
+        const ship = dep.shipName ? ` &middot; ${dep.shipName}` : '';
+        summaryInfo.innerHTML =
+          `<span class="cpc__sum-date">${dep.dateFormatted}</span>` +
+          `<span class="cpc__sum-meta">${dep.airportName}${ship}</span>` +
+          `<span class="cpc__sum-price">From <strong>${dep.priceFormatted}</strong> <span class="cpc__sum-pp">pp</span></span>`;
+        summaryBox?.classList.remove('cpc__summary--empty');
+      }
+      renderMonth();
+    }
+
+    airportSel?.addEventListener('change', () => {
+      selectedAirport = airportSel.value;
+      selectedDate = '';
+      if (summaryInfo) summaryInfo.textContent = 'Select a date to see the price';
+      summaryBox?.classList.add('cpc__summary--empty');
+      buildMonthKeys();
+      renderMonth();
+    });
+    document.getElementById('cpc-prev')?.addEventListener('click', () => { if (monthIdx > 0) { monthIdx--; renderMonth(); } });
+    document.getElementById('cpc-next')?.addEventListener('click', () => { if (monthIdx < monthKeys.length - 1) { monthIdx++; renderMonth(); } });
+
+    // ── Inline enquiry modal ──
+    const enqModal = document.getElementById('cpc-enq');
+    const enqForm = document.getElementById('cpc-enq-form') as HTMLFormElement | null;
+    const enqSuccess = document.getElementById('cpc-enq-success');
+    const enqDetail = document.getElementById('cpc-enq-detail');
+    const enqErr = document.getElementById('cpc-enq-err');
+    const pkgName = root.dataset.packageName || '';
+    const pkgId = root.dataset.packageId || '';
+    const phone = root.dataset.phone || '';
+
+    function openEnq() {
+      if (!enqModal) return;
+      if (enqDetail) {
+        const dep = selectedDate ? findDep(selectedDate) : null;
+        enqDetail.innerHTML = dep
+          ? `${dep.dateFormatted} &bull; from ${dep.airportName}${dep.shipName ? ' &bull; ' + dep.shipName : ''} &bull; ${dep.priceFormatted} pp`
+          : '';
+      }
+      if (enqForm) enqForm.hidden = false;
+      if (enqSuccess) enqSuccess.hidden = true;
+      if (enqErr) enqErr.hidden = true;
+      enqModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      (enqModal.querySelector('input[name=first_name]') as HTMLElement | null)?.focus();
+    }
+    function closeEnq() { if (enqModal) enqModal.hidden = true; document.body.style.overflow = ''; }
+
+    enquireBtn?.addEventListener('click', openEnq);
+    document.getElementById('cpc-enq-close')?.addEventListener('click', closeEnq);
+    enqModal?.addEventListener('click', (e) => { if (e.target === enqModal) closeEnq(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && enqModal && !enqModal.hidden) closeEnq(); });
+
+    enqForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('cpc-enq-submit') as HTMLButtonElement | null;
+      const payload: Record<string, string> = {};
+      new FormData(enqForm).forEach((v, k) => { payload[k] = v as string; });
+      payload.form_type = 'Package Enquiry';
+      payload.package_name = pkgName;
+      payload.package_id = String(pkgId);
+      payload.source = sessionStorage.getItem('lead_source') || 'Direct';
+      payload.landing_page = sessionStorage.getItem('landing_page') || '';
+      payload.page_url = window.location.pathname;
+      payload.page_title = document.title;
+      const dep = selectedDate ? findDep(selectedDate) : null;
+      if (dep) {
+        payload.departure_date = dep.dateFormatted;
+        payload.departure_airport = dep.airportName;
+        payload.price_per_person = dep.priceFormatted;
+      }
+      if (enqErr) enqErr.hidden = true;
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+      try {
+        const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (!res.ok) throw new Error('failed');
+        if (enqForm) enqForm.hidden = true;
+        if (enqSuccess) enqSuccess.hidden = false;
+        if (typeof (window as any).fbq !== 'undefined') (window as any).fbq('track', 'Lead', { content_name: pkgName });
+      } catch {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit Enquiry'; }
+        if (enqErr) { enqErr.textContent = `Sorry, something went wrong. Please call us on ${phone}.`; enqErr.hidden = false; }
+      }
+    });
+
+    // Smooth-scroll any in-page link that targets this section (e.g. the
+    // "From £X pp" bookable-strip button). Custom eased rAF scroll to a target
+    // computed once — native smooth scroll is janky in Safari on a long page.
+    document.querySelectorAll('a[href="#availability"]').forEach((a) => a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetY = Math.max(0, root.getBoundingClientRect().top + window.scrollY - 80);
+      const startY = window.scrollY;
+      const dist = targetY - startY;
+      if (Math.abs(dist) < 4) return;
+      const dur = 480;
+      let start = -1;
+      const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+      const step = (ts: number) => {
+        if (start < 0) start = ts;
+        const p = Math.min(1, (ts - start) / dur);
+        window.scrollTo(0, startY + dist * ease(p));
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }));
+
+    buildMonthKeys();
+    renderMonth();
+  })();
+</script>

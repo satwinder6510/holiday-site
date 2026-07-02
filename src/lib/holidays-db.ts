@@ -1,7 +1,7 @@
 // SSR query functions — fetch holidays + pricing from D1
-import { eq, and, inArray, gte } from 'drizzle-orm';
+import { eq, and, inArray, gte, sql } from 'drizzle-orm';
 import type { Database } from './db';
-import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable } from './db-schema';
+import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable, cruiseSailings, cruiseOfferSailingCabins } from './db-schema';
 import {
   type RawHoliday,
   type RawCruise,
@@ -30,6 +30,7 @@ function dbRowToRawHoliday(row: DbRow): RawHoliday {
     title: row.title,
     slug: row.slug,
     category: row.category,
+    operator_name: row.operatorName ?? null,
     price: row.price,
     currency: row.currency,
     price_label: row.priceLabel,
@@ -193,22 +194,100 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
 
   const today = new Date().toISOString().slice(0, 10);
 
+  // ── Live flight pricing (per date × airport, from the weekly cron) ──
   const rows = await db
-    .select()
+    .select({
+      departureDate: cruiseFlightPrices.departureDate,
+      airportCode: cruiseFlightPrices.airportCode,
+      airportName: cruiseFlightPrices.airportName,
+      totalPricePp: cruiseFlightPrices.totalPricePp,
+      shipId: cruiseSailings.shipId,
+    })
     .from(cruiseFlightPrices)
+    .innerJoin(cruiseSailings, eq(cruiseFlightPrices.sailingId, cruiseSailings.id))
     .where(and(
       eq(cruiseFlightPrices.offerId, dbOfferId),
       gte(cruiseFlightPrices.departureDate, today),
     ));
 
-  if (rows.length === 0) return null;
+  // shipId → name from the cruise export entry (already in memory).
+  const raw = (rawCruises as unknown as RawCruise[]).find(c => c.id === offerId);
+  const shipNameById = new Map<number, string>();
+  for (const s of raw?.ships ?? []) { if (s.shipId != null) shipNameById.set(s.shipId, s.name); }
 
-  const departures: RawDeparture[] = rows.map(row => ({
-    date: row.departureDate,
-    airport_code: row.airportCode,
-    airport_name: row.airportName,
-    price_pp: Number(row.totalPricePp),
+  // A route can have two ships on the same date+airport — keep the cheapest, and
+  // remember which ship it is (so the calendar shows the right ship per date).
+  const cheapestByKey = new Map<string, { date: string; airportCode: string; airportName: string; price: number; shipId: number | null }>();
+  const airportNames = new Map<string, string>();
+  for (const r of rows) {
+    const price = Number(r.totalPricePp);
+    if (!(price > 0)) continue;
+    airportNames.set(r.airportCode, r.airportName);
+    const key = `${r.departureDate}|${r.airportCode}`;
+    const ex = cheapestByKey.get(key);
+    if (!ex || price < ex.price) {
+      cheapestByKey.set(key, { date: r.departureDate, airportCode: r.airportCode, airportName: r.airportName, price, shipId: r.shipId ?? null });
+    }
+  }
+
+  // ── Offers-panel retail overlay (the admin's manual selling price) ──
+  // Where a sailing has a retail price set in the offer's cabin grid, show THAT
+  // per sailing date, flat across every airport, overriding the live flight price.
+  // Sailings with no retail keep the live pricing — "show the special offer where
+  // it exists, not every date". Retail is the all-in fly-cruise selling price.
+  const retailRows = await db
+    .select({
+      date: cruiseSailings.departureDate,
+      shipId: cruiseSailings.shipId,
+      retail: cruiseOfferSailingCabins.retailPricePp,
+    })
+    .from(cruiseOfferSailingCabins)
+    .innerJoin(cruiseSailings, eq(cruiseOfferSailingCabins.sailingId, cruiseSailings.id))
+    .where(and(
+      eq(cruiseOfferSailingCabins.offerId, dbOfferId),
+      gte(cruiseSailings.departureDate, today),
+    ));
+
+  const retailByDate = new Map<string, { price: number; shipId: number | null }>();
+  for (const r of retailRows) {
+    const price = Number(r.retail);
+    if (!(price > 0)) continue; // null / '' / 0 → no retail set for this row
+    // cruise_sailings.departure_date is a full ISO timestamp; flight prices are
+    // date-only — normalise to YYYY-MM-DD so the overlay keys line up.
+    const date = (r.date || '').slice(0, 10);
+    if (!date) continue;
+    const ex = retailByDate.get(date);
+    if (!ex || price < ex.price) retailByDate.set(date, { price, shipId: r.shipId ?? null });
+  }
+
+  if (retailByDate.size > 0) {
+    // Airports to show the flat retail under: reuse the live-priced airports so the
+    // dropdown is consistent; fall back to Heathrow if this offer has no live prices.
+    const airportList = airportNames.size > 0
+      ? [...airportNames.entries()].map(([code, name]) => ({ code, name }))
+      : [{ code: 'LHR', name: 'London Heathrow' }];
+    for (const [date, info] of retailByDate) {
+      for (const k of [...cheapestByKey.keys()]) {
+        if (k.startsWith(`${date}|`)) cheapestByKey.delete(k); // drop live prices for this date
+      }
+      for (const ap of airportList) {
+        cheapestByKey.set(`${date}|${ap.code}`, {
+          date, airportCode: ap.code, airportName: ap.name, price: info.price, shipId: info.shipId,
+        });
+      }
+    }
+  }
+
+  if (cheapestByKey.size === 0) return null;
+
+  const departures: RawDeparture[] = [...cheapestByKey.values()].map(d => ({
+    date: d.date,
+    airport_code: d.airportCode,
+    airport_name: d.airportName,
+    price_pp: d.price,
     availability: 'available' as const,
+    ship_id: d.shipId ?? undefined,
+    ship_name: d.shipId != null ? shipNameById.get(d.shipId) : undefined,
   }));
 
   return transformHolidayPricing({ holiday_id: offerId, departures });
@@ -294,6 +373,78 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
   all.sort((a, b) => a.displayOrder - b.displayOrder);
 
   return all;
+}
+
+export interface CabinPrice {
+  cabinType: string;
+  pricePp: number;
+}
+
+/**
+ * Cheapest all-in fly-cruise price per cabin type, per cruise, over FUTURE sailings.
+ * Returns a Map keyed by holiday-site cruise id (DB offer id + CRUISE_ID_OFFSET),
+ * each value sorted cheapest-first. Used by the river-cruise listing cabin grid.
+ *
+ * `net_cost_pp` = discounted cruise + flight + luggage + port fee pp (the same all-in
+ * basis as the card "from" price). Never throws — returns whatever it gathered so the
+ * page degrades to "no cabin grid" rather than 503ing.
+ */
+export async function getCabinPricingForOfferIds(
+  db: Database,
+  holidaySiteIds: number[],
+): Promise<Map<number, CabinPrice[]>> {
+  const result = new Map<number, CabinPrice[]>();
+  const offerIds = holidaySiteIds.map(id => id - CRUISE_ID_OFFSET).filter(id => id > 0);
+  if (offerIds.length === 0) return result;
+  const today = new Date().toISOString().slice(0, 10);
+
+  try {
+    // Cheapest pp per offer × SHIP × cabin type, over future sailings.
+    const perShip = new Map<number, Map<number, CabinPrice[]>>(); // offerId -> shipId -> cabins
+    for (const chunk of chunkArray(offerIds, 80)) {
+      const rows = await db
+        .select({
+          offerId: cruiseOfferSailingCabins.offerId,
+          shipId: cruiseSailings.shipId,
+          cabinType: cruiseOfferSailingCabins.cabinType,
+          // Prefer the manual retail (offers-panel selling price) where set, else
+          // the computed net — so the cabin grid matches the retail-folded headline.
+          pp: sql<number>`MIN(CAST(COALESCE(NULLIF(${cruiseOfferSailingCabins.retailPricePp}, ''), ${cruiseOfferSailingCabins.netCostPp}) AS REAL))`,
+        })
+        .from(cruiseOfferSailingCabins)
+        .innerJoin(cruiseSailings, eq(cruiseOfferSailingCabins.sailingId, cruiseSailings.id))
+        .where(and(inArray(cruiseOfferSailingCabins.offerId, chunk), gte(cruiseSailings.departureDate, today)))
+        .groupBy(cruiseOfferSailingCabins.offerId, cruiseSailings.shipId, cruiseOfferSailingCabins.cabinType);
+
+      for (const r of rows) {
+        if (r.pp == null || !(r.pp > 0)) continue;
+        const shipKey = r.shipId ?? -1;
+        let ships = perShip.get(r.offerId);
+        if (!ships) { ships = new Map(); perShip.set(r.offerId, ships); }
+        const list = ships.get(shipKey) ?? [];
+        list.push({ cabinType: r.cabinType, pricePp: roundToNine(r.pp) });
+        ships.set(shipKey, list);
+      }
+    }
+    // A route can run on several ships with different deck layouts/prices. Use ONLY
+    // the ship with the cheapest entry price, so the card aligns end-to-end:
+    // cheapest date → that ship → that ship's real decks (no cross-ship pooling).
+    for (const [offerId, ships] of perShip) {
+      let best: CabinPrice[] | null = null;
+      let bestMin = Infinity;
+      for (const list of ships.values()) {
+        const m = Math.min(...list.map(c => c.pricePp));
+        if (m < bestMin) { bestMin = m; best = list; }
+      }
+      if (best) {
+        best.sort((a, b) => a.pricePp - b.pricePp);
+        result.set(offerId + CRUISE_ID_OFFSET, best);
+      }
+    }
+  } catch (e) {
+    console.error('getCabinPricingForOfferIds failed:', e);
+  }
+  return result;
 }
 
 /** Get holidays for a specific country slug. */

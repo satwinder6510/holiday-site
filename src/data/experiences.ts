@@ -57,6 +57,8 @@ export interface GlanceCard {
 export interface Experience {
   slug: string;
   draft: boolean;
+  /** If set, the post pulls in this cruise's live availability calendar (by holiday slug). */
+  cruiseSlug?: string;
   tags: string[];
   /** Display date, e.g. '13 June 2026'. */
   date: string;
@@ -114,11 +116,12 @@ const M = `/blog-media/${ZAMBEZI_SLUG}`;
 // Paste the URL here AFTER uploading the hero clip to Stream — until then the
 // hero gracefully shows the poster image, so the live page never breaks.
 // Format: https://customer-<CODE>.cloudflarestream.com/<UID>/manifest/video.m3u8
-const ZAMBEZI_HERO_HLS = 'https://customer-wj01kterp4hvns4u.cloudflarestream.com/4cf127b917f4dd107ae3e5fc270ffeee/manifest/video.m3u8';
+const ZAMBEZI_HERO_HLS = 'https://customer-wj01kterp4hvns4u.cloudflarestream.com/0130460eda753c50f010f9033869a427/manifest/video.m3u8';
 
 const southernAfricaZambezi: Experience = {
   slug: ZAMBEZI_SLUG,
   draft: false,
+  cruiseSlug: 'croisieurope-safari-cruise-along-the-zambezi-river-south-africa-botswana-namibia-zimbabwe-port-to-port-cruise',
   tags: ['River Cruise', 'Safari', 'Africa'],
   date: '13 June 2026',
   publishedAt: '2026-06-13T09:00:00.000Z',
@@ -219,7 +222,7 @@ const southernAfricaZambezi: Experience = {
 
   cta: {
     headline: 'Travel to the ends of the earth — and back in time for dinner.',
-    price: 'Enquire for 2026 & 2027 pricing',
+    price: 'From £4,999 pp',
     bookingUrl: '', // no bookable product page yet — CTA falls back to enquire / browse cruises
     phone: '0208 183 0518',
   },

@@ -7,6 +7,8 @@ export interface RawDeparture {
   airport_name: string;
   price_pp: number;
   availability: 'available' | 'sold_out';
+  ship_id?: number;
+  ship_name?: string;
 }
 
 export interface RawHolidayPricing {
@@ -28,6 +30,8 @@ export interface Departure {
   priceFormatted: string;
   availability: 'available' | 'sold_out';
   tier: PriceTier;
+  shipId?: number;   // cruise only — ship sailing this date (cheapest sailing for the date)
+  shipName?: string;
 }
 
 export interface Airport {
@@ -113,6 +117,8 @@ export function transformHolidayPricing(raw: RawHolidayPricing): HolidayPricing 
       priceFormatted: formatPrice(d.price_pp),
       availability: d.availability,
       tier: computeTier(d.price_pp, cheapest, mostExpensive),
+      shipId: d.ship_id,
+      shipName: d.ship_name,
     }))
     .sort((a, b) => a.pricePp - b.pricePp || a.date.localeCompare(b.date));
 

@@ -14,16 +14,23 @@ import Footer from '../components/Footer.astro';
 import MobileCallCTA from '../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../components/BreadcrumbSchema.astro';
 import Figure from '../components/experiential/Figure.astro';
+import CruisePricingCalendar from '../components/experiential/CruisePricingCalendar.astro';
 import { allBlogs } from '../data/blogs';
 import type { Experience } from '../data/experiences';
+import type { HolidayPricing } from '../lib/pricing-transforms';
 
 interface Props {
   post: Experience;
+  cruisePricing?: HolidayPricing | null;
+  cruiseUrl?: string;
+  cruiseTitle?: string;
+  cruiseId?: number | string;
 }
-const { post } = Astro.props;
+const { post, cruisePricing = null, cruiseUrl = '', cruiseTitle = '', cruiseId = '' } = Astro.props;
 
 const url = `https://holidays.flightsandpackages.com/blog/experiences/${post.slug}`;
 const hasBooking = post.cta.bookingUrl && !post.cta.bookingUrl.startsWith('TODO');
+const hasCalendar = !!(cruisePricing && cruisePricing.departures && cruisePricing.departures.length > 0);
 
 // Related posts: standard blog posts sharing a tag (e.g. River Cruise).
 const relatedPosts = allBlogs
@@ -103,8 +110,8 @@ const articleSchema = {
     <aside class="xp-bookable">
       <div class="xp-bookable-inner">
         <span class="xp-bookable-label">This trip is bookable</span>
-        <a class="xp-bookable-cta" href={hasBooking ? post.cta.bookingUrl : `tel:${post.cta.phone.replace(/\s/g, '')}`}>
-          {hasBooking ? 'View the holiday' : 'Enquire about this trip'}
+        <a class="xp-bookable-cta" href={hasCalendar ? '#availability' : (hasBooking ? post.cta.bookingUrl : `tel:${post.cta.phone.replace(/\s/g, '')}`)}>
+          {post.cta.price}
         </a>
       </div>
     </aside>
@@ -150,21 +157,33 @@ const articleSchema = {
       ))}
     </section>
 
-    <!-- CTA -->
-    <section class="xp-cta" id="cta">
-      <div class="xp-cta-inner">
-        <h2>{post.cta.headline}</h2>
-        <p class="xp-cta-price">{post.cta.price}</p>
-        <div class="xp-cta-actions">
-          <a class="xp-cta-btn primary" href={hasBooking ? post.cta.bookingUrl : `tel:${post.cta.phone.replace(/\s/g, '')}`}>
-            {hasBooking ? 'View this holiday' : `Enquire — call ${post.cta.phone}`}
-          </a>
-          <a class="xp-cta-btn ghost" href={hasBooking ? `tel:${post.cta.phone.replace(/\s/g, '')}` : '/Holidays/river-cruises/'}>
-            {hasBooking ? `Call ${post.cta.phone}` : 'Browse river cruises'}
-          </a>
+    <!-- CTA — skipped when a live availability calendar follows (it carries the price + enquiry) -->
+    {!hasCalendar && (
+      <section class="xp-cta" id="cta">
+        <div class="xp-cta-inner">
+          <h2>{post.cta.headline}</h2>
+          <p class="xp-cta-price">{post.cta.price}</p>
+          <div class="xp-cta-actions">
+            <a class="xp-cta-btn primary" href={hasBooking ? post.cta.bookingUrl : `tel:${post.cta.phone.replace(/\s/g, '')}`}>
+              {hasBooking ? 'View this holiday' : `Enquire — call ${post.cta.phone}`}
+            </a>
+            <a class="xp-cta-btn ghost" href={hasBooking ? `tel:${post.cta.phone.replace(/\s/g, '')}` : '/Holidays/river-cruises/'}>
+              {hasBooking ? `Call ${post.cta.phone}` : 'Browse river cruises'}
+            </a>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
+
+    <!-- Live availability calendar (when the post maps to a cruise) -->
+    {cruisePricing && cruisePricing.departures && cruisePricing.departures.length > 0 && (
+      <CruisePricingCalendar
+        pricing={cruisePricing}
+        packageName={cruiseTitle || post.hero.title}
+        packageId={cruiseId}
+        bookingUrl={cruiseUrl}
+      />
+    )}
 
     <!-- Related -->
     {relatedPosts.length > 0 && (

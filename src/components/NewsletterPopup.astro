@@ -1,0 +1,317 @@
+---
+// Exit-intent newsletter popup.
+// Uses a SECOND Spotler Mail+ form (the inline footer form can't be reused on the
+// same page — duplicate #mpformXXXX ids break Spotler's validation/submission).
+//
+// TO ACTIVATE: create a duplicate sign-up form in Spotler, then paste its embed
+// details below. While these stay as REPLACE_* placeholders the popup is dormant
+// (it never triggers), so it's safe to ship un-configured.
+const POPUP_FORM_UID = '503101206';
+const POPUP_FORM_FEID = 'uK9T7KIKqIUPpxKvyZdK';
+const POPUP_FORM_MOUNT_ID = 'mpform1303';
+
+const FORM_CONFIGURED = !POPUP_FORM_UID.startsWith('REPLACE');
+const POPUP_FORM_JS = `https://m4.mailplus.nl/genericservice/code/servlet/React?command=getFormJs&uid=${POPUP_FORM_UID}&feid=${POPUP_FORM_FEID}&p=https&om=d&of=x&c=1&jq=3`;
+---
+
+<div
+  id="np-overlay"
+  class="np-overlay"
+  hidden
+  data-configured={FORM_CONFIGURED ? 'true' : 'false'}
+  data-mount-id={POPUP_FORM_MOUNT_ID}
+  data-form-js={POPUP_FORM_JS}
+>
+  <div class="np-dialog" role="dialog" aria-modal="true" aria-labelledby="np-title" aria-describedby="np-desc">
+    <button type="button" class="np-close" aria-label="Close">&times;</button>
+    <h2 id="np-title" class="np-title">Before you go&hellip;</h2>
+    <p id="np-desc" class="np-desc">
+      Sign up for the latest holiday deals, river cruise offers and travel inspiration &mdash;
+      straight to your inbox.
+    </p>
+    <div class="np-form-mount">
+      <div id={POPUP_FORM_MOUNT_ID}></div>
+    </div>
+    <button type="button" class="np-dismiss">No thanks, maybe later</button>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var overlay = document.getElementById('np-overlay');
+    if (!overlay) return;
+    if (overlay.getAttribute('data-configured') !== 'true') return; // dormant until Spotler IDs added
+
+    var STORAGE_KEY = 'fp_newsletter_popup';      // timestamp last shown
+    var SUBSCRIBED_KEY = 'fp_newsletter_subscribed';
+    var SUPPRESS_DAYS = 30;
+    var ARM_DELAY_MS = 4000;                       // don't fire in the first few seconds
+    var MOBILE_TIMER_MS = 25000;
+    var MOBILE_SCROLL_PCT = 0.6;
+
+    function recently(key, days) {
+      try {
+        var v = window.localStorage.getItem(key);
+        if (!v) return false;
+        return (Date.now() - parseInt(v, 10)) < days * 86400000;
+      } catch (e) { return false; }
+    }
+    function stamp(key) {
+      try { window.localStorage.setItem(key, String(Date.now())); } catch (e) {}
+    }
+
+    // Don't show to recent viewers or existing subscribers
+    if (recently(STORAGE_KEY, SUPPRESS_DAYS)) return;
+    try { if (window.localStorage.getItem(SUBSCRIBED_KEY)) return; } catch (e) {}
+
+    var shown = false;
+    var armed = false;
+    var formLoaded = false;
+    var lastFocused = null;
+
+    var dialog = overlay.querySelector('.np-dialog');
+    var closeBtn = overlay.querySelector('.np-close');
+    var dismissBtn = overlay.querySelector('.np-dismiss');
+
+    // PostHog: capture exit-popup email signups. The Spotler form is injected
+    // dynamically, so listen on the overlay in the CAPTURE phase (fires even if
+    // Spotler stops propagation), once per popup.
+    var signupCaptured = false;
+    overlay.addEventListener('submit', function () {
+      if (signupCaptured) return;
+      signupCaptured = true;
+      try {
+        if (window.posthog) window.posthog.capture('exit_popup_email_signup', { source: 'exit_popup' });
+      } catch (e) {}
+    }, true);
+
+    function loadFormScripts() {
+      if (formLoaded) return;
+      formLoaded = true;
+      var mountId = overlay.getAttribute('data-mount-id');
+      var formJs = overlay.getAttribute('data-form-js');
+      function addCss(href) {
+        var l = document.createElement('link');
+        l.rel = 'stylesheet'; l.type = 'text/css'; l.href = href;
+        document.head.appendChild(l);
+      }
+      function addScript(src) {
+        return new Promise(function (resolve, reject) {
+          var s = document.createElement('script');
+          s.src = src; s.async = false;
+          s.onload = resolve; s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      }
+      addCss('https://static.mailplus.nl/jq/ui/jquery-ui-1.13.2.custom.min.css');
+      addScript('https://static.mailplus.nl/jq/jquery-3.6.0.min.js')
+        .then(function () { return addScript('https://static.mailplus.nl/jq/jquery.validate.1.19.5.min.js'); })
+        .then(function () { return addScript('https://static.mailplus.nl/jq/ui/jquery-ui-1.13.2.custom.min.js'); })
+        .then(function () { return addScript(formJs); })
+        .then(function () {
+          // Spotler self-inits on window 'load' (already fired) — trigger manually.
+          var formId = mountId.replace(/^mp/, '');
+          var initFn = window['initShowHide' + formId];
+          if (typeof initFn === 'function') { initFn(); }
+          else { window.dispatchEvent(new Event('load')); }
+        })
+        .catch(function (e) { console.error('[Spotler popup] form failed to load', e); });
+    }
+
+    function open() {
+      if (shown) return;
+      shown = true;
+      lastFocused = document.activeElement;
+      overlay.hidden = false;
+      // force reflow then add visible class for transition
+      void overlay.offsetWidth;
+      overlay.classList.add('np-visible');
+      document.body.style.overflow = 'hidden';
+      stamp(STORAGE_KEY);
+      loadFormScripts();
+      if (closeBtn) closeBtn.focus();
+      teardownTriggers();
+    }
+
+    function close() {
+      overlay.classList.remove('np-visible');
+      document.body.style.overflow = '';
+      window.setTimeout(function () { overlay.hidden = true; }, 250);
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+
+    // ---- close interactions ----
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    if (dismissBtn) dismissBtn.addEventListener('click', close);
+    overlay.addEventListener('mousedown', function (e) {
+      if (e.target === overlay) close(); // click on backdrop
+    });
+    document.addEventListener('keydown', function (e) {
+      if (!shown) return;
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key === 'Tab') {
+        // simple focus trap
+        var f = dialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        f = Array.prototype.filter.call(f, function (el) { return el.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    // ---- triggers ----
+    var isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches && window.innerWidth > 768;
+
+    function onMouseOut(e) {
+      if (!armed || shown) return;
+      if (e.clientY <= 0 && !e.relatedTarget && !e.toElement) open();
+    }
+    function onScroll() {
+      if (!armed || shown) return;
+      var h = document.documentElement;
+      var pct = (h.scrollTop || document.body.scrollTop) / ((h.scrollHeight - h.clientHeight) || 1);
+      if (pct >= MOBILE_SCROLL_PCT) open();
+    }
+    var mobileTimer = null;
+
+    function teardownTriggers() {
+      document.removeEventListener('mouseout', onMouseOut);
+      window.removeEventListener('scroll', onScroll);
+      if (mobileTimer) window.clearTimeout(mobileTimer);
+    }
+
+    window.setTimeout(function () {
+      armed = true;
+      if (isDesktop) {
+        document.addEventListener('mouseout', onMouseOut);
+      } else {
+        window.addEventListener('scroll', onScroll, { passive: true });
+        mobileTimer = window.setTimeout(open, MOBILE_TIMER_MS);
+      }
+    }, ARM_DELAY_MS);
+  })();
+</script>
+
+<style>
+  .np-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(7, 49, 64, 0.6);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  /* When dormant/closed the `hidden` attribute must fully remove it from the page,
+     otherwise this fixed, full-viewport layer invisibly intercepts every click. */
+  .np-overlay[hidden] {
+    display: none;
+  }
+  .np-overlay.np-visible {
+    opacity: 1;
+  }
+  .np-dialog {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    padding: 36px 32px 28px;
+    text-align: center;
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.25s ease;
+  }
+  .np-overlay.np-visible .np-dialog {
+    transform: translateY(0) scale(1);
+  }
+  .np-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    color: #9aa7ac;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+  .np-close:hover { color: #073140; }
+  .np-close:focus-visible { outline: 3px solid #20A1AA; outline-offset: 2px; border-radius: 4px; }
+  .np-title {
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
+    font-size: 28px;
+    color: #073140;
+    margin: 0 0 10px;
+  }
+  .np-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444444;
+    margin: 0 0 22px;
+  }
+  .np-form-mount {
+    text-align: left;
+  }
+  .np-dismiss {
+    background: none;
+    border: none;
+    color: #888888;
+    font-size: 13px;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 16px;
+    padding: 6px;
+  }
+  .np-dismiss:hover { color: #073140; }
+  .np-dismiss:focus-visible { outline: 3px solid #20A1AA; outline-offset: 2px; border-radius: 4px; }
+
+  @media (max-width: 480px) {
+    .np-dialog { padding: 30px 22px 24px; }
+    .np-title { font-size: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .np-overlay, .np-dialog { transition: none; }
+  }
+
+  /* ---- Spotler form styling inside the popup (mirrors the inline footer form) ---- */
+  .np-form-mount :global(.mpForm) { font-family: 'BentonSansMedium', sans-serif; margin: 0; }
+  .np-form-mount :global(.mpFormTable) { list-style: none; margin: 0; padding: 0; }
+  .np-form-mount :global(.mpFormTable.mpTwoColumnLayout),
+  .np-form-mount :global(.mpQuestionTable) { display: block; width: 100%; float: none; }
+  .np-form-mount :global(.mpQuestionTable) { list-style: none; margin: 0 0 14px; padding: 0; }
+  .np-form-mount :global(.mpFormLabel) { margin-bottom: 6px; }
+  .np-form-mount :global(.descriptionLabel) { font-size: 14px; font-weight: 600; color: #073140; }
+  .np-form-mount :global(.mandatorySign) { color: #ff7f00; margin-left: 2px; }
+  .np-form-mount :global(.mpFormField input[type="text"]),
+  .np-form-mount :global(.mpFormField input[type="email"]),
+  .np-form-mount :global(.mpFormField input[type="tel"]) {
+    width: 100%; box-sizing: border-box; height: 44px; padding: 0 14px;
+    border: 1px solid #d8dee0; border-radius: 4px; font-size: 15px; color: #424242; background: #fff;
+  }
+  .np-form-mount :global(.mpFormField input[type="text"]:focus),
+  .np-form-mount :global(.mpFormField input[type="email"]:focus),
+  .np-form-mount :global(.mpFormField input[type="tel"]:focus) {
+    outline: none; border-color: #20A1AA; box-shadow: 0 0 0 3px rgba(32, 161, 170, 0.15);
+  }
+  .np-form-mount :global(.sublabel) { font-size: 12px; color: #888; margin-top: 4px; }
+  .np-form-mount :global(.mpFormField ul) { list-style: none; margin: 0; padding: 0; }
+  .np-form-mount :global(.mpFormField ul li) {
+    display: inline-flex; align-items: center; gap: 5px; margin: 0 16px 4px 0; font-size: 14px; color: #424242;
+  }
+  .np-form-mount :global(.submitButton) {
+    background: #ff7f00; color: #fff; border: none; border-radius: 4px; padding: 13px 40px;
+    font-size: 15px; font-weight: bold; letter-spacing: 0.5px; cursor: pointer;
+    font-family: 'BentonSansMedium', sans-serif; transition: opacity 0.2s ease; width: 100%;
+  }
+  .np-form-mount :global(.submitButton:hover) { opacity: 0.9; }
+  .np-form-mount :global(.submitCell) { margin-top: 6px; }
+  .np-form-mount :global(.mpErrorSummary) { color: #c0392b; font-size: 13px; margin-bottom: 10px; }
+  .np-form-mount :global(.mpErrorMessage),
+  .np-form-mount :global(label.error) { color: #c0392b; font-size: 12px; margin-top: 4px; display: block; }
+</style>

@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import MobileNav from '../components/MobileNav.astro';
+import Footer from '../components/Footer.astro';
+import MobileCallCTA from '../components/MobileCallCTA.astro';
+---
+
+<BaseLayout
+  title="You're Subscribed | Flights and Packages"
+  description="Thank you for subscribing to the Flights and Packages newsletter."
+  noindex={true}
+>
+  <Header />
+  <MobileNav />
+
+  <section class="ty-section">
+    <div class="ty-inner">
+      <div class="ty-icon" aria-hidden="true">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="11" fill="#20A1AA" />
+          <path d="M7 12.5l3.2 3.2L17 9" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <h1>You're on the list!</h1>
+      <p class="ty-lead">
+        Thank you for subscribing. You'll now be among the first to hear about our latest
+        holiday deals, river cruise offers and travel inspiration &mdash; straight to your inbox.
+      </p>
+      <p class="ty-note">
+        Keep an eye on your inbox (and your junk folder, just in case) to confirm your subscription.
+      </p>
+
+      <div class="ty-actions">
+        <a href="/Holidays/river-cruises" class="ty-btn ty-btn-primary">Browse River Cruises</a>
+        <a href="/" class="ty-btn ty-btn-secondary">Back to Home</a>
+      </div>
+
+      <p class="ty-call">
+        Prefer to talk to us? Call <a href="tel:02081830518">0208 183 0518</a>
+      </p>
+    </div>
+  </section>
+
+  <MobileCallCTA />
+  <Footer />
+
+  <script is:inline>
+    // Mark this visitor as subscribed so the exit-intent popup never shows again.
+    try { window.localStorage.setItem('fp_newsletter_subscribed', '1'); } catch (e) {}
+  </script>
+</BaseLayout>
+
+<style>
+  .ty-section {
+    background-color: #f5f9fa;
+    padding: 80px 20px 96px;
+  }
+  .ty-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .ty-icon {
+    margin: 0 auto 24px;
+    line-height: 0;
+  }
+  .ty-inner h1 {
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
+    font-size: 40px;
+    line-height: 1.15;
+    color: #073140;
+    margin: 0 0 16px;
+  }
+  .ty-lead {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #424242;
+    margin: 0 0 14px;
+  }
+  .ty-note {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #6b7c82;
+    margin: 0 0 36px;
+  }
+  .ty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  .ty-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+  }
+  .ty-btn-primary {
+    background-color: #ff7f00;
+    color: #ffffff;
+  }
+  .ty-btn-primary:hover {
+    opacity: 0.9;
+  }
+  .ty-btn-secondary {
+    background-color: #ffffff;
+    color: #073140;
+    border: 2px solid #20A1AA;
+  }
+  .ty-btn-secondary:hover {
+    background-color: #20A1AA;
+    color: #ffffff;
+  }
+  .ty-btn:focus-visible {
+    outline: 3px solid #073140;
+    outline-offset: 2px;
+  }
+  .ty-call {
+    font-size: 15px;
+    color: #424242;
+    margin: 0;
+  }
+  .ty-call a {
+    color: #20A1AA;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .ty-call a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 610px) {
+    .ty-section {
+      padding: 56px 18px 72px;
+    }
+    .ty-inner h1 {
+      font-size: 30px;
+    }
+    .ty-lead {
+      font-size: 16px;
+    }
+    .ty-btn {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+</style>

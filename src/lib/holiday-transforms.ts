@@ -20,6 +20,7 @@ export interface RawHoliday {
   title: string;
   slug: string;
   category: string;
+  operator_name?: string | null; // manual cruises (flight_packages) can carry an operator for the filter
   price: number;
   currency: string;
   price_label: string;
@@ -81,11 +82,14 @@ export interface RawCruiseItinerary {
 }
 
 export interface RawCruiseShip {
+  shipId?: number;
   name: string;
   description: string;
   cover_image: string;
   class: string;
   cabin_images: string[];
+  firstSailingDate?: string;
+  sailingCount?: number;
   facts: {
     capacity: number | null;
     cabins: number | null;
@@ -122,7 +126,8 @@ export interface RawCruise {
   itinerary: RawCruiseItinerary[];
   operator_name: string;
   ship_name: string;
-  ship: RawCruiseShip | null;
+  ship: RawCruiseShip | null;       // primary (cheapest) ship
+  ships?: RawCruiseShip[];          // all ships operating future sailings
   departure_port: string;
   disembark_port: string;
   board_basis: string;
@@ -166,6 +171,10 @@ export interface Holiday {
 
 export interface HolidayDetail extends Holiday {
   heroImage: string;
+  /** Optional hero background video — an HLS (.m3u8) manifest or a self-hosted mp4. Empty = image hero. */
+  heroVideo: string;
+  /** Optional mobile-specific hero video; falls back to heroVideo when blank. */
+  heroVideoMobile: string;
   sidebarImage: string;
   overview: string;
   highlights: string[];
@@ -182,6 +191,15 @@ export interface HolidayDetail extends Holiday {
   metaTitle: string;
   metaDescription: string;
   updatedAt: string;
+  /** Cruise only — embark/disembark ports for the route line (A → B). */
+  routeFrom?: string;
+  routeTo?: string;
+  /** Cruise only — ship cabin image URLs, used as cabin-tile thumbnails (by index). */
+  cabinImages?: string[];
+  /** Cruise only — cheapest pp per cabin type, attached by the river-cruise listing page. */
+  cabins?: { name: string; pricePp: number; thumb?: string }[];
+  /** Cruise only — "Operated by MS Vivaldi & MS Douce France on selected dates" (multi-ship routes). */
+  operatedByLabel?: string;
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────
@@ -476,9 +494,11 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
     isPublished: raw.is_published !== false,
     isUnlisted: raw.is_unlisted || false,
     displayOrder: raw.display_order || 0,
-    operator: '',
+    operator: raw.operator_name || '', // needed for the operator filter (data-operator)
 
     heroImage,
+    heroVideo: raw.desktop_hero_video || '',
+    heroVideoMobile: raw.mobile_hero_video || '',
     sidebarImage: raw.gallery?.length > 1
       ? resolveImageUrl(raw.gallery[1])
       : heroImage,
@@ -546,20 +566,19 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     description = description.substring(0, 400).replace(/\s+\S*$/, '') + '...';
   }
 
-  const accommodations: { name: string; description: string; images: string[]; stars: number | null }[] = [];
-  if (raw.ship) {
-    const shipImages = [
-      raw.ship.cover_image,
-      ...raw.ship.cabin_images,
-    ].filter(Boolean);
-
-    accommodations.push({
-      name: raw.ship.name,
-      description: buildShipDescription(raw.ship),
-      images: shipImages,
-      stars: parseShipStars(raw.ship.class),
-    });
-  }
+  // A route can run on several ships (different decks/cabins). Render a card for
+  // each, primary (cheapest) ship first — `raw.ships` is already cheapest-ordered.
+  const shipList = (raw.ships && raw.ships.length > 0) ? raw.ships : (raw.ship ? [raw.ship] : []);
+  const accommodations = shipList.map((s) => ({
+    name: s.name,
+    description: buildShipDescription(s),
+    images: [s.cover_image, ...(s.cabin_images || [])].filter(Boolean),
+    stars: parseShipStars(s.class),
+  }));
+  const shipNames = shipList.map((s) => s.name).filter(Boolean);
+  const operatedByLabel = shipNames.length > 1
+    ? `Operated by ${shipNames.length === 2 ? shipNames.join(' & ') : shipNames.slice(0, -1).join(', ') + ' & ' + shipNames[shipNames.length - 1]} on selected dates`
+    : '';
 
   return {
     id: raw.id,
@@ -571,7 +590,10 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     duration: `${days} Days / ${String(nights).padStart(2, '0')} Nights`,
     boardBasis: 'All Inclusive',
     price: raw.price,
-    localChargesPp: raw.port_fee_pp || 0,
+    // Port fee is already baked into the cruise price (cheapest_total_pp /
+    // cruise_flight_prices include it), so local charges must be 0 — otherwise
+    // the card's roundToNine(price + localChargesPp) double-counts it.
+    localChargesPp: 0,
     displayPrice: null,
     cities: [],
     description,
@@ -585,6 +607,8 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     operator: raw.operator_name || '',
 
     heroImage,
+    heroVideo: '',
+    heroVideoMobile: '',
     sidebarImage: raw.ship?.cover_image || (raw.gallery?.length > 1 ? raw.gallery[1] : heroImage),
     overview: raw.description || '',
     highlights: [],
@@ -610,5 +634,9 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     attention: null,
     metaDescription: '',
     updatedAt: '',
+    routeFrom: raw.departure_port || '',
+    routeTo: raw.disembark_port || '',
+    cabinImages: raw.ship ? [...(raw.ship.cabin_images || []), raw.ship.cover_image].filter(Boolean) : [],
+    operatedByLabel,
   };
 }

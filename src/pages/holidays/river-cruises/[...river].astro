@@ -9,11 +9,80 @@ import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import { getDb } from '../../../lib/get-db';
-import { getAllListedHolidaysFromDb } from '../../../lib/holidays-db';
+import { getAllListedHolidaysFromDb, getCabinPricingForOfferIds } from '../../../lib/holidays-db';
 import { slugifyRiver } from '../../../lib/holiday-transforms';
 import { roundToNine } from '../../../lib/pricing-transforms';
 
 const riverSlug = Astro.params.river as string | undefined;
+
+/**
+ * Cabin type names from the DB are long and inconsistent across operators
+ * ("Cat A (Main Deck, Adjustable Twin Beds)" / "2-bed Outside Cabin with Juliette
+ * Balcony"). Shorten to a clean, scannable label for the listing card price list.
+ * Falls through gracefully — an unrecognised name gets light cleanup, never empty.
+ */
+function shortenCabinName(raw: string): string {
+  if (!raw) return '';
+  let s = raw.trim();
+  // CroisiEurope: "Cat A (Main Deck, …)" / "Cat B Suite (Middle Deck, …)"
+  //   -> "Cat A · Main Deck" / "Cat B Suite · Middle Deck" (keep category + deck only)
+  const m = s.match(/^(Cat\s+[A-Za-z0-9+]+(?:\s+Suite)?)\s*\(\s*((?:Main|Upper|Middle|Lower)\s+Deck)/i);
+  if (m) return `${m[1].replace(/\s+/g, ' ').trim()} · ${m[2].replace(/\s+/g, ' ').trim()}`;
+  // Everyone else (A-ROSA + misc): strip verbose bits, keep it scannable.
+  s = s.replace(/\s*\([^)]*\)\s*/g, ' ');                          // drop "(2 Single Beds)", "(with Extra Bed)", etc.
+  s = s.replace(/^\d+-bed\s+/i, '');                               // "2-bed Outside Cabin" -> "Outside Cabin"
+  s = s.replace(/\bwith\s+(?:Drop-down\s+)?Panorama\s+Window\b/i, ''); // drop window detail
+  s = s.replace(/\bwith\s+(?:Juliette\s+)?Balcony\b/i, '· Balcony');
+  s = s.replace(/\band\s+Juliette\s+Balcony\b/i, '');              // "Balcony and Juliette Balcony" -> "Balcony"
+  s = s.replace(/\s*-\s*(?:Disabled Person|Handicap+ed)\s*/i, ' '); // drop accessibility tag (typo-tolerant)
+  s = s.replace(/\bCabin\b/i, '');                                 // drop generic "Cabin"
+  s = s.replace(/\s{2,}/g, ' ').replace(/\s*·\s*·\s*/g, ' · ').replace(/^[·\s]+|[·\s]+$/g, '').trim();
+  return s;
+}
+
+/**
+ * CroisiEurope: the "Cat A/B/C" prefix is just cabin POSITION — irrelevant to
+ * customers. Collapse the many "Cat X (Deck, beds)" rows to the cheapest price per
+ * deck (Main / Middle / Upper) plus the cheapest Suite. `cabins` arrives sorted
+ * cheapest-first, so the first hit per bucket is that bucket's cheapest. Returns
+ * up to 4 rows, cheapest-first (so the highlighted top row matches the headline).
+ */
+function bucketByDeck(cabins: { cabinType: string; pricePp: number }[]): { name: string; pricePp: number }[] {
+  const cheapest = new Map<string, number>();
+  for (const c of cabins) {
+    const t = c.cabinType;
+    let label: string;
+    // Cabins are already scoped to ONE ship (the cheapest-entry ship), so the decks
+    // here are that ship's real decks — a 2-deck ship yields Main/Upper, a 3-deck
+    // ship (e.g. MS Vivaldi) yields Main/Middle/Upper. "Cat X" = position, dropped.
+    if (/suite/i.test(t)) label = 'Suite';
+    else if (/main deck/i.test(t)) label = 'Main Deck';
+    else if (/middle deck/i.test(t)) label = 'Middle Deck';
+    else if (/upper deck/i.test(t)) label = 'Upper Deck';
+    else label = shortenCabinName(t); // oddballs (specific ships) keep a cleaned name
+    if (!cheapest.has(label)) cheapest.set(label, c.pricePp);
+  }
+  return [...cheapest.entries()]
+    .map(([name, pricePp]) => ({ name, pricePp }))
+    .sort((a, b) => a.pricePp - b.pricePp)
+    .slice(0, 4);
+}
+
+// Itinerary port names from Widgety vary in quality — some are day-programme titles
+// ("Board your ship", "Arrive Vienna - Return to UK") rather than clean ports.
+// Clean each, drop non-port junk, and collapse consecutive duplicates (case-insensitive).
+const PORT_JUNK = /board your ship|your ship|return to uk|^uk$|^at sea$|^cruising$|cruising day|river day|scenic crus|free (day|time)|day at leisure|leisure/i;
+function buildPortSequence(itinerary: { title: string }[]): string[] {
+  const cleaned = itinerary
+    .map((d) => (d.title || '')
+      .trim()
+      .replace(/^UK\s*[-–]\s*/i, '')
+      .replace(/\s*[-–]\s*Return to UK.*$/i, '')
+      .replace(/^(Arrive|Arrival in|Departure from|Depart from|Departure|Depart)\s+/i, '')
+      .trim())
+    .filter((p) => p && !PORT_JUNK.test(p) && p.length <= 30);
+  return cleaned.filter((p, i, a) => i === 0 || p.toLowerCase() !== a[i - 1].toLowerCase());
+}
 
 let allCruises;
 try {
@@ -62,6 +131,29 @@ const holidays = activeRiverName
     })
   : allCruises;
 
+// Attach cheapest per-cabin pricing (live D1) to each cruise card. Best-effort —
+// on failure the cards just render without a cabin grid (never 503 the page).
+try {
+  const db = getDb(Astro);
+  const cabinMap = await getCabinPricingForOfferIds(db, holidays.map(h => h.id));
+  for (const h of holidays) {
+    const cabins = cabinMap.get(h.id);
+    if (!cabins || cabins.length === 0) continue;
+    // CroisiEurope → cheapest per deck + suite (Cat X is irrelevant position).
+    // A-ROSA → keep its meaningful cabin types (Outside / Balcony / Suite), cheapest 4.
+    h.cabins = /croisi/i.test(h.operator)
+      ? bucketByDeck(cabins)
+      : cabins.slice(0, 4).map((c) => ({ name: shortenCabinName(c.cabinType), pricePp: c.pricePp }));
+    // NOTE: the headline "from" price stays as h.price (cheapest_total_pp — the
+    // ONE canonical all-in price used on every page + the detail calendar). We no
+    // longer override it with the cabin grid's flat-estimate net, which made the
+    // /river-cruises "from" disagree with the detail page and /Holidays/[country].
+    // The cabin grid below is a secondary per-deck breakdown.
+  }
+} catch (e) {
+  console.error('cabin pricing attach failed:', e);
+}
+
 // Sorted river list for sidebar links (with counts)
 const rivers = [...riverMap.entries()]
   .map(([slug, name]) => {
@@ -95,8 +187,8 @@ const breadcrumbItems = activeRiverName
       { name: 'River Cruises' },
     ];
 
-const bannerImage = '/images/heroes/river-cruises.webp';
-const bannerFallback = '/images/heroes/river-cruises.jpg';
+const bannerImage = '/images/heroes/river-cruises-danube.jpg';
+const bannerFallback = '/images/heroes/river-cruises-danube.jpg';
 
 // ItemList schema for first 20 cruises
 const itemListName = activeRiverName ? `${activeRiverName} River Cruises` : 'River Cruises';
@@ -116,7 +208,7 @@ const itemListSchema = holidays.length > 0 ? {
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} image={bannerFallback}>
-  <link slot="head" rel="preload" as="image" type="image/webp" href={bannerImage} />
+  <link slot="head" rel="preload" as="image" type="image/jpeg" href={bannerImage} />
   <BreadcrumbSchema slot="head" items={breadcrumbItems} />
   {itemListSchema && <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />}
   <Header />
@@ -173,6 +265,20 @@ const itemListSchema = holidays.length > 0 ? {
           <div class="type">Filters</div>
           <button type="button" class="reset">Reset</button>
           <button type="button" class="sidebar-close" aria-label="Close filters">&times;</button>
+        </div>
+      </div>
+
+      <!-- Special offers filter (top) -->
+      <div class="filter">
+        <button type="button" class="sidebar-header" aria-expanded="true">
+          <div class="type">Special Offers</div>
+          <span class="icon-pullup"></span>
+        </button>
+        <div class="sidebar-content">
+          <div class="checkbox-option">
+            <input type="checkbox" name="special" id="special-offers" value="1" />
+            <label for="special-offers">Special offers only</label>
+          </div>
         </div>
       </div>
 
@@ -246,6 +352,10 @@ const itemListSchema = holidays.length > 0 ? {
             <input type="checkbox" name="operator" id="a-rosa" value="A-Rosa" />
             <label for="a-rosa">A-Rosa</label>
           </div>
+          <div class="checkbox-option">
+            <input type="checkbox" name="operator" id="viva-cruises" value="Viva Cruises" />
+            <label for="viva-cruises">Viva Cruises</label>
+          </div>
         </div>
       </div>
 
@@ -259,7 +369,7 @@ const itemListSchema = holidays.length > 0 ? {
     <!-- Content -->
     <div class="content">
       <div class="search-sort">
-        <div class="results" aria-live="polite" aria-atomic="true"></div>
+        <h2 class="results" aria-live="polite" aria-atomic="true">{holidays.length} river cruises</h2>
         <div class="order">
           <div class="price" role="group" aria-label="Sort order">
             Price
@@ -289,42 +399,99 @@ const itemListSchema = holidays.length > 0 ? {
       <!-- Holiday cards -->
       <div class="holidays">
         {holidays.map((holiday) => {
-          const nights = holiday.duration.match(/(\d+)\s*Nights/)?.[1] || '';
+          // parseInt strips zero-padding ("04" → "4") so data-duration matches the
+          // duration filter checkbox values (which are parseInt'd).
+          const nightsMatch = holiday.duration.match(/(\d+)\s*Nights/);
+          const nights = nightsMatch ? String(parseInt(nightsMatch[1], 10)) : '';
+          const fromPrice = holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp);
+          const detailUrl = `/Holidays/${holiday.countrySlug}/${holiday.slug}`;
+          const showBadge = holiday.destination && holiday.destination !== holiday.country;
+          // Keep the card body compact (so it balances the image side) — trim the
+          // blurb to ~2 lines; full description is on the detail page.
+          const cardDesc = holiday.description && holiday.description.length > 150
+            ? holiday.description.slice(0, 150).replace(/\s+\S*$/, '') + '…'
+            : (holiday.description || '');
+          // Card gallery images. Widgety cruises → hero + ship/cabin photos; manual
+          // flight_packages River Cruises → hero + their own gallery photos. Deduped.
+          const cardImages = [holiday.image, ...(holiday.cabinImages || []), ...(holiday.galleryImages || [])]
+            .filter(Boolean)
+            .filter((v, i, a) => a.indexOf(v) === i)
+            .slice(0, 4);
+          // Port sequence (cleaned) → shows the ports in between, not just start/end.
+          // Falls back to "From → To" when there's no usable itinerary.
+          const portSeq = buildPortSequence(holiday.itinerary || []);
+          let routeLine = portSeq.length > 1
+            ? portSeq.join(' → ')
+            : (holiday.routeFrom && holiday.routeTo ? `${holiday.routeFrom} → ${holiday.routeTo}` : '');
+          // Cap very long itineraries so the line stays readable.
+          if (portSeq.length > 10) {
+            routeLine = portSeq.slice(0, 7).join(' → ') + ' → … → ' + portSeq[portSeq.length - 1];
+          }
           return (
-          <div class="holiday"
+          <article class="cruise-card holiday"
             data-country={holiday.country}
             data-duration={nights}
             data-operator={holiday.operator}
-            data-price={holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp)}
+            data-price={fromPrice}
+            data-special-offer={holiday.isSpecialOffer ? 'true' : 'false'}
           >
-            <img class="holiday-img" src={holiday.image} alt={holiday.title} loading="lazy" decoding="async" width="291" height="340" />
-            <a class="gallery-link" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`} aria-hidden="true" tabindex="-1">
-              <span class="icon-camera"></span>
-              Gallery
-            </a>
-            <div class="details">
-              <div>
-                <a class="title" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>{holiday.title}</a>
-                <ul>
-                  <li><span class="icon-compass" aria-hidden="true"></span>{holiday.destination}</li>
-                  <li><span class="icon-nights" aria-hidden="true"></span>{holiday.duration}</li>
-                  <li><span class="icon-board-basis" aria-hidden="true"></span>{holiday.boardBasis}</li>
-                  <li><span class="icon-flights" aria-hidden="true"></span>Flights Included</li>
-                </ul>
+            <div class="card-gallery">
+              <div class="card-gallery-main">
+                <img class="card-gallery-img" src={cardImages[0]} alt={holiday.title} loading="lazy" decoding="async" />
+                {showBadge && <span class="badge" aria-hidden="true">{holiday.destination}</span>}
+                {holiday.isSpecialOffer && <span class="special-badge" aria-hidden="true">Special Offer</span>}
+                <span class="duration-badge" aria-hidden="true">{nights ? `${Number(nights)} nights` : holiday.duration}</span>
               </div>
-              <p>{holiday.description}</p>
-              <div class="horizontal">
-                <div class="price" aria-label={`from £${holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp)} per person`}>
-                  <span aria-hidden="true">from</span>
-                  <div aria-hidden="true">&pound;{holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp)}<span>/pp</span></div>
+              {cardImages.length > 1 && (
+                <div class="card-gallery-thumbs">
+                  {cardImages.map((im, i) => (
+                    <button type="button" class={`card-thumb${i === 0 ? ' active' : ''}`} data-src={im} aria-label={`Show image ${i + 1}`}>
+                      <img src={im} alt="" loading="lazy" decoding="async" />
+                    </button>
+                  ))}
                 </div>
-                <a class="btn-primary view-more-btn" href={`/Holidays/${holiday.countrySlug}/${holiday.slug}`}>
+              )}
+            </div>
+            <div class="card-body">
+              <a class="card-title" href={detailUrl}><h3>{holiday.title}</h3></a>
+              {routeLine && (
+                <div class="card-route">{routeLine}</div>
+              )}
+              <div class="card-from-price" aria-label={`from £${fromPrice} per person`}>
+                <span aria-hidden="true">From</span>
+                <span class="now-price" aria-hidden="true">&pound;{fromPrice}</span>
+                <span class="from-pp" aria-hidden="true">pp</span>
+              </div>
+              <p class="card-desc">{cardDesc}</p>
+              {holiday.cabins && holiday.cabins.length > 0 && (
+                <details class="cabin-list">
+                  <summary class="cabin-list-toggle">
+                    <span>Cabin options ({holiday.cabins.length})</span>
+                  </summary>
+                  <ul class="cabin-rows">
+                    {holiday.cabins.map((cab, i) => (
+                      <li class={`cabin-row${i === 0 ? ' is-cheapest' : ''}`}>
+                        <span class="cabin-name">{cab.name}</span>
+                        <span class="cabin-price-wrap">
+                          <span class="cabin-price" aria-hidden="true">&pound;{cab.pricePp}</span>
+                          <span class="cabin-pp" aria-hidden="true">pp</span>
+                        </span>
+                        <span class="sr-only">{cab.name} from &pound;{cab.pricePp} per person</span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+              <p class="flight-note"><strong>Includes return UK flights &amp; all-inclusive cruise.</strong></p>
+              <div class="card-cta-row">
+                <a href="tel:02081830518" class="btn-call">Call to Book</a>
+                <a class="btn-primary view-more-btn" href={detailUrl}>
                   View More
                   <img src="/icons/more-icon-white.svg" alt="" class="icon-more" />
                 </a>
               </div>
             </div>
-          </div>
+          </article>
         )})}
       </div>
 
@@ -373,7 +540,7 @@ const itemListSchema = holidays.length > 0 ? {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 100% center;
+    object-position: center 62%; /* aim the crop at the ship (lower-middle of the photo) */
     z-index: 0;
   }
   .country-hero .breadcrumbs,
@@ -383,7 +550,7 @@ const itemListSchema = holidays.length > 0 ? {
   }
   @media (max-width: 768px) {
     .country-hero { margin-top: 50px; height: 400px; }
-    .hero-bg { object-position: center; }
+    .hero-bg { object-position: center 62%; }
   }
   @media (max-width: 450px) {
     .country-hero { height: 300px; }
@@ -488,7 +655,16 @@ const itemListSchema = holidays.length > 0 ? {
     display: inline-block;
     padding-right: 32px;
   }
-  @media (max-width: 768px) { .holiday-list-section .sidebar { display: none; width: 100%; padding: 0 20px; } }
+  /* Keep the filters reachable across the long (~178-card) scroll. Cap the height
+     to the viewport and let the column scroll internally so tall filter sets
+     (all accordions open) stay fully reachable. */
+  @media (min-width: 769px) {
+    .holiday-list-section .sidebar {
+      position: sticky; top: 120px; align-self: flex-start; vertical-align: top;
+      max-height: calc(100vh - 140px); overflow-y: auto; overflow-x: hidden;
+    }
+  }
+  @media (max-width: 768px) { .holiday-list-section .sidebar { display: none; width: 100%; padding: 0 20px; position: static; } }
   .holiday-list-section .sidebar.show { display: block; }
 
   .holiday-list-section .sidebar .filter {
@@ -600,7 +776,10 @@ const itemListSchema = holidays.length > 0 ? {
   @media (max-width: 1100px) { .search-sort { padding-bottom: 2px; } }
   @media (max-width: 940px) { .search-sort { flex-direction: column; } }
   @media (max-width: 768px) { .search-sort { border: none; align-items: center; padding-bottom: 0px; } }
-  .search-sort .results { flex-grow: 2; }
+  .search-sort .results {
+    flex-grow: 2; margin: 0; align-self: center;
+    font-family: "CaslonGraphiqueEF", Georgia, serif; font-size: 22px; font-weight: normal; color: #073140;
+  }
   .search-sort .order { display: flex; flex-grow: 1; justify-content: space-between; }
   @media (max-width: 1100px) { .search-sort .order { flex-direction: column; align-items: flex-end; } }
   @media (max-width: 940px) { .search-sort .order { align-items: flex-start; } }
@@ -667,79 +846,129 @@ const itemListSchema = holidays.length > 0 ? {
   @media (max-width: 768px) { .holidays { max-width: 730px; margin-left: auto; margin-right: auto; } }
   @media (max-width: 760px) { .holidays { max-width: 100%; } }
 
-  .holiday {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08); display: flex; margin-top: 20px; position: relative; overflow: hidden;
+  /* ── Cruise card (promo-style) ── */
+  .cruise-card {
+    display: grid; grid-template-columns: 380px 1fr;
+    background: #fff; border-radius: 8px; overflow: hidden;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08); margin-top: 24px; transition: box-shadow 0.2s;
   }
-  @media (max-width: 1100px) { .holiday { flex-direction: column; } }
-  @media (max-width: 768px) { .holiday { flex-direction: row; } }
-  @media (max-width: 760px) { .holiday { flex-direction: column; } }
+  .cruise-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.14); }
+  @media (max-width: 1100px) { .cruise-card { grid-template-columns: 320px 1fr; } }
+  @media (max-width: 760px) { .cruise-card { grid-template-columns: 1fr; } }
 
-  .holiday .holiday-img {
-    min-width: 291px; display: block; object-fit: cover; height: 340px;
+  /* card gallery (main image + thumbnail strip) */
+  .cruise-card .card-gallery { display: flex; flex-direction: column; min-height: 300px; background: #fff; }
+  @media (max-width: 760px) { .cruise-card .card-gallery { min-height: 0; } .cruise-card .card-gallery-main { min-height: 230px; } }
+  /* Main image fills the column (cover-crop) so every card is a uniform height
+     regardless of body length or photo count — the image absorbs the variance. */
+  .cruise-card .card-gallery-main { position: relative; flex: 1 1 auto; min-height: 210px; overflow: hidden; }
+  .cruise-card .card-gallery-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cruise-card .card-gallery-main .badge {
+    position: absolute; top: 14px; left: 14px; background: rgba(7,49,64,0.85); color: #fff; z-index: 1;
+    font-family: "BentonSansBold", sans-serif; font-size: 11px;
+    padding: 5px 12px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.5px;
   }
-  @media (max-width: 1100px) { .holiday .holiday-img { width: 100%; max-width: 567px; } }
-  @media (max-width: 940px) { .holiday .holiday-img { width: 100%; max-width: 417px; } }
-  @media (max-width: 768px) { .holiday .holiday-img { width: 291px; } }
-  @media (max-width: 760px) { .holiday .holiday-img { width: 100%; } }
-  @media (max-width: 450px) { .holiday .holiday-img { object-position: bottom; } }
-  @media (max-width: 394px) { .holiday .holiday-img { height: 210px; } }
+  .cruise-card .card-gallery-main .special-badge {
+    position: absolute; top: 14px; right: 14px; background: #ff7f00; color: #fff; z-index: 1;
+    font-family: "BentonSansBold", sans-serif; font-size: 11px;
+    padding: 5px 12px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .cruise-card .card-gallery-main .duration-badge {
+    position: absolute; bottom: 14px; left: 14px; background: #20A1AA; color: #fff; z-index: 1;
+    font-family: "BentonSansBold", sans-serif; font-size: 13px; padding: 6px 14px; border-radius: 3px;
+  }
+  /* Thumbnails: a fixed 2-row strip pinned under the (flex-growing) main image,
+     so they're always uniform — the main image absorbs the variable height. */
+  .cruise-card .card-gallery-thumbs {
+    display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-rows: 62px;
+    gap: 4px; padding: 5px; background: #fff; flex: 0 0 auto;
+  }
+  @media (max-width: 450px) { .cruise-card .card-gallery-thumbs { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 54px; } }
+  .cruise-card .card-thumb {
+    min-width: 0; min-height: 0; padding: 0; border: 2px solid transparent;
+    border-radius: 3px; overflow: hidden; cursor: pointer; background: none; line-height: 0;
+  }
+  .cruise-card .card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cruise-card .card-thumb.active { border-color: #20A1AA; }
+  .cruise-card .card-thumb:focus-visible { outline: 2px solid #20A1AA; outline-offset: 1px; }
 
-  .holiday .gallery-link {
-    display: flex; align-items: center; flex-direction: column; justify-content: center;
-    position: absolute; top: 230px; left: 0px; width: 104px; height: 104px;
-    background-color: rgba(0, 0, 0, 0.6); color: #ffffff;
-    font-family: "BentonSansMedium", sans-serif; font-size: 14px; text-decoration: none;
+  .cruise-card .card-body { padding: 24px 26px 22px; display: flex; flex-direction: column; min-width: 0; }
+  @media (max-width: 450px) { .cruise-card .card-body { padding: 20px; } }
+  .cruise-card .card-title { text-decoration: none; display: block; }
+  .cruise-card .card-title h3 {
+    font-family: "CaslonGraphiqueEF", Georgia, serif; font-size: 24px; color: #073140; margin-bottom: 4px; line-height: 1.25;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  @media (max-width: 394px) { .holiday .gallery-link { width: 64px; height: 64px; top: 146px; font-size: 12px; } }
-  .holiday .gallery-link .icon-camera {
-    width: 35px; height: 29px; margin-bottom: 10px;
-    background-image: url('/icons/camera-icon.svg'); background-size: contain; background-repeat: no-repeat; display: block;
+  .cruise-card .card-title:hover h3 { color: #20A1AA; }
+  .cruise-card .card-title:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 2px; }
+  @media (max-width: 450px) { .cruise-card .card-title h3 { font-size: 20px; } }
+  .cruise-card .card-route {
+    font-family: "BentonSansMedium", sans-serif; font-size: 13.5px; color: #0d6066; margin-bottom: 8px; line-height: 1.5;
   }
-  @media (max-width: 394px) { .holiday .gallery-link .icon-camera { width: 24px; height: 20px; margin-bottom: 5px; } }
-
-  .holiday .details {
-    display: flex; flex-direction: column; justify-content: space-between; padding: 30px; width: 100%;
+  .cruise-card .card-from-price {
+    display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
+    padding-top: 12px; border-top: 1px solid #eef2f3;
+    font-family: "BentonSansMedium", sans-serif; font-size: 14px; color: #555;
   }
-  @media (max-width: 450px) { .holiday .details { padding: 20px; } }
-  .holiday .details .title { font-family: "BentonSansBold", sans-serif; font-size: 24px; line-height: 27px; color: #424242; text-decoration: none; display: block; }
-  .holiday .details .title:hover { color: #20A1AA; }
-  .holiday .details .title:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 2px; color: #20A1AA; }
-  @media (max-width: 450px) { .holiday .details .title { font-size: 20px; } }
-  .holiday .details ul { list-style-type: none; padding-top: 5px; padding-bottom: 20px; display: flex; }
-  @media (max-width: 1260px) { .holiday .details ul { flex-direction: column; } }
-  @media (max-width: 1100px) { .holiday .details ul { flex-direction: row; } }
-  @media (max-width: 940px) { .holiday .details ul { flex-direction: column; } }
-  .holiday .details ul li {
-    display: inline-flex; font-family: "BentonSansMedium", sans-serif;
-    font-size: 14px; color: #767676; align-items: center; padding-right: 20px;
-  }
-  .holiday .details ul li .icon-compass {
-    display: inline-block; width: 16px; height: 16px;
-    background-image: url('/icons/compass-grey.svg'); background-size: contain; background-repeat: no-repeat;
-    padding-right: 10px; margin-right: 6px;
-  }
-  .holiday .details ul li .icon-nights {
-    display: inline-block; width: 16px; height: 16px;
-    background-image: url('/icons/nights-grey.svg'); background-size: contain; background-repeat: no-repeat;
-    padding-right: 10px; margin-right: 6px;
-  }
-  .holiday .details ul li .icon-board-basis {
-    display: inline-block; width: 16px; height: 16px;
-    background-image: url('/icons/board-basis-grey.svg'); background-size: contain; background-repeat: no-repeat;
-    padding-right: 10px; margin-right: 6px;
-  }
-  .holiday .details ul li .icon-flights {
-    display: inline-block; width: 16px; height: 16px;
-    background-image: url('/icons/flights-grey.png'); background-size: contain; background-repeat: no-repeat;
-    padding-right: 10px; margin-right: 6px;
+  .cruise-card .now-price { font-family: "CaslonGraphiqueEF", serif; font-size: 30px; color: #073140; }
+  .cruise-card .from-pp { font-size: 13px; color: #6b6b6b; }
+  .cruise-card .card-desc {
+    font-family: "BentonSansMedium", sans-serif; font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 14px; flex: 1;
   }
 
-  .holiday .details .horizontal { display: flex; justify-content: space-between; align-items: center; }
-  .holiday .details .horizontal .price { display: inline-block; }
-  .holiday .details .horizontal .price span { font-family: "BentonSansMedium", sans-serif; font-size: 14px; line-height: 38px; }
-  .holiday .details .horizontal .price div { font-family: "CaslonGraphiqueEF", serif; font-size: 40px; line-height: 38px; }
-  @media (max-width: 610px) { .holiday .details .horizontal .price div { font-size: 34px; } }
-  @media (max-width: 450px) { .holiday .details .horizontal .price div { font-size: 28px; line-height: 28px; } }
+  /* cabin price list — collapsible (keeps the card compact; expand to compare decks) */
+  .cruise-card details.cabin-list { margin-bottom: 14px; }
+  .cruise-card .cabin-list-toggle {
+    list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+    font-family: "BentonSansMedium", sans-serif; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px; color: #073140;
+    padding: 9px 13px; background: #f0f7f8; border: 1px solid #e0eeef; border-radius: 6px;
+  }
+  .cruise-card .cabin-list-toggle::-webkit-details-marker { display: none; }
+  .cruise-card .cabin-list-toggle::after { content: "▾"; color: #20A1AA; font-size: 13px; transition: transform 0.2s; }
+  .cruise-card details[open] .cabin-list-toggle { border-radius: 6px 6px 0 0; }
+  .cruise-card details[open] .cabin-list-toggle::after { transform: rotate(180deg); }
+  .cruise-card .cabin-list-toggle:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; }
+  .cruise-card .cabin-rows {
+    list-style: none; margin: 0; padding: 0;
+    border: 1px solid #e0eeef; border-top: none; border-radius: 0 0 6px 6px; overflow: hidden;
+  }
+  .cruise-card .cabin-row { display: flex; align-items: baseline; gap: 12px; padding: 9px 13px; background: #fff; }
+  .cruise-card .cabin-row + .cabin-row { border-top: 1px solid #eef4f5; }
+  .cruise-card .cabin-row.is-cheapest { background: #f0f7f8; }
+  .cruise-card .cabin-name {
+    font-family: "BentonSansBold", sans-serif; font-size: 13px;
+    color: #073140; line-height: 1.3; flex: 1 1 auto; min-width: 0;
+  }
+  .cruise-card .cabin-row.is-cheapest .cabin-name { color: #0d6066; }
+  .cruise-card .cabin-price-wrap { display: flex; align-items: baseline; gap: 3px; white-space: nowrap; flex-shrink: 0; }
+  .cruise-card .cabin-price { font-family: "CaslonGraphiqueEF", serif; font-size: 17px; color: #073140; }
+  .cruise-card .cabin-pp { font-size: 11px; color: #6b6b6b; }
+
+  /* Reassurance line — flattened (was a boxed panel competing with the cabin list). */
+  .cruise-card .flight-note {
+    font-family: "BentonSansMedium", sans-serif; font-size: 12.5px; color: #555; margin-bottom: 16px; line-height: 1.45;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .cruise-card .flight-note::before { content: "\2713"; color: #20A1AA; font-family: "BentonSansBold", sans-serif; flex-shrink: 0; }
+  .cruise-card .flight-note strong { color: #073140; font-family: "BentonSansBold", sans-serif; }
+
+  .cruise-card .card-cta-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .cruise-card .btn-call {
+    display: inline-flex; align-items: center; justify-content: center; background: #ff7f00; color: #fff;
+    font-family: "BentonSansBold", sans-serif; font-size: 14px;
+    min-height: 44px; padding: 0 22px; border-radius: 4px; text-decoration: none; white-space: nowrap; transition: opacity 0.2s;
+  }
+  .cruise-card .btn-call:hover { opacity: 0.9; }
+  .cruise-card .btn-call:focus-visible { outline: 3px solid #073140; outline-offset: 2px; }
+  .cruise-card .card-cta-row .view-more-btn {
+    width: auto; min-width: 150px; height: 44px; box-shadow: none; display: inline-flex; align-items: center; justify-content: center;
+  }
+  /* Stack the CTAs before they get cramped (was 450px) */
+  @media (max-width: 610px) {
+    .cruise-card .card-cta-row { flex-direction: column; align-items: stretch; }
+    .cruise-card .btn-call, .cruise-card .card-cta-row .view-more-btn { width: 100%; }
+  }
 
   .view-more-btn {
     width: 185px; height: 64px; box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.25);
@@ -898,7 +1127,11 @@ const itemListSchema = holidays.length > 0 ? {
     }
 
     function getVisibleCards(): HTMLElement[] {
-      return Array.from(cards).filter(c => !c.classList.contains('filtered-out'));
+      // Query live (NOT the static `cards` NodeList) so pagination follows the
+      // CURRENT DOM order after a sort. Otherwise sorting reorders the DOM but
+      // pagination keeps showing the original first 20 (sort appears broken).
+      return Array.from(document.querySelectorAll<HTMLElement>('.holidays .holiday[data-country]'))
+        .filter(c => !c.classList.contains('filtered-out'));
     }
 
     function updateFilterBadge() {
@@ -949,13 +1182,17 @@ const itemListSchema = holidays.length > 0 ? {
       const durations = getChecked('duration');
       const countries = getChecked('country');
       const operators = getChecked('operator');
+      const specialOnly = getChecked('special').length > 0;
 
       cards.forEach(card => {
         const matchDuration = durations.length === 0 || durations.includes(card.dataset.duration || '');
         const matchCountry = countries.length === 0 || countries.includes(card.dataset.country || '');
-        const matchOperator = operators.length === 0 || operators.includes(card.dataset.operator || '');
+        // Case-insensitive: card emits operator_name 'A-ROSA' but the checkbox value is 'A-Rosa'.
+        const cardOp = (card.dataset.operator || '').toLowerCase();
+        const matchOperator = operators.length === 0 || operators.some(o => o.toLowerCase() === cardOp);
+        const matchSpecial = !specialOnly || card.dataset.specialOffer === 'true';
 
-        const passes = matchDuration && matchCountry && matchOperator;
+        const passes = matchDuration && matchCountry && matchOperator && matchSpecial;
         card.classList.toggle('filtered-out', !passes);
         if (!passes) card.style.display = 'none';
       });
@@ -977,25 +1214,36 @@ const itemListSchema = holidays.length > 0 ? {
       });
     }
 
+    // After a filter changes the result count, the page can shrink a lot and the
+    // browser clamps the scroll to the new (short) bottom — leaving the user
+    // stranded. Scroll back up to the results so they see the filtered list.
+    const listSection = document.querySelector<HTMLElement>('.holiday-list-section');
+    function scrollToResults() {
+      if (!listSection) return;
+      const y = Math.max(0, listSection.getBoundingClientRect().top + window.scrollY - 80);
+      if (window.scrollY > y + 4) window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+    function applyFiltersAndScroll() { applyFilters(); scrollToResults(); }
+
     // Clear filters button (in empty state)
     const clearFiltersBtn = document.querySelector('.clear-filters');
     if (clearFiltersBtn) {
       clearFiltersBtn.addEventListener('click', () => {
         document.querySelectorAll<HTMLInputElement>('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
-        applyFilters();
+        applyFiltersAndScroll();
       });
     }
 
     // Listen for checkbox changes (instant apply on desktop)
     document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
-      cb.addEventListener('change', applyFilters);
+      cb.addEventListener('change', applyFiltersAndScroll);
     });
 
     // Reset buttons
     document.querySelectorAll('.reset').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll<HTMLInputElement>('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
-        applyFilters();
+        applyFiltersAndScroll();
       });
     });
 
@@ -1080,7 +1328,33 @@ const itemListSchema = holidays.length > 0 ? {
       });
     }
 
-    // Initial pagination on page load
-    applyPagination(true);
+    // Shareable special-offers link: ?special=1 pre-applies the filter on load,
+    // and toggling the checkbox keeps the URL in sync so it can be copied/shared.
+    const specialCb = document.querySelector<HTMLInputElement>('input[name="special"][value="1"]');
+    specialCb?.addEventListener('change', () => {
+      const u = new URL(window.location.href);
+      if (specialCb.checked) u.searchParams.set('special', '1');
+      else u.searchParams.delete('special');
+      history.replaceState(null, '', u.toString());
+    });
+
+    // Initial pagination on page load (apply ?special=1 if present)
+    if (new URLSearchParams(window.location.search).get('special') === '1' && specialCb) {
+      specialCb.checked = true;
+      applyFilters();
+    } else {
+      applyPagination(true);
+    }
+
+    // Card gallery: clicking a thumbnail swaps the main image.
+    holidaysContainer.addEventListener('click', (e) => {
+      const thumb = (e.target as HTMLElement).closest('.card-thumb') as HTMLElement | null;
+      if (!thumb) return;
+      const gallery = thumb.closest('.card-gallery');
+      const main = gallery?.querySelector('.card-gallery-img') as HTMLImageElement | null;
+      const src = thumb.getAttribute('data-src');
+      if (main && src) main.src = src;
+      gallery?.querySelectorAll('.card-thumb').forEach((t) => t.classList.toggle('active', t === thumb));
+    });
   });
 </script>

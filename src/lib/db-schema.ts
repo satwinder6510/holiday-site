@@ -9,6 +9,7 @@ export const flightPackages = sqliteTable('flight_packages', {
   title: text('title').notNull(),
   slug: text('slug').notNull(),
   category: text('category').notNull(),
+  operatorName: text('operator_name'), // manual cruises: operator for the river-cruise filter
   price: real('price').notNull(),
   currency: text('currency').default('GBP').notNull(),
   priceLabel: text('price_label').default('per adult').notNull(),
@@ -79,6 +80,24 @@ export const cruiseFlightPrices = sqliteTable('cruise_flight_prices', {
 export const cruiseOffers = sqliteTable('cruise_offers', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   cheapestTotalPp: text('cheapest_total_pp'),
+});
+
+// Individual departures — only the columns the listing needs (date filter + ship).
+export const cruiseSailings = sqliteTable('cruise_sailings', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  shipId: integer('ship_id'),
+  departureDate: text('departure_date').notNull(),
+});
+
+// Per offer × sailing × cabin-type pricing grid. The listing aggregates this to the
+// cheapest all-in pp per cabin type (net_cost_pp = cruise + flight + luggage + port fee).
+export const cruiseOfferSailingCabins = sqliteTable('cruise_offer_sailing_cabins', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  offerId: integer('offer_id').notNull(),
+  sailingId: integer('sailing_id').notNull(),
+  cabinType: text('cabin_type').notNull(),
+  netCostPp: text('net_cost_pp'),
+  retailPricePp: text('retail_price_pp'), // admin's manual selling price (overlay on the live calendar)
 });
 
 export const packagePricing = sqliteTable('package_pricing', {
