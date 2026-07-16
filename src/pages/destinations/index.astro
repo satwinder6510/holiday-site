@@ -1,0 +1,269 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import MobileNav from '../../components/MobileNav.astro';
+import Footer from '../../components/Footer.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import MobileCallCTA from '../../components/MobileCallCTA.astro';
+import BreadcrumbSchema from '../../components/BreadcrumbSchema.astro';
+import { destinations } from '../../data/destinations';
+import { countries } from '../../data/countries';
+
+const description =
+  'Explore our holiday destinations across Europe, Asia, the Americas, Africa, the Middle East and the Indian Ocean — flights and hotels included, from UK airports.';
+
+const bannerImage = 'https://admin.citiesandbeaches.com/images/destinations/Europe_banner.jpg';
+
+const regions = destinations.map((d) => ({
+  ...d,
+  count: countries.filter((c) => c.region === d.name).length,
+}));
+---
+
+<BaseLayout title="Our Destinations | Flights and Packages" description={description} image={bannerImage}>
+  <BreadcrumbSchema slot="head" items={[
+    { name: 'Home', url: '/' },
+    { name: 'Destinations' },
+  ]} />
+  <Header />
+  <MobileNav />
+
+  <!-- Hero -->
+  <section class="dest-hero" style={`background-image: url('${bannerImage}')`}>
+    <div class="breadcrumbs">
+      <a href="/">Home</a>
+      <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
+      <span>Destinations</span>
+    </div>
+    <div class="hero-content">
+      <div class="hero-subtitle">discover</div>
+      <h1>Our Destinations</h1>
+      <div class="hero-count">{countries.length} Destinations across {regions.length} Regions</div>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="intro-section section-container">
+    <p class="intro-text">
+      From the beaches of the Mediterranean to the temples of Asia and the safari plains of Africa,
+      every one of our holidays combines flights, hotels and experiences into one seamless package.
+      Choose a region below to start exploring.
+    </p>
+  </section>
+
+  <!-- Regions Grid -->
+  <section class="countries-section section-container">
+    <p class="section-label">explore</p>
+    <h2>Where would you like to go?</h2>
+
+    <div class="countries-grid">
+      {regions.map((region) => (
+        <a href={region.href} class="country-card">
+          <div class="card-image" style={`background-image: url('${region.image}')`}>
+            <div class="card-content">
+              <div class="card-name">{region.name}</div>
+              <div class="card-count">{region.count} {region.count === 1 ? 'destination' : 'destinations'}</div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <Newsletter />
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .dest-hero {
+    margin-top: 100px;
+    height: 500px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+  }
+  @media (max-width: 768px) {
+    .dest-hero { margin-top: 50px; height: 400px; }
+  }
+  @media (max-width: 450px) {
+    .dest-hero { height: 300px; }
+  }
+
+  .breadcrumbs {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+  }
+  @media (max-width: 768px) { .breadcrumbs { left: 20px; } }
+  .breadcrumbs a,
+  .breadcrumbs span {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 10px;
+    line-height: 12px;
+    color: #ffffff;
+  }
+  .breadcrumb-icon {
+    padding: 0 5px;
+    width: auto;
+    height: 8px;
+  }
+
+  .hero-content {
+    text-align: center;
+    padding-bottom: 80px;
+  }
+  @media (max-width: 768px) { .hero-content { padding-bottom: 0; } }
+
+  .hero-subtitle {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    padding-bottom: 14px;
+  }
+
+  .hero-content h1 {
+    color: #ffffff;
+    font-size: 64px;
+    line-height: 1;
+    padding-bottom: 15px;
+    text-shadow: 2px 2px 5px #000;
+  }
+  @media (max-width: 768px) { .hero-content h1 { font-size: 44px; } }
+  @media (max-width: 450px) { .hero-content h1 { font-size: 36px; } }
+
+  .hero-count {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 16px;
+    line-height: 27px;
+    letter-spacing: 1px;
+  }
+
+  /* Intro */
+  .intro-section {
+    margin-top: 80px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 768px) { .intro-section { margin-top: 40px; margin-bottom: 10px; } }
+  .intro-section p { padding-bottom: 1px; }
+  @media (max-width: 768px) { .intro-section p { text-align: justify; } }
+
+  /* Regions Section */
+  .countries-section {
+    padding-top: 40px;
+    padding-bottom: 80px;
+  }
+  .countries-section .section-label {
+    font-family: "BentonSansBold", sans-serif;
+    font-size: 14px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #878787;
+    margin-bottom: 8px;
+  }
+  .countries-section h2 {
+    margin-bottom: 45px;
+  }
+
+  /* Grid */
+  .countries-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+  }
+  @media (max-width: 940px) {
+    .countries-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 530px) {
+    .countries-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Card */
+  .country-card {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .country-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 310px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+  @media (max-width: 768px) {
+    .card-image { height: 260px; }
+  }
+  @media (max-width: 450px) {
+    .card-image { height: 220px; }
+  }
+
+  /* Compass icon */
+  .card-image::before {
+    position: absolute;
+    z-index: 2;
+    content: "";
+    display: block;
+    background-image: url('/icons/compass-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 100px;
+    bottom: -8px;
+    left: -8px;
+  }
+  @media (max-width: 768px) {
+    .card-image::before { width: 78px; height: 78px; bottom: 0; left: -5px; }
+  }
+
+  /* Gradient overlay */
+  .card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px 30px 24px;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+    color: #ffffff;
+    z-index: 1;
+  }
+
+  .card-name {
+    font-family: "CaslonGraphiqueEF", Georgia, serif;
+    font-size: 28px;
+    line-height: 1;
+  }
+  @media (max-width: 768px) {
+    .card-name { font-size: 24px; }
+  }
+
+  .card-count {
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-top: 8px;
+    opacity: 0.9;
+  }
+</style>
