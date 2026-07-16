@@ -281,6 +281,10 @@ import BreadcrumbSchema from '../components/BreadcrumbSchema.astro';
       if (res.ok) {
         form.reset();
         btn.textContent = 'Sent!';
+        // Fire OpenAI / ChatGPT pixel Lead event on successful submission
+        if ((window as any).oaiq) {
+          (window as any).oaiq('measure', 'lead_created', { type: 'customer_action', amount: 0, currency: 'GBP' });
+        }
         setTimeout(() => {
           btn.textContent = 'Submit';
           btn.disabled = false;

@@ -13,6 +13,8 @@ export interface RawAccommodation {
   name: string;
   images: string[];
   description: string;
+  /** Per-hotel star rating (from hotel library via admin; null/absent = unknown). */
+  stars?: number | null;
 }
 
 export interface RawHoliday {
@@ -293,6 +295,12 @@ function parseOtherInfo(raw: string | null): { text: string; bullets: string[] }
   return { text: paragraphs.join('\n\n'), bullets };
 }
 
+/** Normalise a hotel name for library matching (keep in sync with
+ *  holiday-admin-api/scripts/backfill-accommodation-stars.mjs). */
+export function normaliseHotelName(name: string): string {
+  return (name || '').toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
 export function extractStars(hotelOverride: string | null): number | null {
   if (!hotelOverride) return null;
   const match = hotelOverride.trim().match(/(\d)(?:\s*-\s*(\d))?\s*[- ]?Star/i);
@@ -460,7 +468,6 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
   const country = normaliseCountryName(raw.category);
   const countrySlug = slugify(country);
   const { text: otherInfoText, bullets: otherInfoBullets } = parseOtherInfo(raw.other_info);
-  const stars = extractStars(raw.hotel_override);
   const heroImage = resolveImageUrl(raw.featured_image);
   const localCharges = calculateLocalCharges(raw);
 
@@ -514,7 +521,10 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
       name: acc.name,
       description: acc.description,
       images: (acc.images || []).map(resolveImageUrl),
-      stars,
+      // Each hotel's OWN rating only (null = no stars shown). Never paint the
+      // package-level hotel_override onto hotel cards — it put 4★ on known
+      // 3-star properties (holiday 414, found 2026-07-07).
+      stars: acc.stars ?? null,
     })),
     galleryImages: (raw.gallery || []).map(resolveImageUrl),
     review: raw.review || '',

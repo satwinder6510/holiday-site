@@ -12,7 +12,9 @@ import { countries } from '../../data/countries';
 const description =
   'Explore our holiday destinations across Europe, Asia, the Americas, Africa, the Middle East and the Indian Ocean — flights and hotels included, from UK airports.';
 
-const bannerImage = 'https://admin.citiesandbeaches.com/images/destinations/Europe_banner.jpg';
+// Served locally — the old admin.citiesandbeaches.com host has an expired TLS
+// cert (since 2026-03), which browsers silently block (blank hero, dead og:image).
+const bannerImage = 'https://holidays.flightsandpackages.com/images/destinations/Europe_banner.jpg';
 
 const regions = destinations.map((d) => ({
   ...d,

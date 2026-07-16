@@ -115,6 +115,12 @@ const websiteSchema = {
   <!-- FB Pixel noscript fallback (no perf impact) -->
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2922972984621050&ev=PageView&noscript=1" /></noscript>
 
+  <!-- OpenAI / ChatGPT Pixel -->
+  <script is:inline>
+    !function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");
+    oaiq("init",{pixelId:"9BN96ccRF2uUa5d7qVegYi"});
+  </script>
+
   <slot name="head" />
 </head>
 <body>

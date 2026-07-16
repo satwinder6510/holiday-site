@@ -111,3 +111,12 @@ export const packagePricing = sqliteTable('package_pricing', {
   isAvailable: integer('is_available', { mode: 'boolean' }).default(true).notNull(),
   createdAt: text('created_at').default(sql`(datetime('now'))`).notNull(),
 });
+
+// Hotel library — canonical per-hotel star ratings (admin-maintained).
+// Detail pages look ratings up LIVE by name so a library edit reflects on
+// every offer immediately (accommodations JSON `stars` is only the fallback).
+export const hotelLibrary = sqliteTable('hotel_library', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  name: text('name').notNull(),
+  starRating: integer('star_rating'),
+});

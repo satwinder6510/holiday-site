@@ -26,7 +26,9 @@ let titleText = destination.name + ' Holidays';
 if (destination.name === 'Africa') titleText = 'Holidays in Africa';
 else if (destination.name === 'Asia') titleText = 'Holidays to Asia';
 
-const bannerImage = `https://admin.citiesandbeaches.com/images/destinations/${destination.name}_banner.jpg`;
+// Served locally — the old admin.citiesandbeaches.com host has an expired TLS
+// cert (since 2026-03), which browsers silently block (blank hero, dead og:image).
+const bannerImage = `https://holidays.flightsandpackages.com/images/destinations/${destination.name.replace(/\s+/g, '-')}_banner.jpg`;
 
 const introTexts: Record<string, { short: string; long: string }> = {
   'Europe': {

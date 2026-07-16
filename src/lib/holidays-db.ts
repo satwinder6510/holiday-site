@@ -1,7 +1,7 @@
 // SSR query functions — fetch holidays + pricing from D1
 import { eq, and, inArray, gte, sql } from 'drizzle-orm';
 import type { Database } from './db';
-import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable, cruiseSailings, cruiseOfferSailingCabins } from './db-schema';
+import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable, cruiseSailings, cruiseOfferSailingCabins, hotelLibrary } from './db-schema';
 import {
   type RawHoliday,
   type RawCruise,
@@ -10,6 +10,7 @@ import {
   transformCruise,
   slugify,
   normaliseCountryName,
+  normaliseHotelName,
 } from './holiday-transforms';
 import {
   type RawHolidayPricing,
@@ -296,6 +297,31 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
 // ── Query functions ─────────────────────────────────────────────────
 
 /** Get a single holiday by slug, with full pricing data. */
+/**
+ * LIVE per-hotel stars: override each accommodation's stars with the CURRENT
+ * hotel_library rating (matched by normalised name), so a rating edited in
+ * the admin library reflects on every offer on the next page load — no
+ * backfill, no deploy. The JSON `stars` copy remains the fallback for hotels
+ * not in the library. Failure-safe: any DB error leaves the fallback intact.
+ */
+async function applyLibraryStars(db: Database, holiday: HolidayDetail): Promise<void> {
+  if (!holiday.accommodations?.length) return;
+  try {
+    const rated = await db
+      .select({ name: hotelLibrary.name, starRating: hotelLibrary.starRating })
+      .from(hotelLibrary)
+      .where(sql`${hotelLibrary.starRating} IS NOT NULL`);
+    if (!rated.length) return;
+    const byName = new Map(rated.map(h => [normaliseHotelName(h.name), h.starRating]));
+    for (const acc of holiday.accommodations) {
+      const lib = byName.get(normaliseHotelName(acc.name));
+      if (lib != null) acc.stars = lib;
+    }
+  } catch {
+    // library lookup is an enhancement — the JSON fallback already rendered
+  }
+}
+
 export async function getHolidayBySlugFromDb(
   db: Database,
   slug: string
@@ -321,6 +347,7 @@ export async function getHolidayBySlugFromDb(
   if (rows.length === 0) return null;
 
   const holiday = transformHoliday(dbRowToRawHoliday(rows[0]));
+  await applyLibraryStars(db, holiday);
   const pricingMap = await getPricingForIds(db, [holiday.id]);
   const pricing = pricingMap.get(holiday.id) ?? null;
   if (pricing) {

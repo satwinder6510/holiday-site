@@ -107,6 +107,7 @@ displayPrice ?? roundToNine(basePrice + localChargesPp)
 - **Section container:** `.section-container` class = `max-width: 1240px; margin: 0 auto;` with responsive padding
 - **Country hero overrides:** `heroOverrides` map in `[country]/index.astro` provides custom hero images for select countries (Italy, Spain, France, Hungary, Austria, Greece) and collections (Special Offer). Falls back to first holiday's hero image.
 - **Ref lookup API:** `GET /api/ref?id=123` — SSR endpoint that redirects to the correct holiday detail page by package ID (checks cruises first, then DB)
+- **Per-hotel stars (2026-07-07):** accommodation cards show each hotel's OWN rating, resolved LIVE from `hotel_library` at SSR render (`applyLibraryStars()` in `holidays-db.ts`, matched by `normaliseHotelName()` — keep names stable in the library!). A library edit reflects on every offer on next page load. The accommodations JSON `stars` (copied on admin library-pick; backfill: `holiday-admin-api/scripts/backfill-accommodation-stars.mjs`) is only the fallback for hotels missing from the library. `null` = no stars shown. NEVER paint the package-level `hotel_override` rating onto hotel cards — it put 4★ on known 3-star hotels (holiday 414). `extractStars(hotel_override)` remains for city-tax fallback only.
 
 ## River Cruises
 

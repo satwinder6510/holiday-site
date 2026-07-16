@@ -48,6 +48,8 @@ import MobileCallCTA from '../components/MobileCallCTA.astro';
   <script is:inline>
     // Mark this visitor as subscribed so the exit-intent popup never shows again.
     try { window.localStorage.setItem('fp_newsletter_subscribed', '1'); } catch (e) {}
+    // OpenAI / ChatGPT pixel: email sign-up conversion
+    if (window.oaiq) oaiq("measure", "registration_completed", { type: "customer_action", amount: 0, currency: "GBP" });
   </script>
 </BaseLayout>
 
