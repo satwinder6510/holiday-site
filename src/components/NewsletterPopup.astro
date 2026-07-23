@@ -76,12 +76,47 @@ const POPUP_FORM_JS = `https://m4.mailplus.nl/genericservice/code/servlet/React?
     // PostHog: capture exit-popup email signups. The Spotler form is injected
     // dynamically, so listen on the overlay in the CAPTURE phase (fires even if
     // Spotler stops propagation), once per popup.
+    //
+    // We attach first-touch attribution: `lead_source` + `landing_page` are set
+    // once per session by the traffic-source script in BaseLayout (first external
+    // referrer / utm_source, and the first page landed on). Reading them here ties
+    // the captured email to where the visitor originally came from. We also
+    // identify() by email so the signup — and its source — shows against a person
+    // in PostHog (init uses `identified_only`, so this is what creates the profile).
     var signupCaptured = false;
     overlay.addEventListener('submit', function () {
       if (signupCaptured) return;
       signupCaptured = true;
       try {
-        if (window.posthog) window.posthog.capture('exit_popup_email_signup', { source: 'exit_popup' });
+        if (!window.posthog) return;
+
+        // Pull the email from Spotler's injected field (prefer type=email, else
+        // scan inputs for an email-shaped value).
+        var email = '';
+        var emailInput = overlay.querySelector('input[type="email"]');
+        if (!emailInput) {
+          var inputs = overlay.querySelectorAll('input');
+          for (var i = 0; i < inputs.length; i++) {
+            if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(inputs[i].value || '')) { emailInput = inputs[i]; break; }
+          }
+        }
+        if (emailInput) email = (emailInput.value || '').trim();
+
+        var leadSource = 'Direct';
+        var landingPage = '';
+        try {
+          leadSource = sessionStorage.getItem('lead_source') || 'Direct';
+          landingPage = sessionStorage.getItem('landing_page') || '';
+        } catch (e) {}
+
+        if (email) {
+          window.posthog.identify(email, { email: email, lead_source: leadSource });
+        }
+        window.posthog.capture('exit_popup_email_signup', {
+          source: 'exit_popup',
+          lead_source: leadSource,
+          landing_page: landingPage
+        });
       } catch (e) {}
     }, true);
 
