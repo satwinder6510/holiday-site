@@ -288,3 +288,12 @@ ffmpeg -y -ss 0.3 -i in.mp4 -frames:v 1 -q:v 3 public/blog-media/<slug>/images/h
 - Do not delete the `backup/` or `assets/` directories — they are the original reference
 - Do not create a `[collection].astro` separate from `[country]/index.astro` — they share the same URL pattern and are merged into one handler
 - Do not round the base price before adding local charges — always `roundToNine(base + localCharges)`, never `roundToNine(base) + localCharges`. The rounding must happen AFTER city tax and port fees are added, so the final customer-facing price ends in 9
+
+
+## Docs portal proxy (2026-07-28)
+`src/pages/docs/[...path].ts` proxies `/docs/*` → the admin API worker's public
+customer documents portal (`/portal/docs/*`) so customers see the brand domain,
+never workers.dev. Forwards GET+POST, strips content-encoding/length. The
+flightsandpackages.com zone is NOT in Cloudflare (external IT DNS) — this proxy
+is why; a Workers custom domain cannot bind. Don't remove this route without
+replacing the customer document links it serves.
