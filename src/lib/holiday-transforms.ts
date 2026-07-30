@@ -395,6 +395,9 @@ export function calculateLocalCharges(raw: RawHoliday): { total: number; items: 
   if (raw.city_tax_enabled) {
     const pkgStars = extractStars(raw.hotel_override) ?? 4;
     const config = raw.city_tax_config as CityTaxConfigEntry[];
+    // Cruise packages: city tax applies only to hotel nights, which the
+    // duration-based country fallback cannot know — explicit config only.
+    const isCruise = /cruise/i.test(raw.title) || (raw.tags || []).some((t) => /cruise/i.test(t));
 
     if (config && config.length > 0) {
       for (const entry of config) {
@@ -406,7 +409,7 @@ export function calculateLocalCharges(raw: RawHoliday): { total: number; items: 
         const foreignAmt = ratePerNight * entry.nights;
         const gbpAmt = Math.round(foreignAmt * taxEntry.exchangeRate * 100) / 100;
         items.push({
-          label: `City Tax \u2014 ${entry.city} (${entry.nights} nights \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
+          label: `City Tax \u2014 ${entry.city} (${entry.nights} night${entry.nights === 1 ? '' : 's'} \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
           foreignAmount: foreignAmt,
           currency: taxEntry.currency,
           exchangeRate: taxEntry.exchangeRate,
@@ -414,7 +417,7 @@ export function calculateLocalCharges(raw: RawHoliday): { total: number; items: 
         });
         total += gbpAmt;
       }
-    } else {
+    } else if (!isCruise) {
       const country = normaliseCountryName(raw.category);
       const firstCountry = country.split(',')[0].trim();
       const code = COUNTRY_NAME_TO_CODE[firstCountry];
