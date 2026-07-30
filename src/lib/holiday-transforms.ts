@@ -323,6 +323,7 @@ interface CityTaxEntry {
   rate5Star: number | null;
   currency: string;
   exchangeRate: number;
+  capNights: number | null;
   notes: string;
 }
 
@@ -406,10 +407,11 @@ export function calculateLocalCharges(raw: RawHoliday): { total: number; items: 
         const stars = entry.starRating ?? pkgStars;
         const ratePerNight = getRateForStars(taxEntry, stars);
         if (ratePerNight === 0) continue;
-        const foreignAmt = ratePerNight * entry.nights;
+        const nights = taxEntry.capNights ? Math.min(entry.nights, taxEntry.capNights) : entry.nights;
+        const foreignAmt = ratePerNight * nights;
         const gbpAmt = Math.round(foreignAmt * taxEntry.exchangeRate * 100) / 100;
         items.push({
-          label: `City Tax \u2014 ${entry.city} (${entry.nights} night${entry.nights === 1 ? '' : 's'} \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
+          label: `City Tax \u2014 ${entry.city} (${nights} night${nights === 1 ? '' : 's'} \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
           foreignAmount: foreignAmt,
           currency: taxEntry.currency,
           exchangeRate: taxEntry.exchangeRate,
@@ -426,12 +428,13 @@ export function calculateLocalCharges(raw: RawHoliday): { total: number; items: 
         if (taxEntry) {
           const ratePerNight = getRateForStars(taxEntry, pkgStars);
           if (ratePerNight > 0) {
-            const nights = parseNights(raw.duration);
+            const rawNights = parseNights(raw.duration);
+            const nights = taxEntry.capNights ? Math.min(rawNights, taxEntry.capNights) : rawNights;
             if (nights > 0) {
               const foreignAmt = ratePerNight * nights;
               const gbpAmt = Math.round(foreignAmt * taxEntry.exchangeRate * 100) / 100;
               items.push({
-                label: `City Tax \u2014 ${taxEntry.cityName} (${nights} nights \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
+                label: `City Tax \u2014 ${taxEntry.cityName} (${nights} night${nights === 1 ? '' : 's'} \u00d7 ${taxEntry.currency === 'EUR' ? '\u20ac' : taxEntry.currency + ' '}${ratePerNight.toFixed(2)})`,
                 foreignAmount: foreignAmt,
                 currency: taxEntry.currency,
                 exchangeRate: taxEntry.exchangeRate,

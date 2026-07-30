@@ -24,7 +24,13 @@ if ! grep -q '"holiday-site"' package.json 2>/dev/null; then
   exit 1
 fi
 
-# 3. Build
+# 3. Refresh city taxes from D1 (single source of truth: city_taxes table,
+# shared with the admin quote tool). Fails the deploy if D1 is unreachable.
+echo "Syncing city taxes from D1..."
+node scripts/sync-city-taxes.mjs
+echo ""
+
+# 3b. Build
 echo "Building holiday-site..."
 npm run build
 echo ""
