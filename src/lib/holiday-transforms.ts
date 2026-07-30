@@ -310,7 +310,7 @@ export function extractStars(hotelOverride: string | null): number | null {
 
 // ── City tax / local charges ────────────────────────────────────────
 
-interface CityTaxEntry {
+export interface CityTaxEntry {
   id: number;
   cityName: string;
   countryCode: string;
@@ -327,7 +327,14 @@ interface CityTaxEntry {
   notes: string;
 }
 
-const cityTaxes: CityTaxEntry[] = cityTaxData as CityTaxEntry[];
+// Baked snapshot (regenerated from D1 at every deploy) — the fallback. SSR
+// paths call setCityTaxRates() with live D1 rows first, so an admin edit to
+// the tax table reaches the site within minutes, not at the next deploy.
+let cityTaxes: CityTaxEntry[] = cityTaxData as CityTaxEntry[];
+
+export function setCityTaxRates(entries: CityTaxEntry[] | null): void {
+  if (entries && entries.length > 0) cityTaxes = entries;
+}
 
 const COUNTRY_NAME_TO_CODE: Record<string, string> = {
   'Argentina': 'AR', 'Austria': 'AT', 'Belgium': 'BE', 'Bulgaria': 'BG',

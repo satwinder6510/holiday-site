@@ -13,9 +13,10 @@ import { dirname, join } from 'node:path';
 
 // GBP per unit of foreign currency, used for the "≈ £x payable locally"
 // estimate on package pages. Update occasionally; precision is not critical.
+// Keep in step with src/lib/city-taxes-live.ts (the live runtime loader).
 const GBP_RATES = {
   GBP: 1, EUR: 0.84, USD: 0.79, CHF: 0.87, AED: 0.21,
-  MAD: 0.079, CZK: 0.033, ISK: 0.0055, BGN: 0.43, HUF: 0.0021,
+  MAD: 0.079, CZK: 0.033, ISK: 0.0055, BGN: 0.43, HUF: 0.0021, JPY: 0.0052,
 };
 
 const SQL =

@@ -528,6 +528,22 @@
     "notes": "€0.30 per person, per night"
   },
   {
+    "id": 79,
+    "cityName": "Kyoto",
+    "countryCode": "JP",
+    "pricingType": "star_rating",
+    "taxPerNightPerPerson": 0,
+    "rate1Star": 1000,
+    "rate2Star": 1000,
+    "rate3Star": 1000,
+    "rate4Star": 1000,
+    "rate5Star": 1000,
+    "currency": "JPY",
+    "exchangeRate": 0.0052,
+    "capNights": null,
+    "notes": ""
+  },
+  {
     "id": 28,
     "cityName": "Lake Como",
     "countryCode": "IT",
@@ -1084,6 +1100,22 @@
     "rate5Star": 5,
     "currency": "EUR",
     "exchangeRate": 0.84,
+    "capNights": null,
+    "notes": ""
+  },
+  {
+    "id": 78,
+    "cityName": "Tokyo",
+    "countryCode": "JP",
+    "pricingType": "star_rating",
+    "taxPerNightPerPerson": 0,
+    "rate1Star": 200,
+    "rate2Star": 200,
+    "rate3Star": 200,
+    "rate4Star": 200,
+    "rate5Star": 200,
+    "currency": "JPY",
+    "exchangeRate": 0.0052,
     "capNights": null,
     "notes": ""
   },

@@ -120,3 +120,23 @@ export const hotelLibrary = sqliteTable('hotel_library', {
   name: text('name').notNull(),
   starRating: integer('star_rating'),
 });
+
+// City tax rules — the SAME table the admin quote tool edits (Quotes → Taxes
+// & Log). Read live per request (5-min cache in city-taxes-live.ts) so admin
+// edits reach package pages without a deploy; src/data/city-taxes.json is the
+// deploy-time snapshot used as fallback.
+export const cityTaxes = sqliteTable('city_taxes', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  city: text('city').notNull(),
+  countryCode: text('country_code'),
+  basis: text('basis').notNull(),
+  currency: text('currency').notNull(),
+  fixedAmount: real('fixed_amount'),
+  capNights: integer('cap_nights'),
+  notes: text('notes'),
+  rate1Star: real('rate_1_star'),
+  rate2Star: real('rate_2_star'),
+  rate3Star: real('rate_3_star'),
+  rate4Star: real('rate_4_star'),
+  rate5Star: real('rate_5_star'),
+});

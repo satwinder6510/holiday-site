@@ -11,7 +11,9 @@ import {
   slugify,
   normaliseCountryName,
   normaliseHotelName,
+  setCityTaxRates,
 } from './holiday-transforms';
+import { loadCityTaxesLive } from './city-taxes-live';
 import {
   type RawHolidayPricing,
   type RawDeparture,
@@ -346,6 +348,7 @@ export async function getHolidayBySlugFromDb(
 
   if (rows.length === 0) return null;
 
+  setCityTaxRates(await loadCityTaxesLive(db));
   const holiday = transformHoliday(dbRowToRawHoliday(rows[0]));
   await applyLibraryStars(db, holiday);
   const pricingMap = await getPricingForIds(db, [holiday.id]);
@@ -364,6 +367,7 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
     .from(flightPackages)
     .where(and(eq(flightPackages.isPublished, true), eq(flightPackages.isUnlisted, false)));
 
+  setCityTaxRates(await loadCityTaxesLive(db));
   const holidays = rows.map(row => transformHoliday(dbRowToRawHoliday(row)));
   const ids = holidays.map(h => h.id);
   const pricingMap = await getPricingForIds(db, ids);
