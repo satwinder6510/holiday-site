@@ -364,6 +364,11 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
         if (enqForm) enqForm.hidden = true;
         if (enqSuccess) enqSuccess.hidden = false;
         if (typeof (window as any).fbq !== 'undefined') (window as any).fbq('track', 'Lead', { content_name: pkgName });
+        // OpenAI / ChatGPT pixel — same event the holiday enquiry modal and the
+        // contact page fire, so all three lead doors report identically.
+        if ((window as any).oaiq) {
+          (window as any).oaiq('measure', 'lead_created', { type: 'customer_action', amount: 0, currency: 'GBP' });
+        }
       } catch {
         if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit Enquiry'; }
         if (enqErr) { enqErr.textContent = `Sorry, something went wrong. Please call us on ${phone}.`; enqErr.hidden = false; }

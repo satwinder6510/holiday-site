@@ -816,6 +816,22 @@
     "notes": "Up to €4.20 depending on star rating"
   },
   {
+    "id": 80,
+    "cityName": "Osaka",
+    "countryCode": "JP",
+    "pricingType": "star_rating",
+    "taxPerNightPerPerson": 0,
+    "rate1Star": 500,
+    "rate2Star": 500,
+    "rate3Star": 500,
+    "rate4Star": 500,
+    "rate5Star": 500,
+    "currency": "JPY",
+    "exchangeRate": 0.0052,
+    "capNights": null,
+    "notes": ""
+  },
+  {
     "id": 45,
     "cityName": "Ostuni",
     "countryCode": "IT",
