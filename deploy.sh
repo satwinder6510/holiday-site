@@ -30,6 +30,15 @@ echo "Syncing city taxes from D1..."
 node scripts/sync-city-taxes.mjs
 echo ""
 
+# 3a. Refresh the blog from D1 (same rule: blog_posts is the single source of
+# truth, shared with the admin blog editor). Added 2026-08-21 — without it the
+# site served a snapshot taken on 17 July, so admin edits never appeared and a
+# database repair changed nothing on the site. Warns about any blog image still
+# hosted on someone else's server; that is how 133 pictures broke at once.
+echo "Syncing blog posts from D1..."
+node scripts/sync-blogs.mjs
+echo ""
+
 # 3b. Build
 echo "Building holiday-site..."
 npm run build
