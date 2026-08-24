@@ -30,9 +30,9 @@ export const footerCollections = [
   { name: 'Twin Centre', href: '/Holidays/Twin-Centre' },
   { name: 'Luxury', href: '/Holidays/Luxury-Breaks' },
   { name: 'Summer Holidays', href: '/Holidays/Summer-Holiday' },
-  { name: 'Greek Island Hopping', href: '/Greek-Island-Hopping' },
-  { name: 'Vietnam and Cambodia', href: '/Vietnam-and-cambodia-holidays' },
-  { name: 'India Golden Triangle', href: '/Golden-triangle-holidays' },
+  { name: 'Greek Island Hopping', href: '/Holidays/greece' },
+  { name: 'Vietnam and Cambodia', href: '/Holidays/vietnam' },
+  { name: 'India Golden Triangle', href: '/Holidays/Golden-Triangle' },
 ];
 
 export const footerUsefulLinks = [

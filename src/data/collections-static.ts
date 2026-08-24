@@ -9,6 +9,7 @@ export interface Collection {
 }
 
 export const allCollections: Collection[] = [
+  { name: 'Golden Triangle', tag: 'Golden Triangle', image: 'https://citrusholidays-res.cloudinary.com/image/upload/v1577945556/new/collections/Golden%20Triangle%20Holidays_banner.jpg', href: '/Holidays/Golden-Triangle' },
   { name: 'River Cruises', tag: 'River Cruise', image: '/images/collections/river-cruise.webp', href: '/Holidays/river-cruises' },
   { name: '2027 Holidays', tag: '2027 Holidays', image: 'https://admin.citiesandbeaches.com/images/collections/2022 Holidays_icon.jpg', href: '/Holidays/2027-Holidays' },
   { name: 'Italian Lakes', tag: 'Italian Lakes', image: 'https://admin.citiesandbeaches.com/images/collections/Italian Lakes_icon.jpg', href: '/Holidays/Italian-Lakes' },
