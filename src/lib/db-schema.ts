@@ -80,6 +80,7 @@ export const cruiseFlightPrices = sqliteTable('cruise_flight_prices', {
 export const cruiseOffers = sqliteTable('cruise_offers', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   cheapestTotalPp: text('cheapest_total_pp'),
+  isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
 });
 
 // Individual departures — only the columns the listing needs (date filter + ship).

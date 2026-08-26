@@ -153,36 +153,12 @@ function applyPricing(holidays: HolidayDetail[], pricingMap: Map<number, Holiday
 
 // ── Cruise data (static) ────────────────────────────────────────────
 
+// The export is the CATALOGUE only (which routes exist, slugs, images, ships).
+// Every price on the site comes live from D1 — cruise_offers.cheapest_total_pp
+// for cards, cruise_flight_prices (+ retail overlay) for the calendar. The old
+// static-JSON pricing fallback (price-cruise-flights.ts) is gone.
+// These objects are shared across requests: never mutate them — clone first.
 const cruiseHolidays: HolidayDetail[] = (rawCruises as RawCruise[]).map(transformCruise);
-
-// Build cruise pricing lookup from enriched sailing departures (for listing pages)
-const cruisePricingMap = new Map<number, HolidayPricing>();
-for (const raw of rawCruises as RawCruise[]) {
-  if (!raw.sailings) continue;
-  const departures: RawDeparture[] = [];
-  for (const sailing of raw.sailings) {
-    if (sailing.departures) {
-      for (const dep of sailing.departures) {
-        departures.push({
-          date: sailing.date,
-          airport_code: dep.airport_code,
-          airport_name: dep.airport_name,
-          price_pp: dep.price_pp,
-          availability: 'available',
-        });
-      }
-    }
-  }
-  if (departures.length > 0) {
-    const pricing = transformHolidayPricing({ holiday_id: raw.id, departures });
-    if (pricing) {
-      cruisePricingMap.set(raw.id, pricing);
-      // Update the shared cruise holiday price to cheapest fly-cruise price
-      const cruise = cruiseHolidays.find(c => c.id === raw.id);
-      if (cruise) cruise.price = pricing.cheapestPrice;
-    }
-  }
-}
 
 // ── DB-backed cruise pricing ────────────────────────────────────────
 
@@ -329,14 +305,19 @@ export async function getHolidayBySlugFromDb(
   slug: string
 ): Promise<{ holiday: HolidayDetail; pricing: HolidayPricing | null } | null> {
   // Check cruises first
-  const cruise = cruiseHolidays.find(c => c.slug === slug);
-  if (cruise) {
-    // Try DB pricing first, fall back to static cruisePricingMap
-    const dbPricing = await getCruisePricingFromDb(db, cruise.id);
-    const pricing = dbPricing ?? cruisePricingMap.get(cruise.id) ?? null;
-    if (pricing) {
-      cruise.price = pricing.cheapestPrice;
-    }
+  const cruiseEntry = cruiseHolidays.find(c => c.slug === slug);
+  if (cruiseEntry) {
+    // Deactivated offer (Widgety pulled the sailings) or nothing priced → 404,
+    // not a page with a stale headline and an empty calendar.
+    const [offer] = await db
+      .select({ isActive: cruiseOffersTable.isActive })
+      .from(cruiseOffersTable)
+      .where(eq(cruiseOffersTable.id, cruiseEntry.id - CRUISE_ID_OFFSET))
+      .limit(1);
+    if (!offer?.isActive) return null;
+    const pricing = await getCruisePricingFromDb(db, cruiseEntry.id);
+    if (!pricing) return null;
+    const cruise: HolidayDetail = { ...cruiseEntry, price: pricing.cheapestPrice };
     return { holiday: cruise, pricing };
   }
 
@@ -373,34 +354,29 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
   const pricingMap = await getPricingForIds(db, ids);
   applyPricing(holidays, pricingMap);
 
-  // Merge in cruises
-  const all = [...holidays, ...cruiseHolidays];
-
-  // Overlay DB lead prices on cruise holidays (from cruise_offers.cheapest_total_pp)
+  // Cruises: only those whose offer is still ACTIVE with a live headline price.
+  // The export is a snapshot; D1 decides what is sellable today. Anything else
+  // (deactivated by the Sunday stale check, or unpriced) is dropped from every
+  // listing, country page, search and the sitemap.
   const dbCruiseIds = cruiseHolidays.map(c => c.id - CRUISE_ID_OFFSET).filter(id => id > 0);
-  if (dbCruiseIds.length > 0) {
-    const offerChunks = chunkArray(dbCruiseIds, 80);
-    const offerRows: { id: number; cheapestTotalPp: string | null }[] = [];
-    for (const chunk of offerChunks) {
-      const chunkRows = await db
-        .select({ id: cruiseOffersTable.id, cheapestTotalPp: cruiseOffersTable.cheapestTotalPp })
-        .from(cruiseOffersTable)
-        .where(inArray(cruiseOffersTable.id, chunk));
-      offerRows.push(...chunkRows);
-    }
-
-    for (const row of offerRows) {
-      if (row.cheapestTotalPp) {
-        const price = Number(row.cheapestTotalPp);
-        if (price > 0) {
-          // Map DB offer ID back to holiday-site ID (add offset)
-          const cruise = all.find(h => h.id === row.id + CRUISE_ID_OFFSET);
-          if (cruise) cruise.price = price;
-        }
-      }
+  const livePrice = new Map<number, number>();
+  for (const chunk of chunkArray(dbCruiseIds, 80)) {
+    const rows = await db
+      .select({ id: cruiseOffersTable.id, cheapestTotalPp: cruiseOffersTable.cheapestTotalPp, isActive: cruiseOffersTable.isActive })
+      .from(cruiseOffersTable)
+      .where(inArray(cruiseOffersTable.id, chunk));
+    for (const row of rows) {
+      const price = Number(row.cheapestTotalPp);
+      if (row.isActive && price > 0) livePrice.set(row.id + CRUISE_ID_OFFSET, price);
     }
   }
+  const cruises: HolidayDetail[] = [];
+  for (const c of cruiseHolidays) {
+    const price = livePrice.get(c.id);
+    if (price) cruises.push({ ...c, price }); // clone — never mutate the shared catalogue
+  }
 
+  const all = [...holidays, ...cruises];
   all.sort((a, b) => a.displayOrder - b.displayOrder);
 
   return all;

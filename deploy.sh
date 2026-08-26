@@ -39,6 +39,13 @@ echo "Syncing blog posts from D1..."
 node scripts/sync-blogs.mjs
 echo ""
 
+# 3c. Refresh the river-cruise catalogue from D1. Same rule again: the export
+# was last run by hand on 29 June and by late August the site sold 18 cruises
+# with no sailings and hid 8 that were priced. Fails the deploy if D1 is down.
+echo "Exporting river cruises from D1..."
+(cd /Users/admin/holiday-admin-api && npx tsx scripts/export-cruises.ts)
+echo ""
+
 # 3b. Build
 echo "Building holiday-site..."
 npm run build
