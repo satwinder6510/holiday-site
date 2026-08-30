@@ -17,3 +17,9 @@
 /Golden-triangle-holidays /Holidays/Golden-Triangle 301
 /Greek-Island-Hopping /Holidays/greece 301
 /Vietnam-and-cambodia-holidays /Holidays/vietnam 301
+
+# Legacy numeric country listings (/Region/Country/ID) → country page. See REDIRECT-LOG.md (site-doctor 2026-08-30)
+/Holidays/Europe/Slovakia/14 /Holidays/slovakia 301
+/Holidays/Europe/Cyprus/33 /Holidays/cyprus 301
+/Holidays/Europe/Latvia/13 /Holidays/latvia 301
+/Holidays/Asia/India/24 /Holidays/india 301
