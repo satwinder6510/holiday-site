@@ -4117,6 +4117,16 @@ const pageDescription = holiday.metaDescription || (() => {
       if (tidio && typeof tidio.open === 'function') {
         closeEnquiryModal();
         tidio.open();
+        // Start the conversation for the customer with what they were enquiring
+        // about — a bare empty chat right after "Chat with us" reads as a dead
+        // end, and the agent gets the package/date context for free.
+        try {
+          const parts: string[] = [`Hi, I'd like a price for ${holidayMeta.title || 'this holiday'}`];
+          if (enquiryExtra.departure_date) parts.push(`departing ${enquiryExtra.departure_date}`);
+          if (enquiryExtra.departure_airport) parts.push(`from ${enquiryExtra.departure_airport}`);
+          if (enquiryExtra.num_adults) parts.push(`for ${enquiryExtra.num_adults} passenger${enquiryExtra.num_adults !== '1' ? 's' : ''}`);
+          tidio.messageFromVisitor?.(parts.join(' ') + '.');
+        } catch { /* chat is open either way */ }
       } else if (enquiryCallChat && enquiryForm) {
         // Tidio blocked or not loaded yet — show the form rather than a dead end.
         enquiryCallChat.style.display = 'none';
