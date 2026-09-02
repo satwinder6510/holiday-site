@@ -226,6 +226,7 @@ Listing pages (`[country]/index.astro`, `river-cruises/[...river].astro`) have h
 ## Enquiry Form & Webhook
 
 - **Enquiry modal:** In `[slug].astro` — triggered from pricing calendar "Request Booking" or standalone "Enquire" button
+- **Call/chat-first experiment (2026-09-02):** 9am–6pm UK (`callHoursNow()`, Europe/London via Intl) the modal shows a call button (0208 183 0518) + "Chat with us" (opens Tidio) INSTEAD of the form; out of hours the form shows as before. Chat click falls back to the form if Tidio isn't loaded. PostHog events `enquiry_modal_open` (variant), `enquiry_call_click`, `enquiry_chat_click`, all carrying `lead_source`. Agents log resulting calls/chats as manual leads with a secondary source (admin New Lead form) so attribution survives.
 - **Form fields:** first_name, last_name, email, phone (all required)
 - **API endpoint:** `POST /api/contact` (`src/pages/api/contact.ts`) — relays to Privyr webhook (`PRIVYR_WEBHOOK_URL` env)
 - **Payload (Package Enquiry):** Form Type, Package Name, Package ID, Departure Date, Departure Airport, Number of Adults, Price Per Person, Total Price, Source (UTM → sessionStorage), Landing Page, Page URL

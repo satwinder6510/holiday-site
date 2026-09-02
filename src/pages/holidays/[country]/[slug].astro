@@ -757,6 +757,14 @@ const pageDescription = holiday.metaDescription || (() => {
         </div>
         <p class="enquiry-modal__note">Or call us on <a href="tel:02081830518">0208 183 0518</a></p>
       </form>
+      <!-- In-hours contact panel (9am–6pm UK): call or chat instead of the form.
+           openEnquiryModal() decides which of this and #enquiry-form is shown. -->
+      <div class="enquiry-modal__callchat" id="enquiry-callchat" style="display:none;">
+        <p class="enquiry-modal__callchat-lead">Our travel experts are available right now &mdash; call for today's price and availability.</p>
+        <a class="enquiry-modal__call-btn" id="enquiry-call-btn" href="tel:02081830518">Call 0208 183 0518</a>
+        <button type="button" class="enquiry-modal__chat-btn" id="enquiry-chat-btn">Can't talk right now? Chat with us</button>
+        <p class="enquiry-modal__note">Lines open 9am&ndash;6pm</p>
+      </div>
       <div class="enquiry-modal__success" id="enquiry-success" style="display:none;">
         <div class="enquiry-modal__success-icon">&#10003;</div>
         <h3>Thank you!</h3>
@@ -3198,6 +3206,57 @@ const pageDescription = holiday.metaDescription || (() => {
     color: #20A1AA;
     font-family: "BentonSansMedium", sans-serif;
   }
+  .enquiry-modal__callchat {
+    padding: 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .enquiry-modal__callchat-lead {
+    margin: 0 0 4px;
+    text-align: center;
+    font-family: "BentonSans", sans-serif;
+    font-size: 15px;
+    line-height: 22px;
+    color: #424242;
+  }
+  .enquiry-modal__call-btn {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    background: #ff7f00;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s;
+    box-shadow: 0 4px 12px rgba(255, 127, 0, 0.3);
+  }
+  .enquiry-modal__call-btn:hover { background: #e67300; }
+  .enquiry-modal__call-btn:focus-visible {
+    outline: 2px solid #ff7f00;
+    outline-offset: 3px;
+  }
+  .enquiry-modal__chat-btn {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    background: #fff;
+    color: #20A1AA;
+    border: 2px solid #20A1AA;
+    border-radius: 6px;
+    font-family: "BentonSansMedium", sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .enquiry-modal__chat-btn:hover { background: #f0f9fa; }
+  .enquiry-modal__chat-btn:focus-visible {
+    outline: 2px solid #20A1AA;
+    outline-offset: 3px;
+  }
   .enquiry-modal__success {
     text-align: center;
     padding: 48px 32px 40px;
@@ -3973,6 +4032,31 @@ const pageDescription = holiday.metaDescription || (() => {
     let enquiryTriggerEl: HTMLElement | null = null;
     let enquiryExtra: Record<string, string> = {};
 
+    const enquiryCallChat = document.getElementById('enquiry-callchat');
+    const enquiryCallBtn = document.getElementById('enquiry-call-btn');
+    const enquiryChatBtn = document.getElementById('enquiry-chat-btn');
+    const enquiryTitle = enquiryModal?.querySelector('.enquiry-modal__title') as HTMLElement | null;
+
+    // 9am–6pm UK the modal offers call/chat instead of the form; out of hours
+    // the form still captures the lead (experiment 2026-09-02: leads who asked
+    // for prices in writing were dying in the callback queue — push the live
+    // channels while someone is actually there to answer).
+    function callHoursNow(): boolean {
+      try {
+        const h = Number(new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Europe/London' }).format(new Date()));
+        return h >= 9 && h < 18;
+      } catch { return false; }
+    }
+
+    function trackEnquiry(event: string, props?: Record<string, string>) {
+      try {
+        (window as any).posthog?.capture(event, {
+          lead_source: sessionStorage.getItem('lead_source') || 'Direct',
+          ...props,
+        });
+      } catch { /* analytics must never break the modal */ }
+    }
+
     function openEnquiryModal(details?: { date?: string; airport?: string; adults?: string; pricePp?: string; totalPrice?: string; ship?: string }) {
       if (!enquiryModal) return;
       enquiryTriggerEl = document.activeElement as HTMLElement | null;
@@ -3992,6 +4076,14 @@ const pageDescription = holiday.metaDescription || (() => {
         enquiryDetails.style.display = 'none';
       }
 
+      const callFirst = !!enquiryCallChat && !!enquiryForm && callHoursNow();
+      if (enquiryCallChat && enquiryForm) {
+        enquiryCallChat.style.display = callFirst ? '' : 'none';
+        enquiryForm.style.display = callFirst ? 'none' : '';
+      }
+      if (enquiryTitle) enquiryTitle.textContent = callFirst ? 'Speak to a Travel Expert' : 'Booking Requested';
+      trackEnquiry('enquiry_modal_open', { variant: callFirst ? 'call_chat' : 'form' });
+
       enquiryModal.classList.add('visible');
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -3999,7 +4091,7 @@ const pageDescription = holiday.metaDescription || (() => {
         });
       });
       document.body.style.overflow = 'hidden';
-      (enquiryModal.querySelector('#enq-first-name') as HTMLElement)?.focus();
+      ((callFirst ? enquiryCallBtn : enquiryModal.querySelector('#enq-first-name')) as HTMLElement | null)?.focus();
     }
 
     function closeEnquiryModal() {
@@ -4017,6 +4109,21 @@ const pageDescription = holiday.metaDescription || (() => {
 
     // Expose openEnquiryModal globally so pricing modal JS can call it
     (window as any).__openEnquiryModal = openEnquiryModal;
+
+    enquiryCallBtn?.addEventListener('click', () => trackEnquiry('enquiry_call_click'));
+    enquiryChatBtn?.addEventListener('click', () => {
+      trackEnquiry('enquiry_chat_click');
+      const tidio = (window as any).tidioChatApi;
+      if (tidio && typeof tidio.open === 'function') {
+        closeEnquiryModal();
+        tidio.open();
+      } else if (enquiryCallChat && enquiryForm) {
+        // Tidio blocked or not loaded yet — show the form rather than a dead end.
+        enquiryCallChat.style.display = 'none';
+        enquiryForm.style.display = '';
+        (enquiryModal?.querySelector('#enq-first-name') as HTMLElement | null)?.focus();
+      }
+    });
 
     enquiryClose?.addEventListener('click', closeEnquiryModal);
     enquiryModal?.addEventListener('click', (e) => {
