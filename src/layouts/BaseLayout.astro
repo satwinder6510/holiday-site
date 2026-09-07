@@ -263,6 +263,110 @@ const websiteSchema = {
   <!-- Tidio Live Chat -->
   <script src="//code.tidio.co/umkdiuqjxuccie7jbxsnr0f6pj3lkfcs.js" async></script>
 
+  <!-- Tidio → leads (2026-09-07): beacons widget events (visitor messages, agent
+       replies, pre-chat name, page, source) to the admin API, which turns each
+       conversation into a CRM lead. -->
+  <script is:inline>
+    (function () {
+      var TIDIO_BEACON_URL = 'https://holiday-admin-api.satwinder-30c.workers.dev/api/monitor/tidio';
+      var sid = null;
+      try {
+        sid = localStorage.getItem('_tidio_cap_sid');
+        if (!sid) {
+          sid = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+          localStorage.setItem('_tidio_cap_sid', sid);
+        }
+      } catch (e) { sid = 'nostore-' + Math.random().toString(36).slice(2, 10); }
+
+      // First-touch attribution set by the traffic-source script above; the
+      // same strings web-form leads carry, so chat leads group with them.
+      function attribution() {
+        var out = { source: null, landingPage: null };
+        try {
+          out.source = sessionStorage.getItem('lead_source');
+          out.landingPage = sessionStorage.getItem('landing_page');
+        } catch (e) {}
+        return out;
+      }
+
+      function tidioVisitorId() {
+        try {
+          var raw = localStorage.getItem('tidio_state_umkdiuqjxuccie7jbxsnr0f6pj3lkfcs');
+          var v = raw ? (JSON.parse(raw).visitor || {}) : {};
+          return v.id || null;
+        } catch (e) { return null; }
+      }
+
+      function send(event, payload) {
+        var attr = attribution();
+        var body = JSON.stringify({
+          sessionId: sid,
+          visitorId: tidioVisitorId(),
+          pageTitle: document.title,
+          event: event,
+          payload: payload === undefined ? null : payload,
+          url: location.href,
+          source: attr.source,
+          landingPage: attr.landingPage,
+          userAgent: navigator.userAgent
+        });
+        // fetch+keepalive, not sendBeacon: Chrome drops beacon POSTs that
+        // need a CORS preflight (application/json), verified 2026-09-07.
+        try {
+          fetch(TIDIO_BEACON_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: body,
+            keepalive: true
+          }).catch(function () {});
+        } catch (e) {}
+      }
+
+      // Tidio keeps its state in localStorage (tidio_state_<publicKey>) with a
+      // `visitor` block (id, distinct_id, name, email, phone, country, city) and
+      // the `messages` array. Pull those out rather than the whole blob.
+      function identity() {
+        var out = {};
+        try {
+          var raw = localStorage.getItem('tidio_state_umkdiuqjxuccie7jbxsnr0f6pj3lkfcs');
+          var state = raw ? JSON.parse(raw) : null;
+          if (state) {
+            var v = state.visitor || {};
+            out.visitor = {
+              id: v.id, distinct_id: v.distinct_id, originalVisitorId: v.originalVisitorId,
+              name: v.name, email: v.email, phone: v.phone,
+              country: v.country, city: v.city, created: v.created, url: v.url, refer: v.refer
+            };
+            out.tidioIdentifyData = state.tidioIdentifyData || null;
+            out.messages = (state.messages || []).slice(-30).map(function (m) {
+              return { id: m.id, idFromServer: m.idFromServer, type: m.type, sender: m.sender,
+                       content: typeof m.content === 'string' ? m.content.slice(0, 500) : m.content,
+                       time_sent: m.time_sent, chat_bot_name: m.chat_bot_name || undefined };
+            });
+          }
+        } catch (e) { out.error = String(e); }
+        return out;
+      }
+
+      // Identity goes with every visitor-side event: email/phone can arrive
+      // mid-chat (pre-chat form, bot asking), and the transcript grows.
+      function hook() {
+        var api = window.tidioChatApi;
+        if (!api || typeof api.on !== 'function') return;
+        // Visitor writes first, agent replies. The proactive welcome bot
+        // fires on every idle visitor, so nothing logs until the visitor engages.
+        var engaged = false;
+        api.on('conversationStart', function () { engaged = true; send('conversationStart', null); send('identity', identity()); });
+        api.on('preFormFilled', function (d) { engaged = true; send('preFormFilled', d); send('identity', identity()); });
+        api.on('messageFromVisitor', function (d) { engaged = true; send('messageFromVisitor', d); send('identity', identity()); });
+        api.on('messageFromOperator', function (d) { if (engaged) send('messageFromOperator', d); });
+      }
+
+      if (window.tidioChatApi) { hook(); }
+      else { document.addEventListener('tidioChat-ready', hook, { once: true }); }
+    })();
+  </script>
+
   <!-- Deferred Analytics — FB Pixel, Clarity (loaded after main content) -->
   <script is:inline>
     (function () {

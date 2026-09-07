@@ -1,191 +1,9 @@
 [
   {
-    "id": 10001,
-    "title": "Rhine Experience Netherlands & Belgium",
-    "slug": "a-rosa-cruises-rhine-experience-netherlands-belgium",
-    "price": 1069,
-    "destination": "Rhine",
-    "country": "Germany",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Small Cabin Bag",
-      "Full Board Cruise",
-      "Alcohol and Soft Drinks during Bar hours",
-      "Captain's Welcome Evening",
-      "Gala Dinner",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "port": "Cologne",
-        "country": "Germany",
-        "description": "Welcome to Cologne! The typical friendliness that you find at every turn makes visitors feel at home right away. It’s not unusual to quickly get chatting to strangers and even go for a couple of glasses of Kölsch with them. The main landmark – Cologne Cathedral – watches over the whole city. It is the third-tallest church building in the world, at 157.38 metres. It might be a bit of a trek up to the top of the tower, but it’s worth it. You’ll be rewarded with an unforgettable view of the city and the Rhine spread out before you."
-      },
-      {
-        "day": 2,
-        "port": "Willemstad",
-        "country": "Netherlands",
-        "description": "The former Dutch fortress of Willemstad is a tranquil little village with a delightful harbor. And of course, a typical dutch town like this can't lack a windmill! During a walk through the quiet town you will surely discover one."
-      },
-      {
-        "day": 3,
-        "port": "Gent (Ghent)",
-        "country": "Belgium",
-        "description": "This old university town buzzes with energy. Rich in cultural attractions, it also boasts a varied nightlife, with imposing architectural monuments serving as a backdrop. During the ‘Gentse Feesten’ – a ten-day festival of street performance, music and culture that takes place in the city centre every July – these magnificent buildings really come into their own, illuminated by light installations It is a truly spectacular sight."
-      },
-      {
-        "day": 4,
-        "port": "Middelburg",
-        "country": "Netherlands",
-        "description": "Middelburg captivates visitors with its historic charm and picturesque old town. The abbey is particularly impressive, with its majestic tower, 'Tall John', offering a magnificent view over the town. Another highlight is the town hall, with its splendid Gothic architecture making it one of the most beautiful buildings in the Netherlands. Along the canals, cosy cafés and small boutiques invite you to linger and exude a typical Dutch atmosphere. Culture lovers can learn more about the region's history at the Zeeuws Museum. Middelburg is an ideal destination for anyone wishing to combine rich history, architectural splendour and a relaxed atmosphere."
-      },
-      {
-        "day": 5,
-        "port": "Brussel (Bruxelles)",
-        "country": "Belgium",
-        "description": "Brussels is both the capital of Belgium and the headquarters of the European Union. A whole host of unique sights – including the famous Manneken Pis – await you. And while you’re in Brussels, make sure you try the many Belgian specialities that the city has to offer – or pick up some original Belgian chocolates as a gift for your loved ones. Mmm – lovely!"
-      },
-      {
-        "day": 6,
-        "port": "Gorinchem",
-        "country": "Netherlands",
-        "description": "Welcome to the largest fortified town in the Netherlands. In Gorinchem, you don't have to look far to find the town's history, as the former fortifications have been preserved almost in their entirety. A special footpath now leads over the ramparts and promises wonderful vistas. On the 'Langendijk', Gorinchem's most beautiful shopping street, you can experience a great mix of old and new, with modern shops in a historic setting."
-      },
-      {
-        "day": 7,
-        "port": "Emmerich",
-        "country": "Germany",
-        "description": "The small beautiful town of Emmerich on the lower Lower Rhine gives you a nice time out on land during your cruise. Here you can take a stroll along the promenade and enjoy the magnificent view of the Rhine while discovering the \"Golden Gate Bridge of the Lower Rhine\", a suspension bridge spanning over the Rhine, which, just like its role model, can be seen from afar in vibrant red. Definitely worth taking a souvenir photo!"
-      },
-      {
-        "day": 8,
-        "port": "Cologne",
-        "country": "Germany",
-        "description": "Welcome to Cologne! The typical friendliness that you find at every turn makes visitors feel at home right away. It’s not unusual to quickly get chatting to strangers and even go for a couple of glasses of Kölsch with them. The main landmark – Cologne Cathedral – watches over the whole city. It is the third-tallest church building in the world, at 157.38 metres. It might be a bit of a trek up to the top of the tower, but it’s worth it. You’ll be rewarded with an unforgettable view of the city and the Rhine spread out before you."
-      }
-    ],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA ALEA",
-    "ship": {
-      "shipId": 3,
-      "name": "A-ROSA ALEA",
-      "description": "During a Rhine cruise on the A-ROSA ALEA, however, there are also sections of the Main and Moselle to discover, each with its own unique character.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/14/4d2659d9-da5e-4fad-8a5c-d8829e977cf4/A-ROSA ALEA Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2023/10/19/11/34/48/ee7e5089-fa0c-4125-967f-2a8b18e15b18/A-ROSA CLEA CAT E.png",
-        "https://assets.widgety.co.uk/2024/05/20/06/17/56/ae421c39-8c0e-426b-b9e8-2f6b5f2a4d61/A-ROSA, A-ROSA ALEA Cabins Cat C & D.jpg",
-        "https://assets.widgety.co.uk/2024/05/20/06/17/56/94cd32e4-1737-429c-ae6a-3b522f9c6481/A-ROSA, A-ROSA ALEA Cabins Cat S & A.jpg"
-      ],
-      "facts": {
-        "capacity": 138,
-        "cabins": 69,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      },
-      "firstSailingDate": "2026-09-04",
-      "sailingCount": 17
-    },
-    "ships": [
-      {
-        "shipId": 3,
-        "name": "A-ROSA ALEA",
-        "description": "During a Rhine cruise on the A-ROSA ALEA, however, there are also sections of the Main and Moselle to discover, each with its own unique character.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/14/4d2659d9-da5e-4fad-8a5c-d8829e977cf4/A-ROSA ALEA Exterior.jpg",
-        "class": "",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2023/10/19/11/34/48/ee7e5089-fa0c-4125-967f-2a8b18e15b18/A-ROSA CLEA CAT E.png",
-          "https://assets.widgety.co.uk/2024/05/20/06/17/56/ae421c39-8c0e-426b-b9e8-2f6b5f2a4d61/A-ROSA, A-ROSA ALEA Cabins Cat C & D.jpg",
-          "https://assets.widgety.co.uk/2024/05/20/06/17/56/94cd32e4-1737-429c-ae6a-3b522f9c6481/A-ROSA, A-ROSA ALEA Cabins Cat S & A.jpg"
-        ],
-        "facts": {
-          "capacity": 138,
-          "cabins": 69,
-          "decks": 4,
-          "built": "2009",
-          "refurbished": ""
-        },
-        "firstSailingDate": "2026-09-04",
-        "sailingCount": 17
-      },
-      {
-        "shipId": 1,
-        "name": "A-ROSA AQUA",
-        "description": "Cruising on a river is certainly not the fastest mode of transportation.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
-        "class": "",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
-          "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-        ],
-        "facts": {
-          "capacity": 202,
-          "cabins": 99,
-          "decks": 4,
-          "built": "2009",
-          "refurbished": ""
-        },
-        "firstSailingDate": "2026-09-26",
-        "sailingCount": 9
-      }
-    ],
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board",
-    "port_fee_pp": 0,
-    "sailings": [
-      {
-        "date": "2026-09-04",
-        "returnDate": "2026-09-11",
-        "pricePp": 2119,
-        "cabinPricePp": 1910.45
-      },
-      {
-        "date": "2026-09-18",
-        "returnDate": "2026-09-25",
-        "pricePp": 1289,
-        "cabinPricePp": 1083.95
-      },
-      {
-        "date": "2026-09-26",
-        "returnDate": "2026-10-03",
-        "pricePp": 1669,
-        "cabinPricePp": 1457.3
-      },
-      {
-        "date": "2026-10-02",
-        "returnDate": "2026-10-09",
-        "pricePp": 1289,
-        "cabinPricePp": 1083.95
-      },
-      {
-        "date": "2026-10-16",
-        "returnDate": "2026-10-23",
-        "pricePp": 1119,
-        "cabinPricePp": 902.5
-      },
-      {
-        "date": "2026-10-17",
-        "returnDate": "2026-10-24",
-        "pricePp": 1429,
-        "cabinPricePp": 1219.8
-      }
-    ]
-  },
-  {
     "id": 10003,
     "title": "Rhine Experience IJsselmeer",
     "slug": "a-rosa-cruises-rhine-experience-ijsselmeer",
-    "price": 1079,
+    "price": 1059,
     "destination": "Rhine",
     "country": "Netherlands",
     "duration_nights": 7,
@@ -298,28 +116,6 @@
         "sailingCount": 14
       },
       {
-        "shipId": 4,
-        "name": "A-ROSA BRAVA",
-        "description": "River cruise on the Rhine with A-ROSA BRAVA.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
-        "class": "",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-          "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-          "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-        ],
-        "facts": {
-          "capacity": 202,
-          "cabins": 99,
-          "decks": 4,
-          "built": "2011",
-          "refurbished": ""
-        },
-        "firstSailingDate": "2026-09-06",
-        "sailingCount": 4
-      },
-      {
         "shipId": 1,
         "name": "A-ROSA AQUA",
         "description": "Cruising on a river is certainly not the fastest mode of transportation.",
@@ -339,7 +135,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-19",
-        "sailingCount": 3
+        "sailingCount": 2
       }
     ],
     "departure_port": "Cologne",
@@ -347,12 +143,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-06",
-        "returnDate": "2026-09-13",
-        "pricePp": 1479,
-        "cabinPricePp": 1265.4
-      },
       {
         "date": "2026-09-11",
         "returnDate": "2026-09-18",
@@ -362,8 +152,8 @@
       {
         "date": "2026-09-19",
         "returnDate": "2026-09-26",
-        "pricePp": 1669,
-        "cabinPricePp": 1457.3
+        "pricePp": 1569,
+        "cabinPricePp": 1354.7
       },
       {
         "date": "2026-09-25",
@@ -376,138 +166,6 @@
         "returnDate": "2026-10-16",
         "pricePp": 1119,
         "cabinPricePp": 902.5
-      }
-    ]
-  },
-  {
-    "id": 10004,
-    "title": "Northern Rhine Experience",
-    "slug": "a-rosa-cruises-northern-rhine-experience",
-    "price": 1619,
-    "destination": "Rhine",
-    "country": "Netherlands",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Small Cabin Bag",
-      "Full Board Cruise",
-      "Alcohol and Soft Drinks during Bar hours",
-      "Captain's Welcome Evening",
-      "Gala Dinner",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "port": "Cologne",
-        "country": "Germany",
-        "description": "Welcome to Cologne! The typical friendliness that you find at every turn makes visitors feel at home right away. It’s not unusual to quickly get chatting to strangers and even go for a couple of glasses of Kölsch with them. The main landmark – Cologne Cathedral – watches over the whole city. It is the third-tallest church building in the world, at 157.38 metres. It might be a bit of a trek up to the top of the tower, but it’s worth it. You’ll be rewarded with an unforgettable view of the city and the Rhine spread out before you."
-      },
-      {
-        "day": 2,
-        "port": "Rotterdam",
-        "country": "Netherlands",
-        "description": "Rotterdam is the second-largest city in the Netherlands, after Amsterdam. Known as ‘Manhattan on the Maas’, it has a more urban and international atmosphere than anywhere else in the whole country. Be prepared to be amazed by the fantastic skyline, featuring the the Erasmusbrug bridge. Rotterdam is home to Europe’s largest port, as well as being a major transport hub. It's no surprise that this is a centre of contemporary architecture, featuring the famoust Kijk-Kubus, and the Witte Huis, which was the first skyscraper in Europe. Several impressive new skyscrapers have sprung up over the past 20 years."
-      },
-      {
-        "day": 3,
-        "port": "Gent (Ghent)",
-        "country": "Belgium",
-        "description": "This old university town buzzes with energy. Rich in cultural attractions, it also boasts a varied nightlife, with imposing architectural monuments serving as a backdrop. During the ‘Gentse Feesten’ – a ten-day festival of street performance, music and culture that takes place in the city centre every July – these magnificent buildings really come into their own, illuminated by light installations It is a truly spectacular sight."
-      },
-      {
-        "day": 4,
-        "port": "Antwerp",
-        "country": "Belgium",
-        "description": "The port city of Antwerp is an absolute must-see. Rich in art and culture, it is also known as the ‘Diamond City’ due to its important role in the diamond trade. Antwerp is particularly enjoyable for foodies, thanks to the many tasty Belgian specialities on offer there – including waffles, chocolates and chips."
-      },
-      {
-        "day": 5,
-        "port": "Antwerp",
-        "country": "Belgium",
-        "description": "The port city of Antwerp is an absolute must-see. Rich in art and culture, it is also known as the ‘Diamond City’ due to its important role in the diamond trade. Antwerp is particularly enjoyable for foodies, thanks to the many tasty Belgian specialities on offer there – including waffles, chocolates and chips."
-      },
-      {
-        "day": 6,
-        "port": "Nijmegen",
-        "country": "Netherlands",
-        "description": "Did you know that Nijmegen is the oldest city in the Netherlands? You only need to cross the Waalburg arch bridge into the centre to understand why the 160,000 inhabitants are so proud of their city: the Waalkade wharf and the silhouette of the city-centre buildings combine to form a truly impressive sight. In this Hanseatic city, tradition and modernity go hand in hand."
-      },
-      {
-        "day": 7,
-        "port": "Nijmegen",
-        "country": "Netherlands",
-        "description": "Did you know that Nijmegen is the oldest city in the Netherlands? You only need to cross the Waalburg arch bridge into the centre to understand why the 160,000 inhabitants are so proud of their city: the Waalkade wharf and the silhouette of the city-centre buildings combine to form a truly impressive sight. In this Hanseatic city, tradition and modernity go hand in hand."
-      },
-      {
-        "day": 8,
-        "port": "Cologne",
-        "country": "Germany",
-        "description": "Welcome to Cologne! The typical friendliness that you find at every turn makes visitors feel at home right away. It’s not unusual to quickly get chatting to strangers and even go for a couple of glasses of Kölsch with them. The main landmark – Cologne Cathedral – watches over the whole city. It is the third-tallest church building in the world, at 157.38 metres. It might be a bit of a trek up to the top of the tower, but it’s worth it. You’ll be rewarded with an unforgettable view of the city and the Rhine spread out before you."
-      }
-    ],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA AQUA",
-    "ship": {
-      "shipId": 1,
-      "name": "A-ROSA AQUA",
-      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      },
-      "firstSailingDate": "2026-09-05",
-      "sailingCount": 3
-    },
-    "ships": [
-      {
-        "shipId": 1,
-        "name": "A-ROSA AQUA",
-        "description": "Cruising on a river is certainly not the fastest mode of transportation.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
-        "class": "",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
-          "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-        ],
-        "facts": {
-          "capacity": 202,
-          "cabins": 99,
-          "decks": 4,
-          "built": "2009",
-          "refurbished": ""
-        },
-        "firstSailingDate": "2026-09-05",
-        "sailingCount": 3
-      }
-    ],
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board",
-    "port_fee_pp": 0,
-    "sailings": [
-      {
-        "date": "2026-09-05",
-        "returnDate": "2026-09-12",
-        "pricePp": 1729,
-        "cabinPricePp": 1502.9
       }
     ]
   },
@@ -604,7 +262,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-09-18",
-      "sailingCount": 8
+      "sailingCount": 7
     },
     "ships": [
       {
@@ -627,7 +285,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-18",
-        "sailingCount": 8
+        "sailingCount": 7
       }
     ],
     "departure_port": "Cologne",
@@ -813,7 +471,7 @@
     "id": 10011,
     "title": "Douro Experience",
     "slug": "a-rosa-cruises-douro-experience",
-    "price": 1519,
+    "price": 1529,
     "destination": "Douro",
     "country": "Portugal",
     "duration_nights": 7,
@@ -901,8 +559,8 @@
         "built": "2019",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-02",
-      "sailingCount": 24
+      "firstSailingDate": "2026-09-09",
+      "sailingCount": 17
     },
     "ships": [
       {
@@ -924,8 +582,8 @@
           "built": "2019",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-02",
-        "sailingCount": 24
+        "firstSailingDate": "2026-09-09",
+        "sailingCount": 17
       }
     ],
     "departure_port": "Porto",
@@ -933,12 +591,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-02",
-        "returnDate": "2026-09-09",
-        "pricePp": 2119,
-        "cabinPricePp": 1942.75
-      },
       {
         "date": "2026-09-09",
         "returnDate": "2026-09-16",
@@ -972,20 +624,20 @@
       {
         "date": "2026-10-14",
         "returnDate": "2026-10-21",
-        "pricePp": 1699,
-        "cabinPricePp": 1536.15
+        "pricePp": 2239,
+        "cabinPricePp": 2078.6
       },
       {
         "date": "2026-10-28",
         "returnDate": "2026-11-04",
-        "pricePp": 1659,
-        "cabinPricePp": 1491.5
+        "pricePp": 1749,
+        "cabinPricePp": 1581.75
       },
       {
         "date": "2026-11-04",
         "returnDate": "2026-11-11",
-        "pricePp": 1929,
-        "cabinPricePp": 1763.2
+        "pricePp": 2019,
+        "cabinPricePp": 1853.45
       },
       {
         "date": "2026-11-11",
@@ -999,7 +651,7 @@
     "id": 10025,
     "title": "Rhine Experience Amsterdam & Rotterdam",
     "slug": "a-rosa-cruises-rhine-experience-amsterdam-rotterdam",
-    "price": 1869,
+    "price": 1769,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 7,
@@ -1086,8 +738,8 @@
         "built": "2022",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-05",
-      "sailingCount": 3
+      "firstSailingDate": "2026-09-19",
+      "sailingCount": 5
     },
     "ships": [
       {
@@ -1108,8 +760,8 @@
           "built": "2022",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-05",
-        "sailingCount": 3
+        "firstSailingDate": "2026-09-19",
+        "sailingCount": 5
       }
     ],
     "departure_port": "Cologne",
@@ -1118,16 +770,16 @@
     "port_fee_pp": 0,
     "sailings": [
       {
-        "date": "2026-09-05",
-        "returnDate": "2026-09-12",
-        "pricePp": 2419,
-        "cabinPricePp": 2181.2
+        "date": "2026-09-19",
+        "returnDate": "2026-09-26",
+        "pricePp": 3219,
+        "cabinPricePp": 2995.35
       },
       {
         "date": "2026-09-26",
         "returnDate": "2026-10-03",
-        "pricePp": 2219,
-        "cabinPricePp": 2000.7
+        "pricePp": 1849,
+        "cabinPricePp": 1627.35
       }
     ]
   },
@@ -1135,7 +787,7 @@
     "id": 10027,
     "title": "Main & Moselle Experience",
     "slug": "a-rosa-cruises-main-moselle-experience",
-    "price": 1769,
+    "price": 1679,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 7,
@@ -1223,8 +875,8 @@
         "built": "2012",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-06",
-      "sailingCount": 5
+      "firstSailingDate": "2026-10-09",
+      "sailingCount": 4
     },
     "ships": [
       {
@@ -1246,8 +898,8 @@
           "built": "2012",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-06",
-        "sailingCount": 5
+        "firstSailingDate": "2026-10-09",
+        "sailingCount": 4
       }
     ],
     "departure_port": "Cologne",
@@ -1255,12 +907,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-06",
-        "returnDate": "2026-09-13",
-        "pricePp": 1859,
-        "cabinPricePp": 1638.75
-      },
       {
         "date": "2026-10-09",
         "returnDate": "2026-10-16",
@@ -1350,7 +996,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-09-13",
-      "sailingCount": 6
+      "sailingCount": 7
     },
     "ships": [
       {
@@ -1373,7 +1019,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-13",
-        "sailingCount": 6
+        "sailingCount": 7
       }
     ],
     "departure_port": "Cologne",
@@ -1390,8 +1036,8 @@
       {
         "date": "2026-10-23",
         "returnDate": "2026-10-28",
-        "pricePp": 1619,
-        "cabinPricePp": 1377.5
+        "pricePp": 1579,
+        "cabinPricePp": 1350.9
       }
     ]
   },
@@ -1487,8 +1133,8 @@
         "built": "2005",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-06",
-      "sailingCount": 10
+      "firstSailingDate": "2026-09-13",
+      "sailingCount": 7
     },
     "ships": [
       {
@@ -1510,8 +1156,8 @@
           "built": "2005",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-06",
-        "sailingCount": 10
+        "firstSailingDate": "2026-09-13",
+        "sailingCount": 7
       }
     ],
     "departure_port": "Lyon",
@@ -1519,12 +1165,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-06",
-        "returnDate": "2026-09-13",
-        "pricePp": 1489,
-        "cabinPricePp": 1355.65
-      },
       {
         "date": "2026-09-13",
         "returnDate": "2026-09-20",
@@ -1540,8 +1180,8 @@
       {
         "date": "2026-10-15",
         "returnDate": "2026-10-22",
-        "pricePp": 1859,
-        "cabinPricePp": 1729
+        "pricePp": 1619,
+        "cabinPricePp": 1491.5
       }
     ]
   },
@@ -1549,7 +1189,7 @@
     "id": 10034,
     "title": "Seine Experience Normandy with Paris",
     "slug": "a-rosa-cruises-seine-experience-normandy-with-paris",
-    "price": 1579,
+    "price": 1519,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 7,
@@ -1638,7 +1278,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-09-10",
-      "sailingCount": 14
+      "sailingCount": 23
     },
     "ships": [
       {
@@ -1661,7 +1301,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-10",
-        "sailingCount": 14
+        "sailingCount": 23
       }
     ],
     "departure_port": "Paris",
@@ -1672,14 +1312,14 @@
       {
         "date": "2026-09-10",
         "returnDate": "2026-09-17",
-        "pricePp": 1659,
-        "cabinPricePp": 1502.9
+        "pricePp": 1519,
+        "cabinPricePp": 1355.65
       },
       {
         "date": "2026-09-17",
         "returnDate": "2026-09-24",
-        "pricePp": 1749,
-        "cabinPricePp": 1593.15
+        "pricePp": 1519,
+        "cabinPricePp": 1355.65
       },
       {
         "date": "2026-09-24",
@@ -1690,8 +1330,8 @@
       {
         "date": "2026-10-01",
         "returnDate": "2026-10-08",
-        "pricePp": 1569,
-        "cabinPricePp": 1411.7
+        "pricePp": 1519,
+        "cabinPricePp": 1355.65
       },
       {
         "date": "2026-10-08",
@@ -1705,7 +1345,7 @@
     "id": 10036,
     "title": "Seine Experience Normandy with Paris - Family Cruise",
     "slug": "a-rosa-cruises-seine-experience-normandy-with-paris-family-cruise",
-    "price": 1619,
+    "price": 1519,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 7,
@@ -1794,7 +1434,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-10-15",
-      "sailingCount": 3
+      "sailingCount": 6
     },
     "ships": [
       {
@@ -1817,7 +1457,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-10-15",
-        "sailingCount": 3
+        "sailingCount": 6
       }
     ],
     "departure_port": "Paris",
@@ -1828,8 +1468,8 @@
       {
         "date": "2026-10-15",
         "returnDate": "2026-10-22",
-        "pricePp": 1579,
-        "cabinPricePp": 1412.65
+        "pricePp": 1519,
+        "cabinPricePp": 1355.65
       }
     ]
   },
@@ -1926,7 +1566,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-09-13",
-      "sailingCount": 16
+      "sailingCount": 17
     },
     "ships": [
       {
@@ -1949,7 +1589,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-13",
-        "sailingCount": 16
+        "sailingCount": 17
       }
     ],
     "departure_port": "Cologne",
@@ -1960,8 +1600,8 @@
       {
         "date": "2026-09-13",
         "returnDate": "2026-09-20",
-        "pricePp": 2219,
-        "cabinPricePp": 2000.7
+        "pricePp": 1919,
+        "cabinPricePp": 1683.4
       },
       {
         "date": "2026-09-20",
@@ -1999,7 +1639,7 @@
     "id": 10044,
     "title": "Rhône Route Panorama",
     "slug": "a-rosa-cruises-rhone-route-panorama",
-    "price": 2179,
+    "price": 2219,
     "destination": "Rhone",
     "country": "France",
     "duration_nights": 9,
@@ -2149,7 +1789,7 @@
     "id": 10045,
     "title": "Rhine Legends",
     "slug": "a-rosa-cruises-rhine-legends",
-    "price": 1029,
+    "price": 1019,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 5,
@@ -2298,142 +1938,10 @@
     ]
   },
   {
-    "id": 10046,
-    "title": "Douro Wine & Gusto",
-    "slug": "a-rosa-cruises-douro-wine-gusto",
-    "price": 2889,
-    "destination": "Douro",
-    "country": "Portugal",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Small Cabin Bag",
-      "Full Board Cruise",
-      "Alcohol and Soft Drinks during Bar hours",
-      "Captain's Welcome Evening",
-      "Gala Dinner",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "port": "Porto",
-        "country": "Portugal",
-        "description": "A mesmerising city carved in granite: in Porto you’ll find new, exciting perspectives at every turn. The gleaming azulejo tiles adorning church walls and townhouse facades are one of the typical sights of Portugal’s second-largest city. The old town – a UNESCO World Heritage Sight – is pure poetry."
-      },
-      {
-        "day": 2,
-        "port": "Porto",
-        "country": "Portugal",
-        "description": "A mesmerising city carved in granite: in Porto you’ll find new, exciting perspectives at every turn. The gleaming azulejo tiles adorning church walls and townhouse facades are one of the typical sights of Portugal’s second-largest city. The old town – a UNESCO World Heritage Sight – is pure poetry."
-      },
-      {
-        "day": 3,
-        "port": "Pinhão",
-        "country": "Portugal",
-        "description": "The little town of Pinhão is surrounded by enchanting vineyards and the quintas that produce the wine. You can visit them from Pinhão and enjoy tours and wine tasting.The town itself is very unspoilt and has a lovely atmosphere, which makes it a splendid place for a stroll. Be sure to take a look at the Linha do Douro train station, which is decorated with richly coloured azulejo tiles"
-      },
-      {
-        "day": 4,
-        "port": "Barca d’Alva",
-        "country": "Portugal",
-        "description": "From Barca d’Alva, the ship will head for nearby Spain – to Salamanca. This provincial capital, situated at about 800 metres on the banks of the Rio Tormes, is in a league of its own. It is a UNESCO World Heritage Site and has one of the most beautiful central squares and one of the oldest universities in Spain (13th century). The latter gives it a lively student scene."
-      },
-      {
-        "day": 5,
-        "port": "Vega de Terrón",
-        "country": "Spain",
-        "description": "In Vega Terrón, the Agueda joins the Douro. Both rivers form the natural border between Portugal and Spain. From here, you can take a trip to the Spanish city of Salamanca. With its new cathedral, old town and famous university, the city has a very special flair. Don't miss Salamanca's UNESCO World Heritage Site!"
-      },
-      {
-        "day": 6,
-        "port": "Pinhão",
-        "country": "Portugal",
-        "description": "The little town of Pinhão is surrounded by enchanting vineyards and the quintas that produce the wine. You can visit them from Pinhão and enjoy tours and wine tasting.The town itself is very unspoilt and has a lovely atmosphere, which makes it a splendid place for a stroll. Be sure to take a look at the Linha do Douro train station, which is decorated with richly coloured azulejo tiles"
-      },
-      {
-        "day": 7,
-        "port": "Leverinho",
-        "country": "Portugal",
-        "description": "The rustic Leverinho is not far from Porto. From here, you can set off on exciting excursions to the harbour city."
-      },
-      {
-        "day": 8,
-        "port": "Porto",
-        "country": "Portugal",
-        "description": "A mesmerising city carved in granite: in Porto you’ll find new, exciting perspectives at every turn. The gleaming azulejo tiles adorning church walls and townhouse facades are one of the typical sights of Portugal’s second-largest city. The old town – a UNESCO World Heritage Sight – is pure poetry."
-      }
-    ],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA ALVA",
-    "ship": {
-      "shipId": 8,
-      "name": "A-ROSA ALVA",
-      "description": "Come aboard our A-ROSA ALVA, discover the beauty of the Douro and have a look directly into the soul of Portugal!",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/38/18/5264937e-2264-4c70-8f2f-f74aea9e8e76/A-ROSA, A-ROSA ALVA Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/11/09/12/c39b08db-812d-4e26-9d1e-dfb3b528bb56/A-ROSA, ALVA, Cabin F.jpg",
-        "https://assets.widgety.co.uk/2021/04/28/12/42/17/16fdf6a4-25b4-43a9-8579-85aa2b95dc3e/a-rosa alva CAT C.jpg",
-        "https://assets.widgety.co.uk/2020/10/20/10/54/59/3ab98de8-1349-4437-a971-0a55fa191800/A-ROSA ALVA Cat C_D.jpg",
-        "https://assets.widgety.co.uk/2024/07/08/12/19/11/7a1e74dd-a57a-47ef-9023-ed301e35ff68/A-ROSA, ALVA, Cabin S.jpg"
-      ],
-      "facts": {
-        "capacity": 126,
-        "cabins": 63,
-        "decks": 4,
-        "built": "2019",
-        "refurbished": ""
-      },
-      "firstSailingDate": "2026-10-21",
-      "sailingCount": 1
-    },
-    "ships": [
-      {
-        "shipId": 8,
-        "name": "A-ROSA ALVA",
-        "description": "Come aboard our A-ROSA ALVA, discover the beauty of the Douro and have a look directly into the soul of Portugal!",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/38/18/5264937e-2264-4c70-8f2f-f74aea9e8e76/A-ROSA, A-ROSA ALVA Exterior.jpg",
-        "class": "",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/07/08/11/09/12/c39b08db-812d-4e26-9d1e-dfb3b528bb56/A-ROSA, ALVA, Cabin F.jpg",
-          "https://assets.widgety.co.uk/2021/04/28/12/42/17/16fdf6a4-25b4-43a9-8579-85aa2b95dc3e/a-rosa alva CAT C.jpg",
-          "https://assets.widgety.co.uk/2020/10/20/10/54/59/3ab98de8-1349-4437-a971-0a55fa191800/A-ROSA ALVA Cat C_D.jpg",
-          "https://assets.widgety.co.uk/2024/07/08/12/19/11/7a1e74dd-a57a-47ef-9023-ed301e35ff68/A-ROSA, ALVA, Cabin S.jpg"
-        ],
-        "facts": {
-          "capacity": 126,
-          "cabins": 63,
-          "decks": 4,
-          "built": "2019",
-          "refurbished": ""
-        },
-        "firstSailingDate": "2026-10-21",
-        "sailingCount": 1
-      }
-    ],
-    "departure_port": "Porto",
-    "disembark_port": "Porto",
-    "board_basis": "Full Board",
-    "port_fee_pp": 0,
-    "sailings": [
-      {
-        "date": "2026-10-21",
-        "returnDate": "2026-10-28",
-        "pricePp": 2919,
-        "cabinPricePp": 2666.65
-      }
-    ]
-  },
-  {
     "id": 10048,
     "title": "Rhine Christmas Markets (Christmas Cruises)",
     "slug": "a-rosa-cruises-rhine-christmas-markets-christmas-cruises",
-    "price": 939,
+    "price": 929,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 4,
@@ -2550,8 +2058,8 @@
       {
         "date": "2026-12-02",
         "returnDate": "2026-12-06",
-        "pricePp": 1079,
-        "cabinPricePp": 817.95
+        "pricePp": 1099,
+        "cabinPricePp": 836
       },
       {
         "date": "2026-12-06",
@@ -2562,122 +2070,10 @@
     ]
   },
   {
-    "id": 10049,
-    "title": "Mini Cruise Main",
-    "slug": "a-rosa-cruises-mini-cruise-main",
-    "price": 889,
-    "destination": "Rhine",
-    "country": "Germany",
-    "duration_nights": 4,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Small Cabin Bag",
-      "Full Board Cruise",
-      "Alcohol and Soft Drinks during Bar hours",
-      "Captain's Welcome Evening",
-      "Gala Dinner",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "port": "Frankfurt",
-        "country": "Germany",
-        "description": "Welcome to Goethe’s birthplace! Here’s another historical fact while we’re at it: this is where the first German national assembly met in 1848. Today, the metropolis on the Main is home to the headquarters of major banks and is also one of Germany’s most important centres of business and commerce. Frankfurt is also known for its many futuristic-looking high-rises."
-      },
-      {
-        "day": 2,
-        "port": "Wertheim",
-        "country": "Germany",
-        "description": "With its well-preserved city wall, narrow alleyways, richly decorated half-timbered houses and picturesque market square, Wertheim is quaint and relatively authentic. The ruined castle, perched on a hill, is one of the largest of its kind in Germany. In his 1862 account of the Main region, Karl Baedeker describes Wertheim as the high point of the entire trip. You can put this claim to the test yourself during your Rhine cruise."
-      },
-      {
-        "day": 3,
-        "port": "Aschaffenburg",
-        "country": "Germany",
-        "description": "Aschaffenburg offers its visitors a wide range of experiences and sights. From historic buildings to idyllic nature parks, there is something for everyone to discover here. An absolute highlight is Johannisburg Castle - an imposing Renaissance palace. From its towers, you enjoy a breathtaking view over the old town and the River Main."
-      },
-      {
-        "day": 4,
-        "port": "Frankfurt",
-        "country": "Germany",
-        "description": "Welcome to Goethe’s birthplace! Here’s another historical fact while we’re at it: this is where the first German national assembly met in 1848. Today, the metropolis on the Main is home to the headquarters of major banks and is also one of Germany’s most important centres of business and commerce. Frankfurt is also known for its many futuristic-looking high-rises."
-      },
-      {
-        "day": 5,
-        "port": "Frankfurt",
-        "country": "Germany",
-        "description": "Welcome to Goethe’s birthplace! Here’s another historical fact while we’re at it: this is where the first German national assembly met in 1848. Today, the metropolis on the Main is home to the headquarters of major banks and is also one of Germany’s most important centres of business and commerce. Frankfurt is also known for its many futuristic-looking high-rises."
-      }
-    ],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA CLEA",
-    "ship": {
-      "shipId": 6,
-      "name": "A-ROSA CLEA",
-      "description": "New in 2024. Rhine cruises with the A-ROSA CLEA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/20/bb0aa0a1-ee59-4093-b25a-ac059446f0e9/A-ROSA, CLEA, Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/7a3b550a-7d15-4e3d-9703-3227c72fb968/A-ROSA, CLEA, Juliette balcony E.JPEG",
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/9b371178-de0d-4dd1-9243-4659bd3d8d78/A-ROSA, CLEA, Juliette balcony C D.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/14/35/00/104fcac4-727c-4dd7-863e-74f2a8c89ea5/A-ROSA, CLEA, Cabin S A.jpeg"
-      ],
-      "facts": {
-        "capacity": 140,
-        "cabins": 70,
-        "decks": 4,
-        "built": "2009",
-        "refurbished": ""
-      },
-      "firstSailingDate": "2026-11-22",
-      "sailingCount": 2
-    },
-    "ships": [
-      {
-        "shipId": 6,
-        "name": "A-ROSA CLEA",
-        "description": "New in 2024. Rhine cruises with the A-ROSA CLEA.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/40/20/bb0aa0a1-ee59-4093-b25a-ac059446f0e9/A-ROSA, CLEA, Exterior.jpg",
-        "class": "",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/07/09/14/35/00/7a3b550a-7d15-4e3d-9703-3227c72fb968/A-ROSA, CLEA, Juliette balcony E.JPEG",
-          "https://assets.widgety.co.uk/2024/07/09/14/35/00/9b371178-de0d-4dd1-9243-4659bd3d8d78/A-ROSA, CLEA, Juliette balcony C D.jpeg",
-          "https://assets.widgety.co.uk/2024/07/09/14/35/00/104fcac4-727c-4dd7-863e-74f2a8c89ea5/A-ROSA, CLEA, Cabin S A.jpeg"
-        ],
-        "facts": {
-          "capacity": 140,
-          "cabins": 70,
-          "decks": 4,
-          "built": "2009",
-          "refurbished": ""
-        },
-        "firstSailingDate": "2026-11-22",
-        "sailingCount": 2
-      }
-    ],
-    "departure_port": "Frankfurt",
-    "disembark_port": "Frankfurt",
-    "board_basis": "Full Board",
-    "port_fee_pp": 0,
-    "sailings": [
-      {
-        "date": "2026-11-22",
-        "returnDate": "2026-11-26",
-        "pricePp": 869,
-        "cabinPricePp": 618.45
-      }
-    ]
-  },
-  {
     "id": 10051,
     "title": "Rhône Route Rendez-Vous - Family Cruise",
     "slug": "a-rosa-cruises-rhone-route-rendez-vous-family-cruise",
-    "price": 1449,
+    "price": 1459,
     "destination": "Rhone",
     "country": "France",
     "duration_nights": 5,
@@ -2847,52 +2243,30 @@
       }
     ],
     "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA BRAVA",
+    "ship_name": "A-ROSA AQUA",
     "ship": {
-      "shipId": 4,
-      "name": "A-ROSA BRAVA",
-      "description": "River cruise on the Rhine with A-ROSA BRAVA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
+      "shipId": 1,
+      "name": "A-ROSA AQUA",
+      "description": "Cruising on a river is certainly not the fastest mode of transportation.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/26/4b3f3f15-1244-410b-aa10-a92ea1bad84c/A-ROSA, AQUA, Exterior.jpg",
       "class": "",
       "cabin_images": [
         "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
         "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
+        "https://assets.widgety.co.uk/2024/07/08/13/42/54/ada4a639-d89b-454e-aadb-94eae2e2dc85/A-ROSA, AQUA, Cabin C D.jpeg",
         "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
       ],
       "facts": {
         "capacity": 202,
         "cabins": 99,
         "decks": 4,
-        "built": "2011",
+        "built": "2009",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-11-24",
-      "sailingCount": 13
+      "firstSailingDate": "2026-12-10",
+      "sailingCount": 8
     },
     "ships": [
-      {
-        "shipId": 4,
-        "name": "A-ROSA BRAVA",
-        "description": "River cruise on the Rhine with A-ROSA BRAVA.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
-        "class": "",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-          "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-          "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-        ],
-        "facts": {
-          "capacity": 202,
-          "cabins": 99,
-          "decks": 4,
-          "built": "2011",
-          "refurbished": ""
-        },
-        "firstSailingDate": "2026-11-24",
-        "sailingCount": 13
-      },
       {
         "shipId": 1,
         "name": "A-ROSA AQUA",
@@ -2914,6 +2288,28 @@
         },
         "firstSailingDate": "2026-12-10",
         "sailingCount": 8
+      },
+      {
+        "shipId": 4,
+        "name": "A-ROSA BRAVA",
+        "description": "River cruise on the Rhine with A-ROSA BRAVA.",
+        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
+        "class": "",
+        "cabin_images": [
+          "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
+          "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
+          "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
+          "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
+        ],
+        "facts": {
+          "capacity": 202,
+          "cabins": 99,
+          "decks": 4,
+          "built": "2011",
+          "refurbished": ""
+        },
+        "firstSailingDate": "2026-11-24",
+        "sailingCount": 14
       }
     ],
     "departure_port": "Cologne",
@@ -2924,8 +2320,8 @@
       {
         "date": "2026-11-24",
         "returnDate": "2026-11-28",
-        "pricePp": 1019,
-        "cabinPricePp": 772.35
+        "pricePp": 1029,
+        "cabinPricePp": 790.4
       },
       {
         "date": "2026-11-28",
@@ -2936,8 +2332,8 @@
       {
         "date": "2026-12-02",
         "returnDate": "2026-12-06",
-        "pricePp": 1119,
-        "cabinPricePp": 863.55
+        "pricePp": 1059,
+        "cabinPricePp": 817.95
       },
       {
         "date": "2026-12-06",
@@ -2969,7 +2365,7 @@
     "id": 10061,
     "title": "Rhine Enchanting New Year",
     "slug": "a-rosa-cruises-rhine-enchanting-new-year",
-    "price": 1859,
+    "price": 1779,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 7,
@@ -3058,7 +2454,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-12-27",
-      "sailingCount": 3
+      "sailingCount": 2
     },
     "ships": [
       {
@@ -3081,7 +2477,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-12-27",
-        "sailingCount": 3
+        "sailingCount": 2
       }
     ],
     "departure_port": "Cologne",
@@ -3092,8 +2488,8 @@
       {
         "date": "2026-12-27",
         "returnDate": "2027-01-03",
-        "pricePp": 1879,
-        "cabinPricePp": 1638.75
+        "pricePp": 1789,
+        "cabinPricePp": 1548.5
       }
     ]
   },
@@ -3258,8 +2654,8 @@
       {
         "date": "2026-12-15",
         "returnDate": "2026-12-20",
-        "pricePp": 1089,
-        "cabinPricePp": 857.85
+        "pricePp": 1159,
+        "cabinPricePp": 934.8
       },
       {
         "date": "2027-01-03",
@@ -3276,142 +2672,10 @@
     ]
   },
   {
-    "id": 10072,
-    "title": "Rhine New Year",
-    "slug": "a-rosa-cruises-rhine-new-year",
-    "price": 2179,
-    "destination": "Rhine",
-    "country": "Netherlands",
-    "duration_nights": 7,
-    "description": "",
-    "featured_image": "",
-    "gallery": [],
-    "whats_included": [
-      "Return Flights from the UK",
-      "Hold Luggage",
-      "Small Cabin Bag",
-      "Full Board Cruise",
-      "Alcohol and Soft Drinks during Bar hours",
-      "Captain's Welcome Evening",
-      "Gala Dinner",
-      "Free Wi-Fi"
-    ],
-    "itinerary": [
-      {
-        "day": 1,
-        "port": "Cologne",
-        "country": "Germany",
-        "description": "Welcome to Cologne! The typical friendliness that you find at every turn makes visitors feel at home right away. It’s not unusual to quickly get chatting to strangers and even go for a couple of glasses of Kölsch with them. The main landmark – Cologne Cathedral – watches over the whole city. It is the third-tallest church building in the world, at 157.38 metres. It might be a bit of a trek up to the top of the tower, but it’s worth it. You’ll be rewarded with an unforgettable view of the city and the Rhine spread out before you."
-      },
-      {
-        "day": 2,
-        "port": "Antwerp",
-        "country": "Belgium",
-        "description": "The port city of Antwerp is an absolute must-see. Rich in art and culture, it is also known as the ‘Diamond City’ due to its important role in the diamond trade. Antwerp is particularly enjoyable for foodies, thanks to the many tasty Belgian specialities on offer there – including waffles, chocolates and chips."
-      },
-      {
-        "day": 3,
-        "port": "Antwerp",
-        "country": "Belgium",
-        "description": "The port city of Antwerp is an absolute must-see. Rich in art and culture, it is also known as the ‘Diamond City’ due to its important role in the diamond trade. Antwerp is particularly enjoyable for foodies, thanks to the many tasty Belgian specialities on offer there – including waffles, chocolates and chips."
-      },
-      {
-        "day": 4,
-        "port": "Rotterdam",
-        "country": "Netherlands",
-        "description": "Rotterdam is the second-largest city in the Netherlands, after Amsterdam. Known as ‘Manhattan on the Maas’, it has a more urban and international atmosphere than anywhere else in the whole country. Be prepared to be amazed by the fantastic skyline, featuring the the Erasmusbrug bridge. Rotterdam is home to Europe’s largest port, as well as being a major transport hub. It's no surprise that this is a centre of contemporary architecture, featuring the famoust Kijk-Kubus, and the Witte Huis, which was the first skyscraper in Europe. Several impressive new skyscrapers have sprung up over the past 20 years."
-      },
-      {
-        "day": 5,
-        "port": "Amsterdam",
-        "country": "Netherlands",
-        "description": "Few European cities are as diverse as Amsterdam, with its multicultural charm, relaxed atmosphere, historic canal district and the highest concentration of museums in the world. Don’t miss the Van Gogh Museum or the Rijksmuseum, which was restored to its former glory several years ago following a decade-long renovation project. Follow the locals’ example and explore by bike or take a trip along the canals and discover Amsterdam from the water. *In individual cases, the local authorities in Amsterdam may not confirm the reserved berths. If no berth is allocated, our guests will be provided with a shuttle bus to Amsterdam."
-      },
-      {
-        "day": 6,
-        "port": "Amsterdam",
-        "country": "Netherlands",
-        "description": "Few European cities are as diverse as Amsterdam, with its multicultural charm, relaxed atmosphere, historic canal district and the highest concentration of museums in the world. Don’t miss the Van Gogh Museum or the Rijksmuseum, which was restored to its former glory several years ago following a decade-long renovation project. Follow the locals’ example and explore by bike or take a trip along the canals and discover Amsterdam from the water. *In individual cases, the local authorities in Amsterdam may not confirm the reserved berths. If no berth is allocated, our guests will be provided with a shuttle bus to Amsterdam."
-      },
-      {
-        "day": 7,
-        "port": "Nijmegen",
-        "country": "Netherlands",
-        "description": "Did you know that Nijmegen is the oldest city in the Netherlands? You only need to cross the Waalburg arch bridge into the centre to understand why the 160,000 inhabitants are so proud of their city: the Waalkade wharf and the silhouette of the city-centre buildings combine to form a truly impressive sight. In this Hanseatic city, tradition and modernity go hand in hand."
-      },
-      {
-        "day": 8,
-        "port": "Cologne",
-        "country": "Germany",
-        "description": "Welcome to Cologne! The typical friendliness that you find at every turn makes visitors feel at home right away. It’s not unusual to quickly get chatting to strangers and even go for a couple of glasses of Kölsch with them. The main landmark – Cologne Cathedral – watches over the whole city. It is the third-tallest church building in the world, at 157.38 metres. It might be a bit of a trek up to the top of the tower, but it’s worth it. You’ll be rewarded with an unforgettable view of the city and the Rhine spread out before you."
-      }
-    ],
-    "operator_name": "A-ROSA",
-    "ship_name": "A-ROSA BRAVA",
-    "ship": {
-      "shipId": 4,
-      "name": "A-ROSA BRAVA",
-      "description": "River cruise on the Rhine with A-ROSA BRAVA.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
-      "class": "",
-      "cabin_images": [
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-        "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-        "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-        "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-      ],
-      "facts": {
-        "capacity": 202,
-        "cabins": 99,
-        "decks": 4,
-        "built": "2011",
-        "refurbished": ""
-      },
-      "firstSailingDate": "2026-12-27",
-      "sailingCount": 2
-    },
-    "ships": [
-      {
-        "shipId": 4,
-        "name": "A-ROSA BRAVA",
-        "description": "River cruise on the Rhine with A-ROSA BRAVA.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/21/69128b51-63c3-42d5-8275-03d34988ebed/A-ROSA BRAVA Exterior.jpg",
-        "class": "",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/86cbe7c8-8c34-4d72-971b-d8e958560b9b/A-ROSA, AQUA, Cabin S.jpeg",
-          "https://assets.widgety.co.uk/2024/07/08/13/42/54/180507f5-2f11-41a3-b15f-a1694b62c4bf/A-ROSA, AQUA, Cabin A.jpeg",
-          "https://assets.widgety.co.uk/2024/07/09/11/27/07/98749456-5753-4f65-bfa3-dd129a2624b9/A-ROSA, AQUA, Cabin C.jpg",
-          "https://assets.widgety.co.uk/2021/04/23/08/42/24/a7b45663-0afd-48f0-872b-eb501d404654/arosa aqua 2-bed outside cabin D.jpeg"
-        ],
-        "facts": {
-          "capacity": 202,
-          "cabins": 99,
-          "decks": 4,
-          "built": "2011",
-          "refurbished": ""
-        },
-        "firstSailingDate": "2026-12-27",
-        "sailingCount": 2
-      }
-    ],
-    "departure_port": "Cologne",
-    "disembark_port": "Cologne",
-    "board_basis": "Full Board",
-    "port_fee_pp": 0,
-    "sailings": [
-      {
-        "date": "2026-12-27",
-        "returnDate": "2027-01-03",
-        "pricePp": 2229,
-        "cabinPricePp": 1955.1
-      }
-    ]
-  },
-  {
     "id": 10075,
     "title": "The Rhine as a Legacy: Art, History and Heritage. Discovering Europe¿s Geniuses and Masterpieces (port-to-port cruise)",
     "slug": "croisieurope-the-rhine-as-a-legacy-art-history-and-heritage-discovering-europe-s-geniuses-and-masterpieces-port-to-port-cruise",
-    "price": 1139,
+    "price": 1129,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 7,
@@ -3495,8 +2759,8 @@
         "built": "1997",
         "refurbished": "2017"
       },
-      "firstSailingDate": "2026-11-07",
-      "sailingCount": 2
+      "firstSailingDate": "2026-10-31",
+      "sailingCount": 3
     },
     "ships": [
       {
@@ -3523,8 +2787,8 @@
           "built": "1997",
           "refurbished": "2017"
         },
-        "firstSailingDate": "2026-11-07",
-        "sailingCount": 2
+        "firstSailingDate": "2026-10-31",
+        "sailingCount": 3
       }
     ],
     "departure_port": "Amsterdam",
@@ -3532,6 +2796,12 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
+      {
+        "date": "2026-10-31",
+        "returnDate": "2026-11-07",
+        "pricePp": 1159,
+        "cabinPricePp": 979.45
+      },
       {
         "date": "2026-11-07",
         "returnDate": "2026-11-14",
@@ -3629,7 +2899,7 @@
         "refurbished": "2017"
       },
       "firstSailingDate": "2026-10-09",
-      "sailingCount": 41
+      "sailingCount": 38
     },
     "ships": [
       {
@@ -3657,7 +2927,7 @@
           "refurbished": "2017"
         },
         "firstSailingDate": "2026-10-09",
-        "sailingCount": 41
+        "sailingCount": 38
       }
     ],
     "departure_port": "Amsterdam",
@@ -3690,12 +2960,6 @@
         "cabinPricePp": 1921.85
       },
       {
-        "date": "2027-05-21",
-        "returnDate": "2027-05-27",
-        "pricePp": 2399,
-        "cabinPricePp": 2221.1
-      },
-      {
         "date": "2027-06-04",
         "returnDate": "2027-06-10",
         "pricePp": 2099,
@@ -3710,8 +2974,8 @@
       {
         "date": "2027-07-02",
         "returnDate": "2027-07-08",
-        "pricePp": 1979,
-        "cabinPricePp": 1804.05
+        "pricePp": 2039,
+        "cabinPricePp": 1858.2
       },
       {
         "date": "2027-07-16",
@@ -3725,7 +2989,7 @@
     "id": 10078,
     "title": "Holland and the romantic Rhine valley (port-to-port cruise)",
     "slug": "croisieurope-holland-and-the-romantic-rhine-valley-port-to-port-cruise",
-    "price": 1369,
+    "price": 1349,
     "destination": "Dutch Waterways, Rhine",
     "country": "Germany",
     "duration_nights": 10,
@@ -4171,7 +3435,7 @@
         "refurbished": "2017"
       },
       "firstSailingDate": "2026-10-02",
-      "sailingCount": 32
+      "sailingCount": 29
     },
     "ships": [
       {
@@ -4199,7 +3463,7 @@
           "refurbished": "2017"
         },
         "firstSailingDate": "2026-10-02",
-        "sailingCount": 32
+        "sailingCount": 29
       }
     ],
     "departure_port": "Basel",
@@ -4210,14 +3474,8 @@
       {
         "date": "2026-10-02",
         "returnDate": "2026-10-08",
-        "pricePp": 1999,
-        "cabinPricePp": 1786
-      },
-      {
-        "date": "2026-10-16",
-        "returnDate": "2026-10-22",
-        "pricePp": 1829,
-        "cabinPricePp": 1619.75
+        "pricePp": 2149,
+        "cabinPricePp": 1939.9
       },
       {
         "date": "2027-04-16",
@@ -4252,8 +3510,8 @@
       {
         "date": "2027-07-23",
         "returnDate": "2027-07-29",
-        "pricePp": 2019,
-        "cabinPricePp": 1804.05
+        "pricePp": 2069,
+        "cabinPricePp": 1858.2
       }
     ]
   },
@@ -4619,7 +3877,7 @@
         "refurbished": "2017"
       },
       "firstSailingDate": "2026-11-30",
-      "sailingCount": 4
+      "sailingCount": 3
     },
     "ships": [
       {
@@ -4647,7 +3905,7 @@
           "refurbished": "2017"
         },
         "firstSailingDate": "2026-11-30",
-        "sailingCount": 4
+        "sailingCount": 3
       },
       {
         "shipId": 16,
@@ -4672,7 +3930,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-12-14",
-        "sailingCount": 13
+        "sailingCount": 12
       }
     ],
     "departure_port": "Strasbourg",
@@ -4698,7 +3956,7 @@
     "id": 10086,
     "title": "Magical Christmas extravaganzas in Switzerland and Alsace along the Rhine (port-to-port cruise)",
     "slug": "croisieurope-magical-christmas-extravaganzas-in-switzerland-and-alsace-along-the-rhine-port-to-port-cruise",
-    "price": 1239,
+    "price": 1249,
     "destination": "Rhine",
     "country": "Switzerland",
     "duration_nights": 3,
@@ -4759,7 +4017,7 @@
         "refurbished": "2017"
       },
       "firstSailingDate": "2026-12-17",
-      "sailingCount": 6
+      "sailingCount": 5
     },
     "ships": [
       {
@@ -4787,7 +4045,7 @@
           "refurbished": "2017"
         },
         "firstSailingDate": "2026-12-17",
-        "sailingCount": 6
+        "sailingCount": 5
       },
       {
         "shipId": 16,
@@ -4832,7 +4090,7 @@
     "id": 10087,
     "title": "Cruise Festival: Legends, Festivities, and Delicacies on the Romantic Rhine River",
     "slug": "croisieurope-cruise-festival-legends-festivities-and-delicacies-on-the-romantic-rhine-river",
-    "price": 829,
+    "price": 849,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 3,
@@ -4889,7 +4147,7 @@
         "refurbished": "2011"
       },
       "firstSailingDate": "2026-11-02",
-      "sailingCount": 7
+      "sailingCount": 6
     },
     "ships": [
       {
@@ -4913,7 +4171,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-11-02",
-        "sailingCount": 7
+        "sailingCount": 6
       },
       {
         "shipId": 19,
@@ -4961,7 +4219,7 @@
     "id": 10089,
     "title": "An exceptional cruise through the most beautiful regions of three different countries (port-to-port cruise)",
     "slug": "croisieurope-an-exceptional-cruise-through-the-most-beautiful-regions-of-three-different-countries-port-to-port-cruise",
-    "price": 1559,
+    "price": 1569,
     "destination": "Rhine",
     "country": "Switzerland",
     "duration_nights": 4,
@@ -5024,7 +4282,7 @@
         "refurbished": "2011"
       },
       "firstSailingDate": "2027-05-14",
-      "sailingCount": 23
+      "sailingCount": 20
     },
     "ships": [
       {
@@ -5048,7 +4306,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2027-05-14",
-        "sailingCount": 23
+        "sailingCount": 20
       }
     ],
     "departure_port": "Strasbourg",
@@ -5059,14 +4317,14 @@
       {
         "date": "2027-05-14",
         "returnDate": "2027-05-18",
-        "pricePp": 1559,
-        "cabinPricePp": 1294.85
+        "pricePp": 1669,
+        "cabinPricePp": 1403.15
       },
       {
         "date": "2027-05-30",
         "returnDate": "2027-06-03",
-        "pricePp": 1729,
-        "cabinPricePp": 1462.05
+        "pricePp": 1669,
+        "cabinPricePp": 1403.15
       },
       {
         "date": "2027-06-07",
@@ -5098,7 +4356,7 @@
     "id": 10098,
     "title": "Christmas in Alsace and show at the Royal Palace (port-to-port)",
     "slug": "croisieurope-christmas-in-alsace-and-show-at-the-royal-palace-port-to-port",
-    "price": 839,
+    "price": 829,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 3,
@@ -5365,7 +4623,7 @@
     "id": 10103,
     "title": "Christmas markets in Alsace (port-to-port)",
     "slug": "croisieurope-christmas-markets-in-alsace-port-to-port",
-    "price": 769,
+    "price": 789,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 3,
@@ -5471,7 +4729,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-12-04",
-        "sailingCount": 17
+        "sailingCount": 16
       },
       {
         "shipId": 23,
@@ -5493,7 +4751,7 @@
           "refurbished": "2007"
         },
         "firstSailingDate": "2026-12-12",
-        "sailingCount": 9
+        "sailingCount": 7
       },
       {
         "shipId": 17,
@@ -5540,7 +4798,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-12-03",
-        "sailingCount": 10
+        "sailingCount": 8
       },
       {
         "shipId": 20,
@@ -5565,7 +4823,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-12-04",
-        "sailingCount": 14
+        "sailingCount": 12
       },
       {
         "shipId": 14,
@@ -5590,7 +4848,7 @@
           "refurbished": "2014"
         },
         "firstSailingDate": "2026-12-17",
-        "sailingCount": 13
+        "sailingCount": 12
       }
     ],
     "departure_port": "Strasbourg",
@@ -5601,8 +4859,8 @@
       {
         "date": "2026-12-03",
         "returnDate": "2026-12-05",
-        "pricePp": 769,
-        "cabinPricePp": 532
+        "pricePp": 789,
+        "cabinPricePp": 550.05
       },
       {
         "date": "2026-12-04",
@@ -5646,7 +4904,7 @@
     "id": 10113,
     "title": "The Romantic Rhine Valley and the Rock of Lorelei (port-to-port cruise)",
     "slug": "croisieurope-the-romantic-rhine-valley-and-the-rock-of-lorelei-port-to-port-cruise",
-    "price": 789,
+    "price": 849,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 4,
@@ -5687,52 +4945,32 @@
       }
     ],
     "operator_name": "CroisiEurope",
-    "ship_name": "MS Monet",
+    "ship_name": "MS Mona Lisa",
     "ship": {
-      "shipId": 23,
-      "name": "MS Monet",
-      "description": "Named after one of the most famous impressionist painters, Claude Monet, this elegant ship sails on the Rhine and the Danube. It takes cruise passengers to discover the many wonders offered by these two romantic rivers.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/51/3ba7a370-f92b-4564-8a11-cec3149fb2da/CroisiEurope MS Monet Exterior.jpg",
+      "shipId": 22,
+      "name": "MS Mona Lisa",
+      "description": "The MS Mona Lisa is named after Leonardo da Vinci’s most famous work. An intimate sized standard ship which sails on the Elbe, the Danube and the Rhine, rivers with many cultural and natural treasures.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/50/39bbcc18-4d6f-44df-848d-0ba14b12f057/MS Mona Lisa Exterior CroisiEurope ©Paul Hilbert.jpg",
       "class": "4 Anchors",
       "cabin_images": [
-        "https://assets.widgety.co.uk/2025/11/14/11/19/15/acd6a0f3-7e37-48cc-8ce5-7b54b5b028e3/CroisiEurope MS Monet Upper Deck 2 Beds Cat A ©Corinne Cotard.jpg",
-        "https://assets.widgety.co.uk/2025/11/14/11/19/16/8753f9ec-5096-4f37-9248-e7b4d9f24cbe/CroisiEurope MS Monet Main Deck 3 Beds Cat C Corinne Cotard.jpg",
-        "https://assets.widgety.co.uk/2025/11/14/11/19/15/aa53fbfd-ad5a-42cd-b068-900f8aa110f9/CroisiEurope MS Monet Main Deck 1 Double Bed Cat A ©Corinne Cotard.jpg",
-        "https://assets.widgety.co.uk/2025/11/14/11/19/16/8be54edc-07c4-4113-8c54-d7d8ea773143/CroisiEurope MS Monet Main Deck 1 Bed Single Cat C ©Corinne Cotard.jpg"
+        "https://assets.widgety.co.uk/2024/08/16/08/09/37/8e2394a7-754b-4d1b-8326-3add4f7d6acc/MS Mona Lisa Cabin ©CroisiEurope 3.jpg",
+        "https://assets.widgety.co.uk/2024/08/16/08/09/37/9b65e025-d64d-4317-b038-46efaae866f9/MS Mona Lisa Cabin ©CroisiEurope 4.jpg",
+        "https://assets.widgety.co.uk/2024/08/16/08/09/37/4e9602d9-5867-4772-80af-236a5165ccdb/MS Mona Lisa Cabin ©CroisiEurope 0.jpg",
+        "https://assets.widgety.co.uk/2024/08/16/08/09/37/90119f8d-4f2c-4a8c-8a89-73405591c221/MS Mona Lisa Cabin ©CroisiEurope 2.jpg",
+        "https://assets.widgety.co.uk/2024/08/16/08/09/37/e841ac21-70a9-4a05-ba53-ea2392b12cd7/MS Mona Lisa Cabin ©CroisiEurope 1.jpg",
+        "https://assets.widgety.co.uk/2024/08/16/08/09/37/3be8502f-2622-41b8-b319-e0eea29d434f/MS Mona Lisa Cabin ©CroisiEurope 5.JPG"
       ],
       "facts": {
-        "capacity": 158,
-        "cabins": 78,
+        "capacity": 94,
+        "cabins": 47,
         "decks": 3,
-        "built": "1999",
-        "refurbished": "2007"
+        "built": "2000",
+        "refurbished": "2010"
       },
-      "firstSailingDate": "2026-09-05",
-      "sailingCount": 92
+      "firstSailingDate": "2026-09-09",
+      "sailingCount": 6
     },
     "ships": [
-      {
-        "shipId": 23,
-        "name": "MS Monet",
-        "description": "Named after one of the most famous impressionist painters, Claude Monet, this elegant ship sails on the Rhine and the Danube. It takes cruise passengers to discover the many wonders offered by these two romantic rivers.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/51/3ba7a370-f92b-4564-8a11-cec3149fb2da/CroisiEurope MS Monet Exterior.jpg",
-        "class": "4 Anchors",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2025/11/14/11/19/15/acd6a0f3-7e37-48cc-8ce5-7b54b5b028e3/CroisiEurope MS Monet Upper Deck 2 Beds Cat A ©Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2025/11/14/11/19/16/8753f9ec-5096-4f37-9248-e7b4d9f24cbe/CroisiEurope MS Monet Main Deck 3 Beds Cat C Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2025/11/14/11/19/15/aa53fbfd-ad5a-42cd-b068-900f8aa110f9/CroisiEurope MS Monet Main Deck 1 Double Bed Cat A ©Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2025/11/14/11/19/16/8be54edc-07c4-4113-8c54-d7d8ea773143/CroisiEurope MS Monet Main Deck 1 Bed Single Cat C ©Corinne Cotard.jpg"
-        ],
-        "facts": {
-          "capacity": 158,
-          "cabins": 78,
-          "decks": 3,
-          "built": "1999",
-          "refurbished": "2007"
-        },
-        "firstSailingDate": "2026-09-05",
-        "sailingCount": 92
-      },
       {
         "shipId": 22,
         "name": "MS Mona Lisa",
@@ -5755,7 +4993,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-09-09",
-        "sailingCount": 8
+        "sailingCount": 6
       },
       {
         "shipId": 13,
@@ -5778,7 +5016,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-09-27",
-        "sailingCount": 48
+        "sailingCount": 53
       },
       {
         "shipId": 17,
@@ -5806,30 +5044,6 @@
         "sailingCount": 16
       },
       {
-        "shipId": 15,
-        "name": "MS France",
-        "description": "Partially renovated in 2016, the ship takes on a sparkling and vintage look with its anise and chocolate colors. The houndstooth-type patterns recall the elegant outfits of ladies from the sixties. The cabins display retro photographs representing Parisian monuments.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/00/35c0bcd5-379c-4fb6-9a1a-8b141ebabd7f/CroisiEurope MS France Exterior ©Paul Hilbert.jpg",
-        "class": "4 Anchors",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/08/09/16/49/26/29617b63-ec6e-4c67-af91-87f947842dc2/CroisiErurope MS France - Double Cabin 2, © Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2024/08/09/16/49/26/0a3bce50-4190-4949-92c7-014a7ed4c44c/CroisiErurope MS France - Double Cabin 4, © Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2024/08/09/16/49/26/dcb35c04-4012-4e8a-835d-3f664c41ad6c/CroisiErurope MS France - Double Cabin 3, © Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2019/08/29/17/02/59/52968606-d615-4994-9952-44ccb755a5ca/CroisiEurope MS France Suite.jpg",
-          "https://assets.widgety.co.uk/2024/08/09/16/49/25/3bc4f391-011d-492f-b42d-28de83af28e2/CroisiErurope MS France - Double Cabin 1, © Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2024/08/09/16/49/26/608c5000-9f9d-40eb-8008-dfd086179f31/CroisiErurope MS France - Single Cabin 1, © Corinne Cotard.jpg"
-        ],
-        "facts": {
-          "capacity": 159,
-          "cabins": 78,
-          "decks": 3,
-          "built": "2001",
-          "refurbished": "2016"
-        },
-        "firstSailingDate": "2026-10-06",
-        "sailingCount": 13
-      },
-      {
         "shipId": 16,
         "name": "MS Gérard Schmitter",
         "description": "Named after the founder of CroisiEurope, the MS Gérard Schmitter sails on the Rhine and the Danube, to meet the many wonders offered by these two romantic rivers.",
@@ -5852,7 +5066,53 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-25",
-        "sailingCount": 111
+        "sailingCount": 115
+      },
+      {
+        "shipId": 23,
+        "name": "MS Monet",
+        "description": "Named after one of the most famous impressionist painters, Claude Monet, this elegant ship sails on the Rhine and the Danube. It takes cruise passengers to discover the many wonders offered by these two romantic rivers.",
+        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/51/3ba7a370-f92b-4564-8a11-cec3149fb2da/CroisiEurope MS Monet Exterior.jpg",
+        "class": "4 Anchors",
+        "cabin_images": [
+          "https://assets.widgety.co.uk/2025/11/14/11/19/15/acd6a0f3-7e37-48cc-8ce5-7b54b5b028e3/CroisiEurope MS Monet Upper Deck 2 Beds Cat A ©Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2025/11/14/11/19/16/8753f9ec-5096-4f37-9248-e7b4d9f24cbe/CroisiEurope MS Monet Main Deck 3 Beds Cat C Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2025/11/14/11/19/15/aa53fbfd-ad5a-42cd-b068-900f8aa110f9/CroisiEurope MS Monet Main Deck 1 Double Bed Cat A ©Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2025/11/14/11/19/16/8be54edc-07c4-4113-8c54-d7d8ea773143/CroisiEurope MS Monet Main Deck 1 Bed Single Cat C ©Corinne Cotard.jpg"
+        ],
+        "facts": {
+          "capacity": 158,
+          "cabins": 78,
+          "decks": 3,
+          "built": "1999",
+          "refurbished": "2007"
+        },
+        "firstSailingDate": "2026-09-26",
+        "sailingCount": 101
+      },
+      {
+        "shipId": 15,
+        "name": "MS France",
+        "description": "Partially renovated in 2016, the ship takes on a sparkling and vintage look with its anise and chocolate colors. The houndstooth-type patterns recall the elegant outfits of ladies from the sixties. The cabins display retro photographs representing Parisian monuments.",
+        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/00/35c0bcd5-379c-4fb6-9a1a-8b141ebabd7f/CroisiEurope MS France Exterior ©Paul Hilbert.jpg",
+        "class": "4 Anchors",
+        "cabin_images": [
+          "https://assets.widgety.co.uk/2024/08/09/16/49/26/29617b63-ec6e-4c67-af91-87f947842dc2/CroisiErurope MS France - Double Cabin 2, © Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2024/08/09/16/49/26/0a3bce50-4190-4949-92c7-014a7ed4c44c/CroisiErurope MS France - Double Cabin 4, © Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2024/08/09/16/49/26/dcb35c04-4012-4e8a-835d-3f664c41ad6c/CroisiErurope MS France - Double Cabin 3, © Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2019/08/29/17/02/59/52968606-d615-4994-9952-44ccb755a5ca/CroisiEurope MS France Suite.jpg",
+          "https://assets.widgety.co.uk/2024/08/09/16/49/25/3bc4f391-011d-492f-b42d-28de83af28e2/CroisiErurope MS France - Double Cabin 1, © Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2024/08/09/16/49/26/608c5000-9f9d-40eb-8008-dfd086179f31/CroisiErurope MS France - Single Cabin 1, © Corinne Cotard.jpg"
+        ],
+        "facts": {
+          "capacity": 159,
+          "cabins": 78,
+          "decks": 3,
+          "built": "2001",
+          "refurbished": "2016"
+        },
+        "firstSailingDate": "2026-10-06",
+        "sailingCount": 12
       },
       {
         "shipId": 14,
@@ -5924,7 +5184,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2027-03-18",
-        "sailingCount": 29
+        "sailingCount": 32
       },
       {
         "shipId": 21,
@@ -5956,12 +5216,6 @@
     "port_fee_pp": 0,
     "sailings": [
       {
-        "date": "2026-09-05",
-        "returnDate": "2026-09-08",
-        "pricePp": 1219,
-        "cabinPricePp": 969.95
-      },
-      {
         "date": "2026-09-09",
         "returnDate": "2026-09-12",
         "pricePp": 1289,
@@ -5976,8 +5230,8 @@
       {
         "date": "2026-09-26",
         "returnDate": "2026-09-29",
-        "pricePp": 1269,
-        "cabinPricePp": 1033.6
+        "pricePp": 1319,
+        "cabinPricePp": 1083.95
       },
       {
         "date": "2026-09-27",
@@ -5988,8 +5242,8 @@
       {
         "date": "2026-09-29",
         "returnDate": "2026-10-02",
-        "pricePp": 1269,
-        "cabinPricePp": 1033.6
+        "pricePp": 1319,
+        "cabinPricePp": 1064.95
       },
       {
         "date": "2026-10-01",
@@ -6018,14 +5272,14 @@
       {
         "date": "2026-10-12",
         "returnDate": "2026-10-15",
-        "pricePp": 1359,
-        "cabinPricePp": 1123.85
+        "pricePp": 1269,
+        "cabinPricePp": 1033.6
       },
       {
         "date": "2026-10-15",
         "returnDate": "2026-10-18",
-        "pricePp": 919,
-        "cabinPricePp": 684
+        "pricePp": 969,
+        "cabinPricePp": 734.35
       },
       {
         "date": "2026-10-17",
@@ -6042,8 +5296,8 @@
       {
         "date": "2026-10-21",
         "returnDate": "2026-10-24",
-        "pricePp": 789,
-        "cabinPricePp": 545.3
+        "pricePp": 979,
+        "cabinPricePp": 740.05
       },
       {
         "date": "2026-10-22",
@@ -6054,14 +5308,14 @@
       {
         "date": "2026-10-25",
         "returnDate": "2026-10-28",
-        "pricePp": 789,
-        "cabinPricePp": 545.3
+        "pricePp": 849,
+        "cabinPricePp": 608.95
       },
       {
         "date": "2026-10-31",
         "returnDate": "2026-11-03",
-        "pricePp": 789,
-        "cabinPricePp": 545.3
+        "pricePp": 849,
+        "cabinPricePp": 608.95
       },
       {
         "date": "2026-11-04",
@@ -6114,8 +5368,8 @@
       {
         "date": "2027-04-01",
         "returnDate": "2027-04-04",
-        "pricePp": 1179,
-        "cabinPricePp": 942.4
+        "pricePp": 1029,
+        "cabinPricePp": 789.45
       },
       {
         "date": "2027-04-03",
@@ -6168,8 +5422,8 @@
       {
         "date": "2027-05-09",
         "returnDate": "2027-05-12",
-        "pricePp": 1349,
-        "cabinPricePp": 1105.8
+        "pricePp": 1189,
+        "cabinPricePp": 947.15
       },
       {
         "date": "2027-05-14",
@@ -6192,8 +5446,8 @@
       {
         "date": "2027-05-29",
         "returnDate": "2027-06-01",
-        "pricePp": 1349,
-        "cabinPricePp": 1114.35
+        "pricePp": 1449,
+        "cabinPricePp": 1208.4
       },
       {
         "date": "2027-05-30",
@@ -6302,6 +5556,18 @@
         "returnDate": "2027-08-01",
         "pricePp": 1129,
         "cabinPricePp": 889.2
+      },
+      {
+        "date": "2027-07-31",
+        "returnDate": "2027-08-03",
+        "pricePp": 1129,
+        "cabinPricePp": 889.2
+      },
+      {
+        "date": "2027-08-02",
+        "returnDate": "2027-08-05",
+        "pricePp": 1129,
+        "cabinPricePp": 889.2
       }
     ]
   },
@@ -6309,7 +5575,7 @@
     "id": 10114,
     "title": "Hiking cruise through the Rhine Valley - History, traditions, and the spirit of the Rhineland (port-to-port cruise)",
     "slug": "croisieurope-hiking-cruise-through-the-rhine-valley-history-traditions-and-the-spirit-of-the-rhineland-port-to-port-cruise",
-    "price": 1389,
+    "price": 1419,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 4,
@@ -6537,7 +5803,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-10-07",
-        "sailingCount": 6
+        "sailingCount": 7
       },
       {
         "shipId": 16,
@@ -6562,7 +5828,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-10-16",
-        "sailingCount": 42
+        "sailingCount": 45
       },
       {
         "shipId": 13,
@@ -6585,7 +5851,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-10-01",
-        "sailingCount": 21
+        "sailingCount": 29
       }
     ],
     "departure_port": "Strasbourg",
@@ -6632,8 +5898,8 @@
       {
         "date": "2027-05-02",
         "returnDate": "2027-05-07",
-        "pricePp": 1929,
-        "cabinPricePp": 1691.95
+        "pricePp": 1879,
+        "cabinPricePp": 1641.6
       },
       {
         "date": "2027-05-08",
@@ -6674,8 +5940,8 @@
       {
         "date": "2027-07-13",
         "returnDate": "2027-07-18",
-        "pricePp": 1829,
-        "cabinPricePp": 1593.15
+        "pricePp": 1769,
+        "cabinPricePp": 1533.3
       },
       {
         "date": "2027-07-17",
@@ -6688,6 +5954,12 @@
         "returnDate": "2027-08-01",
         "pricePp": 1769,
         "cabinPricePp": 1533.3
+      },
+      {
+        "date": "2027-08-04",
+        "returnDate": "2027-08-09",
+        "pricePp": 1559,
+        "cabinPricePp": 1322.4
       }
     ]
   },
@@ -6824,7 +6096,7 @@
     "id": 10120,
     "title": "Christmas Markets along the Rhine (port-to-port package)",
     "slug": "croisieurope-christmas-markets-along-the-rhine-port-to-port-package",
-    "price": 979,
+    "price": 849,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 4,
@@ -6967,8 +6239,8 @@
       {
         "date": "2026-12-13",
         "returnDate": "2026-12-17",
-        "pricePp": 1019,
-        "cabinPricePp": 753.35
+        "pricePp": 859,
+        "cabinPricePp": 602.3
       }
     ]
   },
@@ -6976,7 +6248,7 @@
     "id": 10121,
     "title": "Rhineland Christmas on the Romantic Rhine (port-to-port cruise)",
     "slug": "croisieurope-rhineland-christmas-on-the-romantic-rhine-port-to-port-cruise",
-    "price": 749,
+    "price": 629,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 2,
@@ -7076,7 +6348,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-12-23",
-        "sailingCount": 12
+        "sailingCount": 11
       },
       {
         "shipId": 20,
@@ -7137,8 +6409,8 @@
       {
         "date": "2026-12-23",
         "returnDate": "2026-12-24",
-        "pricePp": 749,
-        "cabinPricePp": 518.7
+        "pricePp": 649,
+        "cabinPricePp": 415.15
       }
     ]
   },
@@ -7146,7 +6418,7 @@
     "id": 10122,
     "title": "New Year on the Rhine: The romantic Rhine and its castles (port-to-port cruise)",
     "slug": "croisieurope-new-year-on-the-rhine-the-romantic-rhine-and-its-castles-port-to-port-cruise",
-    "price": 1089,
+    "price": 1119,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 3,
@@ -7298,7 +6570,7 @@
     "id": 10124,
     "title": "Exceptional Wine Tasting Cruise in Burgundy: Beaujolais Nouveau (port-to-port cruise)",
     "slug": "croisieurope-exceptional-wine-tasting-cruise-in-burgundy-beaujolais-nouveau-port-to-port-cruise",
-    "price": 979,
+    "price": 1019,
     "destination": "Saone",
     "country": "France",
     "duration_nights": 4,
@@ -7362,7 +6634,7 @@
         "refurbished": "2011"
       },
       "firstSailingDate": "2026-11-15",
-      "sailingCount": 4
+      "sailingCount": 3
     },
     "ships": [
       {
@@ -7387,7 +6659,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-11-15",
-        "sailingCount": 4
+        "sailingCount": 3
       }
     ],
     "departure_port": "Lyon",
@@ -7407,7 +6679,7 @@
     "id": 10125,
     "title": "Festival Cruise : Local History and Traditions on the Rhône River",
     "slug": "croisieurope-festival-cruise-local-history-and-traditions-on-the-rhone-river",
-    "price": 779,
+    "price": 819,
     "destination": "Rhone, Saone",
     "country": "France",
     "duration_nights": 3,
@@ -7510,7 +6782,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-10-28",
-        "sailingCount": 14
+        "sailingCount": 15
       },
       {
         "shipId": 27,
@@ -7659,7 +6931,7 @@
         "refurbished": "2018"
       },
       "firstSailingDate": "2026-11-12",
-      "sailingCount": 14
+      "sailingCount": 13
     },
     "ships": [
       {
@@ -7682,7 +6954,7 @@
           "refurbished": "2018"
         },
         "firstSailingDate": "2026-11-12",
-        "sailingCount": 14
+        "sailingCount": 13
       },
       {
         "shipId": 27,
@@ -7707,7 +6979,7 @@
           "refurbished": "2015"
         },
         "firstSailingDate": "2026-09-11",
-        "sailingCount": 18
+        "sailingCount": 19
       },
       {
         "shipId": 26,
@@ -7731,7 +7003,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2027-07-02",
-        "sailingCount": 9
+        "sailingCount": 11
       }
     ],
     "departure_port": "Lyon",
@@ -7742,8 +7014,8 @@
       {
         "date": "2026-09-11",
         "returnDate": "2026-09-15",
-        "pricePp": 1649,
-        "cabinPricePp": 1504.8
+        "pricePp": 1449,
+        "cabinPricePp": 1307.2
       },
       {
         "date": "2026-10-10",
@@ -7784,8 +7056,8 @@
       {
         "date": "2027-07-20",
         "returnDate": "2027-07-24",
-        "pricePp": 1419,
-        "cabinPricePp": 1262.55
+        "pricePp": 1319,
+        "cabinPricePp": 1168.5
       },
       {
         "date": "2027-07-23",
@@ -7805,7 +7077,7 @@
     "id": 10128,
     "title": "All the must-see sites on the Rhône between Lyon, Provence, and the Camargue with a dinner at Paul Bocuse's Abbaye de Collonges Restaurant OFFERED (port-to-port cruise)",
     "slug": "croisieurope-all-the-must-see-sites-on-the-rhone-between-lyon-provence-and-the-camargue-with-a-dinner-at-paul-bocuse-s-abbaye-de-collonges-restaurant-offered-port-to-port-cruise",
-    "price": 1399,
+    "price": 1419,
     "destination": "Rhone, Saone",
     "country": "France",
     "duration_nights": 6,
@@ -7880,7 +7152,7 @@
         "refurbished": "2007"
       },
       "firstSailingDate": "2026-10-19",
-      "sailingCount": 14
+      "sailingCount": 11
     },
     "ships": [
       {
@@ -7904,7 +7176,7 @@
           "refurbished": "2007"
         },
         "firstSailingDate": "2026-10-19",
-        "sailingCount": 14
+        "sailingCount": 11
       },
       {
         "shipId": 26,
@@ -7928,7 +7200,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2027-04-26",
-        "sailingCount": 23
+        "sailingCount": 22
       },
       {
         "shipId": 25,
@@ -7950,7 +7222,7 @@
           "refurbished": "2018"
         },
         "firstSailingDate": "2026-10-19",
-        "sailingCount": 22
+        "sailingCount": 32
       },
       {
         "shipId": 27,
@@ -7975,7 +7247,7 @@
           "refurbished": "2015"
         },
         "firstSailingDate": "2026-10-15",
-        "sailingCount": 43
+        "sailingCount": 38
       }
     ],
     "departure_port": "Lyon",
@@ -8016,8 +7288,8 @@
       {
         "date": "2027-04-07",
         "returnDate": "2027-04-12",
-        "pricePp": 1429,
-        "cabinPricePp": 1294.85
+        "pricePp": 1539,
+        "cabinPricePp": 1403.15
       },
       {
         "date": "2027-04-18",
@@ -8126,6 +7398,12 @@
         "returnDate": "2027-08-02",
         "pricePp": 1719,
         "cabinPricePp": 1587.45
+      },
+      {
+        "date": "2027-07-31",
+        "returnDate": "2027-08-05",
+        "pricePp": 1719,
+        "cabinPricePp": 1587.45
       }
     ]
   },
@@ -8213,7 +7491,7 @@
         "refurbished": "2018"
       },
       "firstSailingDate": "2026-11-22",
-      "sailingCount": 6
+      "sailingCount": 4
     },
     "ships": [
       {
@@ -8236,7 +7514,7 @@
           "refurbished": "2018"
         },
         "firstSailingDate": "2026-11-22",
-        "sailingCount": 6
+        "sailingCount": 4
       }
     ],
     "departure_port": "Lyon",
@@ -8337,7 +7615,7 @@
         "refurbished": "2007"
       },
       "firstSailingDate": "2027-04-13",
-      "sailingCount": 4
+      "sailingCount": 3
     },
     "ships": [
       {
@@ -8361,7 +7639,7 @@
           "refurbished": "2007"
         },
         "firstSailingDate": "2027-04-13",
-        "sailingCount": 4
+        "sailingCount": 3
       },
       {
         "shipId": 26,
@@ -8385,7 +7663,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2027-05-02",
-        "sailingCount": 18
+        "sailingCount": 19
       },
       {
         "shipId": 27,
@@ -8410,7 +7688,7 @@
           "refurbished": "2015"
         },
         "firstSailingDate": "2026-10-03",
-        "sailingCount": 25
+        "sailingCount": 32
       },
       {
         "shipId": 25,
@@ -8473,8 +7751,8 @@
       {
         "date": "2027-05-25",
         "returnDate": "2027-05-31",
-        "pricePp": 1919,
-        "cabinPricePp": 1750.85
+        "pricePp": 1829,
+        "cabinPricePp": 1665.35
       },
       {
         "date": "2027-06-07",
@@ -8515,6 +7793,12 @@
       {
         "date": "2027-07-16",
         "returnDate": "2027-07-22",
+        "pricePp": 1989,
+        "cabinPricePp": 1827.8
+      },
+      {
+        "date": "2027-08-03",
+        "returnDate": "2027-08-09",
         "pricePp": 1939,
         "cabinPricePp": 1773.65
       }
@@ -8524,7 +7808,7 @@
     "id": 10131,
     "title": "A Christmas in Provence (port-to-port cruise)",
     "slug": "croisieurope-a-christmas-in-provence-port-to-port-cruise",
-    "price": 959,
+    "price": 859,
     "destination": "Rhone, Saone",
     "country": "France",
     "duration_nights": 4,
@@ -8683,7 +7967,7 @@
           "refurbished": "2015"
         },
         "firstSailingDate": "2026-11-30",
-        "sailingCount": 13
+        "sailingCount": 14
       }
     ],
     "departure_port": "Lyon",
@@ -8694,44 +7978,44 @@
       {
         "date": "2026-11-29",
         "returnDate": "2026-12-02",
-        "pricePp": 959,
-        "cabinPricePp": 843.6
+        "pricePp": 829,
+        "cabinPricePp": 717.25
       },
       {
         "date": "2026-11-30",
         "returnDate": "2026-12-03",
-        "pricePp": 1139,
-        "cabinPricePp": 1027.9
+        "pricePp": 989,
+        "cabinPricePp": 874
       },
       {
         "date": "2026-12-02",
         "returnDate": "2026-12-05",
-        "pricePp": 959,
-        "cabinPricePp": 843.6
+        "pricePp": 829,
+        "cabinPricePp": 717.25
       },
       {
         "date": "2026-12-09",
         "returnDate": "2026-12-12",
-        "pricePp": 959,
-        "cabinPricePp": 843.6
+        "pricePp": 829,
+        "cabinPricePp": 717.25
       },
       {
         "date": "2026-12-10",
         "returnDate": "2026-12-13",
-        "pricePp": 959,
-        "cabinPricePp": 843.6
+        "pricePp": 829,
+        "cabinPricePp": 717.25
       },
       {
         "date": "2026-12-11",
         "returnDate": "2026-12-14",
-        "pricePp": 1139,
-        "cabinPricePp": 1027.9
+        "pricePp": 989,
+        "cabinPricePp": 874
       },
       {
         "date": "2026-12-12",
         "returnDate": "2026-12-15",
-        "pricePp": 1139,
-        "cabinPricePp": 1027.9
+        "pricePp": 989,
+        "cabinPricePp": 874
       }
     ]
   },
@@ -8739,7 +8023,7 @@
     "id": 10132,
     "title": "The Festival of Lights in Lyon (port-to-port cruise)",
     "slug": "croisieurope-the-festival-of-lights-in-lyon-port-to-port-cruise",
-    "price": 659,
+    "price": 669,
     "destination": "Rhone, Saone",
     "country": "France",
     "duration_nights": 2,
@@ -8890,7 +8174,7 @@
     "id": 10133,
     "title": "Lands of Provence, a sensory cruise through heritage and gourmet delights (port-to-port cruise)",
     "slug": "croisieurope-lands-of-provence-a-sensory-cruise-through-heritage-and-gourmet-delights-port-to-port-cruise",
-    "price": 699,
+    "price": 719,
     "destination": "Rhone",
     "country": "France",
     "duration_nights": 5,
@@ -8960,7 +8244,7 @@
         "refurbished": "2011"
       },
       "firstSailingDate": "2026-11-01",
-      "sailingCount": 10
+      "sailingCount": 9
     },
     "ships": [
       {
@@ -8985,7 +8269,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-11-01",
-        "sailingCount": 10
+        "sailingCount": 9
       },
       {
         "shipId": 28,
@@ -9033,7 +8317,7 @@
           "refurbished": "2015"
         },
         "firstSailingDate": "2026-11-18",
-        "sailingCount": 12
+        "sailingCount": 11
       }
     ],
     "departure_port": "Lyon",
@@ -9083,7 +8367,7 @@
     "id": 10134,
     "title": "Provençal New Year's Eve in the Rhône Valley (port-to-port cruise)",
     "slug": "croisieurope-provencal-new-year-s-eve-in-the-rhone-valley-port-to-port-cruise",
-    "price": 1569,
+    "price": 1539,
     "destination": "Rhone, Saone",
     "country": "France",
     "duration_nights": 4,
@@ -9416,7 +8700,7 @@
         "refurbished": "2016"
       },
       "firstSailingDate": "2026-11-25",
-      "sailingCount": 30
+      "sailingCount": 28
     },
     "ships": [
       {
@@ -9445,7 +8729,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2026-11-25",
-        "sailingCount": 30
+        "sailingCount": 28
       }
     ],
     "departure_port": "Seville",
@@ -9474,8 +8758,8 @@
       {
         "date": "2026-12-16",
         "returnDate": "2026-12-21",
-        "pricePp": 959,
-        "cabinPricePp": 783.75
+        "pricePp": 989,
+        "cabinPricePp": 811.3
       }
     ]
   },
@@ -9569,7 +8853,7 @@
         "refurbished": "2016"
       },
       "firstSailingDate": "2027-03-04",
-      "sailingCount": 14
+      "sailingCount": 24
     },
     "ships": [
       {
@@ -9598,7 +8882,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2027-03-04",
-        "sailingCount": 14
+        "sailingCount": 24
       }
     ],
     "departure_port": "Seville",
@@ -9617,6 +8901,12 @@
         "returnDate": "2027-07-08",
         "pricePp": 2029,
         "cabinPricePp": 1894.3
+      },
+      {
+        "date": "2027-08-05",
+        "returnDate": "2027-08-12",
+        "pricePp": 2029,
+        "cabinPricePp": 1894.3
       }
     ]
   },
@@ -9624,7 +8914,7 @@
     "id": 10141,
     "title": "Unforgettable Cruise through Andalusia for an Exceptional Celestial Spectacle (port-to-port cruise)",
     "slug": "croisieurope-unforgettable-cruise-through-andalusia-for-an-exceptional-celestial-spectacle-port-to-port-cruise",
-    "price": 2529,
+    "price": 2559,
     "destination": "Guadalquivir, Guadiana",
     "country": "Spain",
     "duration_nights": 7,
@@ -9845,7 +9135,7 @@
         "refurbished": "2016"
       },
       "firstSailingDate": "2027-03-04",
-      "sailingCount": 76
+      "sailingCount": 87
     },
     "ships": [
       {
@@ -9874,7 +9164,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2027-03-04",
-        "sailingCount": 76
+        "sailingCount": 87
       }
     ],
     "departure_port": "Seville",
@@ -9891,8 +9181,8 @@
       {
         "date": "2027-03-11",
         "returnDate": "2027-03-17",
-        "pricePp": 1819,
-        "cabinPricePp": 1615
+        "pricePp": 1689,
+        "cabinPricePp": 1488.65
       },
       {
         "date": "2027-03-18",
@@ -9953,6 +9243,12 @@
         "returnDate": "2027-08-04",
         "pricePp": 2099,
         "cabinPricePp": 1899.05
+      },
+      {
+        "date": "2027-08-05",
+        "returnDate": "2027-08-11",
+        "pricePp": 1689,
+        "cabinPricePp": 1488.65
       }
     ]
   },
@@ -10101,7 +9397,7 @@
     "id": 10150,
     "title": "Amazing Andalusia: Enchanting Villages, Traditional Architecture, and Fabulous Cuisine (port-to-port cruise)",
     "slug": "croisieurope-amazing-andalusia-enchanting-villages-traditional-architecture-and-fabulous-cuisine-port-to-port-cruise",
-    "price": 1129,
+    "price": 1169,
     "destination": "Guadalquivir, Guadiana",
     "country": "Spain",
     "duration_nights": 5,
@@ -10334,7 +9630,7 @@
         "refurbished": "2016"
       },
       "firstSailingDate": "2027-04-29",
-      "sailingCount": 63
+      "sailingCount": 66
     },
     "ships": [
       {
@@ -10363,7 +9659,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2027-04-29",
-        "sailingCount": 63
+        "sailingCount": 66
       }
     ],
     "departure_port": "Seville",
@@ -10485,7 +9781,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-11-29",
-      "sailingCount": 17
+      "sailingCount": 12
     },
     "ships": [
       {
@@ -10512,7 +9808,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-11-29",
-        "sailingCount": 17
+        "sailingCount": 12
       },
       {
         "shipId": 21,
@@ -10558,8 +9854,8 @@
       {
         "date": "2026-12-03",
         "returnDate": "2026-12-06",
-        "pricePp": 1139,
-        "cabinPricePp": 901.55
+        "pricePp": 1169,
+        "cabinPricePp": 928.15
       },
       {
         "date": "2026-12-07",
@@ -10597,7 +9893,7 @@
     "id": 10155,
     "title": "New Year on The Danube: Vienna, Budapest and Bratislava (port-to-port cruise)",
     "slug": "croisieurope-new-year-on-the-danube-vienna-budapest-and-bratislava-port-to-port-cruise",
-    "price": 1899,
+    "price": 1889,
     "destination": "Danube",
     "country": "Austria",
     "duration_nights": 5,
@@ -10828,7 +10124,7 @@
         "refurbished": "2010"
       },
       "firstSailingDate": "2027-03-28",
-      "sailingCount": 5
+      "sailingCount": 6
     },
     "ships": [
       {
@@ -10853,7 +10149,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2027-03-28",
-        "sailingCount": 5
+        "sailingCount": 6
       },
       {
         "shipId": 20,
@@ -10934,7 +10230,7 @@
     "id": 10170,
     "title": "Capital Cities Along the Danube (port-to-port cruise)",
     "slug": "croisieurope-capital-cities-along-the-danube-port-to-port-cruise",
-    "price": 799,
+    "price": 849,
     "destination": "Danube",
     "country": "Austria",
     "duration_nights": 4,
@@ -11000,7 +10296,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-11-01",
-      "sailingCount": 108
+      "sailingCount": 99
     },
     "ships": [
       {
@@ -11027,7 +10323,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-11-01",
-        "sailingCount": 108
+        "sailingCount": 99
       },
       {
         "shipId": 21,
@@ -11050,7 +10346,7 @@
           "refurbished": "2017"
         },
         "firstSailingDate": "2026-10-27",
-        "sailingCount": 31
+        "sailingCount": 29
       }
     ],
     "departure_port": "Vienna",
@@ -11079,8 +10375,8 @@
       {
         "date": "2026-11-05",
         "returnDate": "2026-11-08",
-        "pricePp": 899,
-        "cabinPricePp": 635.55
+        "pricePp": 989,
+        "cabinPricePp": 724.85
       },
       {
         "date": "2026-11-08",
@@ -11109,8 +10405,8 @@
       {
         "date": "2026-11-17",
         "returnDate": "2026-11-20",
-        "pricePp": 899,
-        "cabinPricePp": 635.55
+        "pricePp": 1029,
+        "cabinPricePp": 769.5
       },
       {
         "date": "2026-11-20",
@@ -11121,8 +10417,8 @@
       {
         "date": "2026-11-21",
         "returnDate": "2026-11-24",
-        "pricePp": 969,
-        "cabinPricePp": 703
+        "pricePp": 989,
+        "cabinPricePp": 724.85
       },
       {
         "date": "2027-03-13",
@@ -11151,8 +10447,8 @@
       {
         "date": "2027-04-06",
         "returnDate": "2027-04-09",
-        "pricePp": 1359,
-        "cabinPricePp": 1100.1
+        "pricePp": 1419,
+        "cabinPricePp": 1153.3
       },
       {
         "date": "2027-04-10",
@@ -11446,7 +10742,7 @@
     "id": 10175,
     "title": "From the Heart of Alsace to Summits in the Swiss Alps (port-to-port cruise)",
     "slug": "croisieurope-from-the-heart-of-alsace-to-summits-in-the-swiss-alps-port-to-port-cruise",
-    "price": 1719,
+    "price": 1729,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 4,
@@ -11557,7 +10853,7 @@
     "id": 10176,
     "title": "Christmas on the romantic Rhine (port-to-port cruise)",
     "slug": "croisieurope-christmas-on-the-romantic-rhine-port-to-port-cruise",
-    "price": 1039,
+    "price": 889,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 3,
@@ -11613,7 +10909,7 @@
         "refurbished": "2007"
       },
       "firstSailingDate": "2026-12-23",
-      "sailingCount": 9
+      "sailingCount": 8
     },
     "ships": [
       {
@@ -11636,7 +10932,7 @@
           "refurbished": "2007"
         },
         "firstSailingDate": "2026-12-23",
-        "sailingCount": 9
+        "sailingCount": 8
       },
       {
         "shipId": 15,
@@ -11693,8 +10989,8 @@
       {
         "date": "2026-12-23",
         "returnDate": "2026-12-25",
-        "pricePp": 1019,
-        "cabinPricePp": 771.4
+        "pricePp": 859,
+        "cabinPricePp": 617.5
       }
     ]
   },
@@ -11702,7 +10998,7 @@
     "id": 10178,
     "title": "New Year on the Wild Rhine (port-to-port cruise)",
     "slug": "croisieurope-new-year-on-the-wild-rhine-port-to-port-cruise",
-    "price": 789,
+    "price": 769,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 2,
@@ -11819,7 +11115,7 @@
     "id": 10182,
     "title": "The Rhine and Moselle Rivers (port-to-port cruise)",
     "slug": "croisieurope-the-rhine-and-moselle-rivers-port-to-port-cruise",
-    "price": 1239,
+    "price": 1259,
     "destination": "Rhine, Moselle",
     "country": "Germany",
     "duration_nights": 4,
@@ -12281,7 +11577,7 @@
           "refurbished": "2019"
         },
         "firstSailingDate": "2027-05-15",
-        "sailingCount": 3
+        "sailingCount": 8
       }
     ],
     "departure_port": "Spandau/Berlin",
@@ -12300,6 +11596,12 @@
         "returnDate": "2027-06-16",
         "pricePp": 2079,
         "cabinPricePp": 1885.75
+      },
+      {
+        "date": "2027-08-01",
+        "returnDate": "2027-08-07",
+        "pricePp": 2079,
+        "cabinPricePp": 1885.75
       }
     ]
   },
@@ -12307,7 +11609,7 @@
     "id": 10185,
     "title": "A Bountiful Christmas in Alsace and the Black Forest (port-to-port cruise)",
     "slug": "croisieurope-a-bountiful-christmas-in-alsace-and-the-black-forest-port-to-port-cruise",
-    "price": 869,
+    "price": 789,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 3,
@@ -12364,7 +11666,7 @@
         "refurbished": "2019"
       },
       "firstSailingDate": "2026-12-13",
-      "sailingCount": 6
+      "sailingCount": 3
     },
     "ships": [
       {
@@ -12388,7 +11690,31 @@
           "refurbished": "2019"
         },
         "firstSailingDate": "2026-12-13",
-        "sailingCount": 6
+        "sailingCount": 3
+      },
+      {
+        "shipId": 18,
+        "name": "MS L'Europe",
+        "description": "Named after the “Old Continent” and symbol of unity, the MS Europe is an elegant standard ship that sails on the Rhine and the Danube, meeting the many wonders offered by these two romantic rivers.",
+        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/39/5cdb51c5-c123-4ff2-a4da-6fb55c40223b/MS Europe Exterior Rhine Danube ©CroisiEurope cropped.jpg",
+        "class": "4 Anchors Class",
+        "cabin_images": [
+          "https://assets.widgety.co.uk/2024/08/08/08/51/58/ae2f8396-2b53-45e1-bd1d-8a27b3916ad5/CroisiEurope MS Europe French Balcony Cabin ©Corinne Cotard 0.jpg",
+          "https://assets.widgety.co.uk/2024/08/08/08/51/58/48258bd1-0ddb-4fa3-aca3-dedac3b90b5b/CroisiEurope MS Europe Double Cabin ©Corinne Cotard 1.jpg",
+          "https://assets.widgety.co.uk/2024/08/08/08/51/58/0fdac9cb-3e36-4e04-98ea-317d0e389aad/CroisiEurope MS Europe Double Cabin ©Corinne Cotard 3.jpg",
+          "https://assets.widgety.co.uk/2024/08/08/08/51/58/daaf96dc-a3a3-4403-8249-fc378aef0ee8/CroisiEurope MS Europe Double Cabin ©Corinne Cotard 5.jpg",
+          "https://assets.widgety.co.uk/2024/08/08/08/51/58/abcc4dc1-6b5c-43d4-adbe-7bb3dadb7d6f/CroisiEurope MS Europe Double Cabin ©Corinne Cotard 0.jpg",
+          "https://assets.widgety.co.uk/2024/08/08/08/51/58/36b71194-7ad5-47c2-8363-523605ab7572/CroisiEurope MS Europe Double Cabin ©Corinne Cotard 4.jpg"
+        ],
+        "facts": {
+          "capacity": 180,
+          "cabins": 90,
+          "decks": 4,
+          "built": "2006",
+          "refurbished": "2016"
+        },
+        "firstSailingDate": "2026-11-30",
+        "sailingCount": 31
       },
       {
         "shipId": 22,
@@ -12413,30 +11739,6 @@
         },
         "firstSailingDate": "2026-12-17",
         "sailingCount": 5
-      },
-      {
-        "shipId": 18,
-        "name": "MS L'Europe",
-        "description": "Named after the “Old Continent” and symbol of unity, the MS Europe is an elegant standard ship that sails on the Rhine and the Danube, meeting the many wonders offered by these two romantic rivers.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/39/5cdb51c5-c123-4ff2-a4da-6fb55c40223b/MS Europe Exterior Rhine Danube ©CroisiEurope cropped.jpg",
-        "class": "4 Anchors Class",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/08/08/08/51/58/ae2f8396-2b53-45e1-bd1d-8a27b3916ad5/CroisiEurope MS Europe French Balcony Cabin ©Corinne Cotard 0.jpg",
-          "https://assets.widgety.co.uk/2024/08/08/08/51/58/48258bd1-0ddb-4fa3-aca3-dedac3b90b5b/CroisiEurope MS Europe Double Cabin ©Corinne Cotard 1.jpg",
-          "https://assets.widgety.co.uk/2024/08/08/08/51/58/0fdac9cb-3e36-4e04-98ea-317d0e389aad/CroisiEurope MS Europe Double Cabin ©Corinne Cotard 3.jpg",
-          "https://assets.widgety.co.uk/2024/08/08/08/51/58/daaf96dc-a3a3-4403-8249-fc378aef0ee8/CroisiEurope MS Europe Double Cabin ©Corinne Cotard 5.jpg",
-          "https://assets.widgety.co.uk/2024/08/08/08/51/58/abcc4dc1-6b5c-43d4-adbe-7bb3dadb7d6f/CroisiEurope MS Europe Double Cabin ©Corinne Cotard 0.jpg",
-          "https://assets.widgety.co.uk/2024/08/08/08/51/58/36b71194-7ad5-47c2-8363-523605ab7572/CroisiEurope MS Europe Double Cabin ©Corinne Cotard 4.jpg"
-        ],
-        "facts": {
-          "capacity": 180,
-          "cabins": 90,
-          "decks": 4,
-          "built": "2006",
-          "refurbished": "2016"
-        },
-        "firstSailingDate": "2026-11-30",
-        "sailingCount": 36
       }
     ],
     "departure_port": "Strasbourg",
@@ -12447,8 +11749,8 @@
       {
         "date": "2026-11-30",
         "returnDate": "2026-12-02",
-        "pricePp": 859,
-        "cabinPricePp": 622.25
+        "pricePp": 849,
+        "cabinPricePp": 605.15
       },
       {
         "date": "2026-12-03",
@@ -12459,32 +11761,32 @@
       {
         "date": "2026-12-06",
         "returnDate": "2026-12-08",
-        "pricePp": 929,
-        "cabinPricePp": 689.7
-      },
-      {
-        "date": "2026-12-09",
-        "returnDate": "2026-12-11",
-        "pricePp": 929,
-        "cabinPricePp": 689.7
-      },
-      {
-        "date": "2026-12-12",
-        "returnDate": "2026-12-14",
         "pricePp": 949,
         "cabinPricePp": 707.75
       },
       {
+        "date": "2026-12-09",
+        "returnDate": "2026-12-11",
+        "pricePp": 819,
+        "cabinPricePp": 569.05
+      },
+      {
+        "date": "2026-12-12",
+        "returnDate": "2026-12-14",
+        "pricePp": 829,
+        "cabinPricePp": 587.1
+      },
+      {
         "date": "2026-12-13",
         "returnDate": "2026-12-15",
-        "pricePp": 849,
-        "cabinPricePp": 604.2
+        "pricePp": 769,
+        "cabinPricePp": 533.9
       },
       {
         "date": "2026-12-15",
         "returnDate": "2026-12-17",
-        "pricePp": 859,
-        "cabinPricePp": 622.25
+        "pricePp": 769,
+        "cabinPricePp": 533.9
       },
       {
         "date": "2026-12-17",
@@ -12498,7 +11800,7 @@
     "id": 10186,
     "title": "Alsace: land of tradition and gastronomy (port-to-port cruise)",
     "slug": "croisieurope-alsace-land-of-tradition-and-gastronomy-port-to-port-cruise",
-    "price": 739,
+    "price": 759,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 4,
@@ -12539,33 +11841,56 @@
       }
     ],
     "operator_name": "CroisiEurope",
-    "ship_name": "MS Modigliani",
+    "ship_name": "MS France",
     "ship": {
-      "shipId": 20,
-      "name": "MS Modigliani",
-      "description": "Named in honor of the famous Italian painter, known in particular for his portraits, the MS Modigliani sails on the Rhine and the Danube. It takes cruise passengers to discover the many wonders offered by these two romantic rivers.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/50/055ae7b0-cc38-4e22-8440-e5d2305bbc54/MS Modigliani Exterior CroisiEurope ©Helwin Goetzinger.jpg",
+      "shipId": 15,
+      "name": "MS France",
+      "description": "Partially renovated in 2016, the ship takes on a sparkling and vintage look with its anise and chocolate colors. The houndstooth-type patterns recall the elegant outfits of ladies from the sixties. The cabins display retro photographs representing Parisian monuments.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/00/35c0bcd5-379c-4fb6-9a1a-8b141ebabd7f/CroisiEurope MS France Exterior ©Paul Hilbert.jpg",
       "class": "4 Anchors",
       "cabin_images": [
-        "https://assets.widgety.co.uk/2024/08/15/09/41/21/6990b325-eb43-46b2-b546-f45a3f6cdea2/CroisiEurope MS Modigliani Double Cabin ©Corinne Cotard 2.jpg",
-        "https://assets.widgety.co.uk/2024/08/15/09/41/21/b3f3fd7a-0950-40d3-9291-893ef8de5347/CroisiEurope MS Modigliani Double Cabin ©Corinne Cotard 1.jpg",
-        "https://assets.widgety.co.uk/2024/08/15/09/41/21/4beef37b-ad4c-46de-8f43-5d3bdd21ad72/CroisiEurope MS Modigliani Accessible Cabin ©Corinne Cotard 0.jpg",
-        "https://assets.widgety.co.uk/2024/08/15/09/41/19/2bb537aa-f870-40aa-9b4b-298a3b75c573/CroisiEurope MS Modigliani Suite ©Corinne Cotard 1.jpg",
-        "https://assets.widgety.co.uk/2024/08/15/09/41/20/f687419e-d056-4b8e-aaf6-f581a6cb8398/CroisiEurope MS Modigliani Single Cabin ©Corinne Cotard 1.jpg",
-        "https://assets.widgety.co.uk/2024/08/15/09/41/21/29b89581-3f2b-4e4c-9227-57e16a16866d/CroisiEurope MS Modigliani Double Cabin ©Corinne Cotard 0.jpg",
-        "https://assets.widgety.co.uk/2024/08/15/09/41/19/b5ebd6d9-614c-43e7-bbe0-cc7ffc18f8fe/CroisiEurope MS Modigliani Triple Cabin ©Corinne Cotard 0.jpg"
+        "https://assets.widgety.co.uk/2024/08/09/16/49/26/29617b63-ec6e-4c67-af91-87f947842dc2/CroisiErurope MS France - Double Cabin 2, © Corinne Cotard.jpg",
+        "https://assets.widgety.co.uk/2024/08/09/16/49/26/0a3bce50-4190-4949-92c7-014a7ed4c44c/CroisiErurope MS France - Double Cabin 4, © Corinne Cotard.jpg",
+        "https://assets.widgety.co.uk/2024/08/09/16/49/26/dcb35c04-4012-4e8a-835d-3f664c41ad6c/CroisiErurope MS France - Double Cabin 3, © Corinne Cotard.jpg",
+        "https://assets.widgety.co.uk/2019/08/29/17/02/59/52968606-d615-4994-9952-44ccb755a5ca/CroisiEurope MS France Suite.jpg",
+        "https://assets.widgety.co.uk/2024/08/09/16/49/25/3bc4f391-011d-492f-b42d-28de83af28e2/CroisiErurope MS France - Double Cabin 1, © Corinne Cotard.jpg",
+        "https://assets.widgety.co.uk/2024/08/09/16/49/26/608c5000-9f9d-40eb-8008-dfd086179f31/CroisiErurope MS France - Single Cabin 1, © Corinne Cotard.jpg"
       ],
       "facts": {
         "capacity": 159,
         "cabins": 78,
         "decks": 3,
         "built": "2001",
-        "refurbished": "2011"
+        "refurbished": "2016"
       },
-      "firstSailingDate": "2026-10-24",
-      "sailingCount": 10
+      "firstSailingDate": "2026-10-19",
+      "sailingCount": 9
     },
     "ships": [
+      {
+        "shipId": 15,
+        "name": "MS France",
+        "description": "Partially renovated in 2016, the ship takes on a sparkling and vintage look with its anise and chocolate colors. The houndstooth-type patterns recall the elegant outfits of ladies from the sixties. The cabins display retro photographs representing Parisian monuments.",
+        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/00/35c0bcd5-379c-4fb6-9a1a-8b141ebabd7f/CroisiEurope MS France Exterior ©Paul Hilbert.jpg",
+        "class": "4 Anchors",
+        "cabin_images": [
+          "https://assets.widgety.co.uk/2024/08/09/16/49/26/29617b63-ec6e-4c67-af91-87f947842dc2/CroisiErurope MS France - Double Cabin 2, © Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2024/08/09/16/49/26/0a3bce50-4190-4949-92c7-014a7ed4c44c/CroisiErurope MS France - Double Cabin 4, © Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2024/08/09/16/49/26/dcb35c04-4012-4e8a-835d-3f664c41ad6c/CroisiErurope MS France - Double Cabin 3, © Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2019/08/29/17/02/59/52968606-d615-4994-9952-44ccb755a5ca/CroisiEurope MS France Suite.jpg",
+          "https://assets.widgety.co.uk/2024/08/09/16/49/25/3bc4f391-011d-492f-b42d-28de83af28e2/CroisiErurope MS France - Double Cabin 1, © Corinne Cotard.jpg",
+          "https://assets.widgety.co.uk/2024/08/09/16/49/26/608c5000-9f9d-40eb-8008-dfd086179f31/CroisiErurope MS France - Single Cabin 1, © Corinne Cotard.jpg"
+        ],
+        "facts": {
+          "capacity": 159,
+          "cabins": 78,
+          "decks": 3,
+          "built": "2001",
+          "refurbished": "2016"
+        },
+        "firstSailingDate": "2026-10-19",
+        "sailingCount": 9
+      },
       {
         "shipId": 20,
         "name": "MS Modigliani",
@@ -12613,31 +11938,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-10-23",
-        "sailingCount": 6
-      },
-      {
-        "shipId": 15,
-        "name": "MS France",
-        "description": "Partially renovated in 2016, the ship takes on a sparkling and vintage look with its anise and chocolate colors. The houndstooth-type patterns recall the elegant outfits of ladies from the sixties. The cabins display retro photographs representing Parisian monuments.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/00/35c0bcd5-379c-4fb6-9a1a-8b141ebabd7f/CroisiEurope MS France Exterior ©Paul Hilbert.jpg",
-        "class": "4 Anchors",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/08/09/16/49/26/29617b63-ec6e-4c67-af91-87f947842dc2/CroisiErurope MS France - Double Cabin 2, © Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2024/08/09/16/49/26/0a3bce50-4190-4949-92c7-014a7ed4c44c/CroisiErurope MS France - Double Cabin 4, © Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2024/08/09/16/49/26/dcb35c04-4012-4e8a-835d-3f664c41ad6c/CroisiErurope MS France - Double Cabin 3, © Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2019/08/29/17/02/59/52968606-d615-4994-9952-44ccb755a5ca/CroisiEurope MS France Suite.jpg",
-          "https://assets.widgety.co.uk/2024/08/09/16/49/25/3bc4f391-011d-492f-b42d-28de83af28e2/CroisiErurope MS France - Double Cabin 1, © Corinne Cotard.jpg",
-          "https://assets.widgety.co.uk/2024/08/09/16/49/26/608c5000-9f9d-40eb-8008-dfd086179f31/CroisiErurope MS France - Single Cabin 1, © Corinne Cotard.jpg"
-        ],
-        "facts": {
-          "capacity": 159,
-          "cabins": 78,
-          "decks": 3,
-          "built": "2001",
-          "refurbished": "2016"
-        },
-        "firstSailingDate": "2026-10-19",
-        "sailingCount": 9
+        "sailingCount": 3
       },
       {
         "shipId": 17,
@@ -12698,14 +11999,14 @@
       {
         "date": "2026-10-19",
         "returnDate": "2026-10-22",
-        "pricePp": 919,
-        "cabinPricePp": 676.4
+        "pricePp": 859,
+        "cabinPricePp": 622.25
       },
       {
         "date": "2026-10-23",
         "returnDate": "2026-10-26",
-        "pricePp": 759,
-        "cabinPricePp": 515.85
+        "pricePp": 789,
+        "cabinPricePp": 551.95
       },
       {
         "date": "2026-10-24",
@@ -12722,8 +12023,8 @@
       {
         "date": "2026-10-27",
         "returnDate": "2026-10-30",
-        "pricePp": 789,
-        "cabinPricePp": 551.95
+        "pricePp": 739,
+        "cabinPricePp": 497.8
       },
       {
         "date": "2026-10-28",
@@ -12854,7 +12155,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-11-13",
-        "sailingCount": 11
+        "sailingCount": 9
       },
       {
         "shipId": 19,
@@ -13103,7 +12404,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-11-21",
-        "sailingCount": 7
+        "sailingCount": 6
       },
       {
         "shipId": 24,
@@ -13126,7 +12427,7 @@
           "refurbished": "2019"
         },
         "firstSailingDate": "2026-11-12",
-        "sailingCount": 6
+        "sailingCount": 7
       },
       {
         "shipId": 15,
@@ -13150,7 +12451,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2026-11-04",
-        "sailingCount": 10
+        "sailingCount": 13
       },
       {
         "shipId": 17,
@@ -13175,7 +12476,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-10-26",
-        "sailingCount": 7
+        "sailingCount": 4
       }
     ],
     "departure_port": "Strasbourg",
@@ -13186,8 +12487,8 @@
       {
         "date": "2026-10-26",
         "returnDate": "2026-10-30",
-        "pricePp": 1319,
-        "cabinPricePp": 1083
+        "pricePp": 1389,
+        "cabinPricePp": 1145.7
       },
       {
         "date": "2026-11-04",
@@ -13574,7 +12875,7 @@
         "refurbished": "2019"
       },
       "firstSailingDate": "2026-09-15",
-      "sailingCount": 6
+      "sailingCount": 5
     },
     "ships": [
       {
@@ -13598,7 +12899,7 @@
           "refurbished": "2019"
         },
         "firstSailingDate": "2026-09-15",
-        "sailingCount": 6
+        "sailingCount": 5
       }
     ],
     "departure_port": "Spandau/Berlin",
@@ -13624,7 +12925,7 @@
     "id": 10196,
     "title": "The Magic of Christmas: Savory delights and holiday traditions on a Rhine River cruise (port-to-port cruise)",
     "slug": "croisieurope-the-magic-of-christmas-savory-delights-and-holiday-traditions-on-a-rhine-river-cruise-port-to-port-cruise",
-    "price": 1119,
+    "price": 949,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 4,
@@ -13736,7 +13037,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-12-01",
-        "sailingCount": 21
+        "sailingCount": 20
       }
     ],
     "departure_port": "Strasbourg",
@@ -13747,32 +13048,32 @@
       {
         "date": "2026-12-01",
         "returnDate": "2026-12-04",
-        "pricePp": 1119,
-        "cabinPricePp": 874.95
+        "pricePp": 949,
+        "cabinPricePp": 705.85
       },
       {
         "date": "2026-12-07",
         "returnDate": "2026-12-10",
-        "pricePp": 1159,
-        "cabinPricePp": 919.6
+        "pricePp": 989,
+        "cabinPricePp": 750.5
       },
       {
         "date": "2026-12-09",
         "returnDate": "2026-12-12",
-        "pricePp": 1159,
-        "cabinPricePp": 919.6
+        "pricePp": 989,
+        "cabinPricePp": 750.5
       },
       {
         "date": "2026-12-13",
         "returnDate": "2026-12-16",
-        "pricePp": 1159,
-        "cabinPricePp": 919.6
+        "pricePp": 989,
+        "cabinPricePp": 750.5
       },
       {
         "date": "2026-12-16",
         "returnDate": "2026-12-19",
-        "pricePp": 1089,
-        "cabinPricePp": 847.4
+        "pricePp": 919,
+        "cabinPricePp": 678.3
       }
     ]
   },
@@ -13882,7 +13183,7 @@
           "refurbished": "2019"
         },
         "firstSailingDate": "2026-10-25",
-        "sailingCount": 15
+        "sailingCount": 16
       }
     ],
     "departure_port": "Strasbourg",
@@ -13932,7 +13233,7 @@
     "id": 10202,
     "title": "Christmas in the Bordeaux region (port-to-port cruise)",
     "slug": "croisieurope-christmas-in-the-bordeaux-region-port-to-port-cruise",
-    "price": 1339,
+    "price": 1139,
     "destination": "Dordogne, Garonne",
     "country": "France",
     "duration_nights": 4,
@@ -14034,8 +13335,8 @@
       {
         "date": "2026-12-23",
         "returnDate": "2026-12-26",
-        "pricePp": 1419,
-        "cabinPricePp": 1006.05
+        "pricePp": 1219,
+        "cabinPricePp": 804.65
       }
     ]
   },
@@ -14043,7 +13344,7 @@
     "id": 10204,
     "title": "In the Heart of Basque Terroirs: From Bordeaux to the Vineyards of Médoc (port-to-port cruise)",
     "slug": "croisieurope-in-the-heart-of-basque-terroirs-from-bordeaux-to-the-vineyards-of-medoc-port-to-port-cruise",
-    "price": 649,
+    "price": 639,
     "destination": "Dordogne, Garonne",
     "country": "France",
     "duration_nights": 4,
@@ -14154,7 +13455,7 @@
     "id": 10206,
     "title": "New Year in the Bordeaux region (port-to-port cruise)",
     "slug": "croisieurope-new-year-in-the-bordeaux-region-port-to-port-cruise",
-    "price": 1559,
+    "price": 1439,
     "destination": "Dordogne, Garonne",
     "country": "France",
     "duration_nights": 4,
@@ -14219,7 +13520,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-12-28",
-      "sailingCount": 1
+      "sailingCount": 3
     },
     "ships": [
       {
@@ -14245,7 +13546,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-12-28",
-        "sailingCount": 1
+        "sailingCount": 3
       }
     ],
     "departure_port": "Bordeaux",
@@ -14256,8 +13557,8 @@
       {
         "date": "2026-12-28",
         "returnDate": "2026-12-31",
-        "pricePp": 1619,
-        "cabinPricePp": 1308.15
+        "pricePp": 1519,
+        "cabinPricePp": 1208.4
       }
     ]
   },
@@ -14265,7 +13566,7 @@
     "id": 10209,
     "title": "A cruise in Aquitaine : the great wines of Southern France (port-to-port cruise)",
     "slug": "croisieurope-a-cruise-in-aquitaine-the-great-wines-of-southern-france-port-to-port-cruise",
-    "price": 959,
+    "price": 989,
     "destination": "Garonne",
     "country": "France",
     "duration_nights": 5,
@@ -14336,7 +13637,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-09-14",
-      "sailingCount": 65
+      "sailingCount": 77
     },
     "ships": [
       {
@@ -14362,7 +13663,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-14",
-        "sailingCount": 65
+        "sailingCount": 77
       }
     ],
     "departure_port": "Bordeaux",
@@ -14429,6 +13730,12 @@
         "returnDate": "2027-07-20",
         "pricePp": 1319,
         "cabinPricePp": 1199.85
+      },
+      {
+        "date": "2027-08-02",
+        "returnDate": "2027-08-06",
+        "pricePp": 1279,
+        "cabinPricePp": 1163.75
       }
     ]
   },
@@ -14513,7 +13820,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-10-06",
-      "sailingCount": 87
+      "sailingCount": 84
     },
     "ships": [
       {
@@ -14539,7 +13846,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-10-06",
-        "sailingCount": 87
+        "sailingCount": 84
       }
     ],
     "departure_port": "Bordeaux",
@@ -14784,7 +14091,7 @@
     "id": 10213,
     "title": "Advent Lights and Winter Charm: Set Course for Venice and its Lagoon (port-to-port cruise)",
     "slug": "croisieurope-advent-lights-and-winter-charm-set-course-for-venice-and-its-lagoon-port-to-port-cruise",
-    "price": 1039,
+    "price": 859,
     "destination": "Po",
     "country": "Italy",
     "duration_nights": 4,
@@ -14880,14 +14187,14 @@
       {
         "date": "2026-12-11",
         "returnDate": "2026-12-15",
-        "pricePp": 1079,
-        "cabinPricePp": 937.65
+        "pricePp": 949,
+        "cabinPricePp": 807.5
       },
       {
         "date": "2026-12-15",
         "returnDate": "2026-12-19",
-        "pricePp": 1049,
-        "cabinPricePp": 901.55
+        "pricePp": 869,
+        "cabinPricePp": 721.05
       }
     ]
   },
@@ -14895,7 +14202,7 @@
     "id": 10214,
     "title": "Christmas in Venice (port-to-port cruise)",
     "slug": "croisieurope-christmas-in-venice-port-to-port-cruise",
-    "price": 1159,
+    "price": 1129,
     "destination": "Po",
     "country": "Italy",
     "duration_nights": 4,
@@ -15074,7 +14381,7 @@
         "refurbished": "2017"
       },
       "firstSailingDate": "2026-11-15",
-      "sailingCount": 9
+      "sailingCount": 8
     },
     "ships": [
       {
@@ -15097,7 +14404,7 @@
           "refurbished": "2017"
         },
         "firstSailingDate": "2026-11-15",
-        "sailingCount": 9
+        "sailingCount": 8
       }
     ],
     "departure_port": "Venice",
@@ -15123,7 +14430,7 @@
     "id": 10218,
     "title": "Venetian Treasures (port-to-port cruise)",
     "slug": "croisieurope-venetian-treasures-port-to-port-cruise",
-    "price": 649,
+    "price": 639,
     "destination": "Po",
     "country": "Italy",
     "duration_nights": 4,
@@ -15185,7 +14492,7 @@
         "refurbished": "2017"
       },
       "firstSailingDate": "2026-10-30",
-      "sailingCount": 84
+      "sailingCount": 78
     },
     "ships": [
       {
@@ -15208,7 +14515,7 @@
           "refurbished": "2017"
         },
         "firstSailingDate": "2026-10-30",
-        "sailingCount": 84
+        "sailingCount": 78
       }
     ],
     "departure_port": "Venice",
@@ -15330,7 +14637,7 @@
     "id": 10219,
     "title": "From the Canals of Venice to Renaissance-infused Mantua",
     "slug": "croisieurope-from-the-canals-of-venice-to-renaissance-infused-mantua",
-    "price": 1639,
+    "price": 1619,
     "destination": "Po",
     "country": "Italy",
     "duration_nights": 6,
@@ -15404,7 +14711,7 @@
         "refurbished": "2017"
       },
       "firstSailingDate": "2026-09-24",
-      "sailingCount": 40
+      "sailingCount": 39
     },
     "ships": [
       {
@@ -15427,7 +14734,7 @@
           "refurbished": "2017"
         },
         "firstSailingDate": "2026-09-24",
-        "sailingCount": 40
+        "sailingCount": 39
       }
     ],
     "departure_port": "Venice",
@@ -15483,7 +14790,7 @@
     "id": 10226,
     "title": "Venice at your pace (port-to-port package)",
     "slug": "croisieurope-venice-at-your-pace-port-to-port-package",
-    "price": 789,
+    "price": 819,
     "destination": "Po",
     "country": "Italy",
     "duration_nights": 5,
@@ -15551,7 +14858,7 @@
         "refurbished": "2017"
       },
       "firstSailingDate": "2026-09-19",
-      "sailingCount": 7
+      "sailingCount": 8
     },
     "ships": [
       {
@@ -15574,7 +14881,7 @@
           "refurbished": "2017"
         },
         "firstSailingDate": "2026-09-19",
-        "sailingCount": 7
+        "sailingCount": 8
       }
     ],
     "departure_port": "Venice",
@@ -15591,14 +14898,14 @@
       {
         "date": "2026-10-06",
         "returnDate": "2026-10-11",
-        "pricePp": 819,
-        "cabinPricePp": 677.35
+        "pricePp": 849,
+        "cabinPricePp": 712.5
       },
       {
         "date": "2026-10-11",
         "returnDate": "2026-10-16",
-        "pricePp": 849,
-        "cabinPricePp": 712.5
+        "pricePp": 789,
+        "cabinPricePp": 658.35
       }
     ]
   },
@@ -15606,7 +14913,7 @@
     "id": 10230,
     "title": "Timeless Venice (port-to-port package)",
     "slug": "croisieurope-timeless-venice-port-to-port-package",
-    "price": 849,
+    "price": 869,
     "destination": "Po",
     "country": "Italy",
     "duration_nights": 5,
@@ -15674,7 +14981,7 @@
         "refurbished": "2017"
       },
       "firstSailingDate": "2026-09-19",
-      "sailingCount": 53
+      "sailingCount": 60
     },
     "ships": [
       {
@@ -15697,7 +15004,7 @@
           "refurbished": "2017"
         },
         "firstSailingDate": "2026-09-19",
-        "sailingCount": 53
+        "sailingCount": 60
       }
     ],
     "departure_port": "Venice",
@@ -15714,14 +15021,14 @@
       {
         "date": "2026-10-06",
         "returnDate": "2026-10-11",
-        "pricePp": 879,
-        "cabinPricePp": 748.6
+        "pricePp": 929,
+        "cabinPricePp": 798.95
       },
       {
         "date": "2026-10-11",
         "returnDate": "2026-10-16",
-        "pricePp": 929,
-        "cabinPricePp": 798.95
+        "pricePp": 849,
+        "cabinPricePp": 721.05
       },
       {
         "date": "2027-05-07",
@@ -15770,6 +15077,12 @@
         "returnDate": "2027-08-03",
         "pricePp": 1099,
         "cabinPricePp": 965.2
+      },
+      {
+        "date": "2027-08-03",
+        "returnDate": "2027-08-08",
+        "pricePp": 1099,
+        "cabinPricePp": 965.2
       }
     ]
   },
@@ -15777,7 +15090,7 @@
     "id": 10233,
     "title": "The romantic Rhine Valley and the rock of the Lorelei (port-to-port cruise)",
     "slug": "croisieurope-the-romantic-rhine-valley-and-the-rock-of-the-lorelei-port-to-port-cruise",
-    "price": 1529,
+    "price": 1449,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 5,
@@ -15847,7 +15160,7 @@
         "refurbished": "2016"
       },
       "firstSailingDate": "2026-10-01",
-      "sailingCount": 6
+      "sailingCount": 7
     },
     "ships": [
       {
@@ -15872,7 +15185,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2026-10-01",
-        "sailingCount": 6
+        "sailingCount": 7
       }
     ],
     "departure_port": "Strasbourg",
@@ -15889,8 +15202,8 @@
       {
         "date": "2026-10-10",
         "returnDate": "2026-10-14",
-        "pricePp": 1499,
-        "cabinPricePp": 1259.7
+        "pricePp": 1419,
+        "cabinPricePp": 1163.75
       }
     ]
   },
@@ -15956,7 +15269,7 @@
         "refurbished": "2016"
       },
       "firstSailingDate": "2026-11-16",
-      "sailingCount": 10
+      "sailingCount": 9
     },
     "ships": [
       {
@@ -15981,7 +15294,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2026-11-16",
-        "sailingCount": 10
+        "sailingCount": 9
       },
       {
         "shipId": 20,
@@ -16006,7 +15319,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-11-09",
-        "sailingCount": 12
+        "sailingCount": 13
       }
     ],
     "departure_port": "Strasbourg",
@@ -16194,7 +15507,7 @@
     "id": 10240,
     "title": "New Year in the Romantic Rhine valley (port-to-port cruise)",
     "slug": "croisieurope-new-year-in-the-romantic-rhine-valley-port-to-port-cruise",
-    "price": 1689,
+    "price": 1719,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 4,
@@ -16416,7 +15729,7 @@
     "id": 10242,
     "title": "LOYALTY CRUISE - The Rhine in Celebration! (Port to Port)",
     "slug": "croisieurope-loyalty-cruise-the-rhine-in-celebration-port-to-port",
-    "price": 1419,
+    "price": 1389,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 4,
@@ -16481,7 +15794,7 @@
         "refurbished": "2010"
       },
       "firstSailingDate": "2026-10-26",
-      "sailingCount": 6
+      "sailingCount": 4
     },
     "ships": [
       {
@@ -16507,7 +15820,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-10-26",
-        "sailingCount": 6
+        "sailingCount": 4
       }
     ],
     "departure_port": "Strasbourg",
@@ -16527,7 +15840,7 @@
     "id": 10244,
     "title": "Along the river Danube, Budapestand  the Balkan peninsula (port-to-port cruise)",
     "slug": "croisieurope-along-the-river-danube-budapestand-the-balkan-peninsula-port-to-port-cruise",
-    "price": 2189,
+    "price": 2199,
     "destination": "Danube",
     "country": "Romania",
     "duration_nights": 8,
@@ -16688,7 +16001,7 @@
     "id": 10246,
     "title": "Rhineland and Dutch Christmas",
     "slug": "croisieurope-rhineland-and-dutch-christmas",
-    "price": 1379,
+    "price": 1359,
     "destination": "Dutch Waterways, Rhine",
     "country": "Netherlands",
     "duration_nights": 4,
@@ -16797,7 +16110,7 @@
     "id": 10247,
     "title": "Rhineland and Dutch Christmas (port-to-port cruise)",
     "slug": "croisieurope-rhineland-and-dutch-christmas-port-to-port-cruise",
-    "price": 1329,
+    "price": 1319,
     "destination": "Dutch Waterways, Rhine",
     "country": "Netherlands",
     "duration_nights": 4,
@@ -16906,7 +16219,7 @@
     "id": 10249,
     "title": "Along the Danube, the Balkan peninsula and Budapest (port-to-port cruise)",
     "slug": "croisieurope-along-the-danube-the-balkan-peninsula-and-budapest-port-to-port-cruise",
-    "price": 2119,
+    "price": 2129,
     "destination": "Danube",
     "country": "Romania",
     "duration_nights": 11,
@@ -17068,14 +16381,14 @@
       {
         "date": "2026-09-14",
         "returnDate": "2026-09-24",
-        "pricePp": 3149,
-        "cabinPricePp": 3013.4
+        "pricePp": 2939,
+        "cabinPricePp": 2805.35
       },
       {
         "date": "2026-09-17",
         "returnDate": "2026-09-24",
-        "pricePp": 2339,
-        "cabinPricePp": 2198.3
+        "pricePp": 2159,
+        "cabinPricePp": 2026.35
       },
       {
         "date": "2026-10-15",
@@ -17101,7 +16414,7 @@
     "id": 10260,
     "title": "Christmas in the Seine Valley (port-to-port cruise)",
     "slug": "croisieurope-christmas-in-the-seine-valley-port-to-port-cruise",
-    "price": 1259,
+    "price": 1049,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 4,
@@ -17223,8 +16536,8 @@
       {
         "date": "2026-12-23",
         "returnDate": "2026-12-26",
-        "pricePp": 1329,
-        "cabinPricePp": 1061.15
+        "pricePp": 1129,
+        "cabinPricePp": 865.45
       }
     ]
   },
@@ -17232,7 +16545,7 @@
     "id": 10262,
     "title": "Stunning Window Displays and Christmas Markets in Paris  (port-to-port cruise)",
     "slug": "croisieurope-stunning-window-displays-and-christmas-markets-in-paris-port-to-port-cruise",
-    "price": 729,
+    "price": 719,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 3,
@@ -17549,8 +16862,8 @@
       {
         "date": "2026-11-06",
         "returnDate": "2026-11-08",
-        "pricePp": 659,
-        "cabinPricePp": 492.1
+        "pricePp": 619,
+        "cabinPricePp": 450.3
       },
       {
         "date": "2026-11-09",
@@ -17687,8 +17000,8 @@
       {
         "date": "2027-03-09",
         "returnDate": "2027-03-11",
-        "pricePp": 659,
-        "cabinPricePp": 495.9
+        "pricePp": 779,
+        "cabinPricePp": 613.7
       },
       {
         "date": "2027-03-10",
@@ -17699,8 +17012,8 @@
       {
         "date": "2027-03-12",
         "returnDate": "2027-03-14",
-        "pricePp": 679,
-        "cabinPricePp": 510.15
+        "pricePp": 719,
+        "cabinPricePp": 537.7
       },
       {
         "date": "2027-03-13",
@@ -17744,7 +17057,7 @@
     "id": 10275,
     "title": "The Seine Valley (port-to-port cruise)",
     "slug": "croisieurope-the-seine-valley-port-to-port-cruise",
-    "price": 1669,
+    "price": 1639,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 7,
@@ -17824,7 +17137,7 @@
         "refurbished": "2010"
       },
       "firstSailingDate": "2026-10-13",
-      "sailingCount": 9
+      "sailingCount": 7
     },
     "ships": [
       {
@@ -17847,7 +17160,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-10-13",
-        "sailingCount": 9
+        "sailingCount": 7
       },
       {
         "shipId": 33,
@@ -17870,7 +17183,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2027-05-23",
-        "sailingCount": 5
+        "sailingCount": 7
       },
       {
         "shipId": 35,
@@ -17894,7 +17207,7 @@
           "refurbished": "2018"
         },
         "firstSailingDate": "2027-06-05",
-        "sailingCount": 2
+        "sailingCount": 4
       }
     ],
     "departure_port": "Paris",
@@ -17937,6 +17250,12 @@
         "returnDate": "2027-07-03",
         "pricePp": 1649,
         "cabinPricePp": 1497.2
+      },
+      {
+        "date": "2027-07-31",
+        "returnDate": "2027-08-06",
+        "pricePp": 1779,
+        "cabinPricePp": 1623.55
       }
     ]
   },
@@ -18019,7 +17338,7 @@
         "refurbished": "2016"
       },
       "firstSailingDate": "2027-04-08",
-      "sailingCount": 16
+      "sailingCount": 15
     },
     "ships": [
       {
@@ -18043,7 +17362,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2027-04-08",
-        "sailingCount": 16
+        "sailingCount": 15
       },
       {
         "shipId": 34,
@@ -18097,7 +17416,7 @@
     "id": 10279,
     "title": "Authentic Normandy: Charming Villages, Traditional Food, and Classic Sites (port-to-port cruise)",
     "slug": "croisieurope-authentic-normandy-charming-villages-traditional-food-and-classic-sites-port-to-port-cruise",
-    "price": 1519,
+    "price": 1479,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 6,
@@ -18172,7 +17491,7 @@
         "refurbished": "2016"
       },
       "firstSailingDate": "2026-10-15",
-      "sailingCount": 7
+      "sailingCount": 8
     },
     "ships": [
       {
@@ -18196,7 +17515,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2026-10-15",
-        "sailingCount": 7
+        "sailingCount": 8
       },
       {
         "shipId": 34,
@@ -18218,7 +17537,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-10-20",
-        "sailingCount": 12
+        "sailingCount": 11
       },
       {
         "shipId": 35,
@@ -18259,8 +17578,8 @@
       {
         "date": "2026-10-20",
         "returnDate": "2026-10-26",
-        "pricePp": 1569,
-        "cabinPricePp": 1411.7
+        "pricePp": 1639,
+        "cabinPricePp": 1475.35
       },
       {
         "date": "2027-05-01",
@@ -18304,7 +17623,7 @@
     "id": 10281,
     "title": "The Must-see Sights of the Seine Valley (port-to-port cruise)",
     "slug": "croisieurope-the-must-see-sights-of-the-seine-valley-port-to-port-cruise",
-    "price": 1039,
+    "price": 1019,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 4,
@@ -18412,7 +17731,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2026-10-11",
-        "sailingCount": 9
+        "sailingCount": 8
       },
       {
         "shipId": 35,
@@ -18587,52 +17906,31 @@
       }
     ],
     "operator_name": "CroisiEurope",
-    "ship_name": "MS Seine Princess",
+    "ship_name": "MS Botticelli",
     "ship": {
-      "shipId": 34,
-      "name": "MS Seine Princess",
-      "description": "The MS Seine Princess sails along a river with splendid and contrasting landscapes, which in particular inspired the greatest impressionist painters. History and art lovers, as well as those who love beautiful scenery, will be delighted by the cruises from Paris to Honfleur aboard the MS Seine Princess.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/10/b3436883-21d8-4da7-996c-8cede72ff95d/CroisiEurope, MS Seine Princess, France Seine Exterior, Copyrights - ©CroisiEurope2.JPG",
+      "shipId": 33,
+      "name": "MS Botticelli",
+      "description": "Named after the Italian painter Sandro Botticelli, one of the great masters of the Renaissance, this elegant standard ship sails on the Seine, a historic and authentic river with breathtaking landscapes.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/53/844e93e1-ecae-47ee-a668-c78573bdbbcb/CroisiEurope MS Botticelli ©Alexandre Sattler 5.jpg",
       "class": "4 Anchors",
       "cabin_images": [
-        "https://assets.widgety.co.uk/2024/08/20/16/21/07/86215525-99cb-401c-82a1-e8a5ae51dbab/CroisiEurope, MS Seine Princess, Upper Deck Suite, Copyrights - ©Denis Merck.jpg",
-        "https://assets.widgety.co.uk/2025/11/16/19/15/28/c7f89043-f01b-49b7-8289-033f5298aa63/CroisiEurope MS Seine Princess Upper Deck 2 Adjustable Twin Beds ©Robin Clouet.jpg",
-        "https://assets.widgety.co.uk/2024/08/20/16/21/07/14800d35-0a52-457d-8b24-8068c7fce162/CroisiEurope, MS Seine Princess, Main Deck Suite, Copyrights - ©Robin Clouet.jpg",
-        "https://assets.widgety.co.uk/2025/11/16/19/20/38/0efc1c0f-3181-49dc-bbbc-87803d7d2d8f/CroisiEurope MS Seine Princess Main Deck 2 Adjustable Twin Beds ©Robin Cloue.jpg"
+        "https://assets.widgety.co.uk/2025/11/12/13/19/36/6926efc1-debe-4f33-8cb4-3398045db7c7/CroisiEurope MS Botticelli Double Cabin ©Corine Cotard 2.jpg",
+        "https://assets.widgety.co.uk/2025/11/12/13/03/44/460fcfb5-71e9-441e-aa58-fa80cc856342/CroisiEurope MS Botticelli Accessible Cabin ©Corine Cotard 1.jpg",
+        "https://assets.widgety.co.uk/2025/11/12/13/03/45/c5eb65a4-b5ef-497f-b534-85c43a1c8de9/CroisiEurope MS Botticelli Suite ©Corine Cotard 2.jpg",
+        "https://assets.widgety.co.uk/2024/08/15/12/26/46/736d8b88-4541-4f46-96e2-43eb55b279bd/MS Botticelli, Main Deck Twin Beds, Copyrights - ©Denis Merck.jpg",
+        "https://assets.widgety.co.uk/2025/11/12/13/03/44/b227b127-61d0-4591-a33c-4853200b7d05/CroisiEurope MS Botticelli Double Cabin ©Corine Cotard 1.jpg"
       ],
       "facts": {
-        "capacity": 138,
-        "cabins": 67,
+        "capacity": 149,
+        "cabins": 75,
         "decks": 3,
-        "built": "2002",
-        "refurbished": "2010"
+        "built": "2004",
+        "refurbished": "2016"
       },
-      "firstSailingDate": "2026-10-02",
+      "firstSailingDate": "2026-10-21",
       "sailingCount": 12
     },
     "ships": [
-      {
-        "shipId": 34,
-        "name": "MS Seine Princess",
-        "description": "The MS Seine Princess sails along a river with splendid and contrasting landscapes, which in particular inspired the greatest impressionist painters. History and art lovers, as well as those who love beautiful scenery, will be delighted by the cruises from Paris to Honfleur aboard the MS Seine Princess.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/10/b3436883-21d8-4da7-996c-8cede72ff95d/CroisiEurope, MS Seine Princess, France Seine Exterior, Copyrights - ©CroisiEurope2.JPG",
-        "class": "4 Anchors",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/08/20/16/21/07/86215525-99cb-401c-82a1-e8a5ae51dbab/CroisiEurope, MS Seine Princess, Upper Deck Suite, Copyrights - ©Denis Merck.jpg",
-          "https://assets.widgety.co.uk/2025/11/16/19/15/28/c7f89043-f01b-49b7-8289-033f5298aa63/CroisiEurope MS Seine Princess Upper Deck 2 Adjustable Twin Beds ©Robin Clouet.jpg",
-          "https://assets.widgety.co.uk/2024/08/20/16/21/07/14800d35-0a52-457d-8b24-8068c7fce162/CroisiEurope, MS Seine Princess, Main Deck Suite, Copyrights - ©Robin Clouet.jpg",
-          "https://assets.widgety.co.uk/2025/11/16/19/20/38/0efc1c0f-3181-49dc-bbbc-87803d7d2d8f/CroisiEurope MS Seine Princess Main Deck 2 Adjustable Twin Beds ©Robin Cloue.jpg"
-        ],
-        "facts": {
-          "capacity": 138,
-          "cabins": 67,
-          "decks": 3,
-          "built": "2002",
-          "refurbished": "2010"
-        },
-        "firstSailingDate": "2026-10-02",
-        "sailingCount": 12
-      },
       {
         "shipId": 33,
         "name": "MS Botticelli",
@@ -18654,7 +17952,29 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2026-10-21",
-        "sailingCount": 9
+        "sailingCount": 12
+      },
+      {
+        "shipId": 34,
+        "name": "MS Seine Princess",
+        "description": "The MS Seine Princess sails along a river with splendid and contrasting landscapes, which in particular inspired the greatest impressionist painters. History and art lovers, as well as those who love beautiful scenery, will be delighted by the cruises from Paris to Honfleur aboard the MS Seine Princess.",
+        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/10/b3436883-21d8-4da7-996c-8cede72ff95d/CroisiEurope, MS Seine Princess, France Seine Exterior, Copyrights - ©CroisiEurope2.JPG",
+        "class": "4 Anchors",
+        "cabin_images": [
+          "https://assets.widgety.co.uk/2024/08/20/16/21/07/86215525-99cb-401c-82a1-e8a5ae51dbab/CroisiEurope, MS Seine Princess, Upper Deck Suite, Copyrights - ©Denis Merck.jpg",
+          "https://assets.widgety.co.uk/2025/11/16/19/15/28/c7f89043-f01b-49b7-8289-033f5298aa63/CroisiEurope MS Seine Princess Upper Deck 2 Adjustable Twin Beds ©Robin Clouet.jpg",
+          "https://assets.widgety.co.uk/2024/08/20/16/21/07/14800d35-0a52-457d-8b24-8068c7fce162/CroisiEurope, MS Seine Princess, Main Deck Suite, Copyrights - ©Robin Clouet.jpg",
+          "https://assets.widgety.co.uk/2025/11/16/19/20/38/0efc1c0f-3181-49dc-bbbc-87803d7d2d8f/CroisiEurope MS Seine Princess Main Deck 2 Adjustable Twin Beds ©Robin Cloue.jpg"
+        ],
+        "facts": {
+          "capacity": 138,
+          "cabins": 67,
+          "decks": 3,
+          "built": "2002",
+          "refurbished": "2010"
+        },
+        "firstSailingDate": "2026-10-02",
+        "sailingCount": 12
       },
       {
         "shipId": 35,
@@ -18695,8 +18015,8 @@
       {
         "date": "2026-10-21",
         "returnDate": "2026-10-25",
-        "pricePp": 1189,
-        "cabinPricePp": 1038.35
+        "pricePp": 1119,
+        "cabinPricePp": 956.65
       },
       {
         "date": "2026-10-26",
@@ -18737,8 +18057,8 @@
       {
         "date": "2027-07-26",
         "returnDate": "2027-07-30",
-        "pricePp": 1259,
-        "cabinPricePp": 1105.8
+        "pricePp": 1219,
+        "cabinPricePp": 1073.5
       }
     ]
   },
@@ -18746,7 +18066,7 @@
     "id": 10283,
     "title": "Discover Lisbon, Porto and the Douro Valley (port-to-port cruise)",
     "slug": "croisieurope-discover-lisbon-porto-and-the-douro-valley-port-to-port-cruise",
-    "price": 1589,
+    "price": 1619,
     "destination": "Douro",
     "country": "Portugal",
     "duration_nights": 7,
@@ -18943,54 +18263,31 @@
       }
     ],
     "operator_name": "CroisiEurope",
-    "ship_name": "MS Fernao de Magalhaes",
+    "ship_name": "MS Infante Don Henrique",
     "ship": {
-      "shipId": 37,
-      "name": "MS Fernao de Magalhaes",
-      "description": "Named after the famous Portuguese navigator (better known as Magellan) who completed the first journey round the world, the MS Fernão de Magalhães sails on the Douro. Passengers can admire the unique landscapes, sculpted by nature and shaped by man, all along an enchanted valley where the famous port wine is produced.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/39/c4956c0f-8e96-4a97-960e-ba9adec3501a/CroisiErurope MS Fernao de Magalhaes - Exterior 1, © CroisiEurope.jpg",
+      "shipId": 38,
+      "name": "MS Infante Don Henrique",
+      "description": "Welcome on board the MS Infante Don Henrique! Renovated in 2014, the interior is nicely decorated in fuchsia and plum colors.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/40/f9f91a2b-0b80-45d2-a68f-037d669a538c/Croisi Europe MS Infante Don Henrique Exterior, Douro 1 - ©Alexandre Sattler.jpg",
       "class": "4 Anchors Class",
       "cabin_images": [
-        "https://assets.widgety.co.uk/2024/08/14/12/39/24/a1fbaff1-bc2a-41ad-ae86-ce09b855c3c7/CroisiErurope MS Fernao de Magalhaes - Double Cabin 1, © Bruno Ribeiro.jpg",
-        "https://assets.widgety.co.uk/2024/08/14/12/39/25/3e7baa6c-c735-4015-afd9-a8a8d143619c/CroisiErurope MS Fernao de Magalhaes - Single Cabin 2, © Croisi Europe.jpg",
-        "https://assets.widgety.co.uk/2024/08/14/12/39/25/8f69a093-e9fa-485a-a373-86146f30c0b3/CroisiErurope MS Fernao de Magalhaes - Double Cabin 2, © Bruno Ribeiro.jpg",
-        "https://assets.widgety.co.uk/2024/08/14/12/39/25/e2af2ee5-6be3-4d4b-b4f3-91b4540229dd/CroisiErurope MS Fernao de Magalhaes - Single Cabin 3, © Bruno Ribeiro.jpg",
-        "https://assets.widgety.co.uk/2024/08/14/12/39/25/6d575227-92d4-470f-850e-5fa785922f64/CroisiErurope MS Fernao de Magalhaes - Single Cabin 1, © Bruno Ribeiro.jpg"
+        "https://assets.widgety.co.uk/2024/08/06/09/28/45/02e74669-106f-4f3d-82d1-e83d93a1e3a7/CroisiEurope MS Infante Don Henrique Cabin ©Bruno Ribeir 2.JPG",
+        "https://assets.widgety.co.uk/2024/08/06/09/28/45/70135ba0-0f53-4d9a-98b9-627aa3a504aa/CroisiEurope MS Infante Don Henrique Cabin ©Bruno Ribeir 3.JPG",
+        "https://assets.widgety.co.uk/2024/08/06/09/28/45/a5a0a230-3933-4db1-8871-9a68b6964254/CroisiEurope MS Infante Don Henrique Cabin ©Bruno Ribeir 0.JPG",
+        "https://assets.widgety.co.uk/2024/08/06/09/28/44/88463ab2-5716-430e-9776-7ae1a11fb6d9/CroisiEurope MS Infante Don Henrique Single Cabin ©Bruno Ribeir 1.JPG",
+        "https://assets.widgety.co.uk/2024/08/06/09/28/45/cc41c0ed-61b6-4fef-8f12-829119758e41/CroisiEurope MS Infante Don Henrique Cabin ©Bruno Ribeir 1.JPG"
       ],
       "facts": {
         "capacity": 138,
         "cabins": 71,
         "decks": 4,
         "built": "2003",
-        "refurbished": "2015"
+        "refurbished": "2014"
       },
-      "firstSailingDate": "2026-11-06",
-      "sailingCount": 18
+      "firstSailingDate": "2026-10-27",
+      "sailingCount": 15
     },
     "ships": [
-      {
-        "shipId": 37,
-        "name": "MS Fernao de Magalhaes",
-        "description": "Named after the famous Portuguese navigator (better known as Magellan) who completed the first journey round the world, the MS Fernão de Magalhães sails on the Douro. Passengers can admire the unique landscapes, sculpted by nature and shaped by man, all along an enchanted valley where the famous port wine is produced.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/39/c4956c0f-8e96-4a97-960e-ba9adec3501a/CroisiErurope MS Fernao de Magalhaes - Exterior 1, © CroisiEurope.jpg",
-        "class": "4 Anchors Class",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/08/14/12/39/24/a1fbaff1-bc2a-41ad-ae86-ce09b855c3c7/CroisiErurope MS Fernao de Magalhaes - Double Cabin 1, © Bruno Ribeiro.jpg",
-          "https://assets.widgety.co.uk/2024/08/14/12/39/25/3e7baa6c-c735-4015-afd9-a8a8d143619c/CroisiErurope MS Fernao de Magalhaes - Single Cabin 2, © Croisi Europe.jpg",
-          "https://assets.widgety.co.uk/2024/08/14/12/39/25/8f69a093-e9fa-485a-a373-86146f30c0b3/CroisiErurope MS Fernao de Magalhaes - Double Cabin 2, © Bruno Ribeiro.jpg",
-          "https://assets.widgety.co.uk/2024/08/14/12/39/25/e2af2ee5-6be3-4d4b-b4f3-91b4540229dd/CroisiErurope MS Fernao de Magalhaes - Single Cabin 3, © Bruno Ribeiro.jpg",
-          "https://assets.widgety.co.uk/2024/08/14/12/39/25/6d575227-92d4-470f-850e-5fa785922f64/CroisiErurope MS Fernao de Magalhaes - Single Cabin 1, © Bruno Ribeiro.jpg"
-        ],
-        "facts": {
-          "capacity": 138,
-          "cabins": 71,
-          "decks": 4,
-          "built": "2003",
-          "refurbished": "2015"
-        },
-        "firstSailingDate": "2026-11-06",
-        "sailingCount": 18
-      },
       {
         "shipId": 38,
         "name": "MS Infante Don Henrique",
@@ -19012,7 +18309,30 @@
           "refurbished": "2014"
         },
         "firstSailingDate": "2026-10-27",
-        "sailingCount": 13
+        "sailingCount": 15
+      },
+      {
+        "shipId": 37,
+        "name": "MS Fernao de Magalhaes",
+        "description": "Named after the famous Portuguese navigator (better known as Magellan) who completed the first journey round the world, the MS Fernão de Magalhães sails on the Douro. Passengers can admire the unique landscapes, sculpted by nature and shaped by man, all along an enchanted valley where the famous port wine is produced.",
+        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/39/c4956c0f-8e96-4a97-960e-ba9adec3501a/CroisiErurope MS Fernao de Magalhaes - Exterior 1, © CroisiEurope.jpg",
+        "class": "4 Anchors Class",
+        "cabin_images": [
+          "https://assets.widgety.co.uk/2024/08/14/12/39/24/a1fbaff1-bc2a-41ad-ae86-ce09b855c3c7/CroisiErurope MS Fernao de Magalhaes - Double Cabin 1, © Bruno Ribeiro.jpg",
+          "https://assets.widgety.co.uk/2024/08/14/12/39/25/3e7baa6c-c735-4015-afd9-a8a8d143619c/CroisiErurope MS Fernao de Magalhaes - Single Cabin 2, © Croisi Europe.jpg",
+          "https://assets.widgety.co.uk/2024/08/14/12/39/25/8f69a093-e9fa-485a-a373-86146f30c0b3/CroisiErurope MS Fernao de Magalhaes - Double Cabin 2, © Bruno Ribeiro.jpg",
+          "https://assets.widgety.co.uk/2024/08/14/12/39/25/e2af2ee5-6be3-4d4b-b4f3-91b4540229dd/CroisiErurope MS Fernao de Magalhaes - Single Cabin 3, © Bruno Ribeiro.jpg",
+          "https://assets.widgety.co.uk/2024/08/14/12/39/25/6d575227-92d4-470f-850e-5fa785922f64/CroisiErurope MS Fernao de Magalhaes - Single Cabin 1, © Bruno Ribeiro.jpg"
+        ],
+        "facts": {
+          "capacity": 138,
+          "cabins": 71,
+          "decks": 4,
+          "built": "2003",
+          "refurbished": "2015"
+        },
+        "firstSailingDate": "2026-11-06",
+        "sailingCount": 15
       },
       {
         "shipId": 36,
@@ -19033,7 +18353,7 @@
           "refurbished": "2014"
         },
         "firstSailingDate": "2026-10-26",
-        "sailingCount": 15
+        "sailingCount": 12
       },
       {
         "shipId": 40,
@@ -19118,20 +18438,20 @@
       {
         "date": "2026-11-07",
         "returnDate": "2026-11-11",
-        "pricePp": 919,
-        "cabinPricePp": 724.85
+        "pricePp": 1049,
+        "cabinPricePp": 851.2
       },
       {
         "date": "2026-11-11",
         "returnDate": "2026-11-15",
-        "pricePp": 859,
-        "cabinPricePp": 656.45
+        "pricePp": 879,
+        "cabinPricePp": 680.2
       },
       {
         "date": "2027-03-21",
         "returnDate": "2027-03-25",
-        "pricePp": 1159,
-        "cabinPricePp": 961.4
+        "pricePp": 1249,
+        "cabinPricePp": 1051.65
       },
       {
         "date": "2027-03-22",
@@ -19148,8 +18468,8 @@
       {
         "date": "2027-03-26",
         "returnDate": "2027-03-30",
-        "pricePp": 1249,
-        "cabinPricePp": 1051.65
+        "pricePp": 1299,
+        "cabinPricePp": 1096.3
       },
       {
         "date": "2027-03-27",
@@ -19169,7 +18489,7 @@
     "id": 10288,
     "title": "From Portugal to Spain: Porto, the Douro Valley (Portugal) and Salamanca (Spain) (port-to-port cruise)",
     "slug": "croisieurope-from-portugal-to-spain-porto-the-douro-valley-portugal-and-salamanca-spain-port-to-port-cruise",
-    "price": 1419,
+    "price": 1519,
     "destination": "Douro",
     "country": "Portugal",
     "duration_nights": 7,
@@ -19228,54 +18548,31 @@
       }
     ],
     "operator_name": "CroisiEurope",
-    "ship_name": "MS Fernao de Magalhaes",
+    "ship_name": "MS Infante Don Henrique",
     "ship": {
-      "shipId": 37,
-      "name": "MS Fernao de Magalhaes",
-      "description": "Named after the famous Portuguese navigator (better known as Magellan) who completed the first journey round the world, the MS Fernão de Magalhães sails on the Douro. Passengers can admire the unique landscapes, sculpted by nature and shaped by man, all along an enchanted valley where the famous port wine is produced.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/39/c4956c0f-8e96-4a97-960e-ba9adec3501a/CroisiErurope MS Fernao de Magalhaes - Exterior 1, © CroisiEurope.jpg",
+      "shipId": 38,
+      "name": "MS Infante Don Henrique",
+      "description": "Welcome on board the MS Infante Don Henrique! Renovated in 2014, the interior is nicely decorated in fuchsia and plum colors.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/40/f9f91a2b-0b80-45d2-a68f-037d669a538c/Croisi Europe MS Infante Don Henrique Exterior, Douro 1 - ©Alexandre Sattler.jpg",
       "class": "4 Anchors Class",
       "cabin_images": [
-        "https://assets.widgety.co.uk/2024/08/14/12/39/24/a1fbaff1-bc2a-41ad-ae86-ce09b855c3c7/CroisiErurope MS Fernao de Magalhaes - Double Cabin 1, © Bruno Ribeiro.jpg",
-        "https://assets.widgety.co.uk/2024/08/14/12/39/25/3e7baa6c-c735-4015-afd9-a8a8d143619c/CroisiErurope MS Fernao de Magalhaes - Single Cabin 2, © Croisi Europe.jpg",
-        "https://assets.widgety.co.uk/2024/08/14/12/39/25/8f69a093-e9fa-485a-a373-86146f30c0b3/CroisiErurope MS Fernao de Magalhaes - Double Cabin 2, © Bruno Ribeiro.jpg",
-        "https://assets.widgety.co.uk/2024/08/14/12/39/25/e2af2ee5-6be3-4d4b-b4f3-91b4540229dd/CroisiErurope MS Fernao de Magalhaes - Single Cabin 3, © Bruno Ribeiro.jpg",
-        "https://assets.widgety.co.uk/2024/08/14/12/39/25/6d575227-92d4-470f-850e-5fa785922f64/CroisiErurope MS Fernao de Magalhaes - Single Cabin 1, © Bruno Ribeiro.jpg"
+        "https://assets.widgety.co.uk/2024/08/06/09/28/45/02e74669-106f-4f3d-82d1-e83d93a1e3a7/CroisiEurope MS Infante Don Henrique Cabin ©Bruno Ribeir 2.JPG",
+        "https://assets.widgety.co.uk/2024/08/06/09/28/45/70135ba0-0f53-4d9a-98b9-627aa3a504aa/CroisiEurope MS Infante Don Henrique Cabin ©Bruno Ribeir 3.JPG",
+        "https://assets.widgety.co.uk/2024/08/06/09/28/45/a5a0a230-3933-4db1-8871-9a68b6964254/CroisiEurope MS Infante Don Henrique Cabin ©Bruno Ribeir 0.JPG",
+        "https://assets.widgety.co.uk/2024/08/06/09/28/44/88463ab2-5716-430e-9776-7ae1a11fb6d9/CroisiEurope MS Infante Don Henrique Single Cabin ©Bruno Ribeir 1.JPG",
+        "https://assets.widgety.co.uk/2024/08/06/09/28/45/cc41c0ed-61b6-4fef-8f12-829119758e41/CroisiEurope MS Infante Don Henrique Cabin ©Bruno Ribeir 1.JPG"
       ],
       "facts": {
         "capacity": 138,
         "cabins": 71,
         "decks": 4,
         "built": "2003",
-        "refurbished": "2015"
+        "refurbished": "2014"
       },
-      "firstSailingDate": "2026-10-23",
-      "sailingCount": 5
+      "firstSailingDate": "2027-04-05",
+      "sailingCount": 53
     },
     "ships": [
-      {
-        "shipId": 37,
-        "name": "MS Fernao de Magalhaes",
-        "description": "Named after the famous Portuguese navigator (better known as Magellan) who completed the first journey round the world, the MS Fernão de Magalhães sails on the Douro. Passengers can admire the unique landscapes, sculpted by nature and shaped by man, all along an enchanted valley where the famous port wine is produced.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/39/c4956c0f-8e96-4a97-960e-ba9adec3501a/CroisiErurope MS Fernao de Magalhaes - Exterior 1, © CroisiEurope.jpg",
-        "class": "4 Anchors Class",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/08/14/12/39/24/a1fbaff1-bc2a-41ad-ae86-ce09b855c3c7/CroisiErurope MS Fernao de Magalhaes - Double Cabin 1, © Bruno Ribeiro.jpg",
-          "https://assets.widgety.co.uk/2024/08/14/12/39/25/3e7baa6c-c735-4015-afd9-a8a8d143619c/CroisiErurope MS Fernao de Magalhaes - Single Cabin 2, © Croisi Europe.jpg",
-          "https://assets.widgety.co.uk/2024/08/14/12/39/25/8f69a093-e9fa-485a-a373-86146f30c0b3/CroisiErurope MS Fernao de Magalhaes - Double Cabin 2, © Bruno Ribeiro.jpg",
-          "https://assets.widgety.co.uk/2024/08/14/12/39/25/e2af2ee5-6be3-4d4b-b4f3-91b4540229dd/CroisiErurope MS Fernao de Magalhaes - Single Cabin 3, © Bruno Ribeiro.jpg",
-          "https://assets.widgety.co.uk/2024/08/14/12/39/25/6d575227-92d4-470f-850e-5fa785922f64/CroisiErurope MS Fernao de Magalhaes - Single Cabin 1, © Bruno Ribeiro.jpg"
-        ],
-        "facts": {
-          "capacity": 138,
-          "cabins": 71,
-          "decks": 4,
-          "built": "2003",
-          "refurbished": "2015"
-        },
-        "firstSailingDate": "2026-10-23",
-        "sailingCount": 5
-      },
       {
         "shipId": 38,
         "name": "MS Infante Don Henrique",
@@ -19297,7 +18594,7 @@
           "refurbished": "2014"
         },
         "firstSailingDate": "2027-04-05",
-        "sailingCount": 45
+        "sailingCount": 53
       },
       {
         "shipId": 36,
@@ -19318,7 +18615,30 @@
           "refurbished": "2014"
         },
         "firstSailingDate": "2026-10-31",
-        "sailingCount": 38
+        "sailingCount": 43
+      },
+      {
+        "shipId": 37,
+        "name": "MS Fernao de Magalhaes",
+        "description": "Named after the famous Portuguese navigator (better known as Magellan) who completed the first journey round the world, the MS Fernão de Magalhães sails on the Douro. Passengers can admire the unique landscapes, sculpted by nature and shaped by man, all along an enchanted valley where the famous port wine is produced.",
+        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/35/39/c4956c0f-8e96-4a97-960e-ba9adec3501a/CroisiErurope MS Fernao de Magalhaes - Exterior 1, © CroisiEurope.jpg",
+        "class": "4 Anchors Class",
+        "cabin_images": [
+          "https://assets.widgety.co.uk/2024/08/14/12/39/24/a1fbaff1-bc2a-41ad-ae86-ce09b855c3c7/CroisiErurope MS Fernao de Magalhaes - Double Cabin 1, © Bruno Ribeiro.jpg",
+          "https://assets.widgety.co.uk/2024/08/14/12/39/25/3e7baa6c-c735-4015-afd9-a8a8d143619c/CroisiErurope MS Fernao de Magalhaes - Single Cabin 2, © Croisi Europe.jpg",
+          "https://assets.widgety.co.uk/2024/08/14/12/39/25/8f69a093-e9fa-485a-a373-86146f30c0b3/CroisiErurope MS Fernao de Magalhaes - Double Cabin 2, © Bruno Ribeiro.jpg",
+          "https://assets.widgety.co.uk/2024/08/14/12/39/25/e2af2ee5-6be3-4d4b-b4f3-91b4540229dd/CroisiErurope MS Fernao de Magalhaes - Single Cabin 3, © Bruno Ribeiro.jpg",
+          "https://assets.widgety.co.uk/2024/08/14/12/39/25/6d575227-92d4-470f-850e-5fa785922f64/CroisiErurope MS Fernao de Magalhaes - Single Cabin 1, © Bruno Ribeiro.jpg"
+        ],
+        "facts": {
+          "capacity": 138,
+          "cabins": 71,
+          "decks": 4,
+          "built": "2003",
+          "refurbished": "2015"
+        },
+        "firstSailingDate": "2026-10-23",
+        "sailingCount": 4
       },
       {
         "shipId": 41,
@@ -19341,7 +18661,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2027-04-07",
-        "sailingCount": 46
+        "sailingCount": 57
       },
       {
         "shipId": 39,
@@ -19366,7 +18686,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-27",
-        "sailingCount": 30
+        "sailingCount": 39
       },
       {
         "shipId": 40,
@@ -19393,7 +18713,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2027-07-27",
-        "sailingCount": 10
+        "sailingCount": 19
       }
     ],
     "departure_port": "Porto",
@@ -19416,8 +18736,8 @@
       {
         "date": "2026-10-30",
         "returnDate": "2026-11-05",
-        "pricePp": 1449,
-        "cabinPricePp": 1262.55
+        "pricePp": 1559,
+        "cabinPricePp": 1370.85
       },
       {
         "date": "2026-10-31",
@@ -19440,8 +18760,8 @@
       {
         "date": "2027-04-12",
         "returnDate": "2027-04-18",
-        "pricePp": 1669,
-        "cabinPricePp": 1479.15
+        "pricePp": 1899,
+        "cabinPricePp": 1712.85
       },
       {
         "date": "2027-04-14",
@@ -19476,14 +18796,14 @@
       {
         "date": "2027-05-10",
         "returnDate": "2027-05-16",
-        "pricePp": 2029,
-        "cabinPricePp": 1844.9
+        "pricePp": 1899,
+        "cabinPricePp": 1713.8
       },
       {
         "date": "2027-05-17",
         "returnDate": "2027-05-23",
-        "pricePp": 2219,
-        "cabinPricePp": 2037.75
+        "pricePp": 2079,
+        "cabinPricePp": 1893.35
       },
       {
         "date": "2027-05-24",
@@ -19518,8 +18838,8 @@
       {
         "date": "2027-06-21",
         "returnDate": "2027-06-27",
-        "pricePp": 1849,
-        "cabinPricePp": 1665.35
+        "pricePp": 1899,
+        "cabinPricePp": 1713.8
       },
       {
         "date": "2027-06-25",
@@ -19592,6 +18912,30 @@
         "returnDate": "2027-08-04",
         "pricePp": 1919,
         "cabinPricePp": 1731.85
+      },
+      {
+        "date": "2027-07-30",
+        "returnDate": "2027-08-05",
+        "pricePp": 1919,
+        "cabinPricePp": 1731.85
+      },
+      {
+        "date": "2027-08-02",
+        "returnDate": "2027-08-08",
+        "pricePp": 1519,
+        "cabinPricePp": 1334.75
+      },
+      {
+        "date": "2027-08-03",
+        "returnDate": "2027-08-09",
+        "pricePp": 1969,
+        "cabinPricePp": 1786
+      },
+      {
+        "date": "2027-08-05",
+        "returnDate": "2027-08-11",
+        "pricePp": 1919,
+        "cabinPricePp": 1731.85
       }
     ]
   },
@@ -19599,7 +18943,7 @@
     "id": 10289,
     "title": "Fall Festival: Legendary Paris",
     "slug": "croisieurope-fall-festival-legendary-paris",
-    "price": 969,
+    "price": 959,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 3,
@@ -19748,7 +19092,7 @@
         "refurbished": "2010"
       },
       "firstSailingDate": "2026-11-14",
-      "sailingCount": 15
+      "sailingCount": 14
     },
     "ships": [
       {
@@ -19771,7 +19115,7 @@
           "refurbished": "2010"
         },
         "firstSailingDate": "2026-11-14",
-        "sailingCount": 15
+        "sailingCount": 14
       }
     ],
     "departure_port": "Paris",
@@ -19788,8 +19132,8 @@
       {
         "date": "2026-11-28",
         "returnDate": "2026-11-29",
-        "pricePp": 449,
-        "cabinPricePp": 247.95
+        "pricePp": 459,
+        "cabinPricePp": 257.45
       },
       {
         "date": "2026-12-12",
@@ -19803,7 +19147,7 @@
     "id": 10291,
     "title": "4 Rivers: The Moselle, Sarre, Romantic Rhine, and Neckar Valleys",
     "slug": "croisieurope-4-rivers-the-moselle-sarre-romantic-rhine-and-neckar-valleys",
-    "price": 1249,
+    "price": 1259,
     "destination": "Rhine, Moselle",
     "country": "Germany",
     "duration_nights": 6,
@@ -19877,7 +19221,7 @@
         "refurbished": "2011"
       },
       "firstSailingDate": "2026-10-12",
-      "sailingCount": 8
+      "sailingCount": 9
     },
     "ships": [
       {
@@ -19900,7 +19244,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-10-12",
-        "sailingCount": 8
+        "sailingCount": 9
       }
     ],
     "departure_port": "Strasbourg",
@@ -19926,7 +19270,7 @@
     "id": 10300,
     "title": "Cruise and Hikes in The Douro Valley, A Nature Lover's Dream (port-to-port cruise)",
     "slug": "croisieurope-cruise-and-hikes-in-the-douro-valley-a-nature-lover-s-dream-port-to-port-cruise",
-    "price": 2229,
+    "price": 2219,
     "destination": "Douro",
     "country": "Portugal",
     "duration_nights": 7,
@@ -20057,7 +19401,7 @@
     "id": 10301,
     "title": "Budapest, the Pearl of the Danube (port-to-port cruise)",
     "slug": "croisieurope-budapest-the-pearl-of-the-danube-port-to-port-cruise",
-    "price": 1659,
+    "price": 1679,
     "destination": "Danube",
     "country": "Hungary",
     "duration_nights": 7,
@@ -20140,7 +19484,7 @@
         "refurbished": "2011"
       },
       "firstSailingDate": "2026-09-25",
-      "sailingCount": 9
+      "sailingCount": 11
     },
     "ships": [
       {
@@ -20166,7 +19510,7 @@
           "refurbished": "2011"
         },
         "firstSailingDate": "2026-09-25",
-        "sailingCount": 9
+        "sailingCount": 11
       }
     ],
     "departure_port": "Budapest",
@@ -20183,8 +19527,8 @@
       {
         "date": "2027-05-25",
         "returnDate": "2027-05-31",
-        "pricePp": 1939,
-        "cabinPricePp": 1767.95
+        "pricePp": 1789,
+        "cabinPricePp": 1623.55
       },
       {
         "date": "2027-06-25",
@@ -20321,7 +19665,7 @@
     "id": 10304,
     "title": "The Loire Valley, a Royal legacy (port-to-port cruise)",
     "slug": "croisieurope-the-loire-valley-a-royal-legacy-port-to-port-cruise",
-    "price": 1049,
+    "price": 1039,
     "destination": "Loire",
     "country": "France",
     "duration_nights": 4,
@@ -20390,8 +19734,8 @@
         "built": "2015",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-05",
-      "sailingCount": 168
+      "firstSailingDate": "2026-09-20",
+      "sailingCount": 172
     },
     "ships": [
       {
@@ -20415,8 +19759,8 @@
           "built": "2015",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-05",
-        "sailingCount": 168
+        "firstSailingDate": "2026-09-20",
+        "sailingCount": 172
       }
     ],
     "departure_port": "Nantes",
@@ -20424,12 +19768,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-05",
-        "returnDate": "2026-09-09",
-        "pricePp": 1369,
-        "cabinPricePp": 1202.7
-      },
       {
         "date": "2026-09-20",
         "returnDate": "2026-09-24",
@@ -20511,8 +19849,8 @@
       {
         "date": "2027-04-20",
         "returnDate": "2027-04-24",
-        "pricePp": 1649,
-        "cabinPricePp": 1484.85
+        "pricePp": 1779,
+        "cabinPricePp": 1611.2
       },
       {
         "date": "2027-04-25",
@@ -20585,6 +19923,12 @@
         "returnDate": "2027-07-28",
         "pricePp": 1649,
         "cabinPricePp": 1484.85
+      },
+      {
+        "date": "2027-08-03",
+        "returnDate": "2027-08-07",
+        "pricePp": 1649,
+        "cabinPricePp": 1484.85
       }
     ]
   },
@@ -20592,7 +19936,7 @@
     "id": 10305,
     "title": "Christmas on the Loire (port-to-port cruise)",
     "slug": "croisieurope-christmas-on-the-loire-port-to-port-cruise",
-    "price": 1379,
+    "price": 1159,
     "destination": "Loire",
     "country": "France",
     "duration_nights": 5,
@@ -20662,7 +20006,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-12-22",
-      "sailingCount": 9
+      "sailingCount": 8
     },
     "ships": [
       {
@@ -20687,7 +20031,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-12-22",
-        "sailingCount": 9
+        "sailingCount": 8
       }
     ],
     "departure_port": "Nantes",
@@ -20698,8 +20042,8 @@
       {
         "date": "2026-12-22",
         "returnDate": "2026-12-26",
-        "pricePp": 1479,
-        "cabinPricePp": 1105.8
+        "pricePp": 1259,
+        "cabinPricePp": 884.45
       }
     ]
   },
@@ -20846,7 +20190,7 @@
     "id": 10307,
     "title": "From the Châteaux of Chambord and Chenonceau to the Loire Valley",
     "slug": "croisieurope-from-the-chateaux-of-chambord-and-chenonceau-to-the-loire-valley",
-    "price": 2379,
+    "price": 2389,
     "destination": "Loire",
     "country": "France",
     "duration_nights": 6,
@@ -20922,7 +20266,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-09-19",
-      "sailingCount": 32
+      "sailingCount": 30
     },
     "ships": [
       {
@@ -20947,7 +20291,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-19",
-        "sailingCount": 32
+        "sailingCount": 30
       }
     ],
     "departure_port": "Paris",
@@ -20970,8 +20314,8 @@
       {
         "date": "2027-04-19",
         "returnDate": "2027-04-24",
-        "pricePp": 2359,
-        "cabinPricePp": 2188.8
+        "pricePp": 2539,
+        "cabinPricePp": 2374.05
       },
       {
         "date": "2027-05-29",
@@ -20991,7 +20335,7 @@
     "id": 10311,
     "title": "Royal New Year cruise on the Loire (port-to-port cruise)",
     "slug": "croisieurope-royal-new-year-cruise-on-the-loire-port-to-port-cruise",
-    "price": 1749,
+    "price": 1729,
     "destination": "Loire",
     "country": "France",
     "duration_nights": 5,
@@ -21106,7 +20450,7 @@
     "id": 10313,
     "title": "Enchanting Christmas Markets along Alsatian Canals (port-to-port cruise)",
     "slug": "croisieurope-enchanting-christmas-markets-along-alsatian-canals-port-to-port-cruise",
-    "price": 1039,
+    "price": 1029,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 3,
@@ -21255,7 +20599,7 @@
     "id": 10316,
     "title": "A Charming Cruise through Lorraine and Alsace and along the Marne-Rhine Canal (port-to-port cruise)",
     "slug": "croisieurope-a-charming-cruise-through-lorraine-and-alsace-and-along-the-marne-rhine-canal-port-to-port-cruise",
-    "price": 1559,
+    "price": 2859,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 6,
@@ -21308,48 +20652,27 @@
       }
     ],
     "operator_name": "CroisiEurope",
-    "ship_name": "MS Madeleine",
+    "ship_name": "MS Jeanine",
     "ship": {
-      "shipId": 44,
-      "name": "MS Madeleine",
-      "description": "A cruise aboard a canal barge promises a peaceful break where you take the time to discover “la douce France” in a different way. The MS Madeleine a true cocoon of charm, sails on the French canals and offers its passengers an original and authentic experience.",
-      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/20/976d543f-4402-494e-88dc-eb929f778079/CroisiEurope MS Madeleine Exterior 2 ©Bill Maloney.jpeg",
+      "shipId": 43,
+      "name": "MS Jeanine",
+      "description": "A cruise aboard a canal barge promises a peaceful break where you take the time to discover “la douce France” in a different way. The MS Jeanine, a true cocoon of charm, sails on the French canals and offers its passengers an original and authentic experience.",
+      "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/33/30/9800cbd7-22d1-4ccf-8107-1ca7f2b5107d/CroisiErurope MS Jeanine - Exterior 1, © Letabatha.net.jpg",
       "class": "Barge",
       "cabin_images": [
-        "https://assets.widgety.co.uk/2024/08/09/07/11/39/44065c1a-7a03-452a-b0dc-b07bd943dcfb/CroisiEurope MS Madeleine Double Cabin ©Corinne Cotard 0.jpg",
-        "https://assets.widgety.co.uk/2024/08/09/07/11/40/09f824bf-67d8-4c08-852b-8bf1ff56a86c/CroisiEurope Accessible Cabin PMR1 MS Madeleine ©Corinne Cotard.jpg"
+        "https://assets.widgety.co.uk/2019/08/27/13/06/42/7858d5df-f76c-40b9-a923-b51c39dcf42e/CroisiEurope Jeanine Cabin 2.jpg"
       ],
       "facts": {
         "capacity": 22,
         "cabins": 11,
-        "decks": 2,
-        "built": "2014",
-        "refurbished": ""
+        "decks": 3,
+        "built": "1985",
+        "refurbished": "2017"
       },
-      "firstSailingDate": "2026-09-03",
+      "firstSailingDate": "2027-04-07",
       "sailingCount": 3
     },
     "ships": [
-      {
-        "shipId": 44,
-        "name": "MS Madeleine",
-        "description": "A cruise aboard a canal barge promises a peaceful break where you take the time to discover “la douce France” in a different way. The MS Madeleine a true cocoon of charm, sails on the French canals and offers its passengers an original and authentic experience.",
-        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/20/976d543f-4402-494e-88dc-eb929f778079/CroisiEurope MS Madeleine Exterior 2 ©Bill Maloney.jpeg",
-        "class": "Barge",
-        "cabin_images": [
-          "https://assets.widgety.co.uk/2024/08/09/07/11/39/44065c1a-7a03-452a-b0dc-b07bd943dcfb/CroisiEurope MS Madeleine Double Cabin ©Corinne Cotard 0.jpg",
-          "https://assets.widgety.co.uk/2024/08/09/07/11/40/09f824bf-67d8-4c08-852b-8bf1ff56a86c/CroisiEurope Accessible Cabin PMR1 MS Madeleine ©Corinne Cotard.jpg"
-        ],
-        "facts": {
-          "capacity": 22,
-          "cabins": 11,
-          "decks": 2,
-          "built": "2014",
-          "refurbished": ""
-        },
-        "firstSailingDate": "2026-09-03",
-        "sailingCount": 3
-      },
       {
         "shipId": 43,
         "name": "MS Jeanine",
@@ -21368,6 +20691,26 @@
         },
         "firstSailingDate": "2027-04-07",
         "sailingCount": 3
+      },
+      {
+        "shipId": 44,
+        "name": "MS Madeleine",
+        "description": "A cruise aboard a canal barge promises a peaceful break where you take the time to discover “la douce France” in a different way. The MS Madeleine a true cocoon of charm, sails on the French canals and offers its passengers an original and authentic experience.",
+        "cover_image": "https://assets.widgety.co.uk/2026/02/20/19/36/20/976d543f-4402-494e-88dc-eb929f778079/CroisiEurope MS Madeleine Exterior 2 ©Bill Maloney.jpeg",
+        "class": "Barge",
+        "cabin_images": [
+          "https://assets.widgety.co.uk/2024/08/09/07/11/39/44065c1a-7a03-452a-b0dc-b07bd943dcfb/CroisiEurope MS Madeleine Double Cabin ©Corinne Cotard 0.jpg",
+          "https://assets.widgety.co.uk/2024/08/09/07/11/40/09f824bf-67d8-4c08-852b-8bf1ff56a86c/CroisiEurope Accessible Cabin PMR1 MS Madeleine ©Corinne Cotard.jpg"
+        ],
+        "facts": {
+          "capacity": 22,
+          "cabins": 11,
+          "decks": 2,
+          "built": "2014",
+          "refurbished": ""
+        },
+        "firstSailingDate": "2027-07-08",
+        "sailingCount": 4
       }
     ],
     "departure_port": "Strasbourg",
@@ -21375,12 +20718,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-03",
-        "returnDate": "2026-09-08",
-        "pricePp": 1529,
-        "cabinPricePp": 1292
-      },
       {
         "date": "2027-04-07",
         "returnDate": "2027-04-12",
@@ -21404,6 +20741,12 @@
         "returnDate": "2027-08-02",
         "pricePp": 2859,
         "cabinPricePp": 2616.3
+      },
+      {
+        "date": "2027-08-05",
+        "returnDate": "2027-08-10",
+        "pricePp": 2859,
+        "cabinPricePp": 2616.3
       }
     ]
   },
@@ -21411,7 +20754,7 @@
     "id": 10317,
     "title": "An Enchanting Cruise: Exploring the Christmas Markets in Ghent and Bruges (port-to-port cruise)",
     "slug": "croisieurope-an-enchanting-cruise-exploring-the-christmas-markets-in-ghent-and-bruges-port-to-port-cruise",
-    "price": 1159,
+    "price": 1139,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 3,
@@ -21512,7 +20855,7 @@
     "id": 10318,
     "title": "An Enchanting Christmas Getaway between Ghent and Bruges (port-to-port cruise)",
     "slug": "croisieurope-an-enchanting-christmas-getaway-between-ghent-and-bruges-port-to-port-cruise",
-    "price": 1129,
+    "price": 1119,
     "destination": "Rhine",
     "country": "France",
     "duration_nights": 3,
@@ -21822,7 +21165,7 @@
     "id": 10320,
     "title": "Holiday Cheer Along the Elbe River (port-to-port cruise)",
     "slug": "croisieurope-holiday-cheer-along-the-elbe-river-port-to-port-cruise",
-    "price": 1319,
+    "price": 1069,
     "destination": "Elbe, Oder",
     "country": "Czech Republic",
     "duration_nights": 4,
@@ -21920,32 +21263,32 @@
       {
         "date": "2026-12-03",
         "returnDate": "2026-12-06",
-        "pricePp": 1459,
-        "cabinPricePp": 1295.8
+        "pricePp": 1229,
+        "cabinPricePp": 1066.85
       },
       {
         "date": "2026-12-07",
         "returnDate": "2026-12-10",
-        "pricePp": 1319,
-        "cabinPricePp": 1146.65
+        "pricePp": 1079,
+        "cabinPricePp": 917.7
       },
       {
         "date": "2026-12-11",
         "returnDate": "2026-12-14",
-        "pricePp": 1319,
-        "cabinPricePp": 1146.65
+        "pricePp": 1079,
+        "cabinPricePp": 917.7
       },
       {
         "date": "2026-12-15",
         "returnDate": "2026-12-18",
-        "pricePp": 1319,
-        "cabinPricePp": 1146.65
+        "pricePp": 1079,
+        "cabinPricePp": 917.7
       },
       {
         "date": "2026-12-19",
         "returnDate": "2026-12-22",
-        "pricePp": 1319,
-        "cabinPricePp": 1146.65
+        "pricePp": 1079,
+        "cabinPricePp": 917.7
       }
     ]
   },
@@ -21953,7 +21296,7 @@
     "id": 10321,
     "title": "Imperial Prague and its exceptional palaces: a cruise into the private lives of great aristocratic families (Port to Port)",
     "slug": "croisieurope-imperial-prague-and-its-exceptional-palaces-a-cruise-into-the-private-lives-of-great-aristocratic-families-port-to-port",
-    "price": 749,
+    "price": 739,
     "destination": "Elbe, Oder",
     "country": "Czech Republic",
     "duration_nights": 4,
@@ -22016,7 +21359,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-10-28",
-      "sailingCount": 26
+      "sailingCount": 25
     },
     "ships": [
       {
@@ -22040,7 +21383,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-10-28",
-        "sailingCount": 26
+        "sailingCount": 25
       }
     ],
     "departure_port": "Prague",
@@ -22099,8 +21442,8 @@
       {
         "date": "2026-11-29",
         "returnDate": "2026-12-03",
-        "pricePp": 779,
-        "cabinPricePp": 636.5
+        "pricePp": 839,
+        "cabinPricePp": 698.25
       }
     ]
   },
@@ -22308,7 +21651,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-09-16",
-      "sailingCount": 51
+      "sailingCount": 48
     },
     "ships": [
       {
@@ -22332,7 +21675,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-16",
-        "sailingCount": 51
+        "sailingCount": 48
       }
     ],
     "departure_port": "Prague",
@@ -22373,8 +21716,8 @@
       {
         "date": "2026-10-22",
         "returnDate": "2026-10-28",
-        "pricePp": 1419,
-        "cabinPricePp": 1275.85
+        "pricePp": 1479,
+        "cabinPricePp": 1342.35
       },
       {
         "date": "2027-04-01",
@@ -22451,8 +21794,14 @@
       {
         "date": "2027-07-26",
         "returnDate": "2027-08-01",
-        "pricePp": 1689,
-        "cabinPricePp": 1547.55
+        "pricePp": 1819,
+        "cabinPricePp": 1677.7
+      },
+      {
+        "date": "2027-08-01",
+        "returnDate": "2027-08-07",
+        "pricePp": 1819,
+        "cabinPricePp": 1677.7
       }
     ]
   },
@@ -22460,7 +21809,7 @@
     "id": 10324,
     "title": "Magical Christmas in Prague (port-to-port cruise)",
     "slug": "croisieurope-magical-christmas-in-prague-port-to-port-cruise",
-    "price": 1219,
+    "price": 1189,
     "destination": "Elbe, Oder",
     "country": "Czech Republic",
     "duration_nights": 4,
@@ -22567,7 +21916,7 @@
     "id": 10325,
     "title": "New year's in Prague (port-to-port cruise)",
     "slug": "croisieurope-new-year-s-in-prague-port-to-port-cruise",
-    "price": 1369,
+    "price": 1359,
     "destination": "Elbe, Oder",
     "country": "Czech Republic",
     "duration_nights": 4,
@@ -22674,7 +22023,7 @@
     "id": 10326,
     "title": "Prestigious Paris & and the Canal Saint-Martin (port-to-port cruise)",
     "slug": "croisieurope-prestigious-paris-and-the-canal-saint-martin-port-to-port-cruise",
-    "price": 1149,
+    "price": 1139,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 3,
@@ -22787,7 +22136,7 @@
     "id": 10327,
     "title": "Prestigious New Year's Eve in Paris (port to port)",
     "slug": "croisieurope-prestigious-new-year-s-eve-in-paris-port-to-port",
-    "price": 2149,
+    "price": 2139,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 3,
@@ -23108,7 +22457,7 @@
     "id": 10358,
     "title": "From the Mekong Delta to the Angkor Temples (port-to-port cruise)",
     "slug": "croisieurope-from-the-mekong-delta-to-the-angkor-temples-port-to-port-cruise",
-    "price": 3619,
+    "price": 3679,
     "destination": "Mekong",
     "country": "Cambodia",
     "duration_nights": 10,
@@ -23339,8 +22688,8 @@
       {
         "date": "2027-02-14",
         "returnDate": "2027-02-24",
-        "pricePp": 4299,
-        "cabinPricePp": 3491.25
+        "pricePp": 4489,
+        "cabinPricePp": 3681.25
       },
       {
         "date": "2027-02-19",
@@ -23378,7 +22727,7 @@
     "id": 10359,
     "title": "From the Angkor Temples to the Mekong Delta (port-to-port cruise)",
     "slug": "croisieurope-from-the-angkor-temples-to-the-mekong-delta-port-to-port-cruise",
-    "price": 3629,
+    "price": 3569,
     "destination": "Mekong",
     "country": "Cambodia",
     "duration_nights": 10,
@@ -23538,8 +22887,8 @@
           "built": "2017",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-02",
-        "sailingCount": 43
+        "firstSailingDate": "2026-09-18",
+        "sailingCount": 37
       }
     ],
     "departure_port": "Siem Reap",
@@ -23547,12 +22896,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-02",
-        "returnDate": "2026-09-12",
-        "pricePp": 3969,
-        "cabinPricePp": 3199.6
-      },
       {
         "date": "2026-09-13",
         "returnDate": "2026-09-23",
@@ -23640,8 +22983,8 @@
       {
         "date": "2027-01-08",
         "returnDate": "2027-01-18",
-        "pricePp": 4859,
-        "cabinPricePp": 4092.6
+        "pricePp": 4669,
+        "cabinPricePp": 3906.4
       },
       {
         "date": "2027-01-19",
@@ -23943,7 +23286,7 @@
     "id": 10361,
     "title": "From Siem Reap to the Mekong Delta (port-to-port cruise)",
     "slug": "croisieurope-from-siem-reap-to-the-mekong-delta-port-to-port-cruise",
-    "price": 2879,
+    "price": 3019,
     "destination": "Mekong",
     "country": "Cambodia",
     "duration_nights": 8,
@@ -24028,8 +23371,8 @@
         "built": "2017",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-04",
-      "sailingCount": 43
+      "firstSailingDate": "2026-09-20",
+      "sailingCount": 38
     },
     "ships": [
       {
@@ -24051,8 +23394,8 @@
           "built": "2017",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-04",
-        "sailingCount": 43
+        "firstSailingDate": "2026-09-20",
+        "sailingCount": 38
       },
       {
         "shipId": 51,
@@ -24101,12 +23444,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-04",
-        "returnDate": "2026-09-12",
-        "pricePp": 3089,
-        "cabinPricePp": 2327.5
-      },
       {
         "date": "2026-09-15",
         "returnDate": "2026-09-23",
@@ -24194,8 +23531,8 @@
       {
         "date": "2027-01-10",
         "returnDate": "2027-01-18",
-        "pricePp": 3559,
-        "cabinPricePp": 2796.8
+        "pricePp": 3369,
+        "cabinPricePp": 2606.8
       },
       {
         "date": "2027-01-21",
@@ -24239,7 +23576,7 @@
     "id": 10362,
     "title": "From the Mekong Delta to the Temples of Angkor & Hanoi and Halong Bay (port-to-port cruise)",
     "slug": "croisieurope-from-the-mekong-delta-to-the-temples-of-angkor-hanoi-and-halong-bay-port-to-port-cruise",
-    "price": 4919,
+    "price": 4979,
     "destination": "Mekong",
     "country": "Vietnam",
     "duration_nights": 13,
@@ -24352,8 +23689,8 @@
         "built": "2008",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-04",
-      "sailingCount": 35
+      "firstSailingDate": "2026-09-20",
+      "sailingCount": 32
     },
     "ships": [
       {
@@ -24373,8 +23710,8 @@
           "built": "2008",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-04",
-        "sailingCount": 35
+        "firstSailingDate": "2026-09-20",
+        "sailingCount": 32
       },
       {
         "shipId": 53,
@@ -24404,12 +23741,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-04",
-        "returnDate": "2026-09-17",
-        "pricePp": 4999,
-        "cabinPricePp": 4239.85
-      },
       {
         "date": "2026-09-20",
         "returnDate": "2026-10-03",
@@ -24455,8 +23786,8 @@
       {
         "date": "2027-02-11",
         "returnDate": "2027-02-24",
-        "pricePp": 5659,
-        "cabinPricePp": 4907.7
+        "pricePp": 5849,
+        "cabinPricePp": 5097.7
       },
       {
         "date": "2027-02-16",
@@ -24500,7 +23831,7 @@
     "id": 10363,
     "title": "From the Mekong Delta to the Temples of Angkor & The Imperial Cities (port-to-port cruise)",
     "slug": "croisieurope-from-the-mekong-delta-to-the-temples-of-angkor-the-imperial-cities-port-to-port-cruise",
-    "price": 5689,
+    "price": 5699,
     "destination": "Mekong",
     "country": "Vietnam",
     "duration_nights": 16,
@@ -24773,7 +24104,7 @@
     "id": 10364,
     "title": "From the Temples of Angkor to the Mekong Delta & Hanoi and Halong Bay (port-to-port cruise)",
     "slug": "croisieurope-from-the-temples-of-angkor-to-the-mekong-delta-hanoi-and-halong-bay-port-to-port-cruise",
-    "price": 5029,
+    "price": 5079,
     "destination": "Mekong",
     "country": "Vietnam",
     "duration_nights": 13,
@@ -24929,8 +24260,8 @@
           "built": "2017",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-02",
-        "sailingCount": 43
+        "firstSailingDate": "2026-09-18",
+        "sailingCount": 37
       }
     ],
     "departure_port": "Siem Reap",
@@ -24938,12 +24269,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-02",
-        "returnDate": "2026-09-15",
-        "pricePp": 5369,
-        "cabinPricePp": 4616.05
-      },
       {
         "date": "2026-09-13",
         "returnDate": "2026-09-26",
@@ -25025,8 +24350,8 @@
       {
         "date": "2027-01-08",
         "returnDate": "2027-01-21",
-        "pricePp": 6259,
-        "cabinPricePp": 5509.05
+        "pricePp": 6079,
+        "cabinPricePp": 5322.85
       },
       {
         "date": "2027-01-19",
@@ -25070,7 +24395,7 @@
     "id": 10365,
     "title": "From the Temples of Angkor to the Mekong Delta & The Imperial Cities (port-to-port cruise)",
     "slug": "croisieurope-from-the-temples-of-angkor-to-the-mekong-delta-the-imperial-cities-port-to-port-cruise",
-    "price": 5719,
+    "price": 5649,
     "destination": "Mekong",
     "country": "Vietnam",
     "duration_nights": 16,
@@ -25244,8 +24569,8 @@
           "built": "2017",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-02",
-        "sailingCount": 43
+        "firstSailingDate": "2026-09-18",
+        "sailingCount": 37
       }
     ],
     "departure_port": "Siem Reap",
@@ -25253,12 +24578,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-02",
-        "returnDate": "2026-09-17",
-        "pricePp": 6069,
-        "cabinPricePp": 5282.95
-      },
       {
         "date": "2026-09-13",
         "returnDate": "2026-09-28",
@@ -25340,8 +24659,8 @@
       {
         "date": "2027-01-08",
         "returnDate": "2027-01-23",
-        "pricePp": 6969,
-        "cabinPricePp": 6175.95
+        "pricePp": 6779,
+        "cabinPricePp": 5989.75
       },
       {
         "date": "2027-01-19",
@@ -25385,7 +24704,7 @@
     "id": 10366,
     "title": "The Mekong in a different way - Between adventure and must-seesites (port-to-port cruise)",
     "slug": "croisieurope-the-mekong-in-a-different-way-between-adventure-and-must-seesites-port-to-port-cruise",
-    "price": 2519,
+    "price": 2489,
     "destination": "Mekong",
     "country": "Cambodia",
     "duration_nights": 8,
@@ -25480,7 +24799,7 @@
         "refurbished": "2016"
       },
       "firstSailingDate": "2026-09-21",
-      "sailingCount": 24
+      "sailingCount": 22
     },
     "ships": [
       {
@@ -25500,7 +24819,7 @@
           "refurbished": "2016"
         },
         "firstSailingDate": "2026-09-21",
-        "sailingCount": 24
+        "sailingCount": 22
       }
     ],
     "departure_port": "Ho Chi Minh City",
@@ -25556,7 +24875,7 @@
     "id": 10367,
     "title": "The Mekong in a different way - Between adventure and must-see sites (port-to-port cruise)",
     "slug": "croisieurope-the-mekong-in-a-different-way-between-adventure-and-must-see-sites-port-to-port-cruise",
-    "price": 2599,
+    "price": 2539,
     "destination": "Mekong",
     "country": "Cambodia",
     "duration_nights": 10,
@@ -25775,7 +25094,7 @@
     "id": 10368,
     "title": "Safari Cruise along the Zambezi River - South Africa, Botswana, Namibia, Zimbabwe (port-to-port cruise)",
     "slug": "croisieurope-safari-cruise-along-the-zambezi-river-south-africa-botswana-namibia-zimbabwe-port-to-port-cruise",
-    "price": 5189,
+    "price": 5169,
     "destination": "Chobe, Zambezi",
     "country": "Botswana",
     "duration_nights": 8,
@@ -25866,7 +25185,7 @@
         "built": "2018",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-04",
+      "firstSailingDate": "2026-09-19",
       "sailingCount": 113
     },
     "ships": [
@@ -25888,7 +25207,7 @@
           "built": "2018",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-04",
+        "firstSailingDate": "2026-09-19",
         "sailingCount": 113
       },
       {
@@ -25910,7 +25229,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-11",
-        "sailingCount": 123
+        "sailingCount": 122
       }
     ],
     "departure_port": "Johannesburg",
@@ -25918,12 +25237,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-04",
-        "returnDate": "2026-09-11",
-        "pricePp": 6299,
-        "cabinPricePp": 5549.4
-      },
       {
         "date": "2026-09-11",
         "returnDate": "2026-09-18",
@@ -26017,8 +25330,8 @@
       {
         "date": "2026-11-24",
         "returnDate": "2026-12-01",
-        "pricePp": 5879,
-        "cabinPricePp": 5130
+        "pricePp": 6069,
+        "cabinPricePp": 5323.5
       },
       {
         "date": "2026-11-27",
@@ -26107,8 +25420,8 @@
       {
         "date": "2026-12-27",
         "returnDate": "2027-01-03",
-        "pricePp": 6019,
-        "cabinPricePp": 5272.2
+        "pricePp": 5299,
+        "cabinPricePp": 4545
       },
       {
         "date": "2026-12-31",
@@ -26517,6 +25830,24 @@
         "returnDate": "2027-08-07",
         "pricePp": 7039,
         "cabinPricePp": 6289.2
+      },
+      {
+        "date": "2027-08-01",
+        "returnDate": "2027-08-10",
+        "pricePp": 7039,
+        "cabinPricePp": 6289.2
+      },
+      {
+        "date": "2027-08-02",
+        "returnDate": "2027-08-11",
+        "pricePp": 7039,
+        "cabinPricePp": 6289.2
+      },
+      {
+        "date": "2027-08-05",
+        "returnDate": "2027-08-14",
+        "pricePp": 7039,
+        "cabinPricePp": 6289.2
       }
     ]
   },
@@ -26640,7 +25971,7 @@
         "refurbished": ""
       },
       "firstSailingDate": "2026-09-15",
-      "sailingCount": 114
+      "sailingCount": 115
     },
     "ships": [
       {
@@ -26662,7 +25993,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-15",
-        "sailingCount": 114
+        "sailingCount": 115
       },
       {
         "shipId": 56,
@@ -26683,7 +26014,7 @@
           "refurbished": ""
         },
         "firstSailingDate": "2026-09-07",
-        "sailingCount": 126
+        "sailingCount": 127
       }
     ],
     "departure_port": "Cape Town",
@@ -26784,8 +26115,8 @@
       {
         "date": "2026-11-20",
         "returnDate": "2026-12-01",
-        "pricePp": 8539,
-        "cabinPricePp": 7788.6
+        "pricePp": 8729,
+        "cabinPricePp": 7982.1
       },
       {
         "date": "2026-11-23",
@@ -26874,8 +26205,8 @@
       {
         "date": "2026-12-23",
         "returnDate": "2027-01-03",
-        "pricePp": 8679,
-        "cabinPricePp": 7930.8
+        "pricePp": 7949,
+        "cabinPricePp": 7203.6
       },
       {
         "date": "2026-12-27",
@@ -27294,6 +26625,18 @@
       {
         "date": "2027-07-29",
         "returnDate": "2027-08-11",
+        "pricePp": 9739,
+        "cabinPricePp": 8991
+      },
+      {
+        "date": "2027-08-01",
+        "returnDate": "2027-08-14",
+        "pricePp": 9739,
+        "cabinPricePp": 8991
+      },
+      {
+        "date": "2027-08-06",
+        "returnDate": "2027-08-19",
         "pricePp": 9739,
         "cabinPricePp": 8991
       }
