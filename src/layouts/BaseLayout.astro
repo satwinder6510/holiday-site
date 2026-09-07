@@ -359,7 +359,27 @@ const websiteSchema = {
         api.on('conversationStart', function () { engaged = true; send('conversationStart', null); send('identity', identity()); });
         api.on('preFormFilled', function (d) { engaged = true; send('preFormFilled', d); send('identity', identity()); });
         api.on('messageFromVisitor', function (d) { engaged = true; send('messageFromVisitor', d); send('identity', identity()); });
-        api.on('messageFromOperator', function (d) { if (engaged) send('messageFromOperator', d); });
+        api.on('messageFromOperator', function (d) {
+          // Offline ticket form: Tidio fires a BLANK operator event and stores a
+          // createTicketSuccess marker + the visitor's email (the message text
+          // stays inside Tidio). Report it so the CRM still gets a lead.
+          if (d && !d.message) {
+            setTimeout(function () {
+              try {
+                var raw = localStorage.getItem('tidio_state_umkdiuqjxuccie7jbxsnr0f6pj3lkfcs');
+                var state = raw ? JSON.parse(raw) : null;
+                var msgs = (state && state.messages) || [];
+                var last = msgs[msgs.length - 1];
+                if (last && last.type === 'createTicketSuccess') {
+                  var v = state.visitor || {};
+                  send('offlineTicket', { email: v.email || '', name: v.name || '' });
+                }
+              } catch (e) {}
+            }, 500);
+            return;
+          }
+          if (engaged) send('messageFromOperator', d);
+        });
       }
 
       if (window.tidioChatApi) { hook(); }
