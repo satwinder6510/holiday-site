@@ -2389,6 +2389,25 @@ const pageDescription = holiday.metaDescription || (() => {
       align-items: flex-start;
       gap: 4px;
     }
+    /* Phones: two-line rows (label + £ on top, local-currency amount beneath) instead
+       of four fixed-width columns squeezing the label into a 4-line sliver. The
+       exchange rate is dropped here; it's on desktop for anyone who wants it. */
+    .local-charges-list__row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2px 12px;
+      padding: 8px 0;
+    }
+    .local-charges-list__label { grid-column: 1; grid-row: 1; }
+    .local-charges-list__gbp { grid-column: 2; grid-row: 1; min-width: 0; }
+    .local-charges-list__foreign {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      min-width: 0;
+      text-align: left;
+      font-size: 12px;
+    }
+    .local-charges-list__rate { display: none; }
   }
 
   /* ========================================
