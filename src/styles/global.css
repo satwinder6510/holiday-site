@@ -23,13 +23,37 @@
     text-decoration: none;
     color: inherit;
   }
+  /* Typography — restored to the designer's base.css (assets/css/base_Org.css)
+     on 2026-09-08. The port had changed p to 16/28 and dropped h1/h3 entirely,
+     so pages invented their own sizes (19 distinct sizes on one detail page). */
   p {
-    font-size: 16px;
-    line-height: 28px;
+    margin: 0 0 20px;
+    font-size: 14px;
+    line-height: 26px;
+    color: #000000;
+  }
+  @media (max-width: 768px) {
+    p { font-size: 12px; line-height: 24px; }
+  }
+  p:last-of-type {
+    margin: 0;
+  }
+  strong, b {
+    font-weight: 600;
+  }
+  h1 {
+    margin: 0 0 10px;
+    font-size: 64px;
+    line-height: 60px;
+    position: relative;
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
     color: #424242;
   }
   @media (max-width: 768px) {
-    p { font-size: 15px; line-height: 26px; }
+    h1 { font-size: 40px; line-height: 48px; }
+  }
+  @media (max-width: 450px) {
+    h1 { font-size: 36px; line-height: 46px; }
   }
   h2 {
     margin: 0 0 10px;
@@ -45,7 +69,16 @@
   @media (max-width: 450px) {
     h2 { font-size: 30px; line-height: 32px; }
   }
-  h3, h4, h5, h6 {
+  h3 {
+    margin: 0 0 10px;
+    font-size: 40px;
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
+    color: #424242;
+  }
+  @media (max-width: 768px) {
+    h3 { font-size: 36px; line-height: 40px; }
+  }
+  h4, h5, h6 {
     margin: 0;
   }
   h4 {

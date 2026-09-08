@@ -81,6 +81,45 @@
   font-display: swap;
 }
 
+/* The designer's base.css declared these four too; they were dropped in the port,
+   so BentonSansBlack (detail-page phone number) and ExtraLight (about page) were
+   rendering in Helvetica. Restored 2026-09-08. */
+@font-face {
+  font-family: 'BentonSansBlack';
+  src: url('/fonts/BentonSans-Black.woff2') format('woff2'),
+       url('/fonts/BentonSans-Black.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSansLight';
+  src: url('/fonts/BentonSans-Light.woff2') format('woff2'),
+       url('/fonts/BentonSans-Light.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSansExtraLight';
+  src: url('/fonts/BentonSans-ExtraLight.woff2') format('woff2'),
+       url('/fonts/BentonSans-ExtraLight.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BentonSansItalic';
+  src: url('/fonts/BentonSans-Italic.woff2') format('woff2'),
+       url('/fonts/BentonSans-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* CaslonGraphiqueEF — Display/Heading Font */
 @font-face {
   font-family: 'CaslonGraphiqueEF';
