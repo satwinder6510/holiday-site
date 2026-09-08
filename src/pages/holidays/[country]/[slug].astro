@@ -2304,8 +2304,10 @@ const pageDescription = holiday.metaDescription || (() => {
      LOCAL CHARGES BAR
      ======================================== */
   .local-charges-bar {
-    background: #fef9e7;
-    border-bottom: 1px solid #f0e6c0;
+    /* Same tint as .pricing-inline below so the strip and pricing read as one block
+       (was a one-off yellow #fef9e7 used nowhere else on the site, owner 2026-09-08) */
+    background: #f0f9fa;
+    border-bottom: 1px solid #d0e8ea;
   }
   .local-charges-bar__inner {
     display: flex;
@@ -2339,8 +2341,8 @@ const pageDescription = holiday.metaDescription || (() => {
     color: #187880;
   }
   .local-charges-bar__breakdown {
-    background: #fdf6e3;
-    border-top: 1px solid #f0e6c0;
+    background: #e6f4f6;
+    border-top: 1px solid #d0e8ea;
     padding: 12px 0;
   }
   .local-charges-list {
@@ -2376,7 +2378,7 @@ const pageDescription = holiday.metaDescription || (() => {
   .local-charges-list__total {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #e0d5b0;
+    border-top: 1px solid #c4dfe2;
     padding-top: 8px;
     margin-top: 4px;
     font-weight: 600;
