@@ -122,7 +122,7 @@
     .newsletter-text { padding-right: 0; }
   }
   .newsletter-title {
-    font-family: "BentonSansMedium", sans-serif;
+    font-family: BentonSans, sans-serif; font-weight: 500;
     font-size: 30px;
     line-height: 24px;
     color: #ffffff;
@@ -162,7 +162,7 @@
   /* ---- Spotler Mail+ form styling (injected at runtime into the card) ---- */
   /* Uses :global() because Astro scoped CSS can't reach JS-injected markup. */
   .newsletter-form-mount :global(.mpForm) {
-    font-family: "BentonSansMedium", sans-serif;
+    font-family: BentonSans, sans-serif; font-weight: 500;
     margin: 0;
   }
   .newsletter-form-mount :global(.mpFormTable) {
@@ -244,7 +244,7 @@
     font-weight: bold;
     letter-spacing: 0.5px;
     cursor: pointer;
-    font-family: "BentonSansMedium", sans-serif;
+    font-family: BentonSans, sans-serif;
     transition: opacity 0.2s ease;
   }
   .newsletter-form-mount :global(.submitButton:hover) {

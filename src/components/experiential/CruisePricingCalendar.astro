@@ -113,7 +113,7 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
   .cpc__card { background: #fff; border: 1px solid #e1edee; border-radius: 16px; padding: 28px; box-shadow: 0 1px 3px rgba(7,49,64,.04); }
 
   .cpc__controls { display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; }
-  .cpc__label { font-family: "BentonSansMedium", sans-serif; font-size: 12px; letter-spacing: .4px; text-transform: uppercase; color: #177D85; }
+  .cpc__label { font-family: BentonSans, sans-serif; font-weight: 500; font-size: 12px; letter-spacing: .4px; text-transform: uppercase; color: #177D85; }
   .cpc__select {
     width: 100%; min-height: 48px; padding: 13px 42px 13px 14px;
     border: 1px solid #cfe0e2; border-radius: 10px; font-size: 15px; color: #073140;
@@ -131,13 +131,13 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
   .cpc__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
   /* Day headers + cells are injected by JS, so they need :global() — Astro's
      scoped hash is only applied to markup present at build time. */
-  :global(.cpc-dh) { text-align: center; font-size: 11px; letter-spacing: .4px; text-transform: uppercase; color: #9aa8aa; font-family: "BentonSansMedium", sans-serif; padding: 0 0 8px; }
+  :global(.cpc-dh) { text-align: center; font-size: 11px; letter-spacing: .4px; text-transform: uppercase; color: #9aa8aa; font-family: BentonSans, sans-serif; font-weight: 500; padding: 0 0 8px; }
 
   :global(.cpc-day) { min-height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 4px 2px; border-radius: 10px; font: inherit; background: none; border: 1px solid transparent; }
   :global(.cpc-day--empty) { min-height: 0; border: none; }
   :global(.cpc-day:not(button) .cpc-day__num) { font-size: 12px; color: #cdd6d8; }
   :global(button.cpc-day) { cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
-  :global(button.cpc-day .cpc-day__num) { font-size: 15px; line-height: 1; color: #073140; font-family: "BentonSansMedium", sans-serif; }
+  :global(button.cpc-day .cpc-day__num) { font-size: 15px; line-height: 1; color: #073140; font-family: BentonSans, sans-serif; font-weight: 500; }
   :global(button.cpc-day .cpc-day__price) { display: block; font-size: 11px; line-height: 1.1; color: #3a4344; }
   :global(.cpc-day--best) { background: #E3F4F5; border-color: #9DD6DA; }
   :global(.cpc-day--mid)  { background: #ffffff; border-color: #dbe6e8; }
@@ -157,13 +157,13 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
   .cpc__summary-info { display: flex; flex-direction: column; gap: 2px; }
   .cpc__summary--empty .cpc__summary-info { color: #5a6668; font-size: 14px; }
   /* Summary detail is injected by JS → :global() */
-  :global(.cpc__sum-date) { font-family: "BentonSansMedium", sans-serif; font-size: 15px; color: #073140; }
+  :global(.cpc__sum-date) { font-family: BentonSans, sans-serif; font-weight: 500; font-size: 15px; color: #073140; }
   :global(.cpc__sum-meta) { font-size: 13px; color: #5a6668; }
   :global(.cpc__sum-price) { font-size: 14px; color: #177D85; margin-top: 4px; }
-  :global(.cpc__sum-price strong) { font-family: "BentonSansMedium", sans-serif; font-size: 22px; }
+  :global(.cpc__sum-price strong) { font-family: BentonSans, sans-serif; font-weight: 500; font-size: 22px; }
   :global(.cpc__sum-price .cpc__sum-pp) { color: #5a6668; }
 
-  .cpc__btn { background: #ff7f00; color: #fff; min-height: 48px; padding: 0 24px; border-radius: 8px; border: none; cursor: pointer; font-family: "BentonSansMedium", sans-serif; font-size: 15px; white-space: nowrap; }
+  .cpc__btn { background: #ff7f00; color: #fff; min-height: 48px; padding: 0 24px; border-radius: 8px; border: none; cursor: pointer; font-family: BentonSans, sans-serif; font-weight: 500; font-size: 15px; white-space: nowrap; }
   .cpc__btn:hover { filter: brightness(1.06); }
   .cpc__fulllink { display: block; text-align: center; margin-top: 16px; color: #20A1AA; font-size: 14px; text-decoration: none; }
   .cpc__fulllink:hover { text-decoration: underline; }
