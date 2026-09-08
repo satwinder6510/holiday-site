@@ -378,7 +378,25 @@ const websiteSchema = {
             }, 500);
             return;
           }
-          if (engaged) send('messageFromOperator', d);
+          if (!engaged) return;
+          // Which agent joined? Tidio's state carries operator_id on the message
+          // (written a beat after the event fires) — the CRM assigns the lead to
+          // that agent. Numeric id only; the id→agent map lives in the API.
+          setTimeout(function () {
+            var operatorId = null;
+            try {
+              var raw = localStorage.getItem('tidio_state_umkdiuqjxuccie7jbxsnr0f6pj3lkfcs');
+              var state = raw ? JSON.parse(raw) : null;
+              var msgs = (state && state.messages) || [];
+              for (var i = msgs.length - 1; i >= 0; i--) {
+                if (msgs[i].sender === 'operator' && msgs[i].operator_id) { operatorId = msgs[i].operator_id; break; }
+              }
+              if (!operatorId && state && state.assignedOperators && state.assignedOperators[0]) {
+                operatorId = state.assignedOperators[0].id || state.assignedOperators[0];
+              }
+            } catch (e) {}
+            send('messageFromOperator', { message: d.message, fromBot: !!d.fromBot, operatorId: operatorId });
+          }, 600);
         });
       }
 

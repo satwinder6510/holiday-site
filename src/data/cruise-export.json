@@ -22552,8 +22552,8 @@
         "built": "2008",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-07",
-      "sailingCount": 32
+      "firstSailingDate": "2026-09-23",
+      "sailingCount": 29
     },
     "ships": [
       {
@@ -22573,8 +22573,8 @@
           "built": "2008",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-07",
-        "sailingCount": 32
+        "firstSailingDate": "2026-09-23",
+        "sailingCount": 29
       },
       {
         "shipId": 51,
@@ -22625,12 +22625,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-07",
-        "returnDate": "2026-09-17",
-        "pricePp": 3629,
-        "cabinPricePp": 2823.4
-      },
       {
         "date": "2026-09-23",
         "returnDate": "2026-10-03",
@@ -23111,8 +23105,8 @@
         "built": "2008",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-07",
-      "sailingCount": 32
+      "firstSailingDate": "2026-09-23",
+      "sailingCount": 29
     },
     "ships": [
       {
@@ -23132,8 +23126,8 @@
           "built": "2008",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-07",
-        "sailingCount": 32
+        "firstSailingDate": "2026-09-23",
+        "sailingCount": 29
       },
       {
         "shipId": 51,
@@ -23184,12 +23178,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-07",
-        "returnDate": "2026-09-14",
-        "pricePp": 3019,
-        "cabinPricePp": 2249.6
-      },
       {
         "date": "2026-09-23",
         "returnDate": "2026-09-30",
@@ -26013,8 +26001,8 @@
           "built": "2020",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-07",
-        "sailingCount": 127
+        "firstSailingDate": "2026-09-13",
+        "sailingCount": 124
       }
     ],
     "departure_port": "Cape Town",
@@ -26022,12 +26010,6 @@
     "board_basis": "Full Board",
     "port_fee_pp": 0,
     "sailings": [
-      {
-        "date": "2026-09-07",
-        "returnDate": "2026-09-18",
-        "pricePp": 7879,
-        "cabinPricePp": 7127.1
-      },
       {
         "date": "2026-09-13",
         "returnDate": "2026-09-24",
