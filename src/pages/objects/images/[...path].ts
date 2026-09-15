@@ -11,6 +11,11 @@ export const GET: APIRoute = async ({ params, locals, request }) => {
   if (!bucket) {
     return new Response('Not found', { status: 404 });
   }
+  // Local dev only: the local R2 is empty, so review pages against production's images.
+  if (import.meta.env.DEV) {
+    const u = new URL(request.url);
+    return new Response(null, { status: 302, headers: { Location: `https://holidays.flightsandpackages.com${u.pathname}${u.search}` } });
+  }
 
   // `?w=<px>` → resized variant (see lib/image-resize.ts); no param → original bytes.
   const width = snapWidth(new URL(request.url).searchParams.get('w'));

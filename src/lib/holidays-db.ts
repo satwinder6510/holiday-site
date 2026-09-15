@@ -420,6 +420,65 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
   return all;
 }
 
+/** First/last future departure and the months sailed, per holiday-site id. */
+export interface DepartureWindow {
+  first: string;   // YYYY-MM-DD
+  last: string;    // YYYY-MM-DD
+  months: string[]; // YYYY-MM, ascending
+}
+
+/**
+ * Departure windows for listing cards and the river-cruise landing page: cruises
+ * from cruise_sailings (via offer × sailing cabins), manual packages from
+ * package_pricing. Aggregates only; never throws (returns what it gathered).
+ */
+export async function getDepartureWindows(db: Database, ids: number[]): Promise<Map<number, DepartureWindow>> {
+  const result = new Map<number, DepartureWindow>();
+  const today = new Date().toISOString().slice(0, 10);
+  const cruiseIds = ids.filter(id => id > CRUISE_ID_OFFSET).map(id => id - CRUISE_ID_OFFSET);
+  const packageIds = ids.filter(id => id <= CRUISE_ID_OFFSET);
+  const put = (id: number, first: string | null, last: string | null, months: string | null) => {
+    if (!first || !last) return;
+    result.set(id, {
+      first: first.slice(0, 10),
+      last: last.slice(0, 10),
+      months: [...new Set((months || '').split(',').filter(Boolean))].sort(),
+    });
+  };
+  try {
+    const cruiseChunks = await Promise.all(chunkArray(cruiseIds, 80).map(chunk =>
+      db
+        .select({
+          offerId: cruiseOfferSailingCabins.offerId,
+          first: sql<string>`MIN(${cruiseSailings.departureDate})`,
+          last: sql<string>`MAX(${cruiseSailings.departureDate})`,
+          months: sql<string>`GROUP_CONCAT(DISTINCT substr(${cruiseSailings.departureDate}, 1, 7))`,
+        })
+        .from(cruiseOfferSailingCabins)
+        .innerJoin(cruiseSailings, eq(cruiseOfferSailingCabins.sailingId, cruiseSailings.id))
+        .where(and(inArray(cruiseOfferSailingCabins.offerId, chunk), gte(cruiseSailings.departureDate, today)))
+        .groupBy(cruiseOfferSailingCabins.offerId),
+    ));
+    for (const r of cruiseChunks.flat()) put(r.offerId + CRUISE_ID_OFFSET, r.first, r.last, r.months);
+    const pkgChunks = await Promise.all(chunkArray(packageIds, 80).map(chunk =>
+      db
+        .select({
+          packageId: packagePricing.packageId,
+          first: sql<string>`MIN(${packagePricing.departureDate})`,
+          last: sql<string>`MAX(${packagePricing.departureDate})`,
+          months: sql<string>`GROUP_CONCAT(DISTINCT substr(${packagePricing.departureDate}, 1, 7))`,
+        })
+        .from(packagePricing)
+        .where(and(inArray(packagePricing.packageId, chunk), gte(packagePricing.departureDate, today)))
+        .groupBy(packagePricing.packageId),
+    ));
+    for (const r of pkgChunks.flat()) put(r.packageId, r.first, r.last, r.months);
+  } catch (err) {
+    console.error('getDepartureWindows failed', err);
+  }
+  return result;
+}
+
 export interface CabinPrice {
   cabinType: string;
   pricePp: number;

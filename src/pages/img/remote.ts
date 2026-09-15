@@ -23,9 +23,15 @@ export const GET: APIRoute = async ({ request, locals }) => {
     return new Response('Forbidden', { status: 403 });
   }
 
-  const original = async () => Response.redirect(upstream.toString(), 302);
+  // Not Response.redirect(): that returns immutable headers and the site middleware
+  // appends security headers to every response, which would throw.
+  const original = async () => new Response(null, { status: 302, headers: { Location: upstream.toString() } });
   const width = snapWidth(url.searchParams.get('w'));
   if (!width) return original();
+  // Local dev has no RESIZER binding: review against production's resizer instead of 3 MB originals.
+  if (import.meta.env.DEV) {
+    return new Response(null, { status: 302, headers: { Location: `https://holidays.flightsandpackages.com${url.pathname}${url.search}` } });
+  }
 
   return serveResized(request, (locals as any).runtime, width, { kind: 'remote', url: upstream.toString() }, original);
 };

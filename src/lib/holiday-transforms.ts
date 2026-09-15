@@ -202,9 +202,22 @@ export interface HolidayDetail extends Holiday {
   cabins?: { name: string; pricePp: number; thumb?: string }[];
   /** Cruise only — "Operated by MS Vivaldi & MS Douce France on selected dates" (multi-ship routes). */
   operatedByLabel?: string;
+  /** Cruise only — the primary (cheapest-entry) ship's name, for cards. */
+  shipName?: string;
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────
+
+/**
+ * Supplier titles carry operator jargon a customer never uses: "(port-to-port
+ * cruise)", "(port to port)". Strip it for display; the DB/slug keep the original.
+ */
+export function cleanCruiseTitle(title: string): string {
+  return (title || '')
+    .replace(/\s*\((?:port[- ]to[- ]port(?: cruise)?|cruise only)\)\s*/gi, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
 
 const IMAGE_BASE_URL = 'https://holidays.flightsandpackages.com';
 
@@ -661,5 +674,6 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     routeTo: raw.disembark_port || '',
     cabinImages: raw.ship ? [...(raw.ship.cabin_images || []), raw.ship.cover_image].filter(Boolean) : [],
     operatedByLabel,
+    shipName: shipNames[0] || raw.ship_name || '',
   };
 }
