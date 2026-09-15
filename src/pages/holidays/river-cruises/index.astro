@@ -40,6 +40,9 @@ try {
 }
 
 const fromPrice = (h: HolidayDetail) => h.displayPrice ?? roundToNine(h.price + h.localChargesPp);
+// Tile photo: prefer a Widgety cruise (ids over 10000), whose image is the ship's exterior cover;
+// manual packages' featured images can be a cabin or bar.
+const tileImage = (list: HolidayDetail[]) => (list.find(h => h.id > 10000 && h.image) || list.find(h => h.image))?.image || '';
 const nightsOf = (h: HolidayDetail) => { const m = h.duration.match(/(\d+)\s*Nights/i); return m ? parseInt(m[1], 10) : 0; };
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const monthLabel = (ym: string) => `${MONTHS[parseInt(ym.slice(5, 7), 10) - 1]} ${ym.slice(0, 4)}`;
@@ -117,7 +120,7 @@ const lengths = [
   { key: 'long', title: 'The long way round', sub: '9 nights and more', test: (n: number) => n >= 9 },
 ].map(l => {
   const matches = cruises.filter(h => l.test(nightsOf(h)));
-  return { ...l, count: matches.length, image: matches[0]?.image || '' };
+  return { ...l, count: matches.length, image: tileImage(matches) };
 });
 
 // ── Season (months with a sailing, next 12 months) ──────────────────
@@ -131,7 +134,7 @@ const seasons = [
     const w = windows.get(h.id);
     return w?.months.some(ym => s.months.includes(parseInt(ym.slice(5, 7), 10)));
   });
-  return { ...s, count: matches.length, image: matches[0]?.image || '', query: s.months.join(',') };
+  return { ...s, count: matches.length, image: tileImage(matches), query: s.months.join(',') };
 });
 
 // ── Ships / operators ───────────────────────────────────────────────
@@ -225,52 +228,66 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
     </section>
   )}
 
-  <section class="section-container rc-section">
-    <div class="rc-heading">
-      <p class="section-label">choose your river</p>
-      <h2>By river</h2>
-      <a class="rc-more" href="/Holidays/river-cruises/all">All rivers</a>
+  <!-- By river: dark full-bleed band, tall portrait tiles edge to edge -->
+  <section class="rc-band rc-band-dark" aria-labelledby="rc-rivers-h">
+    <div class="section-container rc-band-head">
+      <div>
+        <p class="section-label">choose your river</p>
+        <h2 id="rc-rivers-h">By river</h2>
+      </div>
+      <div class="rc-arrows" data-strip="rivers">
+        <button type="button" class="rc-arrow" data-dir="-1" aria-label="Previous rivers">&larr;</button>
+        <button type="button" class="rc-arrow" data-dir="1" aria-label="Next rivers">&rarr;</button>
+      </div>
     </div>
-    <div class="rc-tiles rc-tiles-3">
+    <div class="rc-strip" id="strip-rivers">
       {rivers.map(r => (
-        <a class="rc-tile" href={`/Holidays/river-cruises/${r.slug}`}>
-          <img src={imgSrc(r.image, 640)} alt="" loading="lazy" decoding="async" width="640" height="400" />
-          <span class="rc-tile-name">{r.name}</span>
+        <a class="rc-portrait" href={`/Holidays/river-cruises/${r.slug}`}>
+          <img src={imgSrc(r.image, 640)} alt="" loading="lazy" decoding="async" width="640" height="1000" />
           <span class="rc-tile-count">{r.count} {r.count === 1 ? 'cruise' : 'cruises'}</span>
+          <span class="rc-portrait-name">{r.name}</span>
         </a>
       ))}
     </div>
+    <div class="section-container rc-band-foot">
+      <a class="btn-primary rc-explore" href="/Holidays/river-cruises/all">All rivers</a>
+    </div>
   </section>
 
-  <section class="section-container rc-section">
-    <div class="rc-heading">
+  <!-- By length: text column beside three portrait cards -->
+  <section class="section-container rc-section rc-split" aria-labelledby="rc-length-h">
+    <div class="rc-split-text">
       <p class="section-label">how long</p>
-      <h2>By length</h2>
+      <h2 id="rc-length-h">By length</h2>
+      <p>Two to four nights is a taster, usually with a city at one end. A week is the classic river cruise. Nine nights and more takes in two rivers, or the whole length of one.</p>
     </div>
-    <div class="rc-tiles rc-tiles-3">
+    <div class="rc-split-cards">
       {lengths.filter(l => l.count > 0).map(l => (
-        <a class="rc-tile" href={`/Holidays/river-cruises/all?nights=${l.key}`}>
-          <img src={imgSrc(l.image, 640)} alt="" loading="lazy" decoding="async" width="640" height="400" />
-          <span class="rc-tile-name">{l.title}<small>{l.sub}</small></span>
+        <a class="rc-portrait rc-portrait-sm" href={`/Holidays/river-cruises/all?nights=${l.key}`}>
+          <img src={imgSrc(l.image, 640)} alt="" loading="lazy" decoding="async" width="640" height="900" />
           <span class="rc-tile-count">{l.count} cruises</span>
+          <span class="rc-portrait-name">{l.title}<small>{l.sub}</small></span>
         </a>
       ))}
     </div>
   </section>
 
-  <section class="section-container rc-section">
-    <div class="rc-heading">
-      <p class="section-label">when to go</p>
-      <h2>By season</h2>
-    </div>
-    <div class="rc-tiles rc-tiles-4">
-      {seasons.filter(s => s.count > 0).map(s => (
-        <a class="rc-tile" href={`/Holidays/river-cruises/all?months=${s.query}`}>
-          <img src={imgSrc(s.image, 640)} alt="" loading="lazy" decoding="async" width="640" height="400" />
-          <span class="rc-tile-name">{s.title}<small>{s.sub}</small></span>
-          <span class="rc-tile-count">{s.count} cruises</span>
-        </a>
-      ))}
+  <!-- By season: staggered tiles on a grey band -->
+  <section class="rc-band rc-band-grey" aria-labelledby="rc-season-h">
+    <div class="section-container">
+      <div class="rc-heading">
+        <p class="section-label">when to go</p>
+        <h2 id="rc-season-h">By season</h2>
+      </div>
+      <div class="rc-stagger">
+        {seasons.filter(s => s.count > 0).map(s => (
+          <a class="rc-tile rc-tile-tall" href={`/Holidays/river-cruises/all?months=${s.query}`}>
+            <img src={imgSrc(s.image, 640)} alt="" loading="lazy" decoding="async" width="640" height="800" />
+            <span class="rc-tile-count">{s.count} cruises</span>
+            <span class="rc-tile-name">{s.title}<small>{s.sub}</small></span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -377,6 +394,46 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
   .rc-tile-name small { display: block; font-family: BentonSans, sans-serif; font-size: 13px; margin-top: 4px; opacity: .9; }
   .rc-tile-count { position: absolute; right: 14px; top: 14px; z-index: 1; background: rgba(255,255,255,.92); color: #073140; font-size: 12px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; padding: 7px 11px; border-radius: 3px; }
 
+  /* Full-bleed bands */
+  .rc-band { margin-top: 64px; padding: 56px 0 48px; }
+  .rc-band-dark { background: linear-gradient(180deg, #0b2b38 0%, #073140 100%); color: #fff; }
+  .rc-band-dark h2 { color: #fff; }
+  .rc-band-dark .section-label { color: #9fd9dd; }
+  .rc-band-grey { background: #f2f5f6; }
+  .rc-band-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 26px; padding-left: 20px; padding-right: 20px; }
+  .rc-band-head h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; margin: 0; }
+  .rc-band-head .section-label, .rc-split-text .section-label, .rc-band-grey .section-label {
+    margin: 0 0 6px; font-family: BentonSans, sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #20A1AA;
+  }
+  .rc-band-foot { padding: 28px 20px 0; }
+  .rc-explore { display: inline-block; padding: 16px 28px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; background: #20A1AA; color: #fff; text-decoration: none; border-radius: 3px; }
+  .rc-arrows { display: flex; gap: 6px; }
+  .rc-arrow { width: 56px; height: 56px; border: 0; background: rgba(255,255,255,.12); color: #fff; font-size: 20px; cursor: pointer; }
+  .rc-arrow:hover { background: rgba(255,255,255,.22); }
+
+  /* Edge-to-edge strip of tall tiles (scroll-snap; arrows nudge it) */
+  .rc-strip { --edge: max(20px, calc((100vw - 1240px) / 2 + 20px)); display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: var(--edge); scrollbar-width: none; padding: 0 var(--edge); }
+  .rc-strip::-webkit-scrollbar { display: none; }
+  .rc-portrait { position: relative; flex: 0 0 296px; aspect-ratio: 296 / 515; scroll-snap-align: start; overflow: hidden; color: #fff; text-decoration: none; background: #073140; display: block; }
+  .rc-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+  .rc-portrait::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,49,64,0) 45%, rgba(7,49,64,.85) 100%); }
+  .rc-portrait:hover img { transform: scale(1.04); }
+  .rc-portrait-name { position: absolute; left: 18px; right: 18px; bottom: 22px; z-index: 1; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 30px; line-height: 1.1; }
+  .rc-portrait-name small { display: block; font-family: BentonSans, sans-serif; font-size: 13px; margin-top: 6px; opacity: .9; }
+
+  /* Text column beside cards */
+  .rc-split { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: center; }
+  .rc-split-text h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; margin: 0 0 16px; color: #424242; }
+  .rc-split-text p:not(.section-label) { line-height: 26px; margin: 0; }
+  .rc-split-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .rc-portrait-sm { flex: none; aspect-ratio: 3 / 4; border-radius: 4px; }
+  .rc-portrait-sm .rc-portrait-name { font-size: 24px; }
+
+  /* Staggered tiles */
+  .rc-stagger { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: start; }
+  .rc-stagger .rc-tile-tall { aspect-ratio: 4 / 5; }
+  .rc-stagger > :nth-child(even) { margin-top: 44px; }
+
   /* Operators */
   .rc-ops { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
   .rc-op { background: #fff; border-radius: 4px; box-shadow: 0 6px 12px 2px rgba(0,0,0,.08); overflow: hidden; }
@@ -400,6 +457,10 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
   @media (max-width: 1100px) {
     .rc-offer-grid { grid-template-columns: repeat(2, 1fr); }
     .rc-tiles-4 { grid-template-columns: repeat(2, 1fr); }
+    .rc-split { grid-template-columns: 1fr; gap: 28px; }
+    .rc-stagger { grid-template-columns: repeat(2, 1fr); }
+    .rc-stagger > :nth-child(even) { margin-top: 0; }
+    .rc-stagger > :nth-child(4n+2), .rc-stagger > :nth-child(4n+3) { margin-top: 0; }
   }
   @media (max-width: 768px) {
     .rc-hero { height: 360px; }
@@ -411,7 +472,11 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
     .rc-heading h2 { font-size: 32px; }
   }
   @media (max-width: 610px) {
-    .rc-offer-grid, .rc-tiles-3, .rc-tiles-4 { grid-template-columns: 1fr; }
+    .rc-offer-grid, .rc-tiles-3, .rc-tiles-4, .rc-split-cards { grid-template-columns: 1fr; }
+    .rc-stagger { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .rc-portrait { flex-basis: 240px; }
+    .rc-band-head h2, .rc-split-text h2 { font-size: 30px; }
+    .rc-arrows { display: none; }
     .rc-heading { align-items: flex-end; }
     .rc-heading h2 { font-size: 30px; }
     .rc-more { margin-bottom: 6px; }
@@ -419,3 +484,18 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
     .rc-tile-name { font-size: 22px; }
   }
 </style>
+
+<script>
+  // Strip arrows: nudge the edge-to-edge tile strip by one tile.
+  document.querySelectorAll<HTMLElement>('.rc-arrows').forEach(arrows => {
+    const strip = document.getElementById(`strip-${arrows.dataset.strip}`);
+    if (!strip) return;
+    arrows.querySelectorAll<HTMLButtonElement>('.rc-arrow').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tile = strip.querySelector<HTMLElement>('.rc-portrait');
+        const step = (tile?.getBoundingClientRect().width || 300) + 6;
+        strip.scrollBy({ left: step * Number(btn.dataset.dir || 1), behavior: 'smooth' });
+      });
+    });
+  });
+</script>
