@@ -108,10 +108,15 @@ for (const r of riverMap.values()) {
 // A river earns a tile when at least two cruises are sold under its own name; rivers
 // that only ever appear as the second half of a pairing ("Rhone, Saone") ride along.
 const soloCount = (name: string) => cruises.filter(c => c.destination === name).length;
+// Hand-picked river photos (public/images/rivers/<slug>.jpg). A slug listed here wins
+// over the automatic ship cover; add a line when the file is added.
+const RIVER_IMAGES: Record<string, string> = {
+};
 const rivers = [...riverMap.values()]
   .filter(r => soloCount(r.name) >= 2)
   .sort((a, b) => b.count - a.count)
-  .slice(0, 9);
+  .slice(0, 9)
+  .map(r => ({ ...r, image: RIVER_IMAGES[r.slug] || r.image }));
 
 // ── Length ───────────────────────────────────────────────────────────
 const lengths = [

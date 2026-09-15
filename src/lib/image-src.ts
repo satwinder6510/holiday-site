@@ -11,7 +11,7 @@
 
 const SITE_ORIGIN = 'https://holidays.flightsandpackages.com';
 const LOCAL_PREFIXES = ['/objects/images/', '/api/media/'];
-export const REMOTE_IMAGE_HOSTS = new Set(['widgety.co.uk', 'www.widgety.co.uk', 'assets.widgety.co.uk']);
+export const REMOTE_IMAGE_HOSTS = new Set(['widgety.co.uk', 'www.widgety.co.uk', 'assets.widgety.co.uk', 'holidays.flightsandpackages.com']);
 
 export function imgSrc(url: string | null | undefined, width: number): string {
   if (!url) return '';
@@ -19,6 +19,12 @@ export function imgSrc(url: string | null | undefined, width: number): string {
   if (url.startsWith(SITE_ORIGIN)) path = url.slice(SITE_ORIGIN.length);
   if (LOCAL_PREFIXES.some(p => path.startsWith(p))) {
     return `${path}${path.includes('?') ? '&' : '?'}w=${width}`;
+  }
+  // Static files under public/images: resize via the remote route against the live site
+  // (in local dev the file is served as-is, since it may not be deployed yet).
+  if (path.startsWith('/images/')) {
+    if (import.meta.env.DEV) return path;
+    return `/img/remote?w=${width}&u=${encodeURIComponent(SITE_ORIGIN + path)}`;
   }
   try {
     const u = new URL(url);
