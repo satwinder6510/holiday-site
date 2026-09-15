@@ -21,6 +21,8 @@ import { getAllListedHolidaysFromDb, getDepartureWindows, type DepartureWindow }
 import { slugifyRiver, cleanCruiseTitle, type HolidayDetail } from '../../../lib/holiday-transforms';
 import { roundToNine } from '../../../lib/pricing-transforms';
 import { imgSrc } from '../../../lib/image-src';
+import { flightPackages } from '../../../lib/db-schema';
+import { inArray } from 'drizzle-orm';
 
 const PHONE = '0208 183 0518';
 const PHONE_HREF = 'tel:02081830518';
@@ -41,6 +43,10 @@ const fromPrice = (h: HolidayDetail) => h.displayPrice ?? roundToNine(h.price + 
 const nightsOf = (h: HolidayDetail) => { const m = h.duration.match(/(\d+)\s*Nights/i); return m ? parseInt(m[1], 10) : 0; };
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const monthLabel = (ym: string) => `${MONTHS[parseInt(ym.slice(5, 7), 10) - 1]} ${ym.slice(0, 4)}`;
+const dateLabel = (iso: string) => {
+  const d = new Date(iso.slice(0, 10) + 'T00:00:00Z');
+  return `${String(d.getUTCDate()).padStart(2, '0')} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+};
 function sailsLabel(w: DepartureWindow | undefined): string {
   if (!w) return '';
   const a = w.first.slice(0, 7), b = w.last.slice(0, 7);
@@ -53,7 +59,30 @@ function sailsLabel(w: DepartureWindow | undefined): string {
 const offers = cruises
   .filter(h => h.isSpecialOffer && fromPrice(h) > 0)
   .sort((a, b) => fromPrice(a) - fromPrice(b))
-  .slice(0, 8);
+  .slice(0, 9);
+
+// Manually built cruise packages carry the ship under accommodations ("MS Vivaldi"),
+// which the listing query leaves out. Fetch just those rows for the offers shown.
+const shipByPackage = new Map<number, string>();
+try {
+  const manualIds = offers.filter(h => !h.shipName && h.id < 10000).map(h => h.id);
+  if (manualIds.length) {
+    const rows = await getDb(Astro)
+      .select({ id: flightPackages.id, accommodations: flightPackages.accommodations })
+      .from(flightPackages)
+      .where(inArray(flightPackages.id, manualIds));
+    for (const r of rows) {
+      const names = ((r.accommodations as { name?: string }[] | null) || []).map(a => a.name || '');
+      // Two entries = pre-cruise hotel + ship; drop anything that reads as a hotel, keep the last.
+      const ships = names.filter(n => n && !/\b(hotel|inn|palace|palazzo|plaza|palais|resort|apartments?)\b/i.test(n));
+      const ship = ships[ships.length - 1] || '';
+      if (ship) shipByPackage.set(r.id, ship.trim());
+    }
+  }
+} catch (e) {
+  console.error('ship lookup failed:', e);
+}
+const shipOf = (h: HolidayDetail) => h.shipName || shipByPackage.get(h.id) || '';
 
 // ── Rivers (same derivation as the listing so tile links resolve) ───
 const countryNames = new Set(cruises.map(c => c.country));
@@ -154,26 +183,44 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
         <a class="rc-more" href="/Holidays/river-cruises/all?special=1">All offers</a>
       </div>
       <div class="rc-offer-grid">
-        {offers.map(h => (
+        {offers.map(h => {
+          const w = windows.get(h.id);
+          const nights = nightsOf(h);
+          const url = `/Holidays/${h.countrySlug}/${h.slug}`;
+          return (
           <article class="rc-offer">
-            <a class="rc-offer-img" href={`/Holidays/${h.countrySlug}/${h.slug}`} aria-hidden="true" tabindex="-1">
-              <img src={imgSrc(h.image, 640)} alt="" loading="lazy" decoding="async" width="640" height="400" />
-              <span class="rc-badge">Special offer</span>
-              {riverOf(h) && <span class="rc-river">{riverOf(h)}</span>}
+            <a class="rc-offer-img" href={url} aria-hidden="true" tabindex="-1">
+              <img src={imgSrc(h.image, 800)} alt="" loading="lazy" decoding="async" width="800" height="500" />
+              <span class="rc-pills">
+                <span class="rc-pill">Special offer</span>
+                {riverOf(h) && <span class="rc-pill">{riverOf(h)}</span>}
+              </span>
+              {h.operator && <span class="rc-operator">{h.operator}</span>}
             </a>
             <div class="rc-offer-body">
-              <h3><a href={`/Holidays/${h.countrySlug}/${h.slug}`}>{cleanCruiseTitle(h.title)}</a></h3>
-              <p class="rc-meta">
-                {nightsOf(h)} nights{h.shipName ? ` · ${h.shipName}` : ''}{h.routeFrom && h.routeTo ? ` · ${h.routeFrom} to ${h.routeTo}` : ''}
-              </p>
-              {sailsLabel(windows.get(h.id)) && <p class="rc-sails">{sailsLabel(windows.get(h.id))}</p>}
+              <h3><a href={url}>{cleanCruiseTitle(h.title)}</a></h3>
+              <ul class="rc-facts">
+                <li>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/></svg>
+                  <span>{w ? dateLabel(w.cheapestDate || w.first) : 'Call for dates'}</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8 8 0 0 1 8.5 4a8 8 0 1 0 11.5 11.5Z"/></svg>
+                  <span>{nights} nights</span>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"/><path d="M4 14l1.5-4h13L20 14"/><path d="M7 10V6h10v4"/><path d="M12 3v3"/></svg>
+                  <span>{shipOf(h) || h.operator || 'Ship confirmed on booking'}</span>
+                </li>
+              </ul>
               <div class="rc-offer-foot">
-                <p class="rc-price"><span>from</span> £{fromPrice(h).toLocaleString('en-GB')}<small>pp</small></p>
-                <a class="rc-view" href={`/Holidays/${h.countrySlug}/${h.slug}`}>View</a>
+                <p class="rc-price"><span>from</span>£{fromPrice(h).toLocaleString('en-GB')}<small>/pp</small></p>
+                <a class="rc-view" href={url}>View more <span aria-hidden="true">›</span></a>
               </div>
             </div>
           </article>
-        ))}
+          );
+        })}
       </div>
     </section>
   )}
@@ -294,23 +341,28 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
   }
   .rc-more { margin-left: auto; color: #20A1AA; font-weight: 500; text-decoration: none; border-bottom: 1px solid currentColor; }
 
-  /* Special offers */
-  .rc-offer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
-  .rc-offer { background: #fff; border-radius: 4px; box-shadow: 0 6px 12px 2px rgba(0,0,0,.08); overflow: hidden; display: flex; flex-direction: column; }
-  .rc-offer-img { position: relative; display: block; aspect-ratio: 16 / 10; }
+  /* Special offers — the cruise-site card: pills on the photo, operator mark, fact strip, price + View more */
+  .rc-offer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .rc-offer { background: #fff; border-radius: 6px; box-shadow: 0 6px 16px rgba(0,0,0,.08); overflow: hidden; display: flex; flex-direction: column; }
+  .rc-offer-img { position: relative; display: block; aspect-ratio: 16 / 10; background: #eef2f3; }
   .rc-offer-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .rc-badge { position: absolute; top: 12px; left: 12px; background: #ff7f00; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 5px 9px; border-radius: 3px; }
-  .rc-river { position: absolute; bottom: 12px; left: 12px; background: rgba(7,49,64,.85); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 5px 9px; border-radius: 3px; }
-  .rc-offer-body { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; }
-  .rc-offer h3 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 21px; line-height: 1.2; margin: 0 0 8px; }
+  .rc-pills { position: absolute; top: 14px; left: 14px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .rc-pill { background: #073140; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 12px; border-radius: 999px; white-space: nowrap; }
+  .rc-operator { position: absolute; right: 0; bottom: 0; background: #fff; color: #073140; font-size: 12px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; padding: 10px 16px; border-top-left-radius: 6px; }
+  .rc-offer-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+  .rc-offer h3 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 24px; line-height: 1.2; margin: 0 0 20px; height: 3.6em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .rc-offer h3 a { color: #424242; text-decoration: none; }
-  .rc-meta { font-size: 13px; color: #6b6b6b; margin: 0 0 4px; line-height: 20px; }
-  .rc-sails { font-size: 13px; color: #0d6066; margin: 0; font-weight: 500; }
-  .rc-offer-foot { margin-top: auto; padding-top: 14px; display: flex; align-items: flex-end; justify-content: space-between; border-top: 1px solid rgba(0,0,0,.08); margin-top: 14px; }
-  .rc-price { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 30px; line-height: 1; color: #424242; }
-  .rc-price span { font-family: BentonSans, sans-serif; font-size: 12px; display: block; margin-bottom: 4px; color: #6b6b6b; }
-  .rc-price small { font-family: BentonSans, sans-serif; font-size: 12px; margin-left: 3px; color: #6b6b6b; }
-  .rc-view { background: #20A1AA; color: #fff; text-decoration: none; font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; padding: 10px 16px; border-radius: 3px; }
+  .rc-facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #e3e8ea; border-radius: 4px; }
+  .rc-facts li { padding: 14px 8px; text-align: center; font-size: 13px; line-height: 18px; color: #424242; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .rc-facts li + li { border-left: 1px solid #e3e8ea; }
+  .rc-facts svg { width: 26px; height: 26px; fill: none; stroke: #20A1AA; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .rc-offer-foot { margin-top: auto; padding-top: 18px; border-top: 1px dashed #d9dfe2; display: flex; align-items: center; justify-content: space-between; }
+  .rc-facts { margin-bottom: 22px; }
+  .rc-price { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 34px; line-height: 1; color: #20A1AA; }
+  .rc-price span { font-family: BentonSans, sans-serif; font-size: 13px; display: block; margin-bottom: 6px; color: #424242; }
+  .rc-price small { font-family: BentonSans, sans-serif; font-size: 14px; color: #424242; }
+  .rc-view { background: #20A1AA; color: #fff; text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: .5px; text-transform: uppercase; padding: 16px 20px; border-radius: 3px; white-space: nowrap; }
+  .rc-view span { margin-left: 6px; }
 
   /* Tiles */
   .rc-tiles { display: grid; gap: 18px; }

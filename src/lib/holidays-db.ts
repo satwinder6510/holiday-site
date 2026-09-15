@@ -425,6 +425,8 @@ export interface DepartureWindow {
   first: string;   // YYYY-MM-DD
   last: string;    // YYYY-MM-DD
   months: string[]; // YYYY-MM, ascending
+  /** The departure the "from" price belongs to (cheapest future date). */
+  cheapestDate?: string;
 }
 
 /**
@@ -473,6 +475,40 @@ export async function getDepartureWindows(db: Database, ids: number[]): Promise<
         .groupBy(packagePricing.packageId),
     ));
     for (const r of pkgChunks.flat()) put(r.packageId, r.first, r.last, r.months);
+
+    // Cheapest future departure per holiday. SQLite's bare-column rule returns the
+    // departure_date from the same row that produced MIN(price).
+    const cheapCruise = await Promise.all(chunkArray(cruiseIds, 80).map(chunk =>
+      db
+        .select({
+          offerId: cruiseFlightPrices.offerId,
+          date: cruiseFlightPrices.departureDate,
+          price: sql<number>`MIN(CAST(${cruiseFlightPrices.totalPricePp} AS REAL))`,
+        })
+        .from(cruiseFlightPrices)
+        .where(and(inArray(cruiseFlightPrices.offerId, chunk), gte(cruiseFlightPrices.departureDate, today)))
+        .groupBy(cruiseFlightPrices.offerId),
+    ));
+    const cheapPkg = await Promise.all(chunkArray(packageIds, 80).map(chunk =>
+      db
+        .select({
+          packageId: packagePricing.packageId,
+          date: packagePricing.departureDate,
+          price: sql<number>`MIN(${packagePricing.price})`,
+        })
+        .from(packagePricing)
+        .where(and(inArray(packagePricing.packageId, chunk), gte(packagePricing.departureDate, today)))
+        .groupBy(packagePricing.packageId),
+    ));
+    const setCheapest = (id: number, date: string | null) => {
+      if (!date) return;
+      const d = date.slice(0, 10);
+      const w = result.get(id);
+      if (w) w.cheapestDate = d;
+      else result.set(id, { first: d, last: d, months: [d.slice(0, 7)], cheapestDate: d });
+    };
+    for (const r of cheapCruise.flat()) setCheapest(r.offerId + CRUISE_ID_OFFSET, r.date);
+    for (const r of cheapPkg.flat()) setCheapest(r.packageId, r.date);
   } catch (err) {
     console.error('getDepartureWindows failed', err);
   }
