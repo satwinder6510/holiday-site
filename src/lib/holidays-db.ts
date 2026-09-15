@@ -1,5 +1,5 @@
 // SSR query functions — fetch holidays + pricing from D1
-import { eq, and, inArray, gte, sql } from 'drizzle-orm';
+import { eq, and, inArray, gte, sql, getTableColumns } from 'drizzle-orm';
 import type { Database } from './db';
 import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable, cruiseSailings, cruiseOfferSailingCabins, hotelLibrary } from './db-schema';
 import {
@@ -153,19 +153,19 @@ async function getCheapestPriceForIds(db: Database, ids: number[]): Promise<Map<
   const result = new Map<number, number>();
   if (ids.length === 0) return result;
   const today = new Date().toISOString().slice(0, 10);
-  for (const chunk of chunkArray(ids, 80)) {
-    const rows = await db
+  const chunks = await Promise.all(chunkArray(ids, 80).map(chunk =>
+    db
       .select({
         packageId: packagePricing.packageId,
         cheapest: sql<number>`MIN(${packagePricing.price})`,
       })
       .from(packagePricing)
       .where(and(inArray(packagePricing.packageId, chunk), gte(packagePricing.departureDate, today)))
-      .groupBy(packagePricing.packageId);
-    for (const r of rows) {
-      const price = Number(r.cheapest);
-      if (price > 0) result.set(r.packageId, price);
-    }
+      .groupBy(packagePricing.packageId),
+  ));
+  for (const r of chunks.flat()) {
+    const price = Number(r.cheapest);
+    if (price > 0) result.set(r.packageId, price);
   }
   return result;
 }
@@ -360,15 +360,32 @@ export async function getHolidayBySlugFromDb(
   return { holiday, pricing };
 }
 
+// Listing pages render cards: title, image, duration, price, country and the blurb. The itinerary, hotel, included/highlights and refresh-config JSON columns
+// are ~1.3 MB across the published holidays and no listing reads them, so they are
+// left out of the listing SELECT and defaulted to empty for the shared transform.
+const {
+  whatsIncluded: _wi, highlights: _hl, itinerary: _it, accommodations: _ac, otherInfo: _oi,
+  sourceUrl: _su, videos: _vd, excluded: _ex, requirements: _rq, attention: _at, review: _rv,
+  flightRefreshConfig: _frc, ...listingColumns
+} = getTableColumns(flightPackages);
+const LISTING_OMITTED = {
+  whatsIncluded: [] as string[], highlights: [] as string[], itinerary: [] as unknown[],
+  accommodations: [] as unknown[], otherInfo: null, sourceUrl: null, videos: [] as string[],
+  excluded: null, requirements: null, attention: null, review: null, flightRefreshConfig: null,
+};
+
 /** Get all published, non-unlisted holidays + cruises, with cheapest prices. */
 export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayDetail[]> {
-  const rows = await db
-    .select()
-    .from(flightPackages)
-    .where(and(eq(flightPackages.isPublished, true), eq(flightPackages.isUnlisted, false)));
+  const [rows, cityTaxRates] = await Promise.all([
+    db
+      .select(listingColumns)
+      .from(flightPackages)
+      .where(and(eq(flightPackages.isPublished, true), eq(flightPackages.isUnlisted, false))),
+    loadCityTaxesLive(db),
+  ]);
 
-  setCityTaxRates(await loadCityTaxesLive(db));
-  const holidays = rows.map(row => transformHoliday(dbRowToRawHoliday(row)));
+  setCityTaxRates(cityTaxRates);
+  const holidays = rows.map(row => transformHoliday(dbRowToRawHoliday({ ...LISTING_OMITTED, ...row } as DbRow)));
   const cheapest = await getCheapestPriceForIds(db, holidays.map(h => h.id));
   for (const h of holidays) {
     const price = cheapest.get(h.id);
@@ -381,15 +398,15 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
   // listing, country page, search and the sitemap.
   const dbCruiseIds = cruiseHolidays.map(c => c.id - CRUISE_ID_OFFSET).filter(id => id > 0);
   const livePrice = new Map<number, number>();
-  for (const chunk of chunkArray(dbCruiseIds, 80)) {
-    const rows = await db
+  const offerChunks = await Promise.all(chunkArray(dbCruiseIds, 80).map(chunk =>
+    db
       .select({ id: cruiseOffersTable.id, cheapestTotalPp: cruiseOffersTable.cheapestTotalPp, isActive: cruiseOffersTable.isActive })
       .from(cruiseOffersTable)
-      .where(inArray(cruiseOffersTable.id, chunk));
-    for (const row of rows) {
-      const price = Number(row.cheapestTotalPp);
-      if (row.isActive && price > 0) livePrice.set(row.id + CRUISE_ID_OFFSET, price);
-    }
+      .where(inArray(cruiseOffersTable.id, chunk)),
+  ));
+  for (const row of offerChunks.flat()) {
+    const price = Number(row.cheapestTotalPp);
+    if (row.isActive && price > 0) livePrice.set(row.id + CRUISE_ID_OFFSET, price);
   }
   const cruises: HolidayDetail[] = [];
   for (const c of cruiseHolidays) {
