@@ -142,13 +142,32 @@ async function getPricingForIds(db: Database, ids: number[]): Promise<Map<number
   return result;
 }
 
-function applyPricing(holidays: HolidayDetail[], pricingMap: Map<number, HolidayPricing>): void {
-  for (const h of holidays) {
-    const pricing = pricingMap.get(h.id);
-    if (pricing) {
-      h.price = pricing.cheapestPrice;
+/**
+ * Cheapest future price per package — the ONLY pricing fact listing pages need.
+ * One aggregate per chunk instead of pulling every future departure row (138k+
+ * rows at last count) into the Worker just to take a minimum. Same semantics as
+ * transformHolidayPricing().cheapestPrice: min over departures dated today or
+ * later, sold-out rows included.
+ */
+async function getCheapestPriceForIds(db: Database, ids: number[]): Promise<Map<number, number>> {
+  const result = new Map<number, number>();
+  if (ids.length === 0) return result;
+  const today = new Date().toISOString().slice(0, 10);
+  for (const chunk of chunkArray(ids, 80)) {
+    const rows = await db
+      .select({
+        packageId: packagePricing.packageId,
+        cheapest: sql<number>`MIN(${packagePricing.price})`,
+      })
+      .from(packagePricing)
+      .where(and(inArray(packagePricing.packageId, chunk), gte(packagePricing.departureDate, today)))
+      .groupBy(packagePricing.packageId);
+    for (const r of rows) {
+      const price = Number(r.cheapest);
+      if (price > 0) result.set(r.packageId, price);
     }
   }
+  return result;
 }
 
 // ── Cruise data (static) ────────────────────────────────────────────
@@ -350,9 +369,11 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
 
   setCityTaxRates(await loadCityTaxesLive(db));
   const holidays = rows.map(row => transformHoliday(dbRowToRawHoliday(row)));
-  const ids = holidays.map(h => h.id);
-  const pricingMap = await getPricingForIds(db, ids);
-  applyPricing(holidays, pricingMap);
+  const cheapest = await getCheapestPriceForIds(db, holidays.map(h => h.id));
+  for (const h of holidays) {
+    const price = cheapest.get(h.id);
+    if (price) h.price = price;
+  }
 
   // Cruises: only those whose offer is still ACTIVE with a live headline price.
   // The export is a snapshot; D1 decides what is sellable today. Anything else
