@@ -49,11 +49,38 @@ if (country && holiday.countrySlug && country.toLowerCase() !== holiday.countryS
   return Astro.redirect(`/Holidays/${holiday.countrySlug}/${slug}`, 301);
 }
 
-const countryLower = holiday.country.toLowerCase();
-const matchedBlogs = allBlogs.filter(b => {
-  const text = (b.title + ' ' + b.excerpt).toLowerCase();
-  return text.includes(countryLower);
-});
+// Related posts: rank by relevance to this holiday's country and cities, title
+// matches first. Whole-word matching so "India" never picks up "Indian Ocean".
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const wordRe = (s: string) => new RegExp(`\\b${escapeRe(s.trim())}\\b`, 'i');
+const countryRe = wordRe(holiday.country);
+// Place terms from the holiday's own title ("Golden Triangle", "Pushkar", "Goa"),
+// plus its cities. Generic tour words are skipped.
+const TITLE_STOP = new Set(['holiday', 'holidays', 'tour', 'tours', 'days', 'nights', 'day', 'night', 'with', 'from', 'the', 'and', 'cruise', 'cruises', 'break', 'breaks', 'escape', 'escapes', 'luxury', 'classic', 'grand', 'discover', 'explore', 'beach', 'beaches', 'island', 'islands', 'coast', 'city', 'cities', 'twin', 'multi', 'centre', 'safari', 'experience', 'highlights', 'wonders', 'treasures', 'adventure', 'journey', 'stay', 'north', 'south', 'east', 'west', 'northern', 'southern']);
+const isPlaceTerm = (s: string) => s.length >= 4 && !TITLE_STOP.has(s.toLowerCase()) && !countryRe.test(s) && !/^\d+$/.test(s);
+const titlePhrases = holiday.title
+  .split(/,|&|\/|\band\b|\bwith\b|\bplus\b|-|–|:/i)
+  .map(s => s.trim())
+  .filter(isPlaceTerm);
+const titleWords = titlePhrases.flatMap(p => p.split(/\s+/)).filter(isPlaceTerm);
+// Phrases and cities count in titles and excerpts; loose single words only in titles.
+const placeRes = [...new Set([...titlePhrases, ...(holiday.cities || [])])].filter(Boolean).map(wordRe);
+const titleOnlyRes = [...new Set(titleWords)].map(wordRe);
+const SKIP_RE = /quarantine|covid|coronavirus|travel advice|lockdown|traffic light/i;
+const scoreBlog = (b: { title: string; excerpt: string }) => {
+  if (SKIP_RE.test(b.title)) return 0;
+  let score = 0;
+  if (countryRe.test(b.title)) score += 4;
+  if (placeRes.some(re => re.test(b.title)) || titleOnlyRes.some(re => re.test(b.title))) score += 3;
+  if (countryRe.test(b.excerpt)) score += 1;
+  if (placeRes.some(re => re.test(b.excerpt))) score += 1;
+  return score;
+};
+const matchedBlogs = allBlogs
+  .map((b, i) => ({ b, score: scoreBlog(b), i }))
+  .filter(x => x.score > 0)
+  .sort((a, z) => z.score - a.score || a.i - z.i)
+  .map(x => x.b);
 const latestBlogs = matchedBlogs.length >= 2 ? matchedBlogs.slice(0, 4) : allBlogs.slice(0, 4);
 
 // Escape '<' inside the JSON so a string value can never contain '</script>' and
