@@ -32,10 +32,14 @@ function pickFormat(accept: string | null): Format {
   return 'jpeg';
 }
 
-export type ResizeTarget = { kind: 'r2'; key: string } | { kind: 'remote'; url: string };
+export type ResizeTarget =
+  | { kind: 'r2'; key: string }
+  | { kind: 'remote'; url: string }
+  /** A static file of this site (public/…): read via the ASSETS binding, bytes posted to the engine. */
+  | { kind: 'asset'; path: string };
 
 interface RuntimeLike {
-  env?: { RESIZER?: { fetch: (input: Request) => Promise<Response> } };
+  env?: { RESIZER?: { fetch: (input: Request) => Promise<Response> }; ASSETS?: { fetch: (input: Request) => Promise<Response> } };
   ctx?: { waitUntil?: (p: Promise<unknown>) => void };
 }
 
@@ -72,8 +76,23 @@ export async function serveResized(
 
   try {
     const q = new URLSearchParams({ w: String(width), f: format });
-    if (target.kind === 'r2') q.set('key', target.key); else q.set('u', target.url);
-    const upstream = await resizer.fetch(new Request(`https://resizer/img/${target.kind}?${q}`, { method: 'GET' }));
+    let upstream: Response;
+    if (target.kind === 'asset') {
+      // The engine cannot fetch this site's domain from inside a request for it (loop
+      // protection), so read the file here and post the bytes.
+      const assets = runtime?.env?.ASSETS;
+      if (!assets) return original();
+      const file = await assets.fetch(new Request(new URL(target.path, request.url).toString(), { method: 'GET' }));
+      if (!file.ok || !file.body) return original();
+      upstream = await resizer.fetch(new Request(`https://resizer/img/bytes?${q}`, {
+        method: 'POST',
+        headers: { 'Content-Type': file.headers.get('Content-Type') || 'image/jpeg' },
+        body: file.body,
+      }));
+    } else {
+      if (target.kind === 'r2') q.set('key', target.key); else q.set('u', target.url);
+      upstream = await resizer.fetch(new Request(`https://resizer/img/${target.kind}?${q}`, { method: 'GET' }));
+    }
     if (!upstream.ok || !upstream.body) {
       console.error('resize: engine returned', upstream.status, target);
       return original();

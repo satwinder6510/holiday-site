@@ -33,5 +33,8 @@ export const GET: APIRoute = async ({ request, locals }) => {
     return new Response(null, { status: 302, headers: { Location: `https://holidays.flightsandpackages.com${url.pathname}${url.search}` } });
   }
 
-  return serveResized(request, (locals as any).runtime, width, { kind: 'remote', url: upstream.toString() }, original);
+  const target = upstream.hostname === 'holidays.flightsandpackages.com'
+    ? { kind: 'asset' as const, path: upstream.pathname }
+    : { kind: 'remote' as const, url: upstream.toString() };
+  return serveResized(request, (locals as any).runtime, width, target, original);
 };
