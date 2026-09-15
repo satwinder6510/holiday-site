@@ -67,14 +67,16 @@ const offers = cruises
 // Manually built cruise packages carry the ship under accommodations ("MS Vivaldi"),
 // which the listing query leaves out. Fetch just those rows for the offers shown.
 const shipByPackage = new Map<number, string>();
+const includedByPackage = new Map<number, string[]>();
 try {
-  const manualIds = offers.filter(h => !h.shipName && h.id < 10000).map(h => h.id);
+  const manualIds = offers.filter(h => h.id < 10000).map(h => h.id);
   if (manualIds.length) {
     const rows = await getDb(Astro)
-      .select({ id: flightPackages.id, accommodations: flightPackages.accommodations })
+      .select({ id: flightPackages.id, accommodations: flightPackages.accommodations, whatsIncluded: flightPackages.whatsIncluded })
       .from(flightPackages)
       .where(inArray(flightPackages.id, manualIds));
     for (const r of rows) {
+      includedByPackage.set(r.id, ((r.whatsIncluded as string[] | null) || []).filter(Boolean));
       const names = ((r.accommodations as { name?: string }[] | null) || []).map(a => a.name || '');
       // Two entries = pre-cruise hotel + ship; drop anything that reads as a hotel, keep the last.
       const ships = names.filter(n => n && !/\b(hotel|inn|palace|palazzo|plaza|palais|resort|apartments?)\b/i.test(n));
@@ -86,6 +88,37 @@ try {
   console.error('ship lookup failed:', e);
 }
 const shipOf = (h: HolidayDetail) => h.shipName || shipByPackage.get(h.id) || '';
+
+// What else is in the price. The supplier lists are free text ("Alcohol and Soft
+// Drinks during Bar hours", "1 Nights stay at PLAZA INN Amedia Wien"), so read them
+// for the facts a buyer compares on, in a fixed order, and show at most four.
+function inclusionChips(h: HolidayDetail): string[] {
+  const lines = (includedByPackage.get(h.id) || h.whatsIncluded || []).map(l => l.replace(/\s+/g, ' ').trim());
+  const text = lines.join(' | ').toLowerCase();
+  const board = (h.boardBasis || '').toLowerCase();
+  const chips: string[] = [];
+  if (/flight/.test(text)) chips.push('Return flights');
+  if (/all[- ]inclusive/.test(board) || /all[- ]inclusive/.test(text)) chips.push('All inclusive on board');
+  else if (/full[- ]board/.test(board) || /full[- ]board/.test(text)) chips.push('Full board on board');
+  const WORDS: Record<string, number> = { one: 1, two: 2, three: 3, four: 4 };
+  const hotel = lines.find(l => /\b(\d+|one|two|three|four)\s*nights?\b.*\b(hotel|stay|inn|hôtel)\b/i.test(l) && !/cruise/i.test(l));
+  if (hotel) {
+    const n = hotel.match(/\b(\d+|one|two|three|four)\s*nights?/i);
+    const count = n ? (WORDS[n[1].toLowerCase()] ?? Number(n[1])) : 1;
+    // City: "in Vienna", ", Paris", or a "Breakfast included in Vienna" line nearby.
+    // One or two capitalised words after "in" or a comma; a trailing "Hotel" is dropped.
+    const cityFrom = (l: string) => l.match(/(?:\b(?:in|In|IN)\b|,)\s*([A-Z][\w\u00C0-\u017F'-]+(?:\s+[A-Z][\w\u00C0-\u017F'-]+)?)/)?.[1]?.replace(/\s+Hotel$/i, '').trim();
+    const city = cityFrom(hotel) || lines.map(cityFrom).find(Boolean) || '';
+    chips.push(`${count} hotel night${count > 1 ? 's' : ''}${city ? ' in ' + city : ''}`);
+  }
+  if (!chips.some(c => c.startsWith('All inclusive')) && /drink|open bar|\bbar\b/.test(text)) chips.push('Drinks with meals');
+  if (/excursion/.test(text)) chips.push('Excursions');
+  if (/transfer/.test(text)) chips.push('Transfers');
+  if (/\btips?\b|gratuit/.test(text)) chips.push('Tips');
+  if (/wi-?fi|wlan/.test(text)) chips.push('Wifi');
+  if (/luggage|baggage/.test(text)) chips.push('Hold luggage');
+  return chips.slice(0, 4);
+}
 
 // ── Rivers (same derivation as the listing so tile links resolve) ───
 const countryNames = new Set(cruises.map(c => c.country));
@@ -249,6 +282,11 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
                   <span>{shipOf(h) || h.operator || 'Ship confirmed on booking'}</span>
                 </li>
               </ul>
+              {inclusionChips(h).length > 0 && (
+                <ul class="rc-incl">
+                  {inclusionChips(h).map(c => <li>{c}</li>)}
+                </ul>
+              )}
               <div class="rc-offer-foot">
                 <p class="rc-price"><span>from</span>£{fromPrice(h).toLocaleString('en-GB')}<small>/pp</small></p>
                 <a class="rc-view" href={url}>View more <span aria-hidden="true">›</span></a>
@@ -408,7 +446,10 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
   .rc-facts li + li { border-left: 1px solid #e3e8ea; }
   .rc-facts svg { width: 26px; height: 26px; fill: none; stroke: #20A1AA; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .rc-offer-foot { margin-top: auto; padding-top: 18px; border-top: 1px dashed #d9dfe2; display: flex; align-items: center; justify-content: space-between; }
-  .rc-facts { margin-bottom: 22px; }
+  .rc-facts { margin-bottom: 14px; }
+  .rc-incl { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+  .rc-incl li { font-size: 13px; line-height: 20px; color: #424242; }
+  .rc-incl li::before { content: '✓'; color: #20A1AA; font-weight: 700; margin-right: 6px; }
   .rc-price { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 34px; line-height: 1; color: #20A1AA; }
   .rc-price span { font-family: BentonSans, sans-serif; font-size: 13px; display: block; margin-bottom: 6px; color: #424242; }
   .rc-price small { font-family: BentonSans, sans-serif; font-size: 14px; color: #424242; }
