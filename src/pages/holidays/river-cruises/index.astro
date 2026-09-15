@@ -158,7 +158,7 @@ const operators = [...operatorsMap.values()].sort((a, b) => b.count - a.count);
 // ── SEO ─────────────────────────────────────────────────────────────
 const pageTitle = 'River Cruises with Flights from the UK | Flights and Packages';
 const pageDescription = `${cruises.length} fly-cruise river holidays on the Rhine, Danube, Douro, Seine and more. Flights from UK airports, full board and transfers included. Call ${PHONE}.`;
-const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg'; // MV La Belle de l'Adriatique sun deck, CroisiEurope / Alexandre Sattler
+const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg'; // MV La Belle de l'Adriatique sun deck, 1920x425 panorama, CroisiEurope / Alexandre Sattler
 const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
 ---
 <BaseLayout title={pageTitle} description={pageDescription} image={bannerImage}>
@@ -168,7 +168,7 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
   <MobileNav />
 
   <section class="rc-hero" aria-label="River cruises">
-    <img src={bannerImage} alt="" class="rc-hero-bg" fetchpriority="high" decoding="async" width="1920" height="776" />
+    <img src={bannerImage} alt="" class="rc-hero-bg" fetchpriority="high" decoding="async" width="1920" height="425" />
     <div class="rc-hero-inner">
       <p class="rc-kicker">Fly-cruise river holidays</p>
       <h1>River cruises with flights from the UK</h1>
@@ -320,14 +320,15 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
 </BaseLayout>
 
 <style>
-  /* Same proportional height as the holiday detail hero (clamp 500 to 760px). */
-  .rc-hero { position: relative; height: clamp(500px, 40vw, 760px); display: flex; align-items: center; color: #fff; overflow: hidden; }
+  /* The hero photo is a 1920x425 panorama: hold its native ratio (22.1vw) so it is never
+     upscaled on a desktop. Floor of 360px keeps room for the headline on laptops. */
+  .rc-hero { position: relative; height: clamp(360px, 22.1vw, 425px); display: flex; align-items: center; color: #fff; overflow: hidden; }
   .rc-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .rc-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,49,64,.15) 0%, rgba(7,49,64,.65) 100%); }
-  .rc-hero-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 80px 20px; width: 100%; }
+  .rc-hero-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 40px 20px; width: 100%; }
   /* Explicit white: the global p colour would otherwise win over the hero's inherited colour. */
   .rc-kicker { font-family: BentonSans, sans-serif; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; font-size: 13px; margin: 0 0 12px; color: #fff; }
-  .rc-hero h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 56px; line-height: 1.05; margin: 0; max-width: 760px; color: #fff; }
+  .rc-hero h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 52px; line-height: 1.05; margin: 0; max-width: 760px; color: #fff; text-shadow: 0 2px 12px rgba(7,49,64,.45); }
   .rc-call { font-size: 17px; padding: 14px 26px; }
   .rc-link { color: #fff; text-decoration: underline; text-underline-offset: 4px; font-weight: 500; }
   .rc-section .rc-link { color: #20A1AA; }
@@ -401,7 +402,7 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
     .rc-tiles-4 { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 768px) {
-    .rc-hero { height: clamp(420px, 60vw, 560px); }
+    .rc-hero { height: 360px; }
     .rc-hero h1 { font-size: 38px; }
     .rc-hero-inner { padding: 48px 20px; }
     .rc-tiles-3 { grid-template-columns: repeat(2, 1fr); }
