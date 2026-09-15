@@ -15,6 +15,13 @@ database_id = "fd1870e7-9ad7-45a3-97fc-71f904189066"
 binding = "IMAGES"
 bucket_name = "holidays-images"
 
+# Resize engine for `?w=` on /objects/images, /api/media and /img/remote. Pages can't
+# hold an Images binding, so holiday-admin-api (same account) does the transform and
+# this service binding reaches it worker-to-worker. See src/lib/image-resize.ts.
+[[services]]
+binding = "RESIZER"
+service = "holiday-admin-api"
+
 [vars]
 # PRIVYR_WEBHOOK_URL is a secret — set via: npx wrangler pages secret put PRIVYR_WEBHOOK_URL --project-name holiday-site
 # Speed-to-lead intake (holiday-admin-api). Leads go here first; Privyr is the fallback.

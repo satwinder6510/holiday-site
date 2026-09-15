@@ -12,6 +12,7 @@ import { getDb } from '../../../lib/get-db';
 import { getAllListedHolidaysFromDb, getCabinPricingForOfferIds } from '../../../lib/holidays-db';
 import { slugifyRiver } from '../../../lib/holiday-transforms';
 import { roundToNine } from '../../../lib/pricing-transforms';
+import { imgSrc } from '../../../lib/image-src';
 
 const riverSlug = Astro.params.river as string | undefined;
 
@@ -437,7 +438,7 @@ const itemListSchema = holidays.length > 0 ? {
           >
             <div class="card-gallery">
               <div class="card-gallery-main">
-                <img class="card-gallery-img" src={cardImages[0]} alt={holiday.title} loading="lazy" decoding="async" />
+                <img class="card-gallery-img" src={imgSrc(cardImages[0], 800)} alt={holiday.title} loading="lazy" decoding="async" />
                 {showBadge && <span class="badge" aria-hidden="true">{holiday.destination}</span>}
                 {holiday.isSpecialOffer && <span class="special-badge" aria-hidden="true">Special Offer</span>}
                 <span class="duration-badge" aria-hidden="true">{nights ? `${Number(nights)} nights` : holiday.duration}</span>
@@ -445,8 +446,8 @@ const itemListSchema = holidays.length > 0 ? {
               {cardImages.length > 1 && (
                 <div class="card-gallery-thumbs">
                   {cardImages.map((im, i) => (
-                    <button type="button" class={`card-thumb${i === 0 ? ' active' : ''}`} data-src={im} aria-label={`Show image ${i + 1}`}>
-                      <img src={im} alt="" loading="lazy" decoding="async" />
+                    <button type="button" class={`card-thumb${i === 0 ? ' active' : ''}`} data-src={imgSrc(im, 800)} aria-label={`Show image ${i + 1}`}>
+                      <img src={imgSrc(im, 480)} alt="" loading="lazy" decoding="async" />
                     </button>
                   ))}
                 </div>

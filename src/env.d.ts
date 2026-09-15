@@ -4,6 +4,7 @@ type Runtime = import('@astrojs/cloudflare').Runtime<{
   DB: D1Database;
   PRIVYR_WEBHOOK_URL: string;
   IMAGES: R2Bucket;
+  RESIZER: Fetcher;
 }>;
 
 declare namespace App {
