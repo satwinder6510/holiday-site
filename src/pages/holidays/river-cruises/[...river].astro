@@ -9,12 +9,15 @@ import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import { getDb } from '../../../lib/get-db';
-import { getAllListedHolidaysFromDb, getCabinPricingForOfferIds } from '../../../lib/holidays-db';
-import { slugifyRiver } from '../../../lib/holiday-transforms';
+import { getAllListedHolidaysFromDb, getCabinPricingForOfferIds, getDepartureWindows, type DepartureWindow } from '../../../lib/holidays-db';
+import { slugifyRiver, cleanCruiseTitle } from '../../../lib/holiday-transforms';
 import { roundToNine } from '../../../lib/pricing-transforms';
 import { imgSrc } from '../../../lib/image-src';
 
-const riverSlug = Astro.params.river as string | undefined;
+// The bare /Holidays/river-cruises/ is the landing page (index.astro); this route
+// serves /river-cruises/all (every cruise) and /river-cruises/<river>.
+const rawRiverSlug = Astro.params.river as string | undefined;
+const riverSlug = rawRiverSlug === 'all' ? undefined : rawRiverSlug;
 
 /**
  * Cabin type names from the DB are long and inconsistent across operators
@@ -155,6 +158,23 @@ try {
   console.error('cabin pricing attach failed:', e);
 }
 
+// Departure windows ("Sails Nov 2026 to Mar 2027") + months for the ?months= filter.
+let windows = new Map<number, DepartureWindow>();
+try {
+  windows = await getDepartureWindows(getDb(Astro), holidays.map(h => h.id));
+} catch (e) {
+  console.error('departure windows failed:', e);
+}
+const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const monthLabel = (ym: string) => `${MONTH_ABBR[parseInt(ym.slice(5, 7), 10) - 1]} ${ym.slice(0, 4)}`;
+function sailsLabel(w: DepartureWindow | undefined): string {
+  if (!w) return '';
+  const a = w.first.slice(0, 7), b = w.last.slice(0, 7);
+  if (a === b) return `Sails ${monthLabel(a)}`;
+  if (a.slice(0, 4) === b.slice(0, 4)) return `Sails ${MONTH_ABBR[parseInt(a.slice(5, 7), 10) - 1]} to ${monthLabel(b)}`;
+  return `Sails ${monthLabel(a)} to ${monthLabel(b)}`;
+}
+
 // Sorted river list for sidebar links (with counts)
 const rivers = [...riverMap.entries()]
   .map(([slug, name]) => {
@@ -292,7 +312,7 @@ const itemListSchema = holidays.length > 0 ? {
         <div class="sidebar-content">
           <a
             class:list={['river-link', { active: !activeRiverName }]}
-            href="/Holidays/river-cruises"
+            href="/Holidays/river-cruises/all"
           >All Rivers ({allCruises.length})</a>
           {rivers.map(({ slug, name, count }) => (
             <a
@@ -435,6 +455,7 @@ const itemListSchema = holidays.length > 0 ? {
             data-operator={holiday.operator}
             data-price={fromPrice}
             data-special-offer={holiday.isSpecialOffer ? 'true' : 'false'}
+            data-months={(windows.get(holiday.id)?.months || []).map(ym => String(parseInt(ym.slice(5, 7), 10))).join(',')}
           >
             <div class="card-gallery">
               <div class="card-gallery-main">
@@ -454,9 +475,12 @@ const itemListSchema = holidays.length > 0 ? {
               )}
             </div>
             <div class="card-body">
-              <a class="card-title" href={detailUrl}><h3>{holiday.title}</h3></a>
+              <a class="card-title" href={detailUrl}><h3>{cleanCruiseTitle(holiday.title)}</h3></a>
               {routeLine && (
                 <div class="card-route">{routeLine}</div>
+              )}
+              {sailsLabel(windows.get(holiday.id)) && (
+                <div class="card-sails">{sailsLabel(windows.get(holiday.id))}</div>
               )}
               <div class="card-from-price" aria-label={`from £${fromPrice} per person`}>
                 <span aria-hidden="true">From</span>
@@ -906,6 +930,9 @@ const itemListSchema = holidays.length > 0 ? {
   .cruise-card .card-route {
     font-family: BentonSans, sans-serif; font-weight: 500; font-size: 13.5px; color: #0d6066; margin-bottom: 8px; line-height: 1.5;
   }
+  .cruise-card .card-sails {
+    font-family: BentonSans, sans-serif; font-weight: 500; font-size: 13px; color: #424242; margin: -2px 0 10px; line-height: 1.5;
+  }
   .cruise-card .card-from-price {
     display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
     padding-top: 12px; border-top: 1px solid #eef2f3;
@@ -1179,6 +1206,10 @@ const itemListSchema = holidays.length > 0 ? {
       updateFilterBadge();
     }
 
+    // ?months=11,12 (from the landing page season tiles): keep only cards sailing in those months.
+    const monthFilter = (new URLSearchParams(window.location.search).get('months') || '')
+      .split(',').map(m => m.trim()).filter(Boolean);
+
     function applyFilters() {
       const durations = getChecked('duration');
       const countries = getChecked('country');
@@ -1192,8 +1223,10 @@ const itemListSchema = holidays.length > 0 ? {
         const cardOp = (card.dataset.operator || '').toLowerCase();
         const matchOperator = operators.length === 0 || operators.some(o => o.toLowerCase() === cardOp);
         const matchSpecial = !specialOnly || card.dataset.specialOffer === 'true';
+        const cardMonths = (card.dataset.months || '').split(',');
+        const matchMonth = monthFilter.length === 0 || monthFilter.some(m => cardMonths.includes(m));
 
-        const passes = matchDuration && matchCountry && matchOperator && matchSpecial;
+        const passes = matchDuration && matchCountry && matchOperator && matchSpecial && matchMonth;
         card.classList.toggle('filtered-out', !passes);
         if (!passes) card.style.display = 'none';
       });
@@ -1339,13 +1372,21 @@ const itemListSchema = holidays.length > 0 ? {
       history.replaceState(null, '', u.toString());
     });
 
-    // Initial pagination on page load (apply ?special=1 if present)
-    if (new URLSearchParams(window.location.search).get('special') === '1' && specialCb) {
-      specialCb.checked = true;
-      applyFilters();
-    } else {
-      applyPagination(true);
+    // Initial pagination on page load. Landing-page tiles arrive with presets:
+    // ?special=1, ?nights=short|week|long (ticks the duration boxes), ?months=11,12.
+    const params = new URLSearchParams(window.location.search);
+    let preset = false;
+    if (params.get('special') === '1' && specialCb) { specialCb.checked = true; preset = true; }
+    const nightsPreset = params.get('nights');
+    if (nightsPreset) {
+      const inRange = (n: number) =>
+        nightsPreset === 'short' ? n <= 4 : nightsPreset === 'week' ? n >= 5 && n <= 8 : nightsPreset === 'long' ? n >= 9 : false;
+      document.querySelectorAll<HTMLInputElement>('input[name="duration"]').forEach(cb => {
+        if (inRange(parseInt(cb.value, 10))) { cb.checked = true; preset = true; }
+      });
     }
+    if (monthFilter.length > 0) preset = true;
+    if (preset) applyFilters(); else applyPagination(true);
 
     // Card gallery: clicking a thumbnail swaps the main image.
     holidaysContainer.addEventListener('click', (e) => {
