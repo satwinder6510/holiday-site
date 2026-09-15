@@ -113,6 +113,7 @@ const soloCount = (name: string) => cruises.filter(c => c.destination === name).
 const RIVER_IMAGES: Record<string, string> = {
   rhine: '/images/rivers/rhine.jpg', // Cologne cathedral and the Hohenzollern bridge at dusk (Pexels)
   rhone: '/images/rivers/rhone.jpg', // Grand Hotel-Dieu dome from the Rhone, Lyon (Pexels)
+  seine: '/images/rivers/seine.jpg', // Notre-Dame from the Seine, Paris (Unsplash, Margaret Jaszowska)
 };
 const rivers = [...riverMap.values()]
   .filter(r => soloCount(r.name) >= 2)
