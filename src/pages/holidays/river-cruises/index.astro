@@ -148,7 +148,7 @@ const SEASON_IMAGES: Record<string, string> = {
   christmas: '/images/seasons/christmas.jpg', // Christmas market stalls at night (Unsplash, Alexandra)
   spring: '/images/seasons/spring.jpg', // Blossom over a canal boat (Unsplash, Ryuta)
   summer: '/images/seasons/summer.jpg', // Decebalus rock carving, Iron Gates on the Danube (Unsplash, Butuza Gabriel)
-  autumn: '/images/seasons/autumn.jpg', // Budapest Parliament at dusk from the Chain Bridge
+  autumn: '/images/seasons/autumn.jpg', // Budapest Parliament at dusk from the Chain Bridge (Unsplash, Bai)
 };
 const seasons = [
   { key: 'christmas', title: 'Christmas markets', sub: 'Sailings in November and December', months: [11, 12] },
@@ -169,6 +169,10 @@ const OPERATOR_COPY: Record<string, string> = {
   'a-rosa': 'German premium ships with bigger cabins, a pool deck on most and a relaxed, all-inclusive style.',
   viva: 'Boutique ships with a fine-dining focus and everything included, from the bar to the excursions.',
 };
+// Hand-picked operator photos (public/images/operators/<key>.jpg).
+const OPERATOR_IMAGES: Record<string, string> = {
+  croisieurope: '/images/operators/croisieurope.jpg', // reception crew aboard a CroisiEurope ship
+};
 const operatorKey = (op: string) => {
   const k = op.toLowerCase().replace(/[^a-z-]/g, '');
   return k.startsWith('croisi') ? 'croisieurope' : k.startsWith('a-rosa') || k.startsWith('arosa') ? 'a-rosa' : k.startsWith('viva') ? 'viva' : k;
@@ -183,6 +187,7 @@ for (const c of cruises) {
   operatorsMap.set(key, o);
 }
 const operators = [...operatorsMap.values()].sort((a, b) => b.count - a.count);
+for (const [key, o] of operatorsMap) if (OPERATOR_IMAGES[key]) o.image = OPERATOR_IMAGES[key];
 
 // ── SEO ─────────────────────────────────────────────────────────────
 const pageTitle = 'River Cruises with Flights from the UK | Flights and Packages';
