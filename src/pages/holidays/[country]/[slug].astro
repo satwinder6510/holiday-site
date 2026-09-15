@@ -451,19 +451,17 @@ const pageDescription = holiday.metaDescription || (() => {
           {holiday.itinerary.length > 0 && (
             <div id="itinerary" class="itinerary-section content-section">
               <h2>Itinerary</h2>
-              <p class="itinerary-desc">Explore the day-by-day breakdown of your journey through {holiday.destination}.</p>
-              {holiday.itinerary.map((item, i) => (
+              {holiday.itinerary.map((item) => (
                 <div class="accordion-panel">
-                  <div class="panel-header" data-panel={`panel-${i}`} role="button" tabindex="0" aria-expanded={i === 0 ? 'true' : 'false'}>
+                  <div class="panel-header">
                     <div class="mobile-wrap">
                       <div class="day">{item.day}</div>
                       <div>
                         <div class="label">{item.title}</div>
                       </div>
                     </div>
-                    <span class={i === 0 ? 'panel-icon icon-less-minus' : 'panel-icon icon-more-plus'}></span>
                   </div>
-                  <div class="panel-content" style={i === 0 ? 'display:block;' : 'display:none;'}>
+                  <div class="panel-content">
                     <div class="desc">
                       <Fragment set:html={sanitizeHtml(item.description.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>'))} />
                     </div>
@@ -1527,9 +1525,8 @@ const pageDescription = holiday.metaDescription || (() => {
   .panel-header {
     display: flex;
     align-items: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    cursor: pointer;
+    padding-top: 26px;
+    padding-bottom: 14px;
   }
   @media (max-width: 610px) {
     .panel-header {
@@ -3420,11 +3417,6 @@ const pageDescription = holiday.metaDescription || (() => {
     outline: 2px solid #ff7f00;
     outline-offset: 3px;
   }
-  .panel-header:focus-visible {
-    outline: 2px solid #20A1AA;
-    outline-offset: -2px;
-    border-radius: 4px;
-  }
   .img-carousel-prev:focus-visible,
   .img-carousel-next:focus-visible,
   .img-carousel-expand:focus-visible {
@@ -3902,35 +3894,6 @@ const pageDescription = holiday.metaDescription || (() => {
         if (e.key === 'Escape' && modalEl?.classList.contains('active')) closePricingModal();
       });
     }
-
-    // ===== ACCORDION =====
-    const panelHeaders = document.querySelectorAll('.panel-header');
-    panelHeaders.forEach(header => {
-      const togglePanel = () => {
-        const panelContent = header.nextElementSibling as HTMLElement | null;
-        const icon = header.querySelector('.panel-icon');
-        if (!panelContent || !icon) return;
-
-        if (panelContent.style.display === 'none' || panelContent.style.display === '') {
-          panelContent.style.display = 'block';
-          icon.classList.remove('icon-more-plus');
-          icon.classList.add('icon-less-minus');
-          header.setAttribute('aria-expanded', 'true');
-        } else {
-          panelContent.style.display = 'none';
-          icon.classList.remove('icon-less-minus');
-          icon.classList.add('icon-more-plus');
-          header.setAttribute('aria-expanded', 'false');
-        }
-      };
-      header.addEventListener('click', togglePanel);
-      header.addEventListener('keydown', (e) => {
-        if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') {
-          e.preventDefault();
-          togglePanel();
-        }
-      });
-    });
 
     // ===== MOBILE TAB DROPDOWN =====
     const dropDown = document.querySelector('.mobile-tab-toggle .drop-down');
