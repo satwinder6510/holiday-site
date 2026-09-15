@@ -112,6 +112,7 @@ const soloCount = (name: string) => cruises.filter(c => c.destination === name).
 // over the automatic ship cover; add a line when the file is added.
 const RIVER_IMAGES: Record<string, string> = {
   rhine: '/images/rivers/rhine.jpg', // Cologne cathedral and the Hohenzollern bridge at dusk (Pexels)
+  rhone: '/images/rivers/rhone.jpg', // Grand Hotel-Dieu dome from the Rhone, Lyon (Pexels)
 };
 const rivers = [...riverMap.values()]
   .filter(r => soloCount(r.name) >= 2)
