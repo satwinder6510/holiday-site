@@ -143,6 +143,10 @@ const lengths = [
 });
 
 // ── Season (months with a sailing, next 12 months) ──────────────────
+// Hand-picked photos (public/images/seasons/<key>.jpg); a key listed here wins over the ship cover.
+const SEASON_IMAGES: Record<string, string> = {
+  christmas: '/images/seasons/christmas.jpg', // Christmas market stalls at night (Unsplash, Alexandra)
+};
 const seasons = [
   { key: 'christmas', title: 'Christmas markets', sub: 'Sailings in November and December', months: [11, 12] },
   { key: 'spring', title: 'Spring blossom', sub: 'Sailings March to May', months: [3, 4, 5] },
@@ -153,7 +157,7 @@ const seasons = [
     const w = windows.get(h.id);
     return w?.months.some(ym => s.months.includes(parseInt(ym.slice(5, 7), 10)));
   });
-  return { ...s, count: matches.length, image: tileImage(matches), query: s.months.join(',') };
+  return { ...s, count: matches.length, image: SEASON_IMAGES[s.key] || tileImage(matches), query: s.months.join(',') };
 });
 
 // ── Ships / operators ───────────────────────────────────────────────
