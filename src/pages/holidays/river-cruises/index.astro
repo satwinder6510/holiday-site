@@ -127,13 +127,17 @@ const rivers = [...riverMap.values()]
   .map(r => ({ ...r, image: RIVER_IMAGES[r.slug] || r.image }));
 
 // ── Length ───────────────────────────────────────────────────────────
+// Hand-picked photos (public/images/lengths/<key>.jpg); a key listed here wins over the ship cover.
+const LENGTH_IMAGES: Record<string, string> = {
+  short: '/images/lengths/short.jpg', // Seine boat deck with the Eiffel Tower (Unsplash, Getty)
+};
 const lengths = [
   { key: 'short', title: 'Short breaks', sub: '2 to 4 nights', test: (n: number) => n > 0 && n <= 4 },
   { key: 'week', title: 'A week away', sub: '5 to 8 nights', test: (n: number) => n >= 5 && n <= 8 },
   { key: 'long', title: 'The long way round', sub: '9 nights and more', test: (n: number) => n >= 9 },
 ].map(l => {
   const matches = cruises.filter(h => l.test(nightsOf(h)));
-  return { ...l, count: matches.length, image: tileImage(matches) };
+  return { ...l, count: matches.length, image: LENGTH_IMAGES[l.key] || tileImage(matches) };
 });
 
 // ── Season (months with a sailing, next 12 months) ──────────────────
