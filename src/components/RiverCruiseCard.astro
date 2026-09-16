@@ -1,0 +1,105 @@
+---
+/**
+ * The river-cruise card: pills on the photo, operator mark, fact strip (cheapest
+ * departure / nights / ship), inclusion ticks, dashed rule, price and View more.
+ * Used by the river-cruises landing (offers) and the /all listing, so the two never drift.
+ */
+import type { HolidayDetail } from '../lib/holiday-transforms';
+import type { DepartureWindow } from '../lib/holidays-db';
+import { cleanCruiseTitle } from '../lib/holiday-transforms';
+import { imgSrc } from '../lib/image-src';
+import { fromPrice, savingOf, nightsOf, dateLabel, inclusionChips } from '../lib/cruise-card';
+
+interface Props {
+  holiday: HolidayDetail;
+  window?: DepartureWindow;
+  /** Ship name when the holiday itself doesn't carry one (manual packages). */
+  ship?: string;
+  /** Inclusion lines when the holiday itself doesn't carry them (manual packages). */
+  included?: string[];
+  /** River or destination shown as a pill (offers only). */
+  river?: string;
+  /** Extra data-* attributes for client-side filtering on the listing. */
+  data?: Record<string, string>;
+}
+const { holiday: h, window: w, ship, included, river, data = {} } = Astro.props;
+const url = `/Holidays/${h.countrySlug}/${h.slug}`;
+const nights = nightsOf(h);
+const saving = savingOf(h);
+const isOffer = h.isSpecialOffer;
+const pills = isOffer ? (h.offerBadges.length ? h.offerBadges : ['Special offer']) : (river ? [river] : []);
+const shipName = h.shipName || ship || '';
+const chips = inclusionChips(included?.length ? included : h.whatsIncluded, h.boardBasis);
+const manual = h.id < 10000;
+const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data-${k}`, v]));
+---
+<article class="rc-offer" {...dataAttrs}>
+  <a class="rc-offer-img" href={url} aria-hidden="true" tabindex="-1">
+    <img src={imgSrc(h.image, 800)} alt="" loading="lazy" decoding="async" width="800" height="500" />
+    {(pills.length > 0 || saving > 0) && (
+      <span class="rc-pills">
+        {pills.map(b => <span class="rc-pill">{b}</span>)}
+        {saving > 0 && <span class="rc-pill rc-pill-save">Save £{saving.toLocaleString('en-GB')}pp</span>}
+      </span>
+    )}
+    {h.operator && <span class="rc-operator">{h.operator}</span>}
+  </a>
+  <div class="rc-offer-body">
+    <h3><a href={url}>{cleanCruiseTitle(h.title)}</a></h3>
+    <ul class="rc-facts">
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/></svg>
+        <span>{w ? dateLabel(w.cheapestDate || w.first) : 'Call for dates'}</span>
+        {manual && (w?.dates ?? 0) > 1 && <a class="rc-more-dates" href={`${url}#dates`}>More dates</a>}
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8 8 0 0 1 8.5 4a8 8 0 1 0 11.5 11.5Z"/></svg>
+        <span>{nights} nights</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"/><path d="M4 14l1.5-4h13L20 14"/><path d="M7 10V6h10v4"/><path d="M12 3v3"/></svg>
+        <span>{shipName || h.operator || 'Ship confirmed on booking'}</span>
+      </li>
+    </ul>
+    {chips.length > 0 && (
+      <ul class="rc-incl">
+        {chips.map(c => <li>{c}</li>)}
+      </ul>
+    )}
+    <div class="rc-offer-foot">
+      <p class="rc-price">
+        <span>{saving > 0 ? <>was <s>£{Math.round(h.wasPrice!).toLocaleString('en-GB')}</s> · now from</> : 'from'}</span>
+        £{fromPrice(h).toLocaleString('en-GB')}<small>/pp</small>
+      </p>
+      <a class="rc-view" href={url}>View more <span aria-hidden="true">›</span></a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .rc-offer { background: #fff; border-radius: 6px; box-shadow: 0 6px 16px rgba(0,0,0,.08); overflow: hidden; display: flex; flex-direction: column; }
+  .rc-offer-img { position: relative; display: block; aspect-ratio: 16 / 10; background: #eef2f3; }
+  .rc-offer-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .rc-pills { position: absolute; top: 14px; left: 14px; right: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
+  .rc-pill { background: #073140; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 12px; border-radius: 999px; white-space: nowrap; }
+  .rc-pill-save { background: #ff7f00; font-weight: 700; }
+  .rc-operator { position: absolute; right: 0; bottom: 0; background: #fff; color: #073140; font-size: 12px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; padding: 10px 16px; border-top-left-radius: 6px; }
+  .rc-offer-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+  .rc-offer h3 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 24px; line-height: 1.2; margin: 0 0 20px; height: 3.6em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .rc-offer h3 a { color: #424242; text-decoration: none; }
+  .rc-facts { list-style: none; margin: 0 0 14px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #e3e8ea; border-radius: 4px; }
+  .rc-facts li { padding: 14px 8px; text-align: center; font-size: 13px; line-height: 18px; color: #424242; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .rc-facts li + li { border-left: 1px solid #e3e8ea; }
+  .rc-facts svg { width: 26px; height: 26px; fill: none; stroke: #20A1AA; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .rc-more-dates { font-size: 12px; color: #20A1AA; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; margin-top: -2px; }
+  .rc-incl { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+  .rc-incl li { font-size: 13px; line-height: 20px; color: #424242; }
+  .rc-incl li::before { content: '✓'; color: #20A1AA; font-weight: 700; margin-right: 6px; }
+  .rc-offer-foot { margin-top: auto; padding-top: 18px; border-top: 1px dashed #d9dfe2; display: flex; align-items: center; justify-content: space-between; }
+  .rc-price { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 34px; line-height: 1; color: #20A1AA; }
+  .rc-price span { font-family: BentonSans, sans-serif; font-size: 13px; display: block; margin-bottom: 6px; color: #424242; }
+  .rc-price s { text-decoration: line-through; color: #8a8a8a; }
+  .rc-price small { font-family: BentonSans, sans-serif; font-size: 14px; color: #424242; }
+  .rc-view { background: #20A1AA; color: #fff; text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: .5px; text-transform: uppercase; padding: 16px 20px; border-radius: 3px; white-space: nowrap; }
+  .rc-view span { margin-left: 6px; }
+</style>

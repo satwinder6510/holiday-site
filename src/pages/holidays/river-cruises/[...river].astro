@@ -1,6 +1,13 @@
 ---
 export const prerender = false;
 
+/**
+ * River cruise LISTING — the level-two page behind every tile on the landing.
+ *   /Holidays/river-cruises/all       every cruise
+ *   /Holidays/river-cruises/<river>   one river
+ * Presets from the landing tiles: ?nights=short|week|long, ?months=11,12.
+ * Cards are the shared RiverCruiseCard; filters are a chip row (river, length, month).
+ */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import MobileNav from '../../../components/MobileNav.astro';
@@ -8,531 +15,188 @@ import Footer from '../../../components/Footer.astro';
 import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
+import RiverCruiseCard from '../../../components/RiverCruiseCard.astro';
 import { getDb } from '../../../lib/get-db';
-import { getAllListedHolidaysFromDb, getCabinPricingForOfferIds, getDepartureWindows, type DepartureWindow } from '../../../lib/holidays-db';
-import { slugifyRiver, cleanCruiseTitle } from '../../../lib/holiday-transforms';
-import { roundToNine } from '../../../lib/pricing-transforms';
-import { imgSrc } from '../../../lib/image-src';
+import { getAllListedHolidaysFromDb, getDepartureWindows, type DepartureWindow } from '../../../lib/holidays-db';
+import { slugifyRiver, type HolidayDetail } from '../../../lib/holiday-transforms';
+import { flightPackages } from '../../../lib/db-schema';
+import { inArray } from 'drizzle-orm';
+import { fromPrice, nightsOf, shipFromAccommodations, MONTHS } from '../../../lib/cruise-card';
 
-// The bare /Holidays/river-cruises/ is the landing page (index.astro); this route
-// serves /river-cruises/all (every cruise) and /river-cruises/<river>.
 const rawRiverSlug = Astro.params.river as string | undefined;
-const riverSlug = rawRiverSlug === 'all' ? undefined : rawRiverSlug;
+const riverSlug = rawRiverSlug === 'all' || !rawRiverSlug ? undefined : rawRiverSlug;
 
-/**
- * Cabin type names from the DB are long and inconsistent across operators
- * ("Cat A (Main Deck, Adjustable Twin Beds)" / "2-bed Outside Cabin with Juliette
- * Balcony"). Shorten to a clean, scannable label for the listing card price list.
- * Falls through gracefully — an unrecognised name gets light cleanup, never empty.
- */
-function shortenCabinName(raw: string): string {
-  if (!raw) return '';
-  let s = raw.trim();
-  // CroisiEurope: "Cat A (Main Deck, …)" / "Cat B Suite (Middle Deck, …)"
-  //   -> "Cat A · Main Deck" / "Cat B Suite · Middle Deck" (keep category + deck only)
-  const m = s.match(/^(Cat\s+[A-Za-z0-9+]+(?:\s+Suite)?)\s*\(\s*((?:Main|Upper|Middle|Lower)\s+Deck)/i);
-  if (m) return `${m[1].replace(/\s+/g, ' ').trim()} · ${m[2].replace(/\s+/g, ' ').trim()}`;
-  // Everyone else (A-ROSA + misc): strip verbose bits, keep it scannable.
-  s = s.replace(/\s*\([^)]*\)\s*/g, ' ');                          // drop "(2 Single Beds)", "(with Extra Bed)", etc.
-  s = s.replace(/^\d+-bed\s+/i, '');                               // "2-bed Outside Cabin" -> "Outside Cabin"
-  s = s.replace(/\bwith\s+(?:Drop-down\s+)?Panorama\s+Window\b/i, ''); // drop window detail
-  s = s.replace(/\bwith\s+(?:Juliette\s+)?Balcony\b/i, '· Balcony');
-  s = s.replace(/\band\s+Juliette\s+Balcony\b/i, '');              // "Balcony and Juliette Balcony" -> "Balcony"
-  s = s.replace(/\s*-\s*(?:Disabled Person|Handicap+ed)\s*/i, ' '); // drop accessibility tag (typo-tolerant)
-  s = s.replace(/\bCabin\b/i, '');                                 // drop generic "Cabin"
-  s = s.replace(/\s{2,}/g, ' ').replace(/\s*·\s*·\s*/g, ' · ').replace(/^[·\s]+|[·\s]+$/g, '').trim();
-  return s;
-}
-
-/**
- * CroisiEurope: the "Cat A/B/C" prefix is just cabin POSITION — irrelevant to
- * customers. Collapse the many "Cat X (Deck, beds)" rows to the cheapest price per
- * deck (Main / Middle / Upper) plus the cheapest Suite. `cabins` arrives sorted
- * cheapest-first, so the first hit per bucket is that bucket's cheapest. Returns
- * up to 4 rows, cheapest-first (so the highlighted top row matches the headline).
- */
-function bucketByDeck(cabins: { cabinType: string; pricePp: number }[]): { name: string; pricePp: number }[] {
-  const cheapest = new Map<string, number>();
-  for (const c of cabins) {
-    const t = c.cabinType;
-    let label: string;
-    // Cabins are already scoped to ONE ship (the cheapest-entry ship), so the decks
-    // here are that ship's real decks — a 2-deck ship yields Main/Upper, a 3-deck
-    // ship (e.g. MS Vivaldi) yields Main/Middle/Upper. "Cat X" = position, dropped.
-    if (/suite/i.test(t)) label = 'Suite';
-    else if (/main deck/i.test(t)) label = 'Main Deck';
-    else if (/middle deck/i.test(t)) label = 'Middle Deck';
-    else if (/upper deck/i.test(t)) label = 'Upper Deck';
-    else label = shortenCabinName(t); // oddballs (specific ships) keep a cleaned name
-    if (!cheapest.has(label)) cheapest.set(label, c.pricePp);
-  }
-  return [...cheapest.entries()]
-    .map(([name, pricePp]) => ({ name, pricePp }))
-    .sort((a, b) => a.pricePp - b.pricePp)
-    .slice(0, 4);
-}
-
-// Itinerary port names from Widgety vary in quality — some are day-programme titles
-// ("Board your ship", "Arrive Vienna - Return to UK") rather than clean ports.
-// Clean each, drop non-port junk, and collapse consecutive duplicates (case-insensitive).
-const PORT_JUNK = /board your ship|your ship|return to uk|^uk$|^at sea$|^cruising$|cruising day|river day|scenic crus|free (day|time)|day at leisure|leisure/i;
-function buildPortSequence(itinerary: { title: string }[]): string[] {
-  const cleaned = itinerary
-    .map((d) => (d.title || '')
-      .trim()
-      .replace(/^UK\s*[-–]\s*/i, '')
-      .replace(/\s*[-–]\s*Return to UK.*$/i, '')
-      .replace(/^(Arrive|Arrival in|Departure from|Depart from|Departure|Depart)\s+/i, '')
-      .trim())
-    .filter((p) => p && !PORT_JUNK.test(p) && p.length <= 30);
-  return cleaned.filter((p, i, a) => i === 0 || p.toLowerCase() !== a[i - 1].toLowerCase());
-}
-
-let allCruises;
+let allCruises: HolidayDetail[];
 try {
   const db = getDb(Astro);
   const all = await getAllListedHolidaysFromDb(db);
   allCruises = all
     .filter(h => h.tags.includes('River Cruise'))
-    .sort((a, b) => (a.price + a.localChargesPp) - (b.price + b.localChargesPp));
+    .sort((a, b) => fromPrice(a) - fromPrice(b));
 } catch (e) {
   console.error('DB error on river-cruises:', e);
   return new Response('Service temporarily unavailable', { status: 503 });
 }
 
-// Build river slug → display name lookup, excluding destinations that are just country names
+// River slug → display name, excluding destinations that are just country names
 const countryNames = new Set(allCruises.map(c => c.country));
 const riverMap = new Map<string, string>();
 for (const c of allCruises) {
   if (countryNames.has(c.destination)) continue;
   const slug = slugifyRiver(c.destination);
-  if (!riverMap.has(slug)) {
-    riverMap.set(slug, c.destination);
-  }
+  if (!riverMap.has(slug)) riverMap.set(slug, c.destination);
 }
-
-// Validate river slug if provided
 let activeRiverName: string | null = null;
 if (riverSlug) {
   activeRiverName = riverMap.get(riverSlug) ?? null;
-  if (!activeRiverName) {
-    return new Response(null, { status: 404, statusText: 'Not Found' });
-  }
+  if (!activeRiverName) return new Response(null, { status: 404, statusText: 'Not Found' });
 }
+const matchesRiver = (h: HolidayDetail, name: string) =>
+  h.destination === name || h.destination.includes(name) ||
+  (countryNames.has(h.destination) && h.title.toLowerCase().includes(name.toLowerCase()));
+const holidays = activeRiverName ? allCruises.filter(h => matchesRiver(h, activeRiverName!)) : allCruises;
 
-// Filter holidays by river if a slug is active
-const holidays = activeRiverName
-  ? allCruises.filter(h => {
-      // Exact destination match (cruise-export cruises have river as destination)
-      if (h.destination === activeRiverName) return true;
-      // Multi-river destinations like "Danube, Main" when filtering by "Danube"
-      if (h.destination.includes(activeRiverName)) return true;
-      // DB holidays tagged 'River Cruise' have country as destination — match by title
-      if (countryNames.has(h.destination)) {
-        return h.title.toLowerCase().includes(activeRiverName.toLowerCase());
-      }
-      return false;
-    })
-  : allCruises;
-
-// Attach cheapest per-cabin pricing (live D1) to each cruise card. Best-effort —
-// on failure the cards just render without a cabin grid (never 503 the page).
-try {
-  const db = getDb(Astro);
-  const cabinMap = await getCabinPricingForOfferIds(db, holidays.map(h => h.id));
-  for (const h of holidays) {
-    const cabins = cabinMap.get(h.id);
-    if (!cabins || cabins.length === 0) continue;
-    // CroisiEurope → cheapest per deck + suite (Cat X is irrelevant position).
-    // A-ROSA → keep its meaningful cabin types (Outside / Balcony / Suite), cheapest 4.
-    h.cabins = /croisi/i.test(h.operator)
-      ? bucketByDeck(cabins)
-      : cabins.slice(0, 4).map((c) => ({ name: shortenCabinName(c.cabinType), pricePp: c.pricePp }));
-    // NOTE: the headline "from" price stays as h.price (cheapest_total_pp — the
-    // ONE canonical all-in price used on every page + the detail calendar). We no
-    // longer override it with the cabin grid's flat-estimate net, which made the
-    // /river-cruises "from" disagree with the detail page and /Holidays/[country].
-    // The cabin grid below is a secondary per-deck breakdown.
-  }
-} catch (e) {
-  console.error('cabin pricing attach failed:', e);
-}
-
-// Departure windows ("Sails Nov 2026 to Mar 2027") + months for the ?months= filter.
-let windows = new Map<number, DepartureWindow>();
-try {
-  windows = await getDepartureWindows(getDb(Astro), holidays.map(h => h.id));
-} catch (e) {
-  console.error('departure windows failed:', e);
-}
-const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const monthLabel = (ym: string) => `${MONTH_ABBR[parseInt(ym.slice(5, 7), 10) - 1]} ${ym.slice(0, 4)}`;
-function sailsLabel(w: DepartureWindow | undefined): string {
-  if (!w) return '';
-  const a = w.first.slice(0, 7), b = w.last.slice(0, 7);
-  if (a === b) return `Sails ${monthLabel(a)}`;
-  if (a.slice(0, 4) === b.slice(0, 4)) return `Sails ${MONTH_ABBR[parseInt(a.slice(5, 7), 10) - 1]} to ${monthLabel(b)}`;
-  return `Sails ${monthLabel(a)} to ${monthLabel(b)}`;
-}
-
-// Sorted river list for sidebar links (with counts)
+// Chip row: single-name rivers with at least two cruises sold under their own name
 const rivers = [...riverMap.entries()]
-  .map(([slug, name]) => {
-    const count = allCruises.filter(c =>
-      c.destination === name || c.destination.includes(name) ||
-      (countryNames.has(c.destination) && c.title.toLowerCase().includes(name.toLowerCase()))
-    ).length;
-    return { slug, name, count };
-  })
-  .sort((a, b) => a.name.localeCompare(b.name));
+  .filter(([, name]) => !name.includes(',') && allCruises.filter(c => c.destination === name).length >= 2)
+  .map(([slug, name]) => ({ slug, name, count: allCruises.filter(c => matchesRiver(c, name)).length }))
+  .sort((a, b) => b.count - a.count);
+
+// Departure windows (date on the card, months for the filter)
+let windows = new Map<number, DepartureWindow>();
+try { windows = await getDepartureWindows(getDb(Astro), holidays.map(h => h.id)); } catch (e) { console.error('windows failed', e); }
+
+// Manual packages: ship + inclusions live in columns the listing query leaves out
+const shipById = new Map<number, string>();
+const includedById = new Map<number, string[]>();
+try {
+  const manualIds = holidays.filter(h => h.id < 10000).map(h => h.id);
+  if (manualIds.length) {
+    const rows = await getDb(Astro)
+      .select({ id: flightPackages.id, accommodations: flightPackages.accommodations, whatsIncluded: flightPackages.whatsIncluded })
+      .from(flightPackages)
+      .where(inArray(flightPackages.id, manualIds));
+    for (const r of rows) {
+      includedById.set(r.id, ((r.whatsIncluded as string[] | null) || []).filter(Boolean));
+      shipById.set(r.id, shipFromAccommodations(((r.accommodations as { name?: string }[] | null) || []).map(a => a.name || '')));
+    }
+  }
+} catch (e) { console.error('manual lookup failed', e); }
+
+// Month chips: the next 12 months, only those with a sailing
+const now = new Date();
+const monthChips = Array.from({ length: 12 }, (_, i) => {
+  const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + i, 1));
+  const ym = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+  const n = holidays.filter(h => windows.get(h.id)?.months.includes(ym)).length;
+  return { value: String(d.getUTCMonth() + 1), label: `${MONTHS[d.getUTCMonth()]}${i === 0 || d.getUTCMonth() === 0 ? ' ' + d.getUTCFullYear() : ''}`, count: n };
+}).filter(m => m.count > 0);
+const lengthChips = [
+  { key: 'short', label: '2 to 4 nights', count: holidays.filter(h => nightsOf(h) > 0 && nightsOf(h) <= 4).length },
+  { key: 'week', label: '5 to 8 nights', count: holidays.filter(h => nightsOf(h) >= 5 && nightsOf(h) <= 8).length },
+  { key: 'long', label: '9 nights and more', count: holidays.filter(h => nightsOf(h) >= 9).length },
+].filter(c => c.count > 0);
+
+const riverOf = (h: HolidayDetail) => (countryNames.has(h.destination) ? '' : h.destination);
+const lengthKey = (n: number) => (n <= 4 ? 'short' : n <= 8 ? 'week' : 'long');
 
 // SEO
-const pageTitle = activeRiverName
-  ? `${activeRiverName} River Cruises | Flights and Packages`
-  : 'River Cruises | Flights and Packages';
+const pageTitle = activeRiverName ? `${activeRiverName} River Cruises | Flights and Packages` : 'All River Cruises | Flights and Packages';
 const pageDescription = activeRiverName
-  ? `Explore our ${activeRiverName} fly-cruise river cruise packages. All-inclusive sailings with flights from UK airports.`
-  : 'Explore our fly-cruise river cruise packages across Europe. All-inclusive sailings with CroisiEurope and A-Rosa, with flights from UK airports.';
-const heroTitle = activeRiverName
-  ? `${activeRiverName} River Cruises`
-  : 'River Cruises';
-
-const breadcrumbItems = activeRiverName
-  ? [
-      { name: 'Home', url: '/' },
-      { name: 'River Cruises', url: '/Holidays/river-cruises' },
-      { name: `${activeRiverName}` },
-    ]
-  : [
-      { name: 'Home', url: '/' },
-      { name: 'River Cruises' },
-    ];
-
+  ? `${holidays.length} ${activeRiverName} fly-cruise river holidays with flights from UK airports, full board and transfers included.`
+  : `All ${holidays.length} fly-cruise river holidays on the Rhine, Danube, Douro, Seine and more, with flights from UK airports.`;
+const heroTitle = activeRiverName ? `${activeRiverName} river cruises` : 'All river cruises';
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'River Cruises', url: '/Holidays/river-cruises' },
+  { name: activeRiverName ?? 'All cruises' },
+];
 const bannerImage = '/images/heroes/river-cruises-danube.jpg';
-const bannerFallback = '/images/heroes/river-cruises-danube.jpg';
-
-// ItemList schema for first 20 cruises
-const itemListName = activeRiverName ? `${activeRiverName} River Cruises` : 'River Cruises';
 const itemListSchema = holidays.length > 0 ? {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: itemListName,
+  name: activeRiverName ? `${activeRiverName} River Cruises` : 'River Cruises',
   numberOfItems: holidays.length,
   itemListElement: holidays.slice(0, 20).map((h, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    name: h.title,
-    url: `https://holidays.flightsandpackages.com/Holidays/${h.countrySlug}/${h.slug}`,
-    image: h.image,
+    '@type': 'ListItem', position: i + 1, name: h.title,
+    url: `https://holidays.flightsandpackages.com/Holidays/${h.countrySlug}/${h.slug}`, image: h.image,
   })),
 } : null;
 ---
-
-<BaseLayout title={pageTitle} description={pageDescription} image={bannerFallback}>
+<BaseLayout title={pageTitle} description={pageDescription} image={bannerImage}>
   <link slot="head" rel="preload" as="image" type="image/jpeg" href={bannerImage} />
   <BreadcrumbSchema slot="head" items={breadcrumbItems} />
   {itemListSchema && <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />}
   <Header />
   <MobileNav />
 
-  <!-- Custom Hero -->
-  <section class="country-hero" aria-label="Page hero">
-    <img src={bannerImage} alt="" class="hero-bg" fetchpriority="high" decoding="async" width="1920" height="776" />
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a>
-      <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
-      {activeRiverName ? (
-        <>
-          <a href="/Holidays/river-cruises">River Cruises</a>
-          <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
-          <span>{activeRiverName}</span>
-        </>
-      ) : (
-        <span>River Cruises</span>
-      )}
+  <section class="rl-hero" aria-label="Page hero">
+    <img src={bannerImage} alt="" class="rl-hero-bg" fetchpriority="high" decoding="async" width="1920" height="776" />
+    <nav class="rl-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">›</span>
+      <a href="/Holidays/river-cruises">River Cruises</a><span aria-hidden="true">›</span>
+      <span>{activeRiverName ?? 'All cruises'}</span>
     </nav>
-    <div class="hero-content">
-      <div class="hero-subtitle">discover</div>
+    <div class="rl-hero-inner">
       <h1>{heroTitle}</h1>
     </div>
   </section>
 
-  <!-- Intro Section -->
-  <section class="intro-section section-container">
-    <p class="intro-text">
-      {activeRiverName
-        ? `Discover the beauty of the ${activeRiverName} with our fly-cruise river cruise packages. All packages include return flights from UK airports, full-board dining, and unforgettable itineraries.`
-        : 'Discover the beauty of Europe from the water with our fly-cruise river cruise packages. Sail along the Rhine, Danube, Douro and more with award-winning operators CroisiEurope and A-Rosa. All packages include return flights from UK airports, full-board dining, and unforgettable itineraries through some of the continent\'s most charming towns and cities.'}
-    </p>
-    <p class="intro-text-extra hide" id="intro-extra-text">
-      Whether you prefer the intimate charm of a boutique vessel or the modern luxury of a premium ship,
-      our river cruise collection has something for every traveller. Glide past medieval castles,
-      world-class vineyards, and vibrant capitals — all while enjoying exceptional onboard service.
-      Browse our latest departures below or call our team for expert advice on choosing the perfect sailing.
-    </p>
-    <button type="button" class="read-more" aria-expanded="false" aria-controls="intro-extra-text">
-      Read more
-      <span class="icon-dropdown"></span>
-    </button>
-  </section>
-
-  <!-- Holiday List Section -->
-  <section class="holiday-list-section section-container">
-    <!-- Sidebar -->
-    <div class="sidebar-backdrop"></div>
-    <div class="sidebar" id="sidebar-filters">
-      <div class="filter">
-        <div class="sidebar-header">
-          <div class="type">Filters</div>
-          <button type="button" class="reset">Reset</button>
-          <button type="button" class="sidebar-close" aria-label="Close filters">&times;</button>
+  <section class="section-container rl-body">
+    <div class="rl-chips" aria-label="Filters">
+      <div class="rl-chip-row">
+        <span class="rl-chip-label">River</span>
+        <a class:list={['rl-chip', { active: !activeRiverName }]} href="/Holidays/river-cruises/all">All rivers</a>
+        {rivers.map(r => <a class:list={['rl-chip', { active: activeRiverName === r.name }]} href={`/Holidays/river-cruises/${r.slug}`}>{r.name} <small>{r.count}</small></a>)}
+      </div>
+      {lengthChips.length > 1 && (
+        <div class="rl-chip-row">
+          <span class="rl-chip-label">Length</span>
+          {lengthChips.map(c => <button type="button" class="rl-chip" data-filter="nights" data-value={c.key} aria-pressed="false">{c.label} <small>{c.count}</small></button>)}
         </div>
-      </div>
-
-      <!-- Special offers filter (top) -->
-      <div class="filter">
-        <button type="button" class="sidebar-header" aria-expanded="true">
-          <div class="type">Special Offers</div>
-          <span class="icon-pullup"></span>
-        </button>
-        <div class="sidebar-content">
-          <div class="checkbox-option">
-            <input type="checkbox" name="special" id="special-offers" value="1" />
-            <label for="special-offers">Special offers only</label>
-          </div>
-        </div>
-      </div>
-
-      <!-- River filter — links instead of checkboxes -->
-      <div class="filter">
-        <button type="button" class="sidebar-header" aria-expanded="true">
-          <div class="type">River</div>
-          <span class="icon-pullup"></span>
-        </button>
-        <div class="sidebar-content">
-          <a
-            class:list={['river-link', { active: !activeRiverName }]}
-            href="/Holidays/river-cruises/all"
-          >All Rivers ({allCruises.length})</a>
-          {rivers.map(({ slug, name, count }) => (
-            <a
-              class:list={['river-link', { active: activeRiverName === name }]}
-              href={`/Holidays/river-cruises/${slug}`}
-            >{name} ({count})</a>
-          ))}
-        </div>
-      </div>
-
-      <!-- Duration filter -->
-      <div class="filter">
-        <button type="button" class="sidebar-header" aria-expanded="true">
-          <div class="type">Duration</div>
-          <span class="icon-pullup"></span>
-        </button>
-        <div class="sidebar-content">
-          {[...new Set(holidays.map(h => {
-            const m = h.duration.match(/(\d+)\s*Nights/);
-            return m ? parseInt(m[1]) : 0;
-          }))].sort((a, b) => a - b).filter(n => n > 0).map((nights) => (
-            <div class="checkbox-option">
-              <input type="checkbox" name="duration" id={`d-${nights}`} value={String(nights)} />
-              <label for={`d-${nights}`}>{nights} Nights</label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <!-- Country filter -->
-      <div class="filter">
-        <button type="button" class="sidebar-header" aria-expanded="true">
-          <div class="type">Country</div>
-          <span class="icon-pullup"></span>
-        </button>
-        <div class="sidebar-content">
-          {[...new Set(holidays.map(h => h.country))].sort().map((country) => (
-            <div class="checkbox-option">
-              <input type="checkbox" name="country" id={`c-${country.toLowerCase().replace(/\s+/g, '-')}`} value={country} />
-              <label for={`c-${country.toLowerCase().replace(/\s+/g, '-')}`}>{country}</label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <!-- Operator filter -->
-      <div class="filter">
-        <button type="button" class="sidebar-header" aria-expanded="true">
-          <div class="type">Operator</div>
-          <span class="icon-pullup"></span>
-        </button>
-        <div class="sidebar-content">
-          <div class="checkbox-option">
-            <input type="checkbox" name="operator" id="croisieurope" value="CroisiEurope" />
-            <label for="croisieurope">CroisiEurope</label>
-          </div>
-          <div class="checkbox-option">
-            <input type="checkbox" name="operator" id="a-rosa" value="A-Rosa" />
-            <label for="a-rosa">A-Rosa</label>
-          </div>
-          <div class="checkbox-option">
-            <input type="checkbox" name="operator" id="viva-cruises" value="Viva Cruises" />
-            <label for="viva-cruises">Viva Cruises</label>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mobile actions -->
-      <div class="mobile-actions">
-        <button type="button" class="btn-primary filter-apply-btn" aria-label="Apply filters">Apply</button>
-        <button type="button" class="reset">Reset</button>
-      </div>
-    </div>
-
-    <!-- Content -->
-    <div class="content">
-      <div class="search-sort">
-        <h2 class="results" aria-live="polite" aria-atomic="true">{holidays.length} river cruises</h2>
-        <div class="order">
-          <div class="price" role="group" aria-label="Sort order">
-            Price
-            <button type="button" class="price-order active" aria-pressed="true">Low to high</button>
-            <button type="button" class="price-order" aria-pressed="false">High to low</button>
-          </div>
-          <div class="mobile-filter-wrap">
-            <button type="button" class="filter-btn" aria-expanded="false" aria-controls="sidebar-filters">
-              <span class="icon-filter"></span>
-              Filter
-            </button>
-            <div class="sort">
-              Sort by
-              <button type="button" class="sort-order" aria-haspopup="listbox" aria-expanded="false">
-                <span class="current-option">Price: Low to high</span>
-                <span class="icon-dropdown"></span>
-              </button>
-              <ul class="sort-order-list" role="listbox" aria-label="Sort order">
-                <li class="sort-option" role="option" tabindex="0" aria-selected="true">Price: Low to high</li>
-                <li class="sort-option" role="option" tabindex="0" aria-selected="false">Price: High to low</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Holiday cards -->
-      <div class="holidays">
-        {holidays.map((holiday) => {
-          // parseInt strips zero-padding ("04" → "4") so data-duration matches the
-          // duration filter checkbox values (which are parseInt'd).
-          const nightsMatch = holiday.duration.match(/(\d+)\s*Nights/);
-          const nights = nightsMatch ? String(parseInt(nightsMatch[1], 10)) : '';
-          const fromPrice = holiday.displayPrice ?? roundToNine(holiday.price + holiday.localChargesPp);
-          const detailUrl = `/Holidays/${holiday.countrySlug}/${holiday.slug}`;
-          const showBadge = holiday.destination && holiday.destination !== holiday.country;
-          // Keep the card body compact (so it balances the image side) — trim the
-          // blurb to ~2 lines; full description is on the detail page.
-          const cardDesc = holiday.description && holiday.description.length > 150
-            ? holiday.description.slice(0, 150).replace(/\s+\S*$/, '') + '…'
-            : (holiday.description || '');
-          // Card gallery images. Widgety cruises → hero + ship/cabin photos; manual
-          // flight_packages River Cruises → hero + their own gallery photos. Deduped.
-          const cardImages = [holiday.image, ...(holiday.cabinImages || []), ...(holiday.galleryImages || [])]
-            .filter(Boolean)
-            .filter((v, i, a) => a.indexOf(v) === i)
-            .slice(0, 4);
-          // Port sequence (cleaned) → shows the ports in between, not just start/end.
-          // Falls back to "From → To" when there's no usable itinerary.
-          const portSeq = buildPortSequence(holiday.itinerary || []);
-          let routeLine = portSeq.length > 1
-            ? portSeq.join(' → ')
-            : (holiday.routeFrom && holiday.routeTo ? `${holiday.routeFrom} → ${holiday.routeTo}` : '');
-          // Cap very long itineraries so the line stays readable.
-          if (portSeq.length > 10) {
-            routeLine = portSeq.slice(0, 7).join(' → ') + ' → … → ' + portSeq[portSeq.length - 1];
-          }
-          return (
-          <article class="cruise-card holiday"
-            data-country={holiday.country}
-            data-duration={nights}
-            data-operator={holiday.operator}
-            data-price={fromPrice}
-            data-special-offer={holiday.isSpecialOffer ? 'true' : 'false'}
-            data-months={(windows.get(holiday.id)?.months || []).map(ym => String(parseInt(ym.slice(5, 7), 10))).join(',')}
-          >
-            <div class="card-gallery">
-              <div class="card-gallery-main">
-                <img class="card-gallery-img" src={imgSrc(cardImages[0], 800)} alt={holiday.title} loading="lazy" decoding="async" />
-                {showBadge && <span class="badge" aria-hidden="true">{holiday.destination}</span>}
-                {holiday.isSpecialOffer && <span class="special-badge" aria-hidden="true">Special Offer</span>}
-                <span class="duration-badge" aria-hidden="true">{nights ? `${Number(nights)} nights` : holiday.duration}</span>
-              </div>
-              {cardImages.length > 1 && (
-                <div class="card-gallery-thumbs">
-                  {cardImages.map((im, i) => (
-                    <button type="button" class={`card-thumb${i === 0 ? ' active' : ''}`} data-src={imgSrc(im, 800)} aria-label={`Show image ${i + 1}`}>
-                      <img src={imgSrc(im, 480)} alt="" loading="lazy" decoding="async" />
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div class="card-body">
-              <a class="card-title" href={detailUrl}><h3>{cleanCruiseTitle(holiday.title)}</h3></a>
-              {routeLine && (
-                <div class="card-route">{routeLine}</div>
-              )}
-              {sailsLabel(windows.get(holiday.id)) && (
-                <div class="card-sails">{sailsLabel(windows.get(holiday.id))}</div>
-              )}
-              <div class="card-from-price" aria-label={`from £${fromPrice} per person`}>
-                <span aria-hidden="true">From</span>
-                <span class="now-price" aria-hidden="true">&pound;{fromPrice}</span>
-                <span class="from-pp" aria-hidden="true">pp</span>
-              </div>
-              <p class="card-desc">{cardDesc}</p>
-              {holiday.cabins && holiday.cabins.length > 0 && (
-                <details class="cabin-list">
-                  <summary class="cabin-list-toggle">
-                    <span>Cabin options ({holiday.cabins.length})</span>
-                  </summary>
-                  <ul class="cabin-rows">
-                    {holiday.cabins.map((cab, i) => (
-                      <li class={`cabin-row${i === 0 ? ' is-cheapest' : ''}`}>
-                        <span class="cabin-name">{cab.name}</span>
-                        <span class="cabin-price-wrap">
-                          <span class="cabin-price" aria-hidden="true">&pound;{cab.pricePp}</span>
-                          <span class="cabin-pp" aria-hidden="true">pp</span>
-                        </span>
-                        <span class="sr-only">{cab.name} from &pound;{cab.pricePp} per person</span>
-                      </li>
-                    ))}
-                  </ul>
-                </details>
-              )}
-              <p class="flight-note"><strong>Includes return UK flights &amp; all-inclusive cruise.</strong></p>
-              <div class="card-cta-row">
-                <a href="tel:02081830518" class="btn-call">Call to Book</a>
-                <a class="btn-primary view-more-btn" href={detailUrl}>
-                  View More
-                  <img src="/icons/more-icon-white.svg" alt="" class="icon-more" />
-                </a>
-              </div>
-            </div>
-          </article>
-        )})}
-      </div>
-
-      <button class="load-more-btn btn-primary">Load More</button>
-
-      <div class="no-filter-results" style="display:none">
-        <p>No cruises match your selected filters. <button type="button" class="clear-filters">Clear all filters</button></p>
-      </div>
-
-      {holidays.length === 0 && (
-        <div class="no-results">
-          <p>No river cruises are currently available. Please check back soon or call us on <a href="tel:02081830518">0208 183 0518</a> for the latest sailings.</p>
+      )}
+      {monthChips.length > 1 && (
+        <div class="rl-chip-row">
+          <span class="rl-chip-label">Month</span>
+          {monthChips.map(m => <button type="button" class="rl-chip" data-filter="months" data-value={m.value} aria-pressed="false">{m.label} <small>{m.count}</small></button>)}
         </div>
       )}
     </div>
 
+    <div class="rl-toolbar">
+      <h2 class="rl-results" aria-live="polite" aria-atomic="true">{holidays.length} cruises</h2>
+      <div class="rl-sort" role="group" aria-label="Sort order">
+        <span>Price</span>
+        <button type="button" class="rl-sort-btn active" data-sort="asc" aria-pressed="true">Low to high</button>
+        <button type="button" class="rl-sort-btn" data-sort="desc" aria-pressed="false">High to low</button>
+      </div>
+    </div>
+
+    <div class="rl-grid" id="rl-grid">
+      {holidays.map(h => (
+        <RiverCruiseCard
+          holiday={h}
+          window={windows.get(h.id)}
+          ship={shipById.get(h.id)}
+          included={includedById.get(h.id)}
+          river={riverOf(h)}
+          data={{
+            price: String(fromPrice(h)),
+            nights: lengthKey(nightsOf(h)),
+            months: (windows.get(h.id)?.months || []).map(ym => String(parseInt(ym.slice(5, 7), 10))).join(','),
+          }}
+        />
+      ))}
+    </div>
+
+    <div class="rl-more-wrap">
+      <button type="button" class="rl-load-more btn-primary">Show more cruises</button>
+    </div>
+    <div class="rl-empty" hidden>
+      <p>No cruises match those filters.</p>
+      <button type="button" class="rl-clear">Clear filters</button>
+    </div>
+    <p class="rl-call">Prefer to talk it through? <a href="tel:02081830518">Call 0208 183 0518</a>, lines open 9am to 6pm.</p>
   </section>
 
   <Newsletter />
@@ -541,862 +205,113 @@ const itemListSchema = holidays.length > 0 ? {
 </BaseLayout>
 
 <style>
-  .country-hero {
-    margin-top: 100px;
-    height: 500px;
-    position: relative;
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 100%;
-    overflow: hidden;
-  }
-  .country-hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.35) 100%);
-    z-index: 1;
-  }
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 62%; /* aim the crop at the ship (lower-middle of the photo) */
-    z-index: 0;
-  }
-  .country-hero .breadcrumbs,
-  .country-hero .hero-content {
-    position: relative;
-    z-index: 2;
-  }
-  @media (max-width: 768px) {
-    .country-hero { margin-top: 50px; height: 400px; }
-    .hero-bg { object-position: center 62%; }
-  }
-  @media (max-width: 450px) {
-    .country-hero { height: 300px; }
-  }
+  .rl-hero { position: relative; height: clamp(300px, 22vw, 400px); display: flex; align-items: flex-end; color: #fff; overflow: hidden; }
+  .rl-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 62%; }
+  .rl-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,49,64,.25) 0%, rgba(7,49,64,.7) 100%); }
+  .rl-crumbs { position: absolute; top: 12px; left: max(20px, calc((100vw - 1240px) / 2 + 20px)); z-index: 2; display: flex; gap: 8px; align-items: center; font-family: BentonSans, sans-serif; font-weight: 500; font-size: 13px; color: #fff; }
+  .rl-crumbs a { color: #fff; text-decoration: none; }
+  .rl-hero-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 20px 36px; width: 100%; }
+  .rl-hero h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 48px; line-height: 1.05; margin: 0; color: #fff; text-shadow: 0 2px 12px rgba(7,49,64,.45); }
 
-  .breadcrumbs {
-    position: absolute;
-    left: 50px;
-    top: 10px;
-    z-index: 3;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-  }
-  @media (max-width: 768px) { .breadcrumbs { left: 20px; } }
-  @media (max-width: 530px) { .breadcrumbs { max-width: calc(100vw - 40px); } }
-  .breadcrumbs a, .breadcrumbs span {
-    font-family: BentonSans, sans-serif; font-weight: 500;
-    font-size: 13px;
-    line-height: 16px;
-    color: #ffffff;
-  }
-  @media (max-width: 768px) {
-    .breadcrumbs a, .breadcrumbs span { font-size: 14px; line-height: 18px; }
-  }
-  .breadcrumb-icon {
-    padding: 0 5px;
-    width: auto;
-    height: 8px;
-  }
+  .rl-body { padding: 28px 20px 64px; }
+  .rl-chips { display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; border-bottom: 1px solid #e3e8ea; }
+  .rl-chip-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .rl-chip-label { font-family: BentonSans, sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; width: 64px; }
+  .rl-chip { border: 1px solid #cfd8db; background: #fff; color: #424242; font-size: 13px; line-height: 1; padding: 9px 12px; border-radius: 999px; text-decoration: none; cursor: pointer; font-family: BentonSans, sans-serif; }
+  .rl-chip small { font-size: 11px; color: #6b6b6b; margin-left: 4px; }
+  .rl-chip:hover { border-color: #20A1AA; }
+  .rl-chip.active, .rl-chip[aria-pressed="true"] { background: #073140; border-color: #073140; color: #fff; }
+  .rl-chip.active small, .rl-chip[aria-pressed="true"] small { color: #9fd9dd; }
 
-  .hero-content {
-    text-align: center;
-    padding-bottom: 80px;
-  }
-  @media (max-width: 768px) { .hero-content { padding-bottom: 0px; } }
-  .hero-subtitle {
-    font-family: BentonSans, sans-serif; font-weight: 700;
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    padding-bottom: 14px;
-  }
-  .hero-content h1 {
-    margin: 0;
-    color: #ffffff;
-    font-size: 64px;
-    line-height: 1;
-    padding-bottom: 25px;
-    text-shadow: 2px 2px 5px #000;
-  }
-  @media (max-width: 768px) { .hero-content h1 { font-size: 44px; } }
-  @media (max-width: 450px) { .hero-content h1 { font-size: 36px; } }
+  .rl-toolbar { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 22px 0 18px; flex-wrap: wrap; }
+  .rl-results { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 28px; margin: 0; color: #424242; }
+  .rl-sort { display: flex; gap: 14px; align-items: center; font-size: 14px; color: #6b6b6b; }
+  .rl-sort-btn { background: none; border: 0; padding: 0; font: inherit; color: #424242; cursor: pointer; border-bottom: 2px solid transparent; }
+  .rl-sort-btn.active { color: #20A1AA; border-bottom-color: #20A1AA; }
 
-  .intro-section {
-    margin-top: 80px;
-    margin-bottom: 95px;
-  }
-  @media (max-width: 768px) { .intro-section { margin-top: 40px; margin-bottom: 50px; } }
-  .intro-section p { padding-bottom: 1px; }
-  @media (max-width: 768px) { .intro-section p { text-align: justify; } }
-  .intro-section .read-more {
-    vertical-align: middle;
-    font-family: BentonSans, sans-serif; font-weight: 700;
-    color: #424242;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    margin-top: 15px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
-    font-size: inherit;
-  }
-  .intro-section .read-more .icon-dropdown {
-    display: inline-block;
-    width: 12px;
-    height: 7px;
-    background-image: url('/icons/dropdown-icon.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin-left: 15px;
-    transition: transform 0.3s;
-  }
-  .intro-section .read-more.expanded .icon-dropdown { transform: rotate(180deg); }
-  @media (prefers-reduced-motion: reduce) {
-    .intro-section .read-more .icon-dropdown { transition: none; }
-  }
+  .rl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .rl-grid > :global(.rc-offer[hidden]) { display: none; }
+  .rl-more-wrap { text-align: center; margin-top: 32px; }
+  .rl-load-more { padding: 16px 32px; }
+  .rl-empty { text-align: center; padding: 40px 0; }
+  .rl-clear { background: none; border: 0; color: #20A1AA; text-decoration: underline; cursor: pointer; font: inherit; }
+  .rl-call { text-align: center; margin: 36px 0 0; color: #6b6b6b; }
+  .rl-call a { color: #20A1AA; font-weight: 500; }
 
-  .holiday-list-section { margin-top: 60px; margin-bottom: 0px; }
-  .holiday-list-section::after { content: ""; display: table; clear: both; }
-  @media (max-width: 768px) { .holiday-list-section { margin: 90px 0px 0px 0px; max-width: 100%; } }
-
-  .holiday-list-section .sidebar {
-    width: 281px;
-    display: inline-block;
-    padding-right: 32px;
-  }
-  /* Keep the filters reachable across the long (~178-card) scroll. Cap the height
-     to the viewport and let the column scroll internally so tall filter sets
-     (all accordions open) stay fully reachable. */
-  @media (min-width: 769px) {
-    .holiday-list-section .sidebar {
-      position: sticky; top: 120px; align-self: flex-start; vertical-align: top;
-      max-height: calc(100vh - 140px); overflow-y: auto; overflow-x: hidden;
-    }
-  }
-  @media (max-width: 768px) { .holiday-list-section .sidebar { display: none; width: 100%; padding: 0 20px; position: static; } }
-  .holiday-list-section .sidebar.show { display: block; }
-
-  .holiday-list-section .sidebar .filter {
-    padding-bottom: 25px;
-    padding-top: 25px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  }
-  .holiday-list-section .sidebar .filter:first-child { padding-top: 0px; padding-bottom: 2px; }
-  .holiday-list-section .sidebar .filter:first-child .sidebar-header { cursor: default; }
-  @media (min-width: 768px) { .holiday-list-section .sidebar .filter:nth-last-child(2) { border: none; } }
-
-  .sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding-bottom: 20px;
-    cursor: pointer;
-  }
-  .sidebar-header .type { font-family: BentonSans, sans-serif; font-weight: 700; font-size: 18px; color: #424242; }
-  .sidebar-header .reset { font-family: BentonSans, sans-serif; font-weight: 500; font-size: 14px; color: #767676; cursor: pointer; }
-  .sidebar-header .icon-pullup {
-    width: 12px; height: 7px;
-    background-image: url('/icons/dropdown-icon.svg');
-    background-repeat: no-repeat; background-size: cover;
-    display: inline-block; transform: rotate(180deg);
-  }
-
-  .sidebar-content { display: block; }
-
-  /* River links */
-  .river-link {
-    display: flex;
-    align-items: center;
-    padding: 12px 23px;
-    min-height: 44px;
-    font-family: BentonSans, sans-serif; font-weight: 500;
-    font-size: 14px;
-    color: #000000;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.15s;
-  }
-  .river-link:hover {
-    background-color: rgba(32, 161, 170, 0.08);
-    color: #20A1AA;
-  }
-  .river-link.active {
-    background-color: rgba(32, 161, 170, 0.12);
-    color: #20A1AA;
-    font-family: BentonSans, sans-serif; font-weight: 700;
-  }
-
-  .checkbox-option { padding-left: 23px; font-size: 14px; padding-top: 6px; padding-bottom: 6px; display: flex; align-items: center; min-height: 44px; }
-  .checkbox-option input {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-  }
-  .checkbox-option input:focus-visible + label:before {
-    outline: 2px solid #20A1AA; outline-offset: 2px;
-  }
-  .checkbox-option input:checked + label:before {
-    content: ""; background-image: url('/icons/tick.svg'); background-repeat: no-repeat; background-position-y: 2px;
-  }
-  .checkbox-option label { display: flex; color: #000000; cursor: pointer; }
-  .checkbox-option label:before {
-    background: #FFF; content: ""; width: 14px; min-width: 14px; height: 14px;
-    border: 1px solid #5e5e5e; border-radius: 2px; margin-right: 14px;
-  }
-
-  .mobile-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
-  @media (min-width: 769px) { .mobile-actions { display: none; } }
-  .mobile-actions .filter-apply-btn { margin: 0px; width: 140px; height: 45px; }
-  .mobile-actions .reset {
-    font-family: BentonSans, sans-serif; font-weight: 500; font-size: 14px; color: #767676;
-    background: none; border: none; cursor: pointer; padding: 8px 12px;
-  }
-
-  /* Sidebar close button — mobile only */
-  .sidebar-close {
-    display: none; background: none; border: none; font-size: 24px; color: #767676;
-    cursor: pointer; padding: 4px 8px; line-height: 1;
-  }
-  @media (max-width: 768px) { .sidebar-close { display: block; } }
-
-  /* Sidebar backdrop overlay — mobile only */
-  .sidebar-backdrop {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9;
-  }
-  .sidebar-backdrop.active { display: block; }
-  @media (max-width: 768px) {
-    .holiday-list-section .sidebar.show { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; background: #fff; overflow-y: auto; padding: 20px; }
-  }
-
-  /* Filter badge on mobile button */
-  .filter-badge {
-    display: inline-flex; align-items: center; justify-content: center;
-    background: #20A1AA; color: #fff; border-radius: 50%;
-    width: 20px; height: 20px; font-size: 11px; margin-left: 6px;
-    font-family: BentonSans, sans-serif; font-weight: 700;
-  }
-
-  .holiday-list-section .content { width: calc(100% - 281px); float: right; padding-left: 32px; }
-  @media (max-width: 768px) { .holiday-list-section .content { width: 100%; padding-left: 0px; position: relative; } }
-
-  .search-sort {
-    display: flex; font-family: BentonSans, sans-serif; font-weight: 700; color: #424242;
-    padding-bottom: 22px; border-bottom: solid 1px rgba(66, 66, 66, 0.2); margin-bottom: 38px;
-  }
-  @media (max-width: 1100px) { .search-sort { padding-bottom: 2px; } }
-  @media (max-width: 940px) { .search-sort { flex-direction: column; } }
-  @media (max-width: 768px) { .search-sort { border: none; align-items: center; padding-bottom: 0px; } }
-  .search-sort .results {
-    flex-grow: 2; margin: 0; align-self: center;
-    font-family: "CaslonGraphiqueEF", Georgia, serif; font-size: 22px; font-weight: normal; color: #073140;
-  }
-  .search-sort .order { display: flex; flex-grow: 1; justify-content: space-between; }
-  @media (max-width: 1100px) { .search-sort .order { flex-direction: column; align-items: flex-end; } }
-  @media (max-width: 940px) { .search-sort .order { align-items: flex-start; } }
-
-  .search-sort .order .price { display: inline-block; }
-  .search-sort .order .price .price-order {
-    display: inline-block; font-family: BentonSans, sans-serif; font-weight: 500; color: #767676; padding-left: 20px; cursor: pointer;
-    background: none; border: none; font-size: inherit;
-  }
-  .search-sort .order .price .price-order:last-child { border-left: 0.5px solid rgba(0, 0, 0, 0.5); margin-left: 15px; }
-  .search-sort .order .price .price-order.active { color: #20A1AA; text-decoration: underline; text-underline-offset: 4px; }
-  .search-sort .order .price .price-order:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px; }
-
-  .mobile-filter-wrap { display: none; }
-  @media (max-width: 768px) {
-    .mobile-filter-wrap {
-      position: absolute; width: 100%; top: -90px; left: 0px; right: 0px;
-      background-color: #ffffff; box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-      display: flex; justify-content: space-between; padding: 20px; z-index: 3;
-    }
-  }
-  .filter-btn {
-    font-size: 16px; font-family: BentonSans, sans-serif; font-weight: 500; cursor: pointer;
-    background: none; border: none; color: inherit; padding: 0; display: flex; align-items: center;
-  }
-  @media (min-width: 769px) { .filter-btn { display: none; } }
-  .filter-btn .icon-filter {
-    background-image: url('/icons/filter-icon.svg'); background-repeat: no-repeat; background-size: cover;
-    width: 17px; height: 14px; margin-right: 10px; display: inline-block;
-  }
-  .filter-btn:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px; }
-  .sort { position: relative; display: inline-flex; }
-  .sort .sort-order {
-    font-family: BentonSans, sans-serif; font-weight: 500; color: #767676; padding-left: 15px;
-    min-width: 111px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-    background: none; border: none; font-size: inherit;
-  }
-  .sort .sort-order:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px; }
-  .sort .sort-order .icon-dropdown {
-    margin-left: 20px; background-image: url('/icons/dropdown-icon.svg');
-    background-repeat: no-repeat; background-size: cover; width: 12px; height: 7px; display: inline-block;
-  }
-  .sort .sort-order-list {
-    position: absolute; top: 30px; left: 65px; width: 110px; list-style-type: none;
-    padding: 10px; box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2); background-color: #ffffff; z-index: 1; display: none;
-  }
-  @media (max-width: 768px) { .sort .sort-order-list { left: auto; right: 0; } }
-  .sort .sort-order-list .sort-option {
-    font-family: BentonSans, sans-serif; font-weight: 500; color: #767676; padding: 10px; cursor: pointer;
-  }
-  .sort .sort-order-list .sort-option:hover {
-    background-color: rgba(32, 161, 170, 0.08); color: #20A1AA; outline: none;
-  }
-  .sort .sort-order-list .sort-option:focus-visible {
-    background-color: rgba(32, 161, 170, 0.08); color: #20A1AA;
-  }
-
-  .holidays { position: relative; }
-  @media (min-width: 769px) {
-    .holidays:before {
-      content: ""; position: absolute; left: -32px; height: 100%; width: 1px; background: rgba(0, 0, 0, 0.2);
-    }
-  }
-  @media (max-width: 768px) { .holidays { max-width: 730px; margin-left: auto; margin-right: auto; } }
-  @media (max-width: 760px) { .holidays { max-width: 100%; } }
-
-  /* ── Cruise card (promo-style) ── */
-  .cruise-card {
-    display: grid; grid-template-columns: 380px 1fr;
-    background: #fff; border-radius: 8px; overflow: hidden;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.08); margin-top: 24px; transition: box-shadow 0.2s;
-  }
-  .cruise-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.14); }
-  @media (max-width: 1100px) { .cruise-card { grid-template-columns: 320px 1fr; } }
-  @media (max-width: 760px) { .cruise-card { grid-template-columns: 1fr; } }
-
-  /* card gallery (main image + thumbnail strip) */
-  .cruise-card .card-gallery { display: flex; flex-direction: column; min-height: 300px; background: #fff; }
-  @media (max-width: 760px) { .cruise-card .card-gallery { min-height: 0; } .cruise-card .card-gallery-main { min-height: 230px; } }
-  /* Main image fills the column (cover-crop) so every card is a uniform height
-     regardless of body length or photo count — the image absorbs the variance. */
-  .cruise-card .card-gallery-main { position: relative; flex: 1 1 auto; min-height: 210px; overflow: hidden; }
-  .cruise-card .card-gallery-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-  .cruise-card .card-gallery-main .badge {
-    position: absolute; top: 14px; left: 14px; background: rgba(7,49,64,0.85); color: #fff; z-index: 1;
-    font-family: BentonSans, sans-serif; font-weight: 700; font-size: 11px;
-    padding: 5px 12px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.5px;
-  }
-  .cruise-card .card-gallery-main .special-badge {
-    position: absolute; top: 14px; right: 14px; background: #ff7f00; color: #fff; z-index: 1;
-    font-family: BentonSans, sans-serif; font-weight: 700; font-size: 11px;
-    padding: 5px 12px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.5px;
-  }
-  .cruise-card .card-gallery-main .duration-badge {
-    position: absolute; bottom: 14px; left: 14px; background: #20A1AA; color: #fff; z-index: 1;
-    font-family: BentonSans, sans-serif; font-weight: 700; font-size: 13px; padding: 6px 14px; border-radius: 3px;
-  }
-  /* Thumbnails: a fixed 2-row strip pinned under the (flex-growing) main image,
-     so they're always uniform — the main image absorbs the variable height. */
-  .cruise-card .card-gallery-thumbs {
-    display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-rows: 62px;
-    gap: 4px; padding: 5px; background: #fff; flex: 0 0 auto;
-  }
-  @media (max-width: 450px) { .cruise-card .card-gallery-thumbs { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 54px; } }
-  .cruise-card .card-thumb {
-    min-width: 0; min-height: 0; padding: 0; border: 2px solid transparent;
-    border-radius: 3px; overflow: hidden; cursor: pointer; background: none; line-height: 0;
-  }
-  .cruise-card .card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .cruise-card .card-thumb.active { border-color: #20A1AA; }
-  .cruise-card .card-thumb:focus-visible { outline: 2px solid #20A1AA; outline-offset: 1px; }
-
-  .cruise-card .card-body { padding: 24px 26px 22px; display: flex; flex-direction: column; min-width: 0; }
-  @media (max-width: 450px) { .cruise-card .card-body { padding: 20px; } }
-  .cruise-card .card-title { text-decoration: none; display: block; }
-  .cruise-card .card-title h3 {
-    font-family: "CaslonGraphiqueEF", Georgia, serif; font-size: 24px; color: #073140; margin-bottom: 4px; line-height: 1.25;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  }
-  .cruise-card .card-title:hover h3 { color: #20A1AA; }
-  .cruise-card .card-title:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 2px; }
-  @media (max-width: 450px) { .cruise-card .card-title h3 { font-size: 20px; } }
-  .cruise-card .card-route {
-    font-family: BentonSans, sans-serif; font-weight: 500; font-size: 13.5px; color: #0d6066; margin-bottom: 8px; line-height: 1.5;
-  }
-  .cruise-card .card-sails {
-    font-family: BentonSans, sans-serif; font-weight: 500; font-size: 13px; color: #424242; margin: -2px 0 10px; line-height: 1.5;
-  }
-  .cruise-card .card-from-price {
-    display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
-    padding-top: 12px; border-top: 1px solid #eef2f3;
-    font-family: BentonSans, sans-serif; font-weight: 500; font-size: 14px; color: #555;
-  }
-  .cruise-card .now-price { font-family: "CaslonGraphiqueEF", serif; font-size: 30px; color: #073140; }
-  .cruise-card .from-pp { font-size: 13px; color: #6b6b6b; }
-  .cruise-card .card-desc {
-    font-family: BentonSans, sans-serif; font-weight: 500; font-size: 14px; line-height: 1.6; color: #666; margin-bottom: 14px; flex: 1;
-  }
-
-  /* cabin price list — collapsible (keeps the card compact; expand to compare decks) */
-  .cruise-card details.cabin-list { margin-bottom: 14px; }
-  .cruise-card .cabin-list-toggle {
-    list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
-    font-family: BentonSans, sans-serif; font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.5px; color: #073140;
-    padding: 9px 13px; background: #f0f7f8; border: 1px solid #e0eeef; border-radius: 6px;
-  }
-  .cruise-card .cabin-list-toggle::-webkit-details-marker { display: none; }
-  .cruise-card .cabin-list-toggle::after { content: "▾"; color: #20A1AA; font-size: 13px; transition: transform 0.2s; }
-  .cruise-card details[open] .cabin-list-toggle { border-radius: 6px 6px 0 0; }
-  .cruise-card details[open] .cabin-list-toggle::after { transform: rotate(180deg); }
-  .cruise-card .cabin-list-toggle:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; }
-  .cruise-card .cabin-rows {
-    list-style: none; margin: 0; padding: 0;
-    border: 1px solid #e0eeef; border-top: none; border-radius: 0 0 6px 6px; overflow: hidden;
-  }
-  .cruise-card .cabin-row { display: flex; align-items: baseline; gap: 12px; padding: 9px 13px; background: #fff; }
-  .cruise-card .cabin-row + .cabin-row { border-top: 1px solid #eef4f5; }
-  .cruise-card .cabin-row.is-cheapest { background: #f0f7f8; }
-  .cruise-card .cabin-name {
-    font-family: BentonSans, sans-serif; font-weight: 700; font-size: 13px;
-    color: #073140; line-height: 1.3; flex: 1 1 auto; min-width: 0;
-  }
-  .cruise-card .cabin-row.is-cheapest .cabin-name { color: #0d6066; }
-  .cruise-card .cabin-price-wrap { display: flex; align-items: baseline; gap: 3px; white-space: nowrap; flex-shrink: 0; }
-  .cruise-card .cabin-price { font-family: "CaslonGraphiqueEF", serif; font-size: 17px; color: #073140; }
-  .cruise-card .cabin-pp { font-size: 11px; color: #6b6b6b; }
-
-  /* Reassurance line — flattened (was a boxed panel competing with the cabin list). */
-  .cruise-card .flight-note {
-    font-family: BentonSans, sans-serif; font-weight: 500; font-size: 12.5px; color: #555; margin-bottom: 16px; line-height: 1.45;
-    display: flex; align-items: center; gap: 7px;
-  }
-  .cruise-card .flight-note::before { content: "\2713"; color: #20A1AA; font-family: BentonSans, sans-serif; font-weight: 700; flex-shrink: 0; }
-  .cruise-card .flight-note strong { color: #073140; font-family: BentonSans, sans-serif; font-weight: 700; }
-
-  .cruise-card .card-cta-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .cruise-card .btn-call {
-    display: inline-flex; align-items: center; justify-content: center; background: #ff7f00; color: #fff;
-    font-family: BentonSans, sans-serif; font-weight: 700; font-size: 14px;
-    min-height: 44px; padding: 0 22px; border-radius: 4px; text-decoration: none; white-space: nowrap; transition: opacity 0.2s;
-  }
-  .cruise-card .btn-call:hover { opacity: 0.9; }
-  .cruise-card .btn-call:focus-visible { outline: 3px solid #073140; outline-offset: 2px; }
-  .cruise-card .card-cta-row .view-more-btn {
-    width: auto; min-width: 150px; height: 44px; box-shadow: none; display: inline-flex; align-items: center; justify-content: center;
-  }
-  /* Stack the CTAs before they get cramped (was 450px) */
-  @media (max-width: 610px) {
-    .cruise-card .card-cta-row { flex-direction: column; align-items: stretch; }
-    .cruise-card .btn-call, .cruise-card .card-cta-row .view-more-btn { width: 100%; }
-  }
-
-  .view-more-btn {
-    width: 185px; height: 64px; box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.25);
-    letter-spacing: 1px; margin-top: 0px; text-decoration: none;
-  }
-  .view-more-btn .icon-more { padding-left: 18px; width: auto; height: 12px; }
-  @media (max-width: 450px) { .view-more-btn { min-width: unset; width: 140px; height: 45px; font-size: 12px; } }
-  @media (max-width: 350px) {
-    .view-more-btn { width: 113px; padding: 0 10px; font-size: 11px; }
-    .holiday .details .horizontal .price div { font-size: 22px; }
-  }
-
-  .load-more-btn {
-    display: block;
-    margin: 40px auto 20px;
-    width: 220px;
-    height: 56px;
-    letter-spacing: 1px;
-    cursor: pointer;
-  }
-  .load-more-btn.hidden { display: none; }
-  @media (max-width: 350px) { .load-more-btn { width: 100%; max-width: 290px; } }
-
-  .no-results, .no-filter-results {
-    text-align: center;
-    padding: 80px 20px;
-    color: #767676;
-    font-size: 18px;
-  }
-  .no-results a, .no-filter-results a { color: #20A1AA; }
-  .clear-filters {
-    background: none; border: none; color: #20A1AA; cursor: pointer;
-    font-size: inherit; font-family: inherit; text-decoration: underline;
-  }
-
-  /* Reset button styling */
-  .sidebar-header .reset {
-    background: none; border: none; cursor: pointer; padding: 8px 12px;
-  }
-  .sidebar-header .reset:focus-visible {
-    outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px;
-  }
-
-  /* Accordion header button reset + focus */
-  button.sidebar-header {
-    background: none; border: none; font: inherit; color: inherit;
-    text-align: left; width: 100%; appearance: none;
-  }
-  button.sidebar-header:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; border-radius: 4px; }
-
-  /* River link focus */
-  .river-link:focus-visible { outline: 2px solid #20A1AA; outline-offset: 2px; }
-
-  .hide { display: none; }
+  @media (max-width: 1100px) { .rl-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .rl-hero h1 { font-size: 34px; } .rl-chip-label { width: 100%; } }
+  @media (max-width: 610px) { .rl-grid { grid-template-columns: 1fr; gap: 20px; } .rl-chip { padding: 8px 10px; } }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Read more toggle
-    const readMoreLink = document.querySelector<HTMLButtonElement>('.read-more');
-    const extraText = document.querySelector('.intro-text-extra');
-    if (readMoreLink && extraText) {
-      readMoreLink.addEventListener('click', () => {
-        const isHidden = extraText.classList.contains('hide');
-        extraText.classList.toggle('hide');
-        readMoreLink.innerHTML = isHidden
-          ? 'Read less <span class="icon-dropdown"></span>'
-          : 'Read more <span class="icon-dropdown"></span>';
-        readMoreLink.classList.toggle('expanded', isHidden);
-        readMoreLink.setAttribute('aria-expanded', String(isHidden));
-      });
-    }
+  // Chips (length/month) filter the server-rendered cards in place; the URL keeps the
+  // state (?nights=, ?months=) so the landing-page tiles and shared links pre-apply it.
+  const PAGE = 12;
+  const grid = document.getElementById('rl-grid');
+  const cards = Array.from(grid?.querySelectorAll<HTMLElement>('.rc-offer') ?? []);
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.rl-chip[data-filter]'));
+  const results = document.querySelector<HTMLElement>('.rl-results');
+  const loadMore = document.querySelector<HTMLButtonElement>('.rl-load-more');
+  const empty = document.querySelector<HTMLElement>('.rl-empty');
+  let shown = PAGE;
+  let sortDir: 'asc' | 'desc' = 'asc';
 
-    // ── Mobile sidebar with backdrop ──
-    const filterBtn = document.querySelector<HTMLButtonElement>('.filter-btn');
-    const sidebar = document.querySelector<HTMLElement>('.sidebar');
-    const backdrop = document.querySelector<HTMLElement>('.sidebar-backdrop');
-    const closeBtn = document.querySelector<HTMLButtonElement>('.sidebar-close');
+  const params = new URLSearchParams(window.location.search);
+  const state = {
+    nights: new Set((params.get('nights') || '').split(',').filter(Boolean)),
+    months: new Set((params.get('months') || '').split(',').filter(Boolean)),
+  };
 
-    function openSidebar() {
-      if (!sidebar || !backdrop) return;
-      sidebar.classList.add('show');
-      backdrop.classList.add('active');
-      if (filterBtn) filterBtn.setAttribute('aria-expanded', 'true');
-      if (closeBtn) closeBtn.focus();
-      document.addEventListener('keydown', trapFocus);
+  function syncUrl() {
+    const u = new URL(window.location.href);
+    for (const k of ['nights', 'months'] as const) {
+      const v = [...state[k]].join(',');
+      if (v) u.searchParams.set(k, v); else u.searchParams.delete(k);
     }
-    function closeSidebar() {
-      if (!sidebar || !backdrop) return;
-      sidebar.classList.remove('show');
-      backdrop.classList.remove('active');
-      if (filterBtn) { filterBtn.setAttribute('aria-expanded', 'false'); filterBtn.focus(); }
-      document.removeEventListener('keydown', trapFocus);
-    }
-    function trapFocus(e: KeyboardEvent) {
-      if (e.key === 'Escape') { closeSidebar(); return; }
-      if (e.key !== 'Tab' || !sidebar) return;
-      const focusable = sidebar.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
+    history.replaceState(null, '', u.toString());
+  }
 
-    if (filterBtn) filterBtn.addEventListener('click', () => sidebar?.classList.contains('show') ? closeSidebar() : openSidebar());
-    if (backdrop) backdrop.addEventListener('click', closeSidebar);
-    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+  function matches(card: HTMLElement): boolean {
+    const n = card.dataset.nights || '';
+    const ms = (card.dataset.months || '').split(',');
+    const okNights = state.nights.size === 0 || state.nights.has(n);
+    const okMonths = state.months.size === 0 || [...state.months].some(m => ms.includes(m));
+    return okNights && okMonths;
+  }
 
-    const applyBtn = document.querySelector('.filter-apply-btn');
-    if (applyBtn) {
-      applyBtn.addEventListener('click', () => { applyFilters(); closeSidebar(); });
-    }
-
-    // ── Sidebar accordion with ARIA + keyboard ──
-    const filterHeaders = document.querySelectorAll<HTMLElement>('.filter .sidebar-header');
-    filterHeaders.forEach((header, index) => {
-      if (index === 0) return;
-      function toggleAccordion() {
-        const content = header.nextElementSibling as HTMLElement;
-        const icon = header.querySelector('.icon-pullup, .icon-dropdown') as HTMLElement;
-        if (content && content.classList.contains('sidebar-content')) {
-          const isVisible = content.style.display !== 'none';
-          content.style.display = isVisible ? 'none' : 'block';
-          header.setAttribute('aria-expanded', String(!isVisible));
-          if (icon) icon.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
-        }
-      }
-      header.addEventListener('click', toggleAccordion);
-      header.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAccordion(); }
-      });
+  function render(reset = true) {
+    if (reset) shown = PAGE;
+    const matched = cards.filter(matches).sort((a, b) => {
+      const d = Number(a.dataset.price) - Number(b.dataset.price);
+      return sortDir === 'asc' ? d : -d;
     });
+    for (const c of cards) c.hidden = true;
+    matched.forEach((c, i) => { c.hidden = i >= shown; grid?.appendChild(c); });
+    if (results) results.textContent = `${matched.length} ${matched.length === 1 ? 'cruise' : 'cruises'}`;
+    if (loadMore) loadMore.hidden = matched.length <= shown;
+    if (empty) empty.hidden = matched.length > 0;
+    for (const chip of chips) {
+      const k = chip.dataset.filter as 'nights' | 'months';
+      chip.setAttribute('aria-pressed', state[k].has(chip.dataset.value || '') ? 'true' : 'false');
+    }
+  }
 
-    // Sync aria-expanded from DOM on load
-    filterHeaders.forEach((header, index) => {
-      if (index === 0) return;
-      const content = header.nextElementSibling as HTMLElement;
-      if (content && content.classList.contains('sidebar-content')) {
-        const isVisible = content.style.display !== 'none';
-        header.setAttribute('aria-expanded', String(isVisible));
-      }
+  for (const chip of chips) {
+    chip.addEventListener('click', () => {
+      const k = chip.dataset.filter as 'nights' | 'months';
+      const v = chip.dataset.value || '';
+      if (state[k].has(v)) state[k].delete(v); else state[k].add(v);
+      syncUrl(); render();
     });
-
-    // ── Filtering + Pagination ──
-    const PAGE_SIZE = 20;
-    const cards = document.querySelectorAll<HTMLElement>('.holiday[data-country]');
-    const resultsEl = document.querySelector('.results');
-    const loadMoreBtn = document.querySelector<HTMLButtonElement>('.load-more-btn');
-    const noFilterResults = document.querySelector<HTMLElement>('.no-filter-results');
-    let shownCount = 0;
-
-    function getChecked(name: string): string[] {
-      return Array.from(document.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`))
-        .map(el => el.value);
-    }
-
-    function getVisibleCards(): HTMLElement[] {
-      // Query live (NOT the static `cards` NodeList) so pagination follows the
-      // CURRENT DOM order after a sort. Otherwise sorting reorders the DOM but
-      // pagination keeps showing the original first 20 (sort appears broken).
-      return Array.from(document.querySelectorAll<HTMLElement>('.holidays .holiday[data-country]'))
-        .filter(c => !c.classList.contains('filtered-out'));
-    }
-
-    function updateFilterBadge() {
-      const count = document.querySelectorAll('.sidebar input[type="checkbox"]:checked').length;
-      if (filterBtn) {
-        filterBtn.innerHTML = count > 0
-          ? `<span class="icon-filter"></span>Filter <span class="filter-badge">${count}</span>`
-          : '<span class="icon-filter"></span>Filter';
-      }
-    }
-
-    function applyPagination(reset: boolean) {
-      const visible = getVisibleCards();
-      const totalVisible = visible.length;
-
-      if (reset) shownCount = Math.min(PAGE_SIZE, totalVisible);
-
-      visible.forEach((card, i) => {
-        card.style.display = i < shownCount ? '' : 'none';
-      });
-
-      // Results count — consistent format
-      if (resultsEl) {
-        resultsEl.textContent = `Showing ${Math.min(shownCount, totalVisible)} of ${totalVisible} river cruises`;
-      }
-
-      // Load More button with remaining count
-      if (loadMoreBtn) {
-        const remaining = totalVisible - shownCount;
-        if (remaining <= 0) {
-          loadMoreBtn.classList.add('hidden');
-        } else {
-          loadMoreBtn.classList.remove('hidden');
-          const nextBatch = Math.min(PAGE_SIZE, remaining);
-          loadMoreBtn.textContent = `Load ${nextBatch} More${remaining > nextBatch ? ` (${remaining} remaining)` : ''}`;
-        }
-      }
-
-      // Empty state for filtered results
-      if (noFilterResults) {
-        noFilterResults.style.display = totalVisible === 0 ? 'block' : 'none';
-      }
-
-      updateFilterBadge();
-    }
-
-    // ?months=11,12 (from the landing page season tiles): keep only cards sailing in those months.
-    const monthFilter = (new URLSearchParams(window.location.search).get('months') || '')
-      .split(',').map(m => m.trim()).filter(Boolean);
-
-    function applyFilters() {
-      const durations = getChecked('duration');
-      const countries = getChecked('country');
-      const operators = getChecked('operator');
-      const specialOnly = getChecked('special').length > 0;
-
-      cards.forEach(card => {
-        const matchDuration = durations.length === 0 || durations.includes(card.dataset.duration || '');
-        const matchCountry = countries.length === 0 || countries.includes(card.dataset.country || '');
-        // Case-insensitive: card emits operator_name 'A-ROSA' but the checkbox value is 'A-Rosa'.
-        const cardOp = (card.dataset.operator || '').toLowerCase();
-        const matchOperator = operators.length === 0 || operators.some(o => o.toLowerCase() === cardOp);
-        const matchSpecial = !specialOnly || card.dataset.specialOffer === 'true';
-        const cardMonths = (card.dataset.months || '').split(',');
-        const matchMonth = monthFilter.length === 0 || monthFilter.some(m => cardMonths.includes(m));
-
-        const passes = matchDuration && matchCountry && matchOperator && matchSpecial && matchMonth;
-        card.classList.toggle('filtered-out', !passes);
-        if (!passes) card.style.display = 'none';
-      });
-
-      applyPagination(true);
-    }
-
-    // Load More click — scroll to first new card
-    if (loadMoreBtn) {
-      loadMoreBtn.addEventListener('click', () => {
-        const visible = getVisibleCards();
-        const firstNewIndex = shownCount;
-        shownCount = Math.min(shownCount + PAGE_SIZE, visible.length);
-        applyPagination(false);
-        if (visible[firstNewIndex]) {
-          const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          visible[firstNewIndex].scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
-        }
-      });
-    }
-
-    // After a filter changes the result count, the page can shrink a lot and the
-    // browser clamps the scroll to the new (short) bottom — leaving the user
-    // stranded. Scroll back up to the results so they see the filtered list.
-    const listSection = document.querySelector<HTMLElement>('.holiday-list-section');
-    function scrollToResults() {
-      if (!listSection) return;
-      const y = Math.max(0, listSection.getBoundingClientRect().top + window.scrollY - 80);
-      if (window.scrollY > y + 4) window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-    function applyFiltersAndScroll() { applyFilters(); scrollToResults(); }
-
-    // Clear filters button (in empty state)
-    const clearFiltersBtn = document.querySelector('.clear-filters');
-    if (clearFiltersBtn) {
-      clearFiltersBtn.addEventListener('click', () => {
-        document.querySelectorAll<HTMLInputElement>('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
-        applyFiltersAndScroll();
-      });
-    }
-
-    // Listen for checkbox changes (instant apply on desktop)
-    document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
-      cb.addEventListener('change', applyFiltersAndScroll);
-    });
-
-    // Reset buttons
-    document.querySelectorAll('.reset').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll<HTMLInputElement>('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
-        applyFiltersAndScroll();
-      });
-    });
-
-    // ── Price sort (desktop + mobile sync) ──
-    const holidaysContainer = document.querySelector('.holidays');
-    const priceOrders = document.querySelectorAll<HTMLElement>('.search-sort .order .price .price-order');
-
-    function sortCards(descending: boolean) {
-      if (!holidaysContainer) return;
-      const sorted = Array.from(cards).sort((a, b) => {
-        const pa = parseFloat(a.dataset.price || '0');
-        const pb = parseFloat(b.dataset.price || '0');
-        return descending ? pb - pa : pa - pb;
-      });
-      sorted.forEach(card => holidaysContainer.appendChild(card));
-      applyPagination(true);
-    }
-
-    priceOrders.forEach((el) => {
-      el.addEventListener('click', () => {
-        priceOrders.forEach((p) => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
-        el.classList.add('active');
-        el.setAttribute('aria-pressed', 'true');
-        const isDesc = el.textContent?.includes('High') ?? false;
-        sortCards(isDesc);
-        // Sync mobile sort label
-        const currentOption = document.querySelector('.current-option');
-        if (currentOption) currentOption.textContent = isDesc ? 'Price: High to low' : 'Price: Low to high';
-      });
-    });
-
-    // ── Mobile sort dropdown ──
-    const sortOrder = document.querySelector('.sort-order');
-    const sortOrderList = document.querySelector<HTMLElement>('.sort-order-list');
-    if (sortOrder && sortOrderList) {
-      sortOrder.addEventListener('click', () => {
-        const isVisible = sortOrderList.style.display === 'block';
-        sortOrderList.style.display = isVisible ? 'none' : 'block';
-        sortOrder.setAttribute('aria-expanded', String(!isVisible));
-      });
-
-      const sortOptions = document.querySelectorAll<HTMLElement>('.sort-option');
-      function selectSortOption(option: HTMLElement) {
-        const currentOption = document.querySelector('.current-option');
-        if (currentOption) currentOption.textContent = option.textContent;
-        sortOrderList.style.display = 'none';
-        sortOrder.setAttribute('aria-expanded', 'false');
-        sortOptions.forEach(o => o.setAttribute('aria-selected', 'false'));
-        option.setAttribute('aria-selected', 'true');
-        const isDesc = option.textContent?.includes('High') ?? false;
-        priceOrders.forEach((p) => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
-        const matchBtn = isDesc ? priceOrders[1] : priceOrders[0];
-        if (matchBtn) { matchBtn.classList.add('active'); matchBtn.setAttribute('aria-pressed', 'true'); }
-        sortCards(isDesc);
-        (sortOrder as HTMLElement).focus();
-      }
-      sortOptions.forEach((option) => {
-        option.addEventListener('click', () => selectSortOption(option));
-        option.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectSortOption(option); }
-          if (e.key === 'ArrowDown') { e.preventDefault(); const next = option.nextElementSibling as HTMLElement; if (next) next.focus(); }
-          if (e.key === 'ArrowUp') { e.preventDefault(); const prev = option.previousElementSibling as HTMLElement; if (prev) prev.focus(); }
-          if (e.key === 'Home') { e.preventDefault(); sortOptions[0].focus(); }
-          if (e.key === 'End') { e.preventDefault(); sortOptions[sortOptions.length - 1].focus(); }
-        });
-      });
-
-      // Close dropdown on outside click
-      document.addEventListener('click', (e) => {
-        if (!sortOrder.contains(e.target as Node) && !sortOrderList.contains(e.target as Node)) {
-          sortOrderList.style.display = 'none';
-          sortOrder.setAttribute('aria-expanded', 'false');
-        }
-      });
-      // Close on Escape
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && sortOrderList.style.display === 'block') {
-          sortOrderList.style.display = 'none';
-          sortOrder.setAttribute('aria-expanded', 'false');
-          (sortOrder as HTMLElement).focus();
-        }
-      });
-    }
-
-    // Shareable special-offers link: ?special=1 pre-applies the filter on load,
-    // and toggling the checkbox keeps the URL in sync so it can be copied/shared.
-    const specialCb = document.querySelector<HTMLInputElement>('input[name="special"][value="1"]');
-    specialCb?.addEventListener('change', () => {
-      const u = new URL(window.location.href);
-      if (specialCb.checked) u.searchParams.set('special', '1');
-      else u.searchParams.delete('special');
-      history.replaceState(null, '', u.toString());
-    });
-
-    // Initial pagination on page load. Landing-page tiles arrive with presets:
-    // ?special=1, ?nights=short|week|long (ticks the duration boxes), ?months=11,12.
-    const params = new URLSearchParams(window.location.search);
-    let preset = false;
-    if (params.get('special') === '1' && specialCb) { specialCb.checked = true; preset = true; }
-    const nightsPreset = params.get('nights');
-    if (nightsPreset) {
-      const inRange = (n: number) =>
-        nightsPreset === 'short' ? n <= 4 : nightsPreset === 'week' ? n >= 5 && n <= 8 : nightsPreset === 'long' ? n >= 9 : false;
-      document.querySelectorAll<HTMLInputElement>('input[name="duration"]').forEach(cb => {
-        if (inRange(parseInt(cb.value, 10))) { cb.checked = true; preset = true; }
-      });
-    }
-    if (monthFilter.length > 0) preset = true;
-    if (preset) applyFilters(); else applyPagination(true);
-
-    // Card gallery: clicking a thumbnail swaps the main image.
-    holidaysContainer.addEventListener('click', (e) => {
-      const thumb = (e.target as HTMLElement).closest('.card-thumb') as HTMLElement | null;
-      if (!thumb) return;
-      const gallery = thumb.closest('.card-gallery');
-      const main = gallery?.querySelector('.card-gallery-img') as HTMLImageElement | null;
-      const src = thumb.getAttribute('data-src');
-      if (main && src) main.src = src;
-      gallery?.querySelectorAll('.card-thumb').forEach((t) => t.classList.toggle('active', t === thumb));
+  }
+  document.querySelectorAll<HTMLButtonElement>('.rl-sort-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sortDir = (btn.dataset.sort as 'asc' | 'desc') || 'asc';
+      document.querySelectorAll('.rl-sort-btn').forEach(b => { b.classList.toggle('active', b === btn); b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      render();
     });
   });
+  loadMore?.addEventListener('click', () => { shown += PAGE; render(false); });
+  document.querySelector('.rl-clear')?.addEventListener('click', () => { state.nights.clear(); state.months.clear(); syncUrl(); render(); });
+  render();
 </script>
