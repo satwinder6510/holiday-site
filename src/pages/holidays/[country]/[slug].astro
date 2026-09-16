@@ -166,12 +166,13 @@ const shipHeading = holiday.accommodations.length > 1 ? 'Your Ships' : 'Your Shi
 const OPERATOR_INCLUDED: Record<string, string[]> = {
   croisieurope: ['Drinks with meals', 'Open bar'],
   arosa: ['Drinks with meals', 'Limited items open bar'],
+  viva: ['Drinks all day', 'Wi-Fi', 'Gratuities'],
 };
 const cruiseIncluded = (() => {
   if (!isCruise) return [] as string[];
   const board = /all[- ]inclusive/i.test(holiday.boardBasis) ? 'All inclusive cruise' : 'Full board cruise';
   const opKey = (holiday.operator || '').toLowerCase().replace(/[^a-z]/g, '');
-  const operatorItems = OPERATOR_INCLUDED[opKey.startsWith('croisi') ? 'croisieurope' : opKey.startsWith('arosa') ? 'arosa' : opKey] || [];
+  const operatorItems = OPERATOR_INCLUDED[opKey.startsWith('croisi') ? 'croisieurope' : opKey.startsWith('arosa') ? 'arosa' : opKey.startsWith('viva') ? 'viva' : opKey] || [];
   const common = ['Return flights from the UK', 'Airport taxes', 'Cabin bag', board, 'ATOL protection', ...operatorItems];
   const extras = inclusionChips(holiday.whatsIncluded, holiday.boardBasis)
     .filter(c => !/^return flights|inclusive on board|full board on board|^drinks/i.test(c));
