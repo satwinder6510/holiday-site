@@ -429,6 +429,8 @@ export interface DepartureWindow {
   months: string[]; // YYYY-MM, ascending
   /** The departure the "from" price belongs to (cheapest future date). */
   cheapestDate?: string;
+  /** Number of distinct future departure dates. */
+  dates: number;
 }
 
 /**
@@ -441,12 +443,13 @@ export async function getDepartureWindows(db: Database, ids: number[]): Promise<
   const today = new Date().toISOString().slice(0, 10);
   const cruiseIds = ids.filter(id => id > CRUISE_ID_OFFSET).map(id => id - CRUISE_ID_OFFSET);
   const packageIds = ids.filter(id => id <= CRUISE_ID_OFFSET);
-  const put = (id: number, first: string | null, last: string | null, months: string | null) => {
+  const put = (id: number, first: string | null, last: string | null, months: string | null, dates: number) => {
     if (!first || !last) return;
     result.set(id, {
       first: first.slice(0, 10),
       last: last.slice(0, 10),
       months: [...new Set((months || '').split(',').filter(Boolean))].sort(),
+      dates: Number(dates) || 1,
     });
   };
   try {
@@ -457,13 +460,14 @@ export async function getDepartureWindows(db: Database, ids: number[]): Promise<
           first: sql<string>`MIN(${cruiseSailings.departureDate})`,
           last: sql<string>`MAX(${cruiseSailings.departureDate})`,
           months: sql<string>`GROUP_CONCAT(DISTINCT substr(${cruiseSailings.departureDate}, 1, 7))`,
+          dates: sql<number>`COUNT(DISTINCT substr(${cruiseSailings.departureDate}, 1, 10))`,
         })
         .from(cruiseOfferSailingCabins)
         .innerJoin(cruiseSailings, eq(cruiseOfferSailingCabins.sailingId, cruiseSailings.id))
         .where(and(inArray(cruiseOfferSailingCabins.offerId, chunk), gte(cruiseSailings.departureDate, today)))
         .groupBy(cruiseOfferSailingCabins.offerId),
     ));
-    for (const r of cruiseChunks.flat()) put(r.offerId + CRUISE_ID_OFFSET, r.first, r.last, r.months);
+    for (const r of cruiseChunks.flat()) put(r.offerId + CRUISE_ID_OFFSET, r.first, r.last, r.months, r.dates);
     const pkgChunks = await Promise.all(chunkArray(packageIds, 80).map(chunk =>
       db
         .select({
@@ -471,12 +475,13 @@ export async function getDepartureWindows(db: Database, ids: number[]): Promise<
           first: sql<string>`MIN(${packagePricing.departureDate})`,
           last: sql<string>`MAX(${packagePricing.departureDate})`,
           months: sql<string>`GROUP_CONCAT(DISTINCT substr(${packagePricing.departureDate}, 1, 7))`,
+          dates: sql<number>`COUNT(DISTINCT ${packagePricing.departureDate})`,
         })
         .from(packagePricing)
         .where(and(inArray(packagePricing.packageId, chunk), gte(packagePricing.departureDate, today)))
         .groupBy(packagePricing.packageId),
     ));
-    for (const r of pkgChunks.flat()) put(r.packageId, r.first, r.last, r.months);
+    for (const r of pkgChunks.flat()) put(r.packageId, r.first, r.last, r.months, r.dates);
 
     // Cheapest future departure per holiday. SQLite's bare-column rule returns the
     // departure_date from the same row that produced MIN(price).
@@ -507,7 +512,7 @@ export async function getDepartureWindows(db: Database, ids: number[]): Promise<
       const d = date.slice(0, 10);
       const w = result.get(id);
       if (w) w.cheapestDate = d;
-      else result.set(id, { first: d, last: d, months: [d.slice(0, 7)], cheapestDate: d });
+      else result.set(id, { first: d, last: d, months: [d.slice(0, 7)], cheapestDate: d, dates: 1 });
     };
     for (const r of cheapCruise.flat()) setCheapest(r.offerId + CRUISE_ID_OFFSET, r.date);
     for (const r of cheapPkg.flat()) setCheapest(r.packageId, r.date);

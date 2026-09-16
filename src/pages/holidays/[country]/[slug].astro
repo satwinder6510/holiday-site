@@ -3862,6 +3862,8 @@ const pageDescription = holiday.metaDescription || (() => {
       btnViewAllDates?.addEventListener('click', openPricingModal);
       btnCheckPrice?.addEventListener('click', (e) => { e.preventDefault(); openPricingModal(); });
       btnCheckPriceSidebar?.addEventListener('click', (e) => { e.preventDefault(); openPricingModal(); });
+      // Landing-page offer cards link here with #dates: open the calendar straight away.
+      if (window.location.hash === '#dates') openPricingModal();
       btnMobilePricing?.addEventListener('click', openPricingModal);
       modalClose?.addEventListener('click', closePricingModal);
 
