@@ -73,6 +73,7 @@ export interface RawHoliday {
   city_tax_enabled: boolean;
   include_airlines: string | null;
   display_price: number | null;
+  was_price?: number | null;
   cities: string[];
 }
 
@@ -168,6 +169,8 @@ export interface Holiday {
   displayOrder: number;
   operator: string;
   displayPrice: number | null;
+  /** Special offers: brochure price entered in the admin; a saving shows only when it beats our price. */
+  wasPrice: number | null;
   cities: string[];
 }
 
@@ -518,6 +521,7 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
     price: raw.price,
     localChargesPp: localCharges.total,
     displayPrice: raw.display_price ?? null,
+    wasPrice: raw.was_price ?? null,
     cities: raw.cities || [],
     description,
     slug: raw.slug,
@@ -631,6 +635,7 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     // the card's roundToNine(price + localChargesPp) double-counts it.
     localChargesPp: 0,
     displayPrice: null,
+    wasPrice: null,
     cities: [],
     description,
     slug: raw.slug,

@@ -60,6 +60,7 @@ export const flightPackages = sqliteTable('flight_packages', {
   cityTaxEnabled: integer('city_tax_enabled', { mode: 'boolean' }).default(true).notNull(),
   includeAirlines: text('include_airlines'),
   displayPrice: real('display_price'),
+  wasPrice: real('was_price'),
   cities: text('cities', { mode: 'json' }).$type<string[]>().default([]).notNull(),
 });
 

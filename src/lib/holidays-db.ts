@@ -84,6 +84,7 @@ function dbRowToRawHoliday(row: DbRow): RawHoliday {
     city_tax_enabled: row.cityTaxEnabled,
     include_airlines: row.includeAirlines,
     display_price: row.displayPrice ?? null,
+    was_price: row.wasPrice ?? null,
     cities: (row.cities ?? []) as string[],
   };
 }
