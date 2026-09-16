@@ -24,3 +24,19 @@ Not done: a blanket `/Holidays/:region/:country/:id` rule. The country-index rou
 case-sensitive (`/Holidays/Slovakia/` → 404, `/Holidays/slovakia/` → 200) and Cloudflare
 placeholders preserve case, so a wildcard would 301 into a 404. The remaining ~48 numeric
 legacy URLs in TODO-redirects.md would need an explicit lowercase map — owner call.
+
+## 2026-09-16 — legacy PascalCase static pages (TODO-redirects.md row "Other pages")
+
+| Date | Source (404, verified) | Target (verified 200) | Evidence |
+|---|---|---|---|
+| 2026-09-16 | `/AboutUs` | `/about/` | site_errors ids 768-775 (2026-09-15 22:22-22:24, two UAs: Win10 Chrome/148 + zh-cn Android MQQBrowser) beaconed the 404 page's trust logos from this URL; 14 hits on this URL since 2026-07-28 (ids 372-382 were the same scanner pair on the same page, folded into the icons-batch class before the page-url check existed). `/AboutUs` is named explicitly in TODO-redirects.md ("Other pages ~5: /AboutUs, ..."). Source curls 404 (63,223 B "Page Not Found") with and without trailing slash. Target `/about/` curls 200 (75,927 B); `/about` is a 308 to `/about/`, so the rule points at the slashed form to save a hop. |
+| 2026-09-16 | `/PrivacyPolicy` | `/privacy-policy` | site_errors ids 776-780 (2026-09-15 22:26-22:27, same two UAs, 2 min after the /AboutUs hits — the scanner walked the old site's footer links). First appearance of this URL (5 hits). Source curls 404 with and without trailing slash. Target `/privacy-policy` curls 200 (75,747 B) both with and without trailing slash; `src/pages/privacy-policy.astro` exists. |
+
+Not done 2026-09-16: `/ContactUs` also curls 404 but has never been beaconed and is not in
+TODO-redirects.md (which lists `/contact`, already live) — no drive-by rules.
+
+Deploy note 2026-09-16: NOT deployed by Site Doctor. The working tree was already dirty with
+the owner's regenerated `blog-export.json` + `cruise-export.json` (deploy side-effect from the
+owner's 2026-09-15 evening deploy), and the A1 lane only auto-deploys when the diff is limited to
+`public/_redirects` + this file. The rules go live with the owner's next `./deploy.sh`; verify
+then with `curl -sI https://holidays.flightsandpackages.com/AboutUs` (expect 301 → `/about/`).
