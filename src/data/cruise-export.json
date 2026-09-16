@@ -24568,7 +24568,7 @@
     "id": 10370,
     "title": "Rhine meets Spree",
     "slug": "viva-cruises-rhine-meets-spree",
-    "price": 2009,
+    "price": 2019,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 7,
@@ -24696,7 +24696,7 @@
     "id": 10371,
     "title": "Rhine`s Short Greeting",
     "slug": "viva-cruises-rhine-s-short-greeting",
-    "price": 669,
+    "price": 819,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 3,
@@ -24816,7 +24816,7 @@
     "id": 10372,
     "title": "Festive Danube",
     "slug": "viva-cruises-festive-danube",
-    "price": 1009,
+    "price": 1019,
     "destination": "Danube",
     "country": "Germany",
     "duration_nights": 5,
@@ -24923,7 +24923,7 @@
       {
         "date": "2026-12-01",
         "returnDate": "2026-12-06",
-        "pricePp": 1019,
+        "pricePp": 959,
         "cabinPricePp": 755.25
       }
     ]
@@ -24932,7 +24932,7 @@
     "id": 10373,
     "title": "Culinary Delights Of Normandy",
     "slug": "viva-cruises-culinary-delights-of-normandy",
-    "price": 1809,
+    "price": 1819,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 7,
@@ -25055,7 +25055,7 @@
       {
         "date": "2026-09-27",
         "returnDate": "2026-10-04",
-        "pricePp": 2659,
+        "pricePp": 2649,
         "cabinPricePp": 2446.25
       },
       {
@@ -25455,7 +25455,7 @@
       {
         "date": "2027-03-31",
         "returnDate": "2027-04-07",
-        "pricePp": 1889,
+        "pricePp": 1869,
         "cabinPricePp": 1662.5
       },
       {
@@ -25611,19 +25611,19 @@
       {
         "date": "2027-07-17",
         "returnDate": "2027-07-24",
-        "pricePp": 1899,
+        "pricePp": 1859,
         "cabinPricePp": 1662.5
       },
       {
         "date": "2027-07-31",
         "returnDate": "2027-08-07",
-        "pricePp": 1899,
+        "pricePp": 1859,
         "cabinPricePp": 1662.5
       },
       {
         "date": "2027-08-14",
         "returnDate": "2027-08-21",
-        "pricePp": 2179,
+        "pricePp": 2169,
         "cabinPricePp": 1971.25
       }
     ]
@@ -25632,7 +25632,7 @@
     "id": 10378,
     "title": "Paris & Seine Rendezvous",
     "slug": "viva-cruises-paris-seine-rendezvous",
-    "price": 1769,
+    "price": 1779,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 7,
@@ -25761,7 +25761,7 @@
       {
         "date": "2026-11-21",
         "returnDate": "2026-11-28",
-        "pricePp": 1779,
+        "pricePp": 1769,
         "cabinPricePp": 1610.25
       }
     ]
@@ -25770,7 +25770,7 @@
     "id": 10379,
     "title": "A Journey Through Imperial Footsteps",
     "slug": "viva-cruises-a-journey-through-imperial-footsteps",
-    "price": 1909,
+    "price": 1919,
     "destination": "Danube",
     "country": "Austria",
     "duration_nights": 7,
@@ -25898,7 +25898,7 @@
     "id": 10380,
     "title": "Summer Elegance Along the Danube",
     "slug": "viva-cruises-summer-elegance-along-the-danube",
-    "price": 1909,
+    "price": 1919,
     "destination": "Danube",
     "country": "Germany",
     "duration_nights": 6,
@@ -26152,7 +26152,7 @@
     "id": 10382,
     "title": "From Budapest to Vienna",
     "slug": "viva-cruises-from-budapest-to-vienna",
-    "price": 1929,
+    "price": 1939,
     "destination": "Danube",
     "country": "Austria",
     "duration_nights": 7,
@@ -26268,7 +26268,7 @@
     "id": 10383,
     "title": "Winter Highlights on the Main",
     "slug": "viva-cruises-winter-highlights-on-the-main",
-    "price": 869,
+    "price": 879,
     "destination": "Main",
     "country": "Germany",
     "duration_nights": 4,
@@ -26395,13 +26395,13 @@
       {
         "date": "2026-12-06",
         "returnDate": "2026-12-10",
-        "pricePp": 919,
+        "pricePp": 879,
         "cabinPricePp": 641.25
       },
       {
         "date": "2026-12-14",
         "returnDate": "2026-12-18",
-        "pricePp": 929,
+        "pricePp": 879,
         "cabinPricePp": 641.25
       }
     ]
@@ -26410,7 +26410,7 @@
     "id": 10384,
     "title": "A Journey of Blossoms & Canal Romance",
     "slug": "viva-cruises-a-journey-of-blossoms-canal-romance",
-    "price": 1659,
+    "price": 1669,
     "destination": "Rhine",
     "country": "Netherlands",
     "duration_nights": 7,
@@ -26537,13 +26537,13 @@
       {
         "date": "2027-06-14",
         "returnDate": "2027-06-21",
-        "pricePp": 1669,
+        "pricePp": 1649,
         "cabinPricePp": 1420.25
       },
       {
         "date": "2027-07-05",
         "returnDate": "2027-07-12",
-        "pricePp": 1719,
+        "pricePp": 1649,
         "cabinPricePp": 1420.25
       }
     ]
@@ -26552,7 +26552,7 @@
     "id": 10385,
     "title": "Pure Culture Along The Seine",
     "slug": "viva-cruises-pure-culture-along-the-seine",
-    "price": 1839,
+    "price": 1849,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 7,
@@ -26675,7 +26675,7 @@
       {
         "date": "2026-10-11",
         "returnDate": "2026-10-18",
-        "pricePp": 1849,
+        "pricePp": 1799,
         "cabinPricePp": 1610.25
       },
       {
@@ -26690,7 +26690,7 @@
     "id": 10386,
     "title": "Alsace`s Christmas Spirit",
     "slug": "viva-cruises-alsace-s-christmas-spirit",
-    "price": 1449,
+    "price": 1459,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 6,
@@ -26927,7 +26927,7 @@
       {
         "date": "2026-11-19",
         "returnDate": "2026-11-22",
-        "pricePp": 659,
+        "pricePp": 649,
         "cabinPricePp": 451.25
       }
     ]
@@ -27064,7 +27064,7 @@
     "id": 10389,
     "title": "Christmas Market Spree",
     "slug": "viva-cruises-christmas-market-spree",
-    "price": 919,
+    "price": 929,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 4,
@@ -27169,25 +27169,25 @@
       {
         "date": "2026-11-24",
         "returnDate": "2026-11-28",
-        "pricePp": 929,
+        "pricePp": 919,
         "cabinPricePp": 736.25
       },
       {
         "date": "2026-11-28",
         "returnDate": "2026-12-02",
-        "pricePp": 939,
+        "pricePp": 919,
         "cabinPricePp": 736.25
       },
       {
         "date": "2026-12-02",
         "returnDate": "2026-12-06",
-        "pricePp": 959,
+        "pricePp": 919,
         "cabinPricePp": 736.25
       },
       {
         "date": "2026-12-06",
         "returnDate": "2026-12-10",
-        "pricePp": 979,
+        "pricePp": 919,
         "cabinPricePp": 736.25
       },
       {
@@ -27199,13 +27199,13 @@
       {
         "date": "2026-12-14",
         "returnDate": "2026-12-18",
-        "pricePp": 959,
+        "pricePp": 919,
         "cabinPricePp": 736.25
       },
       {
         "date": "2026-12-18",
         "returnDate": "2026-12-22",
-        "pricePp": 999,
+        "pricePp": 939,
         "cabinPricePp": 755.25
       }
     ]
@@ -27214,7 +27214,7 @@
     "id": 10390,
     "title": "Douro: A Journey Along the Golden River",
     "slug": "viva-cruises-douro-a-journey-along-the-golden-river",
-    "price": 2359,
+    "price": 2369,
     "destination": "Douro",
     "country": "Portugal",
     "duration_nights": 7,
@@ -27331,25 +27331,25 @@
       {
         "date": "2027-03-31",
         "returnDate": "2027-04-07",
-        "pricePp": 2369,
+        "pricePp": 2319,
         "cabinPricePp": 2113.75
       },
       {
         "date": "2027-04-07",
         "returnDate": "2027-04-14",
-        "pricePp": 2379,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-04-14",
         "returnDate": "2027-04-21",
-        "pricePp": 2399,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-04-21",
         "returnDate": "2027-04-28",
-        "pricePp": 2399,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
@@ -27361,79 +27361,79 @@
       {
         "date": "2027-05-05",
         "returnDate": "2027-05-12",
-        "pricePp": 2379,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-05-12",
         "returnDate": "2027-05-19",
-        "pricePp": 2399,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-05-26",
         "returnDate": "2027-06-02",
-        "pricePp": 2389,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-06-02",
         "returnDate": "2027-06-09",
-        "pricePp": 2429,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-06-09",
         "returnDate": "2027-06-16",
-        "pricePp": 2419,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-06-16",
         "returnDate": "2027-06-23",
-        "pricePp": 2419,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-06-23",
         "returnDate": "2027-06-30",
-        "pricePp": 2399,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-06-30",
         "returnDate": "2027-07-07",
-        "pricePp": 2389,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-07-14",
         "returnDate": "2027-07-21",
-        "pricePp": 2419,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-07-21",
         "returnDate": "2027-07-28",
-        "pricePp": 2479,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-07-28",
         "returnDate": "2027-08-04",
-        "pricePp": 2499,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-08-04",
         "returnDate": "2027-08-11",
-        "pricePp": 2519,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       },
       {
         "date": "2027-08-11",
         "returnDate": "2027-08-18",
-        "pricePp": 2489,
+        "pricePp": 2369,
         "cabinPricePp": 2180.25
       }
     ]
@@ -27442,7 +27442,7 @@
     "id": 10391,
     "title": "Amsterdam to Basel: From Northern Waters to Mountain Majesty",
     "slug": "viva-cruises-amsterdam-to-basel-from-northern-waters-to-mountain-majesty",
-    "price": 1899,
+    "price": 1919,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 7,
@@ -27571,7 +27571,7 @@
       {
         "date": "2027-08-13",
         "returnDate": "2027-08-20",
-        "pricePp": 1919,
+        "pricePp": 1869,
         "cabinPricePp": 1662.5
       }
     ]
@@ -27580,7 +27580,7 @@
     "id": 10392,
     "title": "The Ultimate Wellness Journey Between Iconic Cities & Fairytale Villages",
     "slug": "viva-cruises-the-ultimate-wellness-journey-between-iconic-cities-fairytale-villages",
-    "price": 1039,
+    "price": 1049,
     "destination": "Main, Rhine",
     "country": "Germany",
     "duration_nights": 4,
@@ -27709,25 +27709,25 @@
       {
         "date": "2027-03-16",
         "returnDate": "2027-03-20",
-        "pricePp": 1169,
+        "pricePp": 1049,
         "cabinPricePp": 850.25
       },
       {
         "date": "2027-03-20",
         "returnDate": "2027-03-24",
-        "pricePp": 1089,
+        "pricePp": 1049,
         "cabinPricePp": 850.25
       },
       {
         "date": "2027-03-24",
         "returnDate": "2027-03-28",
-        "pricePp": 1089,
+        "pricePp": 1049,
         "cabinPricePp": 850.25
       },
       {
         "date": "2027-03-28",
         "returnDate": "2027-04-01",
-        "pricePp": 1079,
+        "pricePp": 1049,
         "cabinPricePp": 850.25
       }
     ]
@@ -27736,7 +27736,7 @@
     "id": 10393,
     "title": "In Harmony with the Seine",
     "slug": "viva-cruises-in-harmony-with-the-seine",
-    "price": 2059,
+    "price": 2069,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 7,
@@ -27859,19 +27859,19 @@
       {
         "date": "2027-03-31",
         "returnDate": "2027-04-07",
-        "pricePp": 2119,
+        "pricePp": 2069,
         "cabinPricePp": 1876.25
       },
       {
         "date": "2027-04-07",
         "returnDate": "2027-04-14",
-        "pricePp": 2079,
+        "pricePp": 2069,
         "cabinPricePp": 1876.25
       },
       {
         "date": "2027-04-14",
         "returnDate": "2027-04-21",
-        "pricePp": 2079,
+        "pricePp": 2069,
         "cabinPricePp": 1876.25
       },
       {
@@ -27883,7 +27883,7 @@
       {
         "date": "2027-05-26",
         "returnDate": "2027-06-02",
-        "pricePp": 3999,
+        "pricePp": 3989,
         "cabinPricePp": 3795.25
       },
       {
@@ -28143,13 +28143,13 @@
       {
         "date": "2026-11-06",
         "returnDate": "2026-11-10",
-        "pricePp": 819,
+        "pricePp": 789,
         "cabinPricePp": 617.5
       },
       {
         "date": "2026-11-14",
         "returnDate": "2026-11-18",
-        "pricePp": 919,
+        "pricePp": 889,
         "cabinPricePp": 712.5
       },
       {
@@ -28400,7 +28400,7 @@
     "id": 10398,
     "title": "A Symphony of Tulips & Iconic Canals",
     "slug": "viva-cruises-a-symphony-of-tulips-iconic-canals",
-    "price": 1909,
+    "price": 1919,
     "destination": "Rhine",
     "country": "Netherlands",
     "duration_nights": 7,
@@ -28523,7 +28523,7 @@
       {
         "date": "2027-04-02",
         "returnDate": "2027-04-09",
-        "pricePp": 1929,
+        "pricePp": 1919,
         "cabinPricePp": 1686.25
       },
       {
@@ -28544,7 +28544,7 @@
     "id": 10399,
     "title": "Europe’s Timeless Lifeline",
     "slug": "viva-cruises-europe-s-timeless-lifeline",
-    "price": 3159,
+    "price": 3169,
     "destination": "Danube",
     "country": "Bulgaria",
     "duration_nights": 12,
@@ -28959,67 +28959,67 @@
       {
         "date": "2026-11-25",
         "returnDate": "2026-11-28",
-        "pricePp": 859,
+        "pricePp": 839,
         "cabinPricePp": 688.75
       },
       {
         "date": "2026-12-18",
         "returnDate": "2026-12-21",
-        "pricePp": 819,
+        "pricePp": 769,
         "cabinPricePp": 617.5
       },
       {
         "date": "2027-01-31",
         "returnDate": "2027-02-03",
-        "pricePp": 789,
+        "pricePp": 749,
         "cabinPricePp": 593.75
       },
       {
         "date": "2027-02-07",
         "returnDate": "2027-02-10",
-        "pricePp": 819,
+        "pricePp": 749,
         "cabinPricePp": 593.75
       },
       {
         "date": "2027-02-14",
         "returnDate": "2027-02-17",
-        "pricePp": 829,
+        "pricePp": 749,
         "cabinPricePp": 593.75
       },
       {
         "date": "2027-02-21",
         "returnDate": "2027-02-24",
-        "pricePp": 769,
+        "pricePp": 749,
         "cabinPricePp": 593.75
       },
       {
         "date": "2027-02-28",
         "returnDate": "2027-03-03",
-        "pricePp": 769,
+        "pricePp": 749,
         "cabinPricePp": 593.75
       },
       {
         "date": "2027-03-07",
         "returnDate": "2027-03-10",
-        "pricePp": 779,
+        "pricePp": 749,
         "cabinPricePp": 593.75
       },
       {
         "date": "2027-03-14",
         "returnDate": "2027-03-17",
-        "pricePp": 779,
+        "pricePp": 749,
         "cabinPricePp": 593.75
       },
       {
         "date": "2027-03-21",
         "returnDate": "2027-03-24",
-        "pricePp": 789,
+        "pricePp": 749,
         "cabinPricePp": 593.75
       },
       {
         "date": "2027-03-28",
         "returnDate": "2027-03-31",
-        "pricePp": 859,
+        "pricePp": 749,
         "cabinPricePp": 593.75
       }
     ]
@@ -29028,7 +29028,7 @@
     "id": 10402,
     "title": "Danube Christmas Tales",
     "slug": "viva-cruises-danube-christmas-tales",
-    "price": 1479,
+    "price": 1489,
     "destination": "Danube",
     "country": "Germany",
     "duration_nights": 7,
@@ -29156,7 +29156,7 @@
     "id": 10403,
     "title": "Culinary Cruise France - Enjoy Normandy",
     "slug": "viva-cruises-culinary-cruise-france-enjoy-normandy",
-    "price": 1599,
+    "price": 1619,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 5,
@@ -29402,7 +29402,7 @@
     "id": 10405,
     "title": "Xmas Bavaria",
     "slug": "viva-cruises-xmas-bavaria",
-    "price": 1279,
+    "price": 1289,
     "destination": "Danube, Main",
     "country": "Germany",
     "duration_nights": 6,
@@ -29767,25 +29767,25 @@
       {
         "date": "2027-03-29",
         "returnDate": "2027-04-05",
-        "pricePp": 1649,
+        "pricePp": 1619,
         "cabinPricePp": 1401.25
       },
       {
         "date": "2027-04-05",
         "returnDate": "2027-04-12",
-        "pricePp": 1739,
+        "pricePp": 1619,
         "cabinPricePp": 1401.25
       },
       {
         "date": "2027-04-12",
         "returnDate": "2027-04-19",
-        "pricePp": 2199,
+        "pricePp": 2189,
         "cabinPricePp": 1971.25
       },
       {
         "date": "2027-04-19",
         "returnDate": "2027-04-26",
-        "pricePp": 1929,
+        "pricePp": 1919,
         "cabinPricePp": 1705.25
       },
       {
@@ -29797,7 +29797,7 @@
       {
         "date": "2027-05-03",
         "returnDate": "2027-05-10",
-        "pricePp": 2049,
+        "pricePp": 2019,
         "cabinPricePp": 1800.25
       }
     ]
@@ -29806,7 +29806,7 @@
     "id": 10408,
     "title": "Christmas Lights On The Danube",
     "slug": "viva-cruises-christmas-lights-on-the-danube",
-    "price": 1079,
+    "price": 1089,
     "destination": "Danube",
     "country": "Germany",
     "duration_nights": 5,
@@ -29913,7 +29913,7 @@
       {
         "date": "2026-11-26",
         "returnDate": "2026-12-01",
-        "pricePp": 1089,
+        "pricePp": 1079,
         "cabinPricePp": 902.5
       },
       {
@@ -30051,25 +30051,25 @@
       {
         "date": "2027-07-23",
         "returnDate": "2027-07-30",
-        "pricePp": 2219,
+        "pricePp": 2179,
         "cabinPricePp": 2018.75
       },
       {
         "date": "2027-07-30",
         "returnDate": "2027-08-06",
-        "pricePp": 2219,
+        "pricePp": 2179,
         "cabinPricePp": 2018.75
       },
       {
         "date": "2027-08-06",
         "returnDate": "2027-08-13",
-        "pricePp": 2219,
+        "pricePp": 2179,
         "cabinPricePp": 2018.75
       },
       {
         "date": "2027-08-13",
         "returnDate": "2027-08-20",
-        "pricePp": 2219,
+        "pricePp": 2179,
         "cabinPricePp": 2018.75
       }
     ]
@@ -30212,7 +30212,7 @@
     "id": 10411,
     "title": "Jazz Cruise on the Moselle",
     "slug": "viva-cruises-jazz-cruise-on-the-moselle",
-    "price": 2209,
+    "price": 2219,
     "destination": "Moselle",
     "country": "Germany",
     "duration_nights": 7,
@@ -30479,19 +30479,19 @@
       {
         "date": "2027-07-10",
         "returnDate": "2027-07-17",
-        "pricePp": 1969,
+        "pricePp": 1859,
         "cabinPricePp": 1662.5
       },
       {
         "date": "2027-07-24",
         "returnDate": "2027-07-31",
-        "pricePp": 1869,
+        "pricePp": 1859,
         "cabinPricePp": 1662.5
       },
       {
         "date": "2027-08-07",
         "returnDate": "2027-08-14",
-        "pricePp": 1899,
+        "pricePp": 1859,
         "cabinPricePp": 1662.5
       }
     ]
@@ -30500,7 +30500,7 @@
     "id": 10413,
     "title": "Berlin Intense",
     "slug": "viva-cruises-berlin-intense",
-    "price": 1079,
+    "price": 1089,
     "destination": "Elbe",
     "country": "Germany",
     "duration_nights": 5,
@@ -30613,7 +30613,7 @@
       {
         "date": "2026-10-31",
         "returnDate": "2026-11-05",
-        "pricePp": 1089,
+        "pricePp": 1079,
         "cabinPricePp": 902.5
       }
     ]
@@ -30622,7 +30622,7 @@
     "id": 10414,
     "title": "The Timeless Elegance of Normandy",
     "slug": "viva-cruises-the-timeless-elegance-of-normandy",
-    "price": 809,
+    "price": 819,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 4,
@@ -30733,55 +30733,55 @@
       {
         "date": "2026-11-21",
         "returnDate": "2026-11-25",
-        "pricePp": 819,
+        "pricePp": 799,
         "cabinPricePp": 641.25
       },
       {
         "date": "2027-02-03",
         "returnDate": "2027-02-07",
-        "pricePp": 969,
+        "pricePp": 919,
         "cabinPricePp": 755.25
       },
       {
         "date": "2027-02-10",
         "returnDate": "2027-02-14",
-        "pricePp": 969,
+        "pricePp": 919,
         "cabinPricePp": 755.25
       },
       {
         "date": "2027-02-17",
         "returnDate": "2027-02-21",
-        "pricePp": 979,
+        "pricePp": 919,
         "cabinPricePp": 755.25
       },
       {
         "date": "2027-02-24",
         "returnDate": "2027-02-28",
-        "pricePp": 959,
+        "pricePp": 919,
         "cabinPricePp": 755.25
       },
       {
         "date": "2027-03-03",
         "returnDate": "2027-03-07",
-        "pricePp": 949,
+        "pricePp": 919,
         "cabinPricePp": 755.25
       },
       {
         "date": "2027-03-10",
         "returnDate": "2027-03-14",
-        "pricePp": 949,
+        "pricePp": 919,
         "cabinPricePp": 755.25
       },
       {
         "date": "2027-03-17",
         "returnDate": "2027-03-21",
-        "pricePp": 959,
+        "pricePp": 919,
         "cabinPricePp": 755.25
       },
       {
         "date": "2027-03-24",
         "returnDate": "2027-03-28",
-        "pricePp": 979,
+        "pricePp": 919,
         "cabinPricePp": 755.25
       }
     ]
@@ -30909,13 +30909,13 @@
       {
         "date": "2026-11-18",
         "returnDate": "2026-11-25",
-        "pricePp": 1479,
+        "pricePp": 1449,
         "cabinPricePp": 1282.5
       },
       {
         "date": "2026-11-25",
         "returnDate": "2026-12-02",
-        "pricePp": 1519,
+        "pricePp": 1449,
         "cabinPricePp": 1282.5
       },
       {
@@ -31068,7 +31068,7 @@
     "id": 10417,
     "title": "From Vienna to Budapest",
     "slug": "viva-cruises-from-vienna-to-budapest",
-    "price": 1879,
+    "price": 1889,
     "destination": "Danube",
     "country": "Austria",
     "duration_nights": 7,
@@ -31196,7 +31196,7 @@
     "id": 10418,
     "title": "A Journey of Diamonds and Cathedrals",
     "slug": "viva-cruises-a-journey-of-diamonds-and-cathedrals",
-    "price": 779,
+    "price": 789,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 4,
@@ -31309,13 +31309,13 @@
       {
         "date": "2027-02-06",
         "returnDate": "2027-02-10",
-        "pricePp": 939,
+        "pricePp": 929,
         "cabinPricePp": 736.25
       },
       {
         "date": "2027-02-14",
         "returnDate": "2027-02-18",
-        "pricePp": 939,
+        "pricePp": 929,
         "cabinPricePp": 736.25
       },
       {
@@ -31339,7 +31339,7 @@
       {
         "date": "2027-03-18",
         "returnDate": "2027-03-22",
-        "pricePp": 939,
+        "pricePp": 919,
         "cabinPricePp": 712.5
       }
     ]
@@ -31348,7 +31348,7 @@
     "id": 10419,
     "title": "From Riverbanks to the Baltic Sea, Featuring Kiel Sailing Week",
     "slug": "viva-cruises-from-riverbanks-to-the-baltic-sea-featuring-kiel-sailing-week",
-    "price": 2209,
+    "price": 2219,
     "destination": "Elbe",
     "country": "Germany",
     "duration_nights": 8,
@@ -31482,7 +31482,7 @@
     "id": 10420,
     "title": "Europe in Concert: A Journey of Three Rivers",
     "slug": "viva-cruises-europe-in-concert-a-journey-of-three-rivers",
-    "price": 3709,
+    "price": 3719,
     "destination": "Rhine, Danube, Main",
     "country": "Germany",
     "duration_nights": 14,
@@ -31652,7 +31652,7 @@
     "id": 10421,
     "title": "Danube Metropolises",
     "slug": "viva-cruises-danube-metropolises",
-    "price": 1409,
+    "price": 1419,
     "destination": "Danube",
     "country": "Austria",
     "duration_nights": 7,
@@ -31771,37 +31771,37 @@
       {
         "date": "2026-09-26",
         "returnDate": "2026-10-03",
-        "pricePp": 1769,
+        "pricePp": 1679,
         "cabinPricePp": 1543.75
       },
       {
         "date": "2026-10-03",
         "returnDate": "2026-10-10",
-        "pricePp": 1729,
+        "pricePp": 1679,
         "cabinPricePp": 1543.75
       },
       {
         "date": "2026-10-10",
         "returnDate": "2026-10-17",
-        "pricePp": 1689,
+        "pricePp": 1679,
         "cabinPricePp": 1543.75
       },
       {
         "date": "2026-10-17",
         "returnDate": "2026-10-24",
-        "pricePp": 1859,
+        "pricePp": 1679,
         "cabinPricePp": 1543.75
       },
       {
         "date": "2026-10-24",
         "returnDate": "2026-10-31",
-        "pricePp": 1759,
+        "pricePp": 1679,
         "cabinPricePp": 1543.75
       },
       {
         "date": "2026-10-31",
         "returnDate": "2026-11-07",
-        "pricePp": 1619,
+        "pricePp": 1579,
         "cabinPricePp": 1448.75
       },
       {
@@ -31927,7 +31927,7 @@
       {
         "date": "2027-03-12",
         "returnDate": "2027-03-16",
-        "pricePp": 1129,
+        "pricePp": 1099,
         "cabinPricePp": 902.5
       }
     ]
@@ -32341,13 +32341,13 @@
       {
         "date": "2027-08-04",
         "returnDate": "2027-08-11",
-        "pricePp": 2069,
+        "pricePp": 2059,
         "cabinPricePp": 1876.25
       },
       {
         "date": "2027-08-11",
         "returnDate": "2027-08-18",
-        "pricePp": 2069,
+        "pricePp": 2059,
         "cabinPricePp": 1876.25
       }
     ]
@@ -32469,13 +32469,13 @@
       {
         "date": "2027-02-02",
         "returnDate": "2027-02-06",
-        "pricePp": 949,
+        "pricePp": 929,
         "cabinPricePp": 736.25
       },
       {
         "date": "2027-02-10",
         "returnDate": "2027-02-14",
-        "pricePp": 939,
+        "pricePp": 929,
         "cabinPricePp": 736.25
       },
       {
@@ -32487,13 +32487,13 @@
       {
         "date": "2027-02-26",
         "returnDate": "2027-03-02",
-        "pricePp": 939,
+        "pricePp": 929,
         "cabinPricePp": 736.25
       },
       {
         "date": "2027-03-06",
         "returnDate": "2027-03-10",
-        "pricePp": 939,
+        "pricePp": 929,
         "cabinPricePp": 736.25
       }
     ]
@@ -32624,7 +32624,7 @@
     "id": 10428,
     "title": "Advent On The Rhine",
     "slug": "viva-cruises-advent-on-the-rhine",
-    "price": 709,
+    "price": 719,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 3,
@@ -32723,7 +32723,7 @@
       {
         "date": "2026-11-26",
         "returnDate": "2026-11-29",
-        "pricePp": 839,
+        "pricePp": 829,
         "cabinPricePp": 641.25
       },
       {
@@ -32735,13 +32735,13 @@
       {
         "date": "2026-12-02",
         "returnDate": "2026-12-05",
-        "pricePp": 789,
+        "pricePp": 779,
         "cabinPricePp": 593.75
       },
       {
         "date": "2026-12-05",
         "returnDate": "2026-12-08",
-        "pricePp": 979,
+        "pricePp": 969,
         "cabinPricePp": 783.75
       },
       {
@@ -32759,13 +32759,13 @@
       {
         "date": "2026-12-14",
         "returnDate": "2026-12-17",
-        "pricePp": 879,
+        "pricePp": 869,
         "cabinPricePp": 688.75
       },
       {
         "date": "2026-12-17",
         "returnDate": "2026-12-20",
-        "pricePp": 819,
+        "pricePp": 749,
         "cabinPricePp": 565.25
       }
     ]
@@ -32901,19 +32901,19 @@
       {
         "date": "2027-05-31",
         "returnDate": "2027-06-07",
-        "pricePp": 1759,
+        "pricePp": 1639,
         "cabinPricePp": 1420.25
       },
       {
         "date": "2027-06-21",
         "returnDate": "2027-06-28",
-        "pricePp": 1649,
+        "pricePp": 1639,
         "cabinPricePp": 1420.25
       },
       {
         "date": "2027-07-12",
         "returnDate": "2027-07-19",
-        "pricePp": 1649,
+        "pricePp": 1639,
         "cabinPricePp": 1420.25
       }
     ]
@@ -33041,7 +33041,7 @@
       {
         "date": "2027-05-26",
         "returnDate": "2027-06-02",
-        "pricePp": 1899,
+        "pricePp": 1879,
         "cabinPricePp": 1705.25
       },
       {
@@ -33056,7 +33056,7 @@
     "id": 10431,
     "title": "Captivating Cultural Treasures on the Rhine",
     "slug": "viva-cruises-captivating-cultural-treasures-on-the-rhine",
-    "price": 1869,
+    "price": 1879,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 7,
@@ -33476,7 +33476,7 @@
     "id": 10434,
     "title": "Elegance Along the Seine",
     "slug": "viva-cruises-elegance-along-the-seine",
-    "price": 2049,
+    "price": 2059,
     "destination": "Seine",
     "country": "France",
     "duration_nights": 7,
@@ -33599,7 +33599,7 @@
       {
         "date": "2027-05-12",
         "returnDate": "2027-05-19",
-        "pricePp": 2069,
+        "pricePp": 2059,
         "cabinPricePp": 1876.25
       },
       {
@@ -33758,7 +33758,7 @@
     "id": 10436,
     "title": "A Journey from Prague’s Gothic Grace to Berlin’s Modern Edge",
     "slug": "viva-cruises-a-journey-from-prague-s-gothic-grace-to-berlin-s-modern-edge",
-    "price": 2199,
+    "price": 2219,
     "destination": "Elbe",
     "country": "Germany",
     "duration_nights": 9,
@@ -33898,7 +33898,7 @@
     "id": 10437,
     "title": "The Flavors of Italy",
     "slug": "viva-cruises-the-flavors-of-italy",
-    "price": 2159,
+    "price": 2169,
     "destination": "Po",
     "country": "Italy",
     "duration_nights": 7,
@@ -34015,31 +34015,31 @@
       {
         "date": "2027-06-04",
         "returnDate": "2027-06-11",
-        "pricePp": 3569,
+        "pricePp": 3559,
         "cabinPricePp": 3415.25
       },
       {
         "date": "2027-06-11",
         "returnDate": "2027-06-18",
-        "pricePp": 2179,
+        "pricePp": 2169,
         "cabinPricePp": 2018.75
       },
       {
         "date": "2027-06-18",
         "returnDate": "2027-06-25",
-        "pricePp": 2189,
+        "pricePp": 2169,
         "cabinPricePp": 2018.75
       },
       {
         "date": "2027-06-25",
         "returnDate": "2027-07-02",
-        "pricePp": 2189,
+        "pricePp": 2169,
         "cabinPricePp": 2018.75
       },
       {
         "date": "2027-07-02",
         "returnDate": "2027-07-09",
-        "pricePp": 2179,
+        "pricePp": 2169,
         "cabinPricePp": 2018.75
       },
       {
@@ -34184,7 +34184,7 @@
     "id": 10439,
     "title": "Rhine Christmas Cruise",
     "slug": "viva-cruises-rhine-christmas-cruise",
-    "price": 1689,
+    "price": 1699,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 7,
@@ -34316,7 +34316,7 @@
     "id": 10440,
     "title": "Magical Moselle",
     "slug": "viva-cruises-magical-moselle",
-    "price": 1649,
+    "price": 1659,
     "destination": "Rhine, Moselle",
     "country": "Germany",
     "duration_nights": 7,
@@ -34439,13 +34439,13 @@
       {
         "date": "2026-09-23",
         "returnDate": "2026-09-30",
-        "pricePp": 2039,
+        "pricePp": 1979,
         "cabinPricePp": 1800.25
       },
       {
         "date": "2026-09-30",
         "returnDate": "2026-10-07",
-        "pricePp": 1759,
+        "pricePp": 1719,
         "cabinPricePp": 1543.75
       },
       {
@@ -34457,13 +34457,13 @@
       {
         "date": "2026-10-21",
         "returnDate": "2026-10-28",
-        "pricePp": 1659,
+        "pricePp": 1619,
         "cabinPricePp": 1448.75
       },
       {
         "date": "2026-10-28",
         "returnDate": "2026-11-04",
-        "pricePp": 1659,
+        "pricePp": 1619,
         "cabinPricePp": 1448.75
       }
     ]
@@ -34472,7 +34472,7 @@
     "id": 10441,
     "title": "The Island Jewel of the Netherlands",
     "slug": "viva-cruises-the-island-jewel-of-the-netherlands",
-    "price": 1889,
+    "price": 1899,
     "destination": "Rhine",
     "country": "Netherlands",
     "duration_nights": 7,
@@ -34595,13 +34595,13 @@
       {
         "date": "2027-07-23",
         "returnDate": "2027-07-30",
-        "pricePp": 1919,
+        "pricePp": 1899,
         "cabinPricePp": 1662.5
       },
       {
         "date": "2027-07-30",
         "returnDate": "2027-08-06",
-        "pricePp": 1919,
+        "pricePp": 1899,
         "cabinPricePp": 1662.5
       },
       {
@@ -34616,7 +34616,7 @@
     "id": 10442,
     "title": "Austria's New Year",
     "slug": "viva-cruises-austria-s-new-year",
-    "price": 1999,
+    "price": 2019,
     "destination": "Danube",
     "country": "Austria",
     "duration_nights": 7,
@@ -34851,25 +34851,25 @@
       {
         "date": "2026-09-18",
         "returnDate": "2026-09-22",
-        "pricePp": 1199,
+        "pricePp": 1119,
         "cabinPricePp": 997.5
       },
       {
         "date": "2026-09-22",
         "returnDate": "2026-09-26",
-        "pricePp": 1019,
+        "pricePp": 969,
         "cabinPricePp": 850.25
       },
       {
         "date": "2026-09-26",
         "returnDate": "2026-09-30",
-        "pricePp": 1039,
+        "pricePp": 969,
         "cabinPricePp": 850.25
       },
       {
         "date": "2026-09-30",
         "returnDate": "2026-10-04",
-        "pricePp": 1299,
+        "pricePp": 1239,
         "cabinPricePp": 1116.25
       },
       {
@@ -34887,25 +34887,25 @@
       {
         "date": "2026-10-16",
         "returnDate": "2026-10-20",
-        "pricePp": 979,
+        "pricePp": 969,
         "cabinPricePp": 850.25
       },
       {
         "date": "2026-10-20",
         "returnDate": "2026-10-24",
-        "pricePp": 1019,
+        "pricePp": 969,
         "cabinPricePp": 850.25
       },
       {
         "date": "2026-10-24",
         "returnDate": "2026-10-28",
-        "pricePp": 1019,
+        "pricePp": 929,
         "cabinPricePp": 807.5
       },
       {
         "date": "2026-10-28",
         "returnDate": "2026-11-01",
-        "pricePp": 1259,
+        "pricePp": 1189,
         "cabinPricePp": 1068.75
       }
     ]
@@ -34914,7 +34914,7 @@
     "id": 10444,
     "title": "Danube City Collection",
     "slug": "viva-cruises-danube-city-collection",
-    "price": 939,
+    "price": 949,
     "destination": "Danube",
     "country": "Austria",
     "duration_nights": 4,
@@ -35145,7 +35145,7 @@
       {
         "date": "2027-04-16",
         "returnDate": "2027-04-23",
-        "pricePp": 2019,
+        "pricePp": 1899,
         "cabinPricePp": 1705.25
       },
       {
@@ -35157,13 +35157,13 @@
       {
         "date": "2027-06-23",
         "returnDate": "2027-06-30",
-        "pricePp": 1919,
+        "pricePp": 1899,
         "cabinPricePp": 1705.25
       },
       {
         "date": "2027-08-04",
         "returnDate": "2027-08-11",
-        "pricePp": 1919,
+        "pricePp": 1829,
         "cabinPricePp": 1638.75
       }
     ]
@@ -35172,7 +35172,7 @@
     "id": 10446,
     "title": "Dutch highlights & North Sea air",
     "slug": "viva-cruises-dutch-highlights-north-sea-air",
-    "price": 1609,
+    "price": 1619,
     "destination": "Rhine",
     "country": "Netherlands",
     "duration_nights": 7,
@@ -35293,7 +35293,7 @@
       {
         "date": "2027-06-07",
         "returnDate": "2027-06-14",
-        "pricePp": 1989,
+        "pricePp": 1919,
         "cabinPricePp": 1705.25
       },
       {
@@ -35308,7 +35308,7 @@
     "id": 10447,
     "title": "Hungary Short Trip",
     "slug": "viva-cruises-hungary-short-trip",
-    "price": 799,
+    "price": 819,
     "destination": "Danube",
     "country": "Hungary",
     "duration_nights": 4,
@@ -35415,7 +35415,7 @@
       {
         "date": "2026-11-22",
         "returnDate": "2026-11-26",
-        "pricePp": 839,
+        "pricePp": 819,
         "cabinPricePp": 641.25
       }
     ]
@@ -35424,7 +35424,7 @@
     "id": 10448,
     "title": "The Rhine From Basel",
     "slug": "viva-cruises-the-rhine-from-basel",
-    "price": 1129,
+    "price": 1139,
     "destination": "Rhine",
     "country": "Germany",
     "duration_nights": 5,
@@ -35533,19 +35533,19 @@
       {
         "date": "2026-09-18",
         "returnDate": "2026-09-23",
-        "pricePp": 1239,
+        "pricePp": 1139,
         "cabinPricePp": 945.25
       },
       {
         "date": "2026-09-23",
         "returnDate": "2026-09-28",
-        "pricePp": 1229,
+        "pricePp": 1139,
         "cabinPricePp": 945.25
       },
       {
         "date": "2026-09-28",
         "returnDate": "2026-10-03",
-        "pricePp": 1279,
+        "pricePp": 1139,
         "cabinPricePp": 945.25
       },
       {
@@ -35686,7 +35686,7 @@
     "id": 10450,
     "title": "Whispers Of The Rhone",
     "slug": "viva-cruises-whispers-of-the-rhone",
-    "price": 1629,
+    "price": 1639,
     "destination": "Rhone",
     "country": "France",
     "duration_nights": 7,
@@ -35805,7 +35805,7 @@
       {
         "date": "2026-09-17",
         "returnDate": "2026-09-24",
-        "pricePp": 2259,
+        "pricePp": 2219,
         "cabinPricePp": 2066.25
       },
       {
@@ -35817,7 +35817,7 @@
       {
         "date": "2026-10-15",
         "returnDate": "2026-10-22",
-        "pricePp": 1639,
+        "pricePp": 1589,
         "cabinPricePp": 1448.75
       }
     ]
@@ -35826,7 +35826,7 @@
     "id": 10451,
     "title": "Rhone Reverie: Arles",
     "slug": "viva-cruises-rhone-reverie-arles",
-    "price": 1819,
+    "price": 1829,
     "destination": "Rhone",
     "country": "France",
     "duration_nights": 7,
@@ -35954,7 +35954,7 @@
     "id": 10452,
     "title": "Culinary Cruise Portugal - Wine & Pleasure on the Douro",
     "slug": "viva-cruises-culinary-cruise-portugal-wine-pleasure-on-the-douro",
-    "price": 3339,
+    "price": 3349,
     "destination": "Douro",
     "country": "Portugal",
     "duration_nights": 8,
@@ -36073,6 +36073,2320 @@
         "returnDate": "2026-10-14",
         "pricePp": 3349,
         "cabinPricePp": 3206.25
+      }
+    ]
+  },
+  {
+    "id": 10453,
+    "title": "Crime Cruise to Düsseldorf",
+    "slug": "viva-cruises-crime-cruise-to-dusseldorf",
+    "price": 1639,
+    "destination": "Rhine",
+    "country": "Germany",
+    "duration_nights": 7,
+    "description": "<p>The cruise begins in Bremen, a Hanseatic city rich in history. The UNESCO-listed town hall and Roland statue, along with the famous Town Musicians, set the stage. Soon the ship glides onto the Weser, framed by green river meadows. The journey continues to Hoya, a former residence town with a castle, timber-framed houses, and quiet riverbanks. In Nienburg, colorful old houses and asparagus traditions shape the town’s charm. Minden is next, where the Weser meets the Mittelland Canal in a remarkable waterway crossing. Medieval churches and merchant houses add to the city’s appeal. The cruise proceeds to Münster, the city of towers and bicycles. The Prinzipalmarkt, Lambertikirche, and the lake Aasee highlight its blend of history and vibrant life. In Herne, the Ruhr area’s industrial past is visible, with parks, canals, and heritage sites marking the transformation of the region. Duisburg impresses with Europe’s largest inland port, a fascinating mix of bustling docks and natural Rhine floodplains. Finally, the ship reaches Düsseldorf, the stylish capital of the Rhineland. The Königsallee, Media Harbor, and the lively old town form the perfect finale to a journey filled with landscapes, history, and vibrant cityscapes.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Bremen",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Bremen / Hoya",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Hoya / Nienburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Nienburg / Minden",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Munster",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Munster / Herne",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Herne / Duisburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Duisburg / Düsseldorf",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA RUBY",
+    "ship": {
+      "shipId": 113,
+      "name": "VIVA RUBY",
+      "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+      ],
+      "facts": {
+        "capacity": 80,
+        "cabins": 40,
+        "decks": 3,
+        "built": "2002",
+        "refurbished": "2025"
+      },
+      "firstSailingDate": "2027-02-21",
+      "sailingCount": 3
+    },
+    "ships": [
+      {
+        "shipId": 113,
+        "name": "VIVA RUBY",
+        "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+        ],
+        "facts": {
+          "capacity": 80,
+          "cabins": 40,
+          "decks": 3,
+          "built": "2002",
+          "refurbished": "2025"
+        },
+        "firstSailingDate": "2027-02-21",
+        "sailingCount": 3
+      }
+    ],
+    "departure_port": "Bremen",
+    "disembark_port": "Duisburg",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-02-21",
+        "returnDate": "2027-02-28",
+        "pricePp": 1539,
+        "cabinPricePp": 1377.5
+      }
+    ]
+  },
+  {
+    "id": 10454,
+    "title": "Cultural Treasures & Gourmet Experiences on the Rhine",
+    "slug": "viva-cruises-cultural-treasures-gourmet-experiences-on-the-rhine",
+    "price": 1879,
+    "destination": "Rhine",
+    "country": "Germany",
+    "duration_nights": 7,
+    "description": "<p>The journey begins in Basel, Switzerland’s cultural capital, with its Gothic cathedral, renowned museums, and picturesque old town.</p><p>The first stop is Breisach, where St. Stephen’s Cathedral rises above the town and the region’s wine traditions invite exploration.</p><p>In Strasbourg, French elegance and German heritage meet. Highlights include the cathedral, “La Petite France,” and the city’s role as home to European institutions.</p><p>Mannheim impresses with its baroque palace and cultural vibrancy, while Mainz offers its famous cathedral, the Gutenberg Museum, and lively Rhine spirit.</p><p>In Rüdesheim, guests stroll through the Drosselgasse, full of wine and music, before enjoying sweeping views from the Niederwald Monument. Sailing past the legendary Loreley rock is an unforgettable highlight.</p><p>Niederlahnstein enchants with castles and narrow alleys at the confluence of the Rhine and Lahn. In Königswinter, a ride up the Drachenfels mountain offers spectacular vistas over the Rhine Valley.</p><p>Finally, the ship arrives in Düsseldorf, where modern architecture, the Königsallee, and a lively old town provide the perfect finale to a cruise rich in culture, history, and memories.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Basel",
+        "country": "Switzerland",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Breisach / Strasbourg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Strasbourg",
+        "country": "France",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Mannheim",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Mainz / Rüdesheim",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Rüdesheim / Niederlahnstein / Königswinter",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Königswinter / Düsseldorf",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Düsseldorf",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA ONE",
+    "ship": {
+      "shipId": 114,
+      "name": "VIVA ONE",
+      "description": "Look forward to the first new building of VIVA Cruises, the MS VIVA ONE! Indulge in gourmet dining in the main restaurant \"RIVERSIDE\" or in \"VIVA's Bistro\" and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while sunbathing on the deck or while relaxing in the whirlpool. Take some time out in the spa area and relax in the steam room or sauna. For the more active guests, rental bikes are available to explore the landscape individually. Come on an unforgettable trip with the VIVA ONE.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDQvMTcvYWY3M2IzOTAtMzhhOS00Zjg4LTkzZjUtMzhhY2UxYzA3MmE0L1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIEV4dGVyaW9yIDEuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20Viva%20One%20-%20Exterior%201.jpg?sha=8a0223fd49c7175b",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDYvNTcvZGFkMGEyZmQtYTNmNy00OWNiLTkwNDgtYjMxZDRlYzAyYmY4L1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIEJhbGNvbnkgU3VpdGUgNC5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20One%20-%20Balcony%20Suite%204.jpg?sha=06c88b199421f66e",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDcvMzkvMTIwMWQxMTUtZGE2NS00ZTVhLWE5MjMtYmZiMmIzZjBmOTQyL1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIEp1bmlvciBTdWl0ZSA0LmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/Viva%20Cruises%20Viva%20One%20-%20Junior%20Suite%204.jpg?sha=a5922c86b89c3d75",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDkvNTYvNDRiZjVmOGItMTAzYi00NDU5LWEyYjEtOTJmZmI3ZDIwMzI1L1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIENhYmluIHcgRnJlbmNoIEJhbGNvbnkgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20One%20-%20Cabin%20w%20French%20Balcony%201.jpg?sha=db85d4af5307b392",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDkvNTcvNTk2MWM2ZTQtODNjNS00ZDQxLWIwYWItN2M2OWI1NGMzMWIxL1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIENhYmluIHcgRnJlbmNoIEJhbGNvbnkgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20One%20-%20Cabin%20w%20French%20Balcony%202.jpg?sha=9b14459c72a22b72",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDkvNTcvZTJmNDAxZTYtMTUxZC00OGE3LTlhNzAtZGMyODA4MDU1OWRkL1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIENhYmluIHcgV2luZG93IDIuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20One%20-%20Cabin%20w%20Window%202.jpg?sha=0a341b86f6c12bc1"
+      ],
+      "facts": {
+        "capacity": 176,
+        "cabins": 88,
+        "decks": 4,
+        "built": "2022",
+        "refurbished": ""
+      },
+      "firstSailingDate": "2027-06-05",
+      "sailingCount": 6
+    },
+    "ships": [
+      {
+        "shipId": 114,
+        "name": "VIVA ONE",
+        "description": "Look forward to the first new building of VIVA Cruises, the MS VIVA ONE! Indulge in gourmet dining in the main restaurant \"RIVERSIDE\" or in \"VIVA's Bistro\" and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while sunbathing on the deck or while relaxing in the whirlpool. Take some time out in the spa area and relax in the steam room or sauna. For the more active guests, rental bikes are available to explore the landscape individually. Come on an unforgettable trip with the VIVA ONE.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDQvMTcvYWY3M2IzOTAtMzhhOS00Zjg4LTkzZjUtMzhhY2UxYzA3MmE0L1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIEV4dGVyaW9yIDEuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20Viva%20One%20-%20Exterior%201.jpg?sha=8a0223fd49c7175b",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDYvNTcvZGFkMGEyZmQtYTNmNy00OWNiLTkwNDgtYjMxZDRlYzAyYmY4L1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIEJhbGNvbnkgU3VpdGUgNC5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20One%20-%20Balcony%20Suite%204.jpg?sha=06c88b199421f66e",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDcvMzkvMTIwMWQxMTUtZGE2NS00ZTVhLWE5MjMtYmZiMmIzZjBmOTQyL1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIEp1bmlvciBTdWl0ZSA0LmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/Viva%20Cruises%20Viva%20One%20-%20Junior%20Suite%204.jpg?sha=a5922c86b89c3d75",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDkvNTYvNDRiZjVmOGItMTAzYi00NDU5LWEyYjEtOTJmZmI3ZDIwMzI1L1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIENhYmluIHcgRnJlbmNoIEJhbGNvbnkgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20One%20-%20Cabin%20w%20French%20Balcony%201.jpg?sha=db85d4af5307b392",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDkvNTcvNTk2MWM2ZTQtODNjNS00ZDQxLWIwYWItN2M2OWI1NGMzMWIxL1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIENhYmluIHcgRnJlbmNoIEJhbGNvbnkgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20One%20-%20Cabin%20w%20French%20Balcony%202.jpg?sha=9b14459c72a22b72",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMjYvMTAvMDkvNTcvZTJmNDAxZTYtMTUxZC00OGE3LTlhNzAtZGMyODA4MDU1OWRkL1ZpdmEgQ3J1aXNlcyBWaXZhIE9uZSAtIENhYmluIHcgV2luZG93IDIuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20One%20-%20Cabin%20w%20Window%202.jpg?sha=0a341b86f6c12bc1"
+        ],
+        "facts": {
+          "capacity": 176,
+          "cabins": 88,
+          "decks": 4,
+          "built": "2022",
+          "refurbished": ""
+        },
+        "firstSailingDate": "2027-06-05",
+        "sailingCount": 6
+      }
+    ],
+    "departure_port": "Basel",
+    "disembark_port": "Düsseldorf",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-06-05",
+        "returnDate": "2027-06-12",
+        "pricePp": 1869,
+        "cabinPricePp": 1662.5
+      }
+    ]
+  },
+  {
+    "id": 10455,
+    "title": "Brussels To Berlin: A European Journey",
+    "slug": "viva-cruises-brussels-to-berlin-a-european-journey",
+    "price": 3119,
+    "destination": "Elbe",
+    "country": "Germany",
+    "duration_nights": 12,
+    "description": "<p>Autumn Getaway</p><p>Book by 30 September 2026 and receive a €200 flight credit towards your journey.</p><p> </p><p>Your river cruise in October begins in Brussels. The Belgian capital enchants with magnificent façades, winding streets and the famous Grand Place. Soak up the unique atmosphere of this European metropolis before your ship sets course for the Netherlands.</p><p>In Utrecht, picturesque canals, historic merchant houses and the striking Dom Tower await. The journey then continues to Franeker, a charming Frisian town whose historic centre and relaxed atmosphere invite you to take a leisurely stroll. Groningen offers a fascinating contrast, combining historic architecture with the vibrant spirit of a lively university city.</p><p>During a relaxing day on the river, enjoy the comforts on board while watching the ever-changing scenery glide by. Back in Germany, you arrive in Duisburg-Ruhrort, a district shaped by the Rhine and its long maritime and harbour tradition.</p><p>Continue to Münster, renowned for its beautiful old town, Prinzipalmarkt and characteristic gabled houses. Minden also boasts a rich history and an attractive historic centre. Via Hanover and Calvörde, your cruise takes you eastwards to Brandenburg an der Havel, where waterways, historic buildings and idyllic riverbanks create a delightful setting.</p><p>Towards the end of your journey, discover Potsdam with its magnificent palaces and parks. From here, it is only a short distance to Berlin, where your varied river cruise through Belgian, Dutch and German landscapes comes to a memorable conclusion.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Brussel (Bruxelles)",
+        "country": "Belgium",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Brussel (Bruxelles)",
+        "country": "Belgium",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Utrecht",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Franeker / Groningen",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Groningen",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Duisburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Munster",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 9,
+        "port": "Minden",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 10,
+        "port": "Hannover / Calvörde",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 11,
+        "port": "Calvörde / Brandenburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 12,
+        "port": "Brandenburg / Potsdam / Berlin",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 13,
+        "port": "Berlin",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA RUBY",
+    "ship": {
+      "shipId": 113,
+      "name": "VIVA RUBY",
+      "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+      ],
+      "facts": {
+        "capacity": 80,
+        "cabins": 40,
+        "decks": 3,
+        "built": "2002",
+        "refurbished": "2025"
+      },
+      "firstSailingDate": "2026-10-04",
+      "sailingCount": 2
+    },
+    "ships": [
+      {
+        "shipId": 113,
+        "name": "VIVA RUBY",
+        "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+        ],
+        "facts": {
+          "capacity": 80,
+          "cabins": 40,
+          "decks": 3,
+          "built": "2002",
+          "refurbished": "2025"
+        },
+        "firstSailingDate": "2026-10-04",
+        "sailingCount": 2
+      }
+    ],
+    "departure_port": "Brussel (Bruxelles)",
+    "disembark_port": "Berlin",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2026-10-04",
+        "returnDate": "2026-10-16",
+        "pricePp": 3019,
+        "cabinPricePp": 2802.5
+      }
+    ]
+  },
+  {
+    "id": 10456,
+    "title": "Vienna to Basel: A Fairytale in Summer Light",
+    "slug": "viva-cruises-vienna-to-basel-a-fairytale-in-summer-light",
+    "price": 3089,
+    "destination": "Rhine, Danube, Main",
+    "country": "Germany",
+    "duration_nights": 12,
+    "description": "<p>The river cruise begins in Vienna, where imperial palaces, baroque architecture, and the Danube create a majestic atmosphere. From St. Stephen’s Cathedral to the Hofburg, the city radiates elegance.</p><p>Sailing through the Wachau valley, the ship reaches Dürnstein, surrounded by vineyards and castle ruins. The blue abbey tower is a landmark of romantic charm. In Melk, the grand Benedictine abbey rises above the Danube, a baroque masterpiece.</p><p>In Passau, at the confluence of the Danube, Inn, and Ilz, guests discover an Italianate old town and the cathedral with the world’s largest organ.</p><p>Regensburg offers a UNESCO-listed medieval old town with the Stone Bridge, patrician houses, and narrow alleys recalling its merchant past.</p><p>Nuremberg impresses with its Imperial Castle, half-timbered houses, and historic Reichstag sites. Then comes Bamberg, the “Franconian Rome,” built on seven hills, with cathedral, old town, and rivers weaving through.</p><p>In Würzburg, the Residenz Palace, a UNESCO site, dominates the baroque city, framed by vineyards and overlooked by the Marienberg Fortress. Wertheim charms with its castle ruins and riverside old town.</p><p>Frankfurt provides a striking contrast with its skyline, historic Römer square, and lively museum embankment.</p><p>Further along the Rhine, Ludwigshafen serves as a gateway to the Palatinate wine region. Strasbourg enchants with its cathedral, canals, and Franco-German flair.</p><p>Breisach delights with wine traditions and its hilltop cathedral, before the journey ends in Basel, a Swiss city of art, history, and international spirit, surrounded by the beauty of the Upper Rhine.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Vienna",
+        "country": "Austria",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Dürnstein / Melk",
+        "country": "Austria",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Passau",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Regensburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Nuremberg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Bamberg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Würzburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Wertheim",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 9,
+        "port": "Frankfurt",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 10,
+        "port": "Ludwigshafen",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 11,
+        "port": "Strasbourg",
+        "country": "France",
+        "description": ""
+      },
+      {
+        "day": 12,
+        "port": "Breisach / Basel",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 13,
+        "port": "Basel",
+        "country": "Switzerland",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA MOMENTS",
+    "ship": {
+      "shipId": 115,
+      "name": "VIVA MOMENTS",
+      "description": "Enter the VIVA MOMENTS and let yourself be enchanted by the elegant atmosphere. Here you can fully relax, on the VIVA MOMENTS every wish will be fulfilled. Indulge in a gourmet meal in the main restaurant or in the bistro and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while golfing on the deck or while relaxing in the whirlpool. For the more active guests, rental bicycles are available for you to explore the landscape individually. Come on an unforgettable journey with the VIVA MOMENTS.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTAvMzUvMzUvM2UyYmUxZTctZGFjNC00Y2I0LWJjYzktMjU5ZWE5Y2QzOWJkL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjI0MDB4MTYwMCMiXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Exterior%20%C2%A9Viva%20Cruises%202.jpg?sha=1e237828ad2c6cee",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvOWJjOWE0NzUtZjllZS00Y2UzLTlmNmItZmFiNTM4MWU3ZTE1L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBCYWxjb255IFN1aXRlIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Balcony%20Suite%201.jpg?sha=45e074c894166191",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvY2Y0ZmNhNTUtNjBmMy00MWM4LWEzODgtMDk0ZDhhMDE1ZGJhL1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%201.jpg?sha=e3839c1741a90c94",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzUvMGM5ZTI1NDctZjc1YS00Yzg1LTgwM2EtZWE4ZDRlMjI0MDA3L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%202.jpg?sha=7e8671bbaee9cd4b",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTAvMzAvZTZjOWVkNWMtMzljNy00MmJkLTlhOWEtZDc5ZjZhOGM3NWQ0L1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUiwgMkJEIMKpVml2YSBDcnVpc2VzIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BR%2C%202BD%20%C2%A9Viva%20Cruises%201.jpg?sha=9ba21f306eccf1be",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTQvMzEvZjAxMjNkYzctYjg0ZS00YzU3LWI0MDctMTVjMDcwMTY5YjkyL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUyDCqVZpdmEgQ3J1aXNlcyAxLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BS%20%C2%A9Viva%20Cruises%201.jpg?sha=15e506013c2f4c60"
+      ],
+      "facts": {
+        "capacity": 176,
+        "cabins": 88,
+        "decks": 4,
+        "built": "2018",
+        "refurbished": ""
+      },
+      "firstSailingDate": "2027-06-22",
+      "sailingCount": 6
+    },
+    "ships": [
+      {
+        "shipId": 115,
+        "name": "VIVA MOMENTS",
+        "description": "Enter the VIVA MOMENTS and let yourself be enchanted by the elegant atmosphere. Here you can fully relax, on the VIVA MOMENTS every wish will be fulfilled. Indulge in a gourmet meal in the main restaurant or in the bistro and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while golfing on the deck or while relaxing in the whirlpool. For the more active guests, rental bicycles are available for you to explore the landscape individually. Come on an unforgettable journey with the VIVA MOMENTS.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTAvMzUvMzUvM2UyYmUxZTctZGFjNC00Y2I0LWJjYzktMjU5ZWE5Y2QzOWJkL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjI0MDB4MTYwMCMiXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Exterior%20%C2%A9Viva%20Cruises%202.jpg?sha=1e237828ad2c6cee",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvOWJjOWE0NzUtZjllZS00Y2UzLTlmNmItZmFiNTM4MWU3ZTE1L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBCYWxjb255IFN1aXRlIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Balcony%20Suite%201.jpg?sha=45e074c894166191",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvY2Y0ZmNhNTUtNjBmMy00MWM4LWEzODgtMDk0ZDhhMDE1ZGJhL1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%201.jpg?sha=e3839c1741a90c94",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzUvMGM5ZTI1NDctZjc1YS00Yzg1LTgwM2EtZWE4ZDRlMjI0MDA3L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%202.jpg?sha=7e8671bbaee9cd4b",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTAvMzAvZTZjOWVkNWMtMzljNy00MmJkLTlhOWEtZDc5ZjZhOGM3NWQ0L1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUiwgMkJEIMKpVml2YSBDcnVpc2VzIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BR%2C%202BD%20%C2%A9Viva%20Cruises%201.jpg?sha=9ba21f306eccf1be",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTQvMzEvZjAxMjNkYzctYjg0ZS00YzU3LWI0MDctMTVjMDcwMTY5YjkyL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUyDCqVZpdmEgQ3J1aXNlcyAxLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BS%20%C2%A9Viva%20Cruises%201.jpg?sha=15e506013c2f4c60"
+        ],
+        "facts": {
+          "capacity": 176,
+          "cabins": 88,
+          "decks": 4,
+          "built": "2018",
+          "refurbished": ""
+        },
+        "firstSailingDate": "2027-06-22",
+        "sailingCount": 6
+      }
+    ],
+    "departure_port": "Vienna",
+    "disembark_port": "Basel",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-06-22",
+        "returnDate": "2027-07-04",
+        "pricePp": 3019,
+        "cabinPricePp": 2826.25
+      }
+    ]
+  },
+  {
+    "id": 10457,
+    "title": "Beautiful Eastern Germany",
+    "slug": "viva-cruises-beautiful-eastern-germany",
+    "price": 1439,
+    "destination": "Elbe",
+    "country": "Germany",
+    "duration_nights": 5,
+    "description": "<p>Autumn Getaway</p><p>Book by 30 September 2026 and receive a €200 flight credit towards your journey.</p><p> </p><p>Experience a fascinating river cruise that takes you through picturesque eastern Germany. On this unique journey from Potsdam to Dresden, you’ll discover enchanting cities such as Magdeburg, with its imposing cathedral and modern architecture, as well as Wittenberg, famous as the site where Martin Luther worked and the center of the Reformation. Another highlight is the charming town of Meissen, known worldwide for its porcelain artistry and the impressive Albrechtsburg Castle.</p><p>As you glide along the Elbe and, in some sections, the Vltava, you’ll be surrounded by rolling hills, lush forests, and expansive river landscapes. Nature shows itself at its most beautiful here—with romantic valleys, flower-filled riverbanks, and a variety of waterfowl. This cruise is not only a journey through space but also through time—past medieval castles, Baroque palaces, and historic old towns.</p><p>On board, you’ll enjoy the highest level of comfort, culinary highlights of the region, and a varied cultural program to enrich your evenings. Whether you join a guided city tour or stroll through narrow alleys on your own—every day offers new discoveries.</p><p>This journey reveals the true soul of Eastern Germany—an incomparable blend of history, culture, and nature that will remain in your memory for a long time to come.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Potsdam",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Magdeburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Wittenberg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Meissen / Dresden",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Dresden",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Dresden",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA RUBY",
+    "ship": {
+      "shipId": 113,
+      "name": "VIVA RUBY",
+      "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+      ],
+      "facts": {
+        "capacity": 80,
+        "cabins": 40,
+        "decks": 3,
+        "built": "2002",
+        "refurbished": "2025"
+      },
+      "firstSailingDate": "2026-10-21",
+      "sailingCount": 3
+    },
+    "ships": [
+      {
+        "shipId": 113,
+        "name": "VIVA RUBY",
+        "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+        ],
+        "facts": {
+          "capacity": 80,
+          "cabins": 40,
+          "decks": 3,
+          "built": "2002",
+          "refurbished": "2025"
+        },
+        "firstSailingDate": "2026-10-21",
+        "sailingCount": 3
+      }
+    ],
+    "departure_port": "Potsdam",
+    "disembark_port": "Dresden",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2026-10-21",
+        "returnDate": "2026-10-26",
+        "pricePp": 1419,
+        "cabinPricePp": 1187.5
+      }
+    ]
+  },
+  {
+    "id": 10458,
+    "title": "A Journey of Wind, Water & Wonder",
+    "slug": "viva-cruises-a-journey-of-wind-water-wonder",
+    "price": 1889,
+    "destination": "Rhine",
+    "country": "Netherlands",
+    "duration_nights": 7,
+    "description": "<p>The journey begins in Brussels, Belgium’s capital and the heart of Europe. The Grand Place, historic façades, and modern institutions create a lively atmosphere. Leaving the city, the landscape opens into meadows, forests, and rivers.</p><p>In Antwerp, the Cathedral of Our Lady dominates, while the Grote Markt and bustling port reveal the city’s maritime importance. Sailing north, the Dutch delta unfolds: a wide mosaic of water, dikes, and green pastures.</p><p>Veere enchants with its storage houses, canals, and sea views, while Bruinisse, the “mussel village,” offers authentic maritime charm with fishing boats and tidal flats.</p><p>Willemstad impresses with its star-shaped fortress layout and historic streets, surrounded by open waters.</p><p>In Dordrecht, the oldest Dutch city, canals, churches, and merchant houses recall centuries of trade. The surrounding polders and windmills emphasize the close link between land and water.</p><p>Rotterdam presents a bold contrast with modern architecture, the Erasmus Bridge, and Europe’s largest port, embodying a dynamic, international character.</p><p>The cruise ends in Amsterdam, where tree-lined canals, merchant houses, and world-class museums create a unique atmosphere. A city of history and openness, it provides a fitting finale to this river journey.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Brussel (Bruxelles)",
+        "country": "Belgium",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Brussel (Bruxelles) / Antwerp",
+        "country": "Belgium",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Antwerp",
+        "country": "Belgium",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Veere / Bruinisse",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Bruinisse / Willemstad / Dordrecht",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Dordrecht / Rotterdam",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Amsterdam",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Amsterdam",
+        "country": "Netherlands",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA MOMENTS",
+    "ship": {
+      "shipId": 115,
+      "name": "VIVA MOMENTS",
+      "description": "Enter the VIVA MOMENTS and let yourself be enchanted by the elegant atmosphere. Here you can fully relax, on the VIVA MOMENTS every wish will be fulfilled. Indulge in a gourmet meal in the main restaurant or in the bistro and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while golfing on the deck or while relaxing in the whirlpool. For the more active guests, rental bicycles are available for you to explore the landscape individually. Come on an unforgettable journey with the VIVA MOMENTS.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTAvMzUvMzUvM2UyYmUxZTctZGFjNC00Y2I0LWJjYzktMjU5ZWE5Y2QzOWJkL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjI0MDB4MTYwMCMiXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Exterior%20%C2%A9Viva%20Cruises%202.jpg?sha=1e237828ad2c6cee",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvOWJjOWE0NzUtZjllZS00Y2UzLTlmNmItZmFiNTM4MWU3ZTE1L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBCYWxjb255IFN1aXRlIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Balcony%20Suite%201.jpg?sha=45e074c894166191",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvY2Y0ZmNhNTUtNjBmMy00MWM4LWEzODgtMDk0ZDhhMDE1ZGJhL1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%201.jpg?sha=e3839c1741a90c94",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzUvMGM5ZTI1NDctZjc1YS00Yzg1LTgwM2EtZWE4ZDRlMjI0MDA3L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%202.jpg?sha=7e8671bbaee9cd4b",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTAvMzAvZTZjOWVkNWMtMzljNy00MmJkLTlhOWEtZDc5ZjZhOGM3NWQ0L1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUiwgMkJEIMKpVml2YSBDcnVpc2VzIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BR%2C%202BD%20%C2%A9Viva%20Cruises%201.jpg?sha=9ba21f306eccf1be",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTQvMzEvZjAxMjNkYzctYjg0ZS00YzU3LWI0MDctMTVjMDcwMTY5YjkyL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUyDCqVZpdmEgQ3J1aXNlcyAxLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BS%20%C2%A9Viva%20Cruises%201.jpg?sha=15e506013c2f4c60"
+      ],
+      "facts": {
+        "capacity": 176,
+        "cabins": 88,
+        "decks": 4,
+        "built": "2018",
+        "refurbished": ""
+      },
+      "firstSailingDate": "2027-07-16",
+      "sailingCount": 6
+    },
+    "ships": [
+      {
+        "shipId": 115,
+        "name": "VIVA MOMENTS",
+        "description": "Enter the VIVA MOMENTS and let yourself be enchanted by the elegant atmosphere. Here you can fully relax, on the VIVA MOMENTS every wish will be fulfilled. Indulge in a gourmet meal in the main restaurant or in the bistro and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while golfing on the deck or while relaxing in the whirlpool. For the more active guests, rental bicycles are available for you to explore the landscape individually. Come on an unforgettable journey with the VIVA MOMENTS.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTAvMzUvMzUvM2UyYmUxZTctZGFjNC00Y2I0LWJjYzktMjU5ZWE5Y2QzOWJkL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjI0MDB4MTYwMCMiXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Exterior%20%C2%A9Viva%20Cruises%202.jpg?sha=1e237828ad2c6cee",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvOWJjOWE0NzUtZjllZS00Y2UzLTlmNmItZmFiNTM4MWU3ZTE1L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBCYWxjb255IFN1aXRlIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Balcony%20Suite%201.jpg?sha=45e074c894166191",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvY2Y0ZmNhNTUtNjBmMy00MWM4LWEzODgtMDk0ZDhhMDE1ZGJhL1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%201.jpg?sha=e3839c1741a90c94",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzUvMGM5ZTI1NDctZjc1YS00Yzg1LTgwM2EtZWE4ZDRlMjI0MDA3L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%202.jpg?sha=7e8671bbaee9cd4b",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTAvMzAvZTZjOWVkNWMtMzljNy00MmJkLTlhOWEtZDc5ZjZhOGM3NWQ0L1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUiwgMkJEIMKpVml2YSBDcnVpc2VzIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BR%2C%202BD%20%C2%A9Viva%20Cruises%201.jpg?sha=9ba21f306eccf1be",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTQvMzEvZjAxMjNkYzctYjg0ZS00YzU3LWI0MDctMTVjMDcwMTY5YjkyL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUyDCqVZpdmEgQ3J1aXNlcyAxLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BS%20%C2%A9Viva%20Cruises%201.jpg?sha=15e506013c2f4c60"
+        ],
+        "facts": {
+          "capacity": 176,
+          "cabins": 88,
+          "decks": 4,
+          "built": "2018",
+          "refurbished": ""
+        },
+        "firstSailingDate": "2027-07-16",
+        "sailingCount": 6
+      }
+    ],
+    "departure_port": "Brussel (Bruxelles)",
+    "disembark_port": "Amsterdam",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-07-16",
+        "returnDate": "2027-07-23",
+        "pricePp": 1889,
+        "cabinPricePp": 1662.5
+      }
+    ]
+  },
+  {
+    "id": 10459,
+    "title": "Magical East From Dresden",
+    "slug": "viva-cruises-magical-east-from-dresden",
+    "price": 1489,
+    "destination": "Elbe",
+    "country": "Germany",
+    "duration_nights": 5,
+    "description": "<p>Autumn Getaway</p><p>Book by 30 September 2026 and receive a €200 flight credit towards your journey.</p><p> </p><p>Join us on a fascinating river cruise through the picturesque landscapesof eastern Germany. Start in the historic city of Dresden, known for its baroque architecture and world-famous art collections. Our route takes you along the majestic Elbe and the romantic Moldau, through a region full of culture, history and natural beauty.</p><p>Discover the charming Meissen, world-famous for its fine porcelain, and let yourself be enchanted by the medieval atmosphere. In Wittenberg, follow in the footsteps of Martin Luther and experience the cradle of the Reformation up close. Further downstream, Magdeburg awaits you, a city with over 1200 years of history and impressive architecture such as Magdeburg Cathedral.</p><p>The journey takes you through a landscape characterized by rolling hills, lush forests and romantic villages. Enjoy the comfort of a modern river ship on board with first-class service, culinary delights and a varied entertainment program.</p><p>This cruise is an unforgettable experience for all those who appreciate authentic cultural landscapes, architectural masterpieces and warm hospitality. Let yourself be inspired by the unique flair of eastern Germany - a region where past and present come together in wonderful harmony.</p><p> </p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Dresden",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Dresden / Meissen",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Wittenberg / Magdeburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Magdeburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Potsdam",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Potsdam",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA RUBY",
+    "ship": {
+      "shipId": 113,
+      "name": "VIVA RUBY",
+      "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+      ],
+      "facts": {
+        "capacity": 80,
+        "cabins": 40,
+        "decks": 3,
+        "built": "2002",
+        "refurbished": "2025"
+      },
+      "firstSailingDate": "2026-10-26",
+      "sailingCount": 2
+    },
+    "ships": [
+      {
+        "shipId": 113,
+        "name": "VIVA RUBY",
+        "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+        ],
+        "facts": {
+          "capacity": 80,
+          "cabins": 40,
+          "decks": 3,
+          "built": "2002",
+          "refurbished": "2025"
+        },
+        "firstSailingDate": "2026-10-26",
+        "sailingCount": 2
+      }
+    ],
+    "departure_port": "Dresden",
+    "disembark_port": "Potsdam",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2026-10-26",
+        "returnDate": "2026-10-31",
+        "pricePp": 1489,
+        "cabinPricePp": 1187.5
+      }
+    ]
+  },
+  {
+    "id": 10460,
+    "title": "The Legacy of Ancient Trade Routes",
+    "slug": "viva-cruises-the-legacy-of-ancient-trade-routes",
+    "price": 3029,
+    "destination": "Rhine",
+    "country": "Germany",
+    "duration_nights": 12,
+    "description": "<p>The cruise begins in Basel, Switzerland’s cultural gem, with its cathedral, old town, and modern flair. Surrounded by vineyards, the ship sails to Breisach, offering views of the Kaiserstuhl hills.</p><p>In Strasbourg, French elegance meets German tradition. The cathedral, “La Petite France,” and canals create a romantic atmosphere. Mannheim follows with its baroque palace and vibrant city life.</p><p>Sailing through the Romantic Rhine, the ship arrives in Rüdesheim, where vineyards and the lively Drosselgasse await. The Moselle valley unfolds with Treis-Karden and Cochem, the latter crowned by Reichsburg Castle and framed by steep vineyards.</p><p>Back on the Rhine, Cologne impresses with its UNESCO cathedral and bustling old town. Düsseldorf offers a mix of modern architecture, Königsallee, and lively nightlife.</p><p>Crossing into the Netherlands, Nijmegen charms as the country’s oldest city. In Amsterdam, canals, merchant houses, and world-class museums invite exploration. Rotterdam showcases daring modern architecture and Europe’s largest port, while Dordrecht delights with canals and maritime history.</p><p>In Belgium, Antwerp offers diamonds, fashion, and Rubens’ art. The journey concludes in Brussels, with the Grand Place, Art Nouveau architecture, and European flair marking the perfect finale.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Basel",
+        "country": "Switzerland",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Breisach / Strasbourg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Strasbourg",
+        "country": "France",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Mannheim",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Rüdesheim",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Treis-Karden / Cochem",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Cologne / Düsseldorf",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Düsseldorf / Nijmegen",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 9,
+        "port": "Amsterdam",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 10,
+        "port": "Rotterdam / Dordrecht",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 11,
+        "port": "Antwerp",
+        "country": "Belgium",
+        "description": ""
+      },
+      {
+        "day": 12,
+        "port": "Antwerp / Brussel (Bruxelles)",
+        "country": "Belgium",
+        "description": ""
+      },
+      {
+        "day": 13,
+        "port": "Brussel (Bruxelles)",
+        "country": "Belgium",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA MOMENTS",
+    "ship": {
+      "shipId": 115,
+      "name": "VIVA MOMENTS",
+      "description": "Enter the VIVA MOMENTS and let yourself be enchanted by the elegant atmosphere. Here you can fully relax, on the VIVA MOMENTS every wish will be fulfilled. Indulge in a gourmet meal in the main restaurant or in the bistro and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while golfing on the deck or while relaxing in the whirlpool. For the more active guests, rental bicycles are available for you to explore the landscape individually. Come on an unforgettable journey with the VIVA MOMENTS.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTAvMzUvMzUvM2UyYmUxZTctZGFjNC00Y2I0LWJjYzktMjU5ZWE5Y2QzOWJkL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjI0MDB4MTYwMCMiXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Exterior%20%C2%A9Viva%20Cruises%202.jpg?sha=1e237828ad2c6cee",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvOWJjOWE0NzUtZjllZS00Y2UzLTlmNmItZmFiNTM4MWU3ZTE1L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBCYWxjb255IFN1aXRlIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Balcony%20Suite%201.jpg?sha=45e074c894166191",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvY2Y0ZmNhNTUtNjBmMy00MWM4LWEzODgtMDk0ZDhhMDE1ZGJhL1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%201.jpg?sha=e3839c1741a90c94",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzUvMGM5ZTI1NDctZjc1YS00Yzg1LTgwM2EtZWE4ZDRlMjI0MDA3L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%202.jpg?sha=7e8671bbaee9cd4b",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTAvMzAvZTZjOWVkNWMtMzljNy00MmJkLTlhOWEtZDc5ZjZhOGM3NWQ0L1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUiwgMkJEIMKpVml2YSBDcnVpc2VzIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BR%2C%202BD%20%C2%A9Viva%20Cruises%201.jpg?sha=9ba21f306eccf1be",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTQvMzEvZjAxMjNkYzctYjg0ZS00YzU3LWI0MDctMTVjMDcwMTY5YjkyL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUyDCqVZpdmEgQ3J1aXNlcyAxLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BS%20%C2%A9Viva%20Cruises%201.jpg?sha=15e506013c2f4c60"
+      ],
+      "facts": {
+        "capacity": 176,
+        "cabins": 88,
+        "decks": 4,
+        "built": "2018",
+        "refurbished": ""
+      },
+      "firstSailingDate": "2027-07-04",
+      "sailingCount": 6
+    },
+    "ships": [
+      {
+        "shipId": 115,
+        "name": "VIVA MOMENTS",
+        "description": "Enter the VIVA MOMENTS and let yourself be enchanted by the elegant atmosphere. Here you can fully relax, on the VIVA MOMENTS every wish will be fulfilled. Indulge in a gourmet meal in the main restaurant or in the bistro and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while golfing on the deck or while relaxing in the whirlpool. For the more active guests, rental bicycles are available for you to explore the landscape individually. Come on an unforgettable journey with the VIVA MOMENTS.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTAvMzUvMzUvM2UyYmUxZTctZGFjNC00Y2I0LWJjYzktMjU5ZWE5Y2QzOWJkL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjI0MDB4MTYwMCMiXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Exterior%20%C2%A9Viva%20Cruises%202.jpg?sha=1e237828ad2c6cee",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvOWJjOWE0NzUtZjllZS00Y2UzLTlmNmItZmFiNTM4MWU3ZTE1L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBCYWxjb255IFN1aXRlIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Balcony%20Suite%201.jpg?sha=45e074c894166191",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvY2Y0ZmNhNTUtNjBmMy00MWM4LWEzODgtMDk0ZDhhMDE1ZGJhL1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%201.jpg?sha=e3839c1741a90c94",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzUvMGM5ZTI1NDctZjc1YS00Yzg1LTgwM2EtZWE4ZDRlMjI0MDA3L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%202.jpg?sha=7e8671bbaee9cd4b",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTAvMzAvZTZjOWVkNWMtMzljNy00MmJkLTlhOWEtZDc5ZjZhOGM3NWQ0L1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUiwgMkJEIMKpVml2YSBDcnVpc2VzIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BR%2C%202BD%20%C2%A9Viva%20Cruises%201.jpg?sha=9ba21f306eccf1be",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTQvMzEvZjAxMjNkYzctYjg0ZS00YzU3LWI0MDctMTVjMDcwMTY5YjkyL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUyDCqVZpdmEgQ3J1aXNlcyAxLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BS%20%C2%A9Viva%20Cruises%201.jpg?sha=15e506013c2f4c60"
+        ],
+        "facts": {
+          "capacity": 176,
+          "cabins": 88,
+          "decks": 4,
+          "built": "2018",
+          "refurbished": ""
+        },
+        "firstSailingDate": "2027-07-04",
+        "sailingCount": 6
+      }
+    ],
+    "departure_port": "Basel",
+    "disembark_port": "Brussel (Bruxelles)",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-07-04",
+        "returnDate": "2027-07-16",
+        "pricePp": 3029,
+        "cabinPricePp": 2826.25
+      }
+    ]
+  },
+  {
+    "id": 10461,
+    "title": "A Journey from Hannover to Rhineland Splendor",
+    "slug": "viva-cruises-a-journey-from-hannover-to-rhineland-splendor",
+    "price": 2029,
+    "destination": "Rhine",
+    "country": "Germany",
+    "duration_nights": 7,
+    "description": "<p>This trip starts in Hanover and takes you along the Mittelland Canal through the varied landscapes of north-western Germany. In Minden and Bergeshövede, locks, canals and water bridges accompany the journey - impressive evidence of German engineering. The journey continues via Münster, Datteln and Herne to the Ruhr region, where history, culture and modern life come together. In Duisburg, the ship reaches the Rhine, before the journey comes to an end in Cologne and finally in Düsseldorf with the joie de vivre of the Rhineland.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Hannover",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Hannover / Minden",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Minden / Riesenbeck",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Riesenbeck / Munster",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Munster / Datteln / Herne",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Herne / Duisburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Cologne / Düsseldorf",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Düsseldorf",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA RUBY",
+    "ship": {
+      "shipId": 113,
+      "name": "VIVA RUBY",
+      "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+      ],
+      "facts": {
+        "capacity": 80,
+        "cabins": 40,
+        "decks": 3,
+        "built": "2002",
+        "refurbished": "2025"
+      },
+      "firstSailingDate": "2027-06-01",
+      "sailingCount": 3
+    },
+    "ships": [
+      {
+        "shipId": 113,
+        "name": "VIVA RUBY",
+        "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+        ],
+        "facts": {
+          "capacity": 80,
+          "cabins": 40,
+          "decks": 3,
+          "built": "2002",
+          "refurbished": "2025"
+        },
+        "firstSailingDate": "2027-06-01",
+        "sailingCount": 3
+      }
+    ],
+    "departure_port": "Hannover",
+    "disembark_port": "Düsseldorf",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-06-01",
+        "returnDate": "2027-06-08",
+        "pricePp": 2029,
+        "cabinPricePp": 1800.25
+      }
+    ]
+  },
+  {
+    "id": 10462,
+    "title": "Discover the Heart of Alsace",
+    "slug": "viva-cruises-discover-the-heart-of-alsace",
+    "price": 1929,
+    "destination": "Main, Rhine",
+    "country": "Germany",
+    "duration_nights": 7,
+    "description": "<p>The river cruise begins in Nuremberg, a city of history and culture. The Imperial Castle dominates the old town, with half-timbered houses and winding alleys preserving its medieval charm.</p><p>Next is Bamberg, a UNESCO World Heritage Site. With its cathedral, the Old Town Hall perched on a bridge, and romantic alleys, the city is surrounded by hills and vineyards, giving it a fairy-tale atmosphere.</p><p>In Würzburg, the magnificent Residence Palace showcases baroque grandeur. The fortress, old bridge with statues, and the surrounding vineyards highlight the city’s mix of culture and wine tradition.</p><p>Wertheim, where the Tauber meets the Main, offers a tranquil setting with a hilltop castle, half-timbered houses, and a dreamy river landscape.</p><p>Aschaffenburg follows, famous for Johannisburg Castle and its gardens. Renaissance architecture blends with modern lifestyle here.</p><p>In Mannheim, the Rhine opens up with an impressive harbor panorama. The grid city features its baroque palace and cultural diversity, surrounded by the wine-growing Palatinate.</p><p>The journey ends in Strasbourg, where French elegance and German heritage meet. The cathedral, “La Petite France,” and canals create a unique atmosphere, framed by Alsatian vineyards and the Vosges Mountains. A fitting finale to a cruise rich in landscapes and culture.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Nuremberg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Bamberg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Würzburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Wertheim",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Aschaffenburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Mannheim",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Strasbourg",
+        "country": "France",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Strasbourg",
+        "country": "France",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA MOMENTS",
+    "ship": {
+      "shipId": 115,
+      "name": "VIVA MOMENTS",
+      "description": "Enter the VIVA MOMENTS and let yourself be enchanted by the elegant atmosphere. Here you can fully relax, on the VIVA MOMENTS every wish will be fulfilled. Indulge in a gourmet meal in the main restaurant or in the bistro and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while golfing on the deck or while relaxing in the whirlpool. For the more active guests, rental bicycles are available for you to explore the landscape individually. Come on an unforgettable journey with the VIVA MOMENTS.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTAvMzUvMzUvM2UyYmUxZTctZGFjNC00Y2I0LWJjYzktMjU5ZWE5Y2QzOWJkL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjI0MDB4MTYwMCMiXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Exterior%20%C2%A9Viva%20Cruises%202.jpg?sha=1e237828ad2c6cee",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvOWJjOWE0NzUtZjllZS00Y2UzLTlmNmItZmFiNTM4MWU3ZTE1L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBCYWxjb255IFN1aXRlIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Balcony%20Suite%201.jpg?sha=45e074c894166191",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvY2Y0ZmNhNTUtNjBmMy00MWM4LWEzODgtMDk0ZDhhMDE1ZGJhL1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%201.jpg?sha=e3839c1741a90c94",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzUvMGM5ZTI1NDctZjc1YS00Yzg1LTgwM2EtZWE4ZDRlMjI0MDA3L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%202.jpg?sha=7e8671bbaee9cd4b",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTAvMzAvZTZjOWVkNWMtMzljNy00MmJkLTlhOWEtZDc5ZjZhOGM3NWQ0L1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUiwgMkJEIMKpVml2YSBDcnVpc2VzIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BR%2C%202BD%20%C2%A9Viva%20Cruises%201.jpg?sha=9ba21f306eccf1be",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTQvMzEvZjAxMjNkYzctYjg0ZS00YzU3LWI0MDctMTVjMDcwMTY5YjkyL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUyDCqVZpdmEgQ3J1aXNlcyAxLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BS%20%C2%A9Viva%20Cruises%201.jpg?sha=15e506013c2f4c60"
+      ],
+      "facts": {
+        "capacity": 176,
+        "cabins": 88,
+        "decks": 4,
+        "built": "2018",
+        "refurbished": ""
+      },
+      "firstSailingDate": "2027-06-02",
+      "sailingCount": 6
+    },
+    "ships": [
+      {
+        "shipId": 115,
+        "name": "VIVA MOMENTS",
+        "description": "Enter the VIVA MOMENTS and let yourself be enchanted by the elegant atmosphere. Here you can fully relax, on the VIVA MOMENTS every wish will be fulfilled. Indulge in a gourmet meal in the main restaurant or in the bistro and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while golfing on the deck or while relaxing in the whirlpool. For the more active guests, rental bicycles are available for you to explore the landscape individually. Come on an unforgettable journey with the VIVA MOMENTS.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTAvMzUvMzUvM2UyYmUxZTctZGFjNC00Y2I0LWJjYzktMjU5ZWE5Y2QzOWJkL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjI0MDB4MTYwMCMiXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Exterior%20%C2%A9Viva%20Cruises%202.jpg?sha=1e237828ad2c6cee",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvOWJjOWE0NzUtZjllZS00Y2UzLTlmNmItZmFiNTM4MWU3ZTE1L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBCYWxjb255IFN1aXRlIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Balcony%20Suite%201.jpg?sha=45e074c894166191",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvY2Y0ZmNhNTUtNjBmMy00MWM4LWEzODgtMDk0ZDhhMDE1ZGJhL1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%201.jpg?sha=e3839c1741a90c94",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzUvMGM5ZTI1NDctZjc1YS00Yzg1LTgwM2EtZWE4ZDRlMjI0MDA3L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%202.jpg?sha=7e8671bbaee9cd4b",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTAvMzAvZTZjOWVkNWMtMzljNy00MmJkLTlhOWEtZDc5ZjZhOGM3NWQ0L1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUiwgMkJEIMKpVml2YSBDcnVpc2VzIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BR%2C%202BD%20%C2%A9Viva%20Cruises%201.jpg?sha=9ba21f306eccf1be",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTQvMzEvZjAxMjNkYzctYjg0ZS00YzU3LWI0MDctMTVjMDcwMTY5YjkyL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUyDCqVZpdmEgQ3J1aXNlcyAxLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BS%20%C2%A9Viva%20Cruises%201.jpg?sha=15e506013c2f4c60"
+        ],
+        "facts": {
+          "capacity": 176,
+          "cabins": 88,
+          "decks": 4,
+          "built": "2018",
+          "refurbished": ""
+        },
+        "firstSailingDate": "2027-06-02",
+        "sailingCount": 6
+      }
+    ],
+    "departure_port": "Nuremberg",
+    "disembark_port": "Strasbourg",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-06-02",
+        "returnDate": "2027-06-09",
+        "pricePp": 1859,
+        "cabinPricePp": 1662.5
+      }
+    ]
+  },
+  {
+    "id": 10463,
+    "title": "Bavarian Advent",
+    "slug": "viva-cruises-bavarian-advent",
+    "price": 999,
+    "destination": "Danube",
+    "country": "Austria",
+    "duration_nights": 5,
+    "description": "<p>Autumn Getaway: Book by 30 September 2026 and receive a €200 flight credit towards your journey.</p><p>Experience the magic of the Advent season on an unforgettable river cruise along the Danube. Your journey begins in Vienna, where the festively decorated Christmas market in front of City Hall, the scent of cinnamon, mulled wine, and roasted chestnuts, and atmospheric music will transport you into a Christmas wonderland. The magnificent boulevards are aglow with lights, stirring a sense of anticipation for Christmas.</p><p>The journey continues to Dürnstein, a charming little town in the Wachau region, where the medieval alleyways and the ruins overlooking the Danube take on a particularly romantic atmosphere in the gentle snowfall. A visit to the impressive Melk Abbey, considered a jewel of Baroque architecture, brings you into contact with culture and history in a truly memorable way.</p><p>In Linz and Passau, you’ll experience the Danube decked out in lights: the artfully decorated Christmas markets invite you to stroll, marvel, and enjoy. Handcrafted gifts, regional specialties, and musical performances create a warm, festive atmosphere.</p><p>The grand finale is your stay in Regensburg, where the UNESCO-protected Old Town shines in winter splendor. In particular, the romantic Christmas market in the courtyard of Thurn und Taxis Castle offers a fairytale setting. The festively decorated alleyways, the scent of freshly baked cookies, and the soft strains of Christmas carols make this city seem like something out of a winter fairy tale.</p><p>This trip uniquely combines historic charm, cultural highlights, and the special atmosphere of the pre-Christmas season. Let yourself be enchanted by the tranquility of the river, the festive markets, and the snow-covered landscape—a contemplative getaway that touches the heart and the senses.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Vienna",
+        "country": "Austria",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Dürnstein / Melk",
+        "country": "Austria",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Linz",
+        "country": "Austria",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Passau",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Regensburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Regensburg",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA ENJOY",
+    "ship": {
+      "shipId": 116,
+      "name": "VIVA ENJOY",
+      "description": "A small group of only 190 guests and unlimited comfort on board the VIVA ENJOY offer the best conditions to make every trip an unforgettable experience. Your memories will be marked by a special feel-good atmosphere. By the unmistakable ship design, which reflects the traveled river worlds with natural materials and bright colors. From the warm crew, whose high service standards always have top priority. Of culinary highlights ranging from gourmet dinners to live cooking. And of moments in which excitement and relaxation alternate in the most beautiful way. Look forward to an exceptional river cruise ship!",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvMDgvMTMvMDk5MmYzZmMtYmY3MC00MDcxLTk2MzMtYmQ4ZTljNTQ0YjU2L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIEV4dGVyaW9yIMKpVml2YSBDcnVpc2VzLmpwZyJdLFsicCIsInRodW1iIiwiMjQwMHgxNjAwIyJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=4f18918d3324f3fd",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDEvMWVjM2M4YjctMjIyYy00ZWRlLTkxM2YtNzNjMjJjY2YyYTZkL1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIFN1aXRlIEJlZHJvb20gMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Suite%20Bedroom%201%20%C2%A9Viva%20Cruises.jpg?sha=bbee78567fa193e3",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDEvYzQwZWE0YmItYzA4OC00YmQzLTg4NDEtMmMzYzIwODhkNzU1L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIEZyZW5jaCBCYWxjb255IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20ENJOY%20French%20Balcony%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=8cb8806e89d23ffd",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDIvMzYzOWY5Y2MtZGQxOC00NjdlLWFhZTktODA0OTVmMTVmNDI0L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIERvdWJsZSBDYWJpbiDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Double%20Cabin%20%C2%A9Viva%20Cruises.jpg?sha=229d6ad6133b26d7"
+      ],
+      "facts": {
+        "capacity": 190,
+        "cabins": 95,
+        "decks": 4,
+        "built": "2024",
+        "refurbished": ""
+      },
+      "firstSailingDate": "2026-12-16",
+      "sailingCount": 4
+    },
+    "ships": [
+      {
+        "shipId": 116,
+        "name": "VIVA ENJOY",
+        "description": "A small group of only 190 guests and unlimited comfort on board the VIVA ENJOY offer the best conditions to make every trip an unforgettable experience. Your memories will be marked by a special feel-good atmosphere. By the unmistakable ship design, which reflects the traveled river worlds with natural materials and bright colors. From the warm crew, whose high service standards always have top priority. Of culinary highlights ranging from gourmet dinners to live cooking. And of moments in which excitement and relaxation alternate in the most beautiful way. Look forward to an exceptional river cruise ship!",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvMDgvMTMvMDk5MmYzZmMtYmY3MC00MDcxLTk2MzMtYmQ4ZTljNTQ0YjU2L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIEV4dGVyaW9yIMKpVml2YSBDcnVpc2VzLmpwZyJdLFsicCIsInRodW1iIiwiMjQwMHgxNjAwIyJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=4f18918d3324f3fd",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDEvMWVjM2M4YjctMjIyYy00ZWRlLTkxM2YtNzNjMjJjY2YyYTZkL1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIFN1aXRlIEJlZHJvb20gMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Suite%20Bedroom%201%20%C2%A9Viva%20Cruises.jpg?sha=bbee78567fa193e3",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDEvYzQwZWE0YmItYzA4OC00YmQzLTg4NDEtMmMzYzIwODhkNzU1L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIEZyZW5jaCBCYWxjb255IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20ENJOY%20French%20Balcony%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=8cb8806e89d23ffd",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDIvMzYzOWY5Y2MtZGQxOC00NjdlLWFhZTktODA0OTVmMTVmNDI0L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIERvdWJsZSBDYWJpbiDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Double%20Cabin%20%C2%A9Viva%20Cruises.jpg?sha=229d6ad6133b26d7"
+        ],
+        "facts": {
+          "capacity": 190,
+          "cabins": 95,
+          "decks": 4,
+          "built": "2024",
+          "refurbished": ""
+        },
+        "firstSailingDate": "2026-12-16",
+        "sailingCount": 4
+      }
+    ],
+    "departure_port": "Vienna",
+    "disembark_port": "Regensburg",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2026-12-16",
+        "returnDate": "2026-12-21",
+        "pricePp": 969,
+        "cabinPricePp": 736.25
+      }
+    ]
+  },
+  {
+    "id": 10464,
+    "title": "From the Danube’s Whispering Waters to the Rhine’s Storied Rocks",
+    "slug": "viva-cruises-from-the-danube-s-whispering-waters-to-the-rhine-s-storied-rocks",
+    "price": 3159,
+    "destination": "Rhine, Danube, Main",
+    "country": "Germany",
+    "duration_nights": 12,
+    "description": "<p>The cruise begins in Vienna, with imperial palaces, St. Stephen’s Cathedral, and a vibrant musical heritage. In Dürnstein, the blue abbey tower and cobbled lanes capture the charm of the Wachau.</p><p>Melk impresses with its baroque Benedictine Abbey overlooking the Danube. At Passau, the “city of three rivers,” the Danube meets the Inn and Ilz.</p><p>In Regensburg, a UNESCO site, guests admire the medieval old town, Stone Bridge, and Gothic cathedral. Nuremberg reveals history with its imperial castle, timber-framed houses, and festive traditions.</p><p>Bamberg enchants with its Old Town Hall built in the river and famous smoked beer. In Würzburg, the baroque Residence Palace dominates the skyline.</p><p>The charming town of Wertheim offers a ruined castle and quaint alleys, before arriving in Frankfurt, where skyscrapers rise beside the medieval Römer square.</p><p>In Ludwigshafen, the gateway to the Palatinate wine region, excursions beckon. Strasbourg combines French elegance with German heritage, its cathedral and “La Petite France” as highlights.</p><p>Breisach welcomes with St. Stephen’s Cathedral and Kaiserstuhl vineyards, before the cruise concludes in Basel, Switzerland’s cultural capital, rich in art, history, and international flair.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Vienna",
+        "country": "Austria",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Dürnstein / Melk",
+        "country": "Austria",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Passau",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Regensburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Nuremberg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Bamberg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Würzburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Wertheim",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 9,
+        "port": "Frankfurt",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 10,
+        "port": "Ludwigshafen",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 11,
+        "port": "Strasbourg",
+        "country": "France",
+        "description": ""
+      },
+      {
+        "day": 12,
+        "port": "Breisach / Basel",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 13,
+        "port": "Basel",
+        "country": "Switzerland",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA ENJOY",
+    "ship": {
+      "shipId": 116,
+      "name": "VIVA ENJOY",
+      "description": "A small group of only 190 guests and unlimited comfort on board the VIVA ENJOY offer the best conditions to make every trip an unforgettable experience. Your memories will be marked by a special feel-good atmosphere. By the unmistakable ship design, which reflects the traveled river worlds with natural materials and bright colors. From the warm crew, whose high service standards always have top priority. Of culinary highlights ranging from gourmet dinners to live cooking. And of moments in which excitement and relaxation alternate in the most beautiful way. Look forward to an exceptional river cruise ship!",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvMDgvMTMvMDk5MmYzZmMtYmY3MC00MDcxLTk2MzMtYmQ4ZTljNTQ0YjU2L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIEV4dGVyaW9yIMKpVml2YSBDcnVpc2VzLmpwZyJdLFsicCIsInRodW1iIiwiMjQwMHgxNjAwIyJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=4f18918d3324f3fd",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDEvMWVjM2M4YjctMjIyYy00ZWRlLTkxM2YtNzNjMjJjY2YyYTZkL1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIFN1aXRlIEJlZHJvb20gMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Suite%20Bedroom%201%20%C2%A9Viva%20Cruises.jpg?sha=bbee78567fa193e3",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDEvYzQwZWE0YmItYzA4OC00YmQzLTg4NDEtMmMzYzIwODhkNzU1L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIEZyZW5jaCBCYWxjb255IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20ENJOY%20French%20Balcony%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=8cb8806e89d23ffd",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDIvMzYzOWY5Y2MtZGQxOC00NjdlLWFhZTktODA0OTVmMTVmNDI0L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIERvdWJsZSBDYWJpbiDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Double%20Cabin%20%C2%A9Viva%20Cruises.jpg?sha=229d6ad6133b26d7"
+      ],
+      "facts": {
+        "capacity": 190,
+        "cabins": 95,
+        "decks": 4,
+        "built": "2024",
+        "refurbished": ""
+      },
+      "firstSailingDate": "2027-04-23",
+      "sailingCount": 5
+    },
+    "ships": [
+      {
+        "shipId": 116,
+        "name": "VIVA ENJOY",
+        "description": "A small group of only 190 guests and unlimited comfort on board the VIVA ENJOY offer the best conditions to make every trip an unforgettable experience. Your memories will be marked by a special feel-good atmosphere. By the unmistakable ship design, which reflects the traveled river worlds with natural materials and bright colors. From the warm crew, whose high service standards always have top priority. Of culinary highlights ranging from gourmet dinners to live cooking. And of moments in which excitement and relaxation alternate in the most beautiful way. Look forward to an exceptional river cruise ship!",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvMDgvMTMvMDk5MmYzZmMtYmY3MC00MDcxLTk2MzMtYmQ4ZTljNTQ0YjU2L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIEV4dGVyaW9yIMKpVml2YSBDcnVpc2VzLmpwZyJdLFsicCIsInRodW1iIiwiMjQwMHgxNjAwIyJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=4f18918d3324f3fd",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDEvMWVjM2M4YjctMjIyYy00ZWRlLTkxM2YtNzNjMjJjY2YyYTZkL1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIFN1aXRlIEJlZHJvb20gMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Suite%20Bedroom%201%20%C2%A9Viva%20Cruises.jpg?sha=bbee78567fa193e3",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDEvYzQwZWE0YmItYzA4OC00YmQzLTg4NDEtMmMzYzIwODhkNzU1L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIEZyZW5jaCBCYWxjb255IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20ENJOY%20French%20Balcony%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=8cb8806e89d23ffd",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDEvMDkvNDgvMDIvMzYzOWY5Y2MtZGQxOC00NjdlLWFhZTktODA0OTVmMTVmNDI0L1ZpdmEgQ3J1aXNlcyBWSVZBIEVOSk9ZIERvdWJsZSBDYWJpbiDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20ENJOY%20Double%20Cabin%20%C2%A9Viva%20Cruises.jpg?sha=229d6ad6133b26d7"
+        ],
+        "facts": {
+          "capacity": 190,
+          "cabins": 95,
+          "decks": 4,
+          "built": "2024",
+          "refurbished": ""
+        },
+        "firstSailingDate": "2027-04-23",
+        "sailingCount": 5
+      }
+    ],
+    "departure_port": "Vienna",
+    "disembark_port": "Basel",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-04-23",
+        "returnDate": "2027-05-05",
+        "pricePp": 3079,
+        "cabinPricePp": 2897.5
+      }
+    ]
+  },
+  {
+    "id": 10465,
+    "title": "A Journey from Canalside Charm to Hanseatic Splendor",
+    "slug": "viva-cruises-a-journey-from-canalside-charm-to-hanseatic-splendor",
+    "price": 2319,
+    "destination": "Rhine",
+    "country": "Germany",
+    "duration_nights": 8,
+    "description": "<p>Your journey begins in Amsterdam, the Dutch capital, which delights with its canals, museums and historical charm. From here, the cruise leads northwards through the vast landscapes of the Netherlands. In Enkhuizen and Lemmer, you will experience the maritime heritage of the IJsselmeer, before Groningen impresses with its lively culture and historic old town. Via Leer and Papenburg, you continue through the Frisian inland with its typical waterways and locks. In Oldenburg and Bremerhaven, North German flair awaits you, characterized by maritime history and a modern harbour atmosphere. The final stop in Bremen, with its impressive old town and famous market square, is the atmospheric highlight of this varied journey between Holland and northern Germany.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Amsterdam",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Amsterdam / Enkhuizen",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Enkhuizen / Lemmer",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Lemmer / Groningen",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Groningen / Leer",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Leer / Papenburg / Bollingerfähr",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Oldenburg / Bremerhaven",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Bremerhaven / Bremen",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 9,
+        "port": "Bremen",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA RUBY",
+    "ship": {
+      "shipId": 113,
+      "name": "VIVA RUBY",
+      "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+      ],
+      "facts": {
+        "capacity": 80,
+        "cabins": 40,
+        "decks": 3,
+        "built": "2002",
+        "refurbished": "2025"
+      },
+      "firstSailingDate": "2027-05-10",
+      "sailingCount": 3
+    },
+    "ships": [
+      {
+        "shipId": 113,
+        "name": "VIVA RUBY",
+        "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+        ],
+        "facts": {
+          "capacity": 80,
+          "cabins": 40,
+          "decks": 3,
+          "built": "2002",
+          "refurbished": "2025"
+        },
+        "firstSailingDate": "2027-05-10",
+        "sailingCount": 3
+      }
+    ],
+    "departure_port": "Amsterdam",
+    "disembark_port": "Bremen",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-05-10",
+        "returnDate": "2027-05-18",
+        "pricePp": 2299,
+        "cabinPricePp": 2042.5
+      }
+    ]
+  },
+  {
+    "id": 10466,
+    "title": "From Berlin To Belgium’s Heartland",
+    "slug": "viva-cruises-from-berlin-to-belgium-s-heartland",
+    "price": 3059,
+    "destination": "Elbe",
+    "country": "Germany",
+    "duration_nights": 12,
+    "description": "<p>Start in Berlin, a city full of vibrant energy, cultural diversity and impressive history. Experience iconic sights such as the Brandenburg Gate, Museum Island and the trendy Kreuzberg district before starting your journey on the Elbe. The river takes you westwards through idyllic landscapes, past Brandenburg, where you will be greeted by lush greenery, tranquil forests and picturesque villages.</p><p>Along the route, you will discover Oldenburg, a city with historical flair. The well-kept old town alleyways, cobbled streets and classicist façades invite you to take a stroll. Continue on to Papenburg, where the rich shipbuilding tradition comes to life at the Meyer Werft shipyard - a highlight for technology enthusiasts and culture lovers alike.</p><p>The journey finally takes you to Brussels, the heart of Europe. Here, medieval charm with guild houses, winding alleyways and the impressive Grand-Place meet modern elegance, for example in the European Quarter or in the city's design museums. Enjoy Belgian chocolates, waffles and a glass of Belgian beer while you soak up the diversity of the city.</p><p>This journey is a celebration of the European waterways, a tribute to the culture, history and joie de vivre along the way. Let yourself drift - from city to city, from experience to experience!</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Berlin",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Berlin / Potsdam",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Potsdam / Brandenburg / Genthin",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Genthin / Rothensee / Haldensleben / Wolfsburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Wolfsburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Minden",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Munster",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Wesel",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 9,
+        "port": "Sneek",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 10,
+        "port": "Franeker",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 11,
+        "port": "Utrecht",
+        "country": "Netherlands",
+        "description": ""
+      },
+      {
+        "day": 12,
+        "port": "Brussel (Bruxelles)",
+        "country": "Belgium",
+        "description": ""
+      },
+      {
+        "day": 13,
+        "port": "Brussel (Bruxelles)",
+        "country": "Belgium",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA RUBY",
+    "ship": {
+      "shipId": 113,
+      "name": "VIVA RUBY",
+      "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+      ],
+      "facts": {
+        "capacity": 80,
+        "cabins": 40,
+        "decks": 3,
+        "built": "2002",
+        "refurbished": "2025"
+      },
+      "firstSailingDate": "2026-09-22",
+      "sailingCount": 3
+    },
+    "ships": [
+      {
+        "shipId": 113,
+        "name": "VIVA RUBY",
+        "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+        ],
+        "facts": {
+          "capacity": 80,
+          "cabins": 40,
+          "decks": 3,
+          "built": "2002",
+          "refurbished": "2025"
+        },
+        "firstSailingDate": "2026-09-22",
+        "sailingCount": 3
+      }
+    ],
+    "departure_port": "Berlin",
+    "disembark_port": "Brussel (Bruxelles)",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2026-09-22",
+        "returnDate": "2026-10-04",
+        "pricePp": 2989,
+        "cabinPricePp": 2778.75
+      }
+    ]
+  },
+  {
+    "id": 10467,
+    "title": "A Tapestry of Prussian Stories & Lower Saxon Scenes",
+    "slug": "viva-cruises-a-tapestry-of-prussian-stories-lower-saxon-scenes",
+    "price": 2019,
+    "destination": "Elbe",
+    "country": "Germany",
+    "duration_nights": 7,
+    "description": "<p>This journey begins in Berlin Spandau, where the flair of the capital meets the water landscape. Via Potsdam and Brandenburg, the route leads past castles, lakes and historic riverside towns. In Magdeburg, the cityscape impresses with its cathedral and waterway intersection, before continuing via Wolfsburg and Braunschweig, where tradition and innovation stand side by side. The final destination of Hanover combines urban elegance with a green quality of life - a successful conclusion to a varied river trip through the heart of Germany.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Berlin",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Berlin / Potsdam",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Potsdam / Brandenburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Brandenburg / Magdeburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Magdeburg / Rühen",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Rühen / Wolfsburg / Brunswick, Georgia",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Hannover",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Hannover",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA RUBY",
+    "ship": {
+      "shipId": 113,
+      "name": "VIVA RUBY",
+      "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+      ],
+      "facts": {
+        "capacity": 80,
+        "cabins": 40,
+        "decks": 3,
+        "built": "2002",
+        "refurbished": "2025"
+      },
+      "firstSailingDate": "2027-05-25",
+      "sailingCount": 3
+    },
+    "ships": [
+      {
+        "shipId": 113,
+        "name": "VIVA RUBY",
+        "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+        ],
+        "facts": {
+          "capacity": 80,
+          "cabins": 40,
+          "decks": 3,
+          "built": "2002",
+          "refurbished": "2025"
+        },
+        "firstSailingDate": "2027-05-25",
+        "sailingCount": 3
+      }
+    ],
+    "departure_port": "Berlin",
+    "disembark_port": "Hannover",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-05-25",
+        "returnDate": "2027-06-01",
+        "pricePp": 2019,
+        "cabinPricePp": 1800.25
+      }
+    ]
+  },
+  {
+    "id": 10468,
+    "title": "Alsace to Franconia – A Passage of Heritage & Charm",
+    "slug": "viva-cruises-alsace-to-franconia-a-passage-of-heritage-charm",
+    "price": 1919,
+    "destination": "Main, Rhine",
+    "country": "Germany",
+    "duration_nights": 7,
+    "description": "<p>The cruise begins in Strasbourg, where French elegance and German tradition blend. The cathedral and the picturesque district of “La Petite France” showcase the city’s charm. Cruising the Rhine reveals vineyard slopes and lush riverbanks before reaching the Main.</p><p>In Mainz, culture takes center stage with its cathedral, the Gutenberg Museum, and lively old town. The surrounding hills, covered with vineyards, frame the city beautifully.</p><p>Miltenberg enchants with timber-framed houses set between forested hills. In Wertheim, at the confluence of Main and Tauber, castle ruins rise above the river – a landscape straight out of a painting.</p><p>Würzburg impresses with the Residenz Palace, a UNESCO World Heritage Site, its historic Main Bridge, and terraced vineyards.</p><p>The journey continues to Marktbreit, a charming town with baroque architecture and winding alleys, nestled in gentle countryside.</p><p>In Bamberg, the old town spans seven hills. The town hall in the middle of the river, grand churches, and the taste of smoky beer make it unforgettable.</p><p>Finally, Nuremberg awaits, rich in medieval flair and imperial history. The castle, old towers, and vibrant squares provide a fitting finale to a cruise combining landscapes, culture, and heritage.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Strasbourg",
+        "country": "France",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Strasbourg",
+        "country": "France",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Mainz",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Miltenberg / Wertheim",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Würzburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Marktbreit am Main",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Bamberg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Nuremberg",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA MOMENTS",
+    "ship": {
+      "shipId": 115,
+      "name": "VIVA MOMENTS",
+      "description": "Enter the VIVA MOMENTS and let yourself be enchanted by the elegant atmosphere. Here you can fully relax, on the VIVA MOMENTS every wish will be fulfilled. Indulge in a gourmet meal in the main restaurant or in the bistro and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while golfing on the deck or while relaxing in the whirlpool. For the more active guests, rental bicycles are available for you to explore the landscape individually. Come on an unforgettable journey with the VIVA MOMENTS.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTAvMzUvMzUvM2UyYmUxZTctZGFjNC00Y2I0LWJjYzktMjU5ZWE5Y2QzOWJkL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjI0MDB4MTYwMCMiXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Exterior%20%C2%A9Viva%20Cruises%202.jpg?sha=1e237828ad2c6cee",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvOWJjOWE0NzUtZjllZS00Y2UzLTlmNmItZmFiNTM4MWU3ZTE1L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBCYWxjb255IFN1aXRlIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Balcony%20Suite%201.jpg?sha=45e074c894166191",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvY2Y0ZmNhNTUtNjBmMy00MWM4LWEzODgtMDk0ZDhhMDE1ZGJhL1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%201.jpg?sha=e3839c1741a90c94",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzUvMGM5ZTI1NDctZjc1YS00Yzg1LTgwM2EtZWE4ZDRlMjI0MDA3L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%202.jpg?sha=7e8671bbaee9cd4b",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTAvMzAvZTZjOWVkNWMtMzljNy00MmJkLTlhOWEtZDc5ZjZhOGM3NWQ0L1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUiwgMkJEIMKpVml2YSBDcnVpc2VzIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BR%2C%202BD%20%C2%A9Viva%20Cruises%201.jpg?sha=9ba21f306eccf1be",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTQvMzEvZjAxMjNkYzctYjg0ZS00YzU3LWI0MDctMTVjMDcwMTY5YjkyL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUyDCqVZpdmEgQ3J1aXNlcyAxLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BS%20%C2%A9Viva%20Cruises%201.jpg?sha=15e506013c2f4c60"
+      ],
+      "facts": {
+        "capacity": 176,
+        "cabins": 88,
+        "decks": 4,
+        "built": "2018",
+        "refurbished": ""
+      },
+      "firstSailingDate": "2027-06-09",
+      "sailingCount": 4
+    },
+    "ships": [
+      {
+        "shipId": 115,
+        "name": "VIVA MOMENTS",
+        "description": "Enter the VIVA MOMENTS and let yourself be enchanted by the elegant atmosphere. Here you can fully relax, on the VIVA MOMENTS every wish will be fulfilled. Indulge in a gourmet meal in the main restaurant or in the bistro and enjoy a drink in the panoramic lounge after dinner. Marvel at the passing scenery while golfing on the deck or while relaxing in the whirlpool. For the more active guests, rental bicycles are available for you to explore the landscape individually. Come on an unforgettable journey with the VIVA MOMENTS.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTAvMzUvMzUvM2UyYmUxZTctZGFjNC00Y2I0LWJjYzktMjU5ZWE5Y2QzOWJkL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjI0MDB4MTYwMCMiXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Exterior%20%C2%A9Viva%20Cruises%202.jpg?sha=1e237828ad2c6cee",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvOWJjOWE0NzUtZjllZS00Y2UzLTlmNmItZmFiNTM4MWU3ZTE1L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBCYWxjb255IFN1aXRlIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Balcony%20Suite%201.jpg?sha=45e074c894166191",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzQvY2Y0ZmNhNTUtNjBmMy00MWM4LWEzODgtMDk0ZDhhMDE1ZGJhL1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMS5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%201.jpg?sha=e3839c1741a90c94",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjQvMDcvMzEvMTcvMDAvMzUvMGM5ZTI1NDctZjc1YS00Yzg1LTgwM2EtZWE4ZDRlMjI0MDA3L1ZpdmEgQ3J1aXNlcyBWaXZhIE1vbWVudHMgLSBDYWJpbiBKdW5pb3IgU3VpdGUgMi5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20Viva%20Moments%20-%20Cabin%20Junior%20Suite%202.jpg?sha=7e8671bbaee9cd4b",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTAvMzAvZTZjOWVkNWMtMzljNy00MmJkLTlhOWEtZDc5ZjZhOGM3NWQ0L1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUiwgMkJEIMKpVml2YSBDcnVpc2VzIDEuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BR%2C%202BD%20%C2%A9Viva%20Cruises%201.jpg?sha=9ba21f306eccf1be",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjYvMDYvMTcvMTEvMTQvMzEvZjAxMjNkYzctYjg0ZS00YzU3LWI0MDctMTVjMDcwMTY5YjkyL1ZJVkEgQ3J1aXNlcyBWSVZBIE1PTUVOVFMgRG91YmxlIENhYmluIDJCUyDCqVZpdmEgQ3J1aXNlcyAxLmpwZyJdLFsicCIsInRodW1iIiwiMTYwMHg-Il1d/VIVA%20Cruises%20VIVA%20MOMENTS%20Double%20Cabin%202BS%20%C2%A9Viva%20Cruises%201.jpg?sha=15e506013c2f4c60"
+        ],
+        "facts": {
+          "capacity": 176,
+          "cabins": 88,
+          "decks": 4,
+          "built": "2018",
+          "refurbished": ""
+        },
+        "firstSailingDate": "2027-06-09",
+        "sailingCount": 4
+      }
+    ],
+    "departure_port": "Strasbourg",
+    "disembark_port": "Nuremberg",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-06-09",
+        "returnDate": "2027-06-16",
+        "pricePp": 1839,
+        "cabinPricePp": 1662.5
+      }
+    ]
+  },
+  {
+    "id": 10469,
+    "title": "Nordic Elegance Along the River",
+    "slug": "viva-cruises-nordic-elegance-along-the-river",
+    "price": 2129,
+    "destination": "Elbe",
+    "country": "Germany",
+    "duration_nights": 7,
+    "description": "<p>This cruise combines the Hanseatic flair of Bremen with the cultural diversity of Berlin. From Bremen, the cruise takes you along the idyllic Weser through places such as Hoya, Nienburg and Hanover-Anderten, where you can experience the serenity and history of northern Germany. The journey continues east along the Mittelland Canal via Braunschweig and Magdeburg. In Brandenburg, Potsdam and Berlin Spandau, the water landscape shows itself from its most beautiful side - characterized by lakes, castles and green expanses. A varied journey that combines the best of two worlds. Northern German tranquillity and Berlin lifestyle.</p>",
+    "featured_image": "",
+    "gallery": [],
+    "whats_included": [
+      "Return Flights from the UK",
+      "Hold Luggage",
+      "Full Board Cruise",
+      "VIVA All-Inclusive Drinks",
+      "Free Wi-Fi",
+      "Gratuities"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "port": "Bremen",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 2,
+        "port": "Hoya / Nienburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 3,
+        "port": "Nienburg",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 4,
+        "port": "Anderten, Hanover / Brunswick, Georgia",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 5,
+        "port": "Rothensee / Magdeburg / Genthin",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 6,
+        "port": "Genthin / Brandenburg / Potsdam",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 7,
+        "port": "Potsdam / Berlin",
+        "country": "Germany",
+        "description": ""
+      },
+      {
+        "day": 8,
+        "port": "Berlin",
+        "country": "Germany",
+        "description": ""
+      }
+    ],
+    "operator_name": "VIVA Cruises",
+    "ship_name": "VIVA RUBY",
+    "ship": {
+      "shipId": 113,
+      "name": "VIVA RUBY",
+      "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+      "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+      "class": "",
+      "cabin_images": [
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+        "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+      ],
+      "facts": {
+        "capacity": 80,
+        "cabins": 40,
+        "decks": 3,
+        "built": "2002",
+        "refurbished": "2025"
+      },
+      "firstSailingDate": "2027-05-18",
+      "sailingCount": 2
+    },
+    "ships": [
+      {
+        "shipId": 113,
+        "name": "VIVA RUBY",
+        "description": "Experience a journey filled with moments of relaxation, indulgence, and personalized service aboard the VIVA RUBY (formerly SWISS RUBY). Our lovingly renovated cultural ship has been shining in new splendor since 2025—modernized, elegant, and with great attention to detail. The 40 comfortable cabins, including eight newly designed suites on the top deck, offer the highest level of comfort and a stylish ambiance. The suites, in particular, impress with their spacious feel, modern design, and high-quality materials, ensuring an unparalleled travel experience.",
+        "cover_image": "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMDkvNTAvMzMvNGZiY2VjMWQtMTVlMC00ZjlkLTliYWMtNDhiYjAzMGNjNzk5L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRXh0ZXJpb3IgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIyNDAweDE2MDAjIl1d/Viva%20Cruises%20VIVA%20RUBY%20Exterior%20%C2%A9Viva%20Cruises.jpg?sha=de4fe83d43786307",
+        "class": "",
+        "cabin_images": [
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMDkvZTQxZjBhNmUtM2U3Yy00NGVmLTk3MzAtYTgyYWM1MWU0NWM1L1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgU3VpdGUgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20Suite%201%20%C2%A9Viva%20Cruises.jpg?sha=1c2b226845ab6302",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvNTBlODY2MDgtMTM2Ni00NWVlLTg3NjYtZmUxM2Q4YzY5NjEwL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgRnJlbmNoIEJhbGNvbnkgMSDCqVZpdmEgQ3J1aXNlcy5qcGciXSxbInAiLCJ0aHVtYiIsIjE2MDB4PiJdXQ/Viva%20Cruises%20VIVA%20RUBY%20French%20Balcony%201%20%C2%A9Viva%20Cruises.jpg?sha=4fd8ea9acf20b2b8",
+          "https://widgety.co.uk/media/W1siZiIsIjIwMjUvMDUvMDIvMTAvMDcvMTAvYTVhMzg0MGItMWY0Mi00YTUxLThlOWMtMTg2NDBmODI0ODFjL1ZpdmEgQ3J1aXNlcyBWSVZBIFJVQlkgV2luZG93IENhYmluIDIgwqlWaXZhIENydWlzZXMuanBnIl0sWyJwIiwidGh1bWIiLCIxNjAweD4iXV0/Viva%20Cruises%20VIVA%20RUBY%20Window%20Cabin%202%20%C2%A9Viva%20Cruises.jpg?sha=1f7ed221e15e381d"
+        ],
+        "facts": {
+          "capacity": 80,
+          "cabins": 40,
+          "decks": 3,
+          "built": "2002",
+          "refurbished": "2025"
+        },
+        "firstSailingDate": "2027-05-18",
+        "sailingCount": 2
+      }
+    ],
+    "departure_port": "Bremen",
+    "disembark_port": "Berlin",
+    "board_basis": "Full Board",
+    "port_fee_pp": 0,
+    "sailings": [
+      {
+        "date": "2027-05-18",
+        "returnDate": "2027-05-25",
+        "pricePp": 2119,
+        "cabinPricePp": 1800.25
       }
     ]
   }
