@@ -263,7 +263,7 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
             <a class="rc-offer-img" href={url} aria-hidden="true" tabindex="-1">
               <img src={imgSrc(h.image, 800)} alt="" loading="lazy" decoding="async" width="800" height="500" />
               <span class="rc-pills">
-                <span class="rc-pill">Special offer</span>
+                {(h.offerBadges.length ? h.offerBadges : ['Special offer']).map(b => <span class="rc-pill">{b}</span>)}
                 {savingOf(h) > 0 && <span class="rc-pill rc-pill-save">Save £{savingOf(h).toLocaleString('en-GB')}pp</span>}
                 {riverOf(h) && <span class="rc-pill">{riverOf(h)}</span>}
               </span>
@@ -441,7 +441,7 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
   .rc-offer { background: #fff; border-radius: 6px; box-shadow: 0 6px 16px rgba(0,0,0,.08); overflow: hidden; display: flex; flex-direction: column; }
   .rc-offer-img { position: relative; display: block; aspect-ratio: 16 / 10; background: #eef2f3; }
   .rc-offer-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .rc-pills { position: absolute; top: 14px; left: 14px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .rc-pills { position: absolute; top: 14px; left: 14px; right: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
   .rc-pill { background: #073140; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 12px; border-radius: 999px; white-space: nowrap; }
   .rc-pill-save { background: #ff7f00; font-weight: 700; }
   .rc-price s { text-decoration: line-through; color: #8a8a8a; }

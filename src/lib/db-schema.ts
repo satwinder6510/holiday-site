@@ -61,6 +61,7 @@ export const flightPackages = sqliteTable('flight_packages', {
   includeAirlines: text('include_airlines'),
   displayPrice: real('display_price'),
   wasPrice: real('was_price'),
+  offerBadges: text('offer_badges', { mode: 'json' }).$type<string[]>(),
   cities: text('cities', { mode: 'json' }).$type<string[]>().default([]).notNull(),
 });
 

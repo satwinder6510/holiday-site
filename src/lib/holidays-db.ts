@@ -85,6 +85,7 @@ function dbRowToRawHoliday(row: DbRow): RawHoliday {
     include_airlines: row.includeAirlines,
     display_price: row.displayPrice ?? null,
     was_price: row.wasPrice ?? null,
+    offer_badges: ((row.offerBadges ?? []) as string[]).map(b => String(b).trim()).filter(Boolean).slice(0, 3),
     cities: (row.cities ?? []) as string[],
   };
 }

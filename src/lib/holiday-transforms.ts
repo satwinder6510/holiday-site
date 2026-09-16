@@ -74,6 +74,7 @@ export interface RawHoliday {
   include_airlines: string | null;
   display_price: number | null;
   was_price?: number | null;
+  offer_badges?: string[];
   cities: string[];
 }
 
@@ -171,6 +172,8 @@ export interface Holiday {
   displayPrice: number | null;
   /** Special offers: brochure price entered in the admin; a saving shows only when it beats our price. */
   wasPrice: number | null;
+  /** Special offers: staff-typed pill labels; empty = the default "Special offer" pill. */
+  offerBadges: string[];
   cities: string[];
 }
 
@@ -522,6 +525,7 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
     localChargesPp: localCharges.total,
     displayPrice: raw.display_price ?? null,
     wasPrice: raw.was_price ?? null,
+    offerBadges: raw.offer_badges ?? [],
     cities: raw.cities || [],
     description,
     slug: raw.slug,
@@ -636,6 +640,7 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     localChargesPp: 0,
     displayPrice: null,
     wasPrice: null,
+    offerBadges: [],
     cities: [],
     description,
     slug: raw.slug,
