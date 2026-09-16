@@ -177,6 +177,16 @@ const cruiseIncluded = (() => {
     .filter(c => !/^return flights|inclusive on board|full board on board|^drinks/i.test(c));
   return [...new Set([...common, ...extras])].slice(0, 9);
 })();
+// The full "What's Included" list under the overview on cruise pages: the strip's
+// items first, then the supplier's own lines that aren't already covered.
+const cruiseIncludedFull = isCruise
+  ? [...new Set([
+      ...cruiseIncluded,
+      ...holiday.whatsIncluded
+        .map(l => l.replace(/\s+/g, ' ').trim())
+        .filter(l => l && !/flight|airport tax|cabin bag|atol|all[- ]inclusive|full[- ]board/i.test(l)),
+    ])]
+  : holiday.whatsIncluded;
 
 // Truncate description at sentence boundary
 const rawDesc = holiday.overview || holiday.description || '';
@@ -414,11 +424,11 @@ const pageDescription = holiday.metaDescription || (() => {
             )}
             <Fragment set:html={sanitizeHtml(formatOverview(holiday.overview))} />
 
-            {holiday.whatsIncluded.length > 0 && (
+            {cruiseIncludedFull.length > 0 && (
               <>
                 <h3 class="sub-heading">What's Included</h3>
                 <ul class="custom-bullets">
-                  {holiday.whatsIncluded.map((item) => (
+                  {cruiseIncludedFull.map((item) => (
                     <li>{item}</li>
                   ))}
                 </ul>
