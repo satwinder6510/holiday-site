@@ -179,9 +179,11 @@ const cruiseIncluded = (() => {
 })();
 // The full "What's Included" list under the overview on cruise pages: the strip's
 // items first, then the supplier's own lines that aren't already covered.
+// (Constants and operator items, then the supplier's lines in their own words; the
+// strip's summarised extras are left out here so nothing appears twice.)
 const cruiseIncludedFull = isCruise
   ? [...new Set([
-      ...cruiseIncluded,
+      ...cruiseIncluded.filter(c => !/hotel night|^excursions$|^transfers$|^tips$|^wifi$|^hold luggage$/i.test(c)),
       ...holiday.whatsIncluded
         .map(l => l.replace(/\s+/g, ' ').trim())
         .filter(l => l && !/flight|airport tax|cabin bag|atol|all[- ]inclusive|full[- ]board/i.test(l)),
