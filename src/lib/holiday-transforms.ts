@@ -627,7 +627,7 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
   return {
     id: raw.id,
     image: heroImage,
-    title: raw.title,
+    title: cleanCruiseTitle(raw.title), // supplier jargon like "(port-to-port cruise)" never reaches a page
     destination: raw.destination,
     country: raw.country,
     countrySlug: slugify(raw.country),
