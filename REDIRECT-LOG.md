@@ -40,3 +40,20 @@ the owner's regenerated `blog-export.json` + `cruise-export.json` (deploy side-e
 owner's 2026-09-15 evening deploy), and the A1 lane only auto-deploys when the diff is limited to
 `public/_redirects` + this file. The rules go live with the owner's next `./deploy.sh`; verify
 then with `curl -sI https://holidays.flightsandpackages.com/AboutUs` (expect 301 → `/about/`).
+Verified 2026-09-17: both live, 301 → 200 in one hop (owner deployed on 2026-09-16).
+
+## 2026-09-17 — legacy numeric country listings, batch 2 (TODO-redirects.md row "Numeric country listings")
+
+| Date | Source (404, verified) | Target (verified 200) | Evidence |
+|---|---|---|---|
+| 2026-09-17 | `/Holidays/Europe/Montenegro/34` | `/Holidays/montenegro` | site_errors ids 782-783 (2026-09-16 10:27, meta-webindexer) beaconed the 404 page's own layout images from this URL. Source curls 404 (63,223 B, title "Page Not Found") with and without trailing slash. Target curls 200 (84,874 B, title "Montenegro Holidays") with and without trailing slash; `/Holidays/Montenegro` (capital) is 404, hence a per-URL lowercase rule. |
+| 2026-09-17 | `/Holidays/Europe/Germany/16` | `/Holidays/germany` | site_errors id 784 (2026-09-16 23:56, meta-webindexer). Same class. Source 404 (title "Page Not Found") with and without trailing slash. Target 200 (328,602 B, title "Germany Holidays") with and without trailing slash; `/Holidays/Germany` is 404. |
+| 2026-09-17 | `/Holidays/Americas/Argentina/2` | `/Holidays/argentina` | site_errors id 785 (2026-09-17 00:11, meta-webindexer). Same class. Source 404 with and without trailing slash. Target 200 (79,644 B, title "Argentina Holidays") with and without trailing slash. |
+
+Process note 2026-09-17: the `public/_redirects` edit landed a few seconds BEFORE this entry
+(the first write attempt for this entry was refused by the permission layer while the rules
+edit, issued in parallel, succeeded). Content was fully verified before either write.
+
+Deploy note 2026-09-17: tree was clean before the edit, and main's latest code commit (`63faf85`,
+VIVA inclusions) was already live (checked on a VIVA detail page), so a redirects-only
+`./deploy.sh` publishes nothing new of the owner's apart from the usual D1 export re-sync.
