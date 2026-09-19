@@ -57,3 +57,9 @@ edit, issued in parallel, succeeded). Content was fully verified before either w
 Deploy note 2026-09-17: tree was clean before the edit, and main's latest code commit (`63faf85`,
 VIVA inclusions) was already live (checked on a VIVA detail page), so a redirects-only
 `./deploy.sh` publishes nothing new of the owner's apart from the usual D1 export re-sync.
+
+## 2026-09-19 — legacy numeric country listings, batch 3 (TODO-redirects.md row "Numeric country listings")
+
+| Date | Source (404, verified) | Target (verified 200) | Evidence |
+|---|---|---|---|
+| 2026-09-19 | `/Holidays/Asia/Japan/61` | `/Holidays/japan` | site_errors ids 806-809 (2026-09-18 23:26, Win10 Chrome/148 — the same scanner pair that walked /about/ + /privacy-policy minutes earlier) beaconed the 404 page's own layout images from this URL. Source curls 404 (63,223 B, title "Page Not Found") with and without trailing slash. Target curls 200 (82,493 B, title "Japan Holidays") with and without trailing slash; `/Holidays/Japan` (capital) is 404, hence a per-URL lowercase rule. |

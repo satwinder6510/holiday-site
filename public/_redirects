@@ -26,6 +26,7 @@
 /Holidays/Europe/Montenegro/34 /Holidays/montenegro 301
 /Holidays/Europe/Germany/16 /Holidays/germany 301
 /Holidays/Americas/Argentina/2 /Holidays/argentina 301
+/Holidays/Asia/Japan/61 /Holidays/japan 301
 
 # Legacy PascalCase static pages → live pages. See REDIRECT-LOG.md (site-doctor 2026-09-16)
 /AboutUs /about/ 301
