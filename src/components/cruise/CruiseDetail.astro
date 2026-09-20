@@ -14,6 +14,7 @@ import type { HolidayDetail } from '../../lib/holiday-transforms';
 import type { HolidayPricing } from '../../lib/pricing-transforms';
 import type { PortCall } from '../../lib/cruise-detail';
 import type { SailingLadder } from '../../lib/cruise-detail';
+import { splitStays } from '../../lib/cruise-detail';
 import { imgSrc } from '../../lib/image-src';
 import SailingPicker from './SailingPicker.astro';
 import RouteMap from './RouteMap.astro';
@@ -23,8 +24,9 @@ interface Props {
   pricing: HolidayPricing | null;
   calls: PortCall[];
   ladders: SailingLadder[];
+  shipNames: Set<string>;
 }
-const { holiday, pricing, calls, ladders } = Astro.props;
+const { holiday, pricing, calls, ladders, shipNames } = Astro.props;
 
 const TEL_DISPLAY = '0208 183 0518';
 const TEL_HREF = 'tel:+442081830518';
@@ -34,8 +36,12 @@ const nights = (() => {
   return m ? Number(m[1]) : 0;
 })();
 
-const shipName = holiday.shipName || holiday.accommodations[0]?.name || 'your ship';
-const shipCard = holiday.accommodations[0];
+// Many offers are flight + hotel + cruise, and the accommodations list holds the
+// HOTEL first and the ship second. Taking [0] as the ship put a Vienna hotel under
+// a "Your ship" heading. The ships table decides which is which.
+const { ships, hotels } = splitStays(holiday.accommodations, shipNames, holiday.shipName);
+const shipCard = ships[0];
+const shipName = holiday.shipName || shipCard?.name || '';
 
 // The route line: every port called at, in order, without repeating a berth.
 const routePorts: string[] = [];
@@ -86,12 +92,12 @@ const overview = tidyOverview(holiday.overview || '');
 <div class="cd">
   <!-- Hero -->
   <div class="cd-hero">
-    <img class="cd-hero__img" src={heroImage} alt={`${shipName} on the ${holiday.destination}`}
+    <img class="cd-hero__img" src={heroImage} alt={`${shipName || holiday.title} on the ${holiday.destination}`}
          width="1600" height="900" fetchpriority="high" decoding="async" />
     <div class="cd-hero__body">
       <div class="section-container">
         <div class="cd-hero__text">
-          <p class="cd-hero__kicker">{holiday.operator}{shipName ? ` · ${shipName}` : ''}</p>
+          <p class="cd-hero__kicker">{[holiday.operator, shipName].filter(Boolean).join(' · ')}</p>
           <h1>{fixFeedText(holiday.title)}</h1>
           {routePorts.length > 1 && (
             <p class="cd-hero__route">
@@ -122,6 +128,10 @@ const overview = tidyOverview(holiday.overview || '');
   <div class="cd-glance">
     <dl class="section-container">
       {shipName && <div><dt>Ship</dt><dd>{shipName}</dd></div>}
+      {hotels.length > 0 && (
+        <div><dt>{hotels.length > 1 ? 'Hotel stays' : 'Hotel stay'}</dt>
+        <dd>{hotels.map(h => h.name).join(', ')}</dd></div>
+      )}
       {nights > 0 && <div><dt>Length</dt><dd>{nights} nights</dd></div>}
       {sailingCount > 0 && <div><dt>Sailings</dt><dd>{sailingCount} dates</dd></div>}
       {holiday.boardBasis && <div><dt>Dining</dt><dd>{holiday.boardBasis}</dd></div>}
@@ -130,7 +140,7 @@ const overview = tidyOverview(holiday.overview || '');
   </div>
 
   <!-- Sailings and cabins -->
-  {pricing && ladders.length > 0 && (
+  {pricing && (
     <section class="cd-section" id="sailings">
       <div class="section-container">
         <div class="cd-head">
@@ -138,8 +148,8 @@ const overview = tidyOverview(holiday.overview || '');
           <h2>Choose your sailing</h2>
           <p class="cd-prose">
             It's a fly-cruise, so the price moves with the airport you fly from &mdash; and the
-            cheapest airport isn't the same one every week. Choose your airport, then a date to
-            see the cabins on board.
+            cheapest airport isn't the same one every week. Choose your airport, then a
+            date{ladders.length > 0 ? ' to see the cabins on board' : ''}.
           </p>
         </div>
         <SailingPicker
@@ -243,6 +253,27 @@ const overview = tidyOverview(holiday.overview || '');
             </div>
           )}
         </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Hotel nights, where the trip includes them -->
+  {hotels.length > 0 && (
+    <section class="cd-section" id="hotels">
+      <div class="section-container">
+        <div class="cd-head">
+          <p class="cd-eyebrow">On land</p>
+          <h2>{hotels.length > 1 ? 'Your hotels' : 'Your hotel'}</h2>
+          <p class="cd-prose">This trip includes hotel nights either side of the cruise.</p>
+        </div>
+        <ul class="cd-hotels">
+          {hotels.map(h => (
+            <li>
+              <h3 class="cd-hotels__name">{h.name}{h.stars ? <span class="cd-hotels__stars">{'\u2605'.repeat(h.stars)}</span> : null}</h3>
+              {h.description && <div class="cd-prose" set:html={h.description} />}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )}
@@ -389,6 +420,15 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-shots figure:first-child { grid-column: 1 / -1; }
   .cd-shots img { width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; border-radius: 2px; display: block; }
   .cd-shots figure:first-child img { aspect-ratio: 2/1; }
+
+  /* Hotels */
+  .cd-hotels { margin: 0; padding: 0; list-style: none; display: grid; gap: 24px; }
+  .cd-hotels li { border: 1px solid #e5e7eb; border-radius: 2px; padding: 20px; background: #fff; }
+  .cd-hotels__name {
+    margin: 0 0 8px; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 18px; font-weight: 600; color: #424242;
+  }
+  .cd-hotels__stars { margin-left: 8px; color: #ffcc44; letter-spacing: 1px; font-size: 14px; }
 
   /* Included */
   .cd-ticks { columns: 2; column-gap: 32px; margin: 0; padding: 0; list-style: none; }

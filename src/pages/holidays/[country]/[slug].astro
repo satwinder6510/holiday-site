@@ -11,7 +11,7 @@ import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import type { HolidayDetail } from '../../../lib/holiday-transforms';
 import { inclusionChips } from '../../../lib/cruise-card';
 import CruiseDetail from '../../../components/cruise/CruiseDetail.astro';
-import { getCruiseCalls, getSailingLadders } from '../../../lib/cruise-detail';
+import { getCruiseCalls, getSailingLadders, getShipNameSet } from '../../../lib/cruise-detail';
 import { roundToNine } from '../../../lib/pricing-transforms';
 import { allBlogs } from '../../../data/blogs';
 import { getDb } from '../../../lib/get-db';
@@ -167,11 +167,13 @@ const isCruise = holiday.tags.includes('River Cruise');
 // page falls back to the package template when either comes back empty.
 let cruiseCalls: Awaited<ReturnType<typeof getCruiseCalls>> = [];
 let cruiseLadders: Awaited<ReturnType<typeof getSailingLadders>> = [];
+let shipNameSet = new Set<string>();
 if (isCruise) {
   const cruiseDb = getDb(Astro);
-  [cruiseCalls, cruiseLadders] = await Promise.all([
+  [cruiseCalls, cruiseLadders, shipNameSet] = await Promise.all([
     getCruiseCalls(cruiseDb, holiday.id),
     getSailingLadders(cruiseDb, holiday.id),
+    getShipNameSet(cruiseDb),
   ]);
 }
 // Only take the new template when it has what it needs to be better than the old one.
@@ -311,7 +313,7 @@ const pageDescription = holiday.metaDescription || (() => {
   <MobileNav />
 
   {useCruiseTemplate ? (
-    <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} />
+    <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} shipNames={shipNameSet} />
   ) : (
   <Fragment>
   <!-- Hero Section (wrapper lets the price bar anchor to the hero's bottom edge) -->

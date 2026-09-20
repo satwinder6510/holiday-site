@@ -96,6 +96,13 @@ export const cruiseRoutes = sqliteTable('cruise_routes', {
   itinerary: text('itinerary', { mode: 'json' }),
 });
 
+// Ship names — the authority for telling a ship from a hotel in a package's
+// accommodations list (flight + hotel + cruise offers carry both).
+export const cruiseShips = sqliteTable('cruise_ships', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  name: text('name').notNull(),
+});
+
 // Individual departures — only the columns the listing needs (date filter + ship).
 export const cruiseSailings = sqliteTable('cruise_sailings', {
   id: integer('id').primaryKey({ autoIncrement: true }),

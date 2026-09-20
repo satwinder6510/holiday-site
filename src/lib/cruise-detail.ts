@@ -12,7 +12,7 @@
  */
 import { and, eq, gte } from 'drizzle-orm';
 import type { Database } from './db';
-import { cruiseOffers, cruiseRoutes, cruiseSailings, cruiseOfferSailingCabins } from './db-schema';
+import { cruiseOffers, cruiseRoutes, cruiseSailings, cruiseOfferSailingCabins, cruiseShips } from './db-schema';
 import { roundToNine } from './pricing-transforms';
 import portCoords from '../data/port-coords.json';
 
@@ -316,4 +316,48 @@ export function gradePrice(
   if (!grade) return null;
   if (grade.retailPp != null) return roundToNine(grade.retailPp);
   return roundToNine(airportPricePp + (grade.netPp - ladder.leadPp));
+}
+
+// ── Telling a ship from a hotel ─────────────────────────────────────
+
+/**
+ * Many cruises are sold as flight + hotel + cruise, and the accommodations list
+ * holds the hotel FIRST and the ship second. Calling `accommodations[0]` the ship
+ * puts "PLAZA INN Amedia Wien" under a "Your ship" heading.
+ *
+ * The ships table is the authority — 67 rows, matched case-insensitively because
+ * the feed writes "Ms Vivaldi" where the table holds "MS Vivaldi". An accommodation
+ * that isn't in the table is treated as a hotel, which is the safe way round: a
+ * mislabelled hotel is worse than an unlabelled ship.
+ */
+export async function getShipNameSet(db: Database): Promise<Set<string>> {
+  try {
+    const rows = await db.select({ name: cruiseShips.name }).from(cruiseShips);
+    return new Set(rows.map(r => (r.name || '').trim().toLowerCase()).filter(Boolean));
+  } catch (e) {
+    console.error('getShipNameSet failed', e);
+    return new Set();
+  }
+}
+
+export interface StaySplit<T extends { name: string }> {
+  ships: T[];
+  hotels: T[];
+}
+
+/** Split a holiday's accommodations into the ship(s) and the hotel night(s). */
+export function splitStays<T extends { name: string }>(
+  accommodations: T[],
+  shipNames: Set<string>,
+  knownShipName?: string,
+): StaySplit<T> {
+  const known = (knownShipName || '').trim().toLowerCase();
+  const ships: T[] = [];
+  const hotels: T[] = [];
+  for (const a of accommodations) {
+    const key = (a.name || '').trim().toLowerCase();
+    if (key && (shipNames.has(key) || (known && key === known))) ships.push(a);
+    else hotels.push(a);
+  }
+  return { ships, hotels };
 }

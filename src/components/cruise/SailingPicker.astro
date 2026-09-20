@@ -85,6 +85,8 @@ function gradePriceFor(l: SailingLadder | undefined, base: number, cabinType: st
 
 const nightCount = nights ?? 0;
 const bestOverall = Math.min(...dates.map(d => grid.get(d)?.get(defaultCode) ?? Infinity));
+// Several dates can tie on the lowest price; badge only the earliest of them.
+const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) === bestOverall);
 ---
 
 <div class="sp">
@@ -148,12 +150,12 @@ const bestOverall = Math.min(...dates.map(d => grid.get(d)?.get(defaultCode) ?? 
             hidden={needsFilters && i >= INITIAL_ROWS}
           >
             <span class="sp__date">
-              {base === bestOverall && <span class="sp__best">Best price</span>}
+              {date === bestDate && <span class="sp__best">Best price</span>}
               {niceDate(date)}
               <span class="sp__sub">returns {returnOf(date, nightCount)}</span>
             </span>
             <span class="sp__nights">{nightCount} nights</span>
-            <span class="sp__ship"><b>{shipName}</b>{routeLabel}</span>
+            <span class="sp__ship">{shipName && <b>{shipName}</b>}{routeLabel}</span>
             <span class="sp__price">
               <span class="sp__amt" {...priceAttrs}>{formatPrice(base)}</span>
               <span class="sp__lab">per person</span>
