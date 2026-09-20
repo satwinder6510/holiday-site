@@ -140,7 +140,7 @@ const overview = tidyOverview(holiday.overview || '');
         <dd>{ships.map(sh => sh.name).join(' & ')}</dd></div>
       )}
       {hotels.length > 0 && (
-        <div><dt>{hotels.length > 1 ? 'Hotel stays' : 'Hotel stay'}</dt>
+        <div><dt>{hotels.length > 1 ? 'Hotels before' : 'Hotel before'}</dt>
         <dd>{hotels.map(h => h.name).join(', ')}</dd></div>
       )}
       {nights > 0 && <div><dt>Length</dt><dd>{nights} nights</dd></div>}
@@ -282,9 +282,8 @@ const overview = tidyOverview(holiday.overview || '');
     <section class="cd-section" id="hotels">
       <div class="section-container">
         <div class="cd-head">
-          <p class="cd-eyebrow">On land</p>
+          <p class="cd-eyebrow">Before you board</p>
           <h2>{hotels.length > 1 ? 'Your hotels' : 'Your hotel'}</h2>
-          <p class="cd-prose">This trip includes hotel nights either side of the cruise.</p>
         </div>
         <ul class="cd-hotels">
           {hotels.map(h => (
