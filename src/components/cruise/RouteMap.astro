@@ -34,10 +34,17 @@ if (uniq.length >= 2) {
   const minX = Math.min(...xs), maxX = Math.max(...xs);
   const minY = Math.min(...ys), maxY = Math.max(...ys);
 
-  const s = maxX - minX ? (W - PAD_X * 2) / (maxX - minX) : 1;
-  const H = Math.max(210, (maxY - minY) * s + PAD_Y * 2);
+  // Fit BOTH axes. Scaling to width alone makes a north-south route (Amsterdam to
+  // Basel) hundreds of pixels tall, so the height is capped and the drawing is
+  // centred in whichever axis has room to spare.
+  const H_MAX = 460;
+  const sx = maxX - minX ? (W - PAD_X * 2) / (maxX - minX) : 1;
+  const sy = maxY - minY ? (H_MAX - PAD_Y * 2) / (maxY - minY) : 1;
+  const s = Math.min(sx, sy);
+  const H = Math.min(H_MAX, Math.max(210, (maxY - minY) * s + PAD_Y * 2));
+  const offX = (W - (maxX - minX) * s) / 2;
   const offY = (H - (maxY - minY) * s) / 2;
-  const px = (p: Pt) => (p.lng * k - minX) * s + PAD_X;
+  const px = (p: Pt) => (p.lng * k - minX) * s + offX;
   const py = (p: Pt) => (-p.lat - minY) * s + offY;
 
   // Chain from the point furthest from the centre, then nearest-neighbour.
