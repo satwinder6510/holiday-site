@@ -190,6 +190,14 @@ manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffe
   as a hotel and gets its own section. Never label an accommodation a ship by position.
 - **Month chips + show-more** appear above 12 sailings (the Zambezi runs 69). Every row
   is in the HTML; the script only toggles visibility.
+- **⚠️ Never use the `margin` shorthand on an element that also carries
+  `.section-container`.** The container centres with `margin-inline: auto`, and the
+  shorthand zeroes it, so the band pins to the left window edge above 1240px while
+  every other band stays centred. It bit `.cd-glance dl`, which used `margin: 0` only
+  to kill the browser's default `dl` margin; `margin-block: 0` does that job without
+  taking the inline axis. Astro's scoping gives the component rule higher specificity
+  than `.section-container` and its stylesheet loads later, so it wins twice over.
+  Fixed 2026-09-20 after the owner spotted the page was off-centre.
 - **Admin-made cruise packages** (`flight_packages` rows tagged River Cruise, 30 of
   them) use this template too — they carry `package_pricing` by date and airport but no
   cabin grid, so cabin panels drop out and the route falls back to the holiday's own
@@ -204,6 +212,32 @@ manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffe
   (owner's call, 2026-09-20); no sibling-cruise internal links; no deck plans; cabin
   size and window type aren't fields we hold. "Time in port" was built then removed —
   CroisiEurope records arrival == departure on many calls, so it rarely said anything.
+
+### Footer overflow, fixed 2026-09-20
+
+Two faults in `src/components/Footer.astro` gave EVERY page a horizontal scrollbar.
+Both are worth knowing because both look like content problems and are not.
+
+- **A column flex list with `flex-wrap: wrap` wraps SIDEWAYS.** The footer columns are
+  flex siblings stretched to the tallest, so `.footer-accordion-content` has a definite
+  height; `wrap` therefore spilled the overflowing links into a second column drawn
+  outside the box, 64px past the viewport at 768px wide, between 761px and 1240px. The
+  visible symptom was a stray "Cookies Policy" link on the right edge, which reads as a
+  long-link problem and is not. Only `.footer-links--two-col` ever wanted wrapping, so
+  the default list is now `nowrap` and the wrap lives on the variant.
+- **The three accreditation badges** are 48px tall with auto width in a no-wrap row, so
+  their total is whatever the artwork happens to be. They ran 9px past a 320px viewport.
+  `flex-wrap: wrap` is now the guard; below 360px the gap drops to 12px and the height
+  to 44px so all three still sit on one line.
+
+**How to check this rather than eyeball it.** Serve `dist/` and load a same-origin
+harness page that iframes a built page, sets `iframe.width`, and compares each
+element's `getBoundingClientRect().right` against `documentElement.clientWidth`. Run it
+under `--headless=new --dump-dom` and write the result into the DOM, because headless
+Chrome gives you no other way to read a value back. Resizing a real browser window is
+NOT a substitute: the tab used here reported `innerWidth` 360 no matter what it was
+resized to. Verified clean at 1864, 1440, 1240, 1100, 1024, 940, 820, 768, 761, 700,
+600, 500, 430, 390, 360, 340 and 320.
 
 ### River Cruises Listing Page
 
