@@ -53,6 +53,12 @@ const routeLabel = holiday.routeFrom && holiday.routeTo && holiday.routeFrom ===
 const countryOf = (c: PortCall) => c.country || '';
 
 const cabinImages = (holiday.cabinImages || []).map(u => imgSrc(u, 400));
+/** Photos for a stay: the cruise export's cabin shots, else the accommodation's own. */
+const stayPhotos = (acc: { images?: string[] } | undefined, fallback: string[] = []) => {
+  const own = (acc?.images || []).filter(Boolean).map(u => imgSrc(u, 640));
+  return own.length ? own : fallback;
+};
+const shipPhotos = stayPhotos(shipCard, cabinImages);
 const heroImage = imgSrc(holiday.heroImage, 1600);
 
 const included = holiday.whatsIncluded.filter(Boolean);
@@ -238,15 +244,15 @@ const overview = tidyOverview(holiday.overview || '');
           <p class="cd-eyebrow">Your ship</p>
           <h2>{shipCard.name}</h2>
         </div>
-        <div class:list={['cd-split', { 'cd-split--solo': cabinImages.length === 0 }]}>
+        <div class:list={['cd-split', { 'cd-split--solo': shipPhotos.length === 0 }]}>
           <div>
             {shipCard.description && <p class="cd-prose" set:html={shipCard.description} />}
           </div>
-          {cabinImages.length > 0 && (
+          {shipPhotos.length > 0 && (
             <div class="cd-shots">
-              {cabinImages.slice(0, 3).map((src, i) => (
+              {shipPhotos.slice(0, 3).map(src => (
                 <figure>
-                  <img src={src} alt={`Cabin on the ${shipCard.name}`} loading="lazy"
+                  <img src={src} alt={`On board the ${shipCard.name}`} loading="lazy"
                        decoding="async" width="640" height="427" />
                 </figure>
               ))}
@@ -269,8 +275,18 @@ const overview = tidyOverview(holiday.overview || '');
         <ul class="cd-hotels">
           {hotels.map(h => (
             <li>
-              <h3 class="cd-hotels__name">{h.name}{h.stars ? <span class="cd-hotels__stars">{'\u2605'.repeat(h.stars)}</span> : null}</h3>
-              {h.description && <div class="cd-prose" set:html={h.description} />}
+              {stayPhotos(h).length > 0 && (
+                <div class="cd-hotels__shots">
+                  {stayPhotos(h).slice(0, 3).map(src => (
+                    <img src={src} alt={h.name} loading="lazy" decoding="async"
+                         width="640" height="427" />
+                  ))}
+                </div>
+              )}
+              <div>
+                <h3 class="cd-hotels__name">{h.name}{h.stars ? <span class="cd-hotels__stars">{'\u2605'.repeat(h.stars)}</span> : null}</h3>
+                {h.description && <div class="cd-prose" set:html={h.description} />}
+              </div>
             </li>
           ))}
         </ul>
@@ -423,7 +439,16 @@ const overview = tidyOverview(holiday.overview || '');
 
   /* Hotels */
   .cd-hotels { margin: 0; padding: 0; list-style: none; display: grid; gap: 24px; }
-  .cd-hotels li { border: 1px solid #e5e7eb; border-radius: 2px; padding: 20px; background: #fff; }
+  .cd-hotels li {
+    border: 1px solid #e5e7eb; border-radius: 2px; padding: 20px; background: #fff;
+    display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 24px; align-items: start;
+  }
+  .cd-hotels__shots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cd-hotels__shots img {
+    width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover;
+    border-radius: 2px; display: block;
+  }
+  .cd-hotels__shots img:first-child { grid-column: 1 / -1; aspect-ratio: 2/1; }
   .cd-hotels__name {
     margin: 0 0 8px; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
     font-size: 18px; font-weight: 600; color: #424242;
@@ -466,6 +491,7 @@ const overview = tidyOverview(holiday.overview || '');
     .cd-hero__price { margin-top: 24px; width: 100%; justify-content: space-between; }
     .cd-hide-sm { display: none; }
     .cd-days li { grid-template-columns: 1fr; gap: 4px; }
+    .cd-hotels li { grid-template-columns: 1fr; gap: 16px; }
     .cd-calls th, .cd-calls td { padding: 10px 12px; font-size: 14px; }
     .cd-shots { grid-template-columns: 1fr; }
     .cd-shots figure:first-child img { aspect-ratio: 3/2; }
