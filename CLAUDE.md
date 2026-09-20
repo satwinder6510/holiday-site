@@ -144,6 +144,49 @@ River cruise offers are **mixed in with regular holidays** — no separate `/cru
 - **Full re-sync (new routes/offers):** Run pipeline in holiday-admin-api: sync-widgety → batch-create-offers → export-cruises → price-cruise-flights, then rebuild + deploy this site
 - **New route itinerary:** Run `POST /api/cruises/sync-itineraries` on holiday-admin-api, then re-export + deploy
 
+### River Cruise DETAIL page (rebuilt 2026-09-20)
+
+Cruises no longer render through the shared package template. `[country]/[slug].astro`
+keeps the URL, the legacy-slug `redirects` map and the canonical-country 301, and
+delegates the body to `src/components/cruise/CruiseDetail.astro` when
+`useCruiseTemplate` is true — i.e. the holiday is tagged River Cruise AND has a cabin
+ladder AND has pricing. Anything short of that falls back to the old template, so
+manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffected.
+
+- **Why:** the package template's date picker is a flight calendar (any day, any month,
+  then an airport). A river cruise has a handful of fixed sailings and the decision is
+  which sailing, then which cabin on which deck, at a price that moves with the airport.
+- **Airport first.** The selling price is per date AND per airport
+  (`cruise_flight_prices.total_price_pp`, or the admin's flat retail overlay). The
+  cheapest airport is NOT the same one every week, so each row shows what the best
+  airport would save. Every airport's price is server-rendered as `data-price-CODE`;
+  the script only swaps text, so the numbers are in the HTML for crawlers and no-JS.
+- **Cabin ladder per sailing**, grouped by deck, with grades not sold that week shown
+  as sold out rather than dropped. `getSailingLadders()` in `src/lib/cruise-detail.ts`.
+- **Port calls with real times** — arrival, departure and dwell duration, read LIVE from
+  `cruise_routes.itinerary` via `getCruiseCalls()`. The static `cruise-export.json`
+  flattens the itinerary to `{day, port, country, description}` and throws the times and
+  the UN/LOCODE away; that is why this reads D1 directly rather than the export.
+- **Route map** (`RouteMap.astro`) drawn server-side from port coordinates in
+  `src/data/port-coords.json` (373/373 ports, resolved offline from the UN/LOCODE on
+  each call — UN/LOCODE + GeoNames, no API). Ports are chained nearest-neighbour from
+  the far end, not in sailing order, or the outbound and return legs cross. The map
+  fits BOTH axes — scaling to width alone made north-south routes hundreds of px tall.
+  Hidden below 600px; the calls table says the same thing.
+- **`parseCabinGrade()`** handles all three supplier formats: CroisiEurope's bracketed
+  deck (`Cat B Suite (Main Deck, 2 Single Beds)`), A-ROSA's leading deck
+  (`Main Deck 2 Adjustable Twin Beds`), VIVA's trailing gemstone (`Double Cabin aft
+  Ruby`). It uses a CLOSED deck vocabulary on purpose — an open "last capitalised word"
+  rule reads "Beds", "Window" and "Person" as decks and is wrong on 54 of the 74 cabin
+  strings in the table. Unrecognised grades keep their full name under "Other".
+- **Indexes (added 2026-09-20):** `cruise_offer_sailing_cabins(offer_id, sailing_id)`,
+  `cruise_sailings(route_id, departure_date)`, `cruise_sailings(departure_date)`,
+  `cruise_flight_prices(offer_id, departure_date)`. Before these, every cruise detail
+  view full-scanned ~23k rows; the cabin query read 11,609 rows and now reads 88.
+- **Still open:** Product/AggregateOffer JSON-LD isn't cruise-specific yet; breadcrumb
+  still points at the country page rather than the river; no deck plans; cabin size and
+  window type aren't fields we hold.
+
 ### River Cruises Listing Page
 
 - **Route:** `src/pages/Holidays/river-cruises/[...river].astro` — SSR catch-all route
