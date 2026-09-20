@@ -42,6 +42,8 @@ const nights = (() => {
 const { ships, hotels } = splitStays(holiday.accommodations, shipNames, holiday.shipName);
 const shipCard = ships[0];
 const shipName = holiday.shipName || shipCard?.name || '';
+// A route can be sailed by more than one ship (City Hopping Netherlands runs two).
+const shipHeading = ships.length > 1 ? 'Your ships' : 'Your ship';
 
 // The route line: every port called at, in order, without repeating a berth.
 const routePorts: string[] = [];
@@ -133,7 +135,10 @@ const overview = tidyOverview(holiday.overview || '');
   <!-- At a glance -->
   <div class="cd-glance">
     <dl class="section-container">
-      {shipName && <div><dt>Ship</dt><dd>{shipName}</dd></div>}
+      {ships.length > 0 && (
+        <div><dt>{ships.length > 1 ? 'Ships' : 'Ship'}</dt>
+        <dd>{ships.map(sh => sh.name).join(' & ')}</dd></div>
+      )}
       {hotels.length > 0 && (
         <div><dt>{hotels.length > 1 ? 'Hotel stays' : 'Hotel stay'}</dt>
         <dd>{hotels.map(h => h.name).join(', ')}</dd></div>
@@ -236,29 +241,38 @@ const overview = tidyOverview(holiday.overview || '');
     </section>
   )}
 
-  <!-- Ship -->
-  {shipCard && (
+  <!-- Ship(s) -->
+  {ships.length > 0 && (
     <section class="cd-section" id="ship">
       <div class="section-container">
         <div class="cd-head">
-          <p class="cd-eyebrow">Your ship</p>
-          <h2>{shipCard.name}</h2>
-        </div>
-        <div class:list={['cd-split', { 'cd-split--solo': shipPhotos.length === 0 }]}>
-          <div>
-            {shipCard.description && <p class="cd-prose" set:html={shipCard.description} />}
-          </div>
-          {shipPhotos.length > 0 && (
-            <div class="cd-shots">
-              {shipPhotos.slice(0, 3).map(src => (
-                <figure>
-                  <img src={src} alt={`On board the ${shipCard.name}`} loading="lazy"
-                       decoding="async" width="640" height="427" />
-                </figure>
-              ))}
-            </div>
+          <p class="cd-eyebrow">On board</p>
+          <h2>{shipHeading}</h2>
+          {ships.length > 1 && (
+            <p class="cd-prose">This route is sailed by more than one ship depending on the date.</p>
           )}
         </div>
+        {ships.map(sh => {
+          const photos = stayPhotos(sh, cabinImages);
+          return (
+            <div class:list={['cd-stay', { 'cd-stay--solo': photos.length === 0 }]}>
+              <div>
+                <h3 class="cd-stay__name">{sh.name}</h3>
+                {sh.description && <div class="cd-prose" set:html={sh.description} />}
+              </div>
+              {photos.length > 0 && (
+                <div class="cd-shots">
+                  {photos.slice(0, 3).map(src => (
+                    <figure>
+                      <img src={src} alt={`On board the ${sh.name}`} loading="lazy"
+                           decoding="async" width="640" height="427" />
+                    </figure>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   )}
@@ -437,6 +451,18 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-shots img { width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; border-radius: 2px; display: block; }
   .cd-shots figure:first-child img { aspect-ratio: 2/1; }
 
+  /* A stay: ship or hotel, text beside its photos */
+  .cd-stay {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 48px; align-items: start; padding-top: 32px;
+  }
+  .cd-stay:first-of-type { padding-top: 0; }
+  .cd-stay--solo { grid-template-columns: minmax(0, 75ch); }
+  .cd-stay__name {
+    margin: 0 0 8px; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 18px; font-weight: 600; color: #424242;
+  }
+
   /* Hotels */
   .cd-hotels { margin: 0; padding: 0; list-style: none; display: grid; gap: 24px; }
   .cd-hotels li {
@@ -492,6 +518,7 @@ const overview = tidyOverview(holiday.overview || '');
     .cd-hide-sm { display: none; }
     .cd-days li { grid-template-columns: 1fr; gap: 4px; }
     .cd-hotels li { grid-template-columns: 1fr; gap: 16px; }
+    .cd-stay { grid-template-columns: 1fr; gap: 16px; }
     .cd-calls th, .cd-calls td { padding: 10px 12px; font-size: 14px; }
     .cd-shots { grid-template-columns: 1fr; }
     .cd-shots figure:first-child img { aspect-ratio: 3/2; }

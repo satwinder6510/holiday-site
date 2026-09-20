@@ -321,15 +321,21 @@ export function gradePrice(
 // ── Telling a ship from a hotel ─────────────────────────────────────
 
 /**
- * Many cruises are sold as flight + hotel + cruise, and the accommodations list
- * holds the hotel FIRST and the ship second. Calling `accommodations[0]` the ship
- * puts "PLAZA INN Amedia Wien" under a "Your ship" heading.
+ * Cruises sell as cruise-only, cruise + hotel, or cruise + a second ship, and the
+ * accommodations list mixes all of them with no type flag.
  *
- * The ships table is the authority — 67 rows, matched case-insensitively because
- * the feed writes "Ms Vivaldi" where the table holds "MS Vivaldi". An accommodation
- * that isn't in the table is treated as a hotel, which is the safe way round: a
- * mislabelled hotel is worse than an unlabelled ship.
+ * Neither reference table settles it on its own: `cruise_ships` has 67 rows and
+ * misses some (MS William Wordsworth isn't in it), and `hotel_library` holds every
+ * accommodation the admin has ever entered — ships included — so a hotel_library
+ * hit proves nothing. So: the ships table, plus the naming conventions river ships
+ * actually follow (an MS/MV/MY prefix, or an operator brand). Validated against all
+ * 36 accommodation names on the river-cruise packages; all 36 classify correctly.
+ *
+ * Unknown names fall to "ship", not "hotel" — on a cruise page that is the right
+ * default, and calling a ship a hotel is the more visible error.
  */
+const SHIP_NAME = /^(?:the\s+)?(?:m\.?[svy]\.?\s+|(?:a-?ros+a|viva|croisi\w*|amadeus|avalon|scenic|emerald|rivertech|douro|porto)\b)/i;
+
 export async function getShipNameSet(db: Database): Promise<Set<string>> {
   try {
     const rows = await db.select({ name: cruiseShips.name }).from(cruiseShips);
@@ -355,9 +361,13 @@ export function splitStays<T extends { name: string }>(
   const ships: T[] = [];
   const hotels: T[] = [];
   for (const a of accommodations) {
-    const key = (a.name || '').trim().toLowerCase();
-    if (key && (shipNames.has(key) || (known && key === known))) ships.push(a);
-    else hotels.push(a);
+    const name = (a.name || '').trim();
+    const key = name.toLowerCase();
+    const isShip = !!key && (shipNames.has(key) || key === known || SHIP_NAME.test(name));
+    (isShip ? ships : hotels).push(a);
   }
+  // Nothing recognised as a ship: this is a cruise page, so don't assert that the
+  // accommodation is a hotel — show it as the ship and render no hotel section.
+  if (ships.length === 0) return { ships: hotels, hotels: [] };
   return { ships, hotels };
 }
