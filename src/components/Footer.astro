@@ -193,11 +193,18 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
   /* Accordion display — desktop: visible, mobile: hidden (toggled by JS) */
   .footer-accordion-content {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: column;
+    /* nowrap, NOT wrap. A column flex list whose parent is stretched to the
+       tallest footer column has a definite height, so `wrap` spilled the
+       overflowing links into a second column drawn OUTSIDE the box: 64px past
+       the viewport at 768px wide, which gave every page a horizontal
+       scrollbar between 761px and 1240px. Only the two-col variant below
+       wants wrapping. */
+    flex-wrap: nowrap;
   }
   .footer-links--two-col {
     flex-direction: row;
+    flex-wrap: wrap;
   }
   .footer-links--two-col li {
     width: 50%;
@@ -285,6 +292,10 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
     display: flex;
     align-items: center;
     gap: 16px;
+    /* The three badges are fixed-height with auto width, so their total is set
+       by whatever artwork is in them. Wrapping is the guard: without it a new
+       logo silently pushes the row past the viewport. */
+    flex-wrap: wrap;
   }
   .footer-legal img {
     height: 48px;
@@ -292,6 +303,12 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
   }
   @media (max-width: 940px) {
     .footer-legal { padding-top: 10px; }
+  }
+  /* 320px is the floor we support. At 48px tall the three badges plus their
+     gaps ran 9px past it. */
+  @media (max-width: 360px) {
+    .footer-legal { gap: 12px; }
+    .footer-legal img { height: 44px; }
   }
 
   .footer-disclaimer {

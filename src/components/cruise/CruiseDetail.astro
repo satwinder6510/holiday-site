@@ -407,7 +407,10 @@ const overview = tidyOverview(holiday.overview || '');
 
   /* At a glance */
   .cd-glance { background: #f0f9fa; border-bottom: 1px solid #e5e7eb; }
-  .cd-glance dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 24px; padding-block: 16px; margin: 0; }
+  /* margin-BLOCK, not the shorthand: `margin: 0` here also zeroed the
+     margin-inline:auto that .section-container relies on, so above 1240px the
+     strip pinned to the left window edge while every other band stayed centred. */
+  .cd-glance dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 24px; padding-block: 16px; margin-block: 0; }
   .cd-glance dt { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #20A1AA; }
   .cd-glance dd { margin: 4px 0 0; font-size: 16px; font-weight: 500; color: #424242; }
 
