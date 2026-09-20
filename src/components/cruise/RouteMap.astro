@@ -1,0 +1,119 @@
+---
+/**
+ * Schematic river map, drawn server-side from the port coordinates on each call.
+ *
+ * Sailing order would draw the outbound and the return as two lines that cross,
+ * so each port is taken once and chained nearest-to-nearest from the far end —
+ * that follows the river corridor and reads as one waterway.
+ *
+ * Renders nothing when fewer than two calls carry coordinates.
+ */
+import type { PortCall } from '../../lib/cruise-detail';
+
+interface Props { calls: PortCall[]; routeLabel: string }
+const { calls, routeLabel } = Astro.props;
+
+type Pt = { port: string; code: string; lat: number; lng: number };
+const pts: Pt[] = calls
+  .filter(c => c.lat != null && c.lng != null)
+  .map(c => ({ port: c.port, code: c.unlocode || c.port, lat: c.lat as number, lng: c.lng as number }));
+
+// One entry per port, first appearance wins.
+const uniq: Pt[] = [];
+for (const p of pts) if (!uniq.some(q => q.code === p.code)) uniq.push(p);
+
+const W = 1080, PAD_X = 96, PAD_Y = 40;
+let svg = '';
+
+if (uniq.length >= 2) {
+  // Equirectangular, longitude squeezed by cos(mean latitude) so the shape holds.
+  const meanLat = uniq.reduce((a, p) => a + p.lat, 0) / uniq.length;
+  const k = Math.cos((meanLat * Math.PI) / 180);
+  const xs = uniq.map(p => p.lng * k);
+  const ys = uniq.map(p => -p.lat);
+  const minX = Math.min(...xs), maxX = Math.max(...xs);
+  const minY = Math.min(...ys), maxY = Math.max(...ys);
+
+  const s = maxX - minX ? (W - PAD_X * 2) / (maxX - minX) : 1;
+  const H = Math.max(210, (maxY - minY) * s + PAD_Y * 2);
+  const offY = (H - (maxY - minY) * s) / 2;
+  const px = (p: Pt) => (p.lng * k - minX) * s + PAD_X;
+  const py = (p: Pt) => (-p.lat - minY) * s + offY;
+
+  // Chain from the point furthest from the centre, then nearest-neighbour.
+  const cx = uniq.reduce((a, p) => a + px(p), 0) / uniq.length;
+  const cy = uniq.reduce((a, p) => a + py(p), 0) / uniq.length;
+  const gap = (a: Pt, b: Pt) => Math.hypot(px(a) - px(b), py(a) - py(b));
+  let startPt = uniq[0];
+  for (const p of uniq) {
+    if (Math.hypot(px(p) - cx, py(p) - cy) > Math.hypot(px(startPt) - cx, py(startPt) - cy)) startPt = p;
+  }
+  const rest = uniq.filter(p => p !== startPt);
+  const chain: Pt[] = [startPt];
+  while (rest.length) {
+    let best = 0;
+    for (let i = 1; i < rest.length; i++) {
+      if (gap(chain[chain.length - 1], rest[i]) < gap(chain[chain.length - 1], rest[best])) best = i;
+    }
+    chain.push(rest.splice(best, 1)[0]);
+  }
+
+  // Catmull-Rom through the ports, as cubic beziers.
+  const P = chain.map(p => [px(p), py(p)] as [number, number]);
+  let d = `M${P[0][0].toFixed(1)} ${P[0][1].toFixed(1)}`;
+  for (let i = 0; i < P.length - 1; i++) {
+    const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || P[i + 1];
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += `C${c1[0].toFixed(1)} ${c1[1].toFixed(1)},${c2[0].toFixed(1)} ${c2[1].toFixed(1)},${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+
+  const placed: { x: number; y: number }[] = [];
+  let pins = '';
+  for (const p of chain) {
+    const x = px(p), y = py(p);
+    const right = x < W / 2;
+    let dy = 4;
+    while (placed.some(q => Math.abs(q.x - x) < 90 && Math.abs(q.y - (y + dy)) < 14)) dy += 14;
+    placed.push({ x, y: y + dy });
+    const label = p.port.replace(/[<>&]/g, '');
+    pins += `<circle class="rm__ring" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5"></circle>`
+      + `<circle class="rm__pin" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.2"></circle>`
+      + `<text class="rm__label" x="${(x + (right ? 11 : -11)).toFixed(1)}" y="${(y + dy).toFixed(1)}" text-anchor="${right ? 'start' : 'end'}">${label}</text>`;
+  }
+
+  svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Route map. The table below lists every call: ${routeLabel}">`
+    + `<path class="rm__river" d="${d}"></path>${pins}</svg>`;
+}
+---
+{svg && (
+  <div class="rm">
+    <div class="rm__box" set:html={svg} />
+    <p class="rm__cap">Ports plotted from their real coordinates. The line is a schematic of the river, not a survey of its course.</p>
+  </div>
+)}
+
+<style>
+  .rm__box {
+    background: #f0f9fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 2px;
+    padding: 16px;
+  }
+  .rm__box :global(svg) { display: block; width: 100%; height: auto; }
+  .rm__box :global(.rm__river) {
+    fill: none; stroke: #8ec6ce; stroke-width: 2.4;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  .rm__box :global(.rm__ring) { fill: #fff; stroke: #073140; stroke-width: 1.6; }
+  .rm__box :global(.rm__pin) { fill: #073140; }
+  .rm__box :global(.rm__label) {
+    font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px; font-weight: 600; fill: #424242;
+  }
+  .rm__cap { margin: 12px 0 0; font-size: 13px; line-height: 20px; color: #6b6b6b; }
+
+  /* The port table below says the same thing, and the labels are unreadable
+     at phone width, so drop the map rather than shrink it. */
+  @media (max-width: 600px) { .rm { display: none; } }
+</style>

@@ -81,13 +81,25 @@ export const cruiseFlightPrices = sqliteTable('cruise_flight_prices', {
 
 export const cruiseOffers = sqliteTable('cruise_offers', {
   id: integer('id').primaryKey({ autoIncrement: true }),
+  // The route carries the itinerary; the offer carries the commercial terms.
+  routeId: integer('route_id').notNull(),
   cheapestTotalPp: text('cheapest_total_pp'),
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
+});
+
+// Route-level content. Only `itinerary` is read here: the cruise detail page needs
+// arrival/departure times and the UN/LOCODE per call, which the static cruise export
+// flattens away.
+export const cruiseRoutes = sqliteTable('cruise_routes', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  slug: text('slug').notNull(),
+  itinerary: text('itinerary', { mode: 'json' }),
 });
 
 // Individual departures — only the columns the listing needs (date filter + ship).
 export const cruiseSailings = sqliteTable('cruise_sailings', {
   id: integer('id').primaryKey({ autoIncrement: true }),
+  routeId: integer('route_id').notNull(),
   shipId: integer('ship_id'),
   departureDate: text('departure_date').notNull(),
 });

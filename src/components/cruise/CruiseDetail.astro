@@ -1,0 +1,383 @@
+---
+/**
+ * River cruise detail page body.
+ *
+ * Replaces the shared package template for cruises. The package template asks
+ * "which day do you want to fly?" — a flight calendar over every date of every
+ * month. A river cruise has a handful of fixed sailings, and the decision is which
+ * sailing, then which cabin on which deck, for a price that moves with the UK
+ * airport. That is the order this page puts them in.
+ *
+ * Everything here renders server-side, including the collapsed cabin panels.
+ */
+import type { HolidayDetail } from '../../lib/holiday-transforms';
+import type { HolidayPricing } from '../../lib/pricing-transforms';
+import type { PortCall } from '../../lib/cruise-detail';
+import type { SailingLadder } from '../../lib/cruise-detail';
+import { formatDwell } from '../../lib/cruise-detail';
+import { imgSrc } from '../../lib/image-src';
+import SailingPicker from './SailingPicker.astro';
+import RouteMap from './RouteMap.astro';
+
+interface Props {
+  holiday: HolidayDetail;
+  pricing: HolidayPricing | null;
+  calls: PortCall[];
+  ladders: SailingLadder[];
+}
+const { holiday, pricing, calls, ladders } = Astro.props;
+
+const TEL_DISPLAY = '0208 183 0518';
+const TEL_HREF = 'tel:+442081830518';
+
+const nights = (() => {
+  const m = holiday.duration.match(/(\d+)\s*Night/i);
+  return m ? Number(m[1]) : 0;
+})();
+
+const shipName = holiday.shipName || holiday.accommodations[0]?.name || 'your ship';
+const shipCard = holiday.accommodations[0];
+
+// The route line: every port called at, in order, without repeating a berth.
+const routePorts: string[] = [];
+for (const c of calls) if (routePorts[routePorts.length - 1] !== c.port) routePorts.push(c.port);
+const routeLabel = holiday.routeFrom && holiday.routeTo && holiday.routeFrom === holiday.routeTo
+  ? `Round trip ${holiday.routeFrom}`
+  : [holiday.routeFrom, holiday.routeTo].filter(Boolean).join(' to ');
+
+const countryOf = (c: PortCall) => c.country || '';
+
+const cabinImages = (holiday.cabinImages || []).map(u => imgSrc(u, 400));
+const heroImage = imgSrc(holiday.heroImage, 1600);
+
+const included = holiday.whatsIncluded.filter(Boolean);
+const excluded = holiday.otherInfoBullets?.length
+  ? holiday.otherInfoBullets
+  : ['Travel insurance', 'Shore excursions', 'Personal expenses'];
+
+const fromPrice = pricing?.cheapestPriceFormatted ?? '';
+const fromAirport = pricing?.cheapestDeparture?.airportName ?? '';
+const sailingCount = pricing ? new Set(pricing.departures.map(d => d.date.slice(0, 10))).size : 0;
+const airportNames = (pricing?.airports ?? []).map(a => a.name);
+
+const overview = (holiday.overview || '').trim();
+---
+
+<div class="cd">
+  <!-- Hero -->
+  <div class="cd-hero">
+    <img class="cd-hero__img" src={heroImage} alt={`${shipName} on the ${holiday.destination}`}
+         width="1600" height="900" fetchpriority="high" decoding="async" />
+    <div class="cd-hero__body">
+      <div class="section-container">
+        <div class="cd-hero__text">
+          <p class="cd-hero__kicker">{holiday.operator}{shipName ? ` · ${shipName}` : ''}</p>
+          <h1>{holiday.title}</h1>
+          {routePorts.length > 1 && (
+            <p class="cd-hero__route">
+              {routePorts.map((p, i) => (
+                <>
+                  {i > 0 && <i aria-hidden="true">›</i>}
+                  <span class:list={{ 'is-end': i === 0 || i === routePorts.length - 1 }}>{p}</span>
+                </>
+              ))}
+            </p>
+          )}
+        </div>
+        {fromPrice && (
+          <div class="cd-hero__price">
+            <div>
+              <p class="cd-lab">From</p>
+              <p class="cd-hero__amt">{fromPrice} <span>pp</span></p>
+              <p class="cd-hero__note">Flights{fromAirport ? ` from ${fromAirport}` : ''}, cruise and transfers</p>
+            </div>
+            <a class="cd-btn" href="#sailings">See sailings &amp; cabins</a>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <!-- At a glance -->
+  <div class="cd-glance">
+    <dl class="section-container">
+      {shipName && <div><dt>Ship</dt><dd>{shipName}</dd></div>}
+      {nights > 0 && <div><dt>Length</dt><dd>{nights} nights</dd></div>}
+      {sailingCount > 0 && <div><dt>Sailings</dt><dd>{sailingCount} dates</dd></div>}
+      {holiday.boardBasis && <div><dt>Dining</dt><dd>{holiday.boardBasis}</dd></div>}
+      {airportNames.length > 0 && <div><dt>Flights from</dt><dd>{airportNames.join(', ')}</dd></div>}
+    </dl>
+  </div>
+
+  <!-- Sailings and cabins -->
+  {pricing && ladders.length > 0 && (
+    <section class="cd-section" id="sailings">
+      <div class="section-container">
+        <div class="cd-head">
+          <p class="cd-eyebrow">Step one</p>
+          <h2>Choose your sailing</h2>
+          <p class="cd-prose">
+            It's a fly-cruise, so the price moves with the airport you fly from &mdash; and the
+            cheapest airport isn't the same one every week. Choose your airport, then a date to
+            see the cabins on board.
+          </p>
+        </div>
+        <SailingPicker
+          airports={pricing.airports}
+          departures={pricing.departures}
+          ladders={ladders}
+          shipName={shipName}
+          routeLabel={routeLabel}
+          nights={nights}
+          cabinImages={cabinImages}
+          tel={TEL_HREF}
+        />
+      </div>
+    </section>
+  )}
+
+  <!-- Route -->
+  {calls.length > 0 && (
+    <section class="cd-section cd-section--band" id="itinerary">
+      <div class="section-container">
+        <div class="cd-head">
+          <p class="cd-eyebrow">Your route</p>
+          <h2>{calls.length} calls over {nights + 1} days</h2>
+          <p class="cd-prose">Where the ship ties up, and for how long.</p>
+        </div>
+
+        <RouteMap calls={calls} routeLabel={routePorts.join(', ')} />
+
+        <div class="cd-calls">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Day</th>
+                <th scope="col">Port</th>
+                <th scope="col" class="cd-hide-sm">Country</th>
+                <th scope="col" class="cd-r cd-hide-sm">Arrive</th>
+                <th scope="col" class="cd-r cd-hide-sm">Depart</th>
+                <th scope="col" class="cd-r">Time in port</th>
+              </tr>
+            </thead>
+            <tbody>
+              {calls.map((c, i) => {
+                const last = i === calls.length - 1;
+                const dwell = formatDwell(c.minutesInPort);
+                const stay = dwell ?? (c.overnight && !last && i > 0 ? 'Overnight' : '');
+                return (
+                  <tr class:list={{ 'is-night': c.overnight && !last }}>
+                    <th scope="row">Day {c.day}</th>
+                    <td><b>{c.port}</b></td>
+                    <td class="cd-hide-sm">{countryOf(c)}</td>
+                    <td class="cd-r cd-hide-sm">{i === 0 ? 'Embark' : (c.arrival || '—')}</td>
+                    <td class="cd-r cd-hide-sm">{last ? 'Disembark' : (c.departure || '—')}</td>
+                    <td class="cd-r"><b>{stay || '—'}</b></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Ship -->
+  {shipCard && (
+    <section class="cd-section" id="ship">
+      <div class="section-container">
+        <div class="cd-head">
+          <p class="cd-eyebrow">Your ship</p>
+          <h2>{shipCard.name}</h2>
+        </div>
+        <div class:list={['cd-split', { 'cd-split--solo': cabinImages.length === 0 }]}>
+          <div>
+            {shipCard.description && <p class="cd-prose" set:html={shipCard.description} />}
+          </div>
+          {cabinImages.length > 0 && (
+            <div class="cd-shots">
+              {cabinImages.slice(0, 3).map((src, i) => (
+                <figure>
+                  <img src={src} alt={`Cabin on the ${shipCard.name}`} loading="lazy"
+                       decoding="async" width="640" height="427" />
+                </figure>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Overview + included -->
+  <section class="cd-section cd-section--band" id="overview">
+    <div class="section-container">
+      <div class="cd-split">
+        <div>
+          <div class="cd-head">
+            <p class="cd-eyebrow">In the price</p>
+            <h2>What's included</h2>
+          </div>
+          {included.length > 0 && (
+            <ul class="cd-ticks">
+              {included.map(item => <li>{item}</li>)}
+            </ul>
+          )}
+          {excluded.length > 0 && (
+            <ul class="cd-excl">
+              {excluded.map(item => <li>{item}</li>)}
+            </ul>
+          )}
+        </div>
+        <div>
+          {overview && (
+            <>
+              <div class="cd-head">
+                <p class="cd-eyebrow">About this cruise</p>
+                <h2>{holiday.destination}</h2>
+              </div>
+              <div class="cd-prose cd-overview" set:html={overview} />
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Talk to us -->
+  <div class="cd-call">
+    <div class="section-container">
+      <h2>Talk to a cruise expert</h2>
+      <p>Rivers, ships, cabins and dates. One call sorts the flights, transfers and the cabin you want.</p>
+      <a class="cd-call__no" href={TEL_HREF}>{TEL_DISPLAY}</a>
+      <p class="cd-call__hrs">Lines open 9am to 6pm</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* The site's own scale: body 18/29.25, prose 14/26, h1 48/50, h2 40/42. */
+  .cd h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 48px; line-height: 50px; font-weight: 400; margin: 8px 0 0; color: #fff; }
+  .cd h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 40px; line-height: 42px; letter-spacing: -.5px; font-weight: 400; margin: 0; color: #424242; }
+  .cd-prose { font-size: 14px; line-height: 26px; color: #000; }
+  .cd-prose :global(p) { margin: 0 0 16px; }
+  .cd-prose :global(p:last-child) { margin-bottom: 0; }
+  .cd-eyebrow {
+    margin: 0 0 8px; font-size: 14px; line-height: 24px; font-weight: 700;
+    letter-spacing: 2.5px; text-transform: uppercase; color: #20A1AA;
+  }
+  .cd-lab { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
+  .cd-head { max-width: 60ch; margin-bottom: 32px; }
+  .cd-head .cd-prose { margin-top: 12px; }
+  .cd-section { padding-block: 64px; }
+  .cd-section--band { background: #f2f5f6; border-block: 1px solid #e5e7eb; }
+  .cd-split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+  .cd-split--solo { grid-template-columns: minmax(0, 75ch); }
+
+  .cd-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 500; letter-spacing: 1px;
+    background: #ff7f00; color: #fff; border: 0; border-radius: 2px;
+    padding: 14px 26px; text-decoration: none;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, .2);
+    transition: background-color .2s;
+  }
+  .cd-btn:hover { background: #e67300; }
+
+  /* Hero */
+  .cd-hero { position: relative; background: #073140; }
+  .cd-hero__img { display: block; width: 100%; height: clamp(300px, 40vw, 440px); object-fit: cover; opacity: .9; }
+  .cd-hero__body {
+    position: absolute; inset: auto 0 0 0;
+    background: linear-gradient(to top, rgba(7, 32, 41, .94) 10%, rgba(7, 32, 41, .5) 65%, rgba(7, 32, 41, 0));
+    padding-block: 64px 24px;
+  }
+  .cd-hero__body .section-container { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .cd-hero__text { color: #fff; max-width: 40ch; }
+  .cd-hero__kicker { margin: 0; font-size: 14px; line-height: 24px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #9ad5db; }
+  .cd-hero__route { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin: 16px 0 0; font-size: 16px; color: #cfe3e6; }
+  .cd-hero__route .is-end { font-weight: 600; color: #fff; }
+  .cd-hero__route i { font-style: normal; color: #6aaeb7; }
+  .cd-hero__price {
+    display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+    background: rgba(255, 255, 255, .97); border-radius: 2px; padding: 16px 24px;
+    box-shadow: 0 1px 2px rgba(7, 49, 64, .07), 0 10px 28px rgba(7, 49, 64, .09);
+  }
+  .cd-hero__amt { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 40px; line-height: 40px; color: #424242; }
+  .cd-hero__amt span { font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 500; }
+  .cd-hero__note { margin: 4px 0 0; font-size: 14px; color: #6b6b6b; }
+
+  /* At a glance */
+  .cd-glance { background: #f0f9fa; border-bottom: 1px solid #e5e7eb; }
+  .cd-glance dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 24px; padding-block: 16px; margin: 0; }
+  .cd-glance dt { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #20A1AA; }
+  .cd-glance dd { margin: 4px 0 0; font-size: 16px; font-weight: 500; color: #424242; }
+
+  /* Port calls */
+  .cd-calls { margin-top: 32px; border: 1px solid #e5e7eb; border-radius: 2px; background: #fff; overflow-x: auto; }
+  .cd-calls table { width: 100%; border-collapse: collapse; }
+  .cd-calls th, .cd-calls td { padding: 12px 16px; text-align: left; font-size: 16px; color: #424242; }
+  .cd-calls thead th {
+    background: #073140; color: #b9d5da;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  }
+  .cd-calls tbody tr { border-top: 1px solid #e5e7eb; }
+  .cd-calls tbody th {
+    font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #6b6b6b;
+  }
+  .cd-calls .is-night { background: #f0f9fa; }
+  .cd-calls .cd-r { text-align: right; }
+  .cd-calls b { font-weight: 600; }
+
+  /* Ship */
+  .cd-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cd-shots figure { margin: 0; }
+  .cd-shots figure:first-child { grid-column: 1 / -1; }
+  .cd-shots img { width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; border-radius: 2px; display: block; }
+  .cd-shots figure:first-child img { aspect-ratio: 2/1; }
+
+  /* Included */
+  .cd-ticks { columns: 2; column-gap: 32px; margin: 0; padding: 0; list-style: none; }
+  .cd-ticks li { position: relative; padding: 8px 0 8px 24px; font-size: 14px; line-height: 22px; color: #424242; break-inside: avoid; }
+  .cd-ticks li::before { content: '\\2713'; position: absolute; left: 0; color: #20A1AA; font-weight: 700; }
+  .cd-excl { margin: 12px 0 0; padding: 0; list-style: none; }
+  .cd-excl li { position: relative; padding: 4px 0 4px 24px; font-size: 16px; color: #6b6b6b; }
+  .cd-excl li::before { content: '\\2014'; position: absolute; left: 4px; color: #d4dcde; }
+  .cd-overview :global(ul) { margin: 0 0 16px; padding-left: 20px; list-style: disc; }
+
+  /* Talk to us */
+  .cd-call { background: #073140; color: #fff; text-align: center; padding-block: 64px; }
+  .cd-call h2 { color: #fff; }
+  .cd-call p { margin: 12px 0 0; color: #cfe0e4; font-size: 16px; }
+  .cd-call__no {
+    display: inline-block; margin-top: 16px; font-family: CaslonGraphiqueEF, Georgia, serif;
+    font-size: 40px; line-height: 44px; color: #fff; text-decoration: none;
+  }
+  .cd-call__hrs { margin-top: 4px; font-size: 14px; color: #7ea7af; }
+
+  @media (max-width: 920px) {
+    .cd-section { padding-block: 44px; }
+    .cd-split { grid-template-columns: 1fr; gap: 32px; }
+    .cd-ticks { columns: 1; }
+  }
+  @media (max-width: 768px) {
+    .cd h1 { font-size: 40px; line-height: 44px; }
+    .cd h2 { font-size: 32px; line-height: 34px; }
+  }
+  @media (max-width: 600px) {
+    /* The overlay grows taller than the photo here, so stop overlaying. */
+    .cd-hero__body { position: static; background: #073140; padding-block: 24px; }
+    .cd-hero__img { height: 200px; }
+    .cd-hero__text { max-width: none; }
+    .cd-hero__price { margin-top: 24px; width: 100%; justify-content: space-between; }
+    .cd-hide-sm { display: none; }
+    .cd-calls th, .cd-calls td { padding: 10px 12px; font-size: 14px; }
+    .cd-shots { grid-template-columns: 1fr; }
+    .cd-shots figure:first-child img { aspect-ratio: 3/2; }
+  }
+  @media (max-width: 450px) {
+    .cd h1 { font-size: 34px; line-height: 38px; }
+    .cd h2 { font-size: 28px; line-height: 30px; }
+  }
+</style>

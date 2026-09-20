@@ -1,0 +1,2240 @@
+{
+"AT!W4U": {
+"lat": 48.3333,
+"lng": 15.4167,
+"name": "Wachau",
+"src": "geonames-full"
+},
+"ATDUE": {
+"lat": 48.3833,
+"lng": 15.5167,
+"name": "Dürnstein",
+"src": "unlocode"
+},
+"ATKRE": {
+"lat": 47.0333,
+"lng": 15.1833,
+"name": "Krems",
+"src": "unlocode"
+},
+"ATLNZ": {
+"lat": 48.3,
+"lng": 14.3,
+"name": "Linz",
+"src": "unlocode"
+},
+"ATMEL": {
+"lat": 48.2274,
+"lng": 15.3319,
+"name": "Melk",
+"src": "geonames"
+},
+"ATVIE": {
+"lat": 48.2,
+"lng": 16.3667,
+"name": "Vienna",
+"src": "unlocode"
+},
+"BABKO": {
+"lat": 44.8667,
+"lng": 18.8,
+"name": "Brcko",
+"src": "unlocode"
+},
+"BE!MID": {
+"lat": 51.2561,
+"lng": 3.416,
+"name": "Middelburg",
+"src": "geonames"
+},
+"BEANR": {
+"lat": 51.2167,
+"lng": 4.4167,
+"name": "Antwerp",
+"src": "unlocode"
+},
+"BEASP": {
+"lat": 50.9167,
+"lng": 3.65,
+"name": "Asper",
+"src": "unlocode"
+},
+"BEBRU": {
+"lat": 50.8333,
+"lng": 4.3333,
+"name": "Brussel (Bruxelles)",
+"src": "unlocode"
+},
+"BEGNE": {
+"lat": 51.05,
+"lng": 3.7167,
+"name": "Gent (Ghent)",
+"src": "unlocode"
+},
+"BEHLL": {
+"lat": 51.4333,
+"lng": 4.8167,
+"name": "Halle",
+"src": "unlocode"
+},
+"BELGG": {
+"lat": 50.6333,
+"lng": 5.5667,
+"name": "Liège",
+"src": "unlocode"
+},
+"BEMQS": {
+"lat": 50.45,
+"lng": 3.9333,
+"name": "Mons",
+"src": "unlocode"
+},
+"BEOUD": {
+"lat": 50.85,
+"lng": 3.6,
+"name": "Oudenaarde",
+"src": "unlocode"
+},
+"BEPES": {
+"lat": 50.55,
+"lng": 3.4333,
+"name": "Péronnes",
+"src": "unlocode"
+},
+"BESTB": {
+"lat": 50.45,
+"lng": 4.1,
+"name": "Strépy-Bracquegnies",
+"src": "unlocode"
+},
+"BGRDU": {
+"lat": 43.85,
+"lng": 25.9667,
+"name": "Ruse",
+"src": "unlocode"
+},
+"BGSVI": {
+"lat": 43.6187,
+"lng": 25.3503,
+"name": "Svishtov",
+"src": "geonames"
+},
+"BGVID": {
+"lat": 43.9916,
+"lng": 22.8824,
+"name": "Vidin",
+"src": "geonames"
+},
+"BWBBK": {
+"lat": -17.8016,
+"lng": 25.1602,
+"name": "Kasane",
+"src": "geonames"
+},
+"BWCHO": {
+"lat": -18.6667,
+"lng": 24.5,
+"name": "Chobe National Park",
+"src": "geonames-full"
+},
+"CHBSL": {
+"lat": 47.5584,
+"lng": 7.5733,
+"name": "Basel",
+"src": "geonames"
+},
+"CWWIL": {
+"lat": 12.1,
+"lng": -68.9167,
+"name": "Willemstad",
+"src": "unlocode"
+},
+"CZKNV": {
+"lat": 50.2333,
+"lng": 14.3167,
+"name": "Kralupy nad Vltavou",
+"src": "unlocode"
+},
+"CZLTC": {
+"lat": 50.5335,
+"lng": 14.1318,
+"name": "Litomerice",
+"src": "geonames"
+},
+"CZMEL": {
+"lat": 50.3505,
+"lng": 14.4741,
+"name": "Melnik",
+"src": "geonames"
+},
+"CZRZT": {
+"lat": 50.1667,
+"lng": 14.4,
+"name": "Roztoky",
+"src": "unlocode"
+},
+"CZSLA": {
+"lat": 49.8167,
+"lng": 14.4,
+"name": "Slapy",
+"src": "unlocode"
+},
+"CZSTE": {
+"lat": 49.85,
+"lng": 14.4,
+"name": "Stechovice",
+"src": "unlocode"
+},
+"CZXUY": {
+"lat": 50.0667,
+"lng": 14.45,
+"name": "Prague",
+"src": "unlocode"
+},
+"DE!BBH": {
+"lat": 52.8308,
+"lng": 10.6818,
+"name": "Bad Bodenteich",
+"src": "geonames"
+},
+"DE!BOL": {
+"lat": 52.9794,
+"lng": 7.3054,
+"name": "Bollingerfähr",
+"src": "geonames-full"
+},
+"DE!LEH": {
+"lat": 52.7417,
+"lng": 13.2632,
+"name": "Lehnitz",
+"src": "geonames-full"
+},
+"DE!LNL": {
+"lat": 52.9791,
+"lng": 9.1843,
+"name": "Langwedel",
+"src": "geonames"
+},
+"DE!NLN": {
+"lat": 50.3164,
+"lng": 7.5995,
+"name": "Niederlahnstein",
+"src": "geonames-full"
+},
+"DE1AN": {
+"lat": 52.3629,
+"lng": 9.8571,
+"name": "Anderten, Hanover",
+"src": "geonames"
+},
+"DE59G": {
+"lat": 53.8,
+"lng": 10.2333,
+"name": "Sülfeld",
+"src": "unlocode"
+},
+"DE73I": {
+"lat": 52.4833,
+"lng": 10.8833,
+"name": "Rühen",
+"src": "unlocode"
+},
+"DEAA6": {
+"lat": 50.25,
+"lng": 7.45,
+"name": "Alken",
+"src": "unlocode"
+},
+"DEAND": {
+"lat": 50.4333,
+"lng": 7.4,
+"name": "Andernach",
+"src": "unlocode"
+},
+"DEASC": {
+"lat": 49.977,
+"lng": 9.1521,
+"name": "Aschaffenburg",
+"src": "geonames"
+},
+"DEB3I": {
+"lat": 50.1167,
+"lng": 7.25,
+"name": "Beilstein",
+"src": "unlocode"
+},
+"DEBAM": {
+"lat": 49.8987,
+"lng": 10.9007,
+"name": "Bamberg",
+"src": "geonames"
+},
+"DEBBG": {
+"lat": 52.4167,
+"lng": 12.55,
+"name": "Brandenburg",
+"src": "unlocode"
+},
+"DEBBV": {
+"lat": 53.0833,
+"lng": 10.5833,
+"name": "Bad Bevensen",
+"src": "unlocode"
+},
+"DEBDS": {
+"lat": 50.9174,
+"lng": 14.1549,
+"name": "Bad Schandau",
+"src": "geonames"
+},
+"DEBEK": {
+"lat": 49.916,
+"lng": 7.0766,
+"name": "Bernkastel-Kues",
+"src": "geonames"
+},
+"DEBER": {
+"lat": 52.5167,
+"lng": 13.3833,
+"name": "Berlin",
+"src": "unlocode"
+},
+"DEBHY": {
+"lat": 50.2833,
+"lng": 7.6667,
+"name": "Braubach",
+"src": "unlocode"
+},
+"DEBOD": {
+"lat": 50.2333,
+"lng": 7.6,
+"name": "Boppard",
+"src": "unlocode"
+},
+"DEBON": {
+"lat": 50.7344,
+"lng": 7.0955,
+"name": "Bonn",
+"src": "geonames"
+},
+"DEBRE": {
+"lat": 53.0758,
+"lng": 8.8072,
+"name": "Bremen",
+"src": "geonames"
+},
+"DEBRV": {
+"lat": 53.5333,
+"lng": 8.6,
+"name": "Bremerhaven",
+"src": "unlocode"
+},
+"DEBSH": {
+"lat": 48.0328,
+"lng": 7.5829,
+"name": "Breisach",
+"src": "geonames"
+},
+"DEBUR": {
+"lat": 52.2667,
+"lng": 11.85,
+"name": "Burg",
+"src": "unlocode"
+},
+"DEBWE": {
+"lat": 52.2667,
+"lng": 10.5,
+"name": "Braunschweig",
+"src": "unlocode"
+},
+"DEBXS": {
+"lat": 52.55,
+"lng": 13.2,
+"name": "Spandau/Berlin",
+"src": "unlocode"
+},
+"DECGN": {
+"lat": 50.95,
+"lng": 6.9333,
+"name": "Cologne",
+"src": "unlocode"
+},
+"DECOC": {
+"lat": 50.1451,
+"lng": 7.1638,
+"name": "Cochem",
+"src": "geonames"
+},
+"DECVO": {
+"lat": 52.4,
+"lng": 11.3,
+"name": "Calvörde",
+"src": "unlocode"
+},
+"DEDAT": {
+"lat": 51.656,
+"lng": 7.3453,
+"name": "Datteln",
+"src": "geonames"
+},
+"DEDES": {
+"lat": 51.8333,
+"lng": 12.25,
+"name": "Dessau-Rosslau",
+"src": "unlocode"
+},
+"DEDRS": {
+"lat": 51.0509,
+"lng": 13.7383,
+"name": "Dresden",
+"src": "geonames"
+},
+"DEDUI": {
+"lat": 51.4667,
+"lng": 6.75,
+"name": "Duisburg",
+"src": "unlocode"
+},
+"DEDUS": {
+"lat": 51.2333,
+"lng": 6.7833,
+"name": "Düsseldorf",
+"src": "unlocode"
+},
+"DEEBB": {
+"lat": 49.4667,
+"lng": 8.9833,
+"name": "Eberbach",
+"src": "unlocode"
+},
+"DEEBW": {
+"lat": 52.8333,
+"lng": 13.8333,
+"name": "Eberswalde",
+"src": "unlocode"
+},
+"DEEHS": {
+"lat": 52.15,
+"lng": 14.65,
+"name": "Eisenhüttenstadt",
+"src": "unlocode"
+},
+"DEEME": {
+"lat": 53.3667,
+"lng": 7.2167,
+"name": "Emden",
+"src": "unlocode"
+},
+"DEEMM": {
+"lat": 51.8393,
+"lng": 6.2479,
+"name": "Emmerich",
+"src": "geonames"
+},
+"DEERL": {
+"lat": 49.591,
+"lng": 11.0078,
+"name": "Erlangen",
+"src": "geonames"
+},
+"DEFFO": {
+"lat": 52.35,
+"lng": 14.55,
+"name": "Frankfurt/Oder",
+"src": "unlocode"
+},
+"DEFOH": {
+"lat": 49.7167,
+"lng": 11.0667,
+"name": "Forchheim",
+"src": "unlocode"
+},
+"DEFRA": {
+"lat": 50.1167,
+"lng": 8.6833,
+"name": "Frankfurt",
+"src": "unlocode"
+},
+"DEG3R": {
+"lat": 49.8115,
+"lng": 10.225,
+"name": "Gerlachshausen",
+"src": "geonames-full"
+},
+"DEGET": {
+"lat": 53.4366,
+"lng": 10.3734,
+"name": "Geesthacht",
+"src": "geonames"
+},
+"DEGNT": {
+"lat": 52.3833,
+"lng": 12.1667,
+"name": "Genthin",
+"src": "unlocode"
+},
+"DEGRD": {
+"lat": 54.0891,
+"lng": 13.4024,
+"name": "Greifswald",
+"src": "geonames"
+},
+"DEHAJ": {
+"lat": 52.3667,
+"lng": 9.7167,
+"name": "Hannover",
+"src": "unlocode"
+},
+"DEHAM": {
+"lat": 53.5167,
+"lng": 9.9333,
+"name": "Hamburg",
+"src": "unlocode"
+},
+"DEHEE": {
+"lat": 51.55,
+"lng": 7.2167,
+"name": "Herne",
+"src": "unlocode"
+},
+"DEHEI": {
+"lat": 49.4167,
+"lng": 8.7,
+"name": "Heidelberg",
+"src": "unlocode"
+},
+"DEHLH": {
+"lat": 52.2891,
+"lng": 11.4098,
+"name": "Haldensleben",
+"src": "geonames"
+},
+"DEHNF": {
+"lat": 52.6333,
+"lng": 13.2167,
+"name": "Hennigsdorf",
+"src": "unlocode"
+},
+"DEHOY": {
+"lat": 52.8,
+"lng": 9.1333,
+"name": "Hoya",
+"src": "unlocode"
+},
+"DEHSA": {
+"lat": 52.8667,
+"lng": 14.15,
+"name": "Hohensaaten",
+"src": "unlocode"
+},
+"DEKEL": {
+"lat": 54.3333,
+"lng": 10.1333,
+"name": "Kiel",
+"src": "unlocode"
+},
+"DEKEM": {
+"lat": 48.9173,
+"lng": 11.8862,
+"name": "Kelheim",
+"src": "geonames"
+},
+"DEKOB": {
+"lat": 50.3536,
+"lng": 7.5788,
+"name": "Koblenz",
+"src": "geonames"
+},
+"DEKOW": {
+"lat": 50.6773,
+"lng": 7.1925,
+"name": "Königswinter",
+"src": "geonames"
+},
+"DEKRE": {
+"lat": 51.3333,
+"lng": 6.5667,
+"name": "Krefeld",
+"src": "unlocode"
+},
+"DEKSD": {
+"lat": 49.9667,
+"lng": 9.7667,
+"name": "Karlstadt",
+"src": "unlocode"
+},
+"DELAU": {
+"lat": 50.6333,
+"lng": 9.4,
+"name": "Lauterbach",
+"src": "unlocode"
+},
+"DELEE": {
+"lat": 53.2316,
+"lng": 7.461,
+"name": "Leer",
+"src": "geonames"
+},
+"DELNU": {
+"lat": 53.3667,
+"lng": 10.5667,
+"name": "Lauenburg",
+"src": "unlocode"
+},
+"DELOW": {
+"lat": 52.9167,
+"lng": 14.1167,
+"name": "Lunow",
+"src": "unlocode"
+},
+"DELTF": {
+"lat": 52.8667,
+"lng": 13.75,
+"name": "Lichterfelde",
+"src": "unlocode"
+},
+"DELUH": {
+"lat": 49.4667,
+"lng": 8.4333,
+"name": "Ludwigshafen",
+"src": "unlocode"
+},
+"DEMAG": {
+"lat": 52.1313,
+"lng": 11.6319,
+"name": "Magdeburg",
+"src": "geonames"
+},
+"DEMAI": {
+"lat": 49.9819,
+"lng": 8.2801,
+"name": "Mainz",
+"src": "geonames"
+},
+"DEMEI": {
+"lat": 51.15,
+"lng": 13.4833,
+"name": "Meissen",
+"src": "unlocode"
+},
+"DEMHG": {
+"lat": 49.4833,
+"lng": 8.45,
+"name": "Mannheim",
+"src": "unlocode"
+},
+"DEMHL": {
+"lat": 51.2167,
+"lng": 10.45,
+"name": "Mühlhausen",
+"src": "unlocode"
+},
+"DEMID": {
+"lat": 52.2833,
+"lng": 8.9,
+"name": "Minden",
+"src": "unlocode"
+},
+"DEMIL": {
+"lat": 49.7045,
+"lng": 9.2673,
+"name": "Miltenberg",
+"src": "geonames"
+},
+"DEMKT": {
+"lat": 49.65,
+"lng": 10.1667,
+"name": "Marktbreit am Main",
+"src": "unlocode"
+},
+"DEMSH": {
+"lat": 53.25,
+"lng": 14.4333,
+"name": "Mescherin",
+"src": "unlocode"
+},
+"DEMUN": {
+"lat": 52.9833,
+"lng": 10.0833,
+"name": "Munster",
+"src": "unlocode"
+},
+"DENDF": {
+"lat": 50.8167,
+"lng": 10.2667,
+"name": "Neuendorf",
+"src": "unlocode"
+},
+"DENIE": {
+"lat": 52.6444,
+"lng": 9.2166,
+"name": "Nienburg",
+"src": "geonames"
+},
+"DENIN": {
+"lat": 49.87,
+"lng": 8.3365,
+"name": "Nierstein",
+"src": "geonames"
+},
+"DENIW": {
+"lat": 52.8333,
+"lng": 13.9333,
+"name": "Niederfinow",
+"src": "unlocode"
+},
+"DENUE": {
+"lat": 49.4333,
+"lng": 11.0667,
+"name": "Nuremberg",
+"src": "unlocode"
+},
+"DEOEE": {
+"lat": 50.1167,
+"lng": 7.7167,
+"name": "Oberwesel",
+"src": "unlocode"
+},
+"DEOHE": {
+"lat": 52.1833,
+"lng": 11.6667,
+"name": "Rothensee",
+"src": "unlocode"
+},
+"DEOLO": {
+"lat": 53.1667,
+"lng": 8.2,
+"name": "Oldenburg",
+"src": "unlocode"
+},
+"DEORA": {
+"lat": 52.748,
+"lng": 13.2519,
+"name": "Oranienburg",
+"src": "geonames"
+},
+"DEORG": {
+"lat": 52.8667,
+"lng": 14.05,
+"name": "Oderberg",
+"src": "unlocode"
+},
+"DEPAP": {
+"lat": 53.0667,
+"lng": 7.4,
+"name": "Papenburg",
+"src": "unlocode"
+},
+"DEPAS": {
+"lat": 48.5667,
+"lng": 13.45,
+"name": "Passau",
+"src": "unlocode"
+},
+"DEPEF": {
+"lat": 54.1333,
+"lng": 13.7833,
+"name": "Peenemünde",
+"src": "unlocode"
+},
+"DEPEI": {
+"lat": 52.3167,
+"lng": 10.2333,
+"name": "Peine",
+"src": "unlocode"
+},
+"DEPOT": {
+"lat": 52.4,
+"lng": 13.0667,
+"name": "Potsdam",
+"src": "unlocode"
+},
+"DERAS": {
+"lat": 48.85,
+"lng": 8.2,
+"name": "Rastatt",
+"src": "unlocode"
+},
+"DERBK": {
+"lat": 52.2667,
+"lng": 7.6167,
+"name": "Riesenbeck",
+"src": "unlocode"
+},
+"DEREG": {
+"lat": 49.0151,
+"lng": 12.1016,
+"name": "Regensburg",
+"src": "geonames"
+},
+"DERU7": {
+"lat": 49.85,
+"lng": 7.8167,
+"name": "Rüdesheim",
+"src": "unlocode"
+},
+"DERUE": {
+"lat": 49.9833,
+"lng": 7.9167,
+"name": "Rüdesheim am Rhein",
+"src": "unlocode"
+},
+"DESAG": {
+"lat": 49.6064,
+"lng": 6.5437,
+"name": "Saarburg",
+"src": "geonames"
+},
+"DESCW": {
+"lat": 50.05,
+"lng": 10.2167,
+"name": "Schweinfurt",
+"src": "unlocode"
+},
+"DESDT": {
+"lat": 53.0667,
+"lng": 14.2667,
+"name": "Schwedt",
+"src": "unlocode"
+},
+"DESGO": {
+"lat": 50.15,
+"lng": 7.7333,
+"name": "Sankt Goarshausen",
+"src": "unlocode"
+},
+"DESLJ": {
+"lat": 52.5167,
+"lng": 9.0667,
+"name": "Stolzenau",
+"src": "unlocode"
+},
+"DESNU": {
+"lat": 50.3167,
+"lng": 9.4667,
+"name": "Steinau",
+"src": "unlocode"
+},
+"DESPE": {
+"lat": 49.3208,
+"lng": 8.4311,
+"name": "Speyer",
+"src": "geonames"
+},
+"DESRC": {
+"lat": 53.3,
+"lng": 10.5167,
+"name": "Scharnebeck",
+"src": "unlocode"
+},
+"DESTB": {
+"lat": 48.8813,
+"lng": 12.5739,
+"name": "Straubing",
+"src": "geonames"
+},
+"DESTL": {
+"lat": 54.3091,
+"lng": 13.0818,
+"name": "Stralsund",
+"src": "geonames"
+},
+"DETAE": {
+"lat": 52.55,
+"lng": 11.95,
+"name": "Tangermünde",
+"src": "unlocode"
+},
+"DETKD": {
+"lat": 50.1833,
+"lng": 7.3,
+"name": "Treis-Karden",
+"src": "unlocode"
+},
+"DETRI": {
+"lat": 49.7557,
+"lng": 6.6394,
+"name": "Trier",
+"src": "geonames"
+},
+"DETRT": {
+"lat": 49.9508,
+"lng": 7.1156,
+"name": "Traben-Trarbach",
+"src": "geonames"
+},
+"DEUEL": {
+"lat": 52.9667,
+"lng": 10.55,
+"name": "Uelzen",
+"src": "unlocode"
+},
+"DEVTT": {
+"lat": 54.5667,
+"lng": 13.1,
+"name": "Vitte",
+"src": "unlocode"
+},
+"DEWES": {
+"lat": 51.6667,
+"lng": 6.6167,
+"name": "Wesel",
+"src": "unlocode"
+},
+"DEWOB": {
+"lat": 52.4333,
+"lng": 10.8,
+"name": "Wolfsburg",
+"src": "unlocode"
+},
+"DEWOL": {
+"lat": 54.052,
+"lng": 13.7711,
+"name": "Wolgast",
+"src": "geonames"
+},
+"DEWTG": {
+"lat": 51.8661,
+"lng": 12.6497,
+"name": "Wittenberg",
+"src": "geonames"
+},
+"DEWTM": {
+"lat": 49.759,
+"lng": 9.5085,
+"name": "Wertheim",
+"src": "geonames"
+},
+"DEWUE": {
+"lat": 49.7939,
+"lng": 9.9512,
+"name": "Würzburg",
+"src": "geonames"
+},
+"DEWUZ": {
+"lat": 52.3833,
+"lng": 12.4,
+"name": "Wusterwitz",
+"src": "unlocode"
+},
+"DEWWG": {
+"lat": 50.3167,
+"lng": 7.5167,
+"name": "Winningen",
+"src": "unlocode"
+},
+"DEZEL": {
+"lat": 50.0333,
+"lng": 7.1833,
+"name": "Zell",
+"src": "unlocode"
+},
+"DKCPH": {
+"lat": 55.6667,
+"lng": 12.5833,
+"name": "Copenhagen",
+"src": "unlocode"
+},
+"ESCAD": {
+"lat": 36.5267,
+"lng": -6.2891,
+"name": "Cádiz",
+"src": "geonames"
+},
+"ESHUV": {
+"lat": 37.2664,
+"lng": -6.94,
+"name": "Huelva",
+"src": "geonames"
+},
+"ESIMI": {
+"lat": 37.121,
+"lng": -6.1222,
+"name": "Isla Minima, Seville",
+"src": "geonames-full"
+},
+"ESJRZ": {
+"lat": 36.6833,
+"lng": -6.1333,
+"name": "Jerez",
+"src": "unlocode"
+},
+"ESPSM": {
+"lat": 36.5939,
+"lng": -6.233,
+"name": "Puerto de Santa Maria",
+"src": "geonames"
+},
+"ESSVQ": {
+"lat": 37.3828,
+"lng": -5.9732,
+"name": "Seville",
+"src": "geonames"
+},
+"ESVET": {
+"lat": 40.9887,
+"lng": -6.8683,
+"name": "Vega de Terrón",
+"src": "geonames-approx"
+},
+"FR!CES": {
+"lat": 48.363,
+"lng": 2.9875,
+"name": "Cannes-Écluse",
+"src": "geonames"
+},
+"FR!MLO": {
+"lat": 48.3724,
+"lng": 2.8171,
+"name": "Moret-Loing-et-Orvanne",
+"src": "geonames"
+},
+"FR!VVU": {
+"lat": 43.5322,
+"lng": 3.8605,
+"name": "Villeneuve-Les-Maguelone",
+"src": "geonames"
+},
+"FR1ND": {
+"lat": 48.7128,
+"lng": 7.1075,
+"name": "Niederviller",
+"src": "geonames-full"
+},
+"FR1RG": {
+"lat": 49.0814,
+"lng": 1.63,
+"name": "La Roche-Guyon",
+"src": "geonames"
+},
+"FRAEO": {
+"lat": 49.0667,
+"lng": 2.1833,
+"name": "Auvers-sur-Oise",
+"src": "unlocode"
+},
+"FRANC": {
+"lat": 47.3667,
+"lng": -1.1833,
+"name": "Ancenis",
+"src": "unlocode"
+},
+"FRARL": {
+"lat": 43.6833,
+"lng": 4.6333,
+"name": "Arles",
+"src": "unlocode"
+},
+"FRAVN": {
+"lat": 43.95,
+"lng": 4.8,
+"name": "Avignon",
+"src": "unlocode"
+},
+"FRBIQ": {
+"lat": 43.4833,
+"lng": -1.55,
+"name": "Biarritz",
+"src": "unlocode"
+},
+"FRBOD": {
+"lat": 44.8333,
+"lng": -0.5833,
+"name": "Bordeaux",
+"src": "unlocode"
+},
+"FRBPS": {
+"lat": 48.8833,
+"lng": 6.05,
+"name": "Blénod-lès-Pont-à-Mousson",
+"src": "unlocode"
+},
+"FRBSN": {
+"lat": 47.25,
+"lng": 6.0333,
+"name": "Besançon",
+"src": "unlocode"
+},
+"FRBSS": {
+"lat": 46.1,
+"lng": 4.7333,
+"name": "Belleville-sur-Saône",
+"src": "unlocode"
+},
+"FRBUF": {
+"lat": 45.0333,
+"lng": -0.55,
+"name": "Bourg",
+"src": "unlocode"
+},
+"FRBYE": {
+"lat": 45.1333,
+"lng": -0.6667,
+"name": "Blaye",
+"src": "unlocode"
+},
+"FRCAO": {
+"lat": 47.35,
+"lng": -0.75,
+"name": "Chalonnes-sur-Loire",
+"src": "unlocode"
+},
+"FRCEC": {
+"lat": 49.5167,
+"lng": 0.7167,
+"name": "Caudebec-en-Caux",
+"src": "unlocode"
+},
+"FRCFQ": {
+"lat": 45.1333,
+"lng": -0.6667,
+"name": "Cussac-Fort-Médoc",
+"src": "unlocode"
+},
+"FRCGY": {
+"lat": 46.9167,
+"lng": 4.75,
+"name": "Chagny",
+"src": "unlocode"
+},
+"FRCLM": {
+"lat": 45.8167,
+"lng": 4.8333,
+"name": "Collonges-au-Mont-d'Or",
+"src": "unlocode"
+},
+"FRCMP": {
+"lat": 49.4167,
+"lng": 2.8167,
+"name": "Compiègne",
+"src": "unlocode"
+},
+"FRCMR": {
+"lat": 48.0833,
+"lng": 7.35,
+"name": "Colmar",
+"src": "unlocode"
+},
+"FRCSH": {
+"lat": 48.9833,
+"lng": 2.1,
+"name": "Conflans-Sainte-Honorine",
+"src": "unlocode"
+},
+"FRCSS": {
+"lat": 46.7833,
+"lng": 4.85,
+"name": "Chalon-sur-Saône",
+"src": "unlocode"
+},
+"FRDIJ": {
+"lat": 47.3167,
+"lng": 5.05,
+"name": "Dijon",
+"src": "unlocode"
+},
+"FRDLE": {
+"lat": 47.1,
+"lng": 5.4833,
+"name": "Dole",
+"src": "unlocode"
+},
+"FRDUW": {
+"lat": 49.4833,
+"lng": 0.8833,
+"name": "Duclair",
+"src": "unlocode"
+},
+"FRENC": {
+"lat": 48.7,
+"lng": 6.1833,
+"name": "Nancy",
+"src": "unlocode"
+},
+"FREVR": {
+"lat": 48.6167,
+"lng": 2.4333,
+"name": "Evry",
+"src": "unlocode"
+},
+"FRFRD": {
+"lat": 44.6333,
+"lng": -0.3167,
+"name": "Cadillac",
+"src": "unlocode"
+},
+"FRGHM": {
+"lat": 48.7,
+"lng": 7.8833,
+"name": "Gambsheim",
+"src": "unlocode"
+},
+"FRHFN": {
+"lat": 48.75,
+"lng": 7.5667,
+"name": "Hochfelden",
+"src": "unlocode"
+},
+"FRHON": {
+"lat": 49.4167,
+"lng": 0.2333,
+"name": "Honfleur",
+"src": "unlocode"
+},
+"FRIAU": {
+"lat": 43.5667,
+"lng": 4.1833,
+"name": "Aigues-Mortes",
+"src": "unlocode"
+},
+"FRKUN": {
+"lat": 48.0833,
+"lng": 7.5333,
+"name": "Kunheim",
+"src": "unlocode"
+},
+"FRL3O": {
+"lat": 46.3833,
+"lng": 3.7667,
+"name": "Liernolles",
+"src": "unlocode"
+},
+"FRLAY": {
+"lat": 49.25,
+"lng": 1.4167,
+"name": "Les Andelys",
+"src": "unlocode"
+},
+"FRLEH": {
+"lat": 49.5,
+"lng": 0.1,
+"name": "Le Havre",
+"src": "unlocode"
+},
+"FRLG9": {
+"lat": 43.6431,
+"lng": 4.298,
+"name": "Gallician",
+"src": "geonames-full"
+},
+"FRLIB": {
+"lat": 44.9167,
+"lng": -0.25,
+"name": "Libourne",
+"src": "unlocode"
+},
+"FRLIO": {
+"lat": 45.7667,
+"lng": 4.8333,
+"name": "Lyon",
+"src": "unlocode"
+},
+"FRLPQ": {
+"lat": 48.8833,
+"lng": 2.1,
+"name": "Le Pecq",
+"src": "unlocode"
+},
+"FRLVO": {
+"lat": 44.8,
+"lng": 4.7833,
+"name": "La Voulte-sur-Rhône",
+"src": "unlocode"
+},
+"FRMAC": {
+"lat": 46.3,
+"lng": 4.8333,
+"name": "Mâcon",
+"src": "unlocode"
+},
+"FRMAN": {
+"lat": 48.9833,
+"lng": 1.7167,
+"name": "Mantes-la-Jolie",
+"src": "unlocode"
+},
+"FRMEL": {
+"lat": 48.5333,
+"lng": 2.6667,
+"name": "Melun",
+"src": "unlocode"
+},
+"FRMTU": {
+"lat": 43.4,
+"lng": 5.05,
+"name": "Martigues",
+"src": "unlocode"
+},
+"FRMZM": {
+"lat": 49.1333,
+"lng": 6.1667,
+"name": "Metz",
+"src": "unlocode"
+},
+"FRNTE": {
+"lat": 47.2167,
+"lng": -1.55,
+"name": "Nantes",
+"src": "unlocode"
+},
+"FROSH": {
+"lat": 48.7333,
+"lng": 7.25,
+"name": "Lutzelbourg",
+"src": "unlocode"
+},
+"FROTO": {
+"lat": 47.1,
+"lng": 5.2667,
+"name": "Saint-Jean-de-Losne",
+"src": "unlocode"
+},
+"FROUG": {
+"lat": 47.8,
+"lng": 5.7,
+"name": "Ouge",
+"src": "unlocode"
+},
+"FRPAR": {
+"lat": 48.85,
+"lng": 2.35,
+"name": "Paris",
+"src": "unlocode"
+},
+"FRPOE": {
+"lat": 49.2833,
+"lng": 0.1833,
+"name": "Pont-l'Évêque",
+"src": "unlocode"
+},
+"FRPOI": {
+"lat": 48.9333,
+"lng": 2.05,
+"name": "Poissy",
+"src": "unlocode"
+},
+"FRPSL": {
+"lat": 43.3833,
+"lng": 4.8,
+"name": "Port-Saint-Louis-du-Rhône",
+"src": "unlocode"
+},
+"FRPSX": {
+"lat": 49.3,
+"lng": 2.6,
+"name": "Pont-Sainte-Maxence",
+"src": "unlocode"
+},
+"FRPTE": {
+"lat": 49.05,
+"lng": 2.0833,
+"name": "Pontoise",
+"src": "unlocode"
+},
+"FRRT2": {
+"lat": 47.1333,
+"lng": 5.7167,
+"name": "Ranchot",
+"src": "unlocode"
+},
+"FRRYN": {
+"lat": 45.6167,
+"lng": -1.05,
+"name": "Royan",
+"src": "unlocode"
+},
+"FRSAV": {
+"lat": 48.7333,
+"lng": 7.3667,
+"name": "Saverne",
+"src": "unlocode"
+},
+"FRSEN": {
+"lat": 48.2,
+"lng": 3.2833,
+"name": "Sens",
+"src": "unlocode"
+},
+"FRSET": {
+"lat": 43.4,
+"lng": 3.7,
+"name": "Sète",
+"src": "unlocode"
+},
+"FRSNR": {
+"lat": 47.2833,
+"lng": -2.2,
+"name": "Saint-Nazaire",
+"src": "unlocode"
+},
+"FRSXB": {
+"lat": 48.5667,
+"lng": 7.75,
+"name": "Strasbourg",
+"src": "unlocode"
+},
+"FRT73": {
+"lat": 45.6333,
+"lng": 6.3,
+"name": "Tournon-sur-Rhône",
+"src": "unlocode"
+},
+"FRTAY": {
+"lat": 46.9167,
+"lng": 4.6833,
+"name": "Santenay, Cote d'Or",
+"src": "unlocode"
+},
+"FRTNH": {
+"lat": 45.0667,
+"lng": 4.85,
+"name": "Tain-l'Hermitage",
+"src": "unlocode"
+},
+"FRTRN": {
+"lat": 46.5667,
+"lng": 4.9,
+"name": "Tournus",
+"src": "unlocode"
+},
+"FRTRX": {
+"lat": 45.9333,
+"lng": 4.7667,
+"name": "Trévoux",
+"src": "unlocode"
+},
+"FRTSC": {
+"lat": 43.8167,
+"lng": 4.6833,
+"name": "Tarascon",
+"src": "unlocode"
+},
+"FRUEN": {
+"lat": 49.2167,
+"lng": 2.4167,
+"name": "Saint-Leu-d'Esserent",
+"src": "unlocode"
+},
+"FRUGV": {
+"lat": 48.8667,
+"lng": 2.1333,
+"name": "Bougival",
+"src": "unlocode"
+},
+"FRURO": {
+"lat": 49.45,
+"lng": 1.1,
+"name": "Rouen",
+"src": "unlocode"
+},
+"FRVFN": {
+"lat": 49.0833,
+"lng": 1.4833,
+"name": "Vernon",
+"src": "unlocode"
+},
+"FRVIE": {
+"lat": 45.5333,
+"lng": 4.8667,
+"name": "Vienne",
+"src": "unlocode"
+},
+"FRVIV": {
+"lat": 44.4833,
+"lng": 4.6833,
+"name": "Viviers",
+"src": "unlocode"
+},
+"FRVNE": {
+"lat": 47.65,
+"lng": -2.7667,
+"name": "Vannes",
+"src": "unlocode"
+},
+"FRWSZ": {
+"lat": 48.7471,
+"lng": 7.6292,
+"name": "Waltenheim-sur-Zorn",
+"src": "geonames"
+},
+"FRXDH": {
+"lat": 46.85,
+"lng": 4.6333,
+"name": "Saint-Léger-sur-Dheune",
+"src": "unlocode"
+},
+"FRXXA": {
+"lat": 48.697,
+"lng": 6.9973,
+"name": "Xouaxange",
+"src": "geonames-full"
+},
+"HRBAT": {
+"lat": 45.8667,
+"lng": 18.8667,
+"name": "Batina",
+"src": "unlocode"
+},
+"HRDVR": {
+"lat": 45.1,
+"lng": 17.5167,
+"name": "Davor",
+"src": "unlocode"
+},
+"HRILO": {
+"lat": 45.2167,
+"lng": 19.3667,
+"name": "Ilok",
+"src": "unlocode"
+},
+"HRJAS": {
+"lat": 45.2667,
+"lng": 16.9167,
+"name": "Jasenovac",
+"src": "unlocode"
+},
+"HROSI": {
+"lat": 45.55,
+"lng": 18.6833,
+"name": "Osijek",
+"src": "unlocode"
+},
+"HRSBD": {
+"lat": 45.15,
+"lng": 18.0,
+"name": "Slavonski Brod",
+"src": "unlocode"
+},
+"HRSIS": {
+"lat": 45.4667,
+"lng": 16.3667,
+"name": "Sisak",
+"src": "unlocode"
+},
+"HRVUK": {
+"lat": 45.35,
+"lng": 19.0,
+"name": "Vukovar",
+"src": "unlocode"
+},
+"HU!KIS": {
+"lat": 47.5,
+"lng": 20.5,
+"name": "Kisköre",
+"src": "geonames"
+},
+"HUBUD": {
+"lat": 47.5,
+"lng": 19.0833,
+"name": "Budapest",
+"src": "unlocode"
+},
+"HUBZO": {
+"lat": 46.8333,
+"lng": 17.8333,
+"name": "Balatonszárszó",
+"src": "unlocode"
+},
+"HUCGD": {
+"lat": 46.7133,
+"lng": 20.1424,
+"name": "Csongrád",
+"src": "geonames"
+},
+"HUEST": {
+"lat": 47.7928,
+"lng": 18.7415,
+"name": "Esztergom",
+"src": "geonames"
+},
+"HUKCO": {
+"lat": 46.5167,
+"lng": 19.0,
+"name": "Kalocsa",
+"src": "unlocode"
+},
+"HUKOM": {
+"lat": 47.7333,
+"lng": 18.1167,
+"name": "Komárom",
+"src": "unlocode"
+},
+"HUMOH": {
+"lat": 46.0,
+"lng": 18.6833,
+"name": "Mohács",
+"src": "unlocode"
+},
+"HUSOL": {
+"lat": 46.7833,
+"lng": 19.0,
+"name": "Solt",
+"src": "unlocode"
+},
+"HUSZE": {
+"lat": 46.253,
+"lng": 20.1482,
+"name": "Szeged",
+"src": "geonames"
+},
+"HUSZL": {
+"lat": 47.1807,
+"lng": 20.1984,
+"name": "Szolnok",
+"src": "geonames"
+},
+"HUTFD": {
+"lat": 47.6167,
+"lng": 20.7667,
+"name": "Tiszafüred",
+"src": "unlocode"
+},
+"HUTOJ": {
+"lat": 48.1167,
+"lng": 21.4167,
+"name": "Tokaj",
+"src": "unlocode"
+},
+"HUVAC": {
+"lat": 47.7833,
+"lng": 19.1167,
+"name": "Vác",
+"src": "unlocode"
+},
+"HUVIG": {
+"lat": 47.8,
+"lng": 18.9667,
+"name": "Visegrád",
+"src": "unlocode"
+},
+"IT!CND": {
+"lat": 45.0361,
+"lng": 11.5033,
+"name": "Canda",
+"src": "geonames"
+},
+"IT!MAZ": {
+"lat": 45.4873,
+"lng": 12.4101,
+"name": "Mazzorbo, Lagoon of Venice",
+"src": "geonames-full"
+},
+"IT!VAL": {
+"lat": 45.1358,
+"lng": 10.8598,
+"name": "Valdaro",
+"src": "geonames-full"
+},
+"ITBRT": {
+"lat": 44.9,
+"lng": 10.55,
+"name": "Boretto",
+"src": "unlocode"
+},
+"ITCHI": {
+"lat": 45.2333,
+"lng": 12.2833,
+"name": "Chioggia",
+"src": "unlocode"
+},
+"ITCRE": {
+"lat": 45.1332,
+"lng": 10.0213,
+"name": "Cremona",
+"src": "geonames"
+},
+"ITMAN": {
+"lat": 45.1603,
+"lng": 10.7978,
+"name": "Mantua",
+"src": "geonames"
+},
+"ITMIL": {
+"lat": 45.4643,
+"lng": 9.1895,
+"name": "Milan",
+"src": "geonames"
+},
+"ITOGA": {
+"lat": 45.0667,
+"lng": 11.1333,
+"name": "Ostiglia",
+"src": "unlocode"
+},
+"ITPO3": {
+"lat": 44.9646,
+"lng": 11.7489,
+"name": "Polesella",
+"src": "geonames"
+},
+"ITPOQ": {
+"lat": 45.05,
+"lng": 12.25,
+"name": "Porto Viro",
+"src": "unlocode"
+},
+"ITRVO": {
+"lat": 45.0667,
+"lng": 11.7667,
+"name": "Rovigo",
+"src": "unlocode"
+},
+"ITRVR": {
+"lat": 45.0521,
+"lng": 11.1306,
+"name": "Revere",
+"src": "geonames"
+},
+"ITTP5": {
+"lat": 45.0019,
+"lng": 12.2139,
+"name": "Taglio di Po",
+"src": "geonames"
+},
+"ITVCE": {
+"lat": 45.4333,
+"lng": 12.3333,
+"name": "Venice",
+"src": "unlocode"
+},
+"KHANG": {
+"lat": 13.4233,
+"lng": 103.8687,
+"name": "Angkor",
+"src": "geonames-full"
+},
+"KHKCN": {
+"lat": 12.25,
+"lng": 104.6667,
+"name": "Kampong Chhnang",
+"src": "geonames"
+},
+"KHKOC": {
+"lat": 11.8535,
+"lng": 104.8132,
+"name": "Koh Chen",
+"src": "geonames-full"
+},
+"KHKTR": {
+"lat": 11.9283,
+"lng": 104.7597,
+"name": "Kampong Tralach",
+"src": "geonames-full"
+},
+"KHPNH": {
+"lat": 11.5625,
+"lng": 104.916,
+"name": "Phnom Penh",
+"src": "geonames"
+},
+"KHREP": {
+"lat": 13.3618,
+"lng": 103.8606,
+"name": "Siem Reap",
+"src": "geonames"
+},
+"KHTOS": {
+"lat": 12.9239,
+"lng": 103.9152,
+"name": "Tonlé Sap",
+"src": "geonames-full"
+},
+"LULUX": {
+"lat": 49.6098,
+"lng": 6.1327,
+"name": "Luxembourg",
+"src": "geonames"
+},
+"LUREM": {
+"lat": 49.5333,
+"lng": 6.3667,
+"name": "Remich",
+"src": "unlocode"
+},
+"LUWSG": {
+"lat": 49.7,
+"lng": 6.5167,
+"name": "Wasserbillig",
+"src": "unlocode"
+},
+"NL!CUK": {
+"lat": 51.7308,
+"lng": 5.8792,
+"name": "Cujik",
+"src": "geonames-full"
+},
+"NLAMS": {
+"lat": 52.4,
+"lng": 4.8167,
+"name": "Amsterdam",
+"src": "unlocode"
+},
+"NLARN": {
+"lat": 51.98,
+"lng": 5.9111,
+"name": "Arnhem",
+"src": "geonames"
+},
+"NLBSE": {
+"lat": 51.6617,
+"lng": 4.0944,
+"name": "Bruinisse",
+"src": "geonames"
+},
+"NLDOR": {
+"lat": 51.7833,
+"lng": 4.6333,
+"name": "Dordrecht",
+"src": "unlocode"
+},
+"NLDZL": {
+"lat": 52.5167,
+"lng": 6.9333,
+"name": "Delfzijl",
+"src": "unlocode"
+},
+"NLENK": {
+"lat": 52.7033,
+"lng": 5.2917,
+"name": "Enkhuizen",
+"src": "geonames"
+},
+"NLFRK": {
+"lat": 53.1855,
+"lng": 5.5412,
+"name": "Franeker",
+"src": "geonames"
+},
+"NLGKN": {
+"lat": 53.25,
+"lng": 6.3167,
+"name": "Gaarkeuken",
+"src": "unlocode"
+},
+"NLGOR": {
+"lat": 51.8365,
+"lng": 4.9724,
+"name": "Gorinchem",
+"src": "geonames"
+},
+"NLGOU": {
+"lat": 52.0167,
+"lng": 4.7083,
+"name": "Gouda",
+"src": "geonames"
+},
+"NLGRQ": {
+"lat": 53.2192,
+"lng": 6.5667,
+"name": "Groningen",
+"src": "geonames"
+},
+"NLHAR": {
+"lat": 53.1833,
+"lng": 5.4333,
+"name": "Harlingen",
+"src": "unlocode"
+},
+"NLHRN": {
+"lat": 52.6425,
+"lng": 5.0597,
+"name": "Hoorn",
+"src": "geonames"
+},
+"NLHUI": {
+"lat": 52.2992,
+"lng": 5.2417,
+"name": "Huizen",
+"src": "geonames"
+},
+"NLLEY": {
+"lat": 52.5083,
+"lng": 5.475,
+"name": "Lelystad",
+"src": "geonames"
+},
+"NLLMR": {
+"lat": 52.8462,
+"lng": 5.7091,
+"name": "Lemmer",
+"src": "geonames"
+},
+"NLMID": {
+"lat": 51.5,
+"lng": 3.6139,
+"name": "Middelburg",
+"src": "geonames"
+},
+"NLMST": {
+"lat": 50.8483,
+"lng": 5.6889,
+"name": "Maastricht",
+"src": "geonames"
+},
+"NLNIJ": {
+"lat": 51.8425,
+"lng": 5.8528,
+"name": "Nijmegen",
+"src": "geonames"
+},
+"NLOHI": {
+"lat": 53.0333,
+"lng": 4.8667,
+"name": "Oudeschild",
+"src": "unlocode"
+},
+"NLOMD": {
+"lat": 51.1942,
+"lng": 5.9875,
+"name": "Roermond",
+"src": "geonames"
+},
+"NLRTM": {
+"lat": 51.9167,
+"lng": 4.5,
+"name": "Rotterdam",
+"src": "unlocode"
+},
+"NLSNK": {
+"lat": 53.033,
+"lng": 5.6589,
+"name": "Sneek",
+"src": "geonames"
+},
+"NLUTC": {
+"lat": 52.0833,
+"lng": 5.1333,
+"name": "Utrecht",
+"src": "unlocode"
+},
+"NLVEN": {
+"lat": 51.3667,
+"lng": 6.1667,
+"name": "Venlo",
+"src": "unlocode"
+},
+"NLVER": {
+"lat": 51.55,
+"lng": 3.6667,
+"name": "Veere",
+"src": "unlocode"
+},
+"NLWBD": {
+"lat": 51.9742,
+"lng": 5.3417,
+"name": "Wijk bij Duurstede",
+"src": "geonames"
+},
+"NLWIS": {
+"lat": 51.6917,
+"lng": 4.4389,
+"name": "Willemstad",
+"src": "geonames"
+},
+"PLBYT": {
+"lat": 50.348,
+"lng": 18.9328,
+"name": "Bytom",
+"src": "geonames"
+},
+"PLCGA": {
+"lat": 52.0333,
+"lng": 15.6167,
+"name": "Cigacice",
+"src": "unlocode"
+},
+"PLGLW": {
+"lat": 51.65,
+"lng": 16.0667,
+"name": "Glogow",
+"src": "unlocode"
+},
+"PLKOD": {
+"lat": 52.05,
+"lng": 15.0833,
+"name": "Krosno Odrzanskie",
+"src": "unlocode"
+},
+"PLMAL": {
+"lat": 54.3,
+"lng": 16.5167,
+"name": "Malczyce",
+"src": "unlocode"
+},
+"PLSWI": {
+"lat": 53.9,
+"lng": 14.25,
+"name": "Swinemünde",
+"src": "unlocode"
+},
+"PLSZZ": {
+"lat": 53.4289,
+"lng": 14.553,
+"name": "Szczecin",
+"src": "geonames"
+},
+"PLWLI": {
+"lat": 53.85,
+"lng": 14.6167,
+"name": "Wolin",
+"src": "unlocode"
+},
+"PLWRO": {
+"lat": 51.1029,
+"lng": 17.0301,
+"name": "Wroclaw",
+"src": "geonames"
+},
+"PTBDA": {
+"lat": 41.0272,
+"lng": -6.9424,
+"name": "Barca d’Alva",
+"src": "geonames-full"
+},
+"PTBIT": {
+"lat": 41.0719,
+"lng": -8.2596,
+"name": "Bitetos",
+"src": "geonames-full"
+},
+"PTEOR": {
+"lat": 41.0833,
+"lng": -8.3,
+"name": "Entre-os-Rios",
+"src": "unlocode"
+},
+"PTFER": {
+"lat": 37.1167,
+"lng": -8.5167,
+"name": "Ferradosa",
+"src": "unlocode"
+},
+"PTFOL": {
+"lat": 41.25,
+"lng": -8.55,
+"name": "Folgosa",
+"src": "unlocode"
+},
+"PTLEV": {
+"lat": 41.0877,
+"lng": -8.4696,
+"name": "Leverinho",
+"src": "geonames-full"
+},
+"PTLIS": {
+"lat": 38.7167,
+"lng": -9.1333,
+"name": "Lisbon",
+"src": "unlocode"
+},
+"PTOPO": {
+"lat": 41.15,
+"lng": -8.6167,
+"name": "Porto",
+"src": "unlocode"
+},
+"PTPAN": {
+"lat": 41.09,
+"lng": -8.0781,
+"name": "Porto Antigo",
+"src": "geonames-full"
+},
+"PTPGA": {
+"lat": 41.1667,
+"lng": -7.7833,
+"name": "Régua",
+"src": "unlocode"
+},
+"PTPNO": {
+"lat": 41.1833,
+"lng": -7.55,
+"name": "Pinhão",
+"src": "unlocode"
+},
+"PTPOC": {
+"lat": 37.1167,
+"lng": -8.4,
+"name": "Pocinho",
+"src": "unlocode"
+},
+"PTSHA": {
+"lat": 41.1833,
+"lng": -8.65,
+"name": "Senhora da Hora",
+"src": "unlocode"
+},
+"ROBRV": {
+"lat": 45.6486,
+"lng": 25.6061,
+"name": "Brasov",
+"src": "geonames"
+},
+"ROBUH": {
+"lat": 44.4323,
+"lng": 26.1063,
+"name": "Bucharest",
+"src": "geonames"
+},
+"ROCEV": {
+"lat": 44.35,
+"lng": 28.0167,
+"name": "Cernavoda",
+"src": "unlocode"
+},
+"ROCND": {
+"lat": 44.1833,
+"lng": 28.65,
+"name": "Constanta",
+"src": "unlocode"
+},
+"ROFET": {
+"lat": 44.3833,
+"lng": 27.8333,
+"name": "Fetesti",
+"src": "unlocode"
+},
+"ROGRG": {
+"lat": 43.8833,
+"lng": 25.95,
+"name": "Giurgiu",
+"src": "unlocode"
+},
+"ROOLT": {
+"lat": 44.0833,
+"lng": 26.65,
+"name": "Oltenita",
+"src": "unlocode"
+},
+"RORVA": {
+"lat": 44.6833,
+"lng": 27.95,
+"name": "Hârsova",
+"src": "unlocode"
+},
+"RS!GOL": {
+"lat": 44.653,
+"lng": 21.632,
+"name": "Golubac",
+"src": "geonames"
+},
+"RSBEG": {
+"lat": 44.8167,
+"lng": 20.4667,
+"name": "Belgrade",
+"src": "unlocode"
+},
+"RSDMC": {
+"lat": 44.4667,
+"lng": 22.1167,
+"name": "Donji Milanovac",
+"src": "unlocode"
+},
+"RSKJA": {
+"lat": 46.0667,
+"lng": 20.05,
+"name": "Kanjiza",
+"src": "unlocode"
+},
+"RSNVS": {
+"lat": 45.2667,
+"lng": 19.8333,
+"name": "Novi Sad",
+"src": "unlocode"
+},
+"RSVGS": {
+"lat": 44.75,
+"lng": 21.5,
+"name": "Veliko Gradiste",
+"src": "unlocode"
+},
+"SKBAB": {
+"lat": 48.1482,
+"lng": 17.1067,
+"name": "Bratislava",
+"src": "geonames"
+},
+"USSSI": {
+"lat": 40.4862,
+"lng": -74.4518,
+"name": "Brunswick, Georgia",
+"src": "geonames"
+},
+"USTRY": {
+"lat": 42.7167,
+"lng": -73.6833,
+"name": "Troy, New York",
+"src": "unlocode"
+},
+"VNCAI": {
+"lat": 10.3357,
+"lng": 106.0323,
+"name": "Cái Bè",
+"src": "geonames-full"
+},
+"VNCHD": {
+"lat": 10.7,
+"lng": 105.1167,
+"name": "Châu Đốc",
+"src": "geonames"
+},
+"VNCHG": {
+"lat": 10.3498,
+"lng": 106.4634,
+"name": "Chợ Gạo",
+"src": "geonames"
+},
+"VNHAN": {
+"lat": 21.0333,
+"lng": 105.85,
+"name": "Hanoi",
+"src": "unlocode"
+},
+"VNHIA": {
+"lat": 15.8794,
+"lng": 108.335,
+"name": "Hoi An",
+"src": "geonames"
+},
+"VNHLG": {
+"lat": 20.95,
+"lng": 107.0667,
+"name": "Ha Long Bay",
+"src": "unlocode"
+},
+"VNHUI": {
+"lat": 16.4619,
+"lng": 107.5955,
+"name": "Hue",
+"src": "geonames"
+},
+"VNSAD": {
+"lat": 10.3,
+"lng": 105.7667,
+"name": "Sa Déc",
+"src": "unlocode"
+},
+"VNSGN": {
+"lat": 10.7667,
+"lng": 106.6667,
+"name": "Ho Chi Minh City",
+"src": "unlocode"
+},
+"ZACPT": {
+"lat": -33.9167,
+"lng": 18.4167,
+"name": "Cape Town",
+"src": "unlocode"
+},
+"ZAJNB": {
+"lat": -26.2,
+"lng": 28.0833,
+"name": "Johannesburg",
+"src": "unlocode"
+},
+"ZWVFA": {
+"lat": -17.9328,
+"lng": 25.8307,
+"name": "Victoria Falls",
+"src": "geonames"
+}
+}

@@ -10,6 +10,8 @@ import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import type { HolidayDetail } from '../../../lib/holiday-transforms';
 import { inclusionChips } from '../../../lib/cruise-card';
+import CruiseDetail from '../../../components/cruise/CruiseDetail.astro';
+import { getCruiseCalls, getSailingLadders } from '../../../lib/cruise-detail';
 import { roundToNine } from '../../../lib/pricing-transforms';
 import { allBlogs } from '../../../data/blogs';
 import { getDb } from '../../../lib/get-db';
@@ -159,6 +161,21 @@ const initialDeps = hasPricing ? pricing!.departures
   })) : [];
 
 const isCruise = holiday.tags.includes('River Cruise');
+
+// Cruise detail data the static export can't carry: port times + coordinates, and
+// the cabin ladder per sailing. Both degrade to [] rather than throwing, and the
+// page falls back to the package template when either comes back empty.
+let cruiseCalls: Awaited<ReturnType<typeof getCruiseCalls>> = [];
+let cruiseLadders: Awaited<ReturnType<typeof getSailingLadders>> = [];
+if (isCruise) {
+  const cruiseDb = getDb(Astro);
+  [cruiseCalls, cruiseLadders] = await Promise.all([
+    getCruiseCalls(cruiseDb, holiday.id),
+    getSailingLadders(cruiseDb, holiday.id),
+  ]);
+}
+// Only take the new template when it has what it needs to be better than the old one.
+const useCruiseTemplate = isCruise && cruiseLadders.length > 0 && !!pricing;
 const shipHeading = holiday.accommodations.length > 1 ? 'Your Ships' : 'Your Ship';
 // Cruise pages: what's in the price, near the price. Five constants (board basis
 // worded from the holiday), the operator's own constants, then anything specific
@@ -257,6 +274,10 @@ const pageDescription = holiday.metaDescription || (() => {
   <Header />
   <MobileNav />
 
+  {useCruiseTemplate ? (
+    <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} />
+  ) : (
+  <Fragment>
   <!-- Hero Section (wrapper lets the price bar anchor to the hero's bottom edge) -->
   <div class="hero-wrap">
   <section class="itinerary-hero">
@@ -846,6 +867,8 @@ const pageDescription = holiday.metaDescription || (() => {
     </div>
   </div>
 
+  </Fragment>
+  )}
   <Newsletter />
   <Footer />
   {hasPricing ? <Fragment /> : <MobileCallCTA />}
