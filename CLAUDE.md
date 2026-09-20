@@ -183,9 +183,27 @@ manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffe
   `cruise_sailings(route_id, departure_date)`, `cruise_sailings(departure_date)`,
   `cruise_flight_prices(offer_id, departure_date)`. Before these, every cruise detail
   view full-scanned ~23k rows; the cabin query read 11,609 rows and now reads 88.
-- **Still open:** Product/AggregateOffer JSON-LD isn't cruise-specific yet; breadcrumb
-  still points at the country page rather than the river; no deck plans; cabin size and
-  window type aren't fields we hold.
+- **Ship vs hotel.** Many cruises sell as flight + hotel + cruise and `accommodations`
+  holds the HOTEL first, the ship second — `accommodations[0]` is NOT the ship. The
+  `cruise_ships` table decides (67 rows, matched case-insensitively: the feed writes
+  "Ms Vivaldi", the table holds "MS Vivaldi"). Anything not in that table is treated
+  as a hotel and gets its own section. Never label an accommodation a ship by position.
+- **Month chips + show-more** appear above 12 sailings (the Zambezi runs 69). Every row
+  is in the HTML; the script only toggles visibility.
+- **Admin-made cruise packages** (`flight_packages` rows tagged River Cruise, 30 of
+  them) use this template too — they carry `package_pricing` by date and airport but no
+  cabin grid, so cabin panels drop out and the route falls back to the holiday's own
+  day-by-day itinerary. All sampled detail pages now use the cruise template.
+- **Overview tidy.** Supplier overviews open with a promo block that repeats the
+  sailings table; `tidyOverview()` strips the "For the following departures:" list
+  always and drops a "Book by <date>" line once that date has passed. Descriptions are
+  NOT refreshed by the weekly cron — only a full re-sync changes them.
+- **Feed encoding:** the Widgety feed mangles curly apostrophes to "¿"
+  ("Europe¿s Geniuses"); `fixFeedText()` repairs it between two letters.
+- **Still open:** breadcrumb still points at the country page rather than the river
+  (owner's call, 2026-09-20); no sibling-cruise internal links; no deck plans; cabin
+  size and window type aren't fields we hold. "Time in port" was built then removed —
+  CroisiEurope records arrival == departure on many calls, so it rarely said anything.
 
 ### River Cruises Listing Page
 
