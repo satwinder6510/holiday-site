@@ -14,7 +14,6 @@ import type { HolidayDetail } from '../../lib/holiday-transforms';
 import type { HolidayPricing } from '../../lib/pricing-transforms';
 import type { PortCall } from '../../lib/cruise-detail';
 import type { SailingLadder } from '../../lib/cruise-detail';
-import { formatDwell } from '../../lib/cruise-detail';
 import { imgSrc } from '../../lib/image-src';
 import SailingPicker from './SailingPicker.astro';
 import RouteMap from './RouteMap.astro';
@@ -60,7 +59,28 @@ const fromAirport = pricing?.cheapestDeparture?.airportName ?? '';
 const sailingCount = pricing ? new Set(pricing.departures.map(d => d.date.slice(0, 10))).size : 0;
 const airportNames = (pricing?.airports ?? []).map(a => a.name);
 
-const overview = (holiday.overview || '').trim();
+/**
+ * The Widgety feed round-trips some text through a bad encoding, so a curly
+ * apostrophe arrives as "¿" — "Europe¿s Geniuses". Repair it between two letters,
+ * which is the only place an inverted question mark can't legitimately be.
+ */
+const fixFeedText = (t: string) => (t || '').replace(/(\p{L})\u00bf(\p{L})/gu, '$1\u2019$2');
+
+/**
+ * Supplier overviews open with a promo block that repeats the sailings table
+ * ("For the following departures:" + a date list) and carries a book-by date that
+ * goes stale. Drop the duplicate list always, and the book-by line once it's past.
+ */
+function tidyOverview(html: string): string {
+  let out = fixFeedText(html);
+  out = out.replace(/<p>[^<]*for the following departures:?[^<]*<\/p>\s*<ul>[\s\S]*?<\/ul>/gi, '');
+  out = out.replace(/<p>([^<]*book by\s+(\d{1,2}\s+\w+\s+\d{4})[^<]*)<\/p>/gi, (m, _t, date) => {
+    const when = Date.parse(date);
+    return Number.isFinite(when) && when < Date.now() ? '' : m;
+  });
+  return out.trim();
+}
+const overview = tidyOverview(holiday.overview || '');
 ---
 
 <div class="cd">
@@ -72,7 +92,7 @@ const overview = (holiday.overview || '').trim();
       <div class="section-container">
         <div class="cd-hero__text">
           <p class="cd-hero__kicker">{holiday.operator}{shipName ? ` · ${shipName}` : ''}</p>
-          <h1>{holiday.title}</h1>
+          <h1>{fixFeedText(holiday.title)}</h1>
           {routePorts.length > 1 && (
             <p class="cd-hero__route">
               {routePorts.map((p, i) => (
@@ -136,7 +156,28 @@ const overview = (holiday.overview || '').trim();
     </section>
   )}
 
-  <!-- Route -->
+  <!-- Route: port calls where we have them, else the holiday's own day list -->
+  {calls.length === 0 && holiday.itinerary.length > 0 && (
+    <section class="cd-section cd-section--band" id="itinerary">
+      <div class="section-container">
+        <div class="cd-head">
+          <p class="cd-eyebrow">Your route</p>
+          <h2>Day by day</h2>
+        </div>
+        <ol class="cd-days">
+          {holiday.itinerary.map(d => (
+            <li>
+              <p class="cd-days__day">{d.day}</p>
+              <div>
+                <h3 class="cd-days__title">{d.title}</h3>
+                {d.description && <div class="cd-prose" set:html={d.description} />}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
   {calls.length > 0 && (
     <section class="cd-section cd-section--band" id="itinerary">
       <div class="section-container">
@@ -154,25 +195,21 @@ const overview = (holiday.overview || '').trim();
               <tr>
                 <th scope="col">Day</th>
                 <th scope="col">Port</th>
-                <th scope="col" class="cd-hide-sm">Country</th>
-                <th scope="col" class="cd-r cd-hide-sm">Arrive</th>
-                <th scope="col" class="cd-r cd-hide-sm">Depart</th>
-                <th scope="col" class="cd-r">Time in port</th>
+                <th scope="col">Country</th>
+                <th scope="col" class="cd-r">Arrive</th>
+                <th scope="col" class="cd-r">Depart</th>
               </tr>
             </thead>
             <tbody>
               {calls.map((c, i) => {
                 const last = i === calls.length - 1;
-                const dwell = formatDwell(c.minutesInPort);
-                const stay = dwell ?? (c.overnight && !last && i > 0 ? 'Overnight' : '');
                 return (
                   <tr class:list={{ 'is-night': c.overnight && !last }}>
                     <th scope="row">Day {c.day}</th>
                     <td><b>{c.port}</b></td>
-                    <td class="cd-hide-sm">{countryOf(c)}</td>
-                    <td class="cd-r cd-hide-sm">{i === 0 ? 'Embark' : (c.arrival || '—')}</td>
-                    <td class="cd-r cd-hide-sm">{last ? 'Disembark' : (c.departure || '—')}</td>
-                    <td class="cd-r"><b>{stay || '—'}</b></td>
+                    <td>{countryOf(c)}</td>
+                    <td class="cd-r">{i === 0 ? 'Embark' : (c.arrival || '—')}</td>
+                    <td class="cd-r">{last ? 'Disembark' : (c.departure || '—')}</td>
                   </tr>
                 );
               })}
@@ -330,6 +367,22 @@ const overview = (holiday.overview || '').trim();
   .cd-calls .cd-r { text-align: right; }
   .cd-calls b { font-weight: 600; }
 
+  /* Day-by-day (packages without port-call data) */
+  .cd-days { margin: 0; padding: 0; list-style: none; }
+  .cd-days li {
+    display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 24px;
+    padding: 20px 0; border-top: 1px solid #e5e7eb;
+  }
+  .cd-days li:first-child { border-top: 0; }
+  .cd-days__day {
+    margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #20A1AA;
+  }
+  .cd-days__title {
+    margin: 0 0 8px; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 18px; font-weight: 600; color: #424242;
+  }
+
   /* Ship */
   .cd-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .cd-shots figure { margin: 0; }
@@ -372,6 +425,7 @@ const overview = (holiday.overview || '').trim();
     .cd-hero__text { max-width: none; }
     .cd-hero__price { margin-top: 24px; width: 100%; justify-content: space-between; }
     .cd-hide-sm { display: none; }
+    .cd-days li { grid-template-columns: 1fr; gap: 4px; }
     .cd-calls th, .cd-calls td { padding: 10px 12px; font-size: 14px; }
     .cd-shots { grid-template-columns: 1fr; }
     .cd-shots figure:first-child img { aspect-ratio: 3/2; }

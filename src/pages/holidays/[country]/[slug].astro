@@ -175,7 +175,7 @@ if (isCruise) {
   ]);
 }
 // Only take the new template when it has what it needs to be better than the old one.
-const useCruiseTemplate = isCruise && cruiseLadders.length > 0 && !!pricing;
+const useCruiseTemplate = isCruise && !!pricing;
 const shipHeading = holiday.accommodations.length > 1 ? 'Your Ships' : 'Your Ship';
 // Cruise pages: what's in the price, near the price. Five constants (board basis
 // worded from the holiday), the operator's own constants, then anything specific
@@ -208,6 +208,38 @@ const cruiseIncludedFull = isCruise
     ])]
   : holiday.whatsIncluded;
 
+// Cruise-only structured data. Google has no rich result for TouristTrip — this is
+// for understanding and for AI crawlers — so the Product/AggregateOffer below stays
+// the money node and this just describes the voyage and where it calls.
+const PAGE_URL = `https://holidays.flightsandpackages.com/Holidays/${holiday.countrySlug}/${holiday.slug}`;
+const cruiseTripSchema = useCruiseTemplate ? {
+  '@context': 'https://schema.org',
+  '@type': 'TouristTrip',
+  '@id': `${PAGE_URL}#trip`,
+  name: holiday.title,
+  subjectOf: { '@id': `${PAGE_URL}#product` },
+  ...(holiday.operator ? { provider: { '@type': 'Organization', name: holiday.operator } } : {}),
+  touristType: ['River cruise'],
+  ...(cruiseCalls.length ? {
+    itinerary: {
+      '@type': 'ItemList',
+      numberOfItems: cruiseCalls.length,
+      itemListElement: cruiseCalls.map((c, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'City',
+          name: c.port,
+          ...(c.unlocode ? { address: { '@type': 'PostalAddress', addressCountry: c.unlocode.slice(0, 2) } } : {}),
+          ...(c.lat != null && c.lng != null
+            ? { geo: { '@type': 'GeoCoordinates', latitude: c.lat, longitude: c.lng } }
+            : {}),
+        },
+      })),
+    },
+  } : {}),
+} : null;
+
 // Truncate description at sentence boundary
 const rawDesc = holiday.overview || holiday.description || '';
 let productDesc = rawDesc;
@@ -227,7 +259,8 @@ const productSchema: Record<string, unknown> = {
   image: productImages.length > 1 ? productImages : holiday.heroImage,
   brand: { '@type': 'Organization', name: 'Flights and Packages' },
   sku: `FP-${holiday.id}`,
-  category: 'Holiday Package',
+  category: isCruise ? 'River Cruise' : 'Holiday Package',
+  '@id': `https://holidays.flightsandpackages.com/Holidays/${holiday.countrySlug}/${holiday.slug}#product`,
 };
 if (hasPricing) {
   const highPrice = roundToNine(Math.max(...pricing!.departures.map((d: any) => d.pricePp)) + localCharges);
@@ -271,6 +304,9 @@ const pageDescription = holiday.metaDescription || (() => {
     { name: holiday.title },
   ]} />
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+  {cruiseTripSchema && (
+    <script slot="head" type="application/ld+json" set:html={JSON.stringify(cruiseTripSchema)} />
+  )}
   <Header />
   <MobileNav />
 

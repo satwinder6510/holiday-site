@@ -50,6 +50,15 @@ const decks = deckOrder(ladders);
 const catalogue = gradeCatalogue(ladders);
 
 const dates = [...grid.keys()].sort();
+// Admin-made cruise packages carry dates and airports but no cabin grid.
+const hasCabins = ladders.length > 0;
+// Long routes (the Zambezi runs 84 sailings) need cutting down before the list
+// is usable; short ones show whole and skip the furniture.
+const INITIAL_ROWS = 12;
+const needsFilters = dates.length > INITIAL_ROWS;
+const MONTH_LABELS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const months = [...new Set(dates.map(d => d.slice(0, 7)))].sort()
+  .map(ym => ({ ym, label: `${MONTH_LABELS[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}`, n: dates.filter(d => d.startsWith(ym)).length }));
 const cheapestOf = (row: Map<string, number>) =>
   [...row.entries()].sort((a, b) => a[1] - b[1])[0];
 
@@ -96,6 +105,22 @@ const bestOverall = Math.min(...dates.map(d => grid.get(d)?.get(defaultCode) ?? 
     </div>
   </div>
 
+  {needsFilters && (
+    <div class="sp__filters">
+      <p class="sp__eyebrow">When</p>
+      <div class="sp__chips" role="group" aria-label="Filter sailings by month">
+        <button type="button" class="sp__chip" data-month="all" aria-pressed="true">
+          All dates <span>{dates.length}</span>
+        </button>
+        {months.map(m => (
+          <button type="button" class="sp__chip" data-month={m.ym} aria-pressed="false">
+            {m.label} <span>{m.n}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )}
+
   <div class="sp__table">
     <div class="sp__head">
       <div>Departs</div><div>Nights</div><div>Ship</div>
@@ -119,6 +144,8 @@ const bestOverall = Math.min(...dates.map(d => grid.get(d)?.get(defaultCode) ?? 
             aria-expanded="false"
             aria-controls={`cabins-${i}`}
             data-date={date}
+            data-month={date.slice(0, 7)}
+            hidden={needsFilters && i >= INITIAL_ROWS}
           >
             <span class="sp__date">
               {base === bestOverall && <span class="sp__best">Best price</span>}
@@ -137,9 +164,10 @@ const bestOverall = Math.min(...dates.map(d => grid.get(d)?.get(defaultCode) ?? 
                 hidden={base - cheapPrice <= 0}
               >{formatPrice(base - cheapPrice)} less from {cheapCode}</span>
             </span>
-            <span class="sp__cta">Choose cabin ›</span>
+            <span class="sp__cta">{hasCabins ? 'Choose cabin ›' : 'Enquire ›'}</span>
           </button>
 
+          {hasCabins && (
           <div class="sp__cabins" id={`cabins-${i}`} role="region" aria-labelledby={`sail-${i}`} hidden>
             <p class="sp__for">
               Cabins on <b>{niceDate(date)}</b>, flying from <b class="sp__for-airport">{airports.find(a => a.code === defaultCode)?.name}</b>
@@ -193,9 +221,15 @@ const bestOverall = Math.min(...dates.map(d => grid.get(d)?.get(defaultCode) ?? 
               );
             })}
           </div>
+          )}
         </>
       );
     })}
+    {needsFilters && (
+      <button type="button" class="sp__more" data-shown={String(INITIAL_ROWS)}>
+        Show all {dates.length} sailings
+      </button>
+    )}
   </div>
 </div>
 
@@ -239,9 +273,47 @@ const bestOverall = Math.min(...dates.map(d => grid.get(d)?.get(defaultCode) ?? 
       b.addEventListener('click', () => applyAirport(b.dataset.airport || ''));
     });
 
+    // Month chips + show-more. Every row is already in the HTML; this only toggles.
+    const moreBtn = sp.querySelector<HTMLButtonElement>('.sp__more');
+    const INITIAL = 12;
+    let month = 'all';
+    let showAll = false;
+
+    function applyRows() {
+      const all = [...sp.querySelectorAll<HTMLElement>('.sp__row')];
+      const matching = all.filter(r => month === 'all' || r.dataset.month === month);
+      all.forEach(r => {
+        const inMonth = month === 'all' || r.dataset.month === month;
+        const capped = !showAll && matching.indexOf(r) >= INITIAL;
+        r.hidden = !inMonth || capped;
+        if (r.hidden) {
+          r.setAttribute('aria-expanded', 'false');
+          const pnl = document.getElementById(r.getAttribute('aria-controls') || '');
+          if (pnl) pnl.hidden = true;
+        }
+      });
+      if (moreBtn) {
+        moreBtn.hidden = showAll || matching.length <= INITIAL;
+        moreBtn.textContent = `Show all ${matching.length} sailings`;
+      }
+    }
+
+    sp.querySelectorAll<HTMLButtonElement>('.sp__chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        month = chip.dataset.month || 'all';
+        showAll = month !== 'all';
+        sp.querySelectorAll<HTMLButtonElement>('.sp__chip').forEach(c =>
+          c.setAttribute('aria-pressed', String(c === chip)));
+        applyRows();
+      });
+    });
+    moreBtn?.addEventListener('click', () => { showAll = true; applyRows(); });
+    if (moreBtn) applyRows();
+
     sp.querySelectorAll<HTMLButtonElement>('.sp__row').forEach(btn => {
       btn.addEventListener('click', () => {
         const panel = document.getElementById(btn.getAttribute('aria-controls') || '');
+        if (!panel) return;
         const wasOpen = btn.getAttribute('aria-expanded') === 'true';
         sp.querySelectorAll('.sp__row').forEach(b => b.setAttribute('aria-expanded', 'false'));
         sp.querySelectorAll<HTMLElement>('.sp__cabins').forEach(p => { p.hidden = true; });
@@ -276,6 +348,24 @@ const bestOverall = Math.min(...dates.map(d => grid.get(d)?.get(defaultCode) ?? 
   .sp__airport-from { display: block; margin-top: 2px; font-size: 14px; color: #424242; }
   .sp__airport-from b { font-weight: 600; }
 
+  .sp__filters { margin-bottom: 16px; }
+  .sp__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .sp__chip {
+    font: inherit; font-size: 14px; color: #424242; cursor: pointer;
+    background: #fff; border: 1px solid #d4dcde; border-radius: 2px; padding: 7px 12px;
+  }
+  .sp__chip span { color: #6b6b6b; font-size: 12px; margin-left: 4px; }
+  .sp__chip:hover { border-color: #20A1AA; }
+  .sp__chip[aria-pressed='true'] { background: #20A1AA; border-color: #20A1AA; color: #fff; }
+  .sp__chip[aria-pressed='true'] span { color: #d0e8ea; }
+  .sp__more {
+    display: block; width: 100%; font: inherit; font-size: 16px; font-weight: 600;
+    color: #1b8f97; background: #f0f9fa; border: 0; border-top: 1px solid #e5e7eb;
+    padding: 14px; cursor: pointer;
+  }
+  .sp__more:hover { background: #d0e8ea; }
+  .sp__more[hidden] { display: none; }
+  .sp__row[hidden] { display: none; }
   .sp__table { border: 1px solid #e5e7eb; border-radius: 2px; background: #fff; overflow: hidden; }
   .sp__head, .sp__row {
     display: grid;
