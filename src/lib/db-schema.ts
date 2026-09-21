@@ -146,6 +146,29 @@ export const hotelLibrary = sqliteTable('hotel_library', {
   images: text('images', { mode: 'json' }).$type<string[]>(),
 });
 
+// Add-ons offered on top of a holiday (shore excursions, drinks packages).
+// A library plus a join, both written by the admin — the site only reads them.
+// Featured only: they carry a price so the page can show what things cost, and
+// nothing about them reaches an enquiry or a booking.
+export const addons = sqliteTable('addons', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  name: text('name').notNull(),
+  blurb: text('blurb'),
+  price: real('price'),
+  basis: text('basis'),
+  isFromPrice: integer('is_from_price', { mode: 'boolean' }),
+  isActive: integer('is_active', { mode: 'boolean' }),
+});
+
+export const holidayAddons = sqliteTable('holiday_addons', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  holidayId: integer('holiday_id').notNull(),
+  addonId: integer('addon_id').notNull(),
+  priceOverride: real('price_override'),
+  blurbOverride: text('blurb_override'),
+  displayOrder: integer('display_order'),
+});
+
 // City tax rules — the SAME table the admin quote tool edits (Quotes → Taxes
 // & Log). Read live per request (5-min cache in city-taxes-live.ts) so admin
 // edits reach package pages without a deploy; src/data/city-taxes.json is the

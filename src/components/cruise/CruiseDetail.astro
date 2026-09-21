@@ -12,6 +12,7 @@
  */
 import type { HolidayDetail } from '../../lib/holiday-transforms';
 import type { HolidayPricing } from '../../lib/pricing-transforms';
+import type { HolidayAddon } from '../../lib/holidays-db';
 import type { PortCall } from '../../lib/cruise-detail';
 import type { SailingLadder } from '../../lib/cruise-detail';
 import { splitStays } from '../../lib/cruise-detail';
@@ -25,8 +26,9 @@ interface Props {
   calls: PortCall[];
   ladders: SailingLadder[];
   shipNames: Set<string>;
+  addons?: HolidayAddon[];
 }
-const { holiday, pricing, calls, ladders, shipNames } = Astro.props;
+const { holiday, pricing, calls, ladders, shipNames, addons = [] } = Astro.props;
 
 const TEL_DISPLAY = '0208 183 0518';
 const TEL_HREF = 'tel:+442081830518';
@@ -77,6 +79,20 @@ const stayPhotos = (acc: { images?: string[] } | undefined, fallback: string[] =
 };
 const shipPhotos = stayPhotos(shipCard, cabinImages);
 const heroImage = imgSrc(holiday.heroImage, 1600);
+
+const BASIS_LABEL: Record<string, string> = {
+  pp: 'pp',
+  pp_per_day: 'pp per day',
+  per_booking: 'per booking',
+  per_cabin: 'per cabin',
+};
+/** "from £149pp", "£35pp per day", or "Price on application" when there's no figure. */
+const addonPrice = (a: HolidayAddon) => {
+  if (a.price == null) return 'Price on application';
+  const amount = `£${a.price % 1 === 0 ? a.price.toFixed(0) : a.price.toFixed(2)}`;
+  const basis = BASIS_LABEL[a.basis] ?? 'pp';
+  return `${a.isFromPrice ? 'from ' : ''}${amount}${basis === 'pp' ? basis : ` ${basis}`}`;
+};
 
 const included = holiday.whatsIncluded.filter(Boolean);
 const excluded = holiday.otherInfoBullets?.length
@@ -191,6 +207,34 @@ const overview = tidyOverview(holiday.overview || '');
             )}
           </div>
         </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Add-ons. Featured only (owner 2026-09-21): the price is shown so nobody
+       has to ring to find out what an excursion costs, and the booking itself
+       still happens on the call. -->
+  {addons.length > 0 && (
+    <section class="cd-section cd-section--band" id="addons">
+      <div class="section-container">
+        <div class="cd-head">
+          <p class="cd-eyebrow">On top of your fare</p>
+          <h2>Add to your trip</h2>
+        </div>
+        <ul class="cd-addons">
+          {addons.map(a => (
+            <li>
+              <div class="cd-addons__text">
+                <h3>{a.name}</h3>
+                {a.blurb && <p>{a.blurb}</p>}
+              </div>
+              <p class="cd-addons__price">{addonPrice(a)}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="cd-addons__foot">
+          Added to your booking when you call — <a href={TEL_HREF}>{TEL_DISPLAY}</a>
+        </p>
       </div>
     </section>
   )}
@@ -540,6 +584,23 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-excl__lab { margin: 24px 0 0; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
   .cd-excl__lab + .cd-excl { margin-top: 8px; }
   .cd-overview :global(ul) { margin: 0 0 16px; padding-left: 20px; list-style: disc; }
+
+  /* Add-ons */
+  .cd-addons { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+  .cd-addons li {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+    padding: 16px 0; border-top: 1px solid #e0e6e7;
+  }
+  .cd-addons li:first-child { border-top: 0; }
+  .cd-addons__text h3 { margin: 0; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 18px; font-weight: 600; color: #424242; }
+  .cd-addons__text p { margin: 4px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
+  .cd-addons__price { margin: 0; flex: none; font-size: 18px; font-weight: 600; color: #0d6066; white-space: nowrap; }
+  .cd-addons__foot { margin: 24px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
+  .cd-addons__foot a { color: #0d6066; font-weight: 600; }
+  @media (max-width: 600px) {
+    .cd-addons li { flex-direction: column; gap: 4px; }
+    .cd-addons__price { font-size: 16px; }
+  }
 
   /* Talk to us */
   .cd-call { background: #073140; color: #fff; text-align: center; padding-block: 64px; }

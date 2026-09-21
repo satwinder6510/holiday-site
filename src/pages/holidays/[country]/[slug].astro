@@ -15,7 +15,7 @@ import { getCruiseCalls, getSailingLadders, getShipNameSet } from '../../../lib/
 import { roundToNine } from '../../../lib/pricing-transforms';
 import { allBlogs } from '../../../data/blogs';
 import { getDb } from '../../../lib/get-db';
-import { getHolidayBySlugFromDb } from '../../../lib/holidays-db';
+import { getHolidayBySlugFromDb, getHolidayAddons, type HolidayAddon } from '../../../lib/holidays-db';
 import { sanitizeHtml } from '../../../lib/sanitize';
 
 const { country, slug } = Astro.params;
@@ -29,6 +29,7 @@ if (slug && redirects[slug]) {
 let holiday: HolidayDetail;
 let pricing: any;
 let hasPricing: boolean;
+let holidayAddonList: HolidayAddon[] = [];
 try {
   const db = getDb(Astro);
   const result = await getHolidayBySlugFromDb(db, slug!);
@@ -38,6 +39,13 @@ try {
   holiday = result.holiday;
   pricing = result.pricing;
   hasPricing = !!pricing;
+  // Add-ons are decoration, not the page: a failure here must not 503 an
+  // otherwise complete holiday, so it degrades to none.
+  try {
+    holidayAddonList = await getHolidayAddons(db, holiday.id);
+  } catch (e) {
+    console.error('Add-ons lookup failed:', e);
+  }
 } catch (e) {
   console.error('DB error on holiday detail:', e);
   return new Response('Service temporarily unavailable', { status: 503 });
@@ -313,7 +321,7 @@ const pageDescription = holiday.metaDescription || (() => {
   <MobileNav />
 
   {useCruiseTemplate ? (
-    <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} shipNames={shipNameSet} />
+    <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} shipNames={shipNameSet} addons={holidayAddonList} />
   ) : (
   <Fragment>
   <!-- Hero Section (wrapper lets the price bar anchor to the hero's bottom edge) -->

@@ -1,7 +1,7 @@
 // SSR query functions — fetch holidays + pricing from D1
 import { eq, and, inArray, gte, sql, getTableColumns } from 'drizzle-orm';
 import type { Database } from './db';
-import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable, cruiseSailings, cruiseOfferSailingCabins, hotelLibrary } from './db-schema';
+import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable, cruiseSailings, cruiseOfferSailingCabins, hotelLibrary, addons, holidayAddons } from './db-schema';
 import {
   type RawHoliday,
   type RawCruise,
@@ -767,4 +767,52 @@ export function getFilterData(holidays: HolidayDetail[]) {
     .sort((a, b) => a.name.localeCompare(b.name));
 
   return { boardBasisOptions, priceRange, cityOptions };
+}
+
+
+/** An add-on as the page shows it: name, one line, and what it costs. */
+export interface HolidayAddon {
+  name: string;
+  blurb: string;
+  price: number | null;
+  basis: string;
+  isFromPrice: boolean;
+}
+
+/**
+ * Add-ons offered on top of this holiday, in the order the admin set.
+ * Retired library rows (is_active 0) drop out rather than being unattached
+ * everywhere, so pulling an add-on from sale is one switch.
+ *
+ * A blank override is not an override — the admin stores NULL for "use the
+ * library wording", so `??` is right here and `||` would be too, but only by
+ * luck; the NULL is the contract.
+ */
+export async function getHolidayAddons(db: Database, holidayId: number): Promise<HolidayAddon[]> {
+  const rows = await db
+    .select({
+      name: addons.name,
+      blurb: addons.blurb,
+      price: addons.price,
+      basis: addons.basis,
+      isFromPrice: addons.isFromPrice,
+      isActive: addons.isActive,
+      priceOverride: holidayAddons.priceOverride,
+      blurbOverride: holidayAddons.blurbOverride,
+      displayOrder: holidayAddons.displayOrder,
+    })
+    .from(holidayAddons)
+    .innerJoin(addons, eq(addons.id, holidayAddons.addonId))
+    .where(eq(holidayAddons.holidayId, holidayId));
+
+  return rows
+    .filter((r) => r.isActive !== false)
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0) || a.name.localeCompare(b.name))
+    .map((r) => ({
+      name: r.name,
+      blurb: r.blurbOverride ?? r.blurb ?? '',
+      price: r.priceOverride ?? r.price ?? null,
+      basis: r.basis ?? 'pp',
+      isFromPrice: !!r.isFromPrice,
+    }));
 }
