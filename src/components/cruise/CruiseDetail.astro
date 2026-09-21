@@ -45,6 +45,21 @@ const shipName = holiday.shipName || shipCard?.name || '';
 // A route can be sailed by more than one ship (City Hopping Netherlands runs two).
 const shipHeading = ships.length > 1 ? 'Your ships' : 'Your ship';
 
+// Where the hotel nights fall. Offers say so; hand-typed packages don't, and for
+// those the old wording (which assumed pre-cruise) is left exactly as it was.
+const hotelSides = new Set(hotels.map(h => h.when).filter(Boolean));
+const hotelSide = hotelSides.size === 1 ? [...hotelSides][0] : null;
+const hotelEyebrow = hotelSides.size === 0 || hotelSide === 'before'
+  ? 'Before you board'
+  : hotelSide === 'after'
+    ? 'After you disembark'
+    : 'Either side of the cruise';
+const hotelGlanceLabel = hotelSides.size === 0 || hotelSide === 'before'
+  ? (hotels.length > 1 ? 'Hotels before' : 'Hotel before')
+  : hotelSide === 'after'
+    ? (hotels.length > 1 ? 'Hotels after' : 'Hotel after')
+    : 'Hotels';
+
 // The route line: every port called at, in order, without repeating a berth.
 const routePorts: string[] = [];
 for (const c of calls) if (routePorts[routePorts.length - 1] !== c.port) routePorts.push(c.port);
@@ -140,7 +155,7 @@ const overview = tidyOverview(holiday.overview || '');
         <dd>{ships.map(sh => sh.name).join(' & ')}</dd></div>
       )}
       {hotels.length > 0 && (
-        <div><dt>{hotels.length > 1 ? 'Hotels before' : 'Hotel before'}</dt>
+        <div><dt>{hotelGlanceLabel}</dt>
         <dd>{hotels.map(h => h.name).join(', ')}</dd></div>
       )}
       {nights > 0 && <div><dt>Length</dt><dd>{nights} nights</dd></div>}
@@ -282,7 +297,7 @@ const overview = tidyOverview(holiday.overview || '');
     <section class="cd-section" id="hotels">
       <div class="section-container">
         <div class="cd-head">
-          <p class="cd-eyebrow">Before you board</p>
+          <p class="cd-eyebrow">{hotelEyebrow}</p>
           <h2>{hotels.length > 1 ? 'Your hotels' : 'Your hotel'}</h2>
         </div>
         <ul class="cd-hotels">

@@ -323,6 +323,19 @@ async function applyLibraryStars(db: Database, holiday: HolidayDetail): Promise<
 }
 
 /**
+ * Library descriptions usually open by repeating the hotel's name (502 of the
+ * 591 described rows), which would sit directly under the card's own heading.
+ * Drop that first line when it is only the name.
+ */
+function stripLeadingName(description: string | null, hotelName: string): string {
+  const text = (description || '').trim();
+  if (!text) return '';
+  const [first, ...rest] = text.split(/\n/);
+  if (normaliseHotelName(first) !== normaliseHotelName(hotelName)) return text;
+  return rest.join('\n').trim();
+}
+
+/**
  * Fill a cruise offer's hotel nights with the library's own words and photos.
  *
  * The export carries only what the OFFER owns (name, city, nights, stars). The
@@ -358,14 +371,20 @@ async function withLibraryHotels(
       if (acc.kind !== 'hotel') return acc;
       const lib = byName.get(normaliseHotelName(acc.name));
       if (!lib) return acc;
-      // D1 JSON columns come back null, not [].
-      const images = [lib.featuredImage, ...(lib.images ?? [])]
-        .filter((u): u is string => !!u)
-        .map(resolveImageUrl);
+      // D1 JSON columns come back null, not []. The featured image is also
+      // inside `images` on 544 of the 591 described hotels, so dedupe or the
+      // card leads with the same photo twice.
+      const images = [...new Set(
+        [lib.featuredImage, ...(lib.images ?? [])]
+          .filter((u): u is string => !!u)
+          .map(resolveImageUrl),
+      )];
       return {
         ...acc,
         // The offer's nights line stays, under the library's description.
-        description: [lib.description?.trim(), acc.description].filter(Boolean).join('\n\n'),
+        description: [stripLeadingName(lib.description, acc.name), acc.description]
+          .filter(Boolean)
+          .join('\n\n'),
         images,
         stars: acc.stars ?? lib.starRating ?? null,
       };

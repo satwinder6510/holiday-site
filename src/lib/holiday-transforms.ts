@@ -203,7 +203,12 @@ export interface HolidayDetail extends Holiday {
    * which carry the ship and the hotel in separate columns). Hand-typed packages
    * leave it undefined and splitStays() falls back to its name heuristic.
    */
-  accommodations: { name: string; description: string; images: string[]; stars: number | null; kind?: 'ship' | 'hotel' }[];
+  accommodations: {
+    name: string; description: string; images: string[]; stars: number | null;
+    kind?: 'ship' | 'hotel';
+    /** Which side of the cruise a hotel night falls. Offers only. */
+    when?: 'before' | 'after';
+  }[];
   galleryImages: string[];
   review: string;
   otherInfo: string;
@@ -653,6 +658,7 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
       images: [],
       stars: h.stars ?? null,
       kind: 'hotel',
+      when: h.when,
     });
   }
   const shipNames = shipList.map((s) => s.name).filter(Boolean);
