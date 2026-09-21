@@ -120,6 +120,7 @@
     "disembark_port": "Cologne",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-25",
@@ -279,6 +280,7 @@
     "disembark_port": "Cologne",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-25",
@@ -514,6 +516,7 @@
     "disembark_port": "Frankfurt",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-02",
@@ -676,6 +679,7 @@
     "disembark_port": "Porto",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-23",
@@ -974,6 +978,7 @@
     "disembark_port": "Cologne",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-26",
@@ -1094,6 +1099,7 @@
     "disembark_port": "Cologne",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-23",
@@ -1231,8 +1237,8 @@
         "built": "2005",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-20",
-      "sailingCount": 55
+      "firstSailingDate": "2026-10-15",
+      "sailingCount": 54
     },
     "ships": [
       {
@@ -1254,8 +1260,8 @@
           "built": "2005",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-20",
-        "sailingCount": 55
+        "firstSailingDate": "2026-10-15",
+        "sailingCount": 54
       },
       {
         "shipId": 9,
@@ -1276,21 +1282,16 @@
           "built": "2005",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-20",
-        "sailingCount": 8
+        "firstSailingDate": "2026-09-27",
+        "sailingCount": 7
       }
     ],
     "departure_port": "Lyon",
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
-      {
-        "date": "2026-09-20",
-        "returnDate": "2026-09-27",
-        "pricePp": 1489,
-        "cabinPricePp": 1354.7
-      },
       {
         "date": "2026-09-27",
         "returnDate": "2026-10-04",
@@ -1542,6 +1543,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-01",
@@ -1649,8 +1651,8 @@
         "built": "2011",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-20",
-      "sailingCount": 24
+      "firstSailingDate": "2026-09-27",
+      "sailingCount": 23
     },
     "ships": [
       {
@@ -1672,21 +1674,16 @@
           "built": "2011",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-20",
-        "sailingCount": 24
+        "firstSailingDate": "2026-09-27",
+        "sailingCount": 23
       }
     ],
     "departure_port": "Cologne",
     "disembark_port": "Cologne",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
-      {
-        "date": "2026-09-20",
-        "returnDate": "2026-09-27",
-        "pricePp": 1769,
-        "cabinPricePp": 1547.55
-      },
       {
         "date": "2026-09-27",
         "returnDate": "2026-10-04",
@@ -1848,6 +1845,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-27",
@@ -2043,6 +2041,7 @@
     "disembark_port": "Cologne",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-23",
@@ -2187,6 +2186,7 @@
     "disembark_port": "Cologne",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-24",
@@ -2325,6 +2325,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-18",
@@ -2461,6 +2462,7 @@
     "disembark_port": "Cologne",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-24",
@@ -2629,6 +2631,7 @@
     "disembark_port": "Bonn",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-27",
@@ -2747,6 +2750,7 @@
     "disembark_port": "Cologne",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-05",
@@ -2959,6 +2963,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-31",
@@ -3104,6 +3109,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-09",
@@ -3453,6 +3459,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-23",
@@ -3652,6 +3659,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-02",
@@ -3815,6 +3823,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-21",
@@ -4035,6 +4044,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-01",
@@ -4193,6 +4203,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-30",
@@ -4333,6 +4344,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-17",
@@ -4456,6 +4468,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-01",
@@ -4569,6 +4582,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-14",
@@ -4824,6 +4838,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-29",
@@ -5117,6 +5132,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-03",
@@ -5499,6 +5515,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-25",
@@ -6002,6 +6019,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-27",
@@ -6192,6 +6210,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-01",
@@ -6399,6 +6418,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-08",
@@ -6557,6 +6577,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-01",
@@ -6745,6 +6766,7 @@
     "disembark_port": "Breisach",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-23",
@@ -6897,6 +6919,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-29",
@@ -7006,6 +7029,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-15",
@@ -7154,6 +7178,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-28",
@@ -7350,6 +7375,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-10",
@@ -7612,6 +7638,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-15",
@@ -7885,6 +7912,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-22",
@@ -8081,6 +8109,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-03",
@@ -8350,6 +8379,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-29",
@@ -8531,6 +8561,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-05",
@@ -8700,6 +8731,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-01",
@@ -8862,6 +8894,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-28",
@@ -8989,6 +9022,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-21",
@@ -9112,6 +9146,7 @@
     "disembark_port": "Seville",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-25",
@@ -9265,6 +9300,7 @@
     "disembark_port": "Seville",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-04",
@@ -9412,6 +9448,7 @@
     "disembark_port": "Seville",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-04",
@@ -9631,6 +9668,7 @@
     "disembark_port": "Seville",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-03",
@@ -9760,6 +9798,7 @@
     "disembark_port": "Seville",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-05",
@@ -9931,6 +9970,7 @@
     "disembark_port": "Seville",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-24",
@@ -10109,6 +10149,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-29",
@@ -10270,6 +10311,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-28",
@@ -10476,6 +10518,7 @@
     "disembark_port": "Budapest",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-28",
@@ -10624,6 +10667,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-27",
@@ -10905,6 +10949,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-03",
@@ -11034,6 +11079,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-17",
@@ -11185,6 +11231,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-23",
@@ -11302,6 +11349,7 @@
     "disembark_port": "Breisach",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-30",
@@ -11407,6 +11455,7 @@
     "disembark_port": "Cochem",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-09",
@@ -11592,6 +11641,7 @@
     "disembark_port": "Spandau/Berlin",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-04",
@@ -11753,6 +11803,7 @@
     "disembark_port": "Copenhagen",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-15",
@@ -11921,6 +11972,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-30",
@@ -12171,6 +12223,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-23",
@@ -12404,6 +12457,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-01",
@@ -12686,6 +12740,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-26",
@@ -12853,6 +12908,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-26",
@@ -12966,6 +13022,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-05",
@@ -13133,6 +13190,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-07-06",
@@ -13265,6 +13323,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-01",
@@ -13467,6 +13526,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-25",
@@ -13638,6 +13698,7 @@
     "disembark_port": "Bordeaux",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-23",
@@ -13749,6 +13810,7 @@
     "disembark_port": "Bordeaux",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-28",
@@ -13866,6 +13928,7 @@
     "disembark_port": "Bordeaux",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-01",
@@ -14061,6 +14124,7 @@
     "disembark_port": "Bordeaux",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-25",
@@ -14262,6 +14326,7 @@
     "disembark_port": "Venice",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-02",
@@ -14403,6 +14468,7 @@
     "disembark_port": "Venice",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-22",
@@ -14520,6 +14586,7 @@
     "disembark_port": "Milan",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-15",
@@ -14631,6 +14698,7 @@
     "disembark_port": "Venice",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-30",
@@ -14850,6 +14918,7 @@
     "disembark_port": "Mantua",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-24",
@@ -14997,6 +15066,7 @@
     "disembark_port": "Venice",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-06",
@@ -15174,6 +15244,7 @@
     "disembark_port": "Venice",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-06",
@@ -15367,6 +15438,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-01",
@@ -15501,6 +15573,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-09",
@@ -15663,6 +15736,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-12",
@@ -15780,6 +15854,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-08-06",
@@ -15891,6 +15966,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-28",
@@ -16002,6 +16078,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-07-01",
@@ -16113,6 +16190,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-26",
@@ -16268,6 +16346,7 @@
     "disembark_port": "Oltenita",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-25",
@@ -16383,6 +16462,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-23",
@@ -16554,6 +16634,7 @@
     "disembark_port": "Budapest",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-12",
@@ -16703,6 +16784,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-23",
@@ -16828,6 +16910,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-02",
@@ -17029,6 +17112,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-03",
@@ -17391,6 +17475,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-13",
@@ -17580,6 +17665,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-08",
@@ -17762,6 +17848,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-15",
@@ -17964,6 +18051,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-11",
@@ -18213,6 +18301,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-02",
@@ -18411,6 +18500,7 @@
     "disembark_port": "Porto",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-24",
@@ -18624,6 +18714,7 @@
     "disembark_port": "Porto",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-26",
@@ -18940,6 +19031,7 @@
     "disembark_port": "Porto",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-27",
@@ -19315,6 +19407,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-04",
@@ -19408,6 +19501,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-14",
@@ -19537,6 +19631,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-30",
@@ -19674,6 +19769,7 @@
     "disembark_port": "Porto",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-12",
@@ -19809,6 +19905,7 @@
     "disembark_port": "Budapest",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-25",
@@ -19950,6 +20047,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-27",
@@ -20032,8 +20130,8 @@
         "built": "2015",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-20",
-      "sailingCount": 179
+      "firstSailingDate": "2026-09-25",
+      "sailingCount": 177
     },
     "ships": [
       {
@@ -20057,21 +20155,16 @@
           "built": "2015",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-20",
-        "sailingCount": 179
+        "firstSailingDate": "2026-09-25",
+        "sailingCount": 177
       }
     ],
     "departure_port": "Nantes",
     "disembark_port": "Nantes",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
-      {
-        "date": "2026-09-20",
-        "returnDate": "2026-09-24",
-        "pricePp": 1349,
-        "cabinPricePp": 1181.8
-      },
       {
         "date": "2026-09-25",
         "returnDate": "2026-09-29",
@@ -20348,6 +20441,7 @@
     "disembark_port": "Nantes",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-22",
@@ -20475,6 +20569,7 @@
     "disembark_port": "Nantes",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-23",
@@ -20608,6 +20703,7 @@
     "disembark_port": "Nantes",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-09",
@@ -20747,6 +20843,7 @@
     "disembark_port": "Nantes",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-28",
@@ -20860,6 +20957,7 @@
     "disembark_port": "Colmar",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-01",
@@ -20991,6 +21089,7 @@
     "disembark_port": "Colmar",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-06",
@@ -21092,6 +21191,7 @@
     "disembark_port": "Colmar",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-02",
@@ -21277,6 +21377,7 @@
     "disembark_port": "Porto",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-13",
@@ -21432,6 +21533,7 @@
     "disembark_port": "Prague",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-28",
@@ -21599,6 +21701,7 @@
     "disembark_port": "Prague",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-22",
@@ -21838,6 +21941,7 @@
     "disembark_port": "Prague",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-23",
@@ -21945,6 +22049,7 @@
     "disembark_port": "Prague",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-29",
@@ -22040,6 +22145,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-30",
@@ -22153,6 +22259,7 @@
     "disembark_port": "Sens",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-14",
@@ -22369,6 +22476,7 @@
     "disembark_port": "Siem Reap",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-23",
@@ -22646,6 +22754,7 @@
     "disembark_port": "Ho Chi Minh City",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-29",
@@ -22940,6 +23049,7 @@
     "disembark_port": "Tonlé Sap",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-23",
@@ -23175,8 +23285,8 @@
           "built": "2017",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-20",
-        "sailingCount": 36
+        "firstSailingDate": "2026-10-06",
+        "sailingCount": 31
       },
       {
         "shipId": 51,
@@ -23204,13 +23314,8 @@
     "disembark_port": "Ho Chi Minh City",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
-      {
-        "date": "2026-09-20",
-        "returnDate": "2026-09-28",
-        "pricePp": 3089,
-        "cabinPricePp": 2327.5
-      },
       {
         "date": "2026-10-01",
         "returnDate": "2026-10-09",
@@ -23462,8 +23567,8 @@
         "built": "2008",
         "refurbished": ""
       },
-      "firstSailingDate": "2026-09-20",
-      "sailingCount": 28
+      "firstSailingDate": "2026-10-06",
+      "sailingCount": 25
     },
     "ships": [
       {
@@ -23483,8 +23588,8 @@
           "built": "2008",
           "refurbished": ""
         },
-        "firstSailingDate": "2026-09-20",
-        "sailingCount": 28
+        "firstSailingDate": "2026-10-06",
+        "sailingCount": 25
       },
       {
         "shipId": 53,
@@ -23513,13 +23618,8 @@
     "disembark_port": "Siem Reap",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
-      {
-        "date": "2026-09-20",
-        "returnDate": "2026-10-03",
-        "pricePp": 4969,
-        "cabinPricePp": 4209.45
-      },
       {
         "date": "2026-10-06",
         "returnDate": "2026-10-19",
@@ -23792,6 +23892,7 @@
     "disembark_port": "Siem Reap",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-03",
@@ -24047,6 +24148,7 @@
     "disembark_port": "Hanoi",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-29",
@@ -24362,6 +24464,7 @@
     "disembark_port": "Ha Long Bay",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-29",
@@ -24617,6 +24720,7 @@
     "disembark_port": "Angkor",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-21",
@@ -24800,6 +24904,7 @@
     "disembark_port": "Ho Chi Minh City",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-27",
@@ -25087,6 +25192,7 @@
     "disembark_port": "Victoria Falls",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-25",
@@ -25911,6 +26017,7 @@
     "disembark_port": "Berlin",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-08",
@@ -26019,6 +26126,7 @@
     "disembark_port": "Mainz",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-04",
@@ -26147,6 +26255,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-01",
@@ -26279,6 +26388,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-27",
@@ -26419,6 +26529,7 @@
     "disembark_port": "Berlin",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-02-28",
@@ -26547,6 +26658,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-05",
@@ -26679,6 +26791,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-31",
@@ -26823,6 +26936,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-19",
@@ -26979,6 +27093,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-07",
@@ -27113,6 +27228,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-09",
@@ -27239,6 +27355,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-16",
@@ -27367,6 +27484,7 @@
     "disembark_port": "Langwedel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-02-14",
@@ -27483,6 +27601,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-07-23",
@@ -27595,6 +27714,7 @@
     "disembark_port": "Frankfurt",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-04",
@@ -27755,6 +27875,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-24",
@@ -27899,6 +28020,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-11",
@@ -28031,6 +28153,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-22",
@@ -28139,6 +28262,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-07",
@@ -28279,6 +28403,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-01",
@@ -28393,6 +28518,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-24",
@@ -28555,6 +28681,7 @@
     "disembark_port": "Porto",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-31",
@@ -28795,6 +28922,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-24",
@@ -28915,6 +29043,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-02-20",
@@ -29089,6 +29218,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-31",
@@ -29265,6 +29395,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-05",
@@ -29379,6 +29510,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-06",
@@ -29501,6 +29633,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-18",
@@ -29627,6 +29760,7 @@
     "disembark_port": "Porto",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-14",
@@ -29759,6 +29893,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-02",
@@ -29923,6 +30058,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-04",
@@ -30081,6 +30217,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-28",
@@ -30189,6 +30326,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-11",
@@ -30383,6 +30521,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-21",
@@ -30503,6 +30642,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-08",
@@ -30629,6 +30769,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-27",
@@ -30753,6 +30894,7 @@
     "disembark_port": "Regensburg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-22",
@@ -30873,6 +31015,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-28",
@@ -31003,6 +31146,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-29",
@@ -31149,6 +31293,7 @@
     "disembark_port": "Nuremberg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-26",
@@ -31281,6 +31426,7 @@
     "disembark_port": "Venice",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-07-16",
@@ -31445,6 +31591,7 @@
     "disembark_port": "Berlin",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-23",
@@ -31577,6 +31724,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-14",
@@ -31709,6 +31857,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-12",
@@ -31849,6 +31998,7 @@
     "disembark_port": "Potsdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-16",
@@ -31969,6 +32119,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-07",
@@ -32151,6 +32302,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-18",
@@ -32295,6 +32447,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-01",
@@ -32429,6 +32582,7 @@
     "disembark_port": "Budapest",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-30",
@@ -32539,6 +32693,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-01-21",
@@ -32715,6 +32870,7 @@
     "disembark_port": "Kiel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-15",
@@ -32885,6 +33041,7 @@
     "disembark_port": "Budapest",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-12",
@@ -33013,6 +33170,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-26",
@@ -33163,6 +33321,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-08",
@@ -33289,6 +33448,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-03",
@@ -33415,6 +33575,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-31",
@@ -33547,6 +33708,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-28",
@@ -33699,6 +33861,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-01-17",
@@ -33857,6 +34020,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-12",
@@ -33965,6 +34129,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-26",
@@ -34137,6 +34302,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-10",
@@ -34283,6 +34449,7 @@
     "disembark_port": "Budapest",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-26",
@@ -34421,6 +34588,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-10",
@@ -34553,6 +34721,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-24",
@@ -34709,6 +34878,7 @@
     "disembark_port": "Nuremberg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-22",
@@ -34841,6 +35011,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-12",
@@ -34991,6 +35162,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-17",
@@ -35131,6 +35303,7 @@
     "disembark_port": "Potsdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-27",
@@ -35257,6 +35430,7 @@
     "disembark_port": "Venice",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-04",
@@ -35417,6 +35591,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-08",
@@ -35549,6 +35724,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-20",
@@ -35681,6 +35857,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-23",
@@ -35837,6 +36014,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-07-23",
@@ -35979,6 +36157,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-28",
@@ -36093,6 +36272,7 @@
     "disembark_port": "Koblenz",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-22",
@@ -36253,6 +36433,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-03-14",
@@ -36381,6 +36562,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-16",
@@ -36535,6 +36717,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-07",
@@ -36651,6 +36834,7 @@
     "disembark_port": "Vienna",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-11-14",
@@ -36775,6 +36959,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-23",
@@ -36913,6 +37098,7 @@
     "disembark_port": "Paris",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-21",
@@ -37041,6 +37227,7 @@
     "disembark_port": "Lyon",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-08",
@@ -37175,6 +37362,7 @@
     "disembark_port": "Arles",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-24",
@@ -37301,6 +37489,7 @@
     "disembark_port": "Porto",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-07",
@@ -37429,6 +37618,7 @@
     "disembark_port": "Duisburg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-02-21",
@@ -37561,6 +37751,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-05",
@@ -37713,6 +37904,7 @@
     "disembark_port": "Berlin",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-04",
@@ -37875,6 +38067,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-22",
@@ -37991,6 +38184,7 @@
     "disembark_port": "Dresden",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-21",
@@ -38123,6 +38317,7 @@
     "disembark_port": "Amsterdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-07-16",
@@ -38239,6 +38434,7 @@
     "disembark_port": "Potsdam",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-10-26",
@@ -38401,6 +38597,7 @@
     "disembark_port": "Brussel (Bruxelles)",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-07-04",
@@ -38529,6 +38726,7 @@
     "disembark_port": "Düsseldorf",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-01",
@@ -38661,6 +38859,7 @@
     "disembark_port": "Strasbourg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-02",
@@ -38777,6 +38976,7 @@
     "disembark_port": "Regensburg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-12-16",
@@ -38935,6 +39135,7 @@
     "disembark_port": "Basel",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-04-23",
@@ -39069,6 +39270,7 @@
     "disembark_port": "Bremen",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-10",
@@ -39227,6 +39429,7 @@
     "disembark_port": "Brussel (Bruxelles)",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2026-09-22",
@@ -39355,6 +39558,7 @@
     "disembark_port": "Hannover",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-25",
@@ -39487,6 +39691,7 @@
     "disembark_port": "Nuremberg",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-06-09",
@@ -39615,6 +39820,7 @@
     "disembark_port": "Berlin",
     "board_basis": "Full Board",
     "port_fee_pp": 0,
+    "hotels": [],
     "sailings": [
       {
         "date": "2027-05-18",
