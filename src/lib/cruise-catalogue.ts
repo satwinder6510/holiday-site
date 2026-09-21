@@ -271,17 +271,20 @@ interface OfferRow {
   itinerary: unknown;
   gallery: unknown;
   operatorName: string | null;
-  shipName: string | null;
-  shipDescription: string | null;
-  shipCoverImage: string | null;
-  shipClass: string | null;
-  shipRawData: unknown;
+  /** The route's designated ship. Only a fallback; the ships that actually sail
+   *  an offer come from its future sailings. */
+  routeShipId: number | null;
 }
 
 /**
  * Operator is owned by the ROUTE (a route physically belongs to one operator).
  * The offer's operator_id is a stale denormalised copy and must NOT be used: it
  * caused the Zambezi A-ROSA/CroisiEurope mismatch.
+ *
+ * Do NOT join cruise_ships here to pull ship detail. Ship rows carry the whole
+ * Widgety blob in raw_data, and joined per offer that is 18.9 MB down the wire
+ * against 1.2 MB for everything else in this query. SHIP_DETAILS_SQL fetches
+ * all 67 ships once instead; this carries the route's ship_id and looks it up.
  */
 export const OFFERS_SQL = sql`
   SELECT
@@ -310,15 +313,10 @@ export const OFFERS_SQL = sql`
     cr.itinerary             AS itinerary,
     cr.gallery               AS gallery,
     cop.name                 AS operatorName,
-    cs.name                  AS shipName,
-    cs.description           AS shipDescription,
-    cs.cover_image_url       AS shipCoverImage,
-    cs.ship_class            AS shipClass,
-    cs.raw_data              AS shipRawData
+    cr.ship_id               AS routeShipId
   FROM cruise_offers co
   INNER JOIN cruise_routes cr ON co.route_id = cr.id
   INNER JOIN cruise_operators cop ON cr.operator_id = cop.id
-  LEFT JOIN cruise_ships cs ON cr.ship_id = cs.id
   WHERE co.is_active = 1
 `;
 
@@ -485,15 +483,12 @@ export function assembleCatalogue(
       ship = ships[0] ?? null;
     }
     // Fallback: no sailing-derived ship (shouldn't happen) → the route's own.
-    if (!ship && row.shipName) {
-      ship = buildShipExport(-1, {
-        name: row.shipName,
-        description: row.shipDescription || '',
-        coverImage: row.shipCoverImage || '',
-        class: row.shipClass || '',
-        rawData: safeJsonParse(row.shipRawData) as ShipRawData | null,
-      });
-      ships = [ship];
+    if (!ship && row.routeShipId != null) {
+      const detail = shipDetailMap.get(row.routeShipId);
+      if (detail) {
+        ship = buildShipExport(row.routeShipId, detail);
+        ships = [ship];
+      }
     }
 
     const byDate = sailingsByOffer.get(row.offerId);
@@ -525,7 +520,7 @@ export function assembleCatalogue(
       whats_included: parseInclusions(row.inclusions),
       itinerary: cleanItinerary(itinerary),
       operator_name: row.operatorName || '',
-      ship_name: ship?.name || row.shipName || '',
+      ship_name: ship?.name || '',
       ship,
       ships,
       departure_port: row.departurePort || '',
