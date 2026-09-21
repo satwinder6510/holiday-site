@@ -236,6 +236,9 @@ const overview = tidyOverview(holiday.overview || '');
           <h2>Add to your trip</h2>
         </div>
         {excursions.length > 0 && (
+          <p class="cd-addons__rule">Optional excursions — not included in your fare</p>
+        )}
+        {excursions.length > 0 && (
           <ul class="cd-addons">
             {excursions.map(e => (
               <li>
@@ -251,7 +254,9 @@ const overview = tidyOverview(holiday.overview || '');
             ))}
           </ul>
         )}
-        {excursions.length > 0 && addons.length > 0 && <p class="cd-addons__rule">And on any sailing</p>}
+        {addons.length > 0 && (
+          <p class="cd-addons__rule">Optional extras — available on any sailing</p>
+        )}
         <ul class="cd-addons">
           {addons.map(a => (
             <li>
@@ -313,7 +318,10 @@ const overview = tidyOverview(holiday.overview || '');
                 <h3 class="cd-days__title">{d.title}</h3>
                 {d.description && <div class="cd-prose" set:html={d.description} />}
                 {(excursionsByDay.get(dayNumber(d.day)) ?? []).map(e => (
-                  <p class="cd-days__exc"><b>{e.name}</b> {addonPrice(e)}</p>
+                  <p class="cd-days__exc">
+                    <span class="cd-days__exc-lab">Optional excursion</span>
+                    <b>{e.name}</b> {addonPrice(e)}
+                  </p>
                 ))}
               </div>
             </li>
@@ -630,9 +638,12 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-addons__text p { margin: 4px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
   .cd-addons__price { margin: 0; flex: none; font-size: 18px; font-weight: 600; color: #0d6066; white-space: nowrap; }
   .cd-addons__where { color: #0d6066; font-weight: 600; margin-right: 8px; }
+  /* cd-head already leaves 32px, so the first group heading doesn't add its own. */
+  .cd-addons__rule:first-of-type { margin-top: 0; }
   .cd-addons__rule { margin: 24px 0 8px; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
   .cd-days__exc { margin: 8px 0 0; font-size: 14px; line-height: 22px; color: #0d6066; }
   .cd-days__exc b { color: #424242; }
+  .cd-days__exc-lab { display: inline-block; margin-right: 8px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #6b6b6b; }
   .cd-addons__foot { margin: 24px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
   .cd-addons__foot a { color: #0d6066; font-weight: 600; }
   @media (max-width: 600px) {
