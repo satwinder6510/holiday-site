@@ -52,6 +52,11 @@ const catalogue = gradeCatalogue(ladders);
 const dates = [...grid.keys()].sort();
 // Admin-made cruise packages carry dates and airports but no cabin grid.
 const hasCabins = ladders.length > 0;
+// With no cabin ladders there is nothing to expand, so the row must not pretend
+// to be a disclosure: it pointed aria-controls at a panel that was never
+// rendered and its "Enquire" CTA did nothing at all (UX review 2026-09-21).
+// Without cabins the whole row becomes the call link instead.
+const Row = hasCabins ? 'button' : 'a';
 // Long routes (the Zambezi runs 84 sailings) need cutting down before the list
 // is usable; short ones show whole and skip the furniture.
 const INITIAL_ROWS = 12;
@@ -139,12 +144,12 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       );
       return (
         <>
-          <button
-            type="button"
+          <Row
+            {...(hasCabins
+              ? { type: 'button' as const, 'aria-expanded': 'false', 'aria-controls': `cabins-${i}` }
+              : { href: tel })}
             class="sp__row"
             id={`sail-${i}`}
-            aria-expanded="false"
-            aria-controls={`cabins-${i}`}
             data-date={date}
             data-month={date.slice(0, 7)}
             hidden={needsFilters && i >= INITIAL_ROWS}
@@ -166,8 +171,8 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
                 hidden={base - cheapPrice <= 0}
               >{formatPrice(base - cheapPrice)} less from {cheapCode}</span>
             </span>
-            <span class="sp__cta">{hasCabins ? 'Choose cabin ›' : 'Enquire ›'}</span>
-          </button>
+            <span class="sp__cta">{hasCabins ? 'Choose cabin ›' : 'Call to book ›'}</span>
+          </Row>
 
           {hasCabins && (
           <div class="sp__cabins" id={`cabins-${i}`} role="region" aria-labelledby={`sail-${i}`} hidden>
@@ -386,6 +391,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     transition: background-color .12s ease;
   }
   .sp__row:first-of-type { border-top: 0; }
+  a.sp__row { text-decoration: none; color: inherit; }
   .sp__row:hover { background: #f0f9fa; }
   .sp__row[aria-expanded='true'] { background: #d0e8ea; }
   .sp__row:focus-visible { outline: 3px solid #20A1AA; outline-offset: -3px; }

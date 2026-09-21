@@ -170,7 +170,7 @@ const overview = tidyOverview(holiday.overview || '');
   {(included.length > 0 || excluded.length > 0) && (
     <section class="cd-section" id="included">
       <div class="section-container">
-        <div class="cd-split cd-split--solo">
+        <div class="cd-split cd-split--wide">
           <div>
             <div class="cd-head">
               <p class="cd-eyebrow">In the price</p>
@@ -180,6 +180,9 @@ const overview = tidyOverview(holiday.overview || '');
               <ul class="cd-ticks">
                 {included.map(item => <li>{item}</li>)}
               </ul>
+            )}
+            {excluded.length > 0 && (
+              <p class="cd-excl__lab">Not included</p>
             )}
             {excluded.length > 0 && (
               <ul class="cd-excl">
@@ -388,22 +391,29 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-prose :global(p:last-child) { margin-bottom: 0; }
   .cd-eyebrow {
     margin: 0 0 8px; font-size: 14px; line-height: 24px; font-weight: 700;
-    letter-spacing: 2.5px; text-transform: uppercase; color: #20A1AA;
+    letter-spacing: 2.5px; text-transform: uppercase; color: #0d6066;
   }
   .cd-lab { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
   .cd-head { max-width: 60ch; margin-bottom: 32px; }
   .cd-head .cd-prose { margin-top: 12px; }
   .cd-section { padding-block: 64px; }
   .cd-section--band { background: #f2f5f6; border-block: 1px solid #e5e7eb; }
+  /* Two plain sections in a row (included + sailings, ship + hotels) merged into
+     one 128px void with nothing between them. A hairline gives the same rhythm
+     the band edges do. */
+  .cd-section:not(.cd-section--band) + .cd-section:not(.cd-section--band) { border-top: 1px solid #e5e7eb; }
   .cd-split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 48px; align-items: start; }
   .cd-split--solo { grid-template-columns: minmax(0, 75ch); }
+  /* A tick list isn't prose: at 75ch it stopped short of the full-width sailings
+     table below, leaving the page's right edge ragged. */
+  .cd-split--wide { grid-template-columns: minmax(0, 92ch); }
 
   .cd-btn {
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 16px; font-weight: 500; letter-spacing: 1px;
     background: #ff7f00; color: #fff; border: 0; border-radius: 2px;
     padding: 14px 26px; text-decoration: none;
-    box-shadow: 0 20px 20px rgba(0, 0, 0, .2);
+    box-shadow: 0 6px 14px rgba(7, 49, 64, .18);
     transition: background-color .2s;
   }
   .cd-btn:hover { background: #e67300; }
@@ -480,6 +490,10 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-shots figure:first-child { grid-column: 1 / -1; }
   .cd-shots img { width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; border-radius: 2px; display: block; }
   .cd-shots figure:first-child img { aspect-ratio: 2/1; }
+  /* Exactly two: both go full width, or the second sits beside a white hole. */
+  .cd-shots figure:first-child:nth-last-child(2),
+  .cd-shots figure:first-child:nth-last-child(2) ~ figure { grid-column: 1 / -1; }
+  .cd-shots figure:first-child:nth-last-child(2) ~ figure img { aspect-ratio: 2/1; }
 
   /* A stay: ship or hotel, text beside its photos */
   .cd-stay {
@@ -505,6 +519,7 @@ const overview = tidyOverview(holiday.overview || '');
     border-radius: 2px; display: block;
   }
   .cd-hotels__shots img:first-child { grid-column: 1 / -1; aspect-ratio: 2/1; }
+  .cd-hotels__shots img:first-child:nth-last-child(2) ~ img { grid-column: 1 / -1; aspect-ratio: 2/1; }
   .cd-hotels__name {
     margin: 0 0 8px; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
     font-size: 18px; font-weight: 600; color: #424242;
@@ -515,9 +530,11 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-ticks { columns: 2; column-gap: 32px; margin: 0; padding: 0; list-style: none; }
   .cd-ticks li { position: relative; padding: 8px 0 8px 24px; font-size: 14px; line-height: 22px; color: #424242; break-inside: avoid; }
   .cd-ticks li::before { content: '✓'; position: absolute; left: 0; color: #20A1AA; font-weight: 700; }
-  .cd-excl { margin: 12px 0 0; padding: 0; list-style: none; }
-  .cd-excl li { position: relative; padding: 4px 0 4px 24px; font-size: 16px; color: #6b6b6b; }
-  .cd-excl li::before { content: '—'; position: absolute; left: 4px; color: #d4dcde; }
+  .cd-excl { margin: 24px 0 0; padding: 0; list-style: none; }
+  .cd-excl li { position: relative; padding: 4px 0 4px 24px; font-size: 14px; line-height: 22px; color: #6b6b6b; }
+  .cd-excl li::before { content: '—'; position: absolute; left: 4px; color: #9aa7ab; }
+  .cd-excl__lab { margin: 24px 0 0; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
+  .cd-excl__lab + .cd-excl { margin-top: 8px; }
   .cd-overview :global(ul) { margin: 0 0 16px; padding-left: 20px; list-style: disc; }
 
   /* Talk to us */
@@ -533,13 +550,15 @@ const overview = tidyOverview(holiday.overview || '');
   @media (max-width: 920px) {
     .cd-section { padding-block: 44px; }
     .cd-split { grid-template-columns: 1fr; gap: 32px; }
-    .cd-ticks { columns: 1; }
   }
   @media (max-width: 768px) {
     .cd h1 { font-size: 40px; line-height: 44px; }
     .cd h2 { font-size: 32px; line-height: 34px; }
   }
   @media (max-width: 600px) {
+    /* One column only once the container is genuinely narrow — at 920 it still
+       had 860px to play with and twelve short items stacked down it. */
+    .cd-ticks { columns: 1; }
     /* The overlay grows taller than the photo here, so stop overlaying. */
     .cd-hero__body { position: static; background: #073140; padding-block: 24px; }
     .cd-hero__img { height: 200px; }
