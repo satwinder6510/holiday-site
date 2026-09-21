@@ -160,6 +160,19 @@ export const addons = sqliteTable('addons', {
   isActive: integer('is_active', { mode: 'boolean' }),
 });
 
+export const holidayExcursions = sqliteTable('holiday_excursions', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  holidayId: integer('holiday_id').notNull(),
+  name: text('name').notNull(),
+  blurb: text('blurb'),
+  price: real('price'),
+  basis: text('basis'),
+  isFromPrice: integer('is_from_price', { mode: 'boolean' }),
+  day: integer('day'),
+  port: text('port'),
+  displayOrder: integer('display_order'),
+});
+
 export const holidayAddons = sqliteTable('holiday_addons', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   holidayId: integer('holiday_id').notNull(),

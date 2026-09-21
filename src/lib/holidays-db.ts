@@ -1,7 +1,7 @@
 // SSR query functions — fetch holidays + pricing from D1
 import { eq, and, inArray, gte, sql, getTableColumns } from 'drizzle-orm';
 import type { Database } from './db';
-import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable, cruiseSailings, cruiseOfferSailingCabins, hotelLibrary, addons, holidayAddons } from './db-schema';
+import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable, cruiseSailings, cruiseOfferSailingCabins, hotelLibrary, addons, holidayAddons, holidayExcursions } from './db-schema';
 import {
   type RawHoliday,
   type RawCruise,
@@ -814,5 +814,35 @@ export async function getHolidayAddons(db: Database, holidayId: number): Promise
       price: r.priceOverride ?? r.price ?? null,
       basis: r.basis ?? 'pp',
       isFromPrice: !!r.isFromPrice,
+    }));
+}
+
+
+/** An excursion on this cruise, optionally tied to one day of the route. */
+export interface HolidayExcursion extends HolidayAddon {
+  day: number | null;
+  port: string | null;
+}
+
+/**
+ * Excursions belong to the cruise, not to a library — see the schema note.
+ * Ordered as the admin arranged them; day/port are optional tags used to show
+ * an excursion against the stop it happens at.
+ */
+export async function getHolidayExcursions(db: Database, holidayId: number): Promise<HolidayExcursion[]> {
+  const rows = await db
+    .select()
+    .from(holidayExcursions)
+    .where(eq(holidayExcursions.holidayId, holidayId));
+  return rows
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0) || a.id - b.id)
+    .map((r) => ({
+      name: r.name,
+      blurb: r.blurb ?? '',
+      price: r.price ?? null,
+      basis: r.basis ?? 'pp',
+      isFromPrice: !!r.isFromPrice,
+      day: r.day ?? null,
+      port: r.port ?? null,
     }));
 }

@@ -15,7 +15,7 @@ import { getCruiseCalls, getSailingLadders, getShipNameSet } from '../../../lib/
 import { roundToNine } from '../../../lib/pricing-transforms';
 import { allBlogs } from '../../../data/blogs';
 import { getDb } from '../../../lib/get-db';
-import { getHolidayBySlugFromDb, getHolidayAddons, type HolidayAddon } from '../../../lib/holidays-db';
+import { getHolidayBySlugFromDb, getHolidayAddons, getHolidayExcursions, type HolidayAddon, type HolidayExcursion } from '../../../lib/holidays-db';
 import { sanitizeHtml } from '../../../lib/sanitize';
 
 const { country, slug } = Astro.params;
@@ -30,6 +30,7 @@ let holiday: HolidayDetail;
 let pricing: any;
 let hasPricing: boolean;
 let holidayAddonList: HolidayAddon[] = [];
+let holidayExcursionList: HolidayExcursion[] = [];
 try {
   const db = getDb(Astro);
   const result = await getHolidayBySlugFromDb(db, slug!);
@@ -42,7 +43,10 @@ try {
   // Add-ons are decoration, not the page: a failure here must not 503 an
   // otherwise complete holiday, so it degrades to none.
   try {
-    holidayAddonList = await getHolidayAddons(db, holiday.id);
+    [holidayAddonList, holidayExcursionList] = await Promise.all([
+      getHolidayAddons(db, holiday.id),
+      getHolidayExcursions(db, holiday.id),
+    ]);
   } catch (e) {
     console.error('Add-ons lookup failed:', e);
   }
@@ -321,7 +325,7 @@ const pageDescription = holiday.metaDescription || (() => {
   <MobileNav />
 
   {useCruiseTemplate ? (
-    <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} shipNames={shipNameSet} addons={holidayAddonList} />
+    <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} shipNames={shipNameSet} addons={holidayAddonList} excursions={holidayExcursionList} />
   ) : (
   <Fragment>
   <!-- Hero Section (wrapper lets the price bar anchor to the hero's bottom edge) -->

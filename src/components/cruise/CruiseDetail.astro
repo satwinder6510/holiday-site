@@ -12,7 +12,7 @@
  */
 import type { HolidayDetail } from '../../lib/holiday-transforms';
 import type { HolidayPricing } from '../../lib/pricing-transforms';
-import type { HolidayAddon } from '../../lib/holidays-db';
+import type { HolidayAddon, HolidayExcursion } from '../../lib/holidays-db';
 import type { PortCall } from '../../lib/cruise-detail';
 import type { SailingLadder } from '../../lib/cruise-detail';
 import { splitStays } from '../../lib/cruise-detail';
@@ -27,8 +27,9 @@ interface Props {
   ladders: SailingLadder[];
   shipNames: Set<string>;
   addons?: HolidayAddon[];
+  excursions?: HolidayExcursion[];
 }
-const { holiday, pricing, calls, ladders, shipNames, addons = [] } = Astro.props;
+const { holiday, pricing, calls, ladders, shipNames, addons = [], excursions = [] } = Astro.props;
 
 const TEL_DISPLAY = '0208 183 0518';
 const TEL_HREF = 'tel:+442081830518';
@@ -92,6 +93,19 @@ const addonPrice = (a: HolidayAddon) => {
   const amount = `£${a.price % 1 === 0 ? a.price.toFixed(0) : a.price.toFixed(2)}`;
   const basis = BASIS_LABEL[a.basis] ?? 'pp';
   return `${a.isFromPrice ? 'from ' : ''}${amount}${basis === 'pp' ? basis : ` ${basis}`}`;
+};
+
+/** Excursions grouped by the itinerary day they happen on. */
+const excursionsByDay = new Map<number, HolidayExcursion[]>();
+for (const e of excursions) {
+  if (e.day == null) continue;
+  const list = excursionsByDay.get(e.day) ?? [];
+  list.push(e);
+  excursionsByDay.set(e.day, list);
+}
+const dayNumber = (d: string | number) => {
+  const n = Number(String(d).replace(/[^0-9]/g, ''));
+  return Number.isFinite(n) ? n : -1;
 };
 
 const included = holiday.whatsIncluded.filter(Boolean);
@@ -214,13 +228,30 @@ const overview = tidyOverview(holiday.overview || '');
   <!-- Add-ons. Featured only (owner 2026-09-21): the price is shown so nobody
        has to ring to find out what an excursion costs, and the booking itself
        still happens on the call. -->
-  {addons.length > 0 && (
+  {(addons.length > 0 || excursions.length > 0) && (
     <section class="cd-section cd-section--band" id="addons">
       <div class="section-container">
         <div class="cd-head">
           <p class="cd-eyebrow">On top of your fare</p>
           <h2>Add to your trip</h2>
         </div>
+        {excursions.length > 0 && (
+          <ul class="cd-addons">
+            {excursions.map(e => (
+              <li>
+                <div class="cd-addons__text">
+                  <h3>{e.name}</h3>
+                  <p>
+                    {e.day != null && <span class="cd-addons__where">Day {e.day}{e.port ? ` · ${e.port}` : ''}</span>}
+                    {e.blurb}
+                  </p>
+                </div>
+                <p class="cd-addons__price">{addonPrice(e)}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {excursions.length > 0 && addons.length > 0 && <p class="cd-addons__rule">And on any sailing</p>}
         <ul class="cd-addons">
           {addons.map(a => (
             <li>
@@ -281,6 +312,9 @@ const overview = tidyOverview(holiday.overview || '');
               <div>
                 <h3 class="cd-days__title">{d.title}</h3>
                 {d.description && <div class="cd-prose" set:html={d.description} />}
+                {(excursionsByDay.get(dayNumber(d.day)) ?? []).map(e => (
+                  <p class="cd-days__exc"><b>{e.name}</b> {addonPrice(e)}</p>
+                ))}
               </div>
             </li>
           ))}
@@ -595,6 +629,10 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-addons__text h3 { margin: 0; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 18px; font-weight: 600; color: #424242; }
   .cd-addons__text p { margin: 4px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
   .cd-addons__price { margin: 0; flex: none; font-size: 18px; font-weight: 600; color: #0d6066; white-space: nowrap; }
+  .cd-addons__where { color: #0d6066; font-weight: 600; margin-right: 8px; }
+  .cd-addons__rule { margin: 24px 0 8px; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
+  .cd-days__exc { margin: 8px 0 0; font-size: 14px; line-height: 22px; color: #0d6066; }
+  .cd-days__exc b { color: #424242; }
   .cd-addons__foot { margin: 24px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
   .cd-addons__foot a { color: #0d6066; font-weight: 600; }
   @media (max-width: 600px) {
