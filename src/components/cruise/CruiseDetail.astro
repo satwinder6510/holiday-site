@@ -307,7 +307,7 @@ const overview = tidyOverview(holiday.overview || '');
               </div>
               {photos.length > 0 && (
                 <div class="cd-shots">
-                  {photos.slice(0, 3).map(src => (
+                  {photos.slice(0, 5).map(src => (
                     <figure>
                       <img src={src} alt={`On board the ${sh.name}`} loading="lazy"
                            decoding="async" width="640" height="427" />
@@ -335,7 +335,7 @@ const overview = tidyOverview(holiday.overview || '');
             <li>
               {stayPhotos(h).length > 0 && (
                 <div class="cd-hotels__shots">
-                  {stayPhotos(h).slice(0, 3).map(src => (
+                  {stayPhotos(h).slice(0, 5).map(src => (
                     <img src={src} alt={h.name} loading="lazy" decoding="async"
                          width="640" height="427" />
                   ))}
@@ -490,10 +490,13 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-shots figure:first-child { grid-column: 1 / -1; }
   .cd-shots img { width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; border-radius: 2px; display: block; }
   .cd-shots figure:first-child img { aspect-ratio: 2/1; }
-  /* Exactly two: both go full width, or the second sits beside a white hole. */
+  /* The first photo spans both columns, so an EVEN total would leave the last
+     one alone in its row. Two: both full width. Four: the last one too. */
   .cd-shots figure:first-child:nth-last-child(2),
-  .cd-shots figure:first-child:nth-last-child(2) ~ figure { grid-column: 1 / -1; }
-  .cd-shots figure:first-child:nth-last-child(2) ~ figure img { aspect-ratio: 2/1; }
+  .cd-shots figure:first-child:nth-last-child(2) ~ figure,
+  .cd-shots figure:first-child:nth-last-child(4) ~ figure:last-child { grid-column: 1 / -1; }
+  .cd-shots figure:first-child:nth-last-child(2) ~ figure img,
+  .cd-shots figure:first-child:nth-last-child(4) ~ figure:last-child img { aspect-ratio: 2/1; }
 
   /* A stay: ship or hotel, text beside its photos */
   .cd-stay {
@@ -519,7 +522,8 @@ const overview = tidyOverview(holiday.overview || '');
     border-radius: 2px; display: block;
   }
   .cd-hotels__shots img:first-child { grid-column: 1 / -1; aspect-ratio: 2/1; }
-  .cd-hotels__shots img:first-child:nth-last-child(2) ~ img { grid-column: 1 / -1; aspect-ratio: 2/1; }
+  .cd-hotels__shots img:first-child:nth-last-child(2) ~ img,
+  .cd-hotels__shots img:first-child:nth-last-child(4) ~ img:last-child { grid-column: 1 / -1; aspect-ratio: 2/1; }
   .cd-hotels__name {
     margin: 0 0 8px; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
     font-size: 18px; font-weight: 600; color: #424242;
