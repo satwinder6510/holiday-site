@@ -95,6 +95,12 @@ const addonPrice = (a: HolidayAddon) => {
   return `${a.isFromPrice ? 'from ' : ''}${amount}${basis === 'pp' ? basis : ` ${basis}`}`;
 };
 
+/**
+ * An excursion tied to a day belongs against that day and nowhere else (owner
+ * 2026-09-21: it doesn't need two places). Only untagged ones — which have no
+ * day to sit against — fall through to the add-ons section.
+ */
+const looseExcursions = excursions.filter(e => e.day == null);
 /** Excursions grouped by the itinerary day they happen on. */
 const excursionsByDay = new Map<number, HolidayExcursion[]>();
 for (const e of excursions) {
@@ -228,19 +234,19 @@ const overview = tidyOverview(holiday.overview || '');
   <!-- Add-ons. Featured only (owner 2026-09-21): the price is shown so nobody
        has to ring to find out what an excursion costs, and the booking itself
        still happens on the call. -->
-  {(addons.length > 0 || excursions.length > 0) && (
+  {(addons.length > 0 || looseExcursions.length > 0) && (
     <section class="cd-section cd-section--band" id="addons">
       <div class="section-container">
         <div class="cd-head">
           <p class="cd-eyebrow">On top of your fare</p>
           <h2>Add to your trip</h2>
         </div>
-        {excursions.length > 0 && (
+        {looseExcursions.length > 0 && (
           <p class="cd-addons__rule">Optional paid excursions — not included in your fare</p>
         )}
-        {excursions.length > 0 && (
+        {looseExcursions.length > 0 && (
           <ul class="cd-addons">
-            {excursions.map(e => (
+            {looseExcursions.map(e => (
               <li>
                 <div class="cd-addons__text">
                   <h3>{e.name}</h3>
