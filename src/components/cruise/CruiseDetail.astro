@@ -236,7 +236,7 @@ const overview = tidyOverview(holiday.overview || '');
           <h2>Add to your trip</h2>
         </div>
         {excursions.length > 0 && (
-          <p class="cd-addons__rule">Optional excursions — not included in your fare</p>
+          <p class="cd-addons__rule">Optional paid excursions — not included in your fare</p>
         )}
         {excursions.length > 0 && (
           <ul class="cd-addons">
@@ -255,7 +255,7 @@ const overview = tidyOverview(holiday.overview || '');
           </ul>
         )}
         {addons.length > 0 && (
-          <p class="cd-addons__rule">Optional extras — available on any sailing</p>
+          <p class="cd-addons__rule">Optional paid extras — available on any sailing</p>
         )}
         <ul class="cd-addons">
           {addons.map(a => (
@@ -319,7 +319,7 @@ const overview = tidyOverview(holiday.overview || '');
                 {d.description && <div class="cd-prose" set:html={d.description} />}
                 {(excursionsByDay.get(dayNumber(d.day)) ?? []).map(e => (
                   <p class="cd-days__exc">
-                    <span class="cd-days__exc-lab">Optional excursion</span>
+                    <span class="cd-days__exc-lab">Optional paid excursion</span>
                     <b>{e.name}</b> {addonPrice(e)}
                   </p>
                 ))}
