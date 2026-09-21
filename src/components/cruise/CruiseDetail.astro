@@ -95,25 +95,6 @@ const addonPrice = (a: HolidayAddon) => {
   return `${a.isFromPrice ? 'from ' : ''}${amount}${basis === 'pp' ? basis : ` ${basis}`}`;
 };
 
-/**
- * An excursion tied to a day belongs against that day and nowhere else (owner
- * 2026-09-21: it doesn't need two places). Only untagged ones — which have no
- * day to sit against — fall through to the add-ons section.
- */
-const looseExcursions = excursions.filter(e => e.day == null);
-/** Excursions grouped by the itinerary day they happen on. */
-const excursionsByDay = new Map<number, HolidayExcursion[]>();
-for (const e of excursions) {
-  if (e.day == null) continue;
-  const list = excursionsByDay.get(e.day) ?? [];
-  list.push(e);
-  excursionsByDay.set(e.day, list);
-}
-const dayNumber = (d: string | number) => {
-  const n = Number(String(d).replace(/[^0-9]/g, ''));
-  return Number.isFinite(n) ? n : -1;
-};
-
 const included = holiday.whatsIncluded.filter(Boolean);
 const excluded = holiday.otherInfoBullets?.length
   ? holiday.otherInfoBullets
@@ -231,56 +212,6 @@ const overview = tidyOverview(holiday.overview || '');
     </section>
   )}
 
-  <!-- Add-ons. Featured only (owner 2026-09-21): the price is shown so nobody
-       has to ring to find out what an excursion costs, and the booking itself
-       still happens on the call. -->
-  {(addons.length > 0 || looseExcursions.length > 0) && (
-    <section class="cd-section cd-section--band" id="addons">
-      <div class="section-container">
-        <div class="cd-head">
-          <p class="cd-eyebrow">On top of your fare</p>
-          <h2>Add to your trip</h2>
-        </div>
-        {looseExcursions.length > 0 && (
-          <p class="cd-addons__rule">Optional paid excursions — not included in your fare</p>
-        )}
-        {looseExcursions.length > 0 && (
-          <ul class="cd-addons">
-            {looseExcursions.map(e => (
-              <li>
-                <div class="cd-addons__text">
-                  <h3>{e.name}</h3>
-                  <p>
-                    {e.day != null && <span class="cd-addons__where">Day {e.day}{e.port ? ` · ${e.port}` : ''}</span>}
-                    {e.blurb}
-                  </p>
-                </div>
-                <p class="cd-addons__price">{addonPrice(e)}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-        {addons.length > 0 && (
-          <p class="cd-addons__rule">Optional paid extras — available on any sailing</p>
-        )}
-        <ul class="cd-addons">
-          {addons.map(a => (
-            <li>
-              <div class="cd-addons__text">
-                <h3>{a.name}</h3>
-                {a.blurb && <p>{a.blurb}</p>}
-              </div>
-              <p class="cd-addons__price">{addonPrice(a)}</p>
-            </li>
-          ))}
-        </ul>
-        <p class="cd-addons__foot">
-          Added to your booking when you call — <a href={TEL_HREF}>{TEL_DISPLAY}</a>
-        </p>
-      </div>
-    </section>
-  )}
-
   <!-- Sailings and cabins -->
   {pricing && (
     <section class="cd-section" id="sailings">
@@ -323,13 +254,6 @@ const overview = tidyOverview(holiday.overview || '');
               <div>
                 <h3 class="cd-days__title">{d.title}</h3>
                 {d.description && <div class="cd-prose" set:html={d.description} />}
-                {(excursionsByDay.get(dayNumber(d.day)) ?? []).map(e => (
-                  <p class="cd-days__exc">
-                    <span class="cd-days__exc-lab">Optional paid excursion</span>
-                    <b>{e.name}</b> {addonPrice(e)}
-                    {e.blurb && <span class="cd-days__exc-blurb">{e.blurb}</span>}
-                  </p>
-                ))}
               </div>
             </li>
           ))}
@@ -375,6 +299,59 @@ const overview = tidyOverview(holiday.overview || '');
             </tbody>
           </table>
         </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Add-ons and excursions. AFTER the route, so the reader has seen the
+       itinerary and each excursion's day means something — and OUT of the day
+       list, where a paid extra alongside the day's description read as part of
+       the programme (owner 2026-09-21). Featured only: the price is shown so
+       nobody has to ring to find out what an excursion costs, and the booking
+       still happens on the call. -->
+  {(addons.length > 0 || excursions.length > 0) && (
+    <section class="cd-section cd-section--band" id="addons">
+      <div class="section-container">
+        <div class="cd-head">
+          <p class="cd-eyebrow">On top of your fare</p>
+          <h2>Add to your trip</h2>
+        </div>
+        {excursions.length > 0 && (
+          <p class="cd-addons__rule">Optional paid excursions — not included in your fare</p>
+        )}
+        {excursions.length > 0 && (
+          <ul class="cd-addons">
+            {excursions.map(e => (
+              <li>
+                <div class="cd-addons__text">
+                  <h3>{e.name}</h3>
+                  <p>
+                    {e.day != null && <span class="cd-addons__where">Day {e.day}{e.port ? ` · ${e.port}` : ''}</span>}
+                    {e.blurb}
+                  </p>
+                </div>
+                <p class="cd-addons__price">{addonPrice(e)}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {addons.length > 0 && (
+          <p class="cd-addons__rule">Optional paid extras — available on any sailing</p>
+        )}
+        <ul class="cd-addons">
+          {addons.map(a => (
+            <li>
+              <div class="cd-addons__text">
+                <h3>{a.name}</h3>
+                {a.blurb && <p>{a.blurb}</p>}
+              </div>
+              <p class="cd-addons__price">{addonPrice(a)}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="cd-addons__foot">
+          Added to your booking when you call — <a href={TEL_HREF}>{TEL_DISPLAY}</a>
+        </p>
       </div>
     </section>
   )}
@@ -648,10 +625,6 @@ const overview = tidyOverview(holiday.overview || '');
   /* cd-head already leaves 32px, so the first group heading doesn't add its own. */
   .cd-addons__rule:first-of-type { margin-top: 0; }
   .cd-addons__rule { margin: 24px 0 8px; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
-  .cd-days__exc { margin: 8px 0 0; font-size: 14px; line-height: 22px; color: #0d6066; }
-  .cd-days__exc b { color: #424242; }
-  .cd-days__exc-blurb { display: block; color: #6b6b6b; }
-  .cd-days__exc-lab { display: inline-block; margin-right: 8px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #6b6b6b; }
   .cd-addons__foot { margin: 24px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
   .cd-addons__foot a { color: #0d6066; font-weight: 600; }
   @media (max-width: 600px) {
