@@ -399,7 +399,9 @@ const overview = tidyOverview(holiday.overview || '');
 
   /* Hero */
   .cd-hero { position: relative; background: #073140; }
-  .cd-hero__img { display: block; width: 100%; height: clamp(300px, 40vw, 440px); object-fit: cover; opacity: .9; }
+  /* Same height as the holiday detail hero (owner 2026-09-08: a fixed short
+     hero was a letterbox on wide screens). Keep the two in step. */
+  .cd-hero__img { display: block; width: 100%; height: clamp(500px, 40vw, 760px); object-fit: cover; opacity: .9; }
   .cd-hero__body {
     position: absolute; inset: auto 0 0 0;
     background: linear-gradient(to top, rgba(7, 32, 41, .94) 10%, rgba(7, 32, 41, .5) 65%, rgba(7, 32, 41, 0));
