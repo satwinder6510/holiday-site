@@ -3,10 +3,8 @@
 
 import {
   type RawHoliday,
-  type RawCruise,
   type HolidayDetail,
   transformHoliday,
-  transformCruise,
   slugify,
 } from '../lib/holiday-transforms';
 
@@ -14,14 +12,16 @@ import {
 export type { Holiday, HolidayDetail, LocalChargeItem } from '../lib/holiday-transforms';
 
 import rawHolidays from './holiday-export.json';
-import rawCruises from './cruise-export.json';
 import { getPricingForHoliday } from './pricing';
 import { roundToNine } from '../lib/pricing-transforms';
 
-const allHolidays: HolidayDetail[] = [
-  ...(rawHolidays as RawHoliday[]).map(transformHoliday),
-  ...(rawCruises as RawCruise[]).map(transformCruise),
-];
+// Packages only. River cruises are read from D1 per request now
+// (lib/cruise-catalogue.ts), which a build-time module cannot do; the pages
+// that need them — the listing, the landing, detail, search — are all SSR and
+// go through holidays-db.ts. Nothing here ever selected a cruise anyway: the
+// homepage carousels are driven by homepage-export.json, which holds no cruise
+// ids, and transformCruise sets isSpecialOffer/isHeroSlide/isFeaturedTour false.
+const allHolidays: HolidayDetail[] = (rawHolidays as RawHoliday[]).map(transformHoliday);
 
 // Override static base price with cheapest departure price from pricing system
 for (const h of allHolidays) {

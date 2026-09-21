@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm';
 import { getDb } from '../../lib/get-db';
 import { flightPackages } from '../../lib/db-schema';
 import { slugify, normaliseCountryName } from '../../lib/holiday-transforms';
-import rawCruises from '../../data/cruise-export.json';
+import { getCruiseCatalogue } from '../../lib/cruise-catalogue';
 
 export const GET: APIRoute = async (context) => {
   const id = context.url.searchParams.get('id')?.trim();
@@ -18,16 +18,16 @@ export const GET: APIRoute = async (context) => {
     return new Response('Invalid reference number', { status: 400 });
   }
 
-  // Check cruises first (IDs 10001+)
-  const cruise = (rawCruises as any[]).find((c: any) => c.id === numId);
-  if (cruise) {
-    const country = slugify(cruise.country || 'europe');
-    return context.redirect(`/Holidays/${country}/${cruise.slug}`, 302);
-  }
-
   // Check DB
   try {
     const db = getDb(context);
+
+    // Cruises first (IDs 10001+)
+    const cruise = (await getCruiseCatalogue(db)).find(c => c.id === numId);
+    if (cruise) {
+      const country = slugify(cruise.country || 'europe');
+      return context.redirect(`/Holidays/${country}/${cruise.slug}`, 302);
+    }
     const rows = await db
       .select({ slug: flightPackages.slug, category: flightPackages.category })
       .from(flightPackages)
