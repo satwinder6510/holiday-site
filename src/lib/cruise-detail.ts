@@ -351,8 +351,14 @@ export interface StaySplit<T extends { name: string }> {
   hotels: T[];
 }
 
-/** Split a holiday's accommodations into the ship(s) and the hotel night(s). */
-export function splitStays<T extends { name: string }>(
+/**
+ * Split a holiday's accommodations into the ship(s) and the hotel night(s).
+ *
+ * A stay carrying `kind` came from a cruise offer, which holds the ship and the
+ * hotel in separate columns, so it is taken at its word. The heuristic above is
+ * for hand-typed packages, where the list mixes both with no flag.
+ */
+export function splitStays<T extends { name: string; kind?: 'ship' | 'hotel' }>(
   accommodations: T[],
   shipNames: Set<string>,
   knownShipName?: string,
@@ -360,14 +366,20 @@ export function splitStays<T extends { name: string }>(
   const known = (knownShipName || '').trim().toLowerCase();
   const ships: T[] = [];
   const hotels: T[] = [];
+  let declared = false;
   for (const a of accommodations) {
     const name = (a.name || '').trim();
     const key = name.toLowerCase();
-    const isShip = !!key && (shipNames.has(key) || key === known || SHIP_NAME.test(name));
+    if (a.kind) declared = true;
+    const isShip = a.kind
+      ? a.kind === 'ship'
+      : !!key && (shipNames.has(key) || key === known || SHIP_NAME.test(name));
     (isShip ? ships : hotels).push(a);
   }
   // Nothing recognised as a ship: this is a cruise page, so don't assert that the
   // accommodation is a hotel — show it as the ship and render no hotel section.
-  if (ships.length === 0) return { ships: hotels, hotels: [] };
+  // Declared stays are exempt: a route with no ship on file and a named hotel
+  // would otherwise have its hotel promoted to "Your ship".
+  if (ships.length === 0 && !declared) return { ships: hotels, hotels: [] };
   return { ships, hotels };
 }

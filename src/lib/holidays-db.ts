@@ -11,6 +11,7 @@ import {
   slugify,
   normaliseCountryName,
   normaliseHotelName,
+  resolveImageUrl,
   setCityTaxRates,
 } from './holiday-transforms';
 import { loadCityTaxesLive } from './city-taxes-live';
@@ -321,6 +322,60 @@ async function applyLibraryStars(db: Database, holiday: HolidayDetail): Promise<
   }
 }
 
+/**
+ * Fill a cruise offer's hotel nights with the library's own words and photos.
+ *
+ * The export carries only what the OFFER owns (name, city, nights, stars). The
+ * description and images live in hotel_library, read here per request, so an
+ * edit in the admin library reaches every offer on the next page load — the same
+ * bargain applyLibraryStars strikes above.
+ *
+ * Exact name match only (normalised). A near-miss would put another property's
+ * photos on the page, which is worse than the plain one-line card.
+ *
+ * Returns a NEW array. The cruise entries are module-level and shared across
+ * requests, so nothing here may mutate them.
+ */
+async function withLibraryHotels(
+  db: Database,
+  accommodations: HolidayDetail['accommodations'],
+): Promise<HolidayDetail['accommodations']> {
+  if (!accommodations.some(a => a.kind === 'hotel')) return accommodations;
+  try {
+    const rows = await db
+      .select({
+        name: hotelLibrary.name,
+        starRating: hotelLibrary.starRating,
+        description: hotelLibrary.description,
+        featuredImage: hotelLibrary.featuredImage,
+        images: hotelLibrary.images,
+      })
+      .from(hotelLibrary);
+    if (!rows.length) return accommodations;
+    const byName = new Map(rows.map(h => [normaliseHotelName(h.name), h]));
+
+    return accommodations.map(acc => {
+      if (acc.kind !== 'hotel') return acc;
+      const lib = byName.get(normaliseHotelName(acc.name));
+      if (!lib) return acc;
+      // D1 JSON columns come back null, not [].
+      const images = [lib.featuredImage, ...(lib.images ?? [])]
+        .filter((u): u is string => !!u)
+        .map(resolveImageUrl);
+      return {
+        ...acc,
+        // The offer's nights line stays, under the library's description.
+        description: [lib.description?.trim(), acc.description].filter(Boolean).join('\n\n'),
+        images,
+        stars: acc.stars ?? lib.starRating ?? null,
+      };
+    });
+  } catch {
+    // Library lookup is an enhancement — the nights line already renders
+    return accommodations;
+  }
+}
+
 export async function getHolidayBySlugFromDb(
   db: Database,
   slug: string
@@ -338,7 +393,11 @@ export async function getHolidayBySlugFromDb(
     if (!offer?.isActive) return null;
     const pricing = await getCruisePricingFromDb(db, cruiseEntry.id);
     if (!pricing) return null;
-    const cruise: HolidayDetail = { ...cruiseEntry, price: pricing.cheapestPrice };
+    const cruise: HolidayDetail = {
+      ...cruiseEntry,
+      price: pricing.cheapestPrice,
+      accommodations: await withLibraryHotels(db, cruiseEntry.accommodations),
+    };
     return { holiday: cruise, pricing };
   }
 

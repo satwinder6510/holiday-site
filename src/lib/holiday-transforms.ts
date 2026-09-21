@@ -103,6 +103,15 @@ export interface RawCruiseShip {
   };
 }
 
+/** A hotel night the offer adds either side of the cruise. */
+export interface RawCruiseHotel {
+  name: string;
+  city: string;
+  nights: number;
+  stars: number | null;
+  when: 'before' | 'after';
+}
+
 export interface RawCruiseSailing {
   date: string;
   returnDate: string;
@@ -136,6 +145,7 @@ export interface RawCruise {
   disembark_port: string;
   board_basis: string;
   port_fee_pp?: number;
+  hotels?: RawCruiseHotel[];
   sailings?: RawCruiseSailing[];
 }
 
@@ -188,7 +198,12 @@ export interface HolidayDetail extends Holiday {
   highlights: string[];
   whatsIncluded: string[];
   itinerary: { day: string; title: string; description: string }[];
-  accommodations: { name: string; description: string; images: string[]; stars: number | null }[];
+  /**
+   * `kind` is set only where the source KNOWS what the stay is (cruise offers,
+   * which carry the ship and the hotel in separate columns). Hand-typed packages
+   * leave it undefined and splitStays() falls back to its name heuristic.
+   */
+  accommodations: { name: string; description: string; images: string[]; stars: number | null; kind?: 'ship' | 'hotel' }[];
   galleryImages: string[];
   review: string;
   otherInfo: string;
@@ -600,6 +615,13 @@ function buildShipDescription(ship: RawCruiseShip): string {
   return parts.join('\n\n');
 }
 
+/** "Two nights in Vienna before the cruise." The card's one-line fallback. */
+function buildHotelDescription(h: RawCruiseHotel): string {
+  const nights = `${h.nights} night${h.nights === 1 ? '' : 's'}`;
+  const where = h.city ? ` in ${h.city}` : '';
+  return `${nights}${where} ${h.when === 'before' ? 'before' : 'after'} the cruise.`;
+}
+
 export function transformCruise(raw: RawCruise): HolidayDetail {
   const nights = raw.duration_nights;
   const days = nights + 1;
@@ -613,12 +635,26 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
   // A route can run on several ships (different decks/cabins). Render a card for
   // each, primary (cheapest) ship first — `raw.ships` is already cheapest-ordered.
   const shipList = (raw.ships && raw.ships.length > 0) ? raw.ships : (raw.ship ? [raw.ship] : []);
-  const accommodations = shipList.map((s) => ({
+  const accommodations: HolidayDetail['accommodations'] = shipList.map((s) => ({
     name: s.name,
     description: buildShipDescription(s),
     images: [s.cover_image, ...(s.cabin_images || [])].filter(Boolean),
     stars: parseShipStars(s.class),
+    kind: 'ship',
   }));
+  // Hotel nights the offer adds either side of the cruise. The offer owns the
+  // name, city, nights and stars; the hotel's own words and photos are filled
+  // from hotel_library per request (holidays-db.ts), so editing the library
+  // reaches every offer without an export.
+  for (const h of raw.hotels || []) {
+    accommodations.push({
+      name: h.name,
+      description: buildHotelDescription(h),
+      images: [],
+      stars: h.stars ?? null,
+      kind: 'hotel',
+    });
+  }
   const shipNames = shipList.map((s) => s.name).filter(Boolean);
   const operatedByLabel = shipNames.length > 1
     ? `Operated by ${shipNames.length === 2 ? shipNames.join(' & ') : shipNames.slice(0, -1).join(', ') + ' & ' + shipNames[shipNames.length - 1]} on selected dates`

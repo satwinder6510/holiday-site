@@ -141,6 +141,9 @@ export const hotelLibrary = sqliteTable('hotel_library', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('name').notNull(),
   starRating: integer('star_rating'),
+  description: text('description'),
+  featuredImage: text('featured_image'),
+  images: text('images', { mode: 'json' }).$type<string[]>(),
 });
 
 // City tax rules — the SAME table the admin quote tool edits (Quotes → Taxes
