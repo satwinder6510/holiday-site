@@ -561,7 +561,8 @@ const overview = tidyOverview(holiday.overview || '');
     .cd-ticks { columns: 1; }
     /* The overlay grows taller than the photo here, so stop overlaying. */
     .cd-hero__body { position: static; background: #073140; padding-block: 24px; }
-    .cd-hero__img { height: 200px; }
+    /* 200px was a letterbox under a 428px navy panel — the ship was unreadable. */
+    .cd-hero__img { height: 260px; }
     .cd-hero__text { max-width: none; }
     .cd-hero__price { margin-top: 24px; width: 100%; justify-content: space-between; }
     .cd-hide-sm { display: none; }
