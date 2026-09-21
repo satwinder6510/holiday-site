@@ -321,6 +321,7 @@ const overview = tidyOverview(holiday.overview || '');
                   <p class="cd-days__exc">
                     <span class="cd-days__exc-lab">Optional paid excursion</span>
                     <b>{e.name}</b> {addonPrice(e)}
+                    {e.blurb && <span class="cd-days__exc-blurb">{e.blurb}</span>}
                   </p>
                 ))}
               </div>
@@ -643,6 +644,7 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-addons__rule { margin: 24px 0 8px; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
   .cd-days__exc { margin: 8px 0 0; font-size: 14px; line-height: 22px; color: #0d6066; }
   .cd-days__exc b { color: #424242; }
+  .cd-days__exc-blurb { display: block; color: #6b6b6b; }
   .cd-days__exc-lab { display: inline-block; margin-right: 8px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #6b6b6b; }
   .cd-addons__foot { margin: 24px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
   .cd-addons__foot a { color: #0d6066; font-weight: 600; }
