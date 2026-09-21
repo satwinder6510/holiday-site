@@ -565,6 +565,64 @@ async function buildCatalogue(db: Database): Promise<RawCruise[]> {
 let cached: { at: number; data: RawCruise[] } | null = null;
 let inflight: Promise<RawCruise[]> | null = null;
 
+/** Where the last read came from, for /api/catalogue-health. */
+let lastSource: 'memo' | 'colo-cache' | 'd1' | 'none' = 'none';
+let lastReadMs = 0;
+let coloWriteMs = 0;
+
+export function catalogueStats() {
+  return {
+    source: lastSource,
+    lastReadMs,
+    coloWriteMs,
+    memoAgeMs: cached ? Date.now() - cached.at : null,
+    ttlMs: TTL_MS,
+  };
+}
+
+/**
+ * Per-colo cache, under the isolate memo.
+ *
+ * The memo alone was not enough: Cloudflare spreads requests over many isolates,
+ * so about half of all requests hit a cold one and paid the four queries. TTFB
+ * on a listing page was visibly bimodal, roughly 0.4s or 1.8s. The Cache API is
+ * shared by every isolate in a colo, so a cold isolate reads one cached blob
+ * instead. Same 60s life as the memo.
+ *
+ * Every failure here is swallowed: this is a cache, and the database is right
+ * behind it.
+ */
+const COLO_CACHE_KEY = 'https://cruise-catalogue.internal/v1';
+
+async function readColoCache(): Promise<RawCruise[] | null> {
+  try {
+    const cache = (globalThis as any).caches?.default;
+    if (!cache) return null;
+    const hit = await cache.match(new Request(COLO_CACHE_KEY));
+    return hit ? ((await hit.json()) as RawCruise[]) : null;
+  } catch {
+    return null;
+  }
+}
+
+async function writeColoCache(data: RawCruise[]): Promise<void> {
+  try {
+    const cache = (globalThis as any).caches?.default;
+    if (!cache) return;
+    await cache.put(
+      new Request(COLO_CACHE_KEY),
+      new Response(JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': `max-age=${Math.floor(TTL_MS / 1000)}`,
+        },
+      }),
+    );
+  } catch {
+    // A catalogue that can't be cached still renders
+  }
+}
+
 /**
  * The whole cruise catalogue. Memoised per isolate for TTL_MS, with concurrent
  * callers sharing one read so a cold isolate serving several requests at once
@@ -576,10 +634,30 @@ let inflight: Promise<RawCruise[]> | null = null;
  */
 export async function getCruiseCatalogue(db: Database): Promise<RawCruise[]> {
   const now = Date.now();
-  if (cached && now - cached.at < TTL_MS) return cached.data;
+  if (cached && now - cached.at < TTL_MS) {
+    lastSource = 'memo';
+    lastReadMs = 0;
+    return cached.data;
+  }
   if (inflight) return inflight;
 
-  inflight = buildCatalogue(db)
+  inflight = (async () => {
+    const t0 = Date.now();
+    const fromColo = await readColoCache();
+    if (fromColo && fromColo.length > 0) {
+      lastSource = 'colo-cache';
+      lastReadMs = Date.now() - t0;
+      coloWriteMs = 0;
+      return fromColo;
+    }
+    const built = await buildCatalogue(db);
+    const tBuilt = Date.now();
+    lastSource = 'd1';
+    lastReadMs = tBuilt - t0;
+    await writeColoCache(built);
+    coloWriteMs = Date.now() - tBuilt;
+    return built;
+  })()
     .then(data => {
       cached = { at: Date.now(), data };
       return data;

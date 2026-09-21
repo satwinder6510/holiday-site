@@ -113,7 +113,9 @@ displayPrice ?? roundToNine(basePrice + localChargesPp)
 
 River cruise offers are **mixed in with regular holidays** — no separate `/cruises` section.
 
-- **Data source:** D1, read per request by `src/lib/cruise-catalogue.ts` (memoised 60s per isolate). There is no export file and no export script — an offer built in the admin appears on the site within a minute, no deploy.
+- **Data source:** D1, read per request by `src/lib/cruise-catalogue.ts`. There is no export file and no export script — an offer built in the admin appears on the site within a minute, no deploy.
+- **Three cache layers, measured on production via `/api/catalogue-health`:** isolate memo 0ms (warm) → per-colo Cache API 15–83ms (cold isolate) → D1 243ms + 95ms to write the cache (once per colo per minute). The memo alone was not enough: Cloudflare spreads requests across many isolates, so cold ones were common. The catalogue is on the critical path of EVERY SSR page because the header's country nav needs it, which is why this is layered rather than simple.
+- **Do not join `cruise_ships` into the offers query.** Ship rows carry the whole Widgety blob in `raw_data`; joined per offer that is 18.9 MB on the wire against 1.2 MB for the rest. The ships are fetched once separately and looked up by id.
 - **Transform:** `holidays.ts` → `transformCruise()` converts each cruise into a `HolidayDetail` object
 - **Tags:** All cruises automatically tagged `['River Cruise']` for filtering
 - **Operators:** CroisiEurope + A-Rosa
