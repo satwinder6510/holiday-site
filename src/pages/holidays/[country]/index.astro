@@ -14,7 +14,17 @@ import { getDb } from '../../../lib/get-db';
 import { getHolidaysByCountryFromDb, getAllListedHolidaysFromDb, getFilterData } from '../../../lib/holidays-db';
 import { roundToNine } from '../../../lib/pricing-transforms';
 
-const { country: countrySlug } = Astro.params;
+// Collection slugs can carry an "&" (New-&-Exclusive-Offers). Plenty of clients
+// percent-encode it — in-app browsers, email clients, crawlers — and the encoded
+// segment never matched a collection or a country, so the Offers link 404'd for
+// them. Decode before matching so both spellings serve the same page.
+const rawCountrySlug = Astro.params.country;
+let countrySlug = rawCountrySlug;
+try {
+  if (rawCountrySlug) countrySlug = decodeURIComponent(rawCountrySlug);
+} catch {
+  // Malformed escape sequence — keep the raw slug and let the lookup 404.
+}
 
 // Check if this slug matches a collection (collections and countries share the same URL pattern)
 const matchedCollection = allCollections.find(c => {
