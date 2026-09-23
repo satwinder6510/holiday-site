@@ -106,7 +106,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
           aria-pressed={a.code === defaultCode ? 'true' : 'false'}
         >
           <span class="sp__airport-name">{a.name}</span>
-          <span class="sp__airport-from">from <b>{formatPrice(lowestFrom(a.code))}</b> per person</span>
+          <span class="sp__airport-from">from <b>{formatPrice(lowestFrom(a.code))}</b><span class="sp__pp"> per person</span></span>
         </button>
       ))}
     </div>
@@ -129,6 +129,11 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   )}
 
   <div class="sp__table">
+    {airports.length > 1 && (
+      <p class="sp__from">
+        Sailings flying from <b class="sp__for-airport">{airports.find(a => a.code === defaultCode)?.name}</b>
+      </p>
+    )}
     <div class="sp__head">
       <div>Departs</div><div>Nights</div><div>Ship</div>
       <div class="sp__ta-r">Per person</div><div></div>
@@ -276,8 +281,17 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       });
     }
 
+    // On a phone the airport cards fill the screen, so a tap changed prices the
+    // reader could not see. If the first row is below the fold, bring the list up.
+    const table = sp.querySelector<HTMLElement>('.sp__table');
     sp.querySelectorAll<HTMLButtonElement>('.sp__airport').forEach(b => {
-      b.addEventListener('click', () => applyAirport(b.dataset.airport || ''));
+      b.addEventListener('click', () => {
+        applyAirport(b.dataset.airport || '');
+        const phone = window.matchMedia('(max-width: 920px)').matches;
+        if (phone && table && table.getBoundingClientRect().top > window.innerHeight * 0.55) {
+          table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
     });
 
     // Month chips + show-more. Every row is already in the HTML; this only toggles.
@@ -373,7 +387,14 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   .sp__more:hover { background: #d0e8ea; }
   .sp__more[hidden] { display: none; }
   .sp__row[hidden] { display: none; }
-  .sp__table { border: 1px solid #e5e7eb; border-radius: 2px; background: #fff; overflow: hidden; }
+  .sp__table { border: 1px solid #e5e7eb; border-radius: 2px; background: #fff; overflow: hidden; scroll-margin-top: 84px; }
+  /* Phones only: the dark head row is hidden there, and this names the airport
+     every price below is for — the airport cards have scrolled off by then. */
+  .sp__from {
+    display: none; margin: 0; padding: 12px 16px;
+    background: #073140; color: #fff; font-size: 15px; line-height: 20px;
+  }
+  .sp__from b { font-weight: 700; color: #7fd6dc; }
   .sp__head, .sp__row {
     display: grid;
     grid-template-columns: minmax(0, 1.6fr) 84px minmax(0, 1fr) 150px 152px;
@@ -412,7 +433,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   /* A class with `display` beats the UA [hidden] rule, so restate it. */
   .sp__cheaper[hidden] { display: none; }
   .sp__best {
-    display: inline-block; margin-bottom: 4px;
+    display: block; width: max-content; margin-bottom: 4px;
     font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
     background: #20A1AA; color: #fff; border-radius: 2px; padding: 1px 8px;
   }
@@ -474,13 +495,18 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
 
   @media (max-width: 920px) {
     .sp__head { display: none; }
+    .sp__from { display: block; }
     .sp__row { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; padding: 16px; }
     .sp__nights, .sp__ship { grid-column: 1; font-size: 14px; }
     .sp__price { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
     .sp__cta { grid-column: 1 / -1; justify-self: stretch; text-align: center; margin-top: 8px; }
   }
   @media (max-width: 600px) {
-    .sp__airport { flex: 1 1 100%; }
+    .sp__set { gap: 8px; }
+    .sp__airport { flex: 1 1 calc(50% - 4px); padding: 10px 12px; }
+    .sp__airport-name { font-size: 15px; }
+    .sp__airport-from { font-size: 13px; }
+    .sp__pp { display: none; }
     .sp__cabins { padding: 16px; }
     .sp__cabin { grid-template-columns: 1fr; gap: 12px; }
     .sp__cabin-img { aspect-ratio: 16/9; }
