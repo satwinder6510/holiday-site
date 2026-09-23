@@ -14,6 +14,7 @@ import type { HolidayDetail } from '../../lib/holiday-transforms';
 import type { HolidayPricing } from '../../lib/pricing-transforms';
 import type { HolidayAddon, HolidayExcursion } from '../../lib/holidays-db';
 import type { PortCall } from '../../lib/cruise-detail';
+import CallLink from './CallLink.astro';
 import type { SailingLadder } from '../../lib/cruise-detail';
 import { splitStays } from '../../lib/cruise-detail';
 import { imgSrc } from '../../lib/image-src';
@@ -234,6 +235,7 @@ const overview = tidyOverview(holiday.overview || '');
           nights={nights}
           cabinImages={cabinImages}
           tel={TEL_HREF}
+          telDisplay={TEL_DISPLAY}
         />
       </div>
     </section>
@@ -350,7 +352,7 @@ const overview = tidyOverview(holiday.overview || '');
           ))}
         </ul>
         <p class="cd-addons__foot">
-          Added to your booking when you call — <a href={TEL_HREF}>{TEL_DISPLAY}</a>
+          Added to your booking when you call — <CallLink class="cd-addons__tel" tel={TEL_HREF} display={TEL_DISPLAY} />
         </p>
       </div>
     </section>
@@ -446,7 +448,7 @@ const overview = tidyOverview(holiday.overview || '');
     <div class="section-container">
       <h2>Talk to a cruise expert</h2>
       <p>Rivers, ships, cabins and dates. One call sorts the flights, transfers and the cabin you want.</p>
-      <a class="cd-call__no" href={TEL_HREF}>{TEL_DISPLAY}</a>
+      <CallLink class="cd-call__no" tel={TEL_HREF} display={TEL_DISPLAY} />
       <p class="cd-call__hrs">Lines open 9am to 6pm</p>
     </div>
   </div>
@@ -626,7 +628,7 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-addons__rule:first-of-type { margin-top: 0; }
   .cd-addons__rule { margin: 24px 0 8px; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
   .cd-addons__foot { margin: 24px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
-  .cd-addons__foot a { color: #0d6066; font-weight: 600; }
+  .cd-addons__foot :global(.cd-addons__tel) { color: #0d6066; font-weight: 600; }
   @media (max-width: 600px) {
     .cd-addons li { flex-direction: column; gap: 4px; }
     .cd-addons__price { font-size: 16px; }
@@ -636,7 +638,7 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-call { background: #073140; color: #fff; text-align: center; padding-block: 64px; }
   .cd-call h2 { color: #fff; }
   .cd-call p { margin: 12px 0 0; color: #cfe0e4; font-size: 16px; }
-  .cd-call__no {
+  :global(.cd-call__no) { /* rendered by CallLink, outside this scope */
     display: inline-block; margin-top: 16px; font-family: CaslonGraphiqueEF, Georgia, serif;
     font-size: 40px; line-height: 44px; color: #fff; text-decoration: none;
   }

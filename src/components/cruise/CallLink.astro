@@ -1,0 +1,31 @@
+---
+/**
+ * A phone number that is a tel: link only where a tap can actually place the call.
+ *
+ * On a mouse-driven desktop a tel: link opens the FaceTime / Skype "call?" widget
+ * instead of a phone (owner 2026-09-23: "which is wrong, take the click off, show
+ * the number"). So two elements are rendered and CSS shows one: the link on touch
+ * devices, plain text carrying the number where the pointer is a mouse.
+ */
+interface Props {
+  tel: string;        // "tel:+44..."
+  display: string;    // "0208 183 0518"
+  tapLabel?: string;  // link text on phones, defaults to the number
+  readLabel?: string; // text on desktop, defaults to the number
+  class?: string;     // styling class applied to both variants
+}
+const { tel, display, tapLabel, readLabel, class: cls } = Astro.props;
+---
+<a class:list={['call-link--tap', cls]} href={tel}>{tapLabel ?? display}</a>
+<span class:list={['call-link--read', cls]}>{readLabel ?? display}</span>
+
+<style is:global>
+  /* !important so the swap beats whatever display the styling class sets; the
+     shown variant keeps that class's own display. */
+  @media (hover: none), (pointer: coarse) {
+    .call-link--read { display: none !important; }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .call-link--tap { display: none !important; }
+  }
+</style>
