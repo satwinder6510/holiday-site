@@ -31,3 +31,6 @@
 # Legacy PascalCase static pages → live pages. See REDIRECT-LOG.md (site-doctor 2026-09-16)
 /AboutUs /about/ 301
 /PrivacyPolicy /privacy-policy 301
+
+# Legacy region listings (/Holidays/<Region>) → destinations continent page. See REDIRECT-LOG.md (site-doctor 2026-09-24)
+/Holidays/Asia /destinations/Asia/ 301

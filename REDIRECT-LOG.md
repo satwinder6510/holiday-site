@@ -63,3 +63,15 @@ VIVA inclusions) was already live (checked on a VIVA detail page), so a redirect
 | Date | Source (404, verified) | Target (verified 200) | Evidence |
 |---|---|---|---|
 | 2026-09-19 | `/Holidays/Asia/Japan/61` | `/Holidays/japan` | site_errors ids 806-809 (2026-09-18 23:26, Win10 Chrome/148 — the same scanner pair that walked /about/ + /privacy-policy minutes earlier) beaconed the 404 page's own layout images from this URL. Source curls 404 (63,223 B, title "Page Not Found") with and without trailing slash. Target curls 200 (82,493 B, title "Japan Holidays") with and without trailing slash; `/Holidays/Japan` (capital) is 404, hence a per-URL lowercase rule. |
+
+## 2026-09-24 — legacy region listing (the `/Holidays/<Region>` level of the old `/Region/Country/ID` scheme)
+
+| Date | Source (404, verified) | Target (verified 200) | Evidence |
+|---|---|---|---|
+| 2026-09-24 | `/Holidays/Asia` | `/destinations/Asia/` | site_errors id 827 (2026-09-23 15:32, zh-cn Android MQQBrowser/14.6 — the scanner that walked /privacy-policy three minutes earlier, ids 823-826) beaconed the 404 page's placeholder.svg from this URL. Source curls 404 (63,223 B, title "Page Not Found") with and without trailing slash; `/Holidays/asia` (lowercase) also 404. Target curls 200 (70,875 B, title "Holidays to Asia") — the live continent browse page; unslashed `/destinations/Asia` is a 308 to the slashed form, and `/destinations/asia/` is 404, so the rule targets the slashed capitalised form exactly. First beacon ever on any `/Holidays/<Region>` URL (D1 read: 1 row across Asia/Europe/Americas/Africa). Siblings `/Holidays/Europe`, `/Americas`, `/Africa` also 404 with live `/destinations/<Region>/` equivalents, but are NOT added — never beaconed; add per-URL if one appears. No wildcard: `/Holidays/*` would swallow live country routes. |
+
+Deploy note 2026-09-24: NOT deployed by Site Doctor. The tree already carried the owner's
+uncommitted `email-templates/danube-metropolises.html` (243 lines, campaign in progress) plus a
+`src/data/blog-export.json` stamp, so the A1 lane's redirects-only condition was not met. The rule
+goes live with the owner's next `./deploy.sh`; verify with
+`curl -sI https://holidays.flightsandpackages.com/Holidays/Asia` (expect 301 → `/destinations/Asia/`).
