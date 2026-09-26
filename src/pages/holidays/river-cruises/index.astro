@@ -45,9 +45,19 @@ try {
 const tileImage = (list: HolidayDetail[]) => (list.find(h => h.id > 10000 && h.image) || list.find(h => h.image))?.image || '';
 
 // ── Special offers ───────────────────────────────────────────────────
-const offers = cruises
-  .filter(h => h.isSpecialOffer && fromPrice(h) > 0)
-  .sort((a, b) => fromPrice(a) - fromPrice(b));
+// Test (owner 2026-09-26): one real Widgety cruise, with its cabin grid and live
+// airport prices, in the first slot ahead of the admin-built offers. holiday-site
+// id = D1 cruise_offers.id + 10000. VIVA Cruises "Hungary Short Trip" = offer 447.
+const FEATURED_CRUISE_IDS = [10447];
+const featured = FEATURED_CRUISE_IDS
+  .map(id => cruises.find(h => h.id === id && fromPrice(h) > 0))
+  .filter((h): h is HolidayDetail => !!h);
+const offers = [
+  ...featured,
+  ...cruises
+    .filter(h => h.isSpecialOffer && fromPrice(h) > 0 && !FEATURED_CRUISE_IDS.includes(h.id))
+    .sort((a, b) => fromPrice(a) - fromPrice(b)),
+];
 
 // Manually built cruise packages carry the ship under accommodations ("MS Vivaldi"),
 // which the listing query leaves out. Fetch just those rows for the offers shown.

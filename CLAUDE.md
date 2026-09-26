@@ -208,10 +208,24 @@ manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffe
   NOT refreshed by the weekly cron — only a full re-sync changes them.
 - **Feed encoding:** the Widgety feed mangles curly apostrophes to "¿"
   ("Europe¿s Geniuses"); `fixFeedText()` repairs it between two letters.
+- **Cabin descriptions (2026-09-26):** `src/lib/cabin-types.ts` reads the ship's
+  Widgety record (`cruise_ships.raw_data.accomodation_types`, their spelling) — size,
+  deck, French balcony / fixed window, the equipment list and the cabin type's own
+  photos — and `matchCabinTypes()` pairs them with the grades the offer sells by word
+  overlap (deck and the words accessible/single/suite must agree; ≥80% of the grade's
+  words must appear in the type). A grade with no honest match keeps its name-only row.
+  One ship row per detail page, ~50 KB; never join it into the catalogue query.
+- **Written quote (2026-09-26):** the enquiry modal renders on both templates; the
+  picker's rows/cabins and the bottom band open it via `window.__openEnquiryModal`
+  with date/airport/ship/cabin/price. River cruise pages ALWAYS show the form
+  (`data-form-always` on the modal) — the 9am–6pm call/chat panel is for the rest.
+- **Landing test (2026-09-26):** `FEATURED_CRUISE_IDS` in `river-cruises/index.astro`
+  puts a real Widgety cruise (VIVA "Hungary Short Trip", offer 447 → id 10447) in the
+  first special-offer slot ahead of the admin-built offers.
 - **Still open:** breadcrumb still points at the country page rather than the river
-  (owner's call, 2026-09-20); no sibling-cruise internal links; no deck plans; cabin
-  size and window type aren't fields we hold. "Time in port" was built then removed —
-  CroisiEurope records arrival == departure on many calls, so it rarely said anything.
+  (owner's call, 2026-09-20); no sibling-cruise internal links; no deck plans. "Time in
+  port" was built then removed — CroisiEurope records arrival == departure on many
+  calls, so it rarely said anything.
 
 ### Footer overflow, fixed 2026-09-20
 

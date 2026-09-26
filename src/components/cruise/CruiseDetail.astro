@@ -16,6 +16,9 @@ import type { HolidayAddon, HolidayExcursion } from '../../lib/holidays-db';
 import type { PortCall } from '../../lib/cruise-detail';
 import CallLink from './CallLink.astro';
 import type { SailingLadder } from '../../lib/cruise-detail';
+import type { CabinTypeInfo } from '../../lib/cabin-types';
+import { matchCabinTypes } from '../../lib/cabin-types';
+import { gradeCatalogue } from '../../lib/cruise-detail';
 import { splitStays } from '../../lib/cruise-detail';
 import { imgSrc } from '../../lib/image-src';
 import SailingPicker from './SailingPicker.astro';
@@ -27,10 +30,13 @@ interface Props {
   calls: PortCall[];
   ladders: SailingLadder[];
   shipNames: Set<string>;
+  cabinTypes?: CabinTypeInfo[];
   addons?: HolidayAddon[];
   excursions?: HolidayExcursion[];
 }
-const { holiday, pricing, calls, ladders, shipNames, addons = [], excursions = [] } = Astro.props;
+const { holiday, pricing, calls, ladders, shipNames, cabinTypes = [], addons = [], excursions = [] } = Astro.props;
+// Cabin descriptions from the ship record, matched to the grades this cruise sells.
+const cabinInfo = matchCabinTypes(gradeCatalogue(ladders).map(g => g.cabinType), cabinTypes);
 
 const TEL_DISPLAY = '0208 183 0518';
 const TEL_HREF = 'tel:+442081830518';
@@ -234,6 +240,7 @@ const overview = tidyOverview(holiday.overview || '');
           routeLabel={routeLabel}
           nights={nights}
           cabinImages={cabinImages}
+          cabinInfo={cabinInfo}
           tel={TEL_HREF}
           telDisplay={TEL_DISPLAY}
         />

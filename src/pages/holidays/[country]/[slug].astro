@@ -12,6 +12,7 @@ import type { HolidayDetail } from '../../../lib/holiday-transforms';
 import { inclusionChips } from '../../../lib/cruise-card';
 import CruiseDetail from '../../../components/cruise/CruiseDetail.astro';
 import { getCruiseCalls, getSailingLadders, getShipNameSet } from '../../../lib/cruise-detail';
+import { getCabinTypes } from '../../../lib/cabin-types';
 import { roundToNine } from '../../../lib/pricing-transforms';
 import { allBlogs } from '../../../data/blogs';
 import { getDb } from '../../../lib/get-db';
@@ -180,12 +181,14 @@ const isCruise = holiday.tags.includes('River Cruise');
 let cruiseCalls: Awaited<ReturnType<typeof getCruiseCalls>> = [];
 let cruiseLadders: Awaited<ReturnType<typeof getSailingLadders>> = [];
 let shipNameSet = new Set<string>();
+let cabinTypes: Awaited<ReturnType<typeof getCabinTypes>> = [];
 if (isCruise) {
   const cruiseDb = getDb(Astro);
-  [cruiseCalls, cruiseLadders, shipNameSet] = await Promise.all([
+  [cruiseCalls, cruiseLadders, shipNameSet, cabinTypes] = await Promise.all([
     getCruiseCalls(cruiseDb, holiday.id),
     getSailingLadders(cruiseDb, holiday.id),
     getShipNameSet(cruiseDb),
+    getCabinTypes(cruiseDb, holiday.id),
   ]);
 }
 // Only take the new template when it has what it needs to be better than the old one.
@@ -325,7 +328,7 @@ const pageDescription = holiday.metaDescription || (() => {
   <MobileNav />
 
   {useCruiseTemplate ? (
-    <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} shipNames={shipNameSet} addons={holidayAddonList} excursions={holidayExcursionList} />
+    <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} shipNames={shipNameSet} cabinTypes={cabinTypes} addons={holidayAddonList} excursions={holidayExcursionList} />
   ) : (
   <Fragment>
   <!-- Hero Section (wrapper lets the price bar anchor to the hero's bottom edge) -->

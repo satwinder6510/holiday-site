@@ -93,6 +93,7 @@ export const cruiseOffers = sqliteTable('cruise_offers', {
 export const cruiseRoutes = sqliteTable('cruise_routes', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   slug: text('slug').notNull(),
+  shipId: integer('ship_id'),
   itinerary: text('itinerary', { mode: 'json' }),
 });
 
@@ -101,6 +102,8 @@ export const cruiseRoutes = sqliteTable('cruise_routes', {
 export const cruiseShips = sqliteTable('cruise_ships', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('name').notNull(),
+  /** Widgety's full ship record (accomodation_types, deckplans, ship_facts …), JSON text. */
+  rawData: text('raw_data'),
 });
 
 // Individual departures — only the columns the listing needs (date filter + ship).
