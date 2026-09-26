@@ -845,6 +845,12 @@ const pageDescription = holiday.metaDescription || (() => {
     <script type="application/json" id="local-charges-data" set:html={localChargesJson} />
   )}
 
+  </Fragment>
+  )}
+
+  <!-- Rendered for BOTH templates: the cruise template reaches this modal through
+       its "Get a written quote" buttons (owner 2026-09-26: river cruises get the
+       form back; data-form-always skips the 9am-6pm call/chat panel there). -->
   <!-- Holiday meta for enquiry form -->
   <script type="application/json" id="holiday-meta" set:html={escapeJsonForScript(JSON.stringify({
     id: holiday.id,
@@ -855,7 +861,7 @@ const pageDescription = holiday.metaDescription || (() => {
   }))} />
 
   <!-- Package Enquiry Modal -->
-  <div class="enquiry-modal" id="enquiry-modal" role="dialog" aria-modal="true" aria-label="Package Enquiry">
+  <div class="enquiry-modal" id="enquiry-modal" role="dialog" aria-modal="true" aria-label="Package Enquiry" data-form-always={useCruiseTemplate ? '1' : undefined}>
     <div class="enquiry-modal__card">
       <div class="enquiry-modal__header">
         <div>
@@ -917,8 +923,6 @@ const pageDescription = holiday.metaDescription || (() => {
     </div>
   </div>
 
-  </Fragment>
-  )}
   <Newsletter />
   <Footer />
   {hasPricing ? <Fragment /> : <MobileCallCTA />}
@@ -4212,15 +4216,20 @@ const pageDescription = holiday.metaDescription || (() => {
         enquiryDetails.textContent = parts.join(' \u2022 ');
         enquiryDetails.style.display = parts.length ? '' : 'none';
       } else if (enquiryDetails) {
+        enquiryDetails.textContent = '';
         enquiryDetails.style.display = 'none';
       }
 
-      const callFirst = !!enquiryCallChat && !!enquiryForm && callHoursNow();
+      // River-cruise pages always show the form (owner 2026-09-26): those
+      // enquirers want the price in writing, and the call-first panel was
+      // converting them at the same rate with no written door at all.
+      const formAlways = enquiryModal.dataset.formAlways === '1';
+      const callFirst = !formAlways && !!enquiryCallChat && !!enquiryForm && callHoursNow();
       if (enquiryCallChat && enquiryForm) {
         enquiryCallChat.style.display = callFirst ? '' : 'none';
         enquiryForm.style.display = callFirst ? 'none' : '';
       }
-      if (enquiryTitle) enquiryTitle.textContent = callFirst ? 'Speak to a Travel Expert' : 'Booking Requested';
+      if (enquiryTitle) enquiryTitle.textContent = callFirst ? 'Speak to a Travel Expert' : (formAlways ? 'Get a written quote' : 'Booking Requested');
       trackEnquiry('enquiry_modal_open', { variant: callFirst ? 'call_chat' : 'form' });
 
       enquiryModal.classList.add('visible');

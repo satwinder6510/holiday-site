@@ -450,9 +450,22 @@ const overview = tidyOverview(holiday.overview || '');
       <p>Rivers, ships, cabins and dates. One call sorts the flights, transfers and the cabin you want.</p>
       <CallLink class="cd-call__no" tel={TEL_HREF} display={TEL_DISPLAY} />
       <p class="cd-call__hrs">Lines open 9am to 6pm</p>
+      <p class="cd-call__or">or</p>
+      <button type="button" class="cd-btn cd-call__quote" data-enq-page>Get a written quote</button>
     </div>
   </div>
 </div>
+
+<script>
+  // The band's quote button opens the page's enquiry modal with no sailing picked
+  // (the row/cabin buttons in SailingPicker carry the sailing details).
+  document.querySelectorAll<HTMLButtonElement>('[data-enq-page]').forEach(b => {
+    b.addEventListener('click', () => {
+      const open = (window as any).__openEnquiryModal;
+      if (typeof open === 'function') open();
+    });
+  });
+</script>
 
 <style>
   /* The site's own scale: body 18/29.25, prose 14/26, h1 48/50, h2 40/42. */
@@ -643,6 +656,8 @@ const overview = tidyOverview(holiday.overview || '');
     font-size: 40px; line-height: 44px; color: #fff; text-decoration: none;
   }
   .cd-call__hrs { margin-top: 4px; font-size: 14px; color: #7ea7af; }
+  .cd-call__or { margin-top: 20px; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: #7ea7af; }
+  .cd-call__quote { margin-top: 12px; cursor: pointer; font: inherit; font-size: 16px; font-weight: 500; letter-spacing: 1px; }
 
   @media (max-width: 920px) {
     .cd-section { padding-block: 44px; }

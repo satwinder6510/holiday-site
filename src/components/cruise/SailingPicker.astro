@@ -57,8 +57,10 @@ const hasCabins = ladders.length > 0;
 // With no cabin ladders there is nothing to expand, so the row must not pretend
 // to be a disclosure: it pointed aria-controls at a panel that was never
 // rendered and its "Enquire" CTA did nothing at all (UX review 2026-09-21).
-// Without cabins the row is plain and only its CTA is the call link (a tel: link
-// on phones, the number as text on desktop; see CallLink).
+// Without cabins the row is plain and its CTAs are a "Get a written quote" button
+// (opens the page's enquiry modal, owner 2026-09-26: river cruises get the form
+// back) and the call link (a tel: link on phones, the number as text on desktop;
+// see CallLink). With cabins the quote button sits on each cabin instead.
 const Row = hasCabins ? 'button' : 'div';
 // Long routes (the Zambezi runs 84 sailings) need cutting down before the list
 // is usable; short ones show whole and skip the furniture.
@@ -181,7 +183,12 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
             </span>
             {hasCabins
               ? <span class="sp__cta">Choose cabin ›</span>
-              : <CallLink class="sp__cta" tel={tel} display={telDisplay} tapLabel="Call to book ›" readLabel={`Call ${telDisplay}`} />}
+              : (
+                <span class="sp__ctas">
+                  <button type="button" class="sp__enq" data-enq>Get a written quote ›</button>
+                  <CallLink class="sp__cta" tel={tel} display={telDisplay} tapLabel="Call to book ›" readLabel={`Call ${telDisplay}`} />
+                </span>
+              )}
           </Row>
 
           {hasCabins && (
@@ -226,6 +233,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
                                 <>
                                   <p class="sp__amt" {...perAirport}>{formatPrice(p)}</p>
                                   <p class="sp__lab">per person</p>
+                                  <button type="button" class="sp__enq sp__enq--cabin" data-enq data-cabin={g.name}>Get a written quote</button>
                                   <CallLink class="sp__book" tel={tel} display={telDisplay} tapLabel="Call to book" readLabel={`Call ${telDisplay}`} />
                                 </>
                               )}
@@ -336,6 +344,37 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     moreBtn?.addEventListener('click', () => { showAll = true; applyRows(); });
     if (moreBtn) applyRows();
 
+    // "Get a written quote": open the page's enquiry modal with the sailing the
+    // reader was looking at (date, airport, ship, cabin, price) already filled in.
+    // The modal and __openEnquiryModal live in the page ([slug].astro).
+    const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const MONS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const niceDate = (iso: string) => {
+      const d = new Date(`${iso}T00:00:00Z`);
+      return isNaN(d.getTime()) ? iso : `${DAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+    };
+    sp.querySelectorAll<HTMLButtonElement>('.sp__enq').forEach(b => {
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = (window as any).__openEnquiryModal;
+        if (typeof open !== 'function') return;
+        const panel = b.closest<HTMLElement>('.sp__cabins');
+        const row = panel
+          ? document.getElementById(panel.getAttribute('aria-labelledby') || '')
+          : b.closest<HTMLElement>('.sp__row');
+        const code = sp.querySelector<HTMLButtonElement>('.sp__airport[aria-pressed="true"]')?.dataset.airport || '';
+        const shipEl = row?.querySelector<HTMLElement>('.sp__ship b');
+        const ship = [shipEl?.textContent?.trim(), b.dataset.cabin].filter(Boolean).join(', ');
+        const amt = (b.closest<HTMLElement>('.sp__cabin-price') || row)?.querySelector<HTMLElement>('.sp__amt')?.textContent?.trim();
+        open({
+          date: row?.dataset.date ? niceDate(row.dataset.date) : undefined,
+          airport: airportName.get(code) || code || undefined,
+          ship: ship || undefined,
+          pricePp: amt ? amt.replace(/[^0-9.]/g, '') : undefined,
+        });
+      });
+    });
+
     sp.querySelectorAll<HTMLButtonElement>('.sp__row').forEach(btn => {
       btn.addEventListener('click', () => {
         const panel = document.getElementById(btn.getAttribute('aria-controls') || '');
@@ -402,7 +441,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   .sp__from b { font-weight: 700; color: #7fd6dc; }
   .sp__head, .sp__row {
     display: grid;
-    grid-template-columns: minmax(0, 1.6fr) 84px minmax(0, 1fr) 150px 152px;
+    grid-template-columns: minmax(0, 1.6fr) 84px minmax(0, 1fr) 150px 200px;
     gap: 16px; align-items: center; padding: 16px 24px;
   }
   .sp__head {
@@ -452,6 +491,17 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   :global(a.sp__cta) { text-decoration: none; }
   /* Desktop: the number as text, not a button that looks clickable */
   :global(.sp__cta.call-link--read) { border: 0; padding: 8px 0; color: #073140; font-size: 15px; }
+  /* No-cabin rows: quote button over the call link, right-aligned like the CTA. */
+  .sp__ctas { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; justify-self: end; }
+  .sp__ctas :global(.sp__cta.call-link--read) { padding: 0; }
+  .sp__enq {
+    font: inherit; font-size: 16px; font-weight: 600; white-space: nowrap; cursor: pointer;
+    background: #ff7f00; color: #fff; border: 1px solid #ff7f00; border-radius: 2px; padding: 8px 12px;
+    transition: background-color .2s;
+  }
+  .sp__enq:hover { background: #e67300; border-color: #e67300; }
+  .sp__enq:focus-visible { outline: 3px solid #073140; outline-offset: 2px; }
+  .sp__enq--cabin { font-size: 15px; padding: 7px 12px; margin-top: 8px; }
 
   .sp__cabins {
     border-top: 1px solid #d4dcde; background: #f0f9fa;
@@ -513,6 +563,8 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     .sp__nights, .sp__ship { grid-column: 1; font-size: 14px; }
     .sp__price { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
     :global(.sp__cta) { grid-column: 1 / -1; justify-self: stretch; text-align: center; margin-top: 8px; }
+    .sp__ctas { grid-column: 1 / -1; justify-self: stretch; align-items: stretch; margin-top: 8px; }
+    .sp__ctas .sp__enq, .sp__ctas :global(.sp__cta) { margin-top: 0; text-align: center; }
   }
   @media (max-width: 600px) {
     .sp__set { gap: 8px; }
@@ -525,5 +577,6 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     .sp__cabin-img { aspect-ratio: 16/9; }
     .sp__cabin-price { text-align: left; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
     :global(.sp__book) { margin-top: 0; }
+    .sp__enq--cabin { margin-top: 0; }
   }
 </style>
