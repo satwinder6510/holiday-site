@@ -27,7 +27,15 @@ const url = `/Holidays/${h.countrySlug}/${h.slug}`;
 const nights = nightsOf(h);
 const saving = savingOf(h);
 const isOffer = h.isSpecialOffer;
-const pills = isOffer ? (h.offerBadges.length ? h.offerBadges : ['Special offer']) : (river ? [river] : []);
+// Every special offer built in the admin is a fly-cruise-stay package, so the
+// card says so on its first pill (owner 2026-09-26) without using one of the
+// three staff badge slots; a staff badge that already says it is dropped so
+// it never shows twice.
+const FLY_CRUISE_STAY = 'Fly · Cruise · Stay';
+const staffBadges = h.offerBadges.filter(b => !/fly\W*cruise\W*stay/i.test(b));
+const pills = isOffer
+  ? [FLY_CRUISE_STAY, ...(staffBadges.length ? staffBadges : ['Special offer'])]
+  : (river ? [river] : []);
 const shipName = h.shipName || ship || '';
 const chips = inclusionChips(included?.length ? included : h.whatsIncluded, h.boardBasis);
 const manual = h.id < 10000;
