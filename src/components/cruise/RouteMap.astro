@@ -30,7 +30,12 @@ const pts: Pt[] = calls
 const uniq: Pt[] = [];
 for (const p of pts) if (!uniq.some(q => q.code === p.code)) uniq.push(p);
 
-const bm = basemap as { land: XY[][]; lakes: XY[][]; rivers: { n: string; s: number; c: XY[] }[]; labels: { n: string; x: number; y: number }[] };
+const bm = basemap as { land: { n: string; c: XY[] }[]; lakes: XY[][]; rivers: { n: string; s: number; c: XY[] }[]; labels: { n: string; x: number; y: number }[] };
+
+// Each country gets one of four warm tints, fixed by name so it never changes
+// between renders; borders then read as regions rather than loose lines.
+const TINTS = ['#f6f1e6', '#eee8db', '#f3eee5', '#e9e3d5'];
+const tintOf = (name: string) => { let h = 0; for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return TINTS[h % TINTS.length]; };
 
 // ── Projection: equirectangular, longitude squeezed by cos(mean latitude) ──
 const meanLat = uniq.length ? uniq.reduce((a, p) => a + p.lat, 0) / uniq.length : 50;
@@ -135,7 +140,7 @@ function render(L: Layout): string {
   const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
   // Window: the route plus room round it, never smaller than ~220 km across,
   // then widened on one axis to the layout's aspect so nothing is squashed.
-  let spanX = Math.max((maxX - minX) * 1.6, 2.0), spanY = Math.max((maxY - minY) * 1.6, 2.0 * (H / W));
+  let spanX = Math.max((maxX - minX) * 2.0, 3.2), spanY = Math.max((maxY - minY) * 2.0, 3.2 * (H / W));
   const s = Math.min(W / spanX, H / spanY);
   spanX = W / s; spanY = H / s;
   const r: Rect = { x0: cx - spanX / 2, y0: cy - spanY / 2, x1: cx + spanX / 2, y1: cy + spanY / 2 };
@@ -151,23 +156,52 @@ function render(L: Layout): string {
     const t = thin(pts); if (t.length < 2) return '';
     return 'M' + t.map(p => `${fx(sx(p[0]))} ${fx(sy(p[1]))}`).join('L') + (close ? 'Z' : '');
   };
+  // Rivers: the simplified polyline shows its corners at this scale, so it is
+  // drawn as quadratic curves through the segment midpoints.
+  const smooth = (pts: XY[]) => {
+    const t = thin(pts); if (t.length < 3) return path(t, false);
+    const q = t.map(p => [sx(p[0]), sy(p[1])] as XY);
+    let d = `M${fx(q[0][0])} ${fx(q[0][1])}`;
+    for (let i = 1; i < q.length - 1; i++) {
+      const mx = (q[i][0] + q[i + 1][0]) / 2, my = (q[i][1] + q[i + 1][1]) / 2;
+      d += `Q${fx(q[i][0])} ${fx(q[i][1])} ${fx(mx)} ${fx(my)}`;
+    }
+    return d + `L${fx(q[q.length - 1][0])} ${fx(q[q.length - 1][1])}`;
+  };
 
-  let land = '', lakes = '', rivers = '', river = '';
-  for (const ring of bm.land) { const pr = ring.map(proj); if (!overlaps(pr, r)) continue; land += path(clipRing(pr, r), true); }
+  // Land: one path per country (its own tint), and the country's name at the
+  // centroid of its largest visible piece, when that piece is big enough to
+  // carry a word.
+  let land = '', lakes = '', rivers = '', river = '', names = '';
+  const byCountry = new Map<string, { d: string; area: number; cx: number; cy: number }>();
+  for (const ring of bm.land) {
+    const pr = ring.c.map(proj); if (!overlaps(pr, r)) continue;
+    const clipped = clipRing(pr, r); if (clipped.length < 3) continue;
+    let a = 0, cx0 = 0, cy0 = 0;
+    for (let i = 0; i < clipped.length; i++) {
+      const [x1, y1] = clipped[i], [x2, y2] = clipped[(i + 1) % clipped.length];
+      const f = x1 * y2 - x2 * y1; a += f; cx0 += (x1 + x2) * f; cy0 += (y1 + y2) * f;
+    }
+    a /= 2;
+    const entry = byCountry.get(ring.n) ?? { d: '', area: 0, cx: 0, cy: 0 };
+    entry.d += path(clipped, true);
+    if (Math.abs(a) > entry.area) { entry.area = Math.abs(a); entry.cx = cx0 / (6 * a); entry.cy = cy0 / (6 * a); }
+    byCountry.set(ring.n, entry);
+  }
+  const windowArea = spanX * spanY;
+  for (const [name, e] of byCountry) {
+    if (!e.d) continue;
+    land += `<path class="rm__land" style="fill:${tintOf(name)}" d="${e.d}"></path>`;
+    if (name && e.area > windowArea * 0.045 && e.cx > r.x0 && e.cx < r.x1 && e.cy > r.y0 && e.cy < r.y1) {
+      names += `<text class="rm__country" x="${fx(sx(e.cx))}" y="${fx(sy(e.cy))}" text-anchor="middle">${name.toUpperCase()}</text>`;
+    }
+  }
   for (const ring of bm.lakes) { const pr = ring.map(proj); if (!overlaps(pr, r)) continue; lakes += path(clipRing(pr, r), true); }
   projRivers.forEach((rv, i) => {
     if (!overlaps(rv.c, r)) return;
-    const d = clipLine(rv.c, r).map(run => path(run, false)).join('');
+    const d = clipLine(rv.c, r).map(run => smooth(run)).join('');
     if (routeRivers.has(i)) river += d; else rivers += d;
   });
-
-  // Country names, small and quiet, only where they fall inside the window.
-  let names = '';
-  for (const lb of bm.labels) {
-    const [x, y] = proj([lb.x, lb.y]);
-    if (x < r.x0 + spanX * 0.04 || x > r.x1 - spanX * 0.04 || y < r.y0 + spanY * 0.05 || y > r.y1 - spanY * 0.05) continue;
-    names += `<text class="rm__country" x="${fx(sx(x))}" y="${fx(sy(y))}" text-anchor="middle">${lb.n.toUpperCase()}</text>`;
-  }
 
   // Fallback spline when no river runs past the ports.
   let spline = '';
@@ -205,6 +239,10 @@ function render(L: Layout): string {
     for (const t of tries) { if (!clashes(y + L.font * t)) { dy = L.font * t; break; } }
     placed.push({ x, y: y + dy });
     const label = p.port.replace(/[<>&]/g, '');
+    // A label pushed more than a line from its pin gets a leader to it.
+    if (Math.abs(dy - L.font * 0.35) > L.font * 0.9) {
+      pins += `<line class="rm__lead" x1="${fx(x)}" y1="${fx(y)}" x2="${fx(x + (right ? L.font * 0.7 : -L.font * 0.7))}" y2="${fx(y + dy - L.font * 0.3)}"></line>`;
+    }
     pins += `<circle class="rm__ring" cx="${fx(x)}" cy="${fx(y)}" r="${L.font * 0.42}"></circle>`
       + `<circle class="rm__pin" cx="${fx(x)}" cy="${fx(y)}" r="${L.font * 0.18}"></circle>`
       + `<text class="rm__label" x="${fx(x + (right ? L.font * 0.85 : -L.font * 0.85))}" y="${fx(y + dy)}" text-anchor="${right ? 'start' : 'end'}">${label}</text>`;
@@ -212,15 +250,15 @@ function render(L: Layout): string {
 
   return `<svg class="${L.cls}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Route map. The table below lists every call: ${routeLabel}" style="--rm-font:${L.font}px;--rm-country:${L.label}px">`
     + `<rect class="rm__sea" width="${W}" height="${H}"></rect>`
-    + (land ? `<path class="rm__land" d="${land}"></path>` : '')
+    + land
     + (lakes ? `<path class="rm__lake" d="${lakes}"></path>` : '')
     + (rivers ? `<path class="rm__water" d="${rivers}"></path>` : '')
-    + (river ? `<path class="rm__route" d="${river}"></path>` : '')
+    + (river ? `<path class="rm__casing" d="${river}"></path><path class="rm__route" d="${river}"></path>` : '')
     + spline + names + pins + '</svg>';
 }
 
-const wide = render({ W: 1080, H: 520, font: 13, label: 11, cls: 'rm__svg rm__svg--wide' });
-const tall = render({ W: 600, H: 600, font: 17, label: 13, cls: 'rm__svg rm__svg--tall' });
+const wide = render({ W: 1080, H: 460, font: 14, label: 12, cls: 'rm__svg rm__svg--wide' });
+const tall = render({ W: 600, H: 600, font: 18, label: 14, cls: 'rm__svg rm__svg--tall' });
 const hasRiver = routeRivers.size > 0;
 ---
 {wide && (
@@ -235,16 +273,18 @@ const hasRiver = routeRivers.size > 0;
 )}
 
 <style>
-  .rm__box { border: 1px solid #e5e7eb; border-radius: 2px; overflow: hidden; background: #e6f2f5; }
+  .rm__box { border: 1px solid #e5e7eb; border-radius: 2px; overflow: hidden; background: #dcebf0; }
   .rm__box :global(svg) { display: block; width: 100%; height: auto; }
   .rm__box :global(.rm__svg--tall) { display: none; }
-  .rm__box :global(.rm__sea) { fill: #e6f2f5; }
-  .rm__box :global(.rm__land) { fill: #f7f5f0; stroke: #d6d0c4; stroke-width: 1; stroke-linejoin: round; }
-  .rm__box :global(.rm__lake) { fill: #e6f2f5; stroke: #cfe3e8; stroke-width: 0.8; }
-  .rm__box :global(.rm__water) { fill: none; stroke: #a9d3da; stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; }
-  .rm__box :global(.rm__route) { fill: none; stroke: #20A1AA; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+  .rm__box :global(.rm__sea) { fill: #dcebf0; }
+  .rm__box :global(.rm__land) { stroke: #cfc6b6; stroke-width: 0.9; stroke-linejoin: round; }
+  .rm__box :global(.rm__lake) { fill: #dcebf0; stroke: #bcd7de; stroke-width: 0.8; }
+  .rm__box :global(.rm__water) { fill: none; stroke: #9fcbd4; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  .rm__box :global(.rm__casing) { fill: none; stroke: #fff; stroke-width: 7; stroke-opacity: .85; stroke-linecap: round; stroke-linejoin: round; }
+  .rm__box :global(.rm__route) { fill: none; stroke: #20A1AA; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
   .rm__box :global(.rm__spline) { fill: none; stroke: #8ec6ce; stroke-width: 2.4; stroke-dasharray: 6 5; stroke-linecap: round; }
-  .rm__box :global(.rm__ring) { fill: #fff; stroke: #073140; stroke-width: 1.6; }
+  .rm__box :global(.rm__lead) { stroke: #073140; stroke-width: 1; stroke-opacity: .6; }
+  .rm__box :global(.rm__ring) { fill: #fff; stroke: #073140; stroke-width: 2; }
   .rm__box :global(.rm__pin) { fill: #073140; }
   .rm__box :global(.rm__label) {
     font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
@@ -253,7 +293,8 @@ const hasRiver = routeRivers.size > 0;
   }
   .rm__box :global(.rm__country) {
     font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
-    font-size: var(--rm-country); font-weight: 700; letter-spacing: 2px; fill: #b3ada2;
+    font-size: var(--rm-country); font-weight: 700; letter-spacing: 2.5px; fill: #a9a293;
+    paint-order: stroke; stroke: rgba(255,255,255,.6); stroke-width: 3px;
   }
   .rm__cap { margin: 12px 0 0; font-size: 13px; line-height: 20px; color: #6b6b6b; }
 

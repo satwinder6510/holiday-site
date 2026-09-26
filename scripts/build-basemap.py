@@ -60,11 +60,12 @@ def lines_of(geom):
 land, labels = [], []
 for f in json.load(open(f'{S}/ne_50m_admin_0_countries.geojson'))['features']:
     pr = f['properties']
+    name = pr.get('NAME_EN') or pr.get('NAME') or ''
     for ring in rings_of(f['geometry']):
         bb = bbox(ring)
         if not hits(bb): continue
         simp = dp(ring, LAND_TOL)
-        if len(simp) >= 4: land.append(rnd(simp))
+        if len(simp) >= 4: land.append({'n': name, 'c': rnd(simp)})
     lx, ly = pr.get('LABEL_X'), pr.get('LABEL_Y')
     if lx is not None and hits((lx, ly, lx, ly)):
         labels.append({'n': pr.get('NAME_EN') or pr.get('NAME'), 'x': round(lx, 2), 'y': round(ly, 2)})
@@ -92,5 +93,5 @@ for f in json.load(open(f'{S}/ne_10m_rivers_lake_centerlines.geojson'))['feature
 out = {'land': land, 'lakes': lakes, 'rivers': rivers, 'labels': labels}
 json.dump(out, open(OUT, 'w'), separators=(',', ':'), ensure_ascii=False)
 import os
-print(f"land rings {len(land)} pts {sum(len(r) for r in land)} | lakes {len(lakes)} | rivers {len(rivers)} pts {sum(len(r['c']) for r in rivers)} | labels {len(labels)} | {os.path.getsize(OUT)/1024:.0f} KB -> {OUT}")
+print(f"land rings {len(land)} pts {sum(len(r['c']) for r in land)} | lakes {len(lakes)} | rivers {len(rivers)} pts {sum(len(r['c']) for r in rivers)} | labels {len(labels)} | {os.path.getsize(OUT)/1024:.0f} KB -> {OUT}")
 print("rivers named:", sorted({r['n'] for r in rivers if r['n']})[:80])
