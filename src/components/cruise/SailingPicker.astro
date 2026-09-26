@@ -418,9 +418,11 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   }
   .sp__airports { margin-bottom: 24px; }
   .sp__airports[hidden] { display: none; }
-  .sp__set { display: flex; flex-wrap: wrap; gap: 12px; }
+  /* A grid, not a wrapping flex row: with flex the lone airport on the last row grew
+     to the full width (Bristol, five times the width of its siblings). */
+  .sp__set { display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 12px; }
   .sp__airport {
-    flex: 1 1 200px; text-align: left; font: inherit; color: inherit; cursor: pointer;
+    text-align: left; font: inherit; color: inherit; cursor: pointer;
     background: #fff; border: 1px solid #d4dcde; border-radius: 2px; padding: 12px 16px;
     transition: border-color .12s ease, background-color .12s ease;
   }
@@ -599,7 +601,8 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   }
   @media (max-width: 610px) {
     .sp__set { gap: 8px; }
-    .sp__airport { flex: 1 1 calc(50% - 4px); padding: 10px 12px; }
+    .sp__set { grid-template-columns: 1fr 1fr; }
+    .sp__airport { padding: 10px 12px; }
     .sp__airport-name { font-size: 16px; }
     .sp__airport-from { font-size: 14px; }
     .sp__pp { display: none; }

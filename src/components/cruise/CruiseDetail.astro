@@ -506,7 +506,7 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-split--solo { grid-template-columns: minmax(0, 75ch); }
   /* A tick list isn't prose: at 75ch it stopped short of the full-width sailings
      table below, leaving the page's right edge ragged. */
-  .cd-split--wide { grid-template-columns: minmax(0, 92ch); }
+  .cd-split--wide { grid-template-columns: minmax(0, 1fr); }
 
   .cd-btn {
     display: inline-flex; align-items: center; justify-content: center;
@@ -594,6 +594,9 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-shots figure:first-child:nth-last-child(4) ~ figure:last-child { grid-column: 1 / -1; }
   .cd-shots figure:first-child:nth-last-child(2) ~ figure img,
   .cd-shots figure:first-child:nth-last-child(4) ~ figure:last-child img { aspect-ratio: 2/1; }
+  /* Any even count leaves the last tile alone on its row: span it. Covers 6, 8 … too. */
+  .cd-shots figure:last-child:nth-child(even) { grid-column: 1 / -1; }
+  .cd-shots figure:last-child:nth-child(even) img { aspect-ratio: 2/1; }
 
   /* A stay: ship or hotel, text beside its photos */
   .cd-stay {
@@ -626,7 +629,7 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-hotels__stars { margin-left: 8px; color: #f5a623; letter-spacing: 2px; font-size: 18px; }
 
   /* Included */
-  .cd-ticks { columns: 2; column-gap: 32px; margin: 0; padding: 0; list-style: none; }
+  .cd-ticks { columns: 3; column-gap: 40px; margin: 0; padding: 0; list-style: none; }
   .cd-ticks li { position: relative; padding: 6px 0 6px 24px; font-size: 16px; line-height: 28px; color: #424242; break-inside: avoid; }
   .cd-ticks li::before { content: '✓'; position: absolute; left: 0; color: #20A1AA; font-weight: 700; }
   .cd-excl { margin: 24px 0 0; padding: 0; list-style: none; }
@@ -686,6 +689,9 @@ const overview = tidyOverview(holiday.overview || '');
     /* One column only once the container is genuinely narrow — at 920 it still
        had 860px to play with and twelve short items stacked down it. */
     .cd-ticks { columns: 1; }
+    /* Five short facts in five full-width rows was 450px of screen under the hero. */
+    .cd-glance dl { grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+    .cd-glance dl > div:last-child { grid-column: 1 / -1; }
     /* The overlay grows taller than the photo here, so stop overlaying. */
     .cd-hero__body { position: static; background: #073140; padding-block: 24px; }
     /* 200px was a letterbox under a 428px navy panel — the ship was unreadable. */

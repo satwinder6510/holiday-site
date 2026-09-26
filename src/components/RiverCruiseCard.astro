@@ -19,10 +19,12 @@ interface Props {
   included?: string[];
   /** River or destination shown as a pill (offers only). */
   river?: string;
+  /** A real cruise placed among the offers: it is a fly-cruise, so say so. */
+  featured?: boolean;
   /** Extra data-* attributes for client-side filtering on the listing. */
   data?: Record<string, string>;
 }
-const { holiday: h, window: w, ship, included, river, data = {} } = Astro.props;
+const { holiday: h, window: w, ship, included, river, featured = false, data = {} } = Astro.props;
 const url = `/Holidays/${h.countrySlug}/${h.slug}`;
 const nights = nightsOf(h);
 const saving = savingOf(h);
@@ -35,6 +37,7 @@ const FLY_CRUISE_STAY = 'Fly · Cruise · Stay';
 const staffBadges = h.offerBadges.filter(b => !/fly\W*cruise\W*stay/i.test(b));
 const pills = isOffer
   ? [FLY_CRUISE_STAY, ...(staffBadges.length ? staffBadges : ['Special offer'])]
+  : featured ? ['Fly · Cruise', ...(river ? [river] : [])]
   : (river ? [river] : []);
 const shipName = h.shipName || ship || '';
 const chips = inclusionChips(included?.length ? included : h.whatsIncluded, h.boardBasis);
@@ -85,7 +88,8 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
 </article>
 
 <style>
-  .rc-offer { background: #fff; border-radius: 6px; box-shadow: 0 6px 16px rgba(0,0,0,.08); overflow: hidden; display: flex; flex-direction: column; }
+  /* The site's card language: 2px radius, hairline, soft even shadow (homepage .offer-card). */
+  .rc-offer { background: #fff; border-radius: 2px; border: 1px solid #e5e7eb; box-shadow: 0 0 10px rgba(0,0,0,.08); overflow: hidden; display: flex; flex-direction: column; }
   /* flex: none — the card is a column flex stretched to its grid row, so without it a
      card with more text (a 'More dates' link) shrank its PHOTO to fit and the photos
      came out at different heights across the row (owner 2026-09-26: 'scrappy'). */
@@ -96,15 +100,15 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
   .rc-pills { position: absolute; top: 14px; left: 14px; right: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
   .rc-pill { background: #073140; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 12px; border-radius: 999px; white-space: nowrap; }
   .rc-pill-save { background: #ff7f00; font-weight: 700; }
-  .rc-operator { position: absolute; right: 0; bottom: 0; background: #fff; color: #073140; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 10px 16px; border-top-left-radius: 6px; }
+  .rc-operator { position: absolute; right: 0; bottom: 0; background: #fff; color: #073140; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 10px 16px; border-top-left-radius: 2px; }
   .rc-offer-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
-  .rc-offer h3 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 24px; line-height: 1.2; margin: 0 0 20px; height: 3.6em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .rc-offer h3 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 24px; line-height: 1.2; margin: 0 0 14px; height: 3.6em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .rc-offer h3 a { color: #424242; text-decoration: none; }
-  .rc-facts { list-style: none; margin: 0 0 14px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #e3e8ea; border-radius: 4px; min-height: 120px; }
-  .rc-facts li { padding: 14px 8px; text-align: center; font-size: 16px; line-height: 22px; color: #424242; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .rc-facts { list-style: none; margin: 0 0 14px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #e3e8ea; border-radius: 2px; min-height: 136px; }
+  .rc-facts li { padding: 14px 8px; text-align: center; font-size: 16px; line-height: 22px; color: #424242; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
   .rc-facts li + li { border-left: 1px solid #e3e8ea; }
   .rc-facts svg { width: 26px; height: 26px; fill: none; stroke: #20A1AA; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-  .rc-more-dates { font-size: 14px; color: #0d6066; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; margin-top: -2px; }
+  .rc-more-dates { display: inline-block; font-size: 16px; color: #0d6066; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; padding: 8px 8px; margin: -10px 0 -8px; }
   .rc-incl { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; min-height: 54px; align-content: flex-start; }
   .rc-incl li { font-size: 16px; line-height: 24px; color: #424242; }
   .rc-incl li::before { content: '✓'; color: #20A1AA; font-weight: 700; margin-right: 6px; }
@@ -113,8 +117,12 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
   .rc-price span { font-family: BentonSans, sans-serif; font-size: 16px; font-weight: 500; display: block; margin-bottom: 6px; color: #424242; }
   .rc-price s { text-decoration: line-through; color: #8a8a8a; }
   .rc-price small { font-family: BentonSans, sans-serif; font-size: 16px; color: #424242; }
-  .rc-view { background: #20A1AA; color: #fff; text-decoration: none; font-weight: 700; font-size: 14px; letter-spacing: 2.5px; text-transform: uppercase; padding: 16px 20px; border-radius: 3px; white-space: nowrap; }
+  .rc-view { background: #20A1AA; color: #fff; text-decoration: none; font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; padding: 15px 20px; border-radius: 2px; white-space: nowrap; }
   .rc-view span { margin-left: 6px; }
+  @media (max-width: 610px) {
+    /* One card per row: nothing to align across, so no 3-line reserve under a short title. */
+    .rc-offer h3 { height: auto; display: block; -webkit-line-clamp: unset; }
+  }
   @media (max-width: 450px) {
     .rc-view { width: 100%; text-align: center; }
   }
