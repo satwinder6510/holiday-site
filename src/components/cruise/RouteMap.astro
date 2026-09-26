@@ -34,7 +34,8 @@ const bm = basemap as { land: { n: string; c: XY[] }[]; lakes: XY[][]; rivers: {
 
 // Each country gets one of four warm tints, fixed by name so it never changes
 // between renders; borders then read as regions rather than loose lines.
-const TINTS = ['#f6f1e6', '#eee8db', '#f3eee5', '#e9e3d5'];
+// Soft sage, about two thirds of the test the owner saw (owner 2026-09-26: "green").
+const TINTS = ['#eef3e8', '#e6ede0', '#eaf0e4', '#e1e9da'];
 const tintOf = (name: string) => { let h = 0; for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return TINTS[h % TINTS.length]; };
 
 // ── Projection: equirectangular, longitude squeezed by cos(mean latitude) ──
@@ -293,7 +294,7 @@ const hasRiver = routeRivers.size > 0;
   .rm__box :global(svg) { display: block; width: 100%; height: auto; }
   .rm__box :global(.rm__svg--tall) { display: none; }
   .rm__box :global(.rm__sea) { fill: #dcebf0; }
-  .rm__box :global(.rm__land) { stroke: #cfc6b6; stroke-width: 0.9; stroke-linejoin: round; }
+  .rm__box :global(.rm__land) { stroke: #c0cdb6; stroke-width: 0.9; stroke-linejoin: round; }
   .rm__box :global(.rm__lake) { fill: #dcebf0; stroke: #bcd7de; stroke-width: 0.8; }
   .rm__box :global(.rm__water) { fill: none; stroke: #9fcbd4; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
   .rm__box :global(.rm__casing) { fill: none; stroke: #fff; stroke-width: 7; stroke-opacity: .85; stroke-linecap: round; stroke-linejoin: round; }
@@ -305,11 +306,11 @@ const hasRiver = routeRivers.size > 0;
   .rm__box :global(.rm__label) {
     font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
     font-size: var(--rm-font); font-weight: 600; fill: #073140;
-    paint-order: stroke; stroke: #f7f5f0; stroke-width: 3px; stroke-linejoin: round;
+    paint-order: stroke; stroke: #eef3e8; stroke-width: 3px; stroke-linejoin: round;
   }
   .rm__box :global(.rm__country) {
     font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
-    font-size: var(--rm-country); font-weight: 700; letter-spacing: 2.5px; fill: #a9a293;
+    font-size: var(--rm-country); font-weight: 700; letter-spacing: 2.5px; fill: #93a38b;
     paint-order: stroke; stroke: rgba(255,255,255,.6); stroke-width: 3px;
   }
   .rm__cap { margin: 12px 0 0; font-size: 13px; line-height: 20px; color: #6b6b6b; }
