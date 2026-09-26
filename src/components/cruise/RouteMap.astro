@@ -1,126 +1,264 @@
 ---
 /**
- * Schematic river map, drawn server-side from the port coordinates on each call.
+ * Route map on real geography, drawn server-side as SVG.
  *
- * Sailing order would draw the outbound and the return as two lines that cross,
- * so each port is taken once and chained nearest-to-nearest from the far end —
- * that follows the river corridor and reads as one waterway.
+ * Land, lakes and river centrelines come from Natural Earth (public domain) via
+ * src/data/basemap.json — kept only round the places we sail, simplified, and
+ * clipped here to a window round the route so the SVG stays small. The river the
+ * ship actually sails is found by proximity to the ports and drawn heavier; the
+ * ports sit on it at their real coordinates. Where no river passes the ports (a
+ * coastal itinerary, or ports without coordinates) the old schematic spline is
+ * drawn instead, so the map never goes blank.
  *
- * Renders nothing when fewer than two calls carry coordinates.
+ * Two layouts are rendered and CSS shows one: landscape above 600px, portrait on
+ * phones with larger type in viewBox units. Before 2026-09-26 the map was an
+ * abstract spline on an empty box and was hidden on phones altogether.
  */
 import type { PortCall } from '../../lib/cruise-detail';
+import basemap from '../../data/basemap.json';
 
 interface Props { calls: PortCall[]; routeLabel: string }
 const { calls, routeLabel } = Astro.props;
 
 type Pt = { port: string; code: string; lat: number; lng: number };
+type XY = [number, number];
+type Layout = { W: number; H: number; font: number; label: number; cls: string };
+
 const pts: Pt[] = calls
   .filter(c => c.lat != null && c.lng != null)
   .map(c => ({ port: c.port, code: c.unlocode || c.port, lat: c.lat as number, lng: c.lng as number }));
-
-// One entry per port, first appearance wins.
 const uniq: Pt[] = [];
 for (const p of pts) if (!uniq.some(q => q.code === p.code)) uniq.push(p);
 
-const W = 1080, PAD_X = 96, PAD_Y = 40;
-let svg = '';
+const bm = basemap as { land: XY[][]; lakes: XY[][]; rivers: { n: string; s: number; c: XY[] }[]; labels: { n: string; x: number; y: number }[] };
 
-if (uniq.length >= 2) {
-  // Equirectangular, longitude squeezed by cos(mean latitude) so the shape holds.
-  const meanLat = uniq.reduce((a, p) => a + p.lat, 0) / uniq.length;
-  const k = Math.cos((meanLat * Math.PI) / 180);
-  const xs = uniq.map(p => p.lng * k);
-  const ys = uniq.map(p => -p.lat);
-  const minX = Math.min(...xs), maxX = Math.max(...xs);
-  const minY = Math.min(...ys), maxY = Math.max(...ys);
+// ── Projection: equirectangular, longitude squeezed by cos(mean latitude) ──
+const meanLat = uniq.length ? uniq.reduce((a, p) => a + p.lat, 0) / uniq.length : 50;
+const k = Math.cos((meanLat * Math.PI) / 180);
+const proj = ([lng, lat]: XY): XY => [lng * k, -lat];
 
-  // Fit BOTH axes. Scaling to width alone makes a north-south route (Amsterdam to
-  // Basel) hundreds of pixels tall, so the height is capped and the drawing is
-  // centred in whichever axis has room to spare.
-  const H_MAX = 460;
-  const sx = maxX - minX ? (W - PAD_X * 2) / (maxX - minX) : 1;
-  const sy = maxY - minY ? (H_MAX - PAD_Y * 2) / (maxY - minY) : 1;
-  const s = Math.min(sx, sy);
-  const H = Math.min(H_MAX, Math.max(210, (maxY - minY) * s + PAD_Y * 2));
-  const offX = (W - (maxX - minX) * s) / 2;
-  const offY = (H - (maxY - minY) * s) / 2;
-  const px = (p: Pt) => (p.lng * k - minX) * s + offX;
-  const py = (p: Pt) => (-p.lat - minY) * s + offY;
-
-  // Chain from the point furthest from the centre, then nearest-neighbour.
-  const cx = uniq.reduce((a, p) => a + px(p), 0) / uniq.length;
-  const cy = uniq.reduce((a, p) => a + py(p), 0) / uniq.length;
-  const gap = (a: Pt, b: Pt) => Math.hypot(px(a) - px(b), py(a) - py(b));
-  let startPt = uniq[0];
-  for (const p of uniq) {
-    if (Math.hypot(px(p) - cx, py(p) - cy) > Math.hypot(px(startPt) - cx, py(startPt) - cy)) startPt = p;
-  }
-  const rest = uniq.filter(p => p !== startPt);
-  const chain: Pt[] = [startPt];
-  while (rest.length) {
-    let best = 0;
-    for (let i = 1; i < rest.length; i++) {
-      if (gap(chain[chain.length - 1], rest[i]) < gap(chain[chain.length - 1], rest[best])) best = i;
+// ── Clipping to a rectangle, in projected units ─────────────────────
+type Rect = { x0: number; y0: number; x1: number; y1: number };
+const inside = (p: XY, r: Rect, e: number) =>
+  e === 0 ? p[0] >= r.x0 : e === 1 ? p[0] <= r.x1 : e === 2 ? p[1] >= r.y0 : p[1] <= r.y1;
+function intersect(a: XY, b: XY, r: Rect, e: number): XY {
+  const [ax, ay] = a, [bx, by] = b;
+  if (e === 0 || e === 1) { const x = e === 0 ? r.x0 : r.x1; return [x, ay + ((by - ay) * (x - ax)) / (bx - ax)]; }
+  const y = e === 2 ? r.y0 : r.y1; return [ax + ((bx - ax) * (y - ay)) / (by - ay), y];
+}
+/** Sutherland–Hodgman: polygon ring against the rect. */
+function clipRing(ring: XY[], r: Rect): XY[] {
+  let out = ring;
+  for (let e = 0; e < 4 && out.length; e++) {
+    const inp = out; out = [];
+    for (let i = 0; i < inp.length; i++) {
+      const cur = inp[i], prev = inp[(i + inp.length - 1) % inp.length];
+      const cIn = inside(cur, r, e), pIn = inside(prev, r, e);
+      if (cIn) { if (!pIn) out.push(intersect(prev, cur, r, e)); out.push(cur); }
+      else if (pIn) out.push(intersect(prev, cur, r, e));
     }
-    chain.push(rest.splice(best, 1)[0]);
+  }
+  return out;
+}
+/** Liang–Barsky per segment: a polyline against the rect, as runs of points. */
+function clipLine(line: XY[], r: Rect): XY[][] {
+  const runs: XY[][] = []; let run: XY[] = [];
+  for (let i = 0; i < line.length - 1; i++) {
+    const [x0, y0] = line[i], [x1, y1] = line[i + 1];
+    const dx = x1 - x0, dy = y1 - y0;
+    let t0 = 0, t1 = 1, ok = true;
+    for (const [p, q] of [[-dx, x0 - r.x0], [dx, r.x1 - x0], [-dy, y0 - r.y0], [dy, r.y1 - y0]] as [number, number][]) {
+      if (p === 0) { if (q < 0) { ok = false; break; } continue; }
+      const t = q / p;
+      if (p < 0) { if (t > t1) { ok = false; break; } if (t > t0) t0 = t; }
+      else { if (t < t0) { ok = false; break; } if (t < t1) t1 = t; }
+    }
+    if (!ok) { if (run.length > 1) runs.push(run); run = []; continue; }
+    const a: XY = [x0 + t0 * dx, y0 + t0 * dy], b: XY = [x0 + t1 * dx, y0 + t1 * dy];
+    if (!run.length || t0 > 0) { if (run.length > 1) runs.push(run); run = [a]; }
+    run.push(b);
+    if (t1 < 1) { runs.push(run); run = []; }
+  }
+  if (run.length > 1) runs.push(run);
+  return runs;
+}
+const overlaps = (pts: XY[], r: Rect) => {
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const [x, y] of pts) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  return !(x1 < r.x0 || x0 > r.x1 || y1 < r.y0 || y0 > r.y1);
+};
+
+// ── The river the ship sails: passes within ~13 km of at least two ports ──
+// Natural Earth cuts a river into many segments, so the count is per river NAME
+// (the Rhine from Cologne to Rüdesheim is three features); an unnamed segment
+// counts on its own.
+const P = uniq.map(p => proj([p.lng, p.lat]));
+// UN/LOCODE points are town centres, not quays: Rüdesheim's sits 14 km from the
+// Rhine. So the rule is generous, and a matched port is then snapped onto the
+// river so the pin sits where the ship actually ties up.
+const NEAR = 0.2; // projected degrees ≈ 22 km
+const projRivers = bm.rivers.map(rv => ({ ...rv, c: rv.c.map(proj) }));
+const routeRivers = new Set<number>();
+if (P.length >= 2) {
+  const portsByRiver = new Map<string, Set<number>>();
+  projRivers.forEach((rv, i) => {
+    const key = rv.n || `#${i}`;
+    const hit = portsByRiver.get(key) ?? new Set<number>();
+    P.forEach((p, pi) => {
+      if (rv.c.some(q => Math.abs(q[0] - p[0]) < NEAR && Math.abs(q[1] - p[1]) < NEAR)) hit.add(pi);
+    });
+    portsByRiver.set(key, hit);
+  });
+  projRivers.forEach((rv, i) => {
+    if ((portsByRiver.get(rv.n || `#${i}`)?.size ?? 0) >= 2) routeRivers.add(i);
+  });
+  // Snap each port to the nearest vertex of the route river, when one is near.
+  if (routeRivers.size) {
+    P.forEach((p, pi) => {
+      let best: XY | null = null, bd = NEAR;
+      for (const i of routeRivers) for (const q of projRivers[i].c) {
+        const d = Math.hypot(q[0] - p[0], q[1] - p[1]);
+        if (d < bd) { bd = d; best = q; }
+      }
+      if (best) P[pi] = best;
+    });
+  }
+}
+
+// ── One SVG per layout ──────────────────────────────────────────────
+const fx = (n: number) => n.toFixed(1);
+function render(L: Layout): string {
+  if (P.length < 2) return '';
+  const { W, H } = L;
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (const [x, y] of P) { minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y); }
+  const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+  // Window: the route plus room round it, never smaller than ~220 km across,
+  // then widened on one axis to the layout's aspect so nothing is squashed.
+  let spanX = Math.max((maxX - minX) * 1.6, 2.0), spanY = Math.max((maxY - minY) * 1.6, 2.0 * (H / W));
+  const s = Math.min(W / spanX, H / spanY);
+  spanX = W / s; spanY = H / s;
+  const r: Rect = { x0: cx - spanX / 2, y0: cy - spanY / 2, x1: cx + spanX / 2, y1: cy + spanY / 2 };
+  const sx = (x: number) => (x - r.x0) * s, sy = (y: number) => (y - r.y0) * s;
+
+  // Drop screen-space duplicates so the paths stay small at this scale.
+  const thin = (pts: XY[]) => {
+    const out: XY[] = [];
+    for (const p of pts) { const q = out[out.length - 1]; if (!q || Math.abs(sx(p[0]) - sx(q[0])) + Math.abs(sy(p[1]) - sy(q[1])) > 1.2) out.push(p); }
+    return out;
+  };
+  const path = (pts: XY[], close: boolean) => {
+    const t = thin(pts); if (t.length < 2) return '';
+    return 'M' + t.map(p => `${fx(sx(p[0]))} ${fx(sy(p[1]))}`).join('L') + (close ? 'Z' : '');
+  };
+
+  let land = '', lakes = '', rivers = '', river = '';
+  for (const ring of bm.land) { const pr = ring.map(proj); if (!overlaps(pr, r)) continue; land += path(clipRing(pr, r), true); }
+  for (const ring of bm.lakes) { const pr = ring.map(proj); if (!overlaps(pr, r)) continue; lakes += path(clipRing(pr, r), true); }
+  projRivers.forEach((rv, i) => {
+    if (!overlaps(rv.c, r)) return;
+    const d = clipLine(rv.c, r).map(run => path(run, false)).join('');
+    if (routeRivers.has(i)) river += d; else rivers += d;
+  });
+
+  // Country names, small and quiet, only where they fall inside the window.
+  let names = '';
+  for (const lb of bm.labels) {
+    const [x, y] = proj([lb.x, lb.y]);
+    if (x < r.x0 + spanX * 0.04 || x > r.x1 - spanX * 0.04 || y < r.y0 + spanY * 0.05 || y > r.y1 - spanY * 0.05) continue;
+    names += `<text class="rm__country" x="${fx(sx(x))}" y="${fx(sy(y))}" text-anchor="middle">${lb.n.toUpperCase()}</text>`;
   }
 
-  // Catmull-Rom through the ports, as cubic beziers.
-  const P = chain.map(p => [px(p), py(p)] as [number, number]);
-  let d = `M${P[0][0].toFixed(1)} ${P[0][1].toFixed(1)}`;
-  for (let i = 0; i < P.length - 1; i++) {
-    const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || P[i + 1];
-    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
-    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-    d += `C${c1[0].toFixed(1)} ${c1[1].toFixed(1)},${c2[0].toFixed(1)} ${c2[1].toFixed(1)},${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  // Fallback spline when no river runs past the ports.
+  let spline = '';
+  if (!routeRivers.size) {
+    const chain = [...P].sort((a, b) => a[0] - b[0]);
+    let d = `M${fx(sx(chain[0][0]))} ${fx(sy(chain[0][1]))}`;
+    for (let i = 0; i < chain.length - 1; i++) {
+      const p0 = chain[i - 1] || chain[i], p1 = chain[i], p2 = chain[i + 1], p3 = chain[i + 2] || chain[i + 1];
+      const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+      const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+      d += `C${fx(sx(c1[0]))} ${fx(sy(c1[1]))},${fx(sx(c2[0]))} ${fx(sy(c2[1]))},${fx(sx(p2[0]))} ${fx(sy(p2[1]))}`;
+    }
+    spline = `<path class="rm__spline" d="${d}"></path>`;
   }
 
+  // Ports: pin plus label. A label moves down until it clears every label
+  // already placed and every other port's pin (the Mekong delta packs four
+  // calls into 40 km).
   const placed: { x: number; y: number }[] = [];
+  const pinsXY = P.map(q => ({ x: sx(q[0]), y: sy(q[1]) }));
   let pins = '';
-  for (const p of chain) {
-    const x = px(p), y = py(p);
+  uniq.forEach((p, i) => {
+    const { x, y } = pinsXY[i];
     const right = x < W / 2;
-    let dy = 4;
-    while (placed.some(q => Math.abs(q.x - x) < 90 && Math.abs(q.y - (y + dy)) < 14)) dy += 14;
+    const width = L.font * 0.6 * p.port.length + L.font;
+    const boxX0 = right ? x + L.font * 0.85 : x - L.font * 0.85 - width, boxX1 = boxX0 + width;
+    const clashes = (ly: number) =>
+      ly < L.font || ly > H - L.font * 0.4
+      || placed.some(q => Math.abs(q.x - x) < L.font * 7 && Math.abs(q.y - ly) < L.font * 1.1)
+      || pinsXY.some((q, j) => j !== i && q.x > boxX0 - L.font * 0.5 && q.x < boxX1 + L.font * 0.5 && Math.abs(q.y - (ly - L.font * 0.35)) < L.font * 0.8);
+    // Beside the pin first, then one line below, one above, two below … so a
+    // crowded delta spreads its labels both ways instead of marching off the map.
+    const tries = [0.35, 1.45, -0.9, 2.55, -2.0, 3.65, -3.1];
+    let dy = L.font * tries[0];
+    for (const t of tries) { if (!clashes(y + L.font * t)) { dy = L.font * t; break; } }
     placed.push({ x, y: y + dy });
     const label = p.port.replace(/[<>&]/g, '');
-    pins += `<circle class="rm__ring" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5"></circle>`
-      + `<circle class="rm__pin" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.2"></circle>`
-      + `<text class="rm__label" x="${(x + (right ? 11 : -11)).toFixed(1)}" y="${(y + dy).toFixed(1)}" text-anchor="${right ? 'start' : 'end'}">${label}</text>`;
-  }
+    pins += `<circle class="rm__ring" cx="${fx(x)}" cy="${fx(y)}" r="${L.font * 0.42}"></circle>`
+      + `<circle class="rm__pin" cx="${fx(x)}" cy="${fx(y)}" r="${L.font * 0.18}"></circle>`
+      + `<text class="rm__label" x="${fx(x + (right ? L.font * 0.85 : -L.font * 0.85))}" y="${fx(y + dy)}" text-anchor="${right ? 'start' : 'end'}">${label}</text>`;
+  });
 
-  svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Route map. The table below lists every call: ${routeLabel}">`
-    + `<path class="rm__river" d="${d}"></path>${pins}</svg>`;
+  return `<svg class="${L.cls}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Route map. The table below lists every call: ${routeLabel}" style="--rm-font:${L.font}px;--rm-country:${L.label}px">`
+    + `<rect class="rm__sea" width="${W}" height="${H}"></rect>`
+    + (land ? `<path class="rm__land" d="${land}"></path>` : '')
+    + (lakes ? `<path class="rm__lake" d="${lakes}"></path>` : '')
+    + (rivers ? `<path class="rm__water" d="${rivers}"></path>` : '')
+    + (river ? `<path class="rm__route" d="${river}"></path>` : '')
+    + spline + names + pins + '</svg>';
 }
+
+const wide = render({ W: 1080, H: 520, font: 13, label: 11, cls: 'rm__svg rm__svg--wide' });
+const tall = render({ W: 600, H: 600, font: 17, label: 13, cls: 'rm__svg rm__svg--tall' });
+const hasRiver = routeRivers.size > 0;
 ---
-{svg && (
+{wide && (
   <div class="rm">
-    <div class="rm__box" set:html={svg} />
-    <p class="rm__cap">Ports plotted from their real coordinates. The line is a schematic of the river, not a survey of its course.</p>
+    <div class="rm__box" set:html={wide + tall} />
+    <p class="rm__cap">
+      {hasRiver
+        ? 'Ports on the river the ship sails. Coastlines, borders and rivers from Natural Earth.'
+        : 'Ports at their real coordinates. The line is a schematic of the route, not a survey of its course.'}
+    </p>
   </div>
 )}
 
 <style>
-  .rm__box {
-    background: #f0f9fa;
-    border: 1px solid #e5e7eb;
-    border-radius: 2px;
-    padding: 16px;
-  }
+  .rm__box { border: 1px solid #e5e7eb; border-radius: 2px; overflow: hidden; background: #e6f2f5; }
   .rm__box :global(svg) { display: block; width: 100%; height: auto; }
-  .rm__box :global(.rm__river) {
-    fill: none; stroke: #8ec6ce; stroke-width: 2.4;
-    stroke-linecap: round; stroke-linejoin: round;
-  }
+  .rm__box :global(.rm__svg--tall) { display: none; }
+  .rm__box :global(.rm__sea) { fill: #e6f2f5; }
+  .rm__box :global(.rm__land) { fill: #f7f5f0; stroke: #d6d0c4; stroke-width: 1; stroke-linejoin: round; }
+  .rm__box :global(.rm__lake) { fill: #e6f2f5; stroke: #cfe3e8; stroke-width: 0.8; }
+  .rm__box :global(.rm__water) { fill: none; stroke: #a9d3da; stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; }
+  .rm__box :global(.rm__route) { fill: none; stroke: #20A1AA; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+  .rm__box :global(.rm__spline) { fill: none; stroke: #8ec6ce; stroke-width: 2.4; stroke-dasharray: 6 5; stroke-linecap: round; }
   .rm__box :global(.rm__ring) { fill: #fff; stroke: #073140; stroke-width: 1.6; }
   .rm__box :global(.rm__pin) { fill: #073140; }
   .rm__box :global(.rm__label) {
     font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 13px; font-weight: 600; fill: #424242;
+    font-size: var(--rm-font); font-weight: 600; fill: #073140;
+    paint-order: stroke; stroke: #f7f5f0; stroke-width: 3px; stroke-linejoin: round;
+  }
+  .rm__box :global(.rm__country) {
+    font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
+    font-size: var(--rm-country); font-weight: 700; letter-spacing: 2px; fill: #b3ada2;
   }
   .rm__cap { margin: 12px 0 0; font-size: 13px; line-height: 20px; color: #6b6b6b; }
 
-  /* The port table below says the same thing, and the labels are unreadable
-     at phone width, so drop the map rather than shrink it. */
-  @media (max-width: 600px) { .rm { display: none; } }
+  @media (max-width: 600px) {
+    .rm__box :global(.rm__svg--wide) { display: none; }
+    .rm__box :global(.rm__svg--tall) { display: block; }
+  }
 </style>

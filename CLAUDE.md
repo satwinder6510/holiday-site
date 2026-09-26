@@ -167,12 +167,20 @@ manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffe
   `cruise_routes.itinerary` via `getCruiseCalls()`. The catalogue flattens the itinerary
   to `{day, port, country, description}` and throws the times and the UN/LOCODE away;
   that is why the detail page reads `cruise_routes` directly rather than the catalogue.
-- **Route map** (`RouteMap.astro`) drawn server-side from port coordinates in
-  `src/data/port-coords.json` (373/373 ports, resolved offline from the UN/LOCODE on
-  each call — UN/LOCODE + GeoNames, no API). Ports are chained nearest-neighbour from
-  the far end, not in sailing order, or the outbound and return legs cross. The map
-  fits BOTH axes — scaling to width alone made north-south routes hundreds of px tall.
-  Hidden below 600px; the calls table says the same thing.
+- **Route map** (`RouteMap.astro`, rebuilt 2026-09-26) is real geography drawn
+  server-side as SVG: land, lakes and river centrelines from Natural Earth (public
+  domain) in `src/data/basemap.json` (442 KB raw / 160 KB gzipped; built by
+  `scripts/build-basemap.py` from the three NE GeoJSON files, kept only within 4° of a
+  port in `src/data/port-coords.json`, Douglas-Peucker simplified). At render the
+  window is the route plus room (never under ~220 km across), features are clipped to
+  it (Sutherland–Hodgman for rings, Liang–Barsky for lines) so a page carries ~8–15 KB
+  of SVG. The river the ship sails = the named river passing within ~22 km of ≥2
+  ports (count per NAME — NE cuts a river into segments); it is drawn heavy and each
+  matched port is SNAPPED onto it (UN/LOCODE points are town centres — Rüdesheim's is
+  14 km from the Rhine). No river found → the old dashed schematic spline. Two
+  layouts, landscape 1080×520 and portrait 600×600 with bigger type, CSS picks one at
+  600px — the map now shows on phones. Port coordinates come from `port-coords.json`
+  (373/373 ports, UN/LOCODE + GeoNames, resolved offline, no API).
 - **`parseCabinGrade()`** handles all three supplier formats: CroisiEurope's bracketed
   deck (`Cat B Suite (Main Deck, 2 Single Beds)`), A-ROSA's leading deck
   (`Main Deck 2 Adjustable Twin Beds`), VIVA's trailing gemstone (`Double Cabin aft
