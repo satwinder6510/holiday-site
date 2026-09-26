@@ -429,16 +429,16 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     border-color: #20A1AA; background: #f0f9fa; box-shadow: inset 0 0 0 1px #20A1AA;
   }
   .sp__airport-name { display: block; font-size: 16px; font-weight: 500; color: #424242; }
-  .sp__airport-from { display: block; margin-top: 2px; font-size: 14px; color: #424242; }
+  .sp__airport-from { display: block; margin-top: 2px; font-size: 16px; color: #424242; }
   .sp__airport-from b { font-weight: 700; }
 
   .sp__filters { margin-bottom: 16px; }
   .sp__chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .sp__chip {
-    font: inherit; font-size: 14px; color: #424242; cursor: pointer;
-    background: #fff; border: 1px solid #d4dcde; border-radius: 2px; padding: 10px 12px; min-height: 44px;
+    font: inherit; font-size: 16px; color: #424242; cursor: pointer;
+    background: #fff; border: 1px solid #d4dcde; border-radius: 2px; padding: 10px 14px; min-height: 44px;
   }
-  .sp__chip span { color: #6b6b6b; font-size: 12px; margin-left: 4px; }
+  .sp__chip span { color: #6b6b6b; font-size: 14px; margin-left: 4px; }
   .sp__chip:hover { border-color: #20A1AA; }
   .sp__chip[aria-pressed='true'] { background: #20A1AA; border-color: #20A1AA; color: #fff; }
   .sp__chip[aria-pressed='true'] span { color: #d0e8ea; }
@@ -480,7 +480,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   .sp__row[aria-expanded='true'] { background: #d0e8ea; }
   .sp__row:focus-visible { outline: 3px solid #20A1AA; outline-offset: -3px; }
   .sp__date { display: block; font-size: 18px; font-weight: 500; color: #424242; }
-  .sp__sub { display: block; font-size: 14px; font-weight: 400; color: #6b6b6b; }
+  .sp__sub { display: block; font-size: 16px; font-weight: 400; color: #6b6b6b; }
   .sp__nights, .sp__ship { display: block; font-size: 16px; color: #424242; }
   .sp__ship b { display: block; font-weight: 500; }
   .sp__price { text-align: right; }
@@ -492,7 +492,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     display: block; font-size: 12px; line-height: 20px; font-weight: 700;
     letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b;
   }
-  .sp__cheaper { display: block; margin-top: 2px; font-size: 14px; font-weight: 500; color: #0d6066; }
+  .sp__cheaper { display: block; margin-top: 2px; font-size: 16px; font-weight: 500; color: #0d6066; }
   /* A class with `display` beats the UA [hidden] rule, so restate it. */
   .sp__cheaper[hidden] { display: none; }
   .sp__best {
@@ -537,7 +537,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   }
   .sp__deck-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
   .sp__cabin {
-    display: grid; grid-template-columns: 130px minmax(0, 1fr) 156px;
+    display: grid; grid-template-columns: 130px minmax(0, 1fr) 208px;
     gap: 16px; align-items: center;
     background: #fff; border: 1px solid #e5e7eb; border-radius: 2px; padding: 12px;
   }
@@ -548,11 +548,11 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   .sp__cabin-name { margin: 0; font-size: 18px; line-height: 26px; font-weight: 500; color: #424242; }
   .sp__cabin-facts {
     display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 4px 0 0; padding: 0;
-    list-style: none; font-size: 14px; color: #424242;
+    list-style: none; font-size: 16px; color: #424242;
   }
   .sp__cabin-facts li::before { content: '✓'; color: #20A1AA; font-weight: 700; margin-right: 4px; }
-  .sp__cabin-sum { margin: 8px 0 0; font-size: 14px; line-height: 22px; color: #424242; }
-  .sp__cabin-more { margin-top: 8px; font-size: 14px; color: #424242; }
+  .sp__cabin-sum { margin: 8px 0 0; font-size: 16px; line-height: 26px; color: #424242; }
+  .sp__cabin-more { margin-top: 8px; font-size: 16px; color: #424242; }
   .sp__cabin-more summary { cursor: pointer; color: #0d6066; font-weight: 500; list-style: none; }
   .sp__cabin-more summary::-webkit-details-marker { display: none; }
   .sp__cabin-more summary::after { content: ' ›'; }
@@ -560,7 +560,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   .sp__cabin-more ul {
     margin: 8px 0 0; padding: 0; list-style: none;
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px;
-    font-size: 14px; line-height: 22px; color: #6b6b6b;
+    font-size: 16px; line-height: 24px; color: #6b6b6b;
   }
   .sp__cabin-more li::before { content: '·'; margin-right: 6px; color: #20A1AA; font-weight: 700; }
   .sp__cabin-price { text-align: right; }
@@ -591,7 +591,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     .sp__head { display: none; }
     .sp__from { display: block; }
     .sp__row { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; padding: 16px; }
-    .sp__nights, .sp__ship { grid-column: 1; font-size: 14px; }
+    .sp__nights, .sp__ship { grid-column: 1; font-size: 16px; }
     .sp__price { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
     :global(.sp__cta) { grid-column: 1 / -1; justify-self: stretch; text-align: center; margin-top: 8px; }
     .sp__ctas { grid-column: 1 / -1; justify-self: stretch; align-items: stretch; margin-top: 8px; }
@@ -600,8 +600,8 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   @media (max-width: 610px) {
     .sp__set { gap: 8px; }
     .sp__airport { flex: 1 1 calc(50% - 4px); padding: 10px 12px; }
-    .sp__airport-name { font-size: 14px; }
-    .sp__airport-from { font-size: 12px; }
+    .sp__airport-name { font-size: 16px; }
+    .sp__airport-from { font-size: 14px; }
     .sp__pp { display: none; }
     .sp__cabins { padding: 16px; }
     .sp__cabin { grid-template-columns: 1fr; gap: 12px; }
