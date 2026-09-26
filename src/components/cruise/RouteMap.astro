@@ -173,6 +173,7 @@ function render(L: Layout): string {
   // centroid of its largest visible piece, when that piece is big enough to
   // carry a word.
   let land = '', lakes = '', rivers = '', river = '', names = '';
+  const nameSpots: { name: string; x: number; y: number }[] = [];
   const byCountry = new Map<string, { d: string; area: number; cx: number; cy: number }>();
   for (const ring of bm.land) {
     const pr = ring.c.map(proj); if (!overlaps(pr, r)) continue;
@@ -193,7 +194,7 @@ function render(L: Layout): string {
     if (!e.d) continue;
     land += `<path class="rm__land" style="fill:${tintOf(name)}" d="${e.d}"></path>`;
     if (name && e.area > windowArea * 0.045 && e.cx > r.x0 && e.cx < r.x1 && e.cy > r.y0 && e.cy < r.y1) {
-      names += `<text class="rm__country" x="${fx(sx(e.cx))}" y="${fx(sy(e.cy))}" text-anchor="middle">${name.toUpperCase()}</text>`;
+      nameSpots.push({ name: name.toUpperCase(), x: sx(e.cx), y: sy(e.cy) });
     }
   }
   for (const ring of bm.lakes) { const pr = ring.map(proj); if (!overlaps(pr, r)) continue; lakes += path(clipRing(pr, r), true); }
@@ -247,6 +248,21 @@ function render(L: Layout): string {
       + `<circle class="rm__pin" cx="${fx(x)}" cy="${fx(y)}" r="${L.font * 0.18}"></circle>`
       + `<text class="rm__label" x="${fx(x + (right ? L.font * 0.85 : -L.font * 0.85))}" y="${fx(y + dy)}" text-anchor="${right ? 'start' : 'end'}">${label}</text>`;
   });
+
+  // Country names go down after the port labels are placed: a name is nudged
+  // below any port label or pin it would sit on, and dropped if it still clashes
+  // (the Douro's "PORTUGAL" landed on Régua).
+  for (const n of nameSpots) {
+    const halfW = n.name.length * L.label * 0.45;
+    const hit = (y: number) =>
+      placed.some(q => Math.abs(q.y - y) < L.label * 1.4 && Math.abs(q.x - n.x) < halfW + L.font * 4)
+      || pinsXY.some(q => Math.abs(q.y - y) < L.label * 1.4 && Math.abs(q.x - n.x) < halfW + L.font);
+    let y = n.y;
+    if (hit(y)) y = n.y + L.label * 2.6;
+    if (hit(y)) y = n.y - L.label * 2.6;
+    if (hit(y) || y < L.label || y > H - L.label * 0.5) continue;
+    names += `<text class="rm__country" x="${fx(n.x)}" y="${fx(y)}" text-anchor="middle">${n.name}</text>`;
+  }
 
   return `<svg class="${L.cls}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Route map. The table below lists every call: ${routeLabel}" style="--rm-font:${L.font}px;--rm-country:${L.label}px">`
     + `<rect class="rm__sea" width="${W}" height="${H}"></rect>`
