@@ -216,6 +216,16 @@ manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffe
   NOT refreshed by the weekly cron — only a full re-sync changes them.
 - **Feed encoding:** the Widgety feed mangles curly apostrophes to "¿"
   ("Europe¿s Geniuses"); `fixFeedText()` repairs it between two letters.
+- **Type scale on the cruise page (UX audit 2026-09-26, owner: "some font sizes
+  don't look right"):** follow the HOLIDAY DETAIL TEMPLATE, not global.css — h1 Caslon
+  48/50 (768: 38/40, 450: 36/36), h2 Caslon 40/42 (768: 32/34, 450: 26/28), h3 Caslon
+  28/32, a ship/hotel name is `.acc-title` = BentonSans 500 / 30px (768: 26, 610: 20,
+  450: 18), prose 14/26 (768: 12/24), prices Caslon on the 40/36/32/28 ladder (28 is the
+  smallest), phone number BentonSans 900 / 30px / 3px, orange CTA 16px / 500 / 1px.
+  Eyebrows: section 14/24/700/2.5px `#0d6066`, micro-label 12/20/700/2px. BentonSans
+  has NO 600 face (500 and 700 only) — a 600 silently renders as bold. Link colour
+  `#1b8f97` fails AA on white; use `#0d6066`. Breakpoints 940/768/610/450, never
+  920/600. Sizes off the scale (11, 13, 15, 17, 23) were all removed.
 - **Cabin descriptions (2026-09-26):** `src/lib/cabin-types.ts` reads the ship's
   Widgety record (`cruise_ships.raw_data.accomodation_types`, their spelling) — size,
   deck, French balcony / fixed window, the equipment list and the cabin type's own

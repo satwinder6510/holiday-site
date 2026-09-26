@@ -475,17 +475,23 @@ const overview = tidyOverview(holiday.overview || '');
 </script>
 
 <style>
-  /* The site's own scale: body 18/29.25, prose 14/26, h1 48/50, h2 40/42. */
+  /* Type scale (UX audit 2026-09-26): body 18/29.25 and prose 14/26 are the
+     site's; h1 48/50 and h2 40/42 are the HOLIDAY DETAIL TEMPLATE's overrides,
+     which this page follows. Below h2 the template uses Caslon 28/32 for an h3
+     and BentonSans 500 / 30px for a hotel or ship name (.acc-title). BentonSans
+     ships 500 and 700 only — a 600 silently renders as 700. Eyebrows: section
+     14/24/700/2.5px #0d6066, micro-label 12/20/700/2px. Breakpoints 940/768/610/450. */
   .cd h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 48px; line-height: 50px; font-weight: 400; margin: 8px 0 0; color: #fff; }
   .cd h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 40px; line-height: 42px; letter-spacing: -.5px; font-weight: 400; margin: 0; color: #424242; }
   .cd-prose { font-size: 14px; line-height: 26px; color: #000; }
+  .cd h3 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 28px; line-height: 32px; font-weight: 400; color: #424242; }
   .cd-prose :global(p) { margin: 0 0 16px; }
   .cd-prose :global(p:last-child) { margin-bottom: 0; }
   .cd-eyebrow {
     margin: 0 0 8px; font-size: 14px; line-height: 24px; font-weight: 700;
     letter-spacing: 2.5px; text-transform: uppercase; color: #0d6066;
   }
-  .cd-lab { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
+  .cd-lab { margin: 0; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
   .cd-head { max-width: 60ch; margin-bottom: 32px; }
   .cd-head .cd-prose { margin-top: 12px; }
   .cd-section { padding-block: 64px; }
@@ -524,7 +530,7 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-hero__text { color: #fff; max-width: 40ch; }
   .cd-hero__kicker { margin: 0; font-size: 14px; line-height: 24px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #9ad5db; }
   .cd-hero__route { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin: 16px 0 0; font-size: 16px; color: #cfe3e6; }
-  .cd-hero__route .is-end { font-weight: 600; color: #fff; }
+  .cd-hero__route .is-end { font-weight: 700; color: #fff; }
   .cd-hero__route i { font-style: normal; color: #6aaeb7; }
   .cd-hero__price {
     display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
@@ -541,7 +547,7 @@ const overview = tidyOverview(holiday.overview || '');
      margin-inline:auto that .section-container relies on, so above 1240px the
      strip pinned to the left window edge while every other band stayed centred. */
   .cd-glance dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 24px; padding-block: 16px; margin-block: 0; }
-  .cd-glance dt { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #20A1AA; }
+  .cd-glance dt { font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #0d6066; }
   .cd-glance dd { margin: 4px 0 0; font-size: 16px; font-weight: 500; color: #424242; }
 
   /* Port calls */
@@ -554,11 +560,11 @@ const overview = tidyOverview(holiday.overview || '');
   }
   .cd-calls tbody tr { border-top: 1px solid #e5e7eb; }
   .cd-calls tbody th {
-    font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #6b6b6b;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b;
   }
   .cd-calls .is-night { background: #f0f9fa; }
   .cd-calls .cd-r { text-align: right; }
-  .cd-calls b { font-weight: 600; }
+  .cd-calls b { font-weight: 700; }
 
   /* Day-by-day (packages without port-call data) */
   .cd-days { margin: 0; padding: 0; list-style: none; }
@@ -568,13 +574,10 @@ const overview = tidyOverview(holiday.overview || '');
   }
   .cd-days li:first-child { border-top: 0; }
   .cd-days__day {
-    margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase; color: #20A1AA;
+    margin: 0; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #0d6066;
   }
-  .cd-days__title {
-    margin: 0 0 8px; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 18px; font-weight: 600; color: #424242;
-  }
+  .cd-days__title { margin: 0 0 8px; }
 
   /* Ship */
   .cd-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -597,9 +600,11 @@ const overview = tidyOverview(holiday.overview || '');
   }
   .cd-stay:first-of-type { padding-top: 0; }
   .cd-stay--solo { grid-template-columns: minmax(0, 75ch); }
-  .cd-stay__name {
+  /* A ship or hotel name is the template's .acc-title: BentonSans 500 / 30px. */
+  /* .cd h3 scopes to (0,2,1); a bare class would lose, so name the element. */
+  .cd h3.cd-stay__name, .cd h3.cd-hotels__name {
     margin: 0 0 8px; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 18px; font-weight: 600; color: #424242;
+    font-size: 30px; line-height: 1.2; font-weight: 500; color: #282828;
   }
 
   /* Hotels */
@@ -616,18 +621,14 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-hotels__shots img:first-child { grid-column: 1 / -1; aspect-ratio: 2/1; }
   .cd-hotels__shots img:first-child:nth-last-child(2) ~ img,
   .cd-hotels__shots img:first-child:nth-last-child(4) ~ img:last-child { grid-column: 1 / -1; aspect-ratio: 2/1; }
-  .cd-hotels__name {
-    margin: 0 0 8px; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 18px; font-weight: 600; color: #424242;
-  }
-  .cd-hotels__stars { margin-left: 8px; color: #ffcc44; letter-spacing: 1px; font-size: 14px; }
+  .cd-hotels__stars { margin-left: 8px; color: #f5a623; letter-spacing: 2px; font-size: 18px; }
 
   /* Included */
   .cd-ticks { columns: 2; column-gap: 32px; margin: 0; padding: 0; list-style: none; }
-  .cd-ticks li { position: relative; padding: 8px 0 8px 24px; font-size: 14px; line-height: 22px; color: #424242; break-inside: avoid; }
+  .cd-ticks li { position: relative; padding: 6px 0 6px 24px; font-size: 14px; line-height: 26px; color: #424242; break-inside: avoid; }
   .cd-ticks li::before { content: '✓'; position: absolute; left: 0; color: #20A1AA; font-weight: 700; }
   .cd-excl { margin: 24px 0 0; padding: 0; list-style: none; }
-  .cd-excl li { position: relative; padding: 4px 0 4px 24px; font-size: 14px; line-height: 22px; color: #6b6b6b; }
+  .cd-excl li { position: relative; padding: 2px 0 2px 24px; font-size: 14px; line-height: 26px; color: #6b6b6b; }
   .cd-excl li::before { content: '—'; position: absolute; left: 4px; color: #9aa7ab; }
   .cd-excl__lab { margin: 24px 0 0; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
   .cd-excl__lab + .cd-excl { margin-top: 8px; }
@@ -640,41 +641,47 @@ const overview = tidyOverview(holiday.overview || '');
     padding: 16px 0; border-top: 1px solid #e0e6e7;
   }
   .cd-addons li:first-child { border-top: 0; }
-  .cd-addons__text h3 { margin: 0; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 18px; font-weight: 600; color: #424242; }
+  .cd .cd-addons__text h3 { margin: 0; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 18px; line-height: 26px; font-weight: 500; color: #424242; }
   .cd-addons__text p { margin: 4px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
-  .cd-addons__price { margin: 0; flex: none; font-size: 18px; font-weight: 600; color: #0d6066; white-space: nowrap; }
-  .cd-addons__where { color: #0d6066; font-weight: 600; margin-right: 8px; }
+  .cd-addons__price { margin: 0; flex: none; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 28px; line-height: 1; color: #424242; white-space: nowrap; }
+  .cd-addons__where { color: #0d6066; font-weight: 500; margin-right: 8px; }
   /* cd-head already leaves 32px, so the first group heading doesn't add its own. */
   .cd-addons__rule:first-of-type { margin-top: 0; }
   .cd-addons__rule { margin: 24px 0 8px; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
   .cd-addons__foot { margin: 24px 0 0; font-size: 14px; line-height: 22px; color: #6b6b6b; }
-  .cd-addons__foot :global(.cd-addons__tel) { color: #0d6066; font-weight: 600; }
-  @media (max-width: 600px) {
+  .cd-addons__foot :global(.cd-addons__tel) { color: #0d6066; font-weight: 500; }
+  @media (max-width: 610px) {
     .cd-addons li { flex-direction: column; gap: 4px; }
-    .cd-addons__price { font-size: 16px; }
+    .cd-addons__price { font-size: 24px; }
   }
 
   /* Talk to us */
   .cd-call { background: #073140; color: #fff; text-align: center; padding-block: 64px; }
   .cd-call h2 { color: #fff; }
-  .cd-call p { margin: 12px 0 0; color: #cfe0e4; font-size: 16px; }
-  :global(.cd-call__no) { /* rendered by CallLink, outside this scope */
-    display: inline-block; margin-top: 16px; font-family: CaslonGraphiqueEF, Georgia, serif;
-    font-size: 40px; line-height: 44px; color: #fff; text-decoration: none;
+  .cd-call p { margin: 12px 0 0; color: #cfe0e4; font-size: 18px; line-height: 24px; }
+  :global(.cd-call__no) { /* rendered by CallLink, outside this scope; the site's phone style: BentonSans 900 / 30px / 3px */
+    display: inline-block; margin-top: 16px; font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 30px; line-height: 36px; font-weight: 900; letter-spacing: 3px; color: #fff; text-decoration: none;
   }
   .cd-call__hrs { margin-top: 4px; font-size: 14px; color: #7ea7af; }
-  .cd-call__or { margin-top: 20px; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: #7ea7af; }
+  .cd-call__or { margin-top: 20px; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #7ea7af; }
   .cd-call__quote { margin-top: 12px; cursor: pointer; font: inherit; font-size: 16px; font-weight: 500; letter-spacing: 1px; }
 
-  @media (max-width: 920px) {
+  @media (max-width: 940px) {
     .cd-section { padding-block: 44px; }
     .cd-split { grid-template-columns: 1fr; gap: 32px; }
   }
   @media (max-width: 768px) {
-    .cd h1 { font-size: 40px; line-height: 44px; }
+    .cd h1 { font-size: 38px; line-height: 40px; }
     .cd h2 { font-size: 32px; line-height: 34px; }
+    .cd h3 { font-size: 24px; line-height: 28px; }
+    .cd-stay__name, .cd-hotels__name { font-size: 26px; }
+    .cd-prose { font-size: 12px; line-height: 24px; }
   }
-  @media (max-width: 600px) {
+  @media (max-width: 610px) {
+    .cd-hero__amt { font-size: 36px; line-height: 36px; }
+    .cd-stay__name, .cd-hotels__name { font-size: 20px; }
+    .cd-call p { font-size: 16px; }
     /* One column only once the container is genuinely narrow — at 920 it still
        had 860px to play with and twelve short items stacked down it. */
     .cd-ticks { columns: 1; }
@@ -693,7 +700,10 @@ const overview = tidyOverview(holiday.overview || '');
     .cd-shots figure:first-child img { aspect-ratio: 3/2; }
   }
   @media (max-width: 450px) {
-    .cd h1 { font-size: 34px; line-height: 38px; }
-    .cd h2 { font-size: 28px; line-height: 30px; }
+    .cd h1 { font-size: 36px; line-height: 36px; }
+    .cd h2 { font-size: 26px; line-height: 28px; }
+    .cd-hero__amt { font-size: 32px; line-height: 32px; }
+    .cd-stay__name, .cd-hotels__name { font-size: 18px; }
+    :global(.cd-call__no) { font-size: 24px; line-height: 30px; }
   }
 </style>
