@@ -212,7 +212,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
             <p class="cb__total-note">Flights, hold luggage, cruise and transfers. Nothing to pay today.</p>
 
             <form id="cb-form" class="cb__form" novalidate>
-              <p class="cb__form-h">Get a written quote</p>
+              <p class="cb__form-h">Check availability</p>
               <input type="text" name="company" value="" autocomplete="off" tabindex="-1" aria-hidden="true" class="cb__hp" />
               <div class="cb__row2">
                 <label>First name <input name="first_name" type="text" autocomplete="given-name" required /></label>
@@ -220,12 +220,12 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
               </div>
               <label>Email <input name="email" type="email" autocomplete="email" required /></label>
               <label>Phone <input name="phone" type="tel" autocomplete="tel" required /></label>
-              <button type="submit" class="cd-btn cb__submit" id="cb-submit">Send me this quote</button>
-              <p class="cb__form-note">We reply by email, usually the same working day.</p>
+              <button type="submit" class="cd-btn cb__submit" id="cb-submit">Check availability</button>
+              <p class="cb__form-note">We check the cabin and flights and reply by email with a firm price, usually the same working day.</p>
             </form>
             <div class="cb__done" id="cb-done" hidden>
               <p class="cb__done-h">Thank you</p>
-              <p>Your quote is on its way. One of our cruise team will email it, usually the same working day.</p>
+              <p>We are checking the cabin and flights for you. One of our cruise team will email you a firm price, usually the same working day.</p>
             </div>
 
             <div class="cb__talk">
@@ -243,7 +243,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
         <span class="cb__bar-cabin" id="cb-bar-cabin">{cabins[0]?.label}</span>
         <span class="cb__bar-total"><b id="cb-bar-total">{formatPrice((cabins[0]?.price ?? 0) * 2)}</b> <span id="cb-bar-people">for 2 people</span></span>
       </div>
-      <button type="button" class="cd-btn cb__bar-btn" id="cb-bar-open">Get a written quote</button>
+      <button type="button" class="cd-btn cb__bar-btn" id="cb-bar-open">Check availability</button>
     </div>
   </main>
 
@@ -344,7 +344,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
       try { (window as any).fbq?.('track', 'Lead', { content_name: document.title, content_category: 'Holiday Enquiry', currency: 'GBP' }); } catch { /* optional */ }
       try { (window as any).oaiq?.('measure', 'lead_created', { type: 'customer_action', amount: 0, currency: 'GBP' }); } catch { /* optional */ }
     } catch {
-      if (submit) { submit.disabled = false; submit.textContent = 'Send me this quote'; }
+      if (submit) { submit.disabled = false; submit.textContent = 'Check availability'; }
       const note = form.querySelector<HTMLElement>('.cb__form-note');
       if (note) note.textContent = `Sorry, that did not send. Please call ${meta.tel || '0208 183 0518'} and quote ${meta.ref}.`;
     }

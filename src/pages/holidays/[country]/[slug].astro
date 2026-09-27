@@ -4232,7 +4232,7 @@ const pageDescription = holiday.metaDescription || (() => {
         enquiryCallChat.style.display = callFirst ? '' : 'none';
         enquiryForm.style.display = callFirst ? 'none' : '';
       }
-      if (enquiryTitle) enquiryTitle.textContent = callFirst ? 'Speak to a Travel Expert' : (formAlways ? 'Get a written quote' : 'Booking Requested');
+      if (enquiryTitle) enquiryTitle.textContent = callFirst ? 'Speak to a Travel Expert' : (formAlways ? 'Check availability' : 'Booking Requested');
       trackEnquiry('enquiry_modal_open', { variant: callFirst ? 'call_chat' : 'form' });
 
       enquiryModal.classList.add('visible');
