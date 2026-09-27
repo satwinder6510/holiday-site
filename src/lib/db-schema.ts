@@ -123,6 +123,11 @@ export const cruiseOfferSailingCabins = sqliteTable('cruise_offer_sailing_cabins
   cabinType: text('cabin_type').notNull(),
   netCostPp: text('net_cost_pp'),
   retailPricePp: text('retail_price_pp'), // admin's manual selling price (overlay on the live calendar)
+  /** The operator's own cruise-only fare, its list price, and what we add for flights and hold luggage. */
+  cruisePricePp: text('cruise_price_pp'),
+  wasPricePp: text('was_price_pp'),
+  flightCostPp: text('flight_cost_pp'),
+  luggageCostPp: text('luggage_cost_pp'),
 });
 
 export const packagePricing = sqliteTable('package_pricing', {

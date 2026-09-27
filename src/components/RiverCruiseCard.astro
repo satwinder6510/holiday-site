@@ -21,13 +21,16 @@ interface Props {
   river?: string;
   /** A real cruise placed among the offers: it is a fly-cruise, so say so. */
   featured?: boolean;
+  /** Saving per person against booking direct (operator fare + flights + luggage), Widgety cruises. */
+  savingPp?: number | null;
+  directPp?: number | null;
   /** Extra data-* attributes for client-side filtering on the listing. */
   data?: Record<string, string>;
 }
-const { holiday: h, window: w, ship, included, river, featured = false, data = {} } = Astro.props;
+const { holiday: h, window: w, ship, included, river, featured = false, savingPp = null, directPp = null, data = {} } = Astro.props;
 const url = `/Holidays/${h.countrySlug}/${h.slug}`;
 const nights = nightsOf(h);
-const saving = savingOf(h);
+const saving = savingPp ?? savingOf(h);
 const isOffer = h.isSpecialOffer;
 // Every special offer built in the admin is a fly-cruise-stay package, so the
 // card says so on its first pill (owner 2026-09-26) without using one of the
@@ -40,8 +43,8 @@ const pills = isOffer
   : featured ? ['Fly · Cruise', ...(river ? [river] : [])]
   : (river ? [river] : []);
 const shipName = h.shipName || ship || '';
-const chips = inclusionChips(included?.length ? included : h.whatsIncluded, h.boardBasis);
 const manual = h.id < 10000;
+const chips = inclusionChips(included?.length ? included : h.whatsIncluded, h.boardBasis, !manual);
 const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data-${k}`, v]));
 ---
 <article class="rc-offer" {...dataAttrs}>
@@ -79,7 +82,7 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
     )}
     <div class="rc-offer-foot">
       <p class="rc-price">
-        <span>{saving > 0 ? <>was <s>£{Math.round(h.wasPrice!).toLocaleString('en-GB')}</s> · now from</> : 'from'}</span>
+        <span>{saving > 0 && directPp ? <>direct <s>£{Math.round(directPp).toLocaleString('en-GB')}</s> · ours from</> : saving > 0 ? <>was <s>£{Math.round(h.wasPrice!).toLocaleString('en-GB')}</s> · now from</> : 'from'}</span>
         £{fromPrice(h).toLocaleString('en-GB')}<small>/pp</small>
       </p>
       <a class="rc-view" href={url}>View more <span aria-hidden="true">›</span></a>

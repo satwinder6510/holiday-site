@@ -45,8 +45,14 @@ export function shipFromAccommodations(names: string[]): string {
  * Drinks during Bar hours", "1 Nights stay at PLAZA INN Amedia Wien"), so read
  * them for the facts a buyer compares on, in a fixed order, at most four.
  */
-export function inclusionChips(included: string[], boardBasis: string): string[] {
+export function inclusionChips(included: string[], boardBasis: string, flyCruise = false): string[] {
   const lines = included.map(l => l.replace(/\s+/g, ' ').trim()).filter(Boolean);
+  // A Widgety fly-cruise price always carries return flights and hold luggage,
+  // whatever the operator's own list says (CroisiEurope's is empty). Owner 2026-09-27.
+  if (flyCruise) {
+    const rest = inclusionChips(included, boardBasis).filter(c => c !== 'Return flights' && c !== 'Hold luggage');
+    return ['Return flights', ...rest.slice(0, 2), 'Hold luggage'];
+  }
   const text = lines.join(' | ').toLowerCase();
   const board = (boardBasis || '').toLowerCase();
   const chips: string[] = [];

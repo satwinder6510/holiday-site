@@ -132,6 +132,17 @@ export interface CabinGrade {
   netPp: number;
   /** Admin's manual selling price where one is set. */
   retailPp: number | null;
+  /** What the same cabin costs booked direct: the operator's cruise-only fare (their
+   *  list price where they show one) plus flights and hold luggage bought separately,
+   *  which the operator does not include. Null when the feed has no fare. */
+  directPp: number | null;
+}
+
+/** Saving per person against booking direct, for a grade at our price; null if none. */
+export function directSaving(grade: { directPp: number | null }, ourPp: number | null): number | null {
+  if (grade.directPp == null || ourPp == null) return null;
+  const s = Math.round(grade.directPp - ourPp);
+  return s > 0 ? s : null;
 }
 
 export interface SailingLadder {
@@ -228,6 +239,10 @@ export async function getSailingLadders(db: Database, holidaySiteId: number): Pr
         cabinType: cruiseOfferSailingCabins.cabinType,
         net: cruiseOfferSailingCabins.netCostPp,
         retail: cruiseOfferSailingCabins.retailPricePp,
+        fare: cruiseOfferSailingCabins.cruisePricePp,
+        was: cruiseOfferSailingCabins.wasPricePp,
+        flight: cruiseOfferSailingCabins.flightCostPp,
+        luggage: cruiseOfferSailingCabins.luggageCostPp,
       })
       .from(cruiseOfferSailingCabins)
       .innerJoin(cruiseSailings, eq(cruiseOfferSailingCabins.sailingId, cruiseSailings.id))
@@ -245,6 +260,8 @@ export async function getSailingLadders(db: Database, holidaySiteId: number): Pr
 
       const { name, deck } = parseCabinGrade(r.cabinType);
       const retailRaw = Number(r.retail);
+      const fare = Math.max(Number(r.fare) || 0, Number(r.was) || 0);
+      const directPp = fare > 0 ? fare + (Number(r.flight) || 0) + (Number(r.luggage) || 0) : null;
       const entry: SailingLadder = byDate.get(date)
         ?? { date, shipId: r.shipId ?? null, grades: [], leadPp: Infinity };
       entry.grades.push({
@@ -253,6 +270,7 @@ export async function getSailingLadders(db: Database, holidaySiteId: number): Pr
         deck,
         netPp: net,
         retailPp: retailRaw > 0 ? retailRaw : null,
+        directPp,
       });
       if (net < entry.leadPp) entry.leadPp = net;
       byDate.set(date, entry);

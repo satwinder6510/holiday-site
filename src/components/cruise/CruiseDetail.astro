@@ -18,7 +18,7 @@ import CallLink from './CallLink.astro';
 import type { SailingLadder } from '../../lib/cruise-detail';
 import type { CabinTypeInfo } from '../../lib/cabin-types';
 import { matchCabinTypes } from '../../lib/cabin-types';
-import { gradeCatalogue } from '../../lib/cruise-detail';
+import { gradeCatalogue, directSaving } from '../../lib/cruise-detail';
 import { splitStays } from '../../lib/cruise-detail';
 import { imgSrc } from '../../lib/image-src';
 import SailingPicker from './SailingPicker.astro';
@@ -108,6 +108,11 @@ const excluded = holiday.otherInfoBullets?.length
   : ['Travel insurance', 'Shore excursions', 'Personal expenses'];
 
 const fromPrice = pricing?.cheapestPriceFormatted ?? '';
+// Saving on the lead-in cabin against booking it direct (operator fare + flights +
+// hold luggage bought separately). Widgety cruises only; manual packages carry no fare.
+const leadGrade = ladders.flatMap(l => l.grades).sort((a, b) => a.netPp - b.netPp)[0];
+const heroSaving = leadGrade && pricing ? directSaving(leadGrade, pricing.cheapestPrice) : null;
+const hasLuggage = holiday.id >= 10000;
 const fromAirport = pricing?.cheapestDeparture?.airportName ?? '';
 const sailingCount = pricing ? new Set(pricing.departures.map(d => d.date.slice(0, 10))).size : 0;
 const airportNames = (pricing?.airports ?? []).map(a => a.name);
@@ -162,7 +167,8 @@ const overview = tidyOverview(holiday.overview || '');
             <div>
               <p class="cd-lab">From</p>
               <p class="cd-hero__amt">{fromPrice} <span>pp</span></p>
-              <p class="cd-hero__note">Flights{fromAirport ? ` from ${fromAirport}` : ''}, cruise and transfers</p>
+              <p class="cd-hero__note">Flights{fromAirport ? ` from ${fromAirport}` : ''}{hasLuggage ? ', hold luggage' : ''}, cruise and transfers</p>
+              {heroSaving && <p class="cd-hero__save">Save £{heroSaving.toLocaleString('en-GB')} pp against booking direct</p>}
             </div>
             <a class="cd-btn" href="#sailings">See sailings &amp; cabins</a>
           </div>
@@ -546,6 +552,7 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-hero__amt { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 40px; line-height: 40px; color: #424242; }
   .cd-hero__amt span { font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 500; }
   .cd-hero__note { margin: 4px 0 0; font-size: 16px; line-height: 24px; color: #6b6b6b; }
+  .cd-hero__save { margin: 4px 0 0; font-size: 16px; line-height: 24px; font-weight: 500; color: #0d6066; }
 
   /* At a glance */
   .cd-glance { background: #f0f9fa; border-bottom: 1px solid #e5e7eb; }

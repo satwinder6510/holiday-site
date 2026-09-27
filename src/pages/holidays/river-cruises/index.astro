@@ -22,6 +22,7 @@ import { slugifyRiver, cleanCruiseTitle, type HolidayDetail } from '../../../lib
 import RiverCruiseCard from '../../../components/RiverCruiseCard.astro';
 import { imgSrc } from '../../../lib/image-src';
 import { fromPrice, nightsOf, shipFromAccommodations } from '../../../lib/cruise-card';
+import { getSailingLadders, directSaving } from '../../../lib/cruise-detail';
 import { flightPackages } from '../../../lib/db-schema';
 import { inArray } from 'drizzle-orm';
 
@@ -52,6 +53,16 @@ const FEATURED_CRUISE_IDS = [10447];
 const featured = FEATURED_CRUISE_IDS
   .map(id => cruises.find(h => h.id === id && fromPrice(h) > 0))
   .filter((h): h is HolidayDetail => !!h);
+// Saving against booking direct on the lead-in cabin (operator fare + flights + hold
+// luggage bought separately vs our price), for the featured real cruises.
+const directByCruise = new Map<number, { saving: number; direct: number }>();
+for (const h of featured) {
+  try {
+    const lead = (await getSailingLadders(getDb(Astro), h.id)).flatMap(l => l.grades).sort((a, b) => a.netPp - b.netPp)[0];
+    const saving = lead ? directSaving(lead, fromPrice(h)) : null;
+    if (lead?.directPp && saving) directByCruise.set(h.id, { saving, direct: lead.directPp });
+  } catch (e) { console.error('direct saving failed', e); }
+}
 const offers = [
   ...featured,
   ...cruises
@@ -211,7 +222,7 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
       </div>
       <div class="rc-offer-grid">
         {offers.map(h => (
-          <RiverCruiseCard holiday={h} window={windows.get(h.id)} ship={shipByPackage.get(h.id)} included={includedByPackage.get(h.id)} river={riverOf(h)} />
+          <RiverCruiseCard holiday={h} window={windows.get(h.id)} ship={shipByPackage.get(h.id)} included={includedByPackage.get(h.id)} river={riverOf(h)} featured={FEATURED_CRUISE_IDS.includes(h.id)} savingPp={directByCruise.get(h.id)?.saving ?? null} directPp={directByCruise.get(h.id)?.direct ?? null} />
         ))}
       </div>
     </section>
@@ -330,21 +341,24 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
      upscaled on a desktop. Floor of 360px keeps room for the headline on laptops. */
   .rc-hero { position: relative; height: clamp(360px, 22.1vw, 425px); display: flex; align-items: center; color: #fff; overflow: hidden; }
   .rc-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .rc-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,49,64,.15) 0%, rgba(7,49,64,.65) 100%); }
-  .rc-hero-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 40px 20px; width: 100%; }
+  .rc-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,49,64,.45) 0%, rgba(7,49,64,.72) 100%); }
+  .rc-hero-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 40px 40px; width: 100%; }
   /* Explicit white: the global p colour would otherwise win over the hero's inherited colour. */
-  .rc-kicker { font-family: BentonSans, sans-serif; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; font-size: 13px; margin: 0 0 12px; color: #fff; }
-  .rc-hero h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 52px; line-height: 1.05; margin: 0; max-width: 760px; color: #fff; text-shadow: 0 2px 12px rgba(7,49,64,.45); }
-  .rc-call { font-size: 17px; padding: 14px 26px; }
+  /* Eyebrows on the site's scale (UX audit 2026-09-26): 14/24/700/2.5px; #0d6066 on light, #9ad5db on dark. */
+  .rc-kicker { font-family: BentonSans, sans-serif; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; font-size: 14px; line-height: 24px; margin: 0 0 12px; color: #9ad5db; text-shadow: 0 1px 6px rgba(7,49,64,.6); }
+  .rc-hero h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 48px; line-height: 50px; margin: 0; max-width: 760px; color: #fff; text-shadow: 0 2px 12px rgba(7,49,64,.45); }
+  .rc-call { padding: 14px 26px; } /* .btn-primary carries the type */
   .rc-link { color: #fff; text-decoration: underline; text-underline-offset: 4px; font-weight: 500; }
   .rc-section .rc-link { color: #20A1AA; }
 
-  .rc-section { padding: 56px 20px 8px; }
+  /* padding-BLOCK only: these sit on .section-container, whose inline padding is the
+     site's (20/30/40px). Overriding it put this page 20px left of the footer. */
+  .rc-section { padding-block: 64px 0; }
   .rc-heading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 24px; margin-bottom: 22px; }
-  .rc-heading h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; margin: 0; color: #424242; }
+  .rc-heading h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; line-height: 42px; letter-spacing: -.5px; margin: 0; color: #424242; }
   .rc-heading .section-label, .rc-why .section-label {
     margin: 0 0 6px; width: 100%; order: -1;
-    font-family: BentonSans, sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #20A1AA;
+    font-family: BentonSans, sans-serif; font-weight: 700; font-size: 14px; line-height: 24px; letter-spacing: 2.5px; text-transform: uppercase; color: #0d6066;
   }
   .rc-more { margin-left: auto; color: #20A1AA; font-weight: 500; text-decoration: none; border-bottom: 1px solid currentColor; }
 
@@ -352,65 +366,76 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
   .rc-offer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
 
   /* Full-bleed bands */
-  .rc-band { margin-top: 64px; padding: 56px 0 48px; }
+  .rc-band { margin-top: 64px; padding-block: 64px; }
   .rc-band-dark { background: linear-gradient(180deg, #0b2b38 0%, #073140 100%); color: #fff; }
   .rc-band-dark h2 { color: #fff; }
-  .rc-band-dark .section-label { color: #9fd9dd; }
+  .rc-band-dark .section-label { color: #9ad5db; }
   .rc-band-grey { background: #f2f5f6; }
-  .rc-band-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 26px; padding-left: 20px; padding-right: 20px; }
-  .rc-band-head h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; margin: 0; }
+  .rc-band-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
+  .rc-band-head h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; line-height: 42px; letter-spacing: -.5px; margin: 0; }
   .rc-band-head .section-label, .rc-split-text .section-label, .rc-band-grey .section-label {
-    margin: 0 0 6px; font-family: BentonSans, sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #20A1AA;
+    margin: 0 0 6px; font-family: BentonSans, sans-serif; font-weight: 700; font-size: 14px; line-height: 24px; letter-spacing: 2.5px; text-transform: uppercase; color: #0d6066;
   }
-  .rc-band-foot { padding: 28px 20px 0; }
-  .rc-explore { display: inline-block; padding: 16px 28px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; background: #20A1AA; color: #fff; text-decoration: none; border-radius: 3px; }
+  .rc-band-foot { padding-block: 28px 0; }
+  .rc-explore { display: inline-block; padding: 16px 28px; text-decoration: none; } /* .btn-primary carries the type */
   .rc-arrows { display: flex; gap: 6px; }
   .rc-arrow { width: 56px; height: 56px; border: 0; background: rgba(255,255,255,.12); color: #fff; font-size: 20px; cursor: pointer; }
   .rc-arrow:hover { background: rgba(255,255,255,.22); }
 
   /* Edge-to-edge strip of tall tiles (scroll-snap; arrows nudge it) */
-  .rc-strip { --edge: max(20px, calc((100vw - 1240px) / 2 + 20px)); display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: var(--edge); scrollbar-width: none; padding: 0 var(--edge); }
+  .rc-strip { --edge: max(20px, calc((100vw - 1240px) / 2 + 40px)); display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: var(--edge); scrollbar-width: none; padding: 0 var(--edge); }
   .rc-strip::-webkit-scrollbar { display: none; }
   .rc-portrait { position: relative; flex: 0 0 296px; aspect-ratio: 296 / 515; scroll-snap-align: start; overflow: hidden; color: #fff; text-decoration: none; background: #073140; display: block; }
   .rc-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
   .rc-portrait::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,49,64,0) 45%, rgba(7,49,64,.85) 100%); }
   .rc-portrait:hover img { transform: scale(1.04); }
   .rc-portrait-name { position: absolute; left: 18px; right: 18px; bottom: 22px; z-index: 1; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 30px; line-height: 1.1; }
-  .rc-portrait-name small { display: block; font-family: BentonSans, sans-serif; font-size: 13px; margin-top: 6px; opacity: .9; }
+  .rc-portrait-name small { display: block; font-family: BentonSans, sans-serif; font-size: 16px; margin-top: 6px; opacity: .9; }
 
   /* Text column beside cards */
   .rc-split { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: center; }
-  .rc-split-text h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; margin: 0 0 16px; color: #424242; }
-  .rc-split-text p:not(.section-label) { line-height: 26px; margin: 0; }
+  .rc-split-text h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; line-height: 42px; letter-spacing: -.5px; margin: 0 0 16px; color: #424242; }
+  .rc-split-text p:not(.section-label) { font-size: 16px; line-height: 28px; margin: 0; }
   .rc-split-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .rc-portrait-sm { flex: none; aspect-ratio: 3 / 4; border-radius: 4px; }
+  .rc-portrait-sm { flex: none; aspect-ratio: 3 / 4; }
   .rc-portrait-sm .rc-portrait-name { font-size: 24px; }
 
   /* Staggered tiles */
   .rc-stagger { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: start; }
   .rc-stagger .rc-tile-tall { aspect-ratio: 4 / 5; }
+  /* The season tiles (.rc-tile) had no styles at all until 2026-09-26: they rendered
+     as a bare image with two lines of body text under it. Same treatment as .rc-portrait. */
+  .rc-tile { position: relative; display: block; overflow: hidden; color: #fff; text-decoration: none; background: #073140; }
+  .rc-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+  .rc-tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,49,64,0) 45%, rgba(7,49,64,.85) 100%); }
+  .rc-tile:hover img { transform: scale(1.04); }
+  .rc-tile-name { position: absolute; left: 16px; right: 16px; bottom: 18px; z-index: 1; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 24px; line-height: 1.1; }
+  .rc-tile-name small { display: block; font-family: BentonSans, sans-serif; font-size: 16px; margin-top: 6px; opacity: .9; }
+  .rc-tile-count { position: absolute; top: 14px; left: 14px; z-index: 1; background: rgba(7,49,64,.85); color: #fff; font-size: 12px; line-height: 20px; font-weight: 500; padding: 4px 10px; border-radius: 999px; }
   .rc-stagger > :nth-child(even) { margin-top: 44px; }
 
   /* Operators */
   .rc-ops { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-  .rc-op { background: #fff; border-radius: 4px; box-shadow: 0 6px 12px 2px rgba(0,0,0,.08); overflow: hidden; }
+  .rc-op { background: #fff; border-radius: 2px; border: 1px solid #e5e7eb; box-shadow: 0 0 10px rgba(0,0,0,.08); overflow: hidden; display: flex; flex-direction: column; }
   .rc-op img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
-  .rc-op-body { padding: 18px; }
+  .rc-op-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
   .rc-op h3 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 24px; margin: 0 0 8px; color: #424242; }
-  .rc-op p { margin: 0 0 8px; line-height: 24px; }
-  .rc-op-meta { color: #6b6b6b; font-size: 13px; }
+  .rc-op p { margin: 0 0 8px; font-size: 16px; line-height: 26px; }
+  .rc-op-meta { color: #6b6b6b; font-size: 16px; margin-top: auto; padding-top: 12px; }
 
   /* Why */
-  .rc-why { background: #073140; color: #fff; margin-top: 64px; padding: 56px 20px; }
+  .rc-why { background: #073140; color: #fff; margin-top: 64px; padding-block: 64px; }
   .rc-why-inner { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: center; }
-  .rc-why h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; margin: 0 0 16px; color: #fff; }
+  .rc-why h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; line-height: 42px; letter-spacing: -.5px; margin: 0 0 16px; color: #fff; }
   .rc-why .section-label { color: #9fd9dd; }
-  .rc-why ul { margin: 0; padding: 0; list-style: none; line-height: 30px; font-size: 16px; }
+  .rc-why ul { margin: 0; padding: 0; list-style: none; line-height: 30px; font-size: 18px; }
   .rc-why li::before { content: '✓'; color: #9fd9dd; margin-right: 10px; font-weight: 700; }
   .rc-why-call { text-align: center; }
   .rc-why-call p { margin: 0 0 14px; opacity: .85; }
   .rc-why-call .rc-link { display: block; margin-top: 16px; }
 
+  @media (max-width: 1099px) { .rc-hero-inner { padding-inline: 30px; } }
+  @media (max-width: 767px) { .rc-hero-inner { padding-inline: 20px; } }
   @media (max-width: 1100px) {
     .rc-offer-grid { grid-template-columns: repeat(2, 1fr); }
     .rc-tiles-4 { grid-template-columns: repeat(2, 1fr); }
@@ -421,24 +446,30 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
   }
   @media (max-width: 768px) {
     .rc-hero { height: 360px; }
-    .rc-hero h1 { font-size: 38px; }
+    .rc-hero h1 { font-size: 38px; line-height: 40px; }
     .rc-hero-inner { padding: 48px 20px; }
     .rc-tiles-3 { grid-template-columns: repeat(2, 1fr); }
     .rc-ops { grid-template-columns: 1fr; }
     .rc-why-inner { grid-template-columns: 1fr; }
-    .rc-heading h2 { font-size: 32px; }
+    .rc-heading h2, .rc-band-head h2, .rc-split-text h2, .rc-why h2 { font-size: 32px; line-height: 34px; }
   }
   @media (max-width: 610px) {
     .rc-offer-grid, .rc-tiles-3, .rc-tiles-4, .rc-split-cards { grid-template-columns: 1fr; }
+    /* min-width: 0 — a grid item's default min-width is its content, so a 22px
+       season name held each tile at 150px and two of them overran a 320px phone. */
     .rc-stagger { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .rc-stagger > * { min-width: 0; }
     .rc-portrait { flex-basis: 240px; }
-    .rc-band-head h2, .rc-split-text h2 { font-size: 30px; }
     .rc-arrows { display: none; }
     .rc-heading { align-items: flex-end; }
-    .rc-heading h2 { font-size: 30px; }
     .rc-more { margin-bottom: 6px; }
     .rc-section { padding-top: 40px; }
     .rc-tile-name { font-size: 22px; }
+    .rc-hero-bg { object-position: 70% center; }
+  }
+  @media (max-width: 450px) {
+    .rc-hero h1 { font-size: 36px; line-height: 36px; }
+    .rc-heading h2, .rc-band-head h2, .rc-split-text h2, .rc-why h2 { font-size: 26px; line-height: 28px; }
   }
 </style>
 

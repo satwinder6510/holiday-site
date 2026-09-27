@@ -207,7 +207,10 @@ const cruiseIncluded = (() => {
   const board = /all[- ]inclusive/i.test(holiday.boardBasis) ? 'All inclusive cruise' : 'Full board cruise';
   const opKey = (holiday.operator || '').toLowerCase().replace(/[^a-z]/g, '');
   const operatorItems = OPERATOR_INCLUDED[opKey.startsWith('croisi') ? 'croisieurope' : opKey.startsWith('arosa') ? 'arosa' : opKey.startsWith('viva') ? 'viva' : opKey] || [];
-  const common = ['Return flights from the UK', 'Airport taxes', 'Cabin bag', board, 'ATOL protection', ...operatorItems];
+  // Every Widgety fly-cruise price carries hold luggage (luggage_cost_pp); the
+  // operators sell the cruise without it. Manual packages keep their own wording.
+  const luggage = holiday.id >= 10000 ? 'Hold luggage' : 'Cabin bag';
+  const common = ['Return flights from the UK', 'Airport taxes', luggage, board, 'ATOL protection', ...operatorItems];
   const extras = inclusionChips(holiday.whatsIncluded, holiday.boardBasis)
     .filter(c => !/^return flights|inclusive on board|full board on board|^drinks/i.test(c));
   return [...new Set([...common, ...extras])].slice(0, 9);

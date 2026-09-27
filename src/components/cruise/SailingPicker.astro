@@ -14,7 +14,7 @@
 import type { Airport, Departure } from '../../lib/pricing-transforms';
 import { formatPrice, roundToNine } from '../../lib/pricing-transforms';
 import type { SailingLadder } from '../../lib/cruise-detail';
-import { deckOrder, gradeCatalogue } from '../../lib/cruise-detail';
+import { deckOrder, gradeCatalogue, directSaving } from '../../lib/cruise-detail';
 import CallLink from './CallLink.astro';
 import type { CabinTypeInfo } from '../../lib/cabin-types';
 
@@ -220,6 +220,14 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
                       // otherwise the ship's cabin photos, cycled, as before.
                       const info = cabinInfo[g.cabinType];
                       const img = info?.images[0] || cabinImages[gi % Math.max(cabinImages.length, 1)];
+                      // Saving against booking direct, per airport, swapped by the script like the price.
+                      const gradeOnDate = ladder?.grades.find(x => x.cabinType === g.cabinType);
+                      const saveAttrs = Object.fromEntries(
+                        codes
+                          .filter(c => row.has(c))
+                          .map(c => [`data-save-${c}`, String(directSaving(gradeOnDate ?? { directPp: null }, gradePriceFor(ladder, row.get(c)!, g.cabinType)) ?? '')]),
+                      );
+                      const save = directSaving(gradeOnDate ?? { directPp: null }, p);
                       const facts = [
                         info?.sizeSqm ? `${info.sizeSqm} m²` : null,
                         deck === 'Other' ? shipName : deck,
@@ -252,6 +260,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
                                 <>
                                   <p class="sp__amt" {...perAirport}>{formatPrice(p)}</p>
                                   <p class="sp__lab">per person</p>
+                                  <p class="sp__save" {...saveAttrs} hidden={save == null}>Save £{(save ?? 0).toLocaleString('en-GB')} vs booking direct</p>
                                   <button type="button" class="sp__enq sp__enq--cabin" data-enq data-cabin={g.name}>Get a written quote</button>
                                   <CallLink class="sp__book" tel={tel} display={telDisplay} tapLabel="Call to book" readLabel={`Call ${telDisplay}`} />
                                 </>
@@ -297,6 +306,11 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       sp.querySelectorAll<HTMLElement>('.sp__amt').forEach(el => {
         const v = el.getAttribute('data-price-' + code);
         if (v) el.textContent = gbp(Number(v));
+      });
+      sp.querySelectorAll<HTMLElement>('.sp__save').forEach(el => {
+        const v = el.getAttribute('data-save-' + code);
+        if (v && Number(v) > 0) { el.textContent = `Save ${gbp(Number(v))} vs booking direct`; el.hidden = false; }
+        else el.hidden = true;
       });
       sp.querySelectorAll<HTMLElement>('.sp__row').forEach(rowEl => {
         const hint = rowEl.querySelector<HTMLElement>('.sp__cheaper');
@@ -566,6 +580,8 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   }
   .sp__cabin-more li::before { content: '·'; margin-right: 6px; color: #20A1AA; font-weight: 700; }
   .sp__cabin-price { text-align: right; }
+  .sp__save { margin: 4px 0 0; font-size: 14px; line-height: 20px; font-weight: 500; color: #0d6066; }
+  .sp__save[hidden] { display: none; }
   .sp__cabin-price .sp__amt {
     display: block; margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif;
     font-size: 28px; line-height: 1; color: #424242;
