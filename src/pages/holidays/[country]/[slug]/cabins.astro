@@ -192,8 +192,9 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
           </div>
         </div>
 
-        <aside class="cb__side">
+        <aside class="cb__side" id="cb-side">
           <div class="cb__summary">
+            <button type="button" class="cb__sheet-close" id="cb-sheet-close" aria-label="Close">×</button>
             <p class="cd-lab">Your cruise</p>
             <p class="cb__title">{title}</p>
             <dl class="cb__facts-list" aria-live="polite">
@@ -235,6 +236,15 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
         </aside>
       </div>
     </div>
+
+    <!-- Phones and tablets: the summary and form live in a sheet; this bar opens it. -->
+    <div class="cb__bar" id="cb-bar">
+      <div class="cb__bar-text">
+        <span class="cb__bar-cabin" id="cb-bar-cabin">{cabins[0]?.label}</span>
+        <span class="cb__bar-total"><b id="cb-bar-total">{formatPrice((cabins[0]?.price ?? 0) * 2)}</b> <span id="cb-bar-people">for 2 people</span></span>
+      </div>
+      <button type="button" class="cd-btn cb__bar-btn" id="cb-bar-open">Get a written quote</button>
+    </div>
   </main>
 
   <script type="application/json" id="cb-meta" set:html={JSON.stringify(meta).replace(/</g, '\\u003c')} />
@@ -259,6 +269,9 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
     sumPeople.textContent = label;
     sumCabin.textContent = c?.dataset.label || '';
     totalEl.textContent = gbp(price * people);
+    const barCabin = document.getElementById('cb-bar-cabin'); if (barCabin) barCabin.textContent = c?.dataset.label || '';
+    const barTotal = document.getElementById('cb-bar-total'); if (barTotal) barTotal.textContent = gbp(price * people);
+    const barPeople = document.getElementById('cb-bar-people'); if (barPeople) barPeople.textContent = `for ${label}`;
     (document.getElementById('cb-less') as HTMLButtonElement | null)?.toggleAttribute('disabled', people <= 1);
     (document.getElementById('cb-more') as HTMLButtonElement | null)?.toggleAttribute('disabled', people >= 4);
   }
@@ -266,6 +279,22 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   document.getElementById('cb-less')?.addEventListener('click', () => { people = Math.max(1, people - 1); paint(); });
   document.getElementById('cb-more')?.addEventListener('click', () => { people = Math.min(4, people + 1); paint(); });
   paint();
+
+  // The sheet (phones and tablets): open from the bar, close with ×, backdrop or Escape.
+  const side = document.getElementById('cb-side')!;
+  const openSheet = () => { side.classList.add('is-open'); document.body.classList.add('cb-sheet-open'); track('cabin_sheet_open'); (side.querySelector('#cb-form input:not(.cb__hp)') as HTMLElement | null)?.focus(); };
+  const closeSheet = () => { side.classList.remove('is-open'); document.body.classList.remove('cb-sheet-open'); };
+  document.getElementById('cb-bar-open')?.addEventListener('click', openSheet);
+  // The site's cookie banner is fixed to the bottom at z-index 9999; while it shows,
+  // the bar sits on top of it rather than under it.
+  const bar = document.getElementById('cb-bar');
+  const liftBar = () => { const cb = document.getElementById('cookie-banner'); const h = cb && getComputedStyle(cb).display !== 'none' ? cb.getBoundingClientRect().height : 0; if (bar) bar.style.bottom = h ? `${h}px` : ''; };
+  liftBar(); window.addEventListener('resize', liftBar);
+  document.getElementById('cookie-accept')?.addEventListener('click', () => setTimeout(liftBar, 0));
+  setTimeout(liftBar, 300);
+  document.getElementById('cb-sheet-close')?.addEventListener('click', closeSheet);
+  side.addEventListener('click', (e) => { if (e.target === side) closeSheet(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && side.classList.contains('is-open')) closeSheet(); });
 
   const track = (event: string, props: Record<string, string> = {}) => {
     try { (window as any).posthog?.capture(event, { lead_source: sessionStorage.getItem('lead_source') || 'Direct', ...props }); } catch { /* never block */ }
@@ -381,6 +410,8 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   /* Sticky, but scrolls inside itself: on a 768px-tall laptop the panel is taller than
      the window and the submit button sat below the fold at every scroll position. */
   .cb__side { position: sticky; top: 117px; max-height: calc(100vh - 137px); overflow-y: auto; overscroll-behavior: contain; }
+  .cb__sheet-close { display: none; }
+  .cb__bar { display: none; }
   .cb__summary { background: #fff; border: 1px solid #e5e7eb; border-radius: 2px; padding: 24px; }
   .cb__title { margin: 4px 0 16px; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 24px; line-height: 28px; color: #424242; }
   .cb__facts-list { margin: 0; padding: 0; border-top: 1px solid #e5e7eb; }
@@ -422,7 +453,21 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   }
   @media (max-width: 940px) {
     .cb__grid { grid-template-columns: 1fr; }
-    .cb__side { position: static; max-height: none; overflow: visible; }
+    /* Owner 2026-09-27: 'on mobile it's just a long scroll with form at end'. The
+       summary and form become a sheet; the bar below keeps the total and the
+       quote button on screen wherever the reader is in the list. */
+    .cb { padding-bottom: 120px; }
+    .cb__side { display: none; position: fixed; inset: 0; z-index: 60; max-height: none; overflow-y: auto; background: rgba(7, 49, 64, .55); padding: 24px 12px; }
+    .cb__side.is-open { display: block; }
+    .cb__side .cb__summary { position: relative; max-width: 560px; margin: 0 auto; padding-top: 32px; }
+    .cb__sheet-close { display: flex; position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; align-items: center; justify-content: center; font: inherit; font-size: 28px; line-height: 1; color: #424242; background: #fff; border: 1px solid #e5e7eb; border-radius: 2px; cursor: pointer; }
+    :global(body.cb-sheet-open) { overflow: hidden; }
+    .cb__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; padding: 12px max(16px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid #e5e7eb; box-shadow: 0 -6px 16px rgba(7, 49, 64, .12); }
+    .cb__bar-text { display: grid; gap: 2px; min-width: 0; font-size: 14px; line-height: 20px; color: #424242; }
+    .cb__bar-cabin { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+    .cb__bar-total b { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 22px; font-weight: 400; color: #424242; }
+    .cb__bar-total span { color: #6b6b6b; }
+    .cb__bar-btn { flex: none; padding: 12px 18px; }
   }
   @media (max-width: 768px) {
     .cb { padding-top: 75px; }

@@ -12,11 +12,9 @@
  * and for anyone without JS.
  */
 import type { Airport, Departure } from '../../lib/pricing-transforms';
-import { formatPrice, roundToNine } from '../../lib/pricing-transforms';
+import { formatPrice } from '../../lib/pricing-transforms';
 import type { SailingLadder } from '../../lib/cruise-detail';
-import { deckOrder, gradeCatalogue, directSaving } from '../../lib/cruise-detail';
 import CallLink from './CallLink.astro';
-import type { CabinTypeInfo } from '../../lib/cabin-types';
 
 interface Props {
   airports: Airport[];
@@ -25,15 +23,12 @@ interface Props {
   shipName: string;
   routeLabel: string;
   nights: number;
-  cabinImages: string[];
-  /** Cabin descriptions from the ship record, keyed by the grade's cabinType. */
-  cabinInfo?: Record<string, CabinTypeInfo>;
   /** Step two: the cabin page for this cruise; a sailing row links to it with ?date=&airport=. */
   cabinsHref?: string;
   tel: string;
   telDisplay: string;
 }
-const { airports, departures, ladders, shipName, routeLabel, nights, cabinImages, cabinInfo = {}, cabinsHref = '', tel, telDisplay } = Astro.props;
+const { airports, departures, ladders, shipName, routeLabel, nights, cabinsHref = '', tel, telDisplay } = Astro.props;
 
 // date -> airport code -> price pp
 const grid = new Map<string, Map<string, number>>();
@@ -52,9 +47,6 @@ const lowestFrom = (code: string) =>
 // Default to the airport with the lowest price anywhere on the route.
 const defaultCode = codes.slice().sort((a, b) => lowestFrom(a) - lowestFrom(b))[0] ?? '';
 
-const ladderByDate = new Map(ladders.map(l => [l.date, l]));
-const decks = deckOrder(ladders);
-const catalogue = gradeCatalogue(ladders);
 
 const dates = [...grid.keys()].sort();
 // Admin-made cruise packages carry dates and airports but no cabin grid.
@@ -91,14 +83,6 @@ const returnOf = (iso: string, nights: number) => {
   return `${niceDate(d.toISOString().slice(0, 10))} ${d.getUTCFullYear()}`;
 };
 
-/** A grade's price from one airport: the lead-in price plus that grade's supplement. */
-function gradePriceFor(l: SailingLadder | undefined, base: number, cabinType: string): number | null {
-  if (!l) return null;
-  const g = l.grades.find(x => x.cabinType === cabinType);
-  if (!g) return null;
-  if (g.retailPp != null) return roundToNine(g.retailPp);
-  return roundToNine(base + (g.netPp - l.leadPp));
-}
 
 const nightCount = nights ?? 0;
 const bestOverall = Math.min(...dates.map(d => grid.get(d)?.get(defaultCode) ?? Infinity));
@@ -158,7 +142,6 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       const hasDefault = row.has(defaultCode);
       const base = row.get(defaultCode) ?? cheapestOf(row)[1];
       const [cheapCode, cheapPrice] = cheapestOf(row);
-      const ladder = ladderByDate.get(date);
       const priceAttrs = Object.fromEntries(
         codes.filter(c => row.has(c)).map(c => [`data-price-${c}`, String(row.get(c))]),
       );
@@ -231,7 +214,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       // keep showing the last airport's price as if it were this one's.
       sp.querySelectorAll<HTMLElement>('.sp__amt').forEach(el => {
         const v = el.getAttribute('data-price-' + code);
-        const cell = el.closest<HTMLElement>('.sp__price, .sp__cabin-price');
+        const cell = el.closest<HTMLElement>('.sp__price');
         const lab = cell?.querySelector<HTMLElement>('.sp__lab');
         if (v) {
           el.textContent = gbp(Number(v));
@@ -242,11 +225,6 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
           cell?.classList.add('is-na');
           if (lab) lab.textContent = `No flights from ${airportName.get(code) || code} this date`;
         }
-      });
-      sp.querySelectorAll<HTMLElement>('.sp__save').forEach(el => {
-        const v = el.getAttribute('data-save-' + code);
-        if (v && Number(v) > 0) { el.textContent = `Save ${gbp(Number(v))} vs booking direct`; el.hidden = false; }
-        else el.hidden = true;
       });
       sp.querySelectorAll<HTMLElement>('.sp__row').forEach(rowEl => {
         const hint = rowEl.querySelector<HTMLElement>('.sp__cheaper');
@@ -341,14 +319,11 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
         e.stopPropagation();
         const open = (window as any).__openEnquiryModal;
         if (typeof open !== 'function') return;
-        const panel = b.closest<HTMLElement>('.sp__cabins');
-        const row = panel
-          ? document.getElementById(panel.getAttribute('aria-labelledby') || '')
-          : b.closest<HTMLElement>('.sp__row');
+        const row = b.closest<HTMLElement>('.sp__row');
         const code = sp.querySelector<HTMLButtonElement>('.sp__airport[aria-pressed="true"]')?.dataset.airport || '';
         const shipEl = row?.querySelector<HTMLElement>('.sp__ship b');
-        const ship = [shipEl?.textContent?.trim(), b.dataset.cabin].filter(Boolean).join(', ');
-        const amt = (b.closest<HTMLElement>('.sp__cabin-price') || row)?.querySelector<HTMLElement>('.sp__amt')?.textContent?.trim();
+        const ship = shipEl?.textContent?.trim() || '';
+        const amt = row?.querySelector<HTMLElement>('.sp__amt')?.textContent?.trim();
         open({
           date: row?.dataset.date ? niceDate(row.dataset.date) : undefined,
           airport: airportName.get(code) || code || undefined,
@@ -480,77 +455,9 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   }
   .sp__enq:hover { background: #e67300; border-color: #e67300; }
   .sp__enq:focus-visible { outline: 3px solid #073140; outline-offset: 2px; }
-  .sp__enq--cabin { margin-top: 8px; }
 
-  .sp__cabins {
-    border-top: 1px solid #d4dcde; background: #f0f9fa;
-    padding: 24px; display: grid; gap: 24px;
-  }
-  .sp__cabins[hidden] { display: none; }
-  .sp__for { margin: 0; font-size: 16px; color: #424242; padding-bottom: 12px; border-bottom: 1px solid #d4dcde; }
-  .sp__for b { font-weight: 700; }
-  .sp__deck-name {
-    display: block; margin: 0 0 12px;
-    font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    color: #073140; padding-bottom: 8px; border-bottom: 1px solid #d4dcde;
-  }
-  .sp__deck-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-  .sp__cabin {
-    display: grid; grid-template-columns: 130px minmax(0, 1fr) 208px;
-    gap: 16px; align-items: center;
-    background: #fff; border: 1px solid #e5e7eb; border-radius: 2px; padding: 12px;
-  }
-  .sp__cabin-img {
-    width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover;
-    border-radius: 2px; display: block;
-  }
-  .sp__cabin-name { margin: 0; font-size: 18px; line-height: 26px; font-weight: 500; color: #424242; }
-  .sp__cabin-facts {
-    display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 4px 0 0; padding: 0;
-    list-style: none; font-size: 16px; color: #424242;
-  }
-  .sp__cabin-facts li::before { content: '✓'; color: #20A1AA; font-weight: 700; margin-right: 4px; }
-  .sp__cabin-sum { margin: 8px 0 0; font-size: 16px; line-height: 26px; color: #424242; }
-  .sp__cabin-more { margin-top: 8px; font-size: 16px; color: #424242; }
-  .sp__cabin-more summary { cursor: pointer; color: #0d6066; font-weight: 500; list-style: none; }
-  .sp__cabin-more summary::-webkit-details-marker { display: none; }
-  .sp__cabin-more summary::after { content: ' ›'; }
-  .sp__cabin-more[open] summary::after { content: ' ‹'; }
-  .sp__cabin-more ul {
-    margin: 8px 0 0; padding: 0; list-style: none;
-    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px;
-    font-size: 16px; line-height: 24px; color: #6b6b6b;
-  }
-  .sp__cabin-more li::before { content: '·'; margin-right: 6px; color: #20A1AA; font-weight: 700; }
-  .sp__cabin-price { text-align: right; }
-  .sp__save { margin: 4px 0 0; font-size: 14px; line-height: 20px; font-weight: 500; color: #0d6066; }
   .is-na .sp__amt { color: #9aa7ab; }
   .is-na .sp__lab { text-transform: none; letter-spacing: 0; font-weight: 500; color: #8a3f3c; }
-  .is-na .sp__enq, .is-na :global(.sp__book) { display: none; }
-  .sp__save[hidden] { display: none; }
-  .sp__cabin-price .sp__amt {
-    display: block; margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif;
-    font-size: 28px; line-height: 1; color: #424242;
-  }
-  :global(.sp__book) {
-    display: inline-block; margin-top: 8px; min-height: 44px; line-height: 28px;
-    font-size: 16px; font-weight: 500; letter-spacing: 1px; color: #fff; text-decoration: none;
-    background: #ff7f00; border-radius: 2px; padding: 8px 16px;
-  }
-  :global(.sp__book:hover) { background: #e67300; }
-  :global(.sp__book.call-link--read) {
-    background: none; color: #073140; padding: 0; min-height: 0; line-height: 1.3;
-    letter-spacing: 0; font-weight: 500; font-size: 16px;
-  }
-  .sp__cabin--gone { background: #fafcfc; }
-  .sp__cabin--gone .sp__cabin-img { filter: grayscale(1); opacity: .55; }
-  .sp__cabin--gone .sp__cabin-name, .sp__cabin--gone .sp__cabin-facts { color: #6b6b6b; }
-  .sp__gone {
-    margin: 0; display: inline-block;
-    font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    color: #8a3f3c; border: 1px solid #d9b4b2; border-radius: 2px; padding: 2px 8px;
-  }
 
   @media (max-width: 940px) {
     .sp__head { display: none; }
@@ -569,18 +476,9 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     .sp__airport-name { font-size: 16px; }
     .sp__airport-from { font-size: 14px; }
     .sp__pp { display: none; }
-    .sp__cabins { padding: 16px; }
-    .sp__cabin { grid-template-columns: 1fr; gap: 12px; }
-    .sp__cabin-more ul { grid-template-columns: 1fr; }
-    .sp__cabin-img { aspect-ratio: 16/9; }
-    .sp__cabin-price { text-align: left; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    :global(.sp__book) { margin-top: 0; }
-    .sp__enq--cabin { margin-top: 0; }
   }
   @media (max-width: 450px) {
     .sp__date { font-size: 16px; }
-    .sp__price .sp__amt, .sp__cabin-price .sp__amt { font-size: 24px; }
-    .sp__cabin-name { font-size: 16px; }
-    .sp__cabins { padding: 12px; }
+    .sp__price .sp__amt { font-size: 24px; }
   }
 </style>
