@@ -303,9 +303,21 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       sp.querySelectorAll<HTMLButtonElement>('.sp__airport').forEach(b =>
         b.setAttribute('aria-pressed', String(b.dataset.airport === code)),
       );
+      // A sailing (or a cabin on it) with no flight price from this airport must not
+      // keep showing the last airport's price as if it were this one's.
       sp.querySelectorAll<HTMLElement>('.sp__amt').forEach(el => {
         const v = el.getAttribute('data-price-' + code);
-        if (v) el.textContent = gbp(Number(v));
+        const cell = el.closest<HTMLElement>('.sp__price, .sp__cabin-price');
+        const lab = cell?.querySelector<HTMLElement>('.sp__lab');
+        if (v) {
+          el.textContent = gbp(Number(v));
+          cell?.classList.remove('is-na');
+          if (lab) lab.textContent = 'per person';
+        } else {
+          el.textContent = '—';
+          cell?.classList.add('is-na');
+          if (lab) lab.textContent = `No flights from ${airportName.get(code) || code} this date`;
+        }
       });
       sp.querySelectorAll<HTMLElement>('.sp__save').forEach(el => {
         const v = el.getAttribute('data-save-' + code);
@@ -581,6 +593,9 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   .sp__cabin-more li::before { content: '·'; margin-right: 6px; color: #20A1AA; font-weight: 700; }
   .sp__cabin-price { text-align: right; }
   .sp__save { margin: 4px 0 0; font-size: 14px; line-height: 20px; font-weight: 500; color: #0d6066; }
+  .is-na .sp__amt { color: #9aa7ab; }
+  .is-na .sp__lab { text-transform: none; letter-spacing: 0; font-weight: 500; color: #8a3f3c; }
+  .is-na .sp__enq, .is-na :global(.sp__book) { display: none; }
   .sp__save[hidden] { display: none; }
   .sp__cabin-price .sp__amt {
     display: block; margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif;
