@@ -13,6 +13,10 @@ import { defineMiddleware } from 'astro:middleware';
 
 const SECURITY_HEADERS: Record<string, string> = {
   'X-Frame-Options': 'SAMEORIGIN',
+  // The admin (holiday-admin.pages.dev) frames the public site for its reference
+  // lookup (owner 2026-09-27). Browsers honour frame-ancestors over X-Frame-Options,
+  // which stays for anything old.
+  'Content-Security-Policy': "frame-ancestors 'self' https://holiday-admin.pages.dev",
   'X-Content-Type-Options': 'nosniff',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',

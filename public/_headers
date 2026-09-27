@@ -2,6 +2,7 @@
 # KEEP BOTH FILES IN SYNC. See SECURITY-CHANGES-2026-07-02.md §3.
 /*
   X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self' https://holiday-admin.pages.dev
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
