@@ -85,7 +85,7 @@ import { footerDestinations, footerCollections, footerUsefulLinks, contactInfo, 
       <form id="ref-search-form" class="ref-search__form">
         <label for="ref-input" class="ref-search__label">Agent reference lookup</label>
         <div class="ref-search__row">
-          <input id="ref-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Enter reference number" class="ref-search__input" required />
+          <input id="ref-input" type="text" pattern="\s*[0-9]+(\s*-\s*[0-9]{4})?\s*" title="A holiday reference such as 10447, or a cruise quote reference such as 10447-1114" placeholder="Enter reference number" class="ref-search__input" required />
           <button type="submit" class="ref-search__btn">Go</button>
         </div>
       </form>
