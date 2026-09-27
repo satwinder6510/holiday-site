@@ -67,7 +67,7 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
         {manual && (w?.dates ?? 0) > 1 && <a class="rc-more-dates" href={`${url}#dates`}>More dates</a>}
       </li>
       <li>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8 8 0 0 1 8.5 4a8 8 0 1 0 11.5 11.5Z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8 8 0 0 1 8.5 4a8 8 0 1 0 11.5 11.5Z" fill="#20A1AA" stroke="none"/></svg>
         <span>{nights} nights</span>
       </li>
       <li>
@@ -115,8 +115,8 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
   .rc-incl { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; min-height: 54px; align-content: flex-start; }
   .rc-incl li { font-size: 16px; line-height: 24px; color: #424242; }
   .rc-incl li::before { content: '✓'; color: #20A1AA; font-weight: 700; margin-right: 6px; }
-  .rc-offer-foot { margin-top: auto; padding-top: 18px; border-top: 1px dashed #d9dfe2; display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; justify-content: space-between; }
-  .rc-price { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 36px; line-height: 1; color: #0d6066; }
+  .rc-offer-foot { margin-top: auto; padding-top: 18px; border-top: 1px dashed #d9dfe2; display: flex; flex-wrap: nowrap; gap: 12px 16px; align-items: center; justify-content: space-between; }
+  .rc-price { margin: 0; min-width: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 36px; line-height: 1; color: #0d6066; }
   .rc-price span { font-family: BentonSans, sans-serif; font-size: 16px; font-weight: 500; display: block; margin-bottom: 6px; color: #424242; }
   .rc-price s { text-decoration: line-through; color: #8a8a8a; }
   .rc-price small { font-family: BentonSans, sans-serif; font-size: 16px; color: #424242; }

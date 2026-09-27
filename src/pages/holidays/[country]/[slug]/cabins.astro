@@ -63,12 +63,21 @@ const airports = [...byCode.values()].sort((a, b) => a.pricePp - b.pricePp);
 if (!airports.length) {
   return Astro.redirect(`${cruiseUrl}#sailings`, 302);
 }
+// An airport with no flight on this sailing: land on the cheapest one and say so,
+// with the URL rewritten so it never contradicts the page.
+if (airportParam && !byCode.has(airportParam)) {
+  return Astro.redirect(`?date=${date}&airport=${airports[0].airportCode}&from=${airportParam}`, 302);
+}
 const chosen = byCode.get(airportParam) ?? airports[0];
+const fromCode = (Astro.url.searchParams.get('from') || '').toUpperCase();
+const allAirports = (pricing.airports as { code: string; name: string }[]) || [];
+const swappedFrom = fromCode && fromCode !== chosen.airportCode ? (allAirports.find(a => a.code === fromCode)?.name || fromCode) : '';
 
 const cabinInfo = matchCabinTypes(ladder.grades.map(g => g.cabinType), cabinTypes);
 const grades = [...ladder.grades].sort((a, b) => a.netPp - b.netPp);
 interface CabinCard { id: string; cabinType: string; name: string; deck: string | null; label: string; price: number; saving: number | null; facts: string[]; summary: string; equipment: string[]; image: string }
-const cabins: CabinCard[] = grades.flatMap((g, i): CabinCard[] => {
+interface CabinCardExtra extends CabinCard { alsoAt: number[] }
+const cabinsRaw: CabinCard[] = grades.flatMap((g, i): CabinCard[] => {
   const price = gradePrice(ladder, chosen.pricePp, g.cabinType);
   const info = cabinInfo[g.cabinType];
   const facts = [
@@ -94,6 +103,15 @@ const cabins: CabinCard[] = grades.flatMap((g, i): CabinCard[] => {
     image: info?.images[0] ? imgSrc(info.images[0], 600) : fallback,
   }];
 });
+// CroisiEurope sells "Cat A/B/C" on the same deck — same cabin, different position,
+// three prices. One card at the cheapest, with the other prices named on it,
+// instead of three identical cards (fine-detail audit 2026-09-27).
+const cabins: CabinCardExtra[] = [];
+for (const c of cabinsRaw) {
+  const same = cabins.find(x => x.label === c.label && x.summary === c.summary);
+  if (same) { same.alsoAt.push(c.price); continue; }
+  cabins.push({ ...c, alsoAt: [] });
+}
 
 const nights = (() => { const m = holiday.duration.match(/(\d+)\s*Night/i); return m ? Number(m[1]) : 0; })();
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -119,6 +137,9 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
 
       <div class="cb__grid">
         <div class="cb__main">
+          {swappedFrom && (
+            <p class="cb__swap">There are no {swappedFrom} flights on this sailing. Prices below are from {chosen.airportName}.</p>
+          )}
           {airports.length > 1 && (
             <div class="cb__airports">
               <p class="cd-lab">Flying from</p>
@@ -143,18 +164,19 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
                   <span class="cb__name">{c.label}</span>
                   {c.facts.length > 0 && <span class="cb__facts">{c.facts.map(f => <span>{f}</span>)}</span>}
                   {c.summary && <span class="cb__sum">{c.summary}</span>}
-                  {c.equipment.length > 0 && (
-                    <details class="cb__more">
-                      <summary>What's in the cabin</summary>
-                      <ul>{c.equipment.map(e => <li>{e}</li>)}</ul>
-                    </details>
-                  )}
                 </span>
                 <span class="cb__price">
-                  <span class="cb__amt">{formatPrice(c.price)}</span>
+                  <span class="cb__amt">{c.alsoAt.length > 0 && <small>from </small>}{formatPrice(c.price)}</span>
                   <span class="cd-lab">per person</span>
                   {c.saving && <span class="cb__save">Save £{c.saving.toLocaleString('en-GB')} vs booking direct</span>}
+                  {c.alsoAt.length > 0 && <span class="cb__also">Also {c.alsoAt.map(p => formatPrice(p)).join(' and ')} by position on deck</span>}
                 </span>
+                {c.equipment.length > 0 && (
+                  <details class="cb__more">
+                    <summary>What's in the cabin</summary>
+                    <ul>{c.equipment.map(e => <li>{e}</li>)}</ul>
+                  </details>
+                )}
               </label>
             ))}
           </fieldset>
@@ -163,7 +185,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
             <p class="cb__people-q">How many people are travelling?</p>
             <div class="cb__stepper">
               <button type="button" class="cb__step" id="cb-less" aria-label="One fewer traveller">−</button>
-              <span class="cb__count" id="cb-count" aria-live="polite">2 people</span>
+              <span class="cb__count" id="cb-count">2 people</span>
               <button type="button" class="cb__step" id="cb-more" aria-label="One more traveller">+</button>
             </div>
             <p class="cb__people-note">Travelling alone, or more than four? Ask in the quote and we will price it.</p>
@@ -174,7 +196,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
           <div class="cb__summary">
             <p class="cd-lab">Your cruise</p>
             <p class="cb__title">{title}</p>
-            <dl class="cb__facts-list">
+            <dl class="cb__facts-list" aria-live="polite">
               <div><dt>Departs</dt><dd>{nice(date)}</dd></div>
               <div><dt>Returns</dt><dd>{returns}</dd></div>
               <div><dt>Flying from</dt><dd>{chosen.airportName}</dd></div>
@@ -182,7 +204,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
               <div><dt>Cabin</dt><dd id="cb-sum-cabin">{cabins[0]?.label}</dd></div>
               <div><dt>Travellers</dt><dd id="cb-sum-people">2 people</dd></div>
             </dl>
-            <div class="cb__total">
+            <div class="cb__total" aria-live="polite">
               <span>Total</span>
               <span class="cb__total-amt" id="cb-total">{formatPrice((cabins[0]?.price ?? 0) * 2)}</span>
             </div>
@@ -237,6 +259,8 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
     sumPeople.textContent = label;
     sumCabin.textContent = c?.dataset.label || '';
     totalEl.textContent = gbp(price * people);
+    (document.getElementById('cb-less') as HTMLButtonElement | null)?.toggleAttribute('disabled', people <= 1);
+    (document.getElementById('cb-more') as HTMLButtonElement | null)?.toggleAttribute('disabled', people >= 4);
   }
   radios.forEach(r => r.addEventListener('change', paint));
   document.getElementById('cb-less')?.addEventListener('click', () => { people = Math.max(1, people - 1); paint(); });
@@ -290,12 +314,15 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
 </script>
 
 <style>
-  .cb { background: #f2f5f6; padding-block: 24px 64px; }
+  /* 125px top: the site header is fixed and 101px tall (51px under 768). */
+  .cb { background: #f2f5f6; padding-block: 125px 64px; }
   .cb__back { margin: 0 0 20px; font-size: 16px; }
   .cb__back a { color: #0d6066; font-weight: 500; text-decoration: none; }
   .cb__back a:hover { text-decoration: underline; }
   .cd-eyebrow { margin: 0 0 8px; font-size: 14px; line-height: 24px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #0d6066; }
-  .cb h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 40px; line-height: 42px; letter-spacing: -.5px; font-weight: 400; margin: 0; color: #424242; }
+  .cb h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 40px; line-height: 42px; letter-spacing: -.5px; font-weight: 400; margin: 0; color: #424242; text-wrap: balance; }
+  .cb__swap { margin: 0; padding: 12px 16px; background: #fff7ed; border: 1px solid #f5d0a9; border-radius: 2px; font-size: 16px; line-height: 24px; color: #7a4a10; }
+  .cb__chip:focus-visible, .cb__step:focus-visible, .cb__back a:focus-visible, .cb__more summary:focus-visible, .cb__submit:focus-visible { outline: 3px solid #073140; outline-offset: 2px; }
   .cb__lede { margin: 12px 0 0; max-width: 72ch; font-size: 16px; line-height: 28px; color: #424242; }
   .cd-lab { margin: 0; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
 
@@ -311,7 +338,12 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
 
   .cb__cabins { margin: 0; padding: 0; border: 0; display: grid; gap: 12px; }
   .cb__cabins legend { margin-bottom: 8px; }
-  .cb__cabin { position: relative; display: grid; grid-template-columns: 28px 160px minmax(0, 1fr) 200px; gap: 16px; align-items: center; padding: 16px; background: #fff; border: 2px solid #e5e7eb; border-radius: 2px; cursor: pointer; }
+  .cb__cabin { position: relative; display: grid; grid-template-columns: 28px 160px minmax(0, 1fr) 200px; grid-template-areas: 'radio img body price' 'radio img more price'; gap: 12px 16px; align-items: start; padding: 16px; background: #fff; border: 2px solid #e5e7eb; border-radius: 2px; cursor: pointer; }
+  .cb__radio { grid-area: radio; }
+  .cb__img { grid-area: img; }
+  .cb__body { grid-area: body; }
+  .cb__more { grid-area: more; }
+  .cb__price { grid-area: price; }
   .cb__cabin:hover { border-color: #9fcbd4; }
   .cb__cabin:has(input:checked) { border-color: #20A1AA; background: #f7fcfc; }
   .cb__cabin:has(input:focus-visible) { outline: 3px solid #073140; outline-offset: 2px; }
@@ -325,25 +357,30 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   .cb__facts span::before { content: '✓'; color: #20A1AA; font-weight: 700; margin-right: 4px; }
   .cb__sum { font-size: 16px; line-height: 26px; color: #424242; }
   .cb__more { font-size: 16px; color: #424242; }
-  .cb__more summary { cursor: pointer; color: #0d6066; font-weight: 500; list-style: none; }
+  .cb__more summary { display: inline-flex; align-items: center; min-height: 44px; margin-inline: -8px; padding-inline: 8px; cursor: pointer; color: #0d6066; font-weight: 500; list-style: none; }
   .cb__more summary::-webkit-details-marker { display: none; }
-  .cb__more summary::after { content: ' ›'; }
-  .cb__more[open] summary::after { content: ' ‹'; }
+  .cb__more summary::after { content: ' ⌄'; margin-left: 4px; }
+  .cb__more[open] summary::after { content: ' ⌃'; }
   .cb__more ul { margin: 8px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px; font-size: 16px; line-height: 24px; color: #6b6b6b; }
   .cb__more li::before { content: '·'; margin-right: 6px; color: #20A1AA; font-weight: 700; }
   .cb__price { text-align: right; display: grid; gap: 2px; justify-items: end; }
   .cb__amt { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 28px; line-height: 1; color: #424242; }
-  .cb__save { font-size: 14px; line-height: 20px; font-weight: 500; color: #0d6066; }
+  .cb__amt small { font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 500; }
+  .cb__save { font-size: 16px; line-height: 24px; font-weight: 500; color: #0d6066; }
+  .cb__also { font-size: 16px; line-height: 24px; color: #6b6b6b; }
 
   .cb__people { background: #fff; border: 1px solid #e5e7eb; border-radius: 2px; padding: 20px; }
   .cb__people-q { margin: 0 0 12px; font-size: 18px; line-height: 26px; font-weight: 500; color: #424242; }
   .cb__stepper { display: flex; align-items: center; gap: 16px; }
   .cb__step { width: 52px; height: 52px; font: inherit; font-size: 26px; line-height: 1; color: #073140; background: #fff; border: 2px solid #073140; border-radius: 2px; cursor: pointer; }
   .cb__step:hover { background: #f0f9fa; }
+  .cb__step:disabled { opacity: .35; cursor: default; }
   .cb__count { min-width: 110px; text-align: center; font-size: 20px; font-weight: 500; color: #424242; }
   .cb__people-note { margin: 12px 0 0; font-size: 16px; line-height: 24px; color: #6b6b6b; }
 
-  .cb__side { position: sticky; top: 100px; }
+  /* Sticky, but scrolls inside itself: on a 768px-tall laptop the panel is taller than
+     the window and the submit button sat below the fold at every scroll position. */
+  .cb__side { position: sticky; top: 117px; max-height: calc(100vh - 137px); overflow-y: auto; overscroll-behavior: contain; }
   .cb__summary { background: #fff; border: 1px solid #e5e7eb; border-radius: 2px; padding: 24px; }
   .cb__title { margin: 4px 0 16px; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 24px; line-height: 28px; color: #424242; }
   .cb__facts-list { margin: 0; padding: 0; border-top: 1px solid #e5e7eb; }
@@ -352,7 +389,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   .cb__facts-list dd { margin: 0; text-align: right; font-weight: 500; color: #424242; }
   .cb__total { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0 4px; font-size: 18px; font-weight: 500; color: #424242; }
   .cb__total-amt { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 36px; line-height: 1; color: #424242; }
-  .cb__total-note { margin: 0 0 20px; font-size: 14px; line-height: 20px; color: #6b6b6b; }
+  .cb__total-note { margin: 0 0 20px; font-size: 16px; line-height: 24px; color: #6b6b6b; }
 
   .cb__form { display: grid; gap: 12px; }
   .cb__form-h { margin: 0; font-size: 18px; line-height: 26px; font-weight: 500; color: #424242; }
@@ -368,27 +405,36 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   .cd-btn:hover { background: #e67300; }
   .cd-btn:disabled { opacity: .7; cursor: default; }
   .cb__submit { width: 100%; margin-top: 4px; }
-  .cb__form-note { margin: 0; font-size: 14px; line-height: 20px; color: #6b6b6b; }
+  .cb__form-note { margin: 0; font-size: 16px; line-height: 24px; color: #6b6b6b; }
   .cb__done { background: #f0f9fa; border: 1px solid #d0e8ea; border-radius: 2px; padding: 16px; font-size: 16px; line-height: 24px; color: #424242; }
   .cb__done p { margin: 0; }
   .cb__done-h { font-weight: 500; margin-bottom: 4px !important; }
   .cb__talk { margin-top: 20px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-size: 16px; line-height: 24px; color: #424242; }
   .cb__talk p { margin: 0; }
   .cb__talk-h { font-weight: 500; }
-  :global(.cb__tel) { color: #073140; font-weight: 700; text-decoration: none; white-space: nowrap; }
+  :global(.cb__tel) { display: inline-block; min-height: 44px; line-height: 44px; color: #073140; font-weight: 700; text-decoration: none; white-space: nowrap; }
 
+  /* Below 1260 the four-column card's text column was down to 136px at 1100 and
+     80px on an iPad landscape; three columns with the price under the text. */
+  @media (max-width: 1260px) {
+    .cb__cabin { grid-template-columns: 28px 130px minmax(0, 1fr); grid-template-areas: 'radio img body' 'radio img price' 'radio img more'; }
+    .cb__price { justify-items: start; text-align: left; }
+  }
   @media (max-width: 940px) {
     .cb__grid { grid-template-columns: 1fr; }
-    .cb__side { position: static; }
-    .cb__cabin { grid-template-columns: 28px 130px minmax(0, 1fr); }
-    .cb__price { grid-column: 2 / -1; justify-items: start; text-align: left; }
+    .cb__side { position: static; max-height: none; overflow: visible; }
+  }
+  @media (max-width: 768px) {
+    .cb { padding-top: 75px; }
   }
   @media (max-width: 610px) {
-    .cb { padding-block: 16px 48px; }
+    .cb { padding-block: 67px 48px; }
     .cb h1 { font-size: 32px; line-height: 34px; }
-    .cb__cabin { grid-template-columns: 28px minmax(0, 1fr); }
-    .cb__img { grid-column: 1 / -1; aspect-ratio: 16/9; order: -1; }
-    .cb__price { grid-column: 2; }
+    /* One column: photo, name and facts, price, then the detail. The radio sits on
+       the photo so text and photo share one left edge. */
+    .cb__cabin { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'img' 'body' 'price' 'more'; }
+    .cb__radio { position: absolute; top: 28px; left: 28px; z-index: 1; box-shadow: 0 0 0 3px rgba(255,255,255,.9); }
+    .cb__img { aspect-ratio: 16/9; }
     .cb__more ul { grid-template-columns: 1fr; }
     .cb__row2 { grid-template-columns: 1fr; }
   }

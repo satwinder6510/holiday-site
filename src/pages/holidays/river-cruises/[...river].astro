@@ -138,6 +138,7 @@ const itemListSchema = holidays.length > 0 ? {
       <span>{activeRiverName ?? 'All cruises'}</span>
     </nav>
     <div class="rl-hero-inner">
+      <p class="rl-kicker">{holidays.length} sailings · flights from the UK</p>
       <h1>{heroTitle}</h1>
     </div>
   </section>
@@ -205,27 +206,30 @@ const itemListSchema = holidays.length > 0 ? {
 </BaseLayout>
 
 <style>
-  .rl-hero { position: relative; height: clamp(300px, 22vw, 400px); display: flex; align-items: flex-end; color: #fff; overflow: hidden; }
+  .rl-hero { position: relative; height: clamp(320px, 24vw, 420px); display: flex; align-items: flex-end; color: #fff; overflow: hidden; }
   .rl-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 62%; }
   .rl-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,49,64,.25) 0%, rgba(7,49,64,.7) 100%); }
-  .rl-crumbs { position: absolute; top: 12px; left: max(20px, calc((100vw - 1240px) / 2 + 20px)); z-index: 2; display: flex; gap: 8px; align-items: center; font-family: BentonSans, sans-serif; font-weight: 500; font-size: 13px; color: #fff; }
+  .rl-crumbs { position: absolute; top: 12px; left: max(20px, calc((100vw - 1240px) / 2 + 40px)); z-index: 2; display: flex; gap: 8px; align-items: center; font-family: BentonSans, sans-serif; font-weight: 500; font-size: 16px; color: #fff; }
   .rl-crumbs a { color: #fff; text-decoration: none; }
-  .rl-hero-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 20px 36px; width: 100%; }
-  .rl-hero h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 48px; line-height: 1.05; margin: 0; color: #fff; text-shadow: 0 2px 12px rgba(7,49,64,.45); }
+  .rl-hero-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 40px 36px; width: 100%; }
+  .rl-kicker { margin: 0 0 12px; font-family: BentonSans, sans-serif; font-weight: 700; font-size: 14px; line-height: 24px; letter-spacing: 2.5px; text-transform: uppercase; color: #9ad5db; text-shadow: 0 1px 6px rgba(7,49,64,.6); }
+  @media (max-width: 1099px) { .rl-hero-inner { padding-inline: 30px; } }
+  @media (max-width: 767px) { .rl-hero-inner { padding-inline: 20px; } }
+  .rl-hero h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 48px; line-height: 50px; margin: 0; color: #fff; text-wrap: balance; text-shadow: 0 2px 12px rgba(7,49,64,.45); }
 
-  .rl-body { padding: 28px 20px 64px; }
+  .rl-body { padding-block: 28px 64px; }
   .rl-chips { display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; border-bottom: 1px solid #e3e8ea; }
   .rl-chip-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .rl-chip-label { font-family: BentonSans, sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; width: 64px; }
-  .rl-chip { border: 1px solid #cfd8db; background: #fff; color: #424242; font-size: 13px; line-height: 1; padding: 9px 12px; border-radius: 999px; text-decoration: none; cursor: pointer; font-family: BentonSans, sans-serif; }
-  .rl-chip small { font-size: 11px; color: #6b6b6b; margin-left: 4px; }
+  .rl-chip-label { font-family: BentonSans, sans-serif; font-weight: 700; font-size: 12px; line-height: 20px; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; width: 64px; }
+  .rl-chip { border: 1px solid #cfd8db; background: #fff; color: #424242; font-size: 16px; line-height: 1; padding: 12px 16px; border-radius: 999px; text-decoration: none; cursor: pointer; font-family: BentonSans, sans-serif; }
+  .rl-chip small { font-size: 14px; color: #6b6b6b; margin-left: 4px; }
   .rl-chip:hover { border-color: #20A1AA; }
   .rl-chip.active, .rl-chip[aria-pressed="true"] { background: #073140; border-color: #073140; color: #fff; }
   .rl-chip.active small, .rl-chip[aria-pressed="true"] small { color: #9fd9dd; }
 
   .rl-toolbar { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 22px 0 18px; flex-wrap: wrap; }
   .rl-results { font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 28px; margin: 0; color: #424242; }
-  .rl-sort { display: flex; gap: 14px; align-items: center; font-size: 14px; color: #6b6b6b; }
+  .rl-sort { display: flex; gap: 14px; align-items: center; font-size: 16px; color: #6b6b6b; }
   .rl-sort-btn { background: none; border: 0; padding: 0; font: inherit; color: #424242; cursor: pointer; border-bottom: 2px solid transparent; }
   .rl-sort-btn.active { color: #20A1AA; border-bottom-color: #20A1AA; }
 
@@ -236,10 +240,11 @@ const itemListSchema = holidays.length > 0 ? {
   .rl-empty { text-align: center; padding: 40px 0; }
   .rl-clear { background: none; border: 0; color: #20A1AA; text-decoration: underline; cursor: pointer; font: inherit; }
   .rl-call { text-align: center; margin: 36px 0 0; color: #6b6b6b; }
-  .rl-call a { color: #20A1AA; font-weight: 500; }
+  .rl-call a { color: #0d6066; font-weight: 500; }
 
   @media (max-width: 1100px) { .rl-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 768px) { .rl-hero h1 { font-size: 34px; } .rl-chip-label { width: 100%; } }
+  @media (max-width: 768px) { .rl-hero h1 { font-size: 38px; line-height: 40px; } .rl-chip-label { width: 100%; } }
+  @media (max-width: 450px) { .rl-hero h1 { font-size: 36px; line-height: 36px; } }
   @media (max-width: 610px) { .rl-grid { grid-template-columns: 1fr; gap: 20px; } .rl-chip { padding: 8px 10px; } }
 </style>
 

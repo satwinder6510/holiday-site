@@ -153,6 +153,9 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
 
     {dates.map((date, i) => {
       const row = grid.get(date)!;
+      // No flight from the default airport this week: say so on first paint
+      // (before, another airport's fare was printed under that airport's name).
+      const hasDefault = row.has(defaultCode);
       const base = row.get(defaultCode) ?? cheapestOf(row)[1];
       const [cheapCode, cheapPrice] = cheapestOf(row);
       const ladder = ladderByDate.get(date);
@@ -163,7 +166,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
         <>
           <Row
             {...(hasCabins ? { href: `${cabinsHref}?date=${date}&airport=${defaultCode}` } : {})}
-            class="sp__row"
+            class:list={['sp__row', { 'is-na': hasCabins && !hasDefault }]}
             id={`sail-${i}`}
             data-date={date}
             data-month={date.slice(0, 7)}
@@ -176,9 +179,9 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
             </span>
             <span class="sp__nights">{nightCount} nights</span>
             <span class="sp__ship">{shipName && <b>{shipName}</b>}{routeLabel}</span>
-            <span class="sp__price">
-              <span class="sp__amt" {...priceAttrs}>{formatPrice(base)}</span>
-              <span class="sp__lab">per person</span>
+            <span class:list={['sp__price', { 'is-na': !hasDefault }]}>
+              <span class="sp__amt" {...priceAttrs}>{hasDefault ? formatPrice(base) : '—'}</span>
+              <span class="sp__lab">{hasDefault ? 'per person' : `No flights from ${airports.find(a => a.code === defaultCode)?.name ?? defaultCode} this date`}</span>
               <span
                 class="sp__cheaper"
                 data-cheap-code={cheapCode}
@@ -187,7 +190,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
               >{formatPrice(base - cheapPrice)} less from {cheapCode}</span>
             </span>
             {hasCabins
-              ? <span class="sp__cta">Choose this date ›</span>
+              ? <span class="sp__cta">{hasDefault ? 'Choose this date ›' : 'Not this date'}</span>
               : (
                 <span class="sp__ctas">
                   <button type="button" class="sp__enq" data-enq>Get a written quote ›</button>
@@ -261,8 +264,18 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       sp.querySelectorAll<HTMLAnchorElement>('a.sp__row').forEach(a => {
         const href = a.getAttribute('href') || '';
         a.setAttribute('href', href.replace(/([?&]airport=)[A-Z]{3}/, `$1${code}`));
+        // A row with no flight from this airport is not a way into step two.
+        const na = !a.querySelector<HTMLElement>('.sp__price .sp__amt')?.getAttribute('data-price-' + code);
+        a.classList.toggle('is-na', na);
+        a.setAttribute('aria-disabled', String(na));
+        const cta = a.querySelector<HTMLElement>('.sp__cta');
+        if (cta) cta.textContent = na ? 'Not this date' : 'Choose this date ›';
       });
     }
+    sp.addEventListener('click', (e) => {
+      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a.sp__row.is-na');
+      if (a) e.preventDefault();
+    });
 
     // On a phone the airport cards fill the screen, so a tap changed prices the
     // reader could not see. If the first row is below the fold, bring the list up.
@@ -270,7 +283,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     sp.querySelectorAll<HTMLButtonElement>('.sp__airport').forEach(b => {
       b.addEventListener('click', () => {
         applyAirport(b.dataset.airport || '');
-        const phone = window.matchMedia('(max-width: 920px)').matches;
+        const phone = window.matchMedia('(max-width: 940px)').matches;
         if (phone && table && table.getBoundingClientRect().top > window.innerHeight * 0.55) {
           table.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -392,7 +405,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   .sp__more:hover { background: #d0e8ea; }
   .sp__more[hidden] { display: none; }
   .sp__row[hidden] { display: none; }
-  .sp__table { border: 1px solid #e5e7eb; border-radius: 2px; background: #fff; overflow: hidden; scroll-margin-top: 84px; }
+  .sp__table { border: 1px solid #e5e7eb; border-radius: 2px; background: #fff; overflow: hidden; scroll-margin-top: 117px; }
   /* Phones only: the dark head row is hidden there, and this names the airport
      every price below is for — the airport cards have scrolled off by then. */
   .sp__from {
@@ -421,6 +434,9 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   a.sp__row { text-decoration: none; }
   button.sp__row:hover, a.sp__row:hover { background: #f0f9fa; }
   a.sp__row:hover .sp__cta { background: #20A1AA; border-color: #20A1AA; color: #fff; }
+  a.sp__row.is-na { cursor: default; }
+  a.sp__row.is-na:hover { background: #fff; }
+  a.sp__row.is-na .sp__cta, a.sp__row.is-na:hover .sp__cta { background: none; border-color: #d9b4b2; color: #8a3f3c; }
   .sp__row[aria-expanded='true'] { background: #d0e8ea; }
   .sp__row:focus-visible { outline: 3px solid #20A1AA; outline-offset: -3px; }
   .sp__date { display: block; font-size: 18px; font-weight: 500; color: #424242; }

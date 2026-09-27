@@ -307,8 +307,8 @@ const overview = tidyOverview(holiday.overview || '');
                     <th scope="row">Day {c.day}</th>
                     <td><b>{c.port}</b></td>
                     <td>{countryOf(c)}</td>
-                    <td class="cd-r">{i === 0 ? 'Embark' : (c.arrival || '—')}</td>
-                    <td class="cd-r">{last ? 'Disembark' : (c.departure || '—')}</td>
+                    <td class="cd-r" data-lab="Arrive">{i === 0 ? 'Embark' : (c.arrival || '—')}</td>
+                    <td class="cd-r" data-lab="Depart">{last ? 'Disembark' : (c.departure || '—')}</td>
                   </tr>
                 );
               })}
@@ -488,7 +488,7 @@ const overview = tidyOverview(holiday.overview || '');
      and BentonSans 500 / 30px for a hotel or ship name (.acc-title). BentonSans
      ships 500 and 700 only — a 600 silently renders as 700. Eyebrows: section
      14/24/700/2.5px #0d6066, micro-label 12/20/700/2px. Breakpoints 940/768/610/450. */
-  .cd h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 48px; line-height: 50px; font-weight: 400; margin: 8px 0 0; color: #fff; }
+  .cd h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 48px; line-height: 50px; font-weight: 400; margin: 8px 0 0; color: #fff; text-wrap: balance; }
   .cd h2 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 40px; line-height: 42px; letter-spacing: -.5px; font-weight: 400; margin: 0; color: #424242; }
   /* Reading text is 16px minimum and never drops on phones: river cruise
      customers are 60+ (owner 2026-09-26). Spaced-capital labels stay at 12. */
@@ -508,6 +508,8 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-head { max-width: 60ch; margin-bottom: 32px; }
   .cd-head .cd-prose { margin-top: 12px; }
   .cd-section { padding-block: 64px; }
+  /* #sailings and friends land under the 101px fixed header without this. */
+  .cd-section[id] { scroll-margin-top: 117px; }
   .cd-section--band { background: #f2f5f6; border-block: 1px solid #e5e7eb; }
   /* Two plain sections in a row (included + sailings, ship + hotels) merged into
      one 128px void with nothing between them. A hairline gives the same rhythm
@@ -689,6 +691,7 @@ const overview = tidyOverview(holiday.overview || '');
     .cd-split { grid-template-columns: 1fr; gap: 32px; }
   }
   @media (max-width: 768px) {
+    .cd-section[id] { scroll-margin-top: 67px; }
     .cd h1 { font-size: 38px; line-height: 40px; }
     .cd h2 { font-size: 32px; line-height: 34px; }
     .cd h3 { font-size: 24px; line-height: 28px; }
@@ -719,6 +722,14 @@ const overview = tidyOverview(holiday.overview || '');
     .cd-shots figure:first-child img { aspect-ratio: 3/2; }
   }
   @media (max-width: 450px) {
+    /* The five-column calls table is 421px wide; a 320px phone lost the Depart
+       column behind a scroll nobody can see. Stack each call instead. */
+    .cd-calls table, .cd-calls thead, .cd-calls tbody, .cd-calls tr, .cd-calls th, .cd-calls td { display: block; }
+    .cd-calls thead { display: none; }
+    .cd-calls tbody tr { padding: 12px 12px; }
+    .cd-calls th, .cd-calls td { padding: 2px 0; }
+    .cd-calls .cd-r { text-align: left; }
+    .cd-calls .cd-r::before { content: attr(data-lab) ' '; color: #6b6b6b; }
     .cd h1 { font-size: 36px; line-height: 36px; }
     .cd h2 { font-size: 26px; line-height: 28px; }
     .cd-hero__amt { font-size: 32px; line-height: 32px; }
