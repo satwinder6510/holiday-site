@@ -28,10 +28,12 @@ interface Props {
   cabinImages: string[];
   /** Cabin descriptions from the ship record, keyed by the grade's cabinType. */
   cabinInfo?: Record<string, CabinTypeInfo>;
+  /** Step two: the cabin page for this cruise; a sailing row links to it with ?date=&airport=. */
+  cabinsHref?: string;
   tel: string;
   telDisplay: string;
 }
-const { airports, departures, ladders, shipName, routeLabel, nights, cabinImages, cabinInfo = {}, tel, telDisplay } = Astro.props;
+const { airports, departures, ladders, shipName, routeLabel, nights, cabinImages, cabinInfo = {}, cabinsHref = '', tel, telDisplay } = Astro.props;
 
 // date -> airport code -> price pp
 const grid = new Map<string, Map<string, number>>();
@@ -63,8 +65,10 @@ const hasCabins = ladders.length > 0;
 // Without cabins the row is plain and its CTAs are a "Get a written quote" button
 // (opens the page's enquiry modal, owner 2026-09-26: river cruises get the form
 // back) and the call link (a tel: link on phones, the number as text on desktop;
-// see CallLink). With cabins the quote button sits on each cabin instead.
-const Row = hasCabins ? 'button' : 'div';
+// see CallLink). With cabins the row is a LINK to step two, the cabin page
+// (owner 2026-09-27: one decision per screen — choose the date here, the cabin
+// on the next page). The airport in the link follows the airport picked above.
+const Row = hasCabins ? 'a' : 'div';
 // Long routes (the Zambezi runs 84 sailings) need cutting down before the list
 // is usable; short ones show whole and skip the furniture.
 const INITIAL_ROWS = 12;
@@ -158,9 +162,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       return (
         <>
           <Row
-            {...(hasCabins
-              ? { type: 'button' as const, 'aria-expanded': 'false', 'aria-controls': `cabins-${i}` }
-              : {})}
+            {...(hasCabins ? { href: `${cabinsHref}?date=${date}&airport=${defaultCode}` } : {})}
             class="sp__row"
             id={`sail-${i}`}
             data-date={date}
@@ -185,7 +187,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
               >{formatPrice(base - cheapPrice)} less from {cheapCode}</span>
             </span>
             {hasCabins
-              ? <span class="sp__cta">Choose cabin ›</span>
+              ? <span class="sp__cta">Choose this date ›</span>
               : (
                 <span class="sp__ctas">
                   <button type="button" class="sp__enq" data-enq>Get a written quote ›</button>
@@ -194,87 +196,6 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
               )}
           </Row>
 
-          {hasCabins && (
-          <div class="sp__cabins" id={`cabins-${i}`} role="region" aria-labelledby={`sail-${i}`} hidden>
-            <p class="sp__for">
-              Cabins on <b>{niceDate(date)}</b>, flying from <b class="sp__for-airport">{airports.find(a => a.code === defaultCode)?.name}</b>
-            </p>
-            {decks.map(deck => {
-              const grades = catalogue.filter(g => (g.deck ?? 'Other') === deck);
-              if (!grades.length) return null;
-              return (
-                <div class="sp__deck">
-                  <p class="sp__deck-name">{deck === 'Other' ? 'Other cabins' : deck}</p>
-                  <ul class="sp__deck-list">
-                    {grades.map((g, gi) => {
-                      const p = gradePriceFor(ladder, base, g.cabinType);
-                      const perAirport = Object.fromEntries(
-                        codes
-                          .filter(c => row.has(c))
-                          .map(c => [
-                            `data-price-${c}`,
-                            String(gradePriceFor(ladder, row.get(c)!, g.cabinType) ?? ''),
-                          ]),
-                      );
-                      // The cabin type's own photo where the ship record has one;
-                      // otherwise the ship's cabin photos, cycled, as before.
-                      const info = cabinInfo[g.cabinType];
-                      const img = info?.images[0] || cabinImages[gi % Math.max(cabinImages.length, 1)];
-                      // Saving against booking direct, per airport, swapped by the script like the price.
-                      const gradeOnDate = ladder?.grades.find(x => x.cabinType === g.cabinType);
-                      const saveAttrs = Object.fromEntries(
-                        codes
-                          .filter(c => row.has(c))
-                          .map(c => [`data-save-${c}`, String(directSaving(gradeOnDate ?? { directPp: null }, gradePriceFor(ladder, row.get(c)!, g.cabinType)) ?? '')]),
-                      );
-                      const save = directSaving(gradeOnDate ?? { directPp: null }, p);
-                      const facts = [
-                        info?.sizeSqm ? `${info.sizeSqm} m²` : null,
-                        deck === 'Other' ? shipName : deck,
-                        info?.outlook,
-                        info?.sleeps ? `Sleeps ${info.sleeps}` : null,
-                      ].filter((f): f is string => !!f);
-                      return (
-                        <li class:list={['sp__cabin', { 'sp__cabin--gone': p == null }]}>
-                          {img && (
-                            <img class="sp__cabin-img" src={img} alt={`${g.name} on the ${shipName}`}
-                                 loading="lazy" decoding="async" width="390" height="260" />
-                          )}
-                          <div>
-                            <p class="sp__cabin-name">{g.name}</p>
-                            <ul class="sp__cabin-facts">
-                              {facts.map(f => <li>{f}</li>)}
-                            </ul>
-                            {info?.summary && <p class="sp__cabin-sum">{info.summary}</p>}
-                            {info && info.equipment.length > 0 && (
-                              <details class="sp__cabin-more">
-                                <summary>What's in the cabin</summary>
-                                <ul>{info.equipment.map(e => <li>{e}</li>)}</ul>
-                              </details>
-                            )}
-                          </div>
-                          <div class="sp__cabin-price">
-                            {p == null
-                              ? <p class="sp__gone">Sold out this date</p>
-                              : (
-                                <>
-                                  <p class="sp__amt" {...perAirport}>{formatPrice(p)}</p>
-                                  <p class="sp__lab">per person</p>
-                                  <p class="sp__save" {...saveAttrs} hidden={save == null}>Save £{(save ?? 0).toLocaleString('en-GB')} vs booking direct</p>
-                                  <button type="button" class="sp__enq sp__enq--cabin" data-enq data-cabin={g.name}>Get a written quote</button>
-                                  <CallLink class="sp__book" tel={tel} display={telDisplay} tapLabel="Call to book" readLabel={`Call ${telDisplay}`} />
-                                </>
-                              )}
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-          )}
         </>
       );
     })}
@@ -336,6 +257,10 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       });
       sp.querySelectorAll<HTMLElement>('.sp__for-airport').forEach(el => {
         el.textContent = airportName.get(code) || '';
+      });
+      sp.querySelectorAll<HTMLAnchorElement>('a.sp__row').forEach(a => {
+        const href = a.getAttribute('href') || '';
+        a.setAttribute('href', href.replace(/([?&]airport=)[A-Z]{3}/, `$1${code}`));
       });
     }
 
@@ -420,19 +345,8 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       });
     });
 
-    sp.querySelectorAll<HTMLButtonElement>('.sp__row').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const panel = document.getElementById(btn.getAttribute('aria-controls') || '');
-        if (!panel) return;
-        const wasOpen = btn.getAttribute('aria-expanded') === 'true';
-        sp.querySelectorAll('.sp__row').forEach(b => b.setAttribute('aria-expanded', 'false'));
-        sp.querySelectorAll<HTMLElement>('.sp__cabins').forEach(p => { p.hidden = true; });
-        if (!wasOpen && panel) {
-          btn.setAttribute('aria-expanded', 'true');
-          panel.hidden = false;
-        }
-      });
-    });
+    // (Cabins live on step two now; the rows are links and applyAirport keeps
+    // their airport in step with the picker.)
   }
 </script>
 
@@ -503,8 +417,10 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     transition: background-color .12s ease;
   }
   .sp__row:first-of-type { border-top: 0; }
-  button.sp__row { cursor: pointer; }
-  button.sp__row:hover { background: #f0f9fa; }
+  button.sp__row, a.sp__row { cursor: pointer; }
+  a.sp__row { text-decoration: none; }
+  button.sp__row:hover, a.sp__row:hover { background: #f0f9fa; }
+  a.sp__row:hover .sp__cta { background: #20A1AA; border-color: #20A1AA; color: #fff; }
   .sp__row[aria-expanded='true'] { background: #d0e8ea; }
   .sp__row:focus-visible { outline: 3px solid #20A1AA; outline-offset: -3px; }
   .sp__date { display: block; font-size: 18px; font-weight: 500; color: #424242; }

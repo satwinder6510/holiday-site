@@ -226,6 +226,30 @@ manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffe
   has NO 600 face (500 and 700 only) — a 600 silently renders as bold. Link colour
   `#1b8f97` fails AA on white; use `#0d6066`. Breakpoints 940/768/610/450, never
   920/600. Sizes off the scale (11, 13, 15, 17, 23) were all removed.
+- **Two-step choose (2026-09-27, from the owner's Riverwise mock: "choose date > next
+  page choose cabin"):** on a Widgety cruise the sailing rows are LINKS
+  (`a.sp__row`, "Choose this date ›") to step two, `[country]/[slug]/cabins.astro`
+  at `…/cabins?date=YYYY-MM-DD&airport=CODE`; the airport picked in step one is kept
+  in the link by `applyAirport()`. Step two: airport chips (plain links, no JS), one
+  radio card per cabin grade (photo, facts, saving vs direct, price at that airport),
+  a 1–4 traveller stepper, a sticky summary with the party total, an INLINE quote form
+  posting to `/api/contact` (message = "Cabin: … Ref 10447-1114"), and "call and quote
+  <ref>" where ref = holiday id + MMDD. PostHog `cabin_page_view` / `quote_form_submit`.
+  Manual cruise packages (no cabin grid) keep the one-page quote/call rows. The inline
+  `.sp__cabins` panels are gone from step one (their CSS is still in SailingPicker).
+- **Saving against booking direct (2026-09-27):** for Widgety cruises, "direct" = the
+  operator's cruise-only fare (`was_price_pp` where higher than `cruise_price_pp`) +
+  `flight_cost_pp` + `luggage_cost_pp` — the operator includes neither flights nor hold
+  luggage. `CabinGrade.directPp` + `directSaving()` in `cruise-detail.ts`; shown in the
+  hero ("Save £N pp against booking direct", lead cabin), per cabin per airport in the
+  picker (`data-save-CODE`, swapped with the price), and as a Save pill + "direct £X ·
+  ours from" on the featured landing card. The 5% VIVA discount is the small part; the
+  bundled flights + luggage are most of it (Hungary Short Trip: £1,003 vs £789 = £214).
+- **Hold luggage (2026-09-27):** every Widgety fly-cruise price carries hold luggage,
+  so the included strip says "Hold luggage" (not "Cabin bag") for ids ≥ 10000 and
+  `inclusionChips(…, flyCruise=true)` leads with Return flights and ends with Hold
+  luggage on real-cruise cards (CroisiEurope's feed inclusions are empty). Manual
+  offers (ids < 10000) keep their own lists — owner's instruction.
 - **Cabin descriptions (2026-09-26):** `src/lib/cabin-types.ts` reads the ship's
   Widgety record (`cruise_ships.raw_data.accomodation_types`, their spelling) — size,
   deck, French balcony / fixed window, the equipment list and the cabin type's own
