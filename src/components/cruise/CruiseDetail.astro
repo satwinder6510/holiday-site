@@ -105,8 +105,13 @@ const excluded = holiday.otherInfoBullets?.length
 const fromPrice = pricing?.cheapestPriceFormatted ?? '';
 // Saving on the lead-in cabin against booking it direct (operator fare + flights +
 // hold luggage bought separately). Widgety cruises only; manual packages carry no fare.
-const leadGrade = ladders.flatMap(l => l.grades).sort((a, b) => a.netPp - b.netPp)[0];
-const heroSaving = leadGrade && pricing ? directSaving(leadGrade, pricing.cheapestPrice) : null;
+// The cheapest departure's own sailing and airport: its lead cabin, its flight.
+const cheapDep = pricing?.cheapestDeparture;
+const cheapLadder = cheapDep ? ladders.find(l => l.date === cheapDep.date.slice(0, 10)) : undefined;
+const leadGrade = cheapLadder?.grades.find(g => g.netPp === cheapLadder.leadPp);
+const heroSaving = leadGrade && cheapDep
+  ? directSaving(leadGrade, cheapDep.pricePp, cheapDep.flightPp, cheapDep.isSpecial ? cheapLadder!.specialHotelPp : 0)
+  : null;
 const hasLuggage = holiday.id >= 10000;
 const fromAirport = pricing?.cheapestDeparture?.airportName ?? '';
 const sailingCount = pricing ? new Set(pricing.departures.map(d => d.date.slice(0, 10))).size : 0;

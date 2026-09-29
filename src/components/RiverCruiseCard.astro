@@ -19,32 +19,36 @@ interface Props {
   included?: string[];
   /** River or destination shown as a pill (offers only). */
   river?: string;
-  /** A real cruise placed among the offers: it is a fly-cruise, so say so. */
-  featured?: boolean;
-  /** Saving per person against booking direct (operator fare + flights + luggage), Widgety cruises. */
-  savingPp?: number | null;
-  directPp?: number | null;
   /** Extra data-* attributes for client-side filtering on the listing. */
   data?: Record<string, string>;
 }
-const { holiday: h, window: w, ship, included, river, featured = false, savingPp = null, directPp = null, data = {} } = Astro.props;
+const { holiday: h, window: w, ship, included, river, data = {} } = Astro.props;
 const url = `/Holidays/${h.countrySlug}/${h.slug}`;
 const nights = nightsOf(h);
-const saving = savingPp ?? savingOf(h);
+const saving = savingOf(h);
 const isOffer = h.isSpecialOffer;
 // Every special offer built in the admin is a fly-cruise-stay package, so the
 // card says so on its first pill (owner 2026-09-26) without using one of the
 // three staff badge slots; a staff badge that already says it is dropped so
-// it never shows twice.
-const FLY_CRUISE_STAY = 'Fly · Cruise · Stay';
-const staffBadges = h.offerBadges.filter(b => !/fly\W*cruise\W*stay/i.test(b));
+// it never shows twice. A special on a real (Widgety) cruise is a "stay" only
+// when it adds hotel nights (2026-09-29).
+const FLY_CRUISE_STAY = h.id > 10000 && !h.specialHasHotel ? 'Fly · Cruise' : 'Fly · Cruise · Stay';
+const staffBadges = h.offerBadges.filter(b => !/fly\W*cruise(\W*stay)?$/i.test(b));
 const pills = isOffer
   ? [FLY_CRUISE_STAY, ...(staffBadges.length ? staffBadges : ['Special offer'])]
-  : featured ? ['Fly · Cruise', ...(river ? [river] : [])]
   : (river ? [river] : []);
 const shipName = h.shipName || ship || '';
 const manual = h.id < 10000;
-const chips = inclusionChips(included?.length ? included : h.whatsIncluded, h.boardBasis, !manual);
+const baseChips = inclusionChips(included?.length ? included : h.whatsIncluded, h.boardBasis, !manual);
+// A cruise special leads with its hotel nights and the lines staff typed for it (two
+// at most); a real cruise still ends on Return flights and Hold luggage (owner 2026-09-27).
+const hotelChip = baseChips.filter(c => /hotel night/.test(c));
+const specialChips = [...new Set([...hotelChip, ...(h.specialInclusions ?? [])])].slice(0, 2);
+const chips = !specialChips.length
+  ? baseChips
+  : manual
+    ? [...new Set([...specialChips, ...baseChips])].slice(0, 4)
+    : [...specialChips, 'Return flights', 'Hold luggage'];
 const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data-${k}`, v]));
 ---
 <article class="rc-offer" {...dataAttrs}>
@@ -82,7 +86,7 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
     )}
     <div class="rc-offer-foot">
       <p class="rc-price">
-        <span>{saving > 0 && directPp ? <>direct <s>£{Math.round(directPp).toLocaleString('en-GB')}</s> · ours from</> : saving > 0 ? <>was <s>£{Math.round(h.wasPrice!).toLocaleString('en-GB')}</s> · now from</> : 'from'}</span>
+        <span>{saving > 0 ? <>was <s>£{Math.round(h.wasPrice!).toLocaleString('en-GB')}</s> · now from</> : 'from'}</span>
         £{fromPrice(h).toLocaleString('en-GB')}<small>/pp</small>
       </p>
       <a class="rc-view" href={url}>View more <span aria-hidden="true">›</span></a>

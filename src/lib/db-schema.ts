@@ -75,6 +75,9 @@ export const cruiseFlightPrices = sqliteTable('cruise_flight_prices', {
   airportName: text('airport_name').notNull(),
   flightPricePp: text('flight_price_pp').notNull(),
   totalPricePp: text('total_price_pp').notNull(),
+  // Special offer (cruise_offer_specials): null on sailings the special doesn't cover.
+  specialFlightPp: text('special_flight_pp'),
+  specialPricePp: text('special_price_pp'),
   source: text('source').notNull(),
   pricedAt: text('priced_at').default(sql`(datetime('now'))`).notNull(),
 });
@@ -84,7 +87,33 @@ export const cruiseOffers = sqliteTable('cruise_offers', {
   // The route carries the itinerary; the offer carries the commercial terms.
   routeId: integer('route_id').notNull(),
   cheapestTotalPp: text('cheapest_total_pp'),
+  specialCheapestPp: text('special_cheapest_pp'),
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
+});
+
+// A time-limited special over one automated cruise offer (written in the admin).
+// Read only while is_enabled AND starts_on <= today <= ends_on: see cruise-specials.ts.
+export const cruiseOfferSpecials = sqliteTable('cruise_offer_specials', {
+  offerId: integer('offer_id').primaryKey(),
+  isEnabled: integer('is_enabled', { mode: 'boolean' }).notNull(),
+  startsOn: text('starts_on').notNull(),
+  endsOn: text('ends_on').notNull(),
+  discountPercent: text('discount_percent').notNull(),
+  sailingIds: text('sailing_ids').notNull(),
+  inclusions: text('inclusions').notNull(),
+  badges: text('badges').notNull(),
+  wasPricePp: text('was_price_pp'),
+  isFeatured: integer('is_featured', { mode: 'boolean' }).notNull(),
+  preHotelNights: integer('pre_hotel_nights').notNull(),
+  preHotelCityName: text('pre_hotel_city_name'),
+  preHotelName: text('pre_hotel_name'),
+  preHotelRatePerNight: text('pre_hotel_rate_per_night'),
+  preHotelStarRating: integer('pre_hotel_star_rating'),
+  postHotelNights: integer('post_hotel_nights').notNull(),
+  postHotelCityName: text('post_hotel_city_name'),
+  postHotelName: text('post_hotel_name'),
+  postHotelRatePerNight: text('post_hotel_rate_per_night'),
+  postHotelStarRating: integer('post_hotel_star_rating'),
 });
 
 // Route-level content. Only `itinerary` is read here: the cruise detail page needs

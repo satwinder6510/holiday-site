@@ -185,6 +185,14 @@ export interface Holiday {
   /** Special offers: staff-typed pill labels; empty = the default "Special offer" pill. */
   offerBadges: string[];
   cities: string[];
+  /** Cruise special (cruise_offer_specials) running today: its last day, YYYY-MM-DD. */
+  specialEndsOn?: string;
+  /** Cruise special marked "feature first" in the admin. */
+  specialFeatured?: boolean;
+  /** Cruise special: its staff-typed inclusion lines, shown first on the card. */
+  specialInclusions?: string[];
+  /** Cruise special adds hotel nights (so it is a fly-cruise-STAY). */
+  specialHasHotel?: boolean;
 }
 
 export interface HolidayDetail extends Holiday {

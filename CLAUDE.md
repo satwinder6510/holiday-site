@@ -237,14 +237,12 @@ manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffe
   <ref>" where ref = holiday id + MMDD. PostHog `cabin_page_view` / `quote_form_submit`.
   Manual cruise packages (no cabin grid) keep the one-page quote/call rows. The inline
   `.sp__cabins` panels are gone from step one (their CSS is still in SailingPicker).
-- **Saving against booking direct (2026-09-27):** for Widgety cruises, "direct" = the
-  operator's cruise-only fare (`was_price_pp` where higher than `cruise_price_pp`) +
-  `flight_cost_pp` + `luggage_cost_pp` — the operator includes neither flights nor hold
-  luggage. `CabinGrade.directPp` + `directSaving()` in `cruise-detail.ts`; shown in the
-  hero ("Save £N pp against booking direct", lead cabin), per cabin per airport in the
-  picker (`data-save-CODE`, swapped with the price), and as a Save pill + "direct £X ·
-  ours from" on the featured landing card. The 5% VIVA discount is the small part; the
-  bundled flights + luggage are most of it (Hungary Short Trip: £1,003 vs £789 = £214).
+- **Saving against booking direct (fixed 2026-09-29):** direct = the operator's
+  cruise-only fare (`cruise_price_pp`) + hold luggage + the flight from the SAME airport
+  (`Departure.flightPp`) + any special hotel. `directSaving(grade, ourPp, flightPp,
+  hotelPp)` in `cruise-detail.ts`. Until 2026-09-29 it started from `was_price_pp`, which
+  already held a flat flight + luggage, and added them again (10447 claimed £184, truth
+  £38). No saving shows where the flight is unknown (retail overlay rows).
 - **Hold luggage (2026-09-27):** every Widgety fly-cruise price carries hold luggage,
   so the included strip says "Hold luggage" (not "Cabin bag") for ids ≥ 10000 and
   `inclusionChips(…, flyCruise=true)` leads with Return flights and ends with Hold
@@ -261,9 +259,17 @@ manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffe
   picker's rows/cabins and the bottom band open it via `window.__openEnquiryModal`
   with date/airport/ship/cabin/price. River cruise pages ALWAYS show the form
   (`data-form-always` on the modal) — the 9am–6pm call/chat panel is for the rest.
-- **Landing test (2026-09-26):** `FEATURED_CRUISE_IDS` in `river-cruises/index.astro`
-  puts a real Widgety cruise (VIVA "Hungary Short Trip", offer 447 → id 10447) in the
-  first special-offer slot ahead of the admin-built offers.
+- **Cruise special offers (2026-09-29):** a time-limited special laid over an automated
+  cruise offer, built in the admin at Offers → Special offer (`cruise_offer_specials`,
+  one row per offer). The standard offer is never edited. Its prices sit beside the
+  standard ones in `cruise_flight_prices.special_price_pp` (ticked sailings only) and
+  `cruise_offers.special_cheapest_pp`. `src/lib/cruise-specials.ts` reads the specials
+  live today (enabled AND starts_on ≤ today ≤ ends_on, 30s memo) and `withSpecial()`
+  turns the card into an offer (price, pills, badges, was = admin figure or the
+  standard price of the same sailing, staff inclusions + hotel line). On a special
+  sailing, airports with no special fare drop out; a special hotel adds hotel cards.
+  After the end date everything falls back by itself — no job, no deploy.
+  `FEATURED_CRUISE_IDS` is gone: "first in Special offers" is a tick on the special.
 - **Still open:** breadcrumb still points at the country page rather than the river
   (owner's call, 2026-09-20); no sibling-cruise internal links; no deck plans. "Time in
   port" was built then removed — CroisiEurope records arrival == departure on many

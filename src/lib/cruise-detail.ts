@@ -14,6 +14,7 @@ import { and, eq, gte } from 'drizzle-orm';
 import type { Database } from './db';
 import { cruiseOffers, cruiseRoutes, cruiseSailings, cruiseOfferSailingCabins, cruiseShips } from './db-schema';
 import { roundToNine } from './pricing-transforms';
+import { getActiveSpecials } from './cruise-specials';
 import portCoords from '../data/port-coords.json';
 
 /** holiday-site cruise ids are the D1 offer id plus this offset. */
@@ -132,16 +133,31 @@ export interface CabinGrade {
   netPp: number;
   /** Admin's manual selling price where one is set. */
   retailPp: number | null;
-  /** What the same cabin costs booked direct: the operator's cruise-only fare (their
-   *  list price where they show one) plus flights and hold luggage bought separately,
-   *  which the operator does not include. Null when the feed has no fare. */
-  directPp: number | null;
+  /** The operator's cruise-only fare for this grade plus hold luggage, which the
+   *  operator does not include. The flight is NOT in it: it depends on the airport,
+   *  so directSaving() adds the chosen airport's fare. Null when the feed has no fare. */
+  fareLuggagePp: number | null;
+  /** The operator's cruise-only fare (Widgety cabin price). */
+  farePp: number | null;
 }
 
-/** Saving per person against booking direct, for a grade at our price; null if none. */
-export function directSaving(grade: { directPp: number | null }, ourPp: number | null): number | null {
-  if (grade.directPp == null || ourPp == null) return null;
-  const s = Math.round(grade.directPp - ourPp);
+/**
+ * Saving per person against booking the same holiday direct: the operator's fare
+ * plus hold luggage, the flight from the same airport, and any hotel nights in our
+ * price. Null when any part is unknown or there is no saving.
+ *
+ * Until 2026-09-29 this used the stored "was" price, which already carried a flat
+ * flight + luggage estimate, and added them again: £184 claimed on 10447 where the
+ * truth was £38.
+ */
+export function directSaving(
+  grade: { fareLuggagePp: number | null },
+  ourPp: number | null,
+  flightPp: number | null | undefined,
+  hotelPp = 0,
+): number | null {
+  if (grade.fareLuggagePp == null || ourPp == null || !flightPp) return null;
+  const s = Math.round(grade.fareLuggagePp + flightPp + hotelPp - ourPp);
   return s > 0 ? s : null;
 }
 
@@ -152,6 +168,11 @@ export interface SailingLadder {
   grades: CabinGrade[];
   /** Cheapest grade on this sailing — the lead-in the airport price is quoted against. */
   leadPp: number;
+  /** A live special covers this sailing: its discount replaces the standard one on
+   *  the upgrade from the lead-in cabin. Null otherwise. */
+  specialDiscount: number | null;
+  /** Hotel cost per person inside the special's price on this sailing (0 if none). */
+  specialHotelPp: number;
 }
 
 /**
@@ -232,16 +253,16 @@ export async function getSailingLadders(db: Database, holidaySiteId: number): Pr
   const today = new Date().toISOString().slice(0, 10);
 
   try {
+    const special = (await getActiveSpecials(db)).get(offerId);
     const rows = await db
       .select({
+        sailingId: cruiseSailings.id,
         date: cruiseSailings.departureDate,
         shipId: cruiseSailings.shipId,
         cabinType: cruiseOfferSailingCabins.cabinType,
         net: cruiseOfferSailingCabins.netCostPp,
         retail: cruiseOfferSailingCabins.retailPricePp,
         fare: cruiseOfferSailingCabins.cruisePricePp,
-        was: cruiseOfferSailingCabins.wasPricePp,
-        flight: cruiseOfferSailingCabins.flightCostPp,
         luggage: cruiseOfferSailingCabins.luggageCostPp,
       })
       .from(cruiseOfferSailingCabins)
@@ -260,17 +281,21 @@ export async function getSailingLadders(db: Database, holidaySiteId: number): Pr
 
       const { name, deck } = parseCabinGrade(r.cabinType);
       const retailRaw = Number(r.retail);
-      const fare = Math.max(Number(r.fare) || 0, Number(r.was) || 0);
-      const directPp = fare > 0 ? fare + (Number(r.flight) || 0) + (Number(r.luggage) || 0) : null;
+      const fare = Number(r.fare) || 0;
       const entry: SailingLadder = byDate.get(date)
-        ?? { date, shipId: r.shipId ?? null, grades: [], leadPp: Infinity };
+        ?? { date, shipId: r.shipId ?? null, grades: [], leadPp: Infinity, specialDiscount: null, specialHotelPp: 0 };
+      if (special?.sailingIds.has(r.sailingId)) {
+        entry.specialDiscount = special.discountPercent;
+        entry.specialHotelPp = special.hotelPp;
+      }
       entry.grades.push({
         cabinType: r.cabinType,
         name,
         deck,
         netPp: net,
         retailPp: retailRaw > 0 ? retailRaw : null,
-        directPp,
+        fareLuggagePp: fare > 0 ? fare + (Number(r.luggage) || 0) : null,
+        farePp: fare > 0 ? fare : null,
       });
       if (net < entry.leadPp) entry.leadPp = net;
       byDate.set(date, entry);
@@ -329,10 +354,17 @@ export function gradePrice(
   ladder: SailingLadder,
   airportPricePp: number,
   cabinType: string,
+  /** The airport price is a live special's price (Departure.isSpecial). */
+  special = false,
 ): number | null {
   const grade = ladder.grades.find(g => g.cabinType === cabinType);
   if (!grade) return null;
   if (grade.retailPp != null) return roundToNine(grade.retailPp);
+  // On a special the upgrade carries the special's discount, not the standard one.
+  const lead = ladder.grades.find(g => g.netPp === ladder.leadPp);
+  if (special && ladder.specialDiscount != null && grade.farePp != null && lead?.farePp != null) {
+    return roundToNine(airportPricePp + (grade.farePp - lead.farePp) * (1 - ladder.specialDiscount / 100));
+  }
   return roundToNine(airportPricePp + (grade.netPp - ladder.leadPp));
 }
 

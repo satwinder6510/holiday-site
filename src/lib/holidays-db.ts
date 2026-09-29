@@ -1,6 +1,7 @@
 // SSR query functions — fetch holidays + pricing from D1
 import { eq, and, inArray, gte, sql, getTableColumns } from 'drizzle-orm';
 import type { Database } from './db';
+import { getActiveSpecials, specialFor, withSpecial } from './cruise-specials';
 import { flightPackages, packagePricing, cruiseFlightPrices, cruiseOffers as cruiseOffersTable, cruiseSailings, cruiseOfferSailingCabins, hotelLibrary, addons, holidayAddons, holidayExcursions } from './db-schema';
 import {
   type RawHoliday,
@@ -219,6 +220,10 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
       airportCode: cruiseFlightPrices.airportCode,
       airportName: cruiseFlightPrices.airportName,
       totalPricePp: cruiseFlightPrices.totalPricePp,
+      flightPricePp: cruiseFlightPrices.flightPricePp,
+      specialPricePp: cruiseFlightPrices.specialPricePp,
+      specialFlightPp: cruiseFlightPrices.specialFlightPp,
+      sailingId: cruiseFlightPrices.sailingId,
       shipId: cruiseSailings.shipId,
     })
     .from(cruiseFlightPrices)
@@ -235,16 +240,34 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
 
   // A route can have two ships on the same date+airport — keep the cheapest, and
   // remember which ship it is (so the calendar shows the right ship per date).
-  const cheapestByKey = new Map<string, { date: string; airportCode: string; airportName: string; price: number; shipId: number | null }>();
+  // A special offer running today replaces the price on the sailings it covers;
+  // the standard price stays alongside as the "was" (cruise-specials.ts).
+  const specialLive = !!(await getActiveSpecials(db)).get(dbOfferId);
+  // On a sailing the special has priced, an airport with no special fare (no flight on
+  // the hotel-shifted dates) can't sell it, so it drops out rather than showing the
+  // standard price without the hotel. A sailing not priced yet keeps its standard rows.
+  const specialSailings = new Set(specialLive ? rows.filter(r => Number(r.specialPricePp) > 0).map(r => r.sailingId) : []);
+  type Cell = { date: string; airportCode: string; airportName: string; price: number; shipId: number | null; flightPp?: number; wasPp?: number; isSpecial?: boolean };
+  const cheapestByKey = new Map<string, Cell>();
   const airportNames = new Map<string, string>();
   for (const r of rows) {
-    const price = Number(r.totalPricePp);
+    const standard = Number(r.totalPricePp);
+    const special = specialLive ? Number(r.specialPricePp) : 0;
+    const isSpecial = special > 0;
+    if (!isSpecial && specialSailings.has(r.sailingId)) continue;
+    const price = isSpecial ? special : standard;
     if (!(price > 0)) continue;
     airportNames.set(r.airportCode, r.airportName);
     const key = `${r.departureDate}|${r.airportCode}`;
     const ex = cheapestByKey.get(key);
     if (!ex || price < ex.price) {
-      cheapestByKey.set(key, { date: r.departureDate, airportCode: r.airportCode, airportName: r.airportName, price, shipId: r.shipId ?? null });
+      const flight = Number(isSpecial ? r.specialFlightPp : r.flightPricePp);
+      cheapestByKey.set(key, {
+        date: r.departureDate, airportCode: r.airportCode, airportName: r.airportName, price, shipId: r.shipId ?? null,
+        flightPp: flight > 0 ? flight : undefined,
+        wasPp: isSpecial && standard > price ? standard : undefined,
+        isSpecial: isSpecial || undefined,
+      });
     }
   }
 
@@ -306,6 +329,9 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
     availability: 'available' as const,
     ship_id: d.shipId ?? undefined,
     ship_name: d.shipId != null ? shipNameById.get(d.shipId) : undefined,
+    flight_pp: d.flightPp,
+    was_pp: d.wasPp,
+    is_special: d.isSpecial,
   }));
 
   return transformHolidayPricing({ holiday_id: offerId, departures });
@@ -429,10 +455,21 @@ export async function getHolidayBySlugFromDb(
     if (!offer?.isActive) return null;
     const pricing = await getCruisePricingFromDb(db, cruiseEntry.id);
     if (!pricing) return null;
+    const special = specialFor(await getActiveSpecials(db), cruiseEntry.id);
+    const base = withSpecial(cruiseEntry, special);
+    // The special's hotels join the offer's own (normally none) as hotel cards.
+    const specialHotels: HolidayDetail['accommodations'] = (special?.cheapestPp ? special.hotels : []).map(h => ({
+      name: h.name,
+      description: `${h.nights} night${h.nights === 1 ? '' : 's'}${h.city ? ' in ' + h.city : ''} ${h.when} the cruise, on the special-offer dates.`,
+      images: [],
+      stars: h.stars,
+      kind: 'hotel' as const,
+      when: h.when,
+    }));
     const cruise: HolidayDetail = {
-      ...cruiseEntry,
+      ...base,
       price: pricing.cheapestPrice,
-      accommodations: await withLibraryHotels(db, cruiseEntry.accommodations),
+      accommodations: await withLibraryHotels(db, [...base.accommodations, ...specialHotels]),
     };
     return { holiday: cruise, pricing };
   }
@@ -506,10 +543,12 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
     const price = Number(row.cheapestTotalPp);
     if (row.isActive && price > 0) livePrice.set(row.id + CRUISE_ID_OFFSET, price);
   }
+  const specials = await getActiveSpecials(db);
   const cruises: HolidayDetail[] = [];
   for (const c of cruiseCatalogue) {
     const price = livePrice.get(c.id);
-    if (price) cruises.push({ ...c, price }); // clone — never mutate the shared catalogue
+    // clone — never mutate the shared catalogue; a live special swaps in its own price
+    if (price) cruises.push(withSpecial({ ...c, price }, specialFor(specials, c.id)));
   }
 
   const all = [...holidays, ...cruises];
@@ -611,6 +650,10 @@ export async function getDepartureWindows(db: Database, ids: number[]): Promise<
       else result.set(id, { first: d, last: d, months: [d.slice(0, 7)], cheapestDate: d, dates: 1 });
     };
     for (const r of cheapCruise.flat()) setCheapest(r.offerId + CRUISE_ID_OFFSET, r.date);
+    // A live special's "from" price belongs to its own cheapest sailing.
+    for (const sp of (await getActiveSpecials(db)).values()) {
+      if (sp.cheapestDate && cruiseIds.includes(sp.offerId)) setCheapest(sp.offerId + CRUISE_ID_OFFSET, sp.cheapestDate);
+    }
     for (const r of cheapPkg.flat()) setCheapest(r.packageId, r.date);
   } catch (err) {
     console.error('getDepartureWindows failed', err);
