@@ -180,6 +180,24 @@ const overview = tidyOverview(holiday.overview || '');
     </div>
   </div>
 
+  <!-- A live special's own blurb, right under the hero (owner 2026-09-29:
+       "right to the top"; at the bottom with the supplier's text nobody saw it). -->
+  {holiday.specialOverviewHtml && (
+    <section class="cd-section cd-section--band" id="special">
+      <div class="section-container">
+        <div class="cd-split cd-split--solo">
+          <div>
+            <div class="cd-head">
+              <p class="cd-eyebrow">Special offer{holiday.specialEndsOn ? ` · until ${new Date(holiday.specialEndsOn + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', timeZone: 'UTC' })}` : ''}</p>
+              <h2>{holiday.title}</h2>
+            </div>
+            <div class="cd-prose cd-overview" set:html={holiday.specialOverviewHtml} />
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
   <!-- At a glance -->
   <div class="cd-glance">
     <dl class="section-container">

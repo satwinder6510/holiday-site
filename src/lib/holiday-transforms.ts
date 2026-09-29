@@ -195,6 +195,8 @@ export interface Holiday {
   specialHasHotel?: boolean;
   /** Cruise special leaves hold luggage out of its price. */
   specialNoLuggage?: boolean;
+  /** Cruise special's own blurb as HTML — shown at the TOP of the page. */
+  specialOverviewHtml?: string;
 }
 
 export interface HolidayDetail extends Holiday {

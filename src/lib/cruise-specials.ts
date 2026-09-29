@@ -183,7 +183,9 @@ export function withSpecial(h: HolidayDetail, sp: ActiveSpecial | undefined): Ho
     ...h,
     title: sp.title ?? h.title,
     description: sp.overview ? sp.overview.slice(0, 400) : h.description,
-    overview: sp.overview ? overviewHtml(sp.overview) : h.overview,
+    // The special's blurb goes at the top of the page (specialOverviewHtml); the
+    // cruise's own long description stays below as the background reading.
+    specialOverviewHtml: sp.overview ? overviewHtml(sp.overview) : undefined,
     price: sp.cheapestPp,
     isSpecialOffer: true,
     wasPrice: was && was > sp.cheapestPp ? was : null,
