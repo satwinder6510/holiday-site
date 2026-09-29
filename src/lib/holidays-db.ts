@@ -242,11 +242,11 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
   // remember which ship it is (so the calendar shows the right ship per date).
   // A special offer running today replaces the price on the sailings it covers;
   // the standard price stays alongside as the "was" (cruise-specials.ts).
-  const specialLive = !!(await getActiveSpecials(db)).get(dbOfferId);
-  // On a sailing the special has priced, an airport with no special fare (no flight on
-  // the hotel-shifted dates) can't sell it, so it drops out rather than showing the
-  // standard price without the hotel. A sailing not priced yet keeps its standard rows.
-  const specialSailings = new Set(specialLive ? rows.filter(r => Number(r.specialPricePp) > 0).map(r => r.sailingId) : []);
+  // While a special is live the page IS the special: only its priced rows show (its
+  // ticked sailings, at the airports that have a fare for its dates). Until the queue
+  // has priced it, the standard rows stay so the page never empties.
+  const sp = (await getActiveSpecials(db)).get(dbOfferId);
+  const specialLive = !!sp?.cheapestPp;
   type Cell = { date: string; airportCode: string; airportName: string; price: number; shipId: number | null; flightPp?: number; wasPp?: number; isSpecial?: boolean };
   const cheapestByKey = new Map<string, Cell>();
   const airportNames = new Map<string, string>();
@@ -254,7 +254,7 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
     const standard = Number(r.totalPricePp);
     const special = specialLive ? Number(r.specialPricePp) : 0;
     const isSpecial = special > 0;
-    if (!isSpecial && specialSailings.has(r.sailingId)) continue;
+    if (specialLive && !isSpecial) continue;
     const price = isSpecial ? special : standard;
     if (!(price > 0)) continue;
     airportNames.set(r.airportCode, r.airportName);
@@ -460,7 +460,7 @@ export async function getHolidayBySlugFromDb(
     // The special's hotels join the offer's own (normally none) as hotel cards.
     const specialHotels: HolidayDetail['accommodations'] = (special?.cheapestPp ? special.hotels : []).map(h => ({
       name: h.name,
-      description: `${h.nights} night${h.nights === 1 ? '' : 's'}${h.city ? ' in ' + h.city : ''} ${h.when} the cruise, on the special-offer dates.`,
+      description: `${h.nights} night${h.nights === 1 ? '' : 's'}${h.city ? ' in ' + h.city : ''} ${h.when} the cruise.`,
       images: [],
       stars: h.stars,
       kind: 'hotel' as const,

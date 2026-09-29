@@ -104,6 +104,8 @@ export const cruiseOfferSpecials = sqliteTable('cruise_offer_specials', {
   badges: text('badges').notNull(),
   wasPricePp: text('was_price_pp'),
   isFeatured: integer('is_featured', { mode: 'boolean' }).notNull(),
+  title: text('title'),
+  overview: text('overview'),
   includeLuggage: integer('include_luggage', { mode: 'boolean' }).notNull(),
   transferCostPp: text('transfer_cost_pp'),
   transferLabel: text('transfer_label'),

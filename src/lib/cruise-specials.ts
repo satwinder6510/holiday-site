@@ -30,6 +30,9 @@ export interface ActiveSpecial {
   includeLuggage: boolean;
   /** Transfer wording, when the special adds one. */
   transferLabel: string | null;
+  /** The page's title and overview (plain text) while live; null = the cruise's own. */
+  title: string | null;
+  overview: string | null;
   /** Cheapest future special price, and the standard price of that same sailing + airport. */
   cheapestPp: number | null;
   standardAtCheapest: number | null;
@@ -98,6 +101,8 @@ export async function getActiveSpecials(db: Database): Promise<Map<number, Activ
         extrasPp: perPerson(s.preHotelNights, s.preHotelRatePerNight) + perPerson(s.postHotelNights, s.postHotelRatePerNight)
           + (Number(s.transferCostPp) || 0),
         includeLuggage: s.includeLuggage,
+        title: s.title?.trim() || null,
+        overview: s.overview?.trim() || null,
         transferLabel: Number(s.transferCostPp) > 0 ? (s.transferLabel || 'Return airport transfers') : null,
         cheapestPp: from > 0 ? from : null,
         standardAtCheapest: null,
@@ -155,28 +160,35 @@ function hotelLines(sp: ActiveSpecial): string[] {
     `${h.nights} night${h.nights === 1 ? '' : 's'} hotel stay${h.city ? ' in ' + h.city : ''} (${h.name}${h.stars ? ', ' + h.stars + '★' : ''})`);
 }
 
+const escapeHtml = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+/** Staff-typed blurb → paragraphs (blank line = new paragraph). */
+function overviewHtml(text: string): string {
+  return text.split(/\n\s*\n/).map(p => `<p>${escapeHtml(p.trim()).replace(/\n/g, '<br>')}</p>`).join('');
+}
+
 /**
- * A cruise as its special: the special's "from" price, the offer pills and badges,
- * a "was" (the admin's figure, else the standard price of the same sailing), and
- * its inclusions ahead of the operator's. Returns a new object: the catalogue
- * entries are shared across requests.
+ * A cruise as its special. While a special is live the page IS the special
+ * (owner 2026-09-29): its title and blurb, its price and pills, a "was" (the
+ * admin's figure, else the standard price of the same sailing), its inclusions
+ * ahead of the operator's, and only its own sailings (holidays-db / cruise-detail
+ * filter those). Returns a new object: catalogue entries are shared across requests.
  */
 export function withSpecial(h: HolidayDetail, sp: ActiveSpecial | undefined): HolidayDetail {
   if (!sp || !sp.cheapestPp) return h;
   const was = sp.wasPricePp ?? sp.standardAtCheapest;
+  // Every sailing on show is the special, so luggage is simply in or out.
+  const own = sp.includeLuggage ? h.whatsIncluded : h.whatsIncluded.filter(l => !/luggage|baggage/i.test(l));
   return {
     ...h,
+    title: sp.title ?? h.title,
+    description: sp.overview ? sp.overview.slice(0, 400) : h.description,
+    overview: sp.overview ? overviewHtml(sp.overview) : h.overview,
     price: sp.cheapestPp,
     isSpecialOffer: true,
     wasPrice: was && was > sp.cheapestPp ? was : null,
     offerBadges: sp.badges,
-    whatsIncluded: [
-      ...sp.inclusions,
-      ...hotelLines(sp),
-      ...(sp.transferLabel ? [sp.transferLabel] : []),
-      // The offer's own list says hold luggage; a special without it must qualify that.
-      ...h.whatsIncluded.map(l => !sp.includeLuggage && /luggage|baggage/i.test(l) ? 'Hold luggage (not on special-offer dates)' : l),
-    ],
+    whatsIncluded: [...sp.inclusions, ...hotelLines(sp), ...(sp.transferLabel ? [sp.transferLabel] : []), ...own],
     specialEndsOn: sp.endsOn,
     specialFeatured: sp.isFeatured,
     specialInclusions: [...sp.inclusions, ...(sp.transferLabel ? [sp.transferLabel] : [])],

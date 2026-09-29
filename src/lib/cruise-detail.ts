@@ -288,6 +288,8 @@ export async function getSailingLadders(db: Database, holidaySiteId: number): Pr
       const fare = Number(r.fare) || 0;
       const entry: SailingLadder = byDate.get(date)
         ?? { date, shipId: r.shipId ?? null, grades: [], leadPp: Infinity, specialDiscount: null, specialExtrasPp: 0, specialLuggage: true };
+      // A live special shows only its own sailings (see withSpecial).
+      if (special?.cheapestPp && !special.sailingIds.has(r.sailingId)) continue;
       if (special?.sailingIds.has(r.sailingId)) {
         entry.specialDiscount = special.discountPercent;
         entry.specialExtrasPp = special.extrasPp;

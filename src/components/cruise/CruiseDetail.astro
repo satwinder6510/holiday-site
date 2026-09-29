@@ -98,9 +98,10 @@ const addonPrice = (a: HolidayAddon) => {
 };
 
 const included = holiday.whatsIncluded.filter(Boolean);
-const excluded = holiday.otherInfoBullets?.length
-  ? holiday.otherInfoBullets
-  : ['Travel insurance', 'Shore excursions', 'Personal expenses'];
+const excluded = [
+  ...(holiday.specialNoLuggage ? ['Hold luggage'] : []),
+  ...(holiday.otherInfoBullets?.length ? holiday.otherInfoBullets : ['Travel insurance', 'Shore excursions', 'Personal expenses']),
+];
 
 const fromPrice = pricing?.cheapestPriceFormatted ?? '';
 // Saving on the lead-in cabin against booking it direct (operator fare + flights +
@@ -114,7 +115,7 @@ const heroSaving = leadGrade && cheapDep
     ? directSaving(leadGrade, cheapDep.pricePp, cheapDep.flightPp, cheapLadder!.specialExtrasPp, cheapLadder!.specialLuggage)
     : directSaving(leadGrade, cheapDep.pricePp, cheapDep.flightPp))
   : null;
-const hasLuggage = holiday.id >= 10000 && !(cheapDep?.isSpecial && cheapLadder && !cheapLadder.specialLuggage);
+const hasLuggage = holiday.id >= 10000 && !holiday.specialNoLuggage;
 const fromAirport = pricing?.cheapestDeparture?.airportName ?? '';
 const sailingCount = pricing ? new Set(pricing.departures.map(d => d.date.slice(0, 10))).size : 0;
 const airportNames = (pricing?.airports ?? []).map(a => a.name);
@@ -191,7 +192,7 @@ const overview = tidyOverview(holiday.overview || '');
         <dd>{hotels.map(h => h.name).join(', ')}</dd></div>
       )}
       {nights > 0 && <div><dt>Length</dt><dd>{nights} nights</dd></div>}
-      {sailingCount > 0 && <div><dt>Sailings</dt><dd>{sailingCount} dates</dd></div>}
+      {sailingCount > 0 && <div><dt>Sailings</dt><dd>{sailingCount} {sailingCount === 1 ? "date" : "dates"}</dd></div>}
       {holiday.boardBasis && <div><dt>Dining</dt><dd>{holiday.boardBasis}</dd></div>}
       {airportNames.length > 0 && <div><dt>Flights from</dt><dd>{airportNames.join(', ')}</dd></div>}
     </dl>
