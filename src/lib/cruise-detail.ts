@@ -143,21 +143,23 @@ export interface CabinGrade {
 
 /**
  * Saving per person against booking the same holiday direct: the operator's fare
- * plus hold luggage, the flight from the same airport, and any hotel nights in our
- * price. Null when any part is unknown or there is no saving.
+ * plus hold luggage, the flight from the same airport, and any hotel nights or
+ * transfer in our price. Null when any part is unknown or there is no saving.
  *
  * Until 2026-09-29 this used the stored "was" price, which already carried a flat
  * flight + luggage estimate, and added them again: £184 claimed on 10447 where the
  * truth was £38.
  */
 export function directSaving(
-  grade: { fareLuggagePp: number | null },
+  grade: { fareLuggagePp: number | null; farePp: number | null },
   ourPp: number | null,
   flightPp: number | null | undefined,
-  hotelPp = 0,
+  extrasPp = 0,
+  luggage = true,
 ): number | null {
-  if (grade.fareLuggagePp == null || ourPp == null || !flightPp) return null;
-  const s = Math.round(grade.fareLuggagePp + flightPp + hotelPp - ourPp);
+  if (grade.fareLuggagePp == null || grade.farePp == null || ourPp == null || !flightPp) return null;
+  // Like for like: luggage only when our price carries it; hotel/transfer when it adds them.
+  const s = Math.round((luggage ? grade.fareLuggagePp : grade.farePp) + flightPp + extrasPp - ourPp);
   return s > 0 ? s : null;
 }
 
@@ -171,8 +173,10 @@ export interface SailingLadder {
   /** A live special covers this sailing: its discount replaces the standard one on
    *  the upgrade from the lead-in cabin. Null otherwise. */
   specialDiscount: number | null;
-  /** Hotel cost per person inside the special's price on this sailing (0 if none). */
-  specialHotelPp: number;
+  /** Hotel + transfer cost per person inside the special's price on this sailing (0 if none). */
+  specialExtrasPp: number;
+  /** The special's price on this sailing carries hold luggage (true when no special). */
+  specialLuggage: boolean;
 }
 
 /**
@@ -283,10 +287,11 @@ export async function getSailingLadders(db: Database, holidaySiteId: number): Pr
       const retailRaw = Number(r.retail);
       const fare = Number(r.fare) || 0;
       const entry: SailingLadder = byDate.get(date)
-        ?? { date, shipId: r.shipId ?? null, grades: [], leadPp: Infinity, specialDiscount: null, specialHotelPp: 0 };
+        ?? { date, shipId: r.shipId ?? null, grades: [], leadPp: Infinity, specialDiscount: null, specialExtrasPp: 0, specialLuggage: true };
       if (special?.sailingIds.has(r.sailingId)) {
         entry.specialDiscount = special.discountPercent;
-        entry.specialHotelPp = special.hotelPp;
+        entry.specialExtrasPp = special.extrasPp;
+        entry.specialLuggage = special.includeLuggage;
       }
       entry.grades.push({
         cabinType: r.cabinType,

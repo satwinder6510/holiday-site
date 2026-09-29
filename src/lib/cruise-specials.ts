@@ -24,8 +24,12 @@ export interface ActiveSpecial {
   wasPricePp: number | null;
   isFeatured: boolean;
   hotels: RawCruiseHotel[];
-  /** Hotel cost per person inside the special price (rates are per room of two). */
-  hotelPp: number;
+  /** Hotel + transfer cost per person inside the special price (hotel rates are per room of two). */
+  extrasPp: number;
+  /** Hold luggage in the special's price. */
+  includeLuggage: boolean;
+  /** Transfer wording, when the special adds one. */
+  transferLabel: string | null;
   /** Cheapest future special price, and the standard price of that same sailing + airport. */
   cheapestPp: number | null;
   standardAtCheapest: number | null;
@@ -91,7 +95,10 @@ export async function getActiveSpecials(db: Database): Promise<Map<number, Activ
         wasPricePp: was > 0 ? was : null,
         isFeatured: s.isFeatured,
         hotels,
-        hotelPp: perPerson(s.preHotelNights, s.preHotelRatePerNight) + perPerson(s.postHotelNights, s.postHotelRatePerNight),
+        extrasPp: perPerson(s.preHotelNights, s.preHotelRatePerNight) + perPerson(s.postHotelNights, s.postHotelRatePerNight)
+          + (Number(s.transferCostPp) || 0),
+        includeLuggage: s.includeLuggage,
+        transferLabel: Number(s.transferCostPp) > 0 ? (s.transferLabel || 'Return airport transfers') : null,
         cheapestPp: from > 0 ? from : null,
         standardAtCheapest: null,
         cheapestDate: null,
@@ -163,10 +170,17 @@ export function withSpecial(h: HolidayDetail, sp: ActiveSpecial | undefined): Ho
     isSpecialOffer: true,
     wasPrice: was && was > sp.cheapestPp ? was : null,
     offerBadges: sp.badges,
-    whatsIncluded: [...sp.inclusions, ...hotelLines(sp), ...h.whatsIncluded],
+    whatsIncluded: [
+      ...sp.inclusions,
+      ...hotelLines(sp),
+      ...(sp.transferLabel ? [sp.transferLabel] : []),
+      // The offer's own list says hold luggage; a special without it must qualify that.
+      ...h.whatsIncluded.map(l => !sp.includeLuggage && /luggage|baggage/i.test(l) ? 'Hold luggage (not on special-offer dates)' : l),
+    ],
     specialEndsOn: sp.endsOn,
     specialFeatured: sp.isFeatured,
-    specialInclusions: sp.inclusions,
+    specialInclusions: [...sp.inclusions, ...(sp.transferLabel ? [sp.transferLabel] : [])],
     specialHasHotel: sp.hotels.length > 0,
+    specialNoLuggage: !sp.includeLuggage,
   };
 }

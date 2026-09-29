@@ -193,6 +193,8 @@ export interface Holiday {
   specialInclusions?: string[];
   /** Cruise special adds hotel nights (so it is a fly-cruise-STAY). */
   specialHasHotel?: boolean;
+  /** Cruise special leaves hold luggage out of its price. */
+  specialNoLuggage?: boolean;
 }
 
 export interface HolidayDetail extends Holiday {

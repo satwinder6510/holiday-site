@@ -48,7 +48,7 @@ const chips = !specialChips.length
   ? baseChips
   : manual
     ? [...new Set([...specialChips, ...baseChips])].slice(0, 4)
-    : [...specialChips, 'Return flights', 'Hold luggage'];
+    : [...specialChips, 'Return flights', ...(h.specialNoLuggage ? [] : ['Hold luggage'])];
 const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data-${k}`, v]));
 ---
 <article class="rc-offer" {...dataAttrs}>
