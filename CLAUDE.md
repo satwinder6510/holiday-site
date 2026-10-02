@@ -438,6 +438,7 @@ classic body when a cruise has no prices).
 - **API endpoint:** `POST /api/contact` (`src/pages/api/contact.ts`) — relays to Privyr webhook (`PRIVYR_WEBHOOK_URL` env)
 - **Payload (Package Enquiry):** Form Type, Package Name, Package ID, Departure Date, Departure Airport, Number of Adults, Price Per Person, Total Price, Source (UTM → sessionStorage), Landing Page, Page URL
 - **Payload (Contact Form):** Form Type, Booking Reference, Reason, Message, Source, Landing Page, Page URL
+- **PostHog lead event (2026-10-02):** every web form that creates a lead fires `lead_form_sent` on a successful `/api/contact` response, with `form` = `holiday_enquiry` (the modal, with `package_id`, `package_name`, `with_date`), `contact`, or `blog_cruise_enquiry`, plus `lead_source`. The cabin page's quote form already fires `quote_form_submit` on success, so web-form leads = `lead_form_sent` + `quote_form_submit`. Calls and chats are not in PostHog; agents log those in the admin. Added because lead counts otherwise need a read of the D1 `leads` table.
 - **Calendar → Enquiry bridge:** `enquiryExtra` object populated by `openEnquiryModal()` when coming from pricing calendar — carries date, airport, adults, price pp, total price
 - **Contact page:** `src/pages/contact.astro` — standalone form (no calendar), different fields (booking_ref, reason, message)
 

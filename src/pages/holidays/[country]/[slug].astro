@@ -4473,6 +4473,14 @@ const pageDescription = holiday.metaDescription || (() => {
           if (typeof window !== 'undefined' && (window as any).oaiq) {
             (window as any).oaiq('measure', 'lead_created', { type: 'customer_action', amount: 0, currency: 'GBP' });
           }
+          // PostHog: one event per web-form lead, on success only, so leads can be
+          // counted by page and source without reading the leads table.
+          trackEnquiry('lead_form_sent', {
+            form: 'holiday_enquiry',
+            package_id: String(holidayMeta.id || ''),
+            package_name: holidayMeta.title || '',
+            with_date: enquiryExtra.departure_date ? 'yes' : 'no',
+          });
           setTimeout(() => {
             closeEnquiryModal();
             // Reset for next use

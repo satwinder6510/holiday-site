@@ -285,6 +285,10 @@ import BreadcrumbSchema from '../components/BreadcrumbSchema.astro';
         if ((window as any).oaiq) {
           (window as any).oaiq('measure', 'lead_created', { type: 'customer_action', amount: 0, currency: 'GBP' });
         }
+        // PostHog: the same lead event the holiday enquiry modal sends.
+        try {
+          (window as any).posthog?.capture('lead_form_sent', { form: 'contact', lead_source: sessionStorage.getItem('lead_source') || 'Direct' });
+        } catch { /* analytics must never break the form */ }
         setTimeout(() => {
           btn.textContent = 'Submit';
           btn.disabled = false;

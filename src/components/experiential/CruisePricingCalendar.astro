@@ -369,6 +369,10 @@ const telHref = `tel:${phone.replace(/\s/g, '')}`;
         if ((window as any).oaiq) {
           (window as any).oaiq('measure', 'lead_created', { type: 'customer_action', amount: 0, currency: 'GBP' });
         }
+        // PostHog: the same lead event the holiday enquiry modal sends.
+        try {
+          (window as any).posthog?.capture('lead_form_sent', { form: 'blog_cruise_enquiry', package_name: pkgName, lead_source: sessionStorage.getItem('lead_source') || 'Direct' });
+        } catch { /* analytics must never break the form */ }
       } catch {
         if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit Enquiry'; }
         if (enqErr) { enqErr.textContent = `Sorry, something went wrong. Please call us on ${phone}.`; enqErr.hidden = false; }
