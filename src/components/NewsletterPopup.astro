@@ -153,8 +153,31 @@ const POPUP_FORM_JS = `https://m4.mailplus.nl/genericservice/code/servlet/React?
         .catch(function (e) { console.error('[Spotler popup] form failed to load', e); });
     }
 
+    // A visitor choosing dates or a cabin, or filling in an enquiry, is buying, not
+    // leaving. Once any of those has been opened on this page view the popup stays
+    // away. (2026-10-02: it opened over the calendar while a visitor was picking a
+    // date; they closed it and enquired, others may not.)
+    var BUSY_SELECTOR = '.pricing-modal.visible, .enquiry-modal.visible, .cb__side.is-open';
+    var buying = false;
+    function inBookingFlow() {
+      if (!buying) {
+        try { if (document.querySelector(BUSY_SELECTOR)) buying = true; } catch (e) {}
+      }
+      return buying;
+    }
+    function watchBookingFlow() {
+      try {
+        var watched = document.querySelectorAll('#pricing-modal, #enquiry-modal, .cb__side');
+        if (!watched.length || !window.MutationObserver) return;
+        var mo = new MutationObserver(function () {
+          if (inBookingFlow()) { mo.disconnect(); teardownTriggers(); }
+        });
+        for (var i = 0; i < watched.length; i++) mo.observe(watched[i], { attributes: true, attributeFilter: ['class'] });
+      } catch (e) {}
+    }
+
     function open() {
-      if (shown) return;
+      if (shown || inBookingFlow()) return;
       shown = true;
       lastFocused = document.activeElement;
       overlay.hidden = false;
@@ -217,7 +240,9 @@ const POPUP_FORM_JS = `https://m4.mailplus.nl/genericservice/code/servlet/React?
     }
 
     window.setTimeout(function () {
+      if (inBookingFlow()) return;   // already in the calendar or the form: never arm
       armed = true;
+      watchBookingFlow();
       if (isDesktop) {
         document.addEventListener('mouseout', onMouseOut);
       } else {
