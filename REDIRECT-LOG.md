@@ -75,3 +75,19 @@ uncommitted `email-templates/danube-metropolises.html` (243 lines, campaign in p
 `src/data/blog-export.json` stamp, so the A1 lane's redirects-only condition was not met. The rule
 goes live with the owner's next `./deploy.sh`; verify with
 `curl -sI https://holidays.flightsandpackages.com/Holidays/Asia` (expect 301 → `/destinations/Asia/`).
+
+## 2026-10-02 — legacy numeric country listings, batch 4 (TODO-redirects.md row "Numeric country listings")
+
+| Date | Source (404, verified) | Target (verified 200) | Evidence |
+|---|---|---|---|
+| 2026-10-02 | `/Holidays/Asia/Indonesia/26` | `/Holidays/indonesia` | site_errors id 1203 (2026-10-02 02:24, meta-webindexer) beaconed the 404 page's clia-logo.png from this URL. Source curls 404 (63,313 B, title "Page Not Found") with and without trailing slash. Target curls 200 (99,916 B, title "Indonesia Holidays") with and without trailing slash; `/Holidays/Indonesia` (capital) is 404, hence a per-URL lowercase rule. |
+
+Not added 2026-10-02: `/Holidays/Europe/Estonia/36` (ids 887-888) — `/Holidays/estonia` is itself
+404 (no listed inventory), same as Iceland/73, Sweden/54 and Brazil/3. `/flights/Europe/Italy`
+(id 1184) — a legacy flights listing with no row in TODO-redirects.md and no live `/flights` page;
+owner call on the target.
+
+Deploy note 2026-10-02: NOT deployed by Site Doctor. The tree carried five uncommitted owner files
+(email template, blog-export.json stamp, three cruise page files), so the A1 lane's redirects-only
+condition was not met. The rule goes live with the owner's next `./deploy.sh`; verify with
+`curl -sI https://holidays.flightsandpackages.com/Holidays/Asia/Indonesia/26` (expect 301 → `/Holidays/indonesia`).
