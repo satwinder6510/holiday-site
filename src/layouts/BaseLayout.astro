@@ -162,6 +162,11 @@ const websiteSchema = {
       if (sessionStorage.getItem('lead_source')) return;
       var params = new URLSearchParams(window.location.search);
       var src = params.get('utm_source');
+      // The HolidayPirates Android app opens deal links with no referrer and tags them
+      // ?refSource=UniversalAppAndroid, so those visits (and their leads) read as Direct.
+      // 437 people in the 60 days to 2026-10-02, only ever on HolidayPirates deal pages.
+      // Their iPhone app adds no tag, so iPhone app visits still read as Direct.
+      if (!src && /^UniversalApp/i.test(params.get('refSource') || '')) src = 'holidaypirates.com';
       if (!src && document.referrer) {
         try {
           var host = new URL(document.referrer).hostname.replace('www.', '');

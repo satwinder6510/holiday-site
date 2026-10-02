@@ -369,7 +369,7 @@ Listing pages (`[country]/index.astro`, `river-cruises/[...river].astro`) have h
 ## Analytics & Tracking (in BaseLayout.astro `<head>`)
 - **Facebook Pixel:** ID `2922972984621050` — PageView on every page
 - **Microsoft Clarity:** Added for session replay and heatmaps
-- **Traffic source tracking:** vanilla JS, stores `lead_source` + `landing_page` in sessionStorage
+- **Traffic source tracking:** vanilla JS, stores `lead_source` + `landing_page` in sessionStorage. A landing URL tagged `?refSource=UniversalApp…` (the HolidayPirates Android app, which sends no referrer) is recorded as `holidaypirates.com` (owner 2026-10-02: "any direct from an app - in leads mark as Holiday Pirates"); their iPhone app adds no tag, so those still read as Direct unless the deal link itself carries `utm_source`
 - **Cookie banner:** UK PECR/GDPR compliant, sets `cookie_consent=1` cookie for 1 year
 - **Error monitoring:** JS beacon sends uncaught errors + broken images to `holiday-admin-api /api/monitor/errors`
 
