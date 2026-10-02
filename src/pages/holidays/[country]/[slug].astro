@@ -929,6 +929,7 @@ const pageDescription = holiday.metaDescription || (() => {
           <span>{holiday.boardBasis}</span>
         </div>
         <div class="enquiry-modal__summary-details" id="enquiry-selected-details"></div>
+        <p class="enquiry-modal__next" id="enquiry-next" style="display:none;">We check this sailing with the cruise line. Then we contact you with the price and what it includes.</p>
       </div>
       <form id="enquiry-form" class="enquiry-modal__form">
         <!-- Honeypot: hidden from humans; bots that fill it are silently dropped server-side -->
@@ -3384,6 +3385,14 @@ const pageDescription = holiday.metaDescription || (() => {
     font-family: BentonSans, sans-serif; font-weight: 500;
     color: #282828;
   }
+  .enquiry-modal__next {
+    margin: 10px 0 0;
+    font-family: BentonSans, sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    color: #424242;
+    text-align: left;
+  }
   .enquiry-modal__form {
     padding: 20px 24px 24px;
   }
@@ -3560,9 +3569,16 @@ const pageDescription = holiday.metaDescription || (() => {
       min-height: 100dvh;
       margin-bottom: 0;
     }
+    /* First and last name stay side by side on phones, so the send button is on the
+       first screen (2026-10-02: six people filled every field and never pressed it). */
     .enquiry-modal__field-row {
-      flex-direction: column;
-      gap: 0;
+      gap: 10px;
+    }
+    .enquiry-modal__field-row .enquiry-modal__field {
+      min-width: 0;
+    }
+    .enquiry-modal__field-row :global(.enquiry-modal__required) {
+      display: none;
     }
   }
 
@@ -4298,6 +4314,11 @@ const pageDescription = holiday.metaDescription || (() => {
       } catch { return false; }
     }
 
+    // Cruise pages ask for a quote on a sailing, so the button says that.
+    function submitLabel(): string {
+      return enquiryModal?.dataset.formAlways === '1' ? 'Send request' : 'Submit Enquiry';
+    }
+
     function trackEnquiry(event: string, props?: Record<string, string>) {
       try {
         (window as any).posthog?.capture(event, {
@@ -4320,6 +4341,7 @@ const pageDescription = holiday.metaDescription || (() => {
         if (details.adults) { parts.push(details.adults + ' passenger' + (details.adults !== '1' ? 's' : '')); enquiryExtra.num_adults = details.adults; }
         if (details.pricePp) { enquiryExtra.price_per_person = details.pricePp; }
         if (details.totalPrice) { parts.push(details.totalPrice + ' total'); enquiryExtra.total_price = details.totalPrice; }
+        else if (details.pricePp && /^[0-9.,]+$/.test(details.pricePp)) { parts.push('\u00A3' + Math.round(Number(details.pricePp.replace(/,/g, ''))).toLocaleString('en-GB') + ' per person'); }
         enquiryDetails.textContent = parts.join(' \u2022 ');
         enquiryDetails.style.display = parts.length ? '' : 'none';
       } else if (enquiryDetails) {
@@ -4336,7 +4358,10 @@ const pageDescription = holiday.metaDescription || (() => {
         enquiryCallChat.style.display = callFirst ? '' : 'none';
         enquiryForm.style.display = callFirst ? 'none' : '';
       }
-      if (enquiryTitle) enquiryTitle.textContent = callFirst ? 'Speak to a Travel Expert' : (formAlways ? 'Check availability' : 'Booking Requested');
+      if (enquiryTitle) enquiryTitle.textContent = callFirst ? 'Speak to a Travel Expert' : (formAlways ? (details && details.date ? 'Request this sailing' : 'Request a quote') : 'Booking Requested');
+      const enquiryNext = document.getElementById('enquiry-next');
+      if (enquiryNext) enquiryNext.style.display = formAlways && !callFirst ? '' : 'none';
+      if (enquirySubmitBtn && !enquirySubmitBtn.disabled) enquirySubmitBtn.textContent = submitLabel();
       trackEnquiry('enquiry_modal_open', { variant: callFirst ? 'call_chat' : 'form' });
 
       enquiryModal.classList.add('visible');
@@ -4487,16 +4512,16 @@ const pageDescription = holiday.metaDescription || (() => {
             if (enquiryForm) { enquiryForm.reset(); enquiryForm.style.display = ''; }
             if (summary) summary.style.display = '';
             if (success) success.style.display = 'none';
-            enquirySubmitBtn.textContent = 'Submit Enquiry';
+            enquirySubmitBtn.textContent = submitLabel();
             enquirySubmitBtn.disabled = false;
           }, 10000);
         } else {
-          enquirySubmitBtn.textContent = 'Submit Enquiry';
+          enquirySubmitBtn.textContent = submitLabel();
           enquirySubmitBtn.disabled = false;
           alert('Sorry, there was a problem submitting your enquiry. Please call us on 0208 183 0518.');
         }
       } catch {
-        enquirySubmitBtn.textContent = 'Submit Enquiry';
+        enquirySubmitBtn.textContent = submitLabel();
         enquirySubmitBtn.disabled = false;
         alert('Sorry, there was a problem submitting your enquiry. Please call us on 0208 183 0518.');
       }

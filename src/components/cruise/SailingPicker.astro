@@ -176,7 +176,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
               ? <span class="sp__cta">{hasDefault ? 'Choose this date ›' : 'Not this date'}</span>
               : (
                 <span class="sp__ctas">
-                  <button type="button" class="sp__enq" data-enq>Check availability ›</button>
+                  <button type="button" class="sp__enq" data-enq>Request this sailing ›</button>
                   <CallLink class="sp__cta" tel={tel} display={telDisplay} tapLabel="Call to book ›" readLabel={`Call ${telDisplay}`} />
                 </span>
               )}
