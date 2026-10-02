@@ -4183,6 +4183,16 @@ const pageDescription = holiday.metaDescription || (() => {
     const enquiryChatBtn = document.getElementById('enquiry-chat-btn');
     const enquiryTitle = enquiryModal?.querySelector('.enquiry-modal__title') as HTMLElement | null;
 
+    // 9am–6pm UK the modal offers call/chat instead of the form; out of hours
+    // the form captures the lead (call-first, first run 2026-09-02, back on
+    // 2026-10-02 at the owner's request).
+    function callHoursNow(): boolean {
+      try {
+        const h = Number(new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Europe/London' }).format(new Date()));
+        return h >= 9 && h < 18;
+      } catch { return false; }
+    }
+
     function trackEnquiry(event: string, props?: Record<string, string>) {
       try {
         (window as any).posthog?.capture(event, {
@@ -4212,11 +4222,11 @@ const pageDescription = holiday.metaDescription || (() => {
         enquiryDetails.style.display = 'none';
       }
 
-      // The form shows at all hours again (owner 2026-09-30, ending the
-      // 2026-09-02 call-first experiment). The call/chat panel is left in the
-      // markup, unused, in case the experiment comes back.
+      // River-cruise pages always show the form (owner 2026-09-26): those
+      // enquirers want the price in writing, and the call-first panel was
+      // converting them at the same rate with no written door at all.
       const formAlways = enquiryModal.dataset.formAlways === '1';
-      const callFirst = false;
+      const callFirst = !formAlways && !!enquiryCallChat && !!enquiryForm && callHoursNow();
       if (enquiryCallChat && enquiryForm) {
         enquiryCallChat.style.display = callFirst ? '' : 'none';
         enquiryForm.style.display = callFirst ? 'none' : '';
