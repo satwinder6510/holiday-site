@@ -11,6 +11,7 @@ import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import type { HolidayDetail } from '../../../lib/holiday-transforms';
 import { inclusionChips } from '../../../lib/cruise-card';
 import CruiseDetail from '../../../components/cruise/CruiseDetail.astro';
+import HolidayStory from '../../../components/HolidayStory.astro';
 import { getCruiseCalls, getSailingLadders, getShipNameSet } from '../../../lib/cruise-detail';
 import { roundToNine } from '../../../lib/pricing-transforms';
 import { allBlogs } from '../../../data/blogs';
@@ -191,6 +192,16 @@ if (isCruise) {
 // Only take the new template when it has what it needs to be better than the old one.
 const useCruiseTemplate = isCruise && !!pricing;
 const shipHeading = holiday.accommodations.length > 1 ? 'Your Ships' : 'Your Ship';
+// Land holidays render through HolidayStory (live 2026-10-02): the trip stop by stop,
+// nothing folded away. Cruises keep their own templates. ?layout=classic shows the
+// old tabbed body, for comparison and as a quick way back.
+const story = !isCruise && Astro.url.searchParams.get('layout') !== 'classic';
+const storyMoreInfo = story ? [
+  { title: 'Not included', html: sanitizeHtml('<ul><li>Travel Insurance</li><li>Personal Expenses</li><li>Gratuities</li><li>Optional Activities / Highlights</li><li>Meals and drinks not specifically stated as included</li></ul>' + (holiday.excluded ? toBulletList(holiday.excluded) : '')) },
+  ...(holiday.otherInfo || holiday.otherInfoBullets.length ? [{ title: 'More information', html: sanitizeHtml((holiday.otherInfo ? holiday.otherInfo.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>') : '') + (holiday.otherInfoBullets.length ? '<ul>' + holiday.otherInfoBullets.map(b => `<li>${b}</li>`).join('') + '</ul>' : '')) }] : []),
+  ...(holiday.requirements ? [{ title: 'Requirements', html: sanitizeHtml(toBulletList(holiday.requirements)) }] : []),
+  ...(holiday.attention ? [{ title: 'Please note', html: sanitizeHtml(toBulletList(holiday.attention)) }] : []),
+] : [];
 // Cruise pages: what's in the price, near the price. Five constants (board basis
 // worded from the holiday), the operator's own constants, then anything specific
 // this sailing adds from its inclusion list.
@@ -415,7 +426,7 @@ const pageDescription = holiday.metaDescription || (() => {
   )}
 
   <!-- Inline Pricing Section -->
-  {hasPricing && (
+  {hasPricing && !story && (
     <section class="pricing-inline">
       <div class="pricing-inline__inner section-container">
         <div class="pricing-inline__controls">
@@ -454,7 +465,42 @@ const pageDescription = holiday.metaDescription || (() => {
     </section>
   )}
 
+  {story && (
+    <HolidayStory holiday={holiday} hasPricing={hasPricing} priceFormatted={cheapestInclusive} moreInfo={storyMoreInfo}>
+      {hasPricing && (
+    <section class="pricing-inline" slot="pricing">
+      <div class="pricing-inline__inner section-container">
+        <div class="pricing-inline__controls">
+          <label class="pricing-inline__label" for="inline-airport-select">Departing from</label>
+          <select class="pricing-inline__select" id="inline-airport-select">
+            {airportPrices.map((ap: any) => (
+              <option value={ap.code}>{ap.name} — from {ap.inclusiveFormatted}/pp</option>
+            ))}
+          </select>
+        </div>
+        <div class="pricing-inline__cards" id="inline-date-cards">
+          {initialDeps.map((dep: any, i: number) => (
+              <button type="button" class={`pricing-card pricing-card--${dep.tier}`} data-date={dep.date} data-airport={dep.airportCode} data-price={dep.inclusivePrice} aria-pressed="false">
+                {i === 0 && <span class="pricing-card__badge">Best Price</span>}
+                <span class="pricing-card__day">{dep.dayOfWeek}</span>
+                <span class="pricing-card__date">{dep.dateShort}</span>
+                <span class="pricing-card__price">{dep.inclusiveFormatted}<small>/pp</small></span>
+                {dep.shipName && <span class="pricing-card__ship">{dep.shipName}</span>}
+              </button>
+            ))}
+        </div>
+        <button type="button" class="pricing-inline__request" id="btn-request-date" hidden>Request this date</button>
+        <button type="button" class="pricing-inline__view-all" id="btn-view-all-dates">
+          View All Dates &amp; Prices <img src="/icons/more-icon.svg" alt="" class="icon-more-teal" />
+        </button>
+      </div>
+    </section>
+      )}
+    </HolidayStory>
+  )}
+
   <!-- Tab Navigation -->
+  {!story && (
   <div class="tabs" id="tabs-container">
     <div id="tab_navigation" class="itinerary-header">
       <div class="section-container header-inner">
@@ -738,6 +784,7 @@ const pageDescription = holiday.metaDescription || (() => {
       </div>
     </section>
   </div>
+  )}
 
   <!-- Call Expert CTA -->
   <section class="call-expert-section" style={isCruise ? "background-image:url('/images/heroes/river-cruises-sunset-deck.jpg')" : undefined}>
@@ -1114,7 +1161,8 @@ const pageDescription = holiday.metaDescription || (() => {
     .hero-content { max-width: 580px; }
   }
   @media (max-width: 610px) {
-    .hero-content { display: none; }
+    /* Hidden from sight, not from screen readers: the price bar shows the title, the h1 stays the h1. */
+    .hero-content { top: auto; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
   }
   .hero-label {
     font-family: BentonSans, sans-serif; font-weight: 700;
@@ -3075,7 +3123,7 @@ const pageDescription = holiday.metaDescription || (() => {
   .included-strip__list li { font-size: 14px; line-height: 22px; color: #424242; }
   .included-strip__list li::before { content: '✓'; color: #20A1AA; font-weight: 700; margin-right: 7px; }
   @media (max-width: 610px) { .included-strip__inner { gap: 8px; } .included-strip__list { gap: 6px 14px; } .included-strip__list li { font-size: 13px; } }
-  .mobile-price-bar__call { background: #073140; color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; padding: 12px 16px; border-radius: 4px; margin-right: 8px; white-space: nowrap; }
+  .mobile-price-bar__call { background: #073140; color: #fff; text-decoration: none; font-weight: 700; font-size: 14px; padding: 12px 16px; border-radius: 4px; margin-right: 8px; white-space: nowrap; flex: 0 0 auto; }
   /* Cruise pages: the itinerary is the product, so it reads before the ship cards. */
   .content.cruise-order { display: flex; flex-direction: column; }
   .content.cruise-order > #overview { order: -3; }
@@ -3115,8 +3163,12 @@ const pageDescription = holiday.metaDescription || (() => {
     font-family: "BentonSans", sans-serif;
     font-size: 12px;
   }
+  /* The price and Call keep their size; the button takes what is left and may wrap. */
+  .mobile-price-bar__price { flex: 0 0 auto; margin-right: 8px; }
   .mobile-price-bar__btn {
-    padding: 0 24px;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0 12px;
     height: 48px;
     font-family: BentonSans, sans-serif; font-weight: 500;
     font-size: 14px;
@@ -3130,6 +3182,33 @@ const pageDescription = holiday.metaDescription || (() => {
     transition: background-color 0.2s;
     box-shadow: 0 2px 8px rgba(255, 127, 0, 0.3);
   }
+  @media (max-width: 450px) {
+    .mobile-price-bar { padding-left: 12px; padding-right: 12px; }
+    .mobile-price-bar__call { padding: 12px; }
+    .mobile-price-bar__btn { white-space: normal; line-height: 16px; letter-spacing: 0; }
+  }
+  .pricing-inline__request {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    min-height: 52px;
+    margin: 12px 0 16px;
+    padding: 12px 16px;
+    font-family: BentonSans, sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    color: #fff;
+    background: #ff7f00;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(255, 127, 0, 0.3);
+  }
+  .pricing-inline__request[hidden] { display: none; }
+  .pricing-inline__request:hover { background: #e67300; }
+  .pricing-inline__request:focus-visible { outline: 3px solid #073140; outline-offset: 3px; }
   .mobile-price-bar__btn:hover { background: #e67300; }
   .mobile-price-bar__btn:active { background: #d66a00; }
 
@@ -3711,7 +3790,7 @@ const pageDescription = holiday.metaDescription || (() => {
         if (!inlineDateCards) return;
         const deps = getDepsForAirport(selectedAirport).slice(0, 4);
         inlineDateCards.innerHTML = deps.map((dep: any, i: number) => `
-          <button type="button" class="pricing-card pricing-card--${dep.tier}${dep.date === selectedDate ? ' pricing-card--selected' : ''}" data-date="${dep.date}" data-airport="${dep.airportCode}" data-price="${roundToNine(dep.pricePp + localChargesPp)}">
+          <button type="button" class="pricing-card pricing-card--${dep.tier}${dep.date === selectedDate ? ' pricing-card--selected' : ''}" data-date="${dep.date}" data-airport="${dep.airportCode}" data-price="${roundToNine(dep.pricePp + localChargesPp)}" aria-pressed="${dep.date === selectedDate}">
             ${i === 0 ? '<span class="pricing-card__badge">Best Price</span>' : ''}
             <span class="pricing-card__day">${dep.dayOfWeek}</span>
             <span class="pricing-card__date">${dep.dateShort}</span>
@@ -3720,14 +3799,40 @@ const pageDescription = holiday.metaDescription || (() => {
           </button>
         `).join('');
 
-        // Attach click handlers
-        inlineDateCards.querySelectorAll('.pricing-card').forEach(card => {
-          card.addEventListener('click', () => {
-            const date = (card as HTMLElement).dataset.date || '';
-            handleDateSelect(date);
-          });
-        });
+        updateRequestBtn();
       }
+
+      // One listener on the row covers the server-rendered cards too. Per-card
+      // listeners were only attached on re-render, so a first tap did nothing.
+      inlineDateCards?.addEventListener('click', (e) => {
+        const card = (e.target as HTMLElement).closest('.pricing-card') as HTMLElement | null;
+        if (card) handleDateSelect(card.dataset.date || '');
+      });
+
+      // The next step after choosing a date card (story layout only).
+      const btnRequestDate = document.getElementById('btn-request-date') as HTMLButtonElement | null;
+      function selectedDeparture() {
+        return selectedDate ? pricingData.departures.find((d: any) => d.date === selectedDate && d.airportCode === selectedAirport) : null;
+      }
+      function updateRequestBtn() {
+        if (!btnRequestDate) return;
+        const dep = selectedDeparture();
+        btnRequestDate.hidden = !dep;
+        if (dep) btnRequestDate.textContent = `Request ${dep.dateShort} from ${dep.airportName}`;
+      }
+      btnRequestDate?.addEventListener('click', () => {
+        const dep = selectedDeparture();
+        if (!dep) return;
+        const ppInclusive = roundToNine(dep.pricePp + localChargesPp);
+        openEnquiryModal({
+          date: dep.dateFormatted,
+          airport: dep.airportName,
+          adults: String(passengerCount),
+          pricePp: formatPriceExact(ppInclusive),
+          totalPrice: formatPriceExact(ppInclusive * passengerCount),
+          ship: dep.shipName || undefined,
+        });
+      });
 
       // Calendar month navigation state
       let calMonthKeys: string[] = [];
@@ -4395,6 +4500,7 @@ const pageDescription = holiday.metaDescription || (() => {
       const btnCheckPriceSidebar = document.getElementById('btn-check-price-sidebar');
       btnCheckPrice?.addEventListener('click', (e) => { e.preventDefault(); openEnquiryModal(); });
       btnCheckPriceSidebar?.addEventListener('click', (e) => { e.preventDefault(); openEnquiryModal(); });
+      document.getElementById('btn-story-enquire')?.addEventListener('click', () => openEnquiryModal());
     }
 
     // "Request A Call Back" → open enquiry modal

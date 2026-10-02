@@ -1,0 +1,1115 @@
+---
+// The body of a land holiday, told as a trip stop by stop instead of tabs of text.
+// Rendered by [country]/[slug].astro for every holiday that is not a cruise
+// (?layout=classic brings the old tabbed body back). The hero, price bar, date
+// picker, calendar and enquiry modal are the page's own.
+//
+// Order (UX review 2026-10-02, owner: "yea move it up"): route → date picker →
+// photos → highlights → stops → what the price covers → small print. Most visitors
+// arrive knowing the price and scroll about one phone screen, so the picker comes
+// before the photos. Nothing folds away (owner, same day: "i dont think any content
+// should be collapsed"): every day, list and note is open on the page.
+import type { HolidayDetail } from '../lib/holiday-transforms';
+import { sanitizeHtml } from '../lib/sanitize';
+
+interface Props {
+  holiday: HolidayDetail;
+  /** False when the holiday has no dated prices: the band asks for an enquiry instead of showing the picker. */
+  hasPricing: boolean;
+  /** The hero's "from" price, already formatted. */
+  priceFormatted: string;
+  /** Excluded / requirements / please-note blocks, already turned into HTML by the page. */
+  moreInfo: { title: string; html: string }[];
+}
+const { holiday, hasPricing, priceFormatted, moreInfo } = Astro.props;
+
+const NUM: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
+const SMALL = new Set(['and', 'or', 'to', 'the', 'of', 'at', 'by', 'in', 'on', 'if', 'is', 'a']);
+const titleCase = (s: string) =>
+  s.toLowerCase().split(/(\s+|\/|-)/).map((w, i) => (i > 0 && SMALL.has(w) ? w : w.charAt(0).toUpperCase() + w.slice(1))).join('');
+/** Supplier day titles arrive in capitals with double hyphens. */
+const dayTitle = (s: string) => {
+  const t = (s || '').replace(/\s*--+\s*/g, ' – ').replace(/\s*\/\s*/g, ' / ').replace(/\s{2,}/g, ' ').trim();
+  return t === t.toUpperCase() ? titleCase(t) : t;
+};
+const toParas = (s: string) =>
+  sanitizeHtml((s || '').replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>').replace(/^/, '<p>').replace(/$/, '</p>'));
+const dayLabel = (d: string) => (/day/i.test(String(d)) ? String(d) : `Day ${d}`);
+const plain = (s: string) => (s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+const nightsWord = (n: number) => `${n} ${n === 1 ? 'night' : 'nights'}`;
+
+// Places and nights are read out of free text, so both are held to strict tests and
+// dropped when in doubt: a hotel name as the heading is plain, a wrong town is not.
+const BAD_PLACE = /\d|\b(hotels?|resorts?|rooms?|suites?|villas?|board|basis|star|spa|inclusive|breakfast|nights?|days?|lodge|camp|cruise|class|apartments?|studio|cabin|bungalow|chalet|standard|deluxe|superior|classic|luxury|beach|sea|view|garden|pool|flights?|transfers?|stay|tour|airport)\b/i;
+const cleanPlace = (t: string) => {
+  const v = (t || '').trim().replace(/[.,;:!]+$/, '');
+  return v && v.length <= 24 && !BAD_PLACE.test(v) ? v : '';
+};
+// "3 nights accommodation at a hotel in Sigiriya" → { nights: 3, place: 'Sigiriya' }
+const nightLines = holiday.whatsIncluded
+  .map((l) => {
+    const m = l.match(/\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten)[\s-]*nights?\b/i);
+    if (!m) return null;
+    const nights = /^\d+$/.test(m[1]) ? Number(m[1]) : NUM[m[1].toLowerCase()];
+    const pm = l.match(/(?:\b(?:in|of)\s+|,\s*)((?:[A-Z][\w'’.-]*)(?:\s+[A-Z][\w'’.-]*){0,2})\s*[.!]?\s*$/);
+    return { nights, place: cleanPlace(pm ? pm[1] : ''), text: l.toLowerCase() };
+  })
+  .filter((x): x is { nights: number; place: string; text: string } => !!x);
+
+// A blank row left in the admin (no name, no photos, no text) is not a stay.
+const hotels = holiday.accommodations.filter((a) => (a.name || '').trim() || a.images.length > 0 || (a.description || '').trim());
+// Nights are trusted only when there is one line per hotel AND they add up to the
+// holiday's own night count. (Thailand lists Hanoi twice and a night on a boat: the
+// sums disagree, so no nights are shown rather than wrong ones.)
+const durationNights = (() => {
+  const n = holiday.duration.match(/(\d+)\s*nights?/i);
+  if (n) return Number(n[1]);
+  const d = holiday.duration.match(/(\d+)\s*days?/i);
+  return d ? Number(d[1]) - 1 : 0;
+})();
+// Lines and hotels are paired by position, which is only safe when nothing says
+// otherwise: a line that names a DIFFERENT hotel, or a hotel whose name carries a
+// different line's town, means the two lists are in different orders. (Celebrity
+// Infinity lists the ship first but its hotel line first; pairing by position put the
+// hotel's 2 nights on the ship.)
+const hotelKeys = hotels.map((h) => h.name.split(',')[0].trim().toLowerCase());
+const ordersDisagree = nightLines.length === hotels.length && nightLines.some((l, i) =>
+  hotels.some((h, j) => {
+    if (j === i) return false;
+    const namesOther = hotelKeys[j].length > 3 && l.text.includes(hotelKeys[j]) && !l.text.includes(hotelKeys[i] || '\u0000');
+    const townOnOther = l.place.length > 2 && h.name.toLowerCase().includes(l.place.toLowerCase()) && !hotels[i].name.toLowerCase().includes(l.place.toLowerCase());
+    return namesOther || townOnOther;
+  }),
+);
+const countsAgree =
+  hotels.length > 0 &&
+  nightLines.length === hotels.length &&
+  durationNights > 0 &&
+  nightLines.reduce((n, l) => n + l.nights, 0) === durationNights;
+// One day per night plus the day you fly home: only then can days sit under stops.
+const canSplitDays = countsAgree && holiday.itinerary.length === durationNights + 1;
+// With more than one stop, "no contradiction" is not enough. Each pairing needs
+// something that ties the line to that hotel: the line names the hotel, the hotel's
+// name carries the line's town, or that town turns up in the days the stop would get.
+const pairingProven = (i: number) => {
+  const l = nightLines[i];
+  if (hotelKeys[i].length > 3 && l.text.includes(hotelKeys[i])) return true;
+  if (l.place.length > 2 && hotels[i].name.toLowerCase().includes(l.place.toLowerCase())) return true;
+  if (canSplitDays && l.place.length > 2) {
+    const start = nightLines.slice(0, i).reduce((n, x) => n + x.nights, 0);
+    const take = l.nights + (i === nightLines.length - 1 ? 1 : 0);
+    return holiday.itinerary.slice(start, start + take).some((d) => `${d.title} ${d.description}`.toLowerCase().includes(l.place.toLowerCase()));
+  }
+  return false;
+};
+const nightsKnown = countsAgree && !ordersDisagree && (hotels.length === 1 || hotels.every((_, i) => pairingProven(i)));
+
+type Day = HolidayDetail['itinerary'][number];
+type Stop = { place: string; hotel: (typeof hotels)[number]; hotelName: string; nights: number | null; days: Day[]; from: number; to: number };
+
+const stops: Stop[] = hotels.map((hotel, i) => {
+  const comma = hotel.name.lastIndexOf(',');
+  const afterComma = comma > 0 ? cleanPlace(hotel.name.slice(comma + 1)) : '';
+  const fromLine = nightsKnown ? nightLines[i].place : '';
+  // A line that ends in the hotel's own name gives no place.
+  const lineIsHotel = !!fromLine && fromLine.toLowerCase() === hotel.name.trim().toLowerCase();
+  const place = afterComma || (lineIsHotel ? '' : fromLine);
+  return {
+    place: titleCase(place),
+    hotel,
+    hotelName: afterComma ? hotel.name.slice(0, comma).trim() : hotel.name,
+    nights: nightsKnown ? nightLines[i].nights : null,
+    days: [],
+    from: 0,
+    to: 0,
+  };
+});
+
+// Days go under the stop they sleep at, but only when the sums agree: one day per
+// night plus the day you fly home. Anything else stays a plain day list.
+const totalNights = nightsKnown ? stops.reduce((n, s) => n + (s.nights || 0), 0) : 0;
+let daysGrouped = nightsKnown && canSplitDays;
+if (daysGrouped) {
+  let cursor = 0;
+  stops.forEach((s, i) => {
+    const take = (s.nights || 0) + (i === stops.length - 1 ? 1 : 0);
+    s.days = holiday.itinerary.slice(cursor, cursor + take);
+    s.from = cursor + 1;
+    s.to = cursor + take;
+    cursor += take;
+  });
+  // Last check: a stop with a known town must be mentioned in at least one of its own
+  // days. If not, the split is wrong, so the days go back to one plain list.
+  const fits = stops.every((s) => !s.place || s.days.some((d) => `${d.title} ${d.description}`.toLowerCase().includes(s.place.toLowerCase())));
+  if (!fits) {
+    daysGrouped = false;
+    stops.forEach((s) => { s.days = []; s.from = 0; s.to = 0; });
+  }
+}
+const flatDays = daysGrouped ? [] : holiday.itinerary;
+// A day list that could not be placed under stops reads first, and the hotels
+// follow as short rows, so six hotel blocks never stand between the visitor and Day 1.
+const compactHotels = flatDays.length > 0;
+
+const gallery = holiday.galleryImages.filter((g) => !/\.(mp4|webm)(\?|$)/i.test(g));
+const headlineKnown = nightsKnown && stops.length > 1;
+// The route line is drawn only when it says something sure: proven nights, or at
+// least a town for every stop. A row of bare hotel names repeats the hotel list.
+const showRoute = stops.length > 1 && (headlineKnown || stops.every((s) => s.place));
+// What the price carries, said next to the price. Airport-by-airport prices mean the
+// flights are in; nights and board come from the holiday's own data.
+const priceCarries = [
+  'Return flights',
+  nightsKnown ? `${nightsWord(totalNights)} accommodation` : holiday.duration,
+  holiday.boardBasis,
+].filter(Boolean);
+---
+
+<div class="hs">
+  <div class="hs-main">
+    {/* 1. The route. Skipped for a one-stop holiday: the hero already says it. */}
+    {showRoute && (
+      <section class="hs-band hs-glance">
+        <div class="hs-col">
+          <h2 class="hs-h2">{headlineKnown ? `${nightsWord(totalNights)}, ${stops.length} places` : `${stops.length} places`}</h2>
+          <ol class:list={['hs-route', { 'hs-route--long': stops.length >= 5 }]}>
+            {stops.map((s, i) => (
+              <li>
+                <a href={`#hs-stop-${i + 1}`}>
+                  <span class="hs-route__dot" aria-hidden="true"></span>
+                  <span class="hs-route__place">{s.place || s.hotelName}</span>
+                  {s.nights && <span class="hs-route__nights">{nightsWord(s.nights)}</span>}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )}
+
+    {/* 2. The page's own date picker */}
+    {hasPricing && (
+      <section class="hs-pricing">
+        <div class="hs-col">
+          <p class="hs-eyebrow">Dates and prices</p>
+          <h2 class="hs-h2">When do you want to go?</h2>
+        </div>
+        <slot name="pricing" />
+        <div class="hs-col hs-carries">
+          <ul class="hs-ticks hs-ticks--row">
+            {priceCarries.map((l) => <li>{l}</li>)}
+          </ul>
+          <p class="hs-carries__not">
+            Not included: travel insurance, tips and optional trips.
+            <a href="#hs-included">See everything the price covers</a>
+          </p>
+        </div>
+      </section>
+    )}
+    {!hasPricing && (
+      <section class="hs-pricing">
+        <div class="hs-col">
+          <p class="hs-eyebrow">Dates and prices</p>
+          <h2 class="hs-h2">When do you want to go?</h2>
+          <p class="hs-ask">Tell us your dates and departure airport and we will send you a price.</p>
+          <button type="button" class="hs-ask__btn" id="btn-story-enquire">Check price &amp; book</button>
+          <p class="hs-ask hs-ask--call">or call <a href="tel:02081830518">0208 183 0518</a>, lines open 9am to 6pm</p>
+        </div>
+      </section>
+    )}
+
+    {/* 3. Photos */}
+    {gallery.length > 0 && (
+      <section class="hs-band hs-band--photos">
+        <h2 class="sr-only">Photos of the trip</h2>
+        <div class="hs-strip">
+          <div class="hs-swipe" tabindex="0" role="group" aria-label={`Photos of the trip, ${gallery.length} photos`}>
+            {gallery.map((img, i) => (
+              <img src={img} alt="" loading={i < 2 ? 'eager' : 'lazy'} />
+            ))}
+          </div>
+          {gallery.length > 1 && (
+            <>
+              <span class="hs-strip__count" aria-hidden="true"><span data-strip-n>1</span> / {gallery.length}</span>
+              <button type="button" class="hs-strip__btn hs-strip__btn--prev" aria-label="Previous photo" disabled>&#10094;</button>
+              <button type="button" class="hs-strip__btn hs-strip__btn--next" aria-label="Next photo">&#10095;</button>
+            </>
+          )}
+        </div>
+      </section>
+    )}
+
+    {/* 4. What you will do */}
+    {holiday.highlights.length > 0 && (
+      <section class="hs-band">
+        <div class="hs-col">
+          <p class="hs-eyebrow">On this trip</p>
+          <h2 class="hs-h2">What you will do</h2>
+          <ol class="hs-highlights">
+            {holiday.highlights.map((h, i) => (
+              <li><span class="hs-highlights__n" aria-hidden="true">{i + 1}</span><span>{h}</span></li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )}
+
+    {/* 5a. Days that could not be placed under a stop come before the hotels */}
+    {flatDays.length > 0 && (
+      <section class="hs-band">
+        <div class="hs-col">
+          <p class="hs-eyebrow">Itinerary</p>
+          <h2 class="hs-h2">Day by day</h2>
+          <div class="hs-days">
+            {flatDays.map((d) => (
+              <div class="hs-day">
+                <h3 class="hs-day__head">
+                  <span class="hs-day__n">{dayLabel(d.day)}</span>
+                  <span class="hs-day__title">{dayTitle(d.title)}</span>
+                </h3>
+                <div class="hs-prose" set:html={toParas(d.description)} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {/* 5b. Hotels as short rows, when the days above already tell the trip */}
+    {compactHotels && stops.length > 0 && (
+      <section class="hs-band">
+        <div class="hs-col">
+          <p class="hs-eyebrow">Your stay</p>
+          <h2 class="hs-h2">Where you stay</h2>
+          <div class="hs-rows">
+            {stops.map((s, i) => (
+              <article class="hs-row" id={`hs-stop-${i + 1}`}>
+                {s.hotel.images[0] && <img class="hs-row__img" src={s.hotel.images[0]} alt="" loading="lazy" />}
+                <div class="hs-row__text">
+                  {s.place && <p class="hs-stop__n"><span>{s.place}</span>{s.nights && <span>{nightsWord(s.nights)}</span>}</p>}
+                  <h3 class="hs-row__name">
+                    {s.hotelName}
+                    {s.hotel.stars && (
+                      <span class="hs-stars"><span aria-hidden="true">{'★'.repeat(s.hotel.stars)}</span><span class="sr-only">, {s.hotel.stars}-star</span></span>
+                    )}
+                  </h3>
+                </div>
+                {s.hotel.description && (
+                  <div class="hs-prose hs-row__about" set:html={toParas(s.hotel.description)} />
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {/* 5c. Stop by stop: the hotel, its photos and the days spent there */}
+    {!compactHotels && stops.length > 0 && (
+      <section class="hs-band">
+        <div class="hs-col">
+          <p class="hs-eyebrow">{daysGrouped ? 'Day by day' : 'Your stay'}</p>
+          <h2 class="hs-h2">{stops.length > 1 ? 'Stop by stop' : 'Where you stay'}</h2>
+        </div>
+        {stops.map((s, i) => (
+          <article class="hs-stop" id={`hs-stop-${i + 1}`}>
+            <div class="hs-col">
+              <p class="hs-stop__n">
+                {stops.length > 1 && <span>Stop {i + 1}</span>}
+                {s.nights && <span>{nightsWord(s.nights)}</span>}
+                {daysGrouped && <span>{s.from === s.to ? `Day ${s.from}` : `Days ${s.from} to ${s.to}`}</span>}
+              </p>
+              <h3 class="hs-h3">{s.place || s.hotelName}</h3>
+            </div>
+            {s.hotel.images.length > 0 && (
+              <div class="hs-strip hs-strip--stop">
+                <div class="hs-swipe hs-swipe--stop" tabindex="0" role="group" aria-label={`Photos of ${s.hotelName}, ${s.hotel.images.length} photos`}>
+                  {s.hotel.images.map((img) => (
+                    <img src={img} alt="" loading="lazy" />
+                  ))}
+                </div>
+                {s.hotel.images.length > 1 && (
+                  <>
+                    <span class="hs-strip__count" aria-hidden="true"><span data-strip-n>1</span> / {s.hotel.images.length}</span>
+                    <button type="button" class="hs-strip__btn hs-strip__btn--prev" aria-label="Previous photo" disabled>&#10094;</button>
+                    <button type="button" class="hs-strip__btn hs-strip__btn--next" aria-label="Next photo">&#10095;</button>
+                  </>
+                )}
+              </div>
+            )}
+            <div class="hs-col">
+              {s.place && (
+                <p class="hs-stop__hotel">
+                  You stay at <strong>{s.hotelName}</strong>
+                  {s.hotel.stars && (
+                    <span class="hs-stars"><span aria-hidden="true">{'★'.repeat(s.hotel.stars)}</span><span class="sr-only">, {s.hotel.stars}-star</span></span>
+                  )}
+                </p>
+              )}
+              {(s.days.length > 0 || s.hotel.description) && (
+                <div class="hs-days">
+                  {s.days.map((d) => (
+                    <div class="hs-day">
+                      <h4 class="hs-day__head">
+                        <span class="hs-day__n">{dayLabel(d.day)}</span>
+                        <span class="hs-day__title">{dayTitle(d.title)}</span>
+                      </h4>
+                      <div class="hs-prose" set:html={toParas(d.description)} />
+                    </div>
+                  ))}
+                  {s.hotel.description && (
+                    <div class="hs-day">
+                      <h4 class="hs-day__head"><span class="hs-day__title">About {s.hotelName}</span></h4>
+                      <div class="hs-prose" set:html={toParas(s.hotel.description)} />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </section>
+    )}
+
+    {/* 6. What the price covers */}
+    {holiday.whatsIncluded.length > 0 && (
+      <section class="hs-band hs-band--tint" id="hs-included">
+        <div class="hs-col">
+          <p class="hs-eyebrow">In the price</p>
+          <h2 class="hs-h2">What the price covers</h2>
+          <ul class="hs-ticks">
+            {holiday.whatsIncluded.map((l) => <li>{l}</li>)}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    {/* 7. The long text, for the people who want it */}
+    <section class="hs-band">
+      <div class="hs-col">
+        <p class="hs-eyebrow">The detail</p>
+        <h2 class="hs-h2">Good to know</h2>
+        <div class="hs-days">
+          {holiday.overview && (
+            <div class="hs-day">
+              <h3 class="hs-day__head"><span class="hs-day__title">The full trip description</span></h3>
+              <div class="hs-prose" set:html={toParas(holiday.overview)} />
+            </div>
+          )}
+          {holiday.review && (
+            <div class="hs-day">
+              <h3 class="hs-day__head"><span class="hs-day__title">Reviews</span></h3>
+              <div class="hs-prose" set:html={toParas(holiday.review)} />
+            </div>
+          )}
+          {moreInfo.map((m) => (
+            <div class="hs-day">
+              <h3 class="hs-day__head"><span class="hs-day__title">{m.title}</span></h3>
+              <div class="hs-prose" set:html={m.html} />
+            </div>
+          ))}
+        </div>
+        <p class="hs-ref">Ref: {holiday.id}</p>
+      </div>
+    </section>
+  </div>
+
+  {/* Wide screens: the price stays in view beside the story. The ids are the old
+      sidebar's, which this layout replaces, so the page script keeps them up to date. */}
+  <aside class="hs-side" aria-label="Price and booking">
+    <div class="hs-side__card">
+      <p class="hs-side__title">{holiday.title}</p>
+      <p class="hs-side__price">
+        <span class="hs-side__from" id="sidebar-price-label">from</span>
+        <span class="hs-side__value" id="sidebar-price-value">{priceFormatted}</span>
+        <span class="hs-side__pp">per person</span>
+      </p>
+      <a href="#" class="hs-side__btn" id="btn-check-price-sidebar">{hasPricing ? 'Check dates & prices' : 'Check price & book'}</a>
+      <p class="hs-side__call">or call <a href="tel:02081830518">0208 183 0518</a><br />Lines open 9am to 6pm</p>
+      <p class="hs-ref">Ref: {holiday.id}</p>
+    </div>
+  </aside>
+</div>
+
+<script>
+  // Photo strips: a "3 / 11" count on every screen, previous/next buttons for a mouse.
+  document.querySelectorAll<HTMLElement>('.hs-strip').forEach((strip) => {
+    const track = strip.querySelector<HTMLElement>('.hs-swipe');
+    if (!track) return;
+    const count = strip.querySelector<HTMLElement>('[data-strip-n]');
+    const prev = strip.querySelector<HTMLButtonElement>('.hs-strip__btn--prev');
+    const next = strip.querySelector<HTMLButtonElement>('.hs-strip__btn--next');
+    const photos = Array.from(track.querySelectorAll('img'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const max = track.scrollWidth - track.clientWidth;
+      const first = photos[0];
+      const step = photos.length > 1 ? photos[1].offsetLeft - first.offsetLeft : 1;
+      // The last photo cannot snap to the left edge on a wide strip, so the end counts as the last one.
+      const n = max > 2 && track.scrollLeft >= max - 2 ? photos.length : Math.min(photos.length, Math.round(track.scrollLeft / step) + 1);
+      if (count) count.textContent = String(n);
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft >= max - 2;
+    };
+    track.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    const move = (dir: number) => track.scrollBy({ left: dir * track.clientWidth * 0.8, behavior: reduce ? 'auto' : 'smooth' });
+    prev?.addEventListener('click', () => move(-1));
+    next?.addEventListener('click', () => move(1));
+    update();
+  });
+</script>
+
+<style>
+  .hs {
+    color: #424242;
+    font-size: 16px;
+    line-height: 26px;
+  }
+  .hs-main {
+    min-width: 0;
+  }
+  .hs-band {
+    padding: 48px 0;
+    border-bottom: 1px solid #e6eeee;
+  }
+  .hs-band--tint {
+    background: #f4f8f8;
+  }
+  .hs-band--photos {
+    padding: 32px 0;
+  }
+  .hs-glance {
+    padding: 32px 0 28px;
+  }
+  .hs-glance .hs-h2 {
+    margin-bottom: 20px;
+  }
+  /* One reading column. Photo strips sit outside it and run edge to edge. */
+  .hs-col {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .hs-eyebrow {
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #0d6066;
+    margin: 0 0 6px;
+    text-align: left;
+  }
+  .hs-h2 {
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
+    font-size: 40px;
+    line-height: 42px;
+    font-weight: 400;
+    color: #424242;
+    margin: 0 0 20px;
+  }
+  .hs-h3 {
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
+    font-size: 28px;
+    line-height: 32px;
+    font-weight: 400;
+    color: #073140;
+    margin: 0 0 16px;
+  }
+  .hs a:focus-visible,
+  .hs button:focus-visible,
+  .hs-swipe:focus-visible {
+    outline: 3px solid #073140;
+    outline-offset: 3px;
+  }
+
+  /* Route: dots on a line, place and nights under each */
+  .hs-route {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+  }
+  .hs-route li {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .hs-route a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 4px;
+    color: inherit;
+    text-decoration: none;
+  }
+  .hs-route li::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: -50%;
+    width: 100%;
+    height: 2px;
+    background: #20a1aa;
+  }
+  .hs-route li:first-child::before {
+    display: none;
+  }
+  .hs-route__dot {
+    position: relative;
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: #fff;
+    border: 4px solid #20a1aa;
+    margin-bottom: 10px;
+  }
+  .hs-route__place {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 700;
+    color: #073140;
+    overflow-wrap: anywhere;
+  }
+  .hs-route__nights {
+    font-size: 12px;
+    line-height: 18px;
+    color: #5a6a6b;
+  }
+  /* Five stops or more do not fit across a phone: stack them down a line instead. */
+  @media (max-width: 610px) {
+    .hs-route--long {
+      flex-direction: column;
+    }
+    .hs-route--long a {
+      flex-direction: row;
+      align-items: center;
+      text-align: left;
+      gap: 12px;
+      padding: 0;
+      min-height: 36px;
+    }
+    .hs-route--long li::before {
+      top: -50%;
+      left: 7px;
+      width: 2px;
+      height: 100%;
+    }
+    .hs-route--long .hs-route__dot {
+      margin-bottom: 0;
+    }
+    .hs-route--long .hs-route__place {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .hs-route--long .hs-route__nights {
+      font-size: 14px;
+      line-height: 24px;
+    }
+  }
+
+  /* The page's own date picker, given a heading and pulled into the reading column. */
+  .hs-pricing {
+    background: #f0f9fa;
+    border-bottom: 2px solid #d0e8ea;
+    border-top: 1px solid #d0e8ea;
+    padding: 36px 0 32px;
+  }
+  .hs-pricing :global(.pricing-inline) {
+    border: 0;
+    background: none;
+  }
+  .hs-pricing :global(.pricing-inline__inner) {
+    max-width: 820px;
+    padding: 0 20px 24px;
+  }
+  .hs-carries__not {
+    margin: 12px 0 0;
+    font-size: 14px;
+    line-height: 22px;
+    color: #424242;
+    text-align: left;
+  }
+  .hs-carries__not a {
+    color: #0d6066;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+  }
+
+  /* Photo strip: swipe sideways, the next photo always peeks in */
+  .hs-strip {
+    position: relative;
+  }
+  .hs-swipe {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 20px;
+    padding: 0 20px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hs-swipe::-webkit-scrollbar {
+    display: none;
+  }
+  .hs-swipe img {
+    flex: 0 0 82%;
+    width: 82%;
+    max-width: 440px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 10px;
+    scroll-snap-align: start;
+    background: #e6eeee;
+  }
+  .hs-strip--stop {
+    margin-bottom: 20px;
+  }
+  .hs-swipe--stop img {
+    flex-basis: 72%;
+    width: 72%;
+    max-width: 360px;
+    aspect-ratio: 3 / 2;
+  }
+  .hs-strip__count {
+    position: absolute;
+    top: 10px;
+    left: 30px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: rgba(7, 49, 64, 0.82);
+    color: #fff;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 700;
+    pointer-events: none;
+  }
+  .hs-strip__btn {
+    display: none;
+  }
+  @media (min-width: 941px) {
+    /* Line the first photo up with the reading column. */
+    .hs-swipe {
+      padding-left: max(20px, calc((100% - 820px) / 2 + 20px));
+      scroll-padding-left: max(20px, calc((100% - 820px) / 2 + 20px));
+    }
+    .hs-strip__count {
+      left: max(30px, calc((100% - 820px) / 2 + 30px));
+    }
+    /* A mouse wheel scrolls the page, not the strip, so the strip gets buttons. */
+    .hs-strip__btn {
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #073140;
+      color: #fff;
+      font-size: 16px;
+      line-height: 44px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+    .hs-strip__btn--prev {
+      left: max(28px, calc((100% - 820px) / 2 + 28px));
+    }
+    .hs-strip__btn--next {
+      right: max(28px, calc((100% - 820px) / 2 + 28px));
+    }
+    .hs-strip__btn:disabled {
+      display: none;
+    }
+  }
+
+  /* Highlights */
+  .hs-highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+  }
+  .hs-highlights li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 16px;
+    background: #f4f8f8;
+    border-radius: 10px;
+  }
+  .hs-highlights__n {
+    flex: 0 0 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #073140;
+    color: #fff;
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
+    font-size: 16px;
+    line-height: 32px;
+    text-align: center;
+  }
+  @media (min-width: 769px) {
+    .hs-highlights {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Stops */
+  .hs-stop {
+    padding: 28px 0 8px;
+    border-top: 1px solid #e6eeee;
+    scroll-margin-top: 90px;
+  }
+  .hs-stop:first-of-type {
+    border-top: 0;
+    padding-top: 8px;
+  }
+  .hs-stop__n {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #0d6066;
+    margin: 0 0 4px;
+    text-align: left;
+  }
+  .hs-stop__n span + span::before {
+    content: '·';
+    margin-right: 14px;
+    color: #6f8b8c;
+  }
+  .hs-stop__hotel {
+    margin: 0;
+    font-size: 16px;
+    line-height: 26px;
+    color: #424242;
+    text-align: left;
+  }
+  .hs-stop__hotel strong {
+    font-weight: 700;
+    color: #073140;
+  }
+  .hs-stars {
+    color: #9a6b00;
+    margin-left: 8px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  /* Hotels as short rows (trips whose days are listed on their own) */
+  .hs-rows {
+    border-top: 1px solid #dfe9e9;
+  }
+  .hs-row {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    column-gap: 16px;
+    align-items: center;
+    padding: 16px 0 0;
+    border-bottom: 1px solid #dfe9e9;
+    scroll-margin-top: 90px;
+  }
+  .hs-row__img {
+    width: 96px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #e6eeee;
+  }
+  .hs-row__text {
+    min-width: 0;
+  }
+  .hs-row__text:first-child {
+    grid-column: 1 / -1;
+  }
+  .hs-row__name {
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    color: #073140;
+    margin: 0;
+  }
+  .hs-row__about {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+    padding-bottom: 4px;
+  }
+  .hs-row:not(:has(.hs-row__about)) {
+    padding-bottom: 16px;
+  }
+
+  /* Days and other headed blocks: everything is on the page, nothing folds away. */
+  .hs-days {
+    margin-top: 20px;
+    border-top: 1px solid #dfe9e9;
+  }
+  .hs-day {
+    padding: 16px 0 4px;
+    border-bottom: 1px solid #dfe9e9;
+  }
+  .hs-day__head {
+    margin: 0 0 6px;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #073140;
+  }
+  .hs-day__n {
+    display: block;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #0d6066;
+  }
+  .hs-day__title {
+    display: block;
+    font-weight: 700;
+    color: #073140;
+  }
+  /* One body size through the story: the site's global p is 12px on phones. */
+  .hs-prose {
+    padding-bottom: 16px;
+    overflow-wrap: anywhere;
+    font-size: 16px;
+    line-height: 26px;
+    color: #424242;
+  }
+  .hs-prose :global(p),
+  .hs-prose :global(li) {
+    margin: 0 0 12px;
+    font-size: 16px;
+    line-height: 26px;
+    color: #424242;
+    text-align: left;
+  }
+  .hs-prose :global(strong),
+  .hs-prose :global(b) {
+    font-weight: 700;
+  }
+  .hs-prose :global(ul) {
+    margin: 0 0 12px;
+    padding-left: 20px;
+    list-style: disc;
+  }
+
+  /* Included */
+  .hs-ticks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+  }
+  .hs-ticks li {
+    position: relative;
+    padding-left: 30px;
+  }
+  .hs-ticks li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 5px;
+    width: 14px;
+    height: 7px;
+    border-left: 2px solid #20a1aa;
+    border-bottom: 2px solid #20a1aa;
+    transform: rotate(-45deg);
+  }
+  .hs-ticks--row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    font-weight: 500;
+  }
+  @media (min-width: 769px) {
+    .hs-ticks:not(.hs-ticks--row) {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 32px;
+    }
+  }
+
+  /* No dated prices: ask for an enquiry where the picker would be. */
+  .hs-ask {
+    margin: 0 0 16px;
+    font-size: 16px;
+    line-height: 26px;
+    color: #424242;
+    text-align: left;
+  }
+  .hs-ask--call {
+    margin: 12px 0 0;
+    font-size: 14px;
+    line-height: 22px;
+  }
+  .hs-ask--call a {
+    color: #073140;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .hs-ask__btn {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    min-height: 52px;
+    padding: 12px 16px;
+    border: 0;
+    border-radius: 6px;
+    background: #ff7f00;
+    color: #fff;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(255, 127, 0, 0.3);
+  }
+  .hs-ask__btn:hover {
+    background: #e67300;
+  }
+
+  .hs-ref {
+    margin: 24px 0 0;
+    font-size: 14px;
+    line-height: 22px;
+    color: #0d6066;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  /* Wide screens: price panel beside the story */
+  .hs-side {
+    display: none;
+  }
+  @media (min-width: 1200px) {
+    .hs {
+      display: grid;
+      grid-template-columns: minmax(0, 820px) 300px;
+      column-gap: 56px;
+      justify-content: center;
+      align-items: start;
+    }
+    .hs-side {
+      display: block;
+      position: sticky;
+      top: 116px;
+      margin-top: 32px;
+    }
+    .hs-side__card {
+      padding: 24px;
+      border: 1px solid #d0e8ea;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 6px 24px rgba(7, 49, 64, 0.08);
+    }
+    .hs-side__title {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 700;
+      color: #073140;
+      text-align: left;
+    }
+    .hs-side__price {
+      margin: 0 0 16px;
+      font-size: 14px;
+      line-height: 20px;
+      color: #5a6a6b;
+      text-align: left;
+    }
+    .hs-side__value {
+      display: block;
+      font-family: 'CaslonGraphiqueEF', Georgia, serif;
+      font-size: 36px;
+      line-height: 40px;
+      color: #282828;
+    }
+    .hs-side__btn {
+      display: block;
+      padding: 14px 16px;
+      border-radius: 6px;
+      background: #ff7f00;
+      color: #fff;
+      font-size: 16px;
+      line-height: 20px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-align: center;
+      text-decoration: none;
+    }
+    .hs-side__btn:hover {
+      background: #e67300;
+    }
+    .hs-side__call {
+      margin: 16px 0 0;
+      font-size: 14px;
+      line-height: 22px;
+      color: #424242;
+      text-align: left;
+    }
+    .hs-side__call a {
+      color: #073140;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .hs-side .hs-ref {
+      margin-top: 12px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hs-band {
+      padding: 36px 0;
+    }
+    .hs-band--photos,
+    .hs-glance {
+      padding: 24px 0;
+    }
+    .hs-pricing {
+      padding: 28px 0 24px;
+    }
+    .hs-h2 {
+      font-size: 32px;
+      line-height: 34px;
+    }
+  }
+  @media (max-width: 450px) {
+    .hs-h2 {
+      font-size: 26px;
+      line-height: 28px;
+      margin-bottom: 16px;
+    }
+    .hs-h3 {
+      font-size: 24px;
+      line-height: 28px;
+    }
+    .hs-glance .hs-h2 {
+      margin-bottom: 16px;
+    }
+  }
+</style>

@@ -373,6 +373,56 @@ Listing pages (`[country]/index.astro`, `river-cruises/[...river].astro`) have h
 - **Cookie banner:** UK PECR/GDPR compliant, sets `cookie_consent=1` cookie for 1 year
 - **Error monitoring:** JS beacon sends uncaught errors + broken images to `holiday-admin-api /api/monitor/errors`
 
+## Land holiday detail page: the "story" layout (live 2026-10-02)
+
+Every holiday that is NOT tagged River Cruise renders its body through
+`src/components/HolidayStory.astro` (`story` in `[country]/[slug].astro`). The hero,
+price bar, date picker, calendar modal, enquiry modal and mobile bottom bar are still
+the page's own. `?layout=classic` on any land holiday shows the old tabbed body, for
+comparison and as a quick way back. River cruises are untouched (`CruiseDetail`, or the
+classic body when a cruise has no prices).
+
+- **Why:** PostHog, 30 days to 2026-10-02: on land holidays the median visitor scrolled
+  4–5% of a page about 26 phone screens long (Sri Lanka 932 people, Golden Triangle 792),
+  against 27–46% on the rebuilt cruise pages. The old body opened with a wall of overview
+  text. Owner: "the new design gets the essence of the holiday over far earlier, the
+  detail is still needed but now we have it further down the page".
+- **Order:** route line → date picker → photos → highlights → stops (hotel photos, hotel,
+  that stop's days) → what the price covers → small print. A UX review found the picker
+  2.5 phone screens down in the first draft; visitors arrive knowing the price, so it now
+  sits about one screen down.
+- **Nothing is collapsed.** Owner: "i dont think any content should be collapsed". No
+  accordions, tabs, "show all" or "read more" for content on this page.
+- **Places and nights come out of free text, so they are shown only when proven.**
+  A nights line ("3 nights accommodation at a hotel in Sigiriya") is paired with a hotel
+  by position, and that pairing is trusted only when (1) there is one line per hotel,
+  (2) the nights add up to the holiday's own duration, (3) no line names a different
+  hotel, and (4) with more than one stop, every pairing has evidence: the line names the
+  hotel, the hotel's name carries the town, or the town appears in that stop's days.
+  Days are split under stops only when the itinerary has exactly nights + 1 days.
+  Anything less and the page falls back: hotel name as the heading, no nights, days as
+  one list with the hotels as short rows after it. Of 225 land holidays (local copy,
+  2026-10-02) 46 show nights per stop and 20 multi-stop trips split their days.
+  Do not loosen these tests: Celebrity Infinity lists the ship first but its hotel line
+  first, and pairing by position alone put the hotel's 2 nights on the ship.
+  The durable fix is data: nights and town per accommodation in the admin.
+- **Wording stays neutral** ("Where you stay", "You stay at …"): an accommodation can be
+  a ship on ocean-cruise packages tagged "Cruise".
+- **Fixed in the shared page code at the same time:** date cards did nothing on the first
+  tap (listeners were only attached on re-render; now one delegated listener on
+  `#inline-date-cards`); the phone bottom-bar button ran off the screen at 390 and 320;
+  the hero `h1` was `display:none` at ≤610px, so phones had no h1 (now visually hidden).
+- **New in the picker (story layout only):** once a date card is chosen, a
+  "Request <date> from <airport>" button opens the enquiry modal with that date.
+- **Holidays with no dated prices** show an enquiry band where the picker would be
+  (`#btn-story-enquire`).
+- **Wide screens (≥1200px):** a sticky price panel beside the story. It reuses the old
+  sidebar's ids (`sidebar-price-value`, `btn-check-price-sidebar`), which only exist once
+  because the classic sidebar is not rendered in the story layout.
+- **Global CSS traps met here:** `global.css` sets `p` to 12px/24px at ≤768px and
+  `strong` to 600 (BentonSans has no 600), and `h4` is uppercased; the component sets its
+  own sizes on every text element for that reason.
+
 ## Holiday Detail Page (`[slug].astro`)
 
 - **Sidebar:** 350px desktop, 280px tablet. Image from gallery (2nd image), falls back to hero.
