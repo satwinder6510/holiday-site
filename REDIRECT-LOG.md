@@ -91,3 +91,21 @@ Deploy note 2026-10-02: NOT deployed by Site Doctor. The tree carried five uncom
 (email template, blog-export.json stamp, three cruise page files), so the A1 lane's redirects-only
 condition was not met. The rule goes live with the owner's next `./deploy.sh`; verify with
 `curl -sI https://holidays.flightsandpackages.com/Holidays/Asia/Indonesia/26` (expect 301 → `/Holidays/indonesia`).
+
+Verified live 2026-10-03: `/Holidays/Asia/Indonesia/26` → 301 → `/Holidays/indonesia` → 200 (the owner
+deployed after 99280c5); `/Holidays/Asia` → 301 → `/destinations/Asia/` as well.
+
+## 2026-10-03 — legacy category listing (TODO-redirects.md row "Category/filter pages")
+
+| Date | Source (404, verified) | Target (verified 200) | Evidence |
+|---|---|---|---|
+| 2026-10-03 | `/Holidays/Europe/Europe-Twin-Centre/20` | `/Holidays/Twin-Centre` | site_errors ids 1309-1310 (2026-10-02 18:32, meta-webindexer) beaconed the 404 page's phone-icon.svg and email-icon.svg from this URL. Source curls 404 (65,037 B) with and without trailing slash. Target curls 200 (160,096 B, title "Twin Centre Holidays") with and without trailing slash; `/Holidays/twin-centre` (lowercase) is 404, so the rule targets the capitalised form exactly. The target's product links are European in 90 of 96 cases (italy 42, spain 12, czech-republic 9, greece 6, portugal 6, slovakia 6, denmark 3, latvia 3, poland 3; the rest egypt 3, usa 3), so it is the like-for-like page for the old "Europe Twin Centre" category. |
+
+Not added 2026-10-03: `/Holidays/Americas/South-America-Twin-Centre/7` stays an owner call — the
+same target lists no South America products (see 2026-09-22). No wildcard for this class: category
+slugs are free text.
+
+Deploy note 2026-10-03: NOT deployed by Site Doctor. The tree still carried five uncommitted owner
+files, so the A1 lane's redirects-only condition was not met. The rule goes live with the owner's
+next `./deploy.sh`; verify with
+`curl -sI https://holidays.flightsandpackages.com/Holidays/Europe/Europe-Twin-Centre/20` (expect 301 → `/Holidays/Twin-Centre`).

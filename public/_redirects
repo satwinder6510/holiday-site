@@ -35,3 +35,6 @@
 
 # Legacy region listings (/Holidays/<Region>) → destinations continent page. See REDIRECT-LOG.md (site-doctor 2026-09-24)
 /Holidays/Asia /destinations/Asia/ 301
+
+# Legacy category listings (/Holidays/<Region>/<Category>/<ID>) → collection page, per-URL only. See REDIRECT-LOG.md (site-doctor 2026-10-03)
+/Holidays/Europe/Europe-Twin-Centre/20 /Holidays/Twin-Centre 301
