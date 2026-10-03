@@ -4,10 +4,10 @@
 // (?layout=classic brings the old tabbed body back). The hero, price bar, date
 // picker, calendar and enquiry modal are the page's own.
 //
-// Order (UX review 2026-10-02, owner: "yea move it up"): route → date picker →
-// photos → highlights → stops → what the price covers → small print. Most visitors
-// arrive knowing the price and scroll about one phone screen, so the picker comes
-// before the photos. Nothing folds away (owner, same day: "i dont think any content
+// Order (owner, 3 Oct 2026): route → photos → what you will do → date picker →
+// where you stay → day by day → what the price covers → small print. The picker
+// sat right under the route from 2 Oct (a UX review had it one screen down);
+// the owner moved it below the highlights the next morning. Nothing folds away (owner, same day: "i dont think any content
 // should be collapsed"): every day, list and note is open on the page.
 import type { HolidayDetail } from '../lib/holiday-transforms';
 import { sanitizeHtml } from '../lib/sanitize';
@@ -187,37 +187,6 @@ const priceCarries = [
       </section>
     )}
 
-    {/* 2. The page's own date picker */}
-    {hasPricing && (
-      <section class="hs-pricing">
-        <div class="hs-col">
-          <p class="hs-eyebrow">Dates and prices</p>
-          <h2 class="hs-h2">When do you want to go?</h2>
-        </div>
-        <slot name="pricing" />
-        <div class="hs-col hs-carries">
-          <ul class="hs-ticks hs-ticks--row">
-            {priceCarries.map((l) => <li>{l}</li>)}
-          </ul>
-          <p class="hs-carries__not">
-            Not included: travel insurance, tips and optional trips.
-            <a href="#hs-included">See everything the price covers</a>
-          </p>
-        </div>
-      </section>
-    )}
-    {!hasPricing && (
-      <section class="hs-pricing">
-        <div class="hs-col">
-          <p class="hs-eyebrow">Dates and prices</p>
-          <h2 class="hs-h2">When do you want to go?</h2>
-          <p class="hs-ask">Tell us your dates and departure airport and we will send you a price.</p>
-          <button type="button" class="hs-ask__btn" id="btn-story-enquire">Check price &amp; book</button>
-          <p class="hs-ask hs-ask--call">or call <a href="tel:02081830518">0208 183 0518</a>, lines open 9am to 6pm</p>
-        </div>
-      </section>
-    )}
-
     {/* 3. Photos */}
     {gallery.length > 0 && (
       <section class="hs-band hs-band--photos">
@@ -250,6 +219,37 @@ const priceCarries = [
               <li><span class="hs-highlights__n" aria-hidden="true">{i + 1}</span><span>{h}</span></li>
             ))}
           </ol>
+        </div>
+      </section>
+    )}
+
+    {/* 4b. The page's own date picker, between what you do and where you stay (owner, 3 Oct) */}
+    {hasPricing && (
+      <section class="hs-pricing">
+        <div class="hs-col">
+          <p class="hs-eyebrow">Dates and prices</p>
+          <h2 class="hs-h2">When do you want to go?</h2>
+        </div>
+        <slot name="pricing" />
+        <div class="hs-col hs-carries">
+          <ul class="hs-ticks hs-ticks--row">
+            {priceCarries.map((l) => <li>{l}</li>)}
+          </ul>
+          <p class="hs-carries__not">
+            Not included: travel insurance, tips and optional trips.
+            <a href="#hs-included">See everything the price covers</a>
+          </p>
+        </div>
+      </section>
+    )}
+    {!hasPricing && (
+      <section class="hs-pricing">
+        <div class="hs-col">
+          <p class="hs-eyebrow">Dates and prices</p>
+          <h2 class="hs-h2">When do you want to go?</h2>
+          <p class="hs-ask">Tell us your dates and departure airport and we will send you a price.</p>
+          <button type="button" class="hs-ask__btn" id="btn-story-enquire">Check price &amp; book</button>
+          <p class="hs-ask hs-ask--call">or call <a href="tel:02081830518">0208 183 0518</a>, lines open 9am to 6pm</p>
         </div>
       </section>
     )}
