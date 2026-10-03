@@ -147,8 +147,8 @@ if (daysGrouped) {
   }
 }
 const flatDays = daysGrouped ? [] : holiday.itinerary;
-// A day list that could not be placed under stops reads first, and the hotels
-// follow as short rows, so six hotel blocks never stand between the visitor and Day 1.
+// A day list that could not be placed under stops: the hotels come first as short
+// rows (owner, 3 Oct 2026), then the days as one list.
 const compactHotels = flatDays.length > 0;
 
 const gallery = holiday.galleryImages.filter((g) => !/\.(mp4|webm)(\?|$)/i.test(g));
@@ -254,28 +254,7 @@ const priceCarries = [
       </section>
     )}
 
-    {/* 5a. Days that could not be placed under a stop come before the hotels */}
-    {flatDays.length > 0 && (
-      <section class="hs-band">
-        <div class="hs-col">
-          <p class="hs-eyebrow">Itinerary</p>
-          <h2 class="hs-h2">Day by day</h2>
-          <div class="hs-days">
-            {flatDays.map((d) => (
-              <div class="hs-day">
-                <h3 class="hs-day__head">
-                  <span class="hs-day__n">{dayLabel(d.day)}</span>
-                  <span class="hs-day__title">{dayTitle(d.title)}</span>
-                </h3>
-                <div class="hs-prose" set:html={toParas(d.description)} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    )}
-
-    {/* 5b. Hotels as short rows, when the days above already tell the trip */}
+    {/* 5a. Hotels as short rows, before the day list */}
     {compactHotels && stops.length > 0 && (
       <section class="hs-band">
         <div class="hs-col">
@@ -298,6 +277,27 @@ const priceCarries = [
                   <div class="hs-prose hs-row__about" set:html={toParas(s.hotel.description)} />
                 )}
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {/* 5b. Days that could not be placed under a stop, after the hotels (owner 3 Oct: "put the where you stay before the itinerary") */}
+    {flatDays.length > 0 && (
+      <section class="hs-band">
+        <div class="hs-col">
+          <p class="hs-eyebrow">Itinerary</p>
+          <h2 class="hs-h2">Day by day</h2>
+          <div class="hs-days">
+            {flatDays.map((d) => (
+              <div class="hs-day">
+                <h3 class="hs-day__head">
+                  <span class="hs-day__n">{dayLabel(d.day)}</span>
+                  <span class="hs-day__title">{dayTitle(d.title)}</span>
+                </h3>
+                <div class="hs-prose" set:html={toParas(d.description)} />
+              </div>
             ))}
           </div>
         </div>
