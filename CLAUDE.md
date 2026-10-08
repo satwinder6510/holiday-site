@@ -509,3 +509,7 @@ never workers.dev. Forwards GET+POST, strips content-encoding/length. The
 flightsandpackages.com zone is NOT in Cloudflare (external IT DNS) — this proxy
 is why; a Workers custom domain cannot bind. Don't remove this route without
 replacing the customer document links it serves.
+
+## Live chat removed (2026-10-08)
+
+Owner: "I don't want the chat to show at all." The Tidio widget script, the chat-to-leads beacon in `BaseLayout.astro`, the "Chat with us" button in the in-hours enquiry panel, the phone bottom bar's chat button and the cabins-page hide code are all gone. The in-hours panel (9am–6pm, `callHoursNow()`) now offers the call only; the bottom bar always reads price · "Check Dates & Prices". The admin API's `/api/monitor/tidio` endpoint and `tidio_events` table are left in place, unused. Everything removed is in the commit before this note if chat ever comes back. (Tidio never rendered in headless Chromium, so this removal, unlike the earlier hide attempts, is verifiable: zero `code.tidio.co` requests.)

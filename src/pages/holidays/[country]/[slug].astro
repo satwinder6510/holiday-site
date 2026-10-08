@@ -881,7 +881,6 @@ const pageDescription = holiday.metaDescription || (() => {
         <span class="mobile-price-bar__value" id="mobile-price-value">{cheapestInclusive}<small>/pp</small></span>
       </div>
       <button type="button" class="mobile-price-bar__dates" id="btn-mobile-dates" hidden>Dates</button>
-      <button type="button" class="mobile-price-bar__btn mobile-price-bar__chat" id="btn-mobile-chat" hidden>Chat with us</button>
       <button type="button" class="mobile-price-bar__btn" id="btn-mobile-pricing">Check Dates &amp; Prices</button>
     </div>
   )}
@@ -958,12 +957,11 @@ const pageDescription = holiday.metaDescription || (() => {
         </div>
         <p class="enquiry-modal__note">Or call us on <a href="tel:02081830518">0208 183 0518</a></p>
       </form>
-      <!-- In-hours contact panel (9am–6pm UK): call or chat instead of the form.
+      <!-- In-hours contact panel (9am–6pm UK): call instead of the form.
            openEnquiryModal() decides which of this and #enquiry-form is shown. -->
       <div class="enquiry-modal__callchat" id="enquiry-callchat" style="display:none;">
         <p class="enquiry-modal__callchat-lead">Our travel experts are available right now &mdash; call for today's price and availability.</p>
         <a class="enquiry-modal__call-btn" id="enquiry-call-btn" href="tel:02081830518">Call 0208 183 0518</a>
-        <button type="button" class="enquiry-modal__chat-btn" id="enquiry-chat-btn">Can't talk right now? Chat with us</button>
         <p class="enquiry-modal__note">Lines open 9am&ndash;6pm</p>
       </div>
       <div class="enquiry-modal__success" id="enquiry-success" style="display:none;">
@@ -3519,24 +3517,6 @@ const pageDescription = holiday.metaDescription || (() => {
     outline: 2px solid #ff7f00;
     outline-offset: 3px;
   }
-  .enquiry-modal__chat-btn {
-    display: block;
-    width: 100%;
-    padding: 13px;
-    background: #fff;
-    color: #20A1AA;
-    border: 2px solid #20A1AA;
-    border-radius: 6px;
-    font-family: BentonSans, sans-serif; font-weight: 500;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  .enquiry-modal__chat-btn:hover { background: #f0f9fa; }
-  .enquiry-modal__chat-btn:focus-visible {
-    outline: 2px solid #20A1AA;
-    outline-offset: 3px;
-  }
   .enquiry-modal__success {
     text-align: center;
     padding: 48px 32px 40px;
@@ -3756,40 +3736,6 @@ const pageDescription = holiday.metaDescription || (() => {
       });
     }
 
-    // ===== LIVE CHAT PLACEMENT =====
-    // On phones the floating chat bubble stays hidden on holiday pages: it sat on
-    // the cookie bar's Accept button and its offline greeting opened over the
-    // calendar (Clarity recording, 2 Oct 2026). Chat lives in the bottom bar in
-    // office hours instead. On every device the chat is hidden while a booking
-    // step (calendar, enquiry form) is open.
-    const chat = (() => {
-      const phone = window.matchMedia('(max-width: 768px)').matches;
-      let busy = 0;
-      let wantOpen = '';
-      const api = () => (window as any).tidioChatApi;
-      const apply = () => {
-        const a = api();
-        if (!a) return;
-        try { if (busy > 0 || phone) a.hide?.(); else a.show?.(); } catch { /* chat is optional */ }
-      };
-      function open(msg: string): boolean {
-        const a = api();
-        if (!a) { wantOpen = msg; return false; }
-        try { a.show?.(); a.open?.(); if (msg) a.messageFromVisitor?.(msg); } catch { /* chat is optional */ }
-        return true;
-      }
-      const onReady = () => {
-        try { api()?.on?.('close', apply); } catch { /* optional */ }
-        apply();
-        if (wantOpen) { const m = wantOpen; wantOpen = ''; open(m); }
-      };
-      if (api()) onReady(); else document.addEventListener('tidioChat-ready', onReady, { once: true });
-      return {
-        busy() { busy++; apply(); },
-        free() { busy = Math.max(0, busy - 1); apply(); },
-        open,
-      };
-    })();
 
     // The bottom bar sits above the cookie banner while that shows, instead of under it.
     (() => {
@@ -4155,14 +4101,12 @@ const pageDescription = holiday.metaDescription || (() => {
           });
         });
         document.body.style.overflow = 'hidden';
-        chat.busy();
         const closeBtn = modalEl.querySelector('.pricing-modal__close') as HTMLElement;
         closeBtn?.focus();
       }
 
       function closePricingModal() {
         if (!modalEl) return;
-        chat.free();
         modalEl.classList.remove('active');
         setTimeout(() => {
           modalEl.classList.remove('visible');
@@ -4367,10 +4311,9 @@ const pageDescription = holiday.metaDescription || (() => {
 
     const enquiryCallChat = document.getElementById('enquiry-callchat');
     const enquiryCallBtn = document.getElementById('enquiry-call-btn');
-    const enquiryChatBtn = document.getElementById('enquiry-chat-btn');
     const enquiryTitle = enquiryModal?.querySelector('.enquiry-modal__title') as HTMLElement | null;
 
-    // 9am–6pm UK the modal offers call/chat instead of the form; out of hours
+    // 9am–6pm UK the modal offers a call instead of the form; out of hours
     // the form captures the lead (call-first, first run 2026-09-02, back on
     // 2026-10-02 at the owner's request).
     function callHoursNow(): boolean {
@@ -4437,13 +4380,11 @@ const pageDescription = holiday.metaDescription || (() => {
         });
       });
       document.body.style.overflow = 'hidden';
-      chat.busy();
       ((callFirst ? enquiryCallBtn : enquiryModal.querySelector('#enq-first-name')) as HTMLElement | null)?.focus();
     }
 
     function closeEnquiryModal() {
       if (!enquiryModal) return;
-      chat.free();
       enquiryModal.classList.remove('active');
       setTimeout(() => {
         enquiryModal.classList.remove('visible');
@@ -4459,47 +4400,8 @@ const pageDescription = holiday.metaDescription || (() => {
     (window as any).__openEnquiryModal = openEnquiryModal;
 
     enquiryCallBtn?.addEventListener('click', () => trackEnquiry('enquiry_call_click'));
-    // Bottom bar (phones): in office hours chat is the main action and dates the
-    // second; out of hours the dates button stays alone, since chat is offline then.
-    // Owner 2026-10-02 ("why not make that 'Chat with us'"; agreed hours-aware).
-    (() => {
-      const barChat = document.getElementById('btn-mobile-chat');
-      const barDates = document.getElementById('btn-mobile-dates');
-      const barPricing = document.getElementById('btn-mobile-pricing');
-      if (!barChat || !barDates || !barPricing || !callHoursNow()) return;
-      barChat.hidden = false;
-      barDates.hidden = false;
-      barPricing.hidden = true;
-      barChat.addEventListener('click', () => {
-        trackEnquiry('bar_chat_click');
-        // Chat blocked or not loaded: the enquiry panel offers call, chat and the form.
-        if (!chat.open(`Hi, I'd like a price for ${holidayMeta.title || 'this holiday'}.`)) openEnquiryModal();
-      });
-    })();
-
-    enquiryChatBtn?.addEventListener('click', () => {
-      trackEnquiry('enquiry_chat_click');
-      const tidio = (window as any).tidioChatApi;
-      if (tidio && typeof tidio.open === 'function') {
-        closeEnquiryModal();
-        // The modal's scroll lock is released on a timer; the chat must not see it
-        // as the page's normal state, or the page can stay stuck after the chat closes.
-        document.body.style.overflow = '';
-        // Start the conversation for the customer with what they were enquiring
-        // about — a bare empty chat right after "Chat with us" reads as a dead
-        // end, and the agent gets the package/date context for free.
-        const parts: string[] = [`Hi, I'd like a price for ${holidayMeta.title || 'this holiday'}`];
-        if (enquiryExtra.departure_date) parts.push(`departing ${enquiryExtra.departure_date}`);
-        if (enquiryExtra.departure_airport) parts.push(`from ${enquiryExtra.departure_airport}`);
-        if (enquiryExtra.num_adults) parts.push(`for ${enquiryExtra.num_adults} passenger${enquiryExtra.num_adults !== '1' ? 's' : ''}`);
-        chat.open(parts.join(' ') + '.');
-      } else if (enquiryCallChat && enquiryForm) {
-        // Tidio blocked or not loaded yet — show the form rather than a dead end.
-        enquiryCallChat.style.display = 'none';
-        enquiryForm.style.display = '';
-        (enquiryModal?.querySelector('#enq-first-name') as HTMLElement | null)?.focus();
-      }
-    });
+    // Live chat removed 2026-10-08 (owner): the bottom bar always reads price ·
+    // "Check Dates & Prices"; the in-hours panel offers the call only.
 
     enquiryClose?.addEventListener('click', closeEnquiryModal);
     enquiryModal?.addEventListener('click', (e) => {

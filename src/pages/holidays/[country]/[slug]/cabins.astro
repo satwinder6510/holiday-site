@@ -296,15 +296,6 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   side.addEventListener('click', (e) => { if (e.target === side) closeSheet(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && side.classList.contains('is-open')) closeSheet(); });
 
-  // Phones and tablets: the chat bubble sat on the quote bar (owner 2026-09-27),
-  // so it is hidden on this page there. The CSS below covers it before Tidio
-  // loads; the API call covers Tidio re-showing itself after.
-  if (window.matchMedia('(max-width: 940px)').matches) {
-    const hideChat = () => { try { (window as any).tidioChatApi?.hide(); } catch { /* not loaded yet */ } };
-    hideChat();
-    document.addEventListener('tidioChat-ready', hideChat);
-  }
-
   const track = (event: string, props: Record<string, string> = {}) => {
     try { (window as any).posthog?.capture(event, { lead_source: sessionStorage.getItem('lead_source') || 'Direct', ...props }); } catch { /* never block */ }
   };
@@ -477,7 +468,6 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
     .cb__bar-total b { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 22px; font-weight: 400; color: #424242; }
     .cb__bar-total span { color: #6b6b6b; }
     .cb__bar-btn { flex: none; padding: 12px 18px; }
-    :global(#tidio-chat), :global(#tidio-chat-iframe) { display: none !important; }
   }
   @media (max-width: 768px) {
     .cb { padding-top: 75px; }
