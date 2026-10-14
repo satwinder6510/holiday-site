@@ -313,10 +313,8 @@ const blogPostingSchema = {
   /* Blog content. Everything inside .blog arrives through set:html, so every
      selector here must be :global — a scoped `.blog p` never matches. Type
      follows the holiday page scale: 16px prose (the cruise readers are 60+),
-     Caslon headings well clear of the body size. */
-  .blog {
-    max-width: 760px;
-  }
+     Caslon headings well clear of the body size. The text fills the content
+     column; a narrower reading column left a gap the owner read as a fault. */
   .blog :global(p) {
     font-size: 16px;
     line-height: 28px;
