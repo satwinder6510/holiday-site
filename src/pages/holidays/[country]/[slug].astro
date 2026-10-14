@@ -83,11 +83,15 @@ const titleWords = titlePhrases.flatMap(p => p.split(/\s+/)).filter(isPlaceTerm)
 const placeRes = [...new Set([...titlePhrases, ...(holiday.cities || [])])].filter(Boolean).map(wordRe);
 const titleOnlyRes = [...new Set(titleWords)].map(wordRe);
 const SKIP_RE = /quarantine|covid|coronavirus|travel advice|lockdown|traffic light/i;
-const scoreBlog = (b: { title: string; excerpt: string }) => {
+const scoreBlog = (b: { title: string; excerpt: string; tags: string[] }) => {
   if (SKIP_RE.test(b.title)) return 0;
   let score = 0;
   if (countryRe.test(b.title)) score += 4;
   if (placeRes.some(re => re.test(b.title)) || titleOnlyRes.some(re => re.test(b.title))) score += 3;
+  // Tags are set in the admin on purpose, so a country or place tag counts
+  // more than a passing mention in the excerpt.
+  if (b.tags.some(tag => countryRe.test(tag))) score += 2;
+  if (b.tags.some(tag => placeRes.some(re => re.test(tag)))) score += 2;
   if (countryRe.test(b.excerpt)) score += 1;
   if (placeRes.some(re => re.test(b.excerpt))) score += 1;
   return score;
