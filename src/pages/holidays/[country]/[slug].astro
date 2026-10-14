@@ -95,7 +95,8 @@ const scoreBlog = (b: { title: string; excerpt: string }) => {
 const matchedBlogs = allBlogs
   .map((b, i) => ({ b, score: scoreBlog(b), i }))
   .filter(x => x.score > 0)
-  .sort((a, z) => z.score - a.score || a.i - z.i)
+  // Equal relevance: newest post first, so a fresh guide outranks a 2019 one.
+  .sort((a, z) => z.score - a.score || z.b.publishedAt.localeCompare(a.b.publishedAt) || a.i - z.i)
   .map(x => x.b);
 const latestBlogs = matchedBlogs.length >= 2 ? matchedBlogs.slice(0, 4) : allBlogs.slice(0, 4);
 
