@@ -56,6 +56,13 @@ if (isFaqPost && blog.content) {
   }
 }
 
+// Posts often open with the same picture the hero already shows. Drop that one
+// copy so the reader is not shown the photo twice in a row.
+const heroName = (blog.image || '').split('/').pop() || '';
+const bodyHtml = heroName
+  ? blog.content.replace(new RegExp(`^\\s*<img\\b[^>]*src="[^"]*${heroName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>\\s*`, 'i'), '')
+  : blog.content;
+
 const blogPostingSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -97,7 +104,7 @@ const blogPostingSchema = {
   <MobileNav />
 
   <!-- Custom Hero -->
-  <section class="blog-hero" style={`background-image: url('${blog.image}')`}>
+  <section class="blog-hero" style={`background-image: linear-gradient(rgba(7, 49, 64, 0.25), rgba(7, 49, 64, 0.5)), url('${blog.image}')`}>
     <div class="breadcrumbs">
       <a href="/">Home</a>
       <img src="/icons/breadcrumb-arrow.svg" alt="" class="breadcrumb-icon" />
@@ -115,7 +122,7 @@ const blogPostingSchema = {
     <section class="section-container">
       <div class="content">
         <div class="blog">
-          <Fragment set:html={sanitizeHtml(blog.content)} />
+          <Fragment set:html={sanitizeHtml(bodyHtml)} />
         </div>
         <div class="pagination">
           {prevBlog && (
@@ -178,7 +185,7 @@ const blogPostingSchema = {
   .blog-hero {
     margin-top: 100px;
     height: 500px;
-    background-position: 100%;
+    background-position: center;
     background-size: cover;
     position: relative;
     color: #ffffff;
@@ -293,45 +300,61 @@ const blogPostingSchema = {
     }
   }
 
-  /* Blog content */
-  .blog p {
-    line-height: 26px;
+  /* Blog content. Everything inside .blog arrives through set:html, so every
+     selector here must be :global — a scoped `.blog p` never matches. Type
+     follows the holiday page scale: 16px prose (the cruise readers are 60+),
+     Caslon headings well clear of the body size. */
+  .blog {
+    max-width: 760px;
   }
-  .blog img {
+  .blog :global(p) {
+    font-size: 16px;
+    line-height: 28px;
+    color: #424242;
+    margin: 0 0 18px;
+  }
+  .blog :global(img) {
     display: block;
     width: 100%;
-    max-height: 360px;
+    height: auto;
+    max-height: 480px;
     object-fit: cover;
     object-position: center;
-    margin: 25px 0;
+    margin: 28px 0;
+    border-radius: 4px;
   }
-  .blog img.deckplan {
+  .blog :global(img.deckplan) {
     max-height: none;
     object-fit: contain;
   }
   .blog :global(h2) {
-    margin: 25px 0 10px;
-    font-size: 18px;
-    line-height: 22px;
-    position: relative;
+    margin: 40px 0 12px;
+    font-size: 30px;
+    line-height: 34px;
     font-family: "CaslonGraphiqueEF";
-    color: #424242;
+    font-weight: 400;
+    color: #073140;
   }
   .blog :global(h3) {
-    margin: 20px 0 8px;
-    font-size: 16px;
-    line-height: 20px;
+    margin: 28px 0 8px;
+    font-size: 22px;
+    line-height: 26px;
     font-family: "CaslonGraphiqueEF";
-    color: #424242;
+    font-weight: 400;
+    color: #073140;
+  }
+  .blog :global(h2:first-child),
+  .blog :global(h3:first-child) {
+    margin-top: 0;
   }
   .blog :global(ul) {
     list-style: disc;
-    margin: 10px 0 15px 25px;
+    margin: 0 0 20px 22px;
     padding-left: 0;
   }
   .blog :global(ol) {
     list-style: decimal;
-    margin: 10px 0 15px 25px;
+    margin: 0 0 20px 22px;
     padding-left: 0;
   }
   .blog :global(li) {
@@ -339,11 +362,35 @@ const blogPostingSchema = {
     font-size: 16px;
     line-height: 28px;
     color: #424242;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+  }
+  .blog :global(strong),
+  .blog :global(b) {
+    font-weight: 700;
   }
   .blog :global(a) {
-    color: #20A1AA;
+    color: #0d6066;
     text-decoration: underline;
+  }
+  @media (max-width: 768px) {
+    .blog :global(p),
+    .blog :global(li) {
+      font-size: 16px;
+      line-height: 26px;
+    }
+    .blog :global(h2) {
+      font-size: 26px;
+      line-height: 30px;
+      margin-top: 32px;
+    }
+    .blog :global(h3) {
+      font-size: 20px;
+      line-height: 24px;
+    }
+    .blog :global(img) {
+      max-height: 300px;
+      margin: 20px 0;
+    }
   }
 
 
