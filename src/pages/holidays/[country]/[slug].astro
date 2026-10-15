@@ -181,19 +181,29 @@ const initialDeps = hasPricing ? pricing!.departures
 
 const isCruise = holiday.tags.includes('River Cruise');
 
-// "You might also like" (trial from 2026-10-15): four other offers under the page,
-// ahead of the call-expert CTA. Same country first, then the same kind (cruise or
-// land), then the rest in display order. Decoration: a failure shows nothing.
+// "You might also like" (trial from 2026-10-15): other offers under the page, ahead
+// of the call-expert CTA. The admin's picks, in their order, when the holiday has
+// any (relatedPicks on the holiday form); otherwise four chosen here: same country
+// first, then the same kind (cruise or land), then display order. A pick that is
+// no longer listed or priced is skipped. Decoration: a failure shows nothing.
 let related: HolidayDetail[] = [];
 try {
   const all = await getAllListedHolidaysFromDb(getDb(Astro));
-  const kindOf = (h: HolidayDetail) => h.tags.includes('River Cruise') ? 'cruise' : 'land';
-  const rank = (h: HolidayDetail) =>
-    (h.countrySlug === holiday.countrySlug ? 0 : 2) + (kindOf(h) === kindOf(holiday) ? 0 : 1);
-  related = all
-    .filter(h => h.id !== holiday.id && h.image && fromPrice(h) > 0)
-    .sort((a, b) => rank(a) - rank(b) || a.displayOrder - b.displayOrder || a.id - b.id)
-    .slice(0, 4);
+  const showable = (h: HolidayDetail) => h.id !== holiday.id && !!h.image && fromPrice(h) > 0;
+  const picked = holiday.relatedIds
+    .map(id => all.find(h => h.id === id))
+    .filter((h): h is HolidayDetail => !!h && showable(h));
+  if (picked.length) {
+    related = picked;
+  } else {
+    const kindOf = (h: HolidayDetail) => h.tags.includes('River Cruise') ? 'cruise' : 'land';
+    const rank = (h: HolidayDetail) =>
+      (h.countrySlug === holiday.countrySlug ? 0 : 2) + (kindOf(h) === kindOf(holiday) ? 0 : 1);
+    related = all
+      .filter(showable)
+      .sort((a, b) => rank(a) - rank(b) || a.displayOrder - b.displayOrder || a.id - b.id)
+      .slice(0, 4);
+  }
 } catch (e) {
   console.error('Related offers lookup failed:', e);
 }

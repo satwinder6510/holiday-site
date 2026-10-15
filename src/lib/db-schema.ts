@@ -62,6 +62,8 @@ export const flightPackages = sqliteTable('flight_packages', {
   displayPrice: real('display_price'),
   wasPrice: real('was_price'),
   offerBadges: text('offer_badges', { mode: 'json' }).$type<string[]>(),
+  /** "You might also like" picks from the admin, in order: holiday = flight_packages.id, cruise = cruise_offers.id. */
+  relatedPicks: text('related_picks', { mode: 'json' }).$type<{ type: string; id: number }[]>(),
   cities: text('cities', { mode: 'json' }).$type<string[]>().default([]).notNull(),
 });
 

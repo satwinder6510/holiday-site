@@ -1,6 +1,9 @@
 // Shared holiday/cruise transform functions — used by both SSG data layer and SSR DB layer
 import cityTaxData from '../data/city-taxes.json';
 
+/** holiday-site id of a cruise offer = cruise_offers.id + this (same constant as holidays-db.ts). */
+const CRUISE_ID_OFFSET = 10000;
+
 // ── Raw interfaces (match DB / JSON shape) ──────────────────────────
 
 export interface RawItineraryDay {
@@ -94,6 +97,7 @@ export interface RawHoliday {
   display_price: number | null;
   was_price?: number | null;
   offer_badges?: string[];
+  related_picks?: { type: string; id: number }[];
   cities: string[];
 }
 
@@ -203,6 +207,8 @@ export interface Holiday {
   wasPrice: number | null;
   /** Special offers: staff-typed pill labels; empty = the default "Special offer" pill. */
   offerBadges: string[];
+  /** "You might also like" picks from the admin as holiday-site ids (cruise = offer id + 10000), in order. Empty = automatic. */
+  relatedIds: number[];
   cities: string[];
   /** Cruise special (cruise_offer_specials) running today: its last day, YYYY-MM-DD. */
   specialEndsOn?: string;
@@ -579,6 +585,9 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
     displayPrice: raw.display_price ?? null,
     wasPrice: raw.was_price ?? null,
     offerBadges: raw.offer_badges ?? [],
+    relatedIds: (raw.related_picks ?? [])
+      .map(p => p.type === 'cruise' ? Number(p.id) + CRUISE_ID_OFFSET : p.type === 'holiday' ? Number(p.id) : 0)
+      .filter(id => id > 0),
     cities: raw.cities || [],
     description,
     slug: raw.slug,
@@ -726,6 +735,7 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     displayPrice: null,
     wasPrice: null,
     offerBadges: [],
+    relatedIds: [],
     cities: [],
     description,
     slug: raw.slug,

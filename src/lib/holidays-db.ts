@@ -88,6 +88,7 @@ function dbRowToRawHoliday(row: DbRow): RawHoliday {
     display_price: row.displayPrice ?? null,
     was_price: row.wasPrice ?? null,
     offer_badges: ((row.offerBadges ?? []) as string[]).map(b => String(b).trim()).filter(Boolean).slice(0, 3),
+    related_picks: ((row.relatedPicks ?? []) as { type: string; id: number }[]).slice(0, 4),
     cities: (row.cities ?? []) as string[],
   };
 }
