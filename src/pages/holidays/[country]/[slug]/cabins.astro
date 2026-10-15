@@ -55,7 +55,7 @@ if (!ladder || !ladder.grades.length) {
 }
 
 // Airports with a flight price on this sailing, cheapest first.
-type Dep = { airportCode: string; airportName: string; pricePp: number; date: string };
+type Dep = { airportCode: string; airportName: string; pricePp: number; date: string; flightPp?: number; isSpecial?: boolean };
 const deps = (pricing.departures as Dep[]).filter(d => d.date.slice(0, 10) === date);
 const byCode = new Map<string, Dep>();
 for (const d of deps) { const seen = byCode.get(d.airportCode); if (!seen || d.pricePp < seen.pricePp) byCode.set(d.airportCode, d); }
@@ -78,7 +78,7 @@ const grades = [...ladder.grades].sort((a, b) => a.netPp - b.netPp);
 interface CabinCard { id: string; cabinType: string; name: string; deck: string | null; label: string; price: number; saving: number | null; facts: string[]; summary: string; equipment: string[]; image: string }
 interface CabinCardExtra extends CabinCard { alsoAt: number[] }
 const cabinsRaw: CabinCard[] = grades.flatMap((g, i): CabinCard[] => {
-  const price = gradePrice(ladder, chosen.pricePp, g.cabinType);
+  const price = gradePrice(ladder, chosen.pricePp, g.cabinType, !!chosen.isSpecial);
   const info = cabinInfo[g.cabinType];
   const facts = [
     info?.sizeSqm ? `${info.sizeSqm} m²` : null,
@@ -96,7 +96,9 @@ const cabinsRaw: CabinCard[] = grades.flatMap((g, i): CabinCard[] => {
     deck: g.deck,
     label: g.deck ? `${g.name}, ${g.deck}` : g.name,
     price,
-    saving: directSaving(g, price),
+    saving: chosen.isSpecial
+      ? directSaving(g, price, chosen.flightPp, ladder.specialExtrasPp, ladder.specialLuggage)
+      : directSaving(g, price, chosen.flightPp),
     facts,
     summary: info?.summary || '',
     equipment: info?.equipment || [],
@@ -122,6 +124,8 @@ const title = cleanCruiseTitle(holiday.title);
 const shipName = holiday.shipName || '';
 // What a caller quotes: the cruise id and the sailing, so whoever answers finds the exact sailing.
 const quoteRef = `${holiday.id}-${date.slice(5, 7)}${date.slice(8, 10)}`;
+// A special without hold luggage must not claim it on its own sailings.
+const luggageWord = chosen.isSpecial && !ladder.specialLuggage ? '' : 'hold luggage, ';
 const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportName, ship: shipName, ref: quoteRef };
 ---
 <BaseLayout title={`Choose your cabin · ${title} · ${nice(date)}`} description={`Cabins and prices for ${title} sailing ${nice(date)}, flying from ${chosen.airportName}.`} noindex={true}>
@@ -133,7 +137,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
       <p class="cb__back"><a href={`${cruiseUrl}#sailings`}>‹ Back to dates</a></p>
       <p class="cd-eyebrow">Step two</p>
       <h1>Choose your cabin</h1>
-      <p class="cb__lede">{title}, sailing <b>{nice(date)}</b>. Every cabin has a private shower room; the price is per person sharing, with flights, hold luggage and transfers in it.</p>
+      <p class="cb__lede">{title}, sailing <b>{nice(date)}</b>. Every cabin has a private shower room; the price is per person sharing, with {luggageWord ? 'flights, hold luggage and transfers' : 'flights and transfers'} in it.</p>
 
       <div class="cb__grid">
         <div class="cb__main">
@@ -209,7 +213,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
               <span>Total</span>
               <span class="cb__total-amt" id="cb-total">{formatPrice((cabins[0]?.price ?? 0) * 2)}</span>
             </div>
-            <p class="cb__total-note">Flights, hold luggage, cruise and transfers. Nothing to pay today.</p>
+            <p class="cb__total-note">Flights, {luggageWord}cruise and transfers. Nothing to pay today.</p>
 
             <form id="cb-form" class="cb__form" novalidate>
               <p class="cb__form-h">Check availability</p>
