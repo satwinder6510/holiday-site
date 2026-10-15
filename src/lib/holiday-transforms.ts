@@ -15,6 +15,25 @@ export interface RawAccommodation {
   description: string;
   /** Per-hotel star rating (from hotel library via admin; null/absent = unknown). */
   stars?: number | null;
+  /** Up to two hotels the guest may swap to at this stop (admin, 15 Oct 2026). */
+  alternatives?: RawHotelAlternative[];
+}
+
+export interface RawHotelAlternative {
+  name: string;
+  /** £ per person against the default hotel: 0 = no change, null = price on request. */
+  supplementPp?: number | null;
+  reason?: string;
+  stars?: number | null;
+  images?: string[];
+}
+
+export interface HotelAlternative {
+  name: string;
+  supplementPp: number | null;
+  reason: string;
+  stars: number | null;
+  images: string[];
 }
 
 export interface RawHoliday {
@@ -217,6 +236,8 @@ export interface HolidayDetail extends Holiday {
    */
   accommodations: {
     name: string; description: string; images: string[]; stars: number | null;
+    /** Swaps offered at this stop; the accommodation itself is the default. */
+    alternatives?: HotelAlternative[];
     kind?: 'ship' | 'hotel';
     /** Which side of the cruise a hotel night falls. Offers only. */
     when?: 'before' | 'after';
@@ -591,6 +612,16 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
       // package-level hotel_override onto hotel cards — it put 4★ on known
       // 3-star properties (holiday 414, found 2026-07-07).
       stars: acc.stars ?? null,
+      alternatives: (acc.alternatives || [])
+        .filter(a => (a.name || '').trim())
+        .slice(0, 2)
+        .map(a => ({
+          name: a.name.trim(),
+          supplementPp: typeof a.supplementPp === 'number' && Number.isFinite(a.supplementPp) ? a.supplementPp : null,
+          reason: (a.reason || '').trim(),
+          stars: a.stars ?? null,
+          images: (a.images || []).map(resolveImageUrl),
+        })),
     })),
     galleryImages: (raw.gallery || []).map(resolveImageUrl),
     review: raw.review || '',

@@ -21,7 +21,7 @@ const ALLOWED_FIELDS = [
   'first_name', 'last_name', 'email', 'phone', 'form_type',
   'source', 'landing_page', 'page_url', 'page_title',
   'package_name', 'package_id', 'departure_date', 'departure_airport',
-  'num_adults', 'price_per_person', 'total_price',
+  'num_adults', 'price_per_person', 'total_price', 'hotel_choice',
   'booking_ref', 'reason', 'message',
 ] as const;
 
@@ -123,6 +123,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     if (body.num_adults) other_fields['Number of Adults'] = body.num_adults;
     if (body.price_per_person) other_fields['Price Per Person'] = body.price_per_person;
     if (body.total_price) other_fields['Total Price'] = body.total_price;
+    if (body.hotel_choice) other_fields['Hotel choice'] = body.hotel_choice;
   } else {
     other_fields['Booking Reference'] = body.booking_ref || 'N/A';
     if (body.reason) other_fields['Reason'] = body.reason;
