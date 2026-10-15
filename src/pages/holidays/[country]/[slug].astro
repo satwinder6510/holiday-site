@@ -222,7 +222,10 @@ const cruiseIncluded = (() => {
   const operatorItems = OPERATOR_INCLUDED[opKey.startsWith('croisi') ? 'croisieurope' : opKey.startsWith('arosa') ? 'arosa' : opKey.startsWith('viva') ? 'viva' : opKey] || [];
   // Every Widgety fly-cruise price carries hold luggage (luggage_cost_pp); the
   // operators sell the cruise without it. Manual packages keep their own wording.
-  const luggage = holiday.id >= 10000 ? 'Hold luggage' : 'Cabin bag';
+  // A live special that leaves luggage out: say so rather than promise it.
+  const luggage = holiday.id >= 10000
+    ? (holiday.specialNoLuggage ? 'Cabin bag' : 'Hold luggage')
+    : 'Cabin bag';
   const common = ['Return flights from the UK', 'Airport taxes', luggage, board, 'ATOL protection', ...operatorItems];
   const extras = inclusionChips(holiday.whatsIncluded, holiday.boardBasis)
     .filter(c => !/^return flights|inclusive on board|full board on board|^drinks/i.test(c));
@@ -4342,13 +4345,26 @@ const pageDescription = holiday.metaDescription || (() => {
       } catch { /* analytics must never break the modal */ }
     }
 
+    // A stop with alternative hotels puts radios on the page (HolidayStory). Read
+    // what is ticked when the form opens, so the summary and the lead both carry
+    // it: "Poovar: The Leela Kovalam (+£180 per person)". Default = nothing sent.
+    function hotelChoiceText(): string {
+      return Array.from(document.querySelectorAll<HTMLInputElement>('input[data-hotel-alt]:checked'))
+        .filter((r) => r.value)
+        .map((r) => `${r.dataset.stop ? r.dataset.stop + ': ' : ''}${r.value}${r.dataset.diff ? ' (' + r.dataset.diff + ')' : ''}`)
+        .join('; ');
+    }
+
     function openEnquiryModal(details?: { date?: string; airport?: string; adults?: string; pricePp?: string; totalPrice?: string; ship?: string }) {
       if (!enquiryModal) return;
       enquiryTriggerEl = document.activeElement as HTMLElement | null;
       enquiryExtra = {};
+      const hotelChoice = hotelChoiceText();
+      if (hotelChoice) enquiryExtra.hotel_choice = hotelChoice;
 
-      if (details && enquiryDetails) {
+      if ((details || hotelChoice) && enquiryDetails) {
         const parts: string[] = [];
+        details = details || {};
         if (details.date) { parts.push(details.date); enquiryExtra.departure_date = details.date; }
         if (details.airport) { parts.push('from ' + details.airport); enquiryExtra.departure_airport = details.airport; }
         if (details.ship) { parts.push(details.ship); enquiryExtra.ship = details.ship; }
@@ -4356,6 +4372,7 @@ const pageDescription = holiday.metaDescription || (() => {
         if (details.pricePp) { enquiryExtra.price_per_person = details.pricePp; }
         if (details.totalPrice) { parts.push(details.totalPrice + ' total'); enquiryExtra.total_price = details.totalPrice; }
         else if (details.pricePp && /^[0-9.,]+$/.test(details.pricePp)) { parts.push('\u00A3' + Math.round(Number(details.pricePp.replace(/,/g, ''))).toLocaleString('en-GB') + ' per person'); }
+        if (hotelChoice) parts.push('Hotel: ' + hotelChoice);
         enquiryDetails.textContent = parts.join(' \u2022 ');
         enquiryDetails.style.display = parts.length ? '' : 'none';
       } else if (enquiryDetails) {
@@ -4461,6 +4478,9 @@ const pageDescription = holiday.metaDescription || (() => {
       if (enquiryExtra.num_adults) payload.num_adults = enquiryExtra.num_adults;
       if (enquiryExtra.price_per_person) payload.price_per_person = enquiryExtra.price_per_person;
       if (enquiryExtra.total_price) payload.total_price = enquiryExtra.total_price;
+      // Re-read at send time: the form can sit open while the choice changes.
+      const hotelChoiceNow = hotelChoiceText() || enquiryExtra.hotel_choice || '';
+      if (hotelChoiceNow) payload.hotel_choice = hotelChoiceNow;
 
       enquirySubmitBtn.disabled = true;
       enquirySubmitBtn.textContent = 'Sending...';
@@ -4498,6 +4518,7 @@ const pageDescription = holiday.metaDescription || (() => {
             package_id: String(holidayMeta.id || ''),
             package_name: holidayMeta.title || '',
             with_date: enquiryExtra.departure_date ? 'yes' : 'no',
+            with_hotel_choice: payload.hotel_choice ? 'yes' : 'no',
           });
           setTimeout(() => {
             closeEnquiryModal();
