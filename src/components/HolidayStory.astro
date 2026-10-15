@@ -38,13 +38,15 @@ const dayLabel = (d: string) => (/day/i.test(String(d)) ? String(d) : `Day ${d}`
 const plain = (s: string) => (s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const nightsWord = (n: number) => `${n} ${n === 1 ? 'night' : 'nights'}`;
 // Alternative hotels are priced as a per-person difference against the default,
-// never as a second total (owner, 15 Oct 2026): "+£180 per person", "no change",
-// "£50 less per person" or "price on request".
+// never as a second total (owner, 15 Oct 2026). Supplements vary by season, so a
+// positive figure is the low-season one and always reads "from" (owner, same day:
+// "make it from by default"): "from +£180 per person", "no change",
+// "£50 less per person" or "price on request". Staff confirm the exact gap with the price.
 const diffLabel = (pp: number | null) => {
   if (pp === null) return 'price on request';
   if (pp === 0) return 'no change';
   const n = Math.abs(Math.round(pp)).toLocaleString('en-GB');
-  return pp > 0 ? `+£${n} per person` : `£${n} less per person`;
+  return pp > 0 ? `from +£${n} per person` : `£${n} less per person`;
 };
 
 // Places and nights are read out of free text, so both are held to strict tests and
