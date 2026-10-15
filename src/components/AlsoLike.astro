@@ -1,0 +1,140 @@
+---
+/**
+ * "You might also like": other offers under a holiday page (trial from
+ * 2026-10-15). The page picks the list (same country first, then the same
+ * kind); this only draws it. Renders nothing when the list is empty.
+ */
+import type { HolidayDetail } from '../lib/holiday-transforms';
+import { cleanCruiseTitle } from '../lib/holiday-transforms';
+import { imgSrc } from '../lib/image-src';
+import { fromPrice } from '../lib/cruise-card';
+
+interface Props { related: HolidayDetail[] }
+const { related } = Astro.props;
+---
+{related.length > 0 && (
+<section class="also-like-section" aria-labelledby="also-like-heading">
+  <div class="section-container">
+    <p class="section-label">Keep looking</p>
+    <h2 id="also-like-heading">You might also like</h2>
+    <div class="also-like-grid">
+      {related.map(h => (
+        <a class="also-like-card" href={`/Holidays/${h.countrySlug}/${h.slug}`} data-also-like={h.id}>
+          <img src={imgSrc(h.image, 800)} alt="" loading="lazy" decoding="async" width="800" height="500" />
+          <span class="also-like-body">
+            <span class="also-like-title">{h.tags.includes('River Cruise') ? cleanCruiseTitle(h.title) : h.title}</span>
+            <span class="also-like-meta">{[h.country, h.duration, h.boardBasis].filter(Boolean).join(' \u00B7 ')}</span>
+            <span class="also-like-price">from <strong>&pound;{fromPrice(h).toLocaleString('en-GB')}</strong> per person</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+)}
+
+<style>
+  .also-like-section {
+    background: #fff;
+    padding: 60px 0 10px;
+  }
+  @media (max-width: 940px) {
+    .also-like-section { padding-top: 40px; }
+  }
+  .also-like-section .section-label {
+    font-family: BentonSans, sans-serif; font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #20A1AA;
+    margin-bottom: 10px;
+  }
+  .also-like-section h2 { margin-bottom: 35px; }
+  @media (max-width: 940px) {
+    .also-like-section h2 { margin-bottom: 25px; }
+  }
+  .also-like-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 25px;
+  }
+  @media (max-width: 1100px) {
+    .also-like-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 610px) {
+    .also-like-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  }
+  .also-like-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #424242;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .also-like-card:hover,
+  .also-like-card:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+    outline: none;
+  }
+  .also-like-card img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    display: block;
+    background: #1a1a1a;
+  }
+  .also-like-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 16px 18px;
+    flex: 1;
+  }
+  .also-like-title {
+    font-family: BentonSans, sans-serif; font-weight: 700;
+    font-size: 18px;
+    line-height: 1.25;
+    color: #424242;
+  }
+  .also-like-meta {
+    font-family: BentonSans, sans-serif; font-weight: 500;
+    font-size: 14px;
+    color: #6B6B6B;
+  }
+  .also-like-price {
+    margin-top: auto;
+    padding-top: 8px;
+    font-family: BentonSans, sans-serif; font-weight: 500;
+    font-size: 14px;
+    color: #424242;
+  }
+  .also-like-price strong {
+    font-family: 'CaslonGraphiqueEF', Georgia, serif;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1;
+    color: #20A1AA;
+    margin: 0 2px;
+  }
+</style>
+<script>
+  // Trial readout for "You might also like": one event per card click, with the
+  // page it came from and the offer it went to.
+  document.querySelectorAll<HTMLAnchorElement>('a[data-also-like]').forEach((a, i) => {
+    a.addEventListener('click', () => {
+      try {
+        (window as any).posthog?.capture('also_like_click', {
+          from_path: location.pathname,
+          to_path: a.getAttribute('href'),
+          to_id: a.dataset.alsoLike,
+          position: i + 1,
+        });
+      } catch { /* analytics must never block navigation */ }
+    });
+  });
+</script>

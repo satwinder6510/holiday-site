@@ -9,14 +9,15 @@ import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import type { HolidayDetail } from '../../../lib/holiday-transforms';
-import { inclusionChips } from '../../../lib/cruise-card';
+import { inclusionChips, fromPrice } from '../../../lib/cruise-card';
+import AlsoLike from '../../../components/AlsoLike.astro';
 import CruiseDetail from '../../../components/cruise/CruiseDetail.astro';
 import HolidayStory from '../../../components/HolidayStory.astro';
 import { getCruiseCalls, getSailingLadders, getShipNameSet } from '../../../lib/cruise-detail';
 import { roundToNine } from '../../../lib/pricing-transforms';
 import { allBlogs } from '../../../data/blogs';
 import { getDb } from '../../../lib/get-db';
-import { getHolidayBySlugFromDb, getHolidayAddons, getHolidayExcursions, type HolidayAddon, type HolidayExcursion } from '../../../lib/holidays-db';
+import { getHolidayBySlugFromDb, getAllListedHolidaysFromDb, getHolidayAddons, getHolidayExcursions, type HolidayAddon, type HolidayExcursion } from '../../../lib/holidays-db';
 import { sanitizeHtml } from '../../../lib/sanitize';
 
 const { country, slug } = Astro.params;
@@ -179,6 +180,23 @@ const initialDeps = hasPricing ? pricing!.departures
   })) : [];
 
 const isCruise = holiday.tags.includes('River Cruise');
+
+// "You might also like" (trial from 2026-10-15): four other offers under the page,
+// ahead of the call-expert CTA. Same country first, then the same kind (cruise or
+// land), then the rest in display order. Decoration: a failure shows nothing.
+let related: HolidayDetail[] = [];
+try {
+  const all = await getAllListedHolidaysFromDb(getDb(Astro));
+  const kindOf = (h: HolidayDetail) => h.tags.includes('River Cruise') ? 'cruise' : 'land';
+  const rank = (h: HolidayDetail) =>
+    (h.countrySlug === holiday.countrySlug ? 0 : 2) + (kindOf(h) === kindOf(holiday) ? 0 : 1);
+  related = all
+    .filter(h => h.id !== holiday.id && h.image && fromPrice(h) > 0)
+    .sort((a, b) => rank(a) - rank(b) || a.displayOrder - b.displayOrder || a.id - b.id)
+    .slice(0, 4);
+} catch (e) {
+  console.error('Related offers lookup failed:', e);
+}
 
 // Cruise detail data the static export can't carry: port times + coordinates, and
 // the cabin ladder per sailing. Both degrade to [] rather than throwing, and the
@@ -347,7 +365,10 @@ const pageDescription = holiday.metaDescription || (() => {
   <MobileNav />
 
   {useCruiseTemplate ? (
-    <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} shipNames={shipNameSet} addons={holidayAddonList} excursions={holidayExcursionList} />
+    <Fragment>
+      <CruiseDetail holiday={holiday} pricing={pricing} calls={cruiseCalls} ladders={cruiseLadders} shipNames={shipNameSet} addons={holidayAddonList} excursions={holidayExcursionList} />
+      <AlsoLike related={related} />
+    </Fragment>
   ) : (
   <Fragment>
   <!-- Hero Section (wrapper lets the price bar anchor to the hero's bottom edge) -->
@@ -793,6 +814,8 @@ const pageDescription = holiday.metaDescription || (() => {
     </section>
   </div>
   )}
+
+  <AlsoLike related={related} />
 
   <!-- Call Expert CTA -->
   <section class="call-expert-section" style={isCruise ? "background-image:url('/images/heroes/river-cruises-sunset-deck.jpg')" : undefined}>
