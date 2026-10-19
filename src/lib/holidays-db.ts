@@ -735,7 +735,12 @@ export async function getDepartureWindows(db: Database, ids: number[]): Promise<
     for (const r of cheapCruise.flat()) setCheapest(r.offerId + CRUISE_ID_OFFSET, r.date);
     // A live special's "from" price belongs to its own cheapest sailing.
     for (const sp of (await getActiveSpecials(db)).values()) {
-      if (sp.cheapestDate && cruiseIds.includes(sp.offerId)) setCheapest(sp.offerId + CRUISE_ID_OFFSET, sp.cheapestDate);
+      if (!sp.cheapestDate || !cruiseIds.includes(sp.offerId)) continue;
+      // The trip starts before the sailing when the special puts a hotel night first.
+      const before = sp.hotels.filter(h => h.when === 'before').reduce((n, h) => n + h.nights, 0);
+      const d = new Date(`${sp.cheapestDate}T00:00:00Z`);
+      d.setUTCDate(d.getUTCDate() - before);
+      setCheapest(sp.offerId + CRUISE_ID_OFFSET, d.toISOString().slice(0, 10));
     }
     for (const r of cheapPkg.flat()) setCheapest(r.packageId, r.date);
   } catch (err) {

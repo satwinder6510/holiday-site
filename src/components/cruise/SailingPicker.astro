@@ -22,13 +22,16 @@ interface Props {
   ladders: SailingLadder[];
   shipName: string;
   routeLabel: string;
+  /** Whole trip, hotel nights included. */
   nights: number;
+  /** Hotel nights before boarding: the trip starts this many days before the sailing date. */
+  nightsBefore?: number;
   /** Step two: the cabin page for this cruise; a sailing row links to it with ?date=&airport=. */
   cabinsHref?: string;
   tel: string;
   telDisplay: string;
 }
-const { airports, departures, ladders, shipName, routeLabel, nights, cabinsHref = '', tel, telDisplay } = Astro.props;
+const { airports, departures, ladders, shipName, routeLabel, nights, nightsBefore = 0, cabinsHref = '', tel, telDisplay } = Astro.props;
 
 // date -> airport code -> price pp
 const grid = new Map<string, Map<string, number>>();
@@ -48,6 +51,14 @@ const lowestFrom = (code: string) =>
 const defaultCode = codes.slice().sort((a, b) => lowestFrom(a) - lowestFrom(b))[0] ?? '';
 
 
+const shiftDays = (iso: string, days: number) => {
+  const d = new Date(`${iso}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+};
+// The date the reader sees is the day the trip starts: the sailing date, or the
+// hotel check-in before it. Keys, links and the cabin page keep the sailing date.
+const startOf = (sailing: string) => nightsBefore > 0 ? shiftDays(sailing, -nightsBefore) : sailing;
 const dates = [...grid.keys()].sort();
 // Admin-made cruise packages carry dates and airports but no cabin grid.
 const hasCabins = ladders.length > 0;
@@ -66,8 +77,9 @@ const Row = hasCabins ? 'a' : 'div';
 const INITIAL_ROWS = 12;
 const needsFilters = dates.length > INITIAL_ROWS;
 const MONTH_LABELS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const months = [...new Set(dates.map(d => d.slice(0, 7)))].sort()
-  .map(ym => ({ ym, label: `${MONTH_LABELS[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}`, n: dates.filter(d => d.startsWith(ym)).length }));
+const startMonths = dates.map(d => startOf(d).slice(0, 7));
+const months = [...new Set(startMonths)].sort()
+  .map(ym => ({ ym, label: `${MONTH_LABELS[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}`, n: startMonths.filter(m => m === ym).length }));
 const cheapestOf = (row: Map<string, number>) =>
   [...row.entries()].sort((a, b) => a[1] - b[1])[0];
 
@@ -78,9 +90,8 @@ function niceDate(iso: string) {
   return `${DAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONS[d.getUTCMonth()]}`;
 }
 const returnOf = (iso: string, nights: number) => {
-  const d = new Date(`${iso}T00:00:00Z`);
-  d.setUTCDate(d.getUTCDate() + nights);
-  return `${niceDate(d.toISOString().slice(0, 10))} ${d.getUTCFullYear()}`;
+  const r = shiftDays(iso, nights);
+  return `${niceDate(r)} ${r.slice(0, 4)}`;
 };
 
 
@@ -152,13 +163,14 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
             class:list={['sp__row', { 'is-na': hasCabins && !hasDefault }]}
             id={`sail-${i}`}
             data-date={date}
-            data-month={date.slice(0, 7)}
+            data-start={startOf(date)}
+            data-month={startOf(date).slice(0, 7)}
             hidden={needsFilters && i >= INITIAL_ROWS}
           >
             <span class="sp__date">
               {date === bestDate && <span class="sp__best">Best price</span>}
-              {niceDate(date)}
-              <span class="sp__sub">returns {returnOf(date, nightCount)}</span>
+              {niceDate(startOf(date))}
+              <span class="sp__sub">returns {returnOf(startOf(date), nightCount)}</span>
             </span>
             <span class="sp__nights">{nightCount} nights</span>
             <span class="sp__ship">{shipName && <b>{shipName}</b>}{routeLabel}</span>
@@ -324,8 +336,12 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
         const shipEl = row?.querySelector<HTMLElement>('.sp__ship b');
         const ship = shipEl?.textContent?.trim() || '';
         const amt = row?.querySelector<HTMLElement>('.sp__amt')?.textContent?.trim();
+        // The trip start goes in the enquiry; when a hotel night comes first the
+        // sailing date is spelled out too, so staff find the right sailing.
+        const start = row?.dataset.start || row?.dataset.date;
+        const sail = row?.dataset.date;
         open({
-          date: row?.dataset.date ? niceDate(row.dataset.date) : undefined,
+          date: start ? niceDate(start) + (sail && sail !== start ? ` (ship sails ${niceDate(sail)})` : '') : undefined,
           airport: airportName.get(code) || code || undefined,
           ship: ship || undefined,
           pricePp: amt ? amt.replace(/[^0-9.]/g, '') : undefined,

@@ -40,6 +40,10 @@ const nights = (() => {
   const m = holiday.duration.match(/(\d+)\s*Night/i);
   return m ? Number(m[1]) : 0;
 })();
+// Hotel nights before the cruise: the holiday starts that many days before the
+// sailing date, so the sailing list shows the day the reader actually flies.
+const nightsBefore = holiday.hotelNightsBefore ?? 0;
+const cruiseNights = holiday.cruiseNights ?? nights;
 
 // Many offers are flight + hotel + cruise, and the accommodations list holds the
 // HOTEL first and the ship second. Taking [0] as the ship put a Vienna hotel under
@@ -266,6 +270,7 @@ const overview = tidyOverview(holiday.overview || '');
           shipName={shipName}
           routeLabel={routeLabel}
           nights={nights}
+          nightsBefore={nightsBefore}
           cabinsHref={`/Holidays/${holiday.countrySlug}/${holiday.slug}/cabins`}
           tel={TEL_HREF}
           telDisplay={TEL_DISPLAY}
@@ -301,7 +306,7 @@ const overview = tidyOverview(holiday.overview || '');
       <div class="section-container">
         <div class="cd-head">
           <p class="cd-eyebrow">Your route</p>
-          <h2>{calls.length} calls over {nights + 1} days</h2>
+          <h2>{calls.length} calls over {cruiseNights + 1} days</h2>
           <p class="cd-prose">Where the ship ties up, and for how long.</p>
         </div>
 

@@ -177,6 +177,12 @@ function overviewHtml(text: string): string {
 export function withSpecial(h: HolidayDetail, sp: ActiveSpecial | undefined): HolidayDetail {
   if (!sp || !sp.cheapestPp) return h;
   const was = sp.wasPricePp ?? sp.standardAtCheapest;
+  // The special's hotel nights REPLACE the offer's (the queue prices its flights
+  // from the special's nights alone), so the length and the start date follow.
+  const cruiseNights = h.cruiseNights ?? (Number(h.duration.match(/(\d+)\s*Night/i)?.[1]) || 0);
+  const hotelNightsBefore = sp.hotels.filter(x => x.when === 'before').reduce((n, x) => n + x.nights, 0);
+  const hotelNightsAfter = sp.hotels.filter(x => x.when === 'after').reduce((n, x) => n + x.nights, 0);
+  const nights = cruiseNights + hotelNightsBefore + hotelNightsAfter;
   // Every sailing on show is the special, so luggage is simply in or out.
   const own = sp.includeLuggage ? h.whatsIncluded : h.whatsIncluded.filter(l => !/luggage|baggage/i.test(l));
   return {
@@ -196,5 +202,9 @@ export function withSpecial(h: HolidayDetail, sp: ActiveSpecial | undefined): Ho
     specialInclusions: [...sp.inclusions, ...(sp.transferLabel ? [sp.transferLabel] : [])],
     specialHasHotel: sp.hotels.length > 0,
     specialNoLuggage: !sp.includeLuggage,
+    duration: `${nights + 1} Days / ${String(nights).padStart(2, '0')} Nights`,
+    cruiseNights,
+    hotelNightsBefore,
+    hotelNightsAfter,
   };
 }

@@ -222,6 +222,12 @@ export interface Holiday {
   specialNoLuggage?: boolean;
   /** Cruise special's own blurb as HTML — shown at the TOP of the page. */
   specialOverviewHtml?: string;
+  /** Cruise: nights on the ship alone. `duration` counts hotel nights as well. */
+  cruiseNights?: number;
+  /** Cruise: hotel nights before boarding — the trip starts this many days before the sailing date. */
+  hotelNightsBefore?: number;
+  /** Cruise: hotel nights after disembarking. */
+  hotelNightsAfter?: number;
 }
 
 export interface HolidayDetail extends Holiday {
@@ -680,7 +686,13 @@ function buildHotelDescription(h: RawCruiseHotel): string {
 }
 
 export function transformCruise(raw: RawCruise): HolidayDetail {
-  const nights = raw.duration_nights;
+  // The trip is the cruise plus any hotel nights the offer adds either side:
+  // a 3-night cruise with a night in Paris first is a 4-night holiday, and the
+  // flight out is the day before the ship sails.
+  const cruiseNights = raw.duration_nights;
+  const hotelNightsBefore = (raw.hotels || []).filter(h => h.when === 'before').reduce((n, h) => n + (h.nights || 0), 0);
+  const hotelNightsAfter = (raw.hotels || []).filter(h => h.when === 'after').reduce((n, h) => n + (h.nights || 0), 0);
+  const nights = cruiseNights + hotelNightsBefore + hotelNightsAfter;
   const days = nights + 1;
   const heroImage = raw.featured_image || raw.ship?.cover_image || '';
 
@@ -773,6 +785,9 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     excluded: null,
     requirements: null,
     attention: null,
+    cruiseNights,
+    hotelNightsBefore,
+    hotelNightsAfter,
     metaDescription: '',
     updatedAt: '',
     routeFrom: raw.departure_port || '',
