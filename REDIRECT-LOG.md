@@ -109,3 +109,28 @@ Deploy note 2026-10-03: NOT deployed by Site Doctor. The tree still carried five
 files, so the A1 lane's redirects-only condition was not met. The rule goes live with the owner's
 next `./deploy.sh`; verify with
 `curl -sI https://holidays.flightsandpackages.com/Holidays/Europe/Europe-Twin-Centre/20` (expect 301 → `/Holidays/Twin-Centre`).
+
+## 2026-10-19 — legacy numeric country listing (TODO-redirects.md row "Numeric country listings")
+
+| Date | Source (404, verified) | Target (verified 200) | Evidence |
+|---|---|---|---|
+| 2026-10-19 | `/Holidays/Europe/Hungary/39` | `/Holidays/hungary` | site_errors ids 3853-3863 (2026-10-19 00:08:40-43 UTC, the Win10 Chrome/118 whole-page client) beaconed the 404 page's 11 nav/footer assets from this URL. Source curls 404 (58,497 B, title "Page Not Found") with and without trailing slash. Target curls 200 (89,033 B, title "Hungary Holidays") with and without trailing slash; `/Holidays/Hungary` (capital) is 404, hence a per-URL lowercase rule, same as the nine earlier rules in this class. Control: `/Holidays/Europe/Germany/16` still 301 → `/Holidays/germany`. |
+
+Deploy note 2026-10-19: tree was clean before the edit (main @ 2fd3f07, unchanged since 10-15), so the
+A1 lane's redirects-only condition is met; deployed by Site Doctor via `./deploy.sh` — see the
+run report in `site-doctor/reports/2026-10-19.md` for the post-deploy verification.
+
+**INCIDENT 2026-10-19 (Site Doctor, 09:34–09:4x IST):** that deploy (`271799a3`) put `main` @ 2fd3f07 live
+for the first time, and every D1-backed SSR page (holiday detail, country, search, river-cruises)
+returned 503 "Service temporarily unavailable" — the pages' own `DB error` catch. Cause: 2fd3f07
+adds `related_picks` to the Drizzle schema (`src/lib/db-schema.ts`), but production D1 has no such
+column (`SELECT related_picks FROM flight_packages` → `no such column`), so every `select()` on
+`flight_packages` throws. The previously live build predated that commit (the 10-16 snapshot shows
+the "also like" section from 8b6c7d0, which needs no column). Remedy: the schema file was reverted
+to its 8b6c7d0 content in the working tree ONLY for a rollback build (`git checkout 8b6c7d0 --
+src/lib/db-schema.ts`), redeployed, and the file restored with `git checkout -- src/lib/db-schema.ts`.
+No commit touches the owner's code. The live artifact is therefore `main` minus the two
+`relatedPicks` schema lines, plus this redirect. The owner's `holiday-admin-api` schema comment says
+the column was added live on 2026-10-15 (`ALTER TABLE flight_packages ADD COLUMN related_picks TEXT
+DEFAULT '[]'`); it is not present now. Owner call: run that ALTER on production D1 (Site Doctor
+never makes schema changes), then redeploy `main` as-is.
