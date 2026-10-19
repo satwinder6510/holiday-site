@@ -510,7 +510,89 @@ const LISTING_OMITTED = {
 };
 
 /** Get all published, non-unlisted holidays + cruises, with cheapest prices. */
+// ── All listed holidays: memo + per-colo cache ──────────────────────
+//
+// Every D1 page (detail, country, search, river cruises, sitemap) needs the
+// whole listed catalogue, and building it is about six D1 round trips in a row.
+// Measured 19 Oct 2026: 1.3–2.5s TTFB on every D1 page, and 503s once a dozen
+// requests arrived together. Same three-layer shape as cruise-catalogue.ts:
+// isolate memo → per-colo Cache API → D1, all with a one-minute life. A failed
+// refresh serves the stale copy if there is one. Callers never mutate the
+// returned objects (checked 19 Oct), so sharing one array is safe.
+
+const ALL_TTL_MS = 60_000;
+const ALL_COLO_CACHE_KEY = 'https://all-listed-holidays.internal/v1';
+let allCached: { at: number; data: HolidayDetail[] } | null = null;
+let allInflight: Promise<HolidayDetail[]> | null = null;
+
+async function readAllColoCache(): Promise<HolidayDetail[] | null> {
+  try {
+    const cache = (globalThis as any).caches?.default;
+    if (!cache) return null;
+    const hit = await cache.match(new Request(ALL_COLO_CACHE_KEY));
+    return hit ? ((await hit.json()) as HolidayDetail[]) : null;
+  } catch {
+    return null;
+  }
+}
+
+async function writeAllColoCache(data: HolidayDetail[]): Promise<void> {
+  try {
+    const cache = (globalThis as any).caches?.default;
+    if (!cache) return;
+    await cache.put(
+      new Request(ALL_COLO_CACHE_KEY),
+      new Response(JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': `max-age=${Math.floor(ALL_TTL_MS / 1000)}`,
+        },
+      }),
+    );
+  } catch {
+    // A catalogue that can't be cached still renders
+  }
+}
+
 export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayDetail[]> {
+  // The build sets the city-tax rates as a side effect, and transforms on the
+  // same request (detail page pricing) read them. Keep that true on a cache
+  // hit; loadCityTaxesLive is itself memoised for five minutes.
+  const now = Date.now();
+  if (allCached && now - allCached.at < ALL_TTL_MS) {
+    setCityTaxRates(await loadCityTaxesLive(db));
+    return allCached.data;
+  }
+  if (allInflight) return allInflight;
+
+  allInflight = (async () => {
+    const fromColo = await readAllColoCache();
+    if (fromColo && fromColo.length > 0) {
+      setCityTaxRates(await loadCityTaxesLive(db));
+      return fromColo;
+    }
+    const built = await buildAllListedHolidays(db);
+    await writeAllColoCache(built);
+    return built;
+  })()
+    .then(data => {
+      allCached = { at: Date.now(), data };
+      return data;
+    })
+    .catch(err => {
+      if (allCached) {
+        console.error('all-listed holidays refresh failed, serving stale', err);
+        return allCached.data;
+      }
+      throw err;
+    })
+    .finally(() => {
+      allInflight = null;
+    });
+  return allInflight;
+}
+
+async function buildAllListedHolidays(db: Database): Promise<HolidayDetail[]> {
   const [rows, cityTaxRates] = await Promise.all([
     db
       .select(listingColumns)
