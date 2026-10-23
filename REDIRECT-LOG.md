@@ -134,3 +134,14 @@ No commit touches the owner's code. The live artifact is therefore `main` minus 
 the column was added live on 2026-10-15 (`ALTER TABLE flight_packages ADD COLUMN related_picks TEXT
 DEFAULT '[]'`); it is not present now. Owner call: run that ALTER on production D1 (Site Doctor
 never makes schema changes), then redeploy `main` as-is.
+
+## 2026-10-23 — legacy numeric country listing (TODO-redirects.md row "Numeric country listings")
+
+| Date | Source (404, verified) | Target (verified 200) | Evidence |
+|---|---|---|---|
+| 2026-10-23 | `/Holidays/Europe/Turkey/15` | `/Holidays/turkey` | site_errors ids 4693-4704 (2026-10-22 23:47:06 UTC, the Win10 Chrome/118 whole-page client) beaconed the 404 page's 12 nav/footer assets from this URL. Source curls 404 (65,037 B, title "Page Not Found") with and without trailing slash. Target curls 200 (80,738 B, h1 "Turkey Holidays", lists `/Holidays/turkey/laur-elegance-a-serene-aegean-escape`) with and without trailing slash; `/Holidays/Turkey` (capital) is 404, hence a per-URL lowercase rule, same as the ten earlier rules in this class. Controls: `/Holidays/Europe/Hungary/39` 301 → `/Holidays/hungary` and `/Holidays/Europe/Europe-Twin-Centre/20` 301 → `/Holidays/Twin-Centre` still live. |
+
+Deploy note 2026-10-23: NOT deployed by Site Doctor. The tree carried two uncommitted owner files
+(`src/data/blog-export.json`, `src/pages/holidays/[country]/[slug]/cabins.astro`), so the A1 lane's
+redirects-only condition was not met. The rule goes live with the owner's next `./deploy.sh`; verify with
+`curl -sI https://holidays.flightsandpackages.com/Holidays/Europe/Turkey/15` (expect 301 → `/Holidays/turkey`).
