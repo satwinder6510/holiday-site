@@ -270,6 +270,11 @@ manually-created cruise holidays (`flight_packages` rows, id < 10000) are unaffe
   sailing, airports with no special fare drop out; a special hotel adds hotel cards.
   After the end date everything falls back by itself — no job, no deploy.
   `FEATURED_CRUISE_IDS` is gone: "first in Special offers" is a tick on the special.
+  **A live special outranks the offer grid's retail overlay** (fixed 28 Oct 2026):
+  "Auto-set retail" on the standard offer stamps `retail_price_pp` on every cabin row,
+  and that flat price used to replace the special's per-airport prices on the page
+  (Douro offer 470 showed £2,369 instead of £1,849). Retail applies again when the
+  special ends.
 - **Still open:** breadcrumb still points at the country page rather than the river
   (owner's call, 2026-09-20); no sibling-cruise internal links; no deck plans. "Time in
   port" was built then removed — CroisiEurope records arrival == departure on many
