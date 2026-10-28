@@ -366,7 +366,8 @@ export function gradePrice(
 ): number | null {
   const grade = ladder.grades.find(g => g.cabinType === cabinType);
   if (!grade) return null;
-  if (grade.retailPp != null) return roundToNine(grade.retailPp);
+  // The retail overlay is the standard selling price; a live special outranks it.
+  if (grade.retailPp != null && !special) return roundToNine(grade.retailPp);
   // On a special the upgrade carries the special's discount, not the standard one.
   const lead = ladder.grades.find(g => g.netPp === ladder.leadPp);
   if (special && ladder.specialDiscount != null && grade.farePp != null && lead?.farePp != null) {

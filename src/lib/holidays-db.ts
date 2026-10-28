@@ -277,7 +277,9 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
   // per sailing date, flat across every airport, overriding the live flight price.
   // Sailings with no retail keep the live pricing — "show the special offer where
   // it exists, not every date". Retail is the all-in fly-cruise selling price.
-  const retailRows = await db
+  // A live special outranks it: the special's prices are the page while it runs
+  // (28 Oct 2026: "Auto-set retail" on the offer grid was hiding a 25% special).
+  const retailRows = specialLive ? [] : await db
     .select({
       date: cruiseSailings.departureDate,
       shipId: cruiseSailings.shipId,
