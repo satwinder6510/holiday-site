@@ -564,6 +564,14 @@ async function buildCatalogue(db: Database): Promise<RawCruise[]> {
 
 let cached: { at: number; data: RawCruise[] } | null = null;
 let inflight: Promise<RawCruise[]> | null = null;
+// Same guard as holidays-db.ts: the shared read must settle or the isolate hangs.
+const BUILD_TIMEOUT_MS = 15_000;
+function settleWithin<T>(p: Promise<T>, ms: number, what: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error(`${what} did not settle within ${ms}ms`)), ms);
+    p.then(v => { clearTimeout(t); resolve(v); }, e => { clearTimeout(t); reject(e); });
+  });
+}
 
 /** Where the last read came from, for /api/catalogue-health. */
 let lastSource: 'memo' | 'colo-cache' | 'd1' | 'none' = 'none';
@@ -641,7 +649,7 @@ export async function getCruiseCatalogue(db: Database): Promise<RawCruise[]> {
   }
   if (inflight) return inflight;
 
-  inflight = (async () => {
+  inflight = settleWithin((async () => {
     const t0 = Date.now();
     const fromColo = await readColoCache();
     if (fromColo && fromColo.length > 0) {
@@ -657,7 +665,7 @@ export async function getCruiseCatalogue(db: Database): Promise<RawCruise[]> {
     await writeColoCache(built);
     coloWriteMs = Date.now() - tBuilt;
     return built;
-  })()
+  })(), BUILD_TIMEOUT_MS, 'cruise catalogue read')
     .then(data => {
       cached = { at: Date.now(), data };
       return data;

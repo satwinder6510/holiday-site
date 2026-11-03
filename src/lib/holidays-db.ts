@@ -527,6 +527,19 @@ const ALL_COLO_CACHE_KEY = 'https://all-listed-holidays.internal/v1';
 let allCached: { at: number; data: HolidayDetail[] } | null = null;
 let allInflight: Promise<HolidayDetail[]> | null = null;
 
+// The shared in-flight build MUST settle. A D1 or Cache API call that never
+// returned left `allInflight` pending for the life of the isolate, and every
+// later request on that isolate awaited it: 3 Nov 2026, every /Holidays page
+// at LHR was cancelled at 30s with zero CPU while D1 answered in 3ms. A timed-out
+// build rejects, which serves the stale copy (or errors) and clears the slot.
+const ALL_BUILD_TIMEOUT_MS = 15_000;
+export function settleWithin<T>(p: Promise<T>, ms: number, what: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error(`${what} did not settle within ${ms}ms`)), ms);
+    p.then(v => { clearTimeout(t); resolve(v); }, e => { clearTimeout(t); reject(e); });
+  });
+}
+
 async function readAllColoCache(): Promise<HolidayDetail[] | null> {
   try {
     const cache = (globalThis as any).caches?.default;
@@ -567,7 +580,7 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
   }
   if (allInflight) return allInflight;
 
-  allInflight = (async () => {
+  allInflight = settleWithin((async () => {
     const fromColo = await readAllColoCache();
     if (fromColo && fromColo.length > 0) {
       setCityTaxRates(await loadCityTaxesLive(db));
@@ -576,7 +589,7 @@ export async function getAllListedHolidaysFromDb(db: Database): Promise<HolidayD
     const built = await buildAllListedHolidays(db);
     await writeAllColoCache(built);
     return built;
-  })()
+  })(), ALL_BUILD_TIMEOUT_MS, 'all-listed holidays build')
     .then(data => {
       allCached = { at: Date.now(), data };
       return data;
