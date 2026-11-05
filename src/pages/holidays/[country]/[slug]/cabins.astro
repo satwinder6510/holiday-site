@@ -119,7 +119,10 @@ const nights = (() => { const m = holiday.duration.match(/(\d+)\s*Night/i); retu
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const nice = (iso: string) => { const d = new Date(`${iso}T00:00:00Z`); return `${DAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONS[d.getUTCMonth()]} ${d.getUTCFullYear()}`; };
-const returns = (() => { const d = new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + nights); return nice(d.toISOString().slice(0, 10)); })();
+// Hotel nights before the cruise: the trip starts before the sailing date.
+const shiftDays = (iso: string, days: number) => { const d = new Date(`${iso}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + days); return d.toISOString().slice(0, 10); };
+const start = shiftDays(date, -(holiday.hotelNightsBefore ?? 0));
+const returns = nice(shiftDays(start, nights));
 const title = cleanCruiseTitle(holiday.title);
 const shipName = holiday.shipName || '';
 // What a caller quotes: the cruise id and the sailing, so whoever answers finds the exact sailing.
@@ -202,7 +205,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
             <p class="cd-lab">Your cruise</p>
             <p class="cb__title">{title}</p>
             <dl class="cb__facts-list" aria-live="polite">
-              <div><dt>Departs</dt><dd>{nice(date)}</dd></div>
+              <div><dt>Departs</dt><dd>{nice(start)}</dd></div>
               <div><dt>Returns</dt><dd>{returns}</dd></div>
               <div><dt>Flying from</dt><dd>{chosen.airportName}</dd></div>
               {shipName && <div><dt>Ship</dt><dd>{shipName}</dd></div>}
