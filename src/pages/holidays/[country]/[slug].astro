@@ -10,6 +10,7 @@ import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
 import type { HolidayDetail } from '../../../lib/holiday-transforms';
 import { inclusionChips, fromPrice } from '../../../lib/cruise-card';
+import { LIVE_CHAT } from '../../../lib/site-flags';
 import AlsoLike from '../../../components/AlsoLike.astro';
 import CruiseDetail from '../../../components/cruise/CruiseDetail.astro';
 import HolidayStory from '../../../components/HolidayStory.astro';
@@ -922,7 +923,7 @@ const pageDescription = holiday.metaDescription || (() => {
         <span class="mobile-price-bar__value" id="mobile-price-value">{cheapestInclusive}<small>/pp</small></span>
       </div>
       <button type="button" class="mobile-price-bar__dates" id="btn-mobile-dates" hidden>Dates</button>
-      <button type="button" class="mobile-price-bar__btn mobile-price-bar__chat" id="btn-mobile-chat" hidden>Chat with us</button>
+      {LIVE_CHAT && <button type="button" class="mobile-price-bar__btn mobile-price-bar__chat" id="btn-mobile-chat" hidden>Chat with us</button>}
       <button type="button" class="mobile-price-bar__btn" id="btn-mobile-pricing">Check Dates &amp; Prices</button>
     </div>
   )}
@@ -1004,7 +1005,7 @@ const pageDescription = holiday.metaDescription || (() => {
       <div class="enquiry-modal__callchat" id="enquiry-callchat" style="display:none;">
         <p class="enquiry-modal__callchat-lead">Our travel experts are available right now &mdash; call for today's price and availability.</p>
         <a class="enquiry-modal__call-btn" id="enquiry-call-btn" href="tel:02081830518">Call 0208 183 0518</a>
-        <button type="button" class="enquiry-modal__chat-btn" id="enquiry-chat-btn">Can't talk right now? Chat with us</button>
+        {LIVE_CHAT && <button type="button" class="enquiry-modal__chat-btn" id="enquiry-chat-btn">Can't talk right now? Chat with us</button>}
         <p class="enquiry-modal__note">Lines open 9am&ndash;6pm</p>
       </div>
       <div class="enquiry-modal__success" id="enquiry-success" style="display:none;">

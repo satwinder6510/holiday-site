@@ -18,6 +18,7 @@ const {
 } = Astro.props;
 
 import NewsletterPopup from '../components/NewsletterPopup.astro';
+import { LIVE_CHAT } from '../lib/site-flags';
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImage = image || 'https://holidays.flightsandpackages.com/images/og-default.jpg';
@@ -265,13 +266,13 @@ const websiteSchema = {
     })();
   </script>
 
-  <!-- Tidio Live Chat -->
-  <script src="//code.tidio.co/umkdiuqjxuccie7jbxsnr0f6pj3lkfcs.js" async></script>
+  <!-- Tidio Live Chat (LIVE_CHAT in lib/site-flags.ts; off while unstaffed) -->
+  {LIVE_CHAT && <script is:inline src="//code.tidio.co/umkdiuqjxuccie7jbxsnr0f6pj3lkfcs.js" async></script>}
 
   <!-- Tidio → leads (2026-09-07): beacons widget events (visitor messages, agent
        replies, pre-chat name, page, source) to the admin API, which turns each
        conversation into a CRM lead. -->
-  <script is:inline>
+  {LIVE_CHAT && <script is:inline>
     (function () {
       var TIDIO_BEACON_URL = 'https://holiday-admin-api.satwinder-30c.workers.dev/api/monitor/tidio';
       var sid = null;
@@ -408,7 +409,7 @@ const websiteSchema = {
       if (window.tidioChatApi) { hook(); }
       else { document.addEventListener('tidioChat-ready', hook, { once: true }); }
     })();
-  </script>
+  </script>}
 
   <!-- Deferred Analytics — FB Pixel, Clarity (loaded after main content) -->
   <script is:inline>
