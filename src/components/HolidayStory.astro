@@ -158,8 +158,9 @@ if (daysGrouped) {
   }
 }
 const flatDays = daysGrouped ? [] : holiday.itinerary;
-// A day list that could not be placed under stops: the hotels come first as short
-// rows (owner, 3 Oct 2026), then the days as one list.
+// A day list that could not be placed under stops: the hotels come first (owner,
+// 3 Oct 2026), each with its full photo strip (owner, 12 Nov 2026: one thumbnail
+// was "tiny"), then the days as one list.
 const compactHotels = flatDays.length > 0;
 
 const gallery = holiday.galleryImages.filter((g) => !/\.(mp4|webm)(\?|$)/i.test(g));
@@ -274,7 +275,6 @@ const priceCarries = [
           <div class="hs-rows">
             {stops.map((s, i) => (
               <article class="hs-row" id={`hs-stop-${i + 1}`}>
-                {s.hotel.images[0] && <img class="hs-row__img" src={s.hotel.images[0]} alt="" loading="lazy" />}
                 <div class="hs-row__text">
                   {s.place && <p class="hs-stop__n"><span>{s.place}</span>{s.nights && <span>{nightsWord(s.nights)}</span>}</p>}
                   <h3 class="hs-row__name">
@@ -284,6 +284,22 @@ const priceCarries = [
                     )}
                   </h3>
                 </div>
+                {s.hotel.images.length > 0 && (
+                  <div class="hs-strip hs-strip--row">
+                    <div class="hs-swipe hs-swipe--stop" tabindex="0" role="group" aria-label={`Photos of ${s.hotelName}, ${s.hotel.images.length} photos`}>
+                      {s.hotel.images.map((img) => (
+                        <img src={img} alt="" loading="lazy" />
+                      ))}
+                    </div>
+                    {s.hotel.images.length > 1 && (
+                      <>
+                        <span class="hs-strip__count" aria-hidden="true"><span data-strip-n>1</span> / {s.hotel.images.length}</span>
+                        <button type="button" class="hs-strip__btn hs-strip__btn--prev" aria-label="Previous photo" disabled>&#10094;</button>
+                        <button type="button" class="hs-strip__btn hs-strip__btn--next" aria-label="Next photo">&#10095;</button>
+                      </>
+                    )}
+                  </div>
+                )}
                 {s.hotel.description && (
                   <div class="hs-prose hs-row__about" set:html={toParas(s.hotel.description)} />
                 )}
@@ -872,26 +888,19 @@ const priceCarries = [
     border-top: 1px solid #dfe9e9;
   }
   .hs-row {
-    display: grid;
-    grid-template-columns: 96px 1fr;
-    column-gap: 16px;
-    align-items: center;
-    padding: 16px 0 0;
+    padding: 20px 0 0;
     border-bottom: 1px solid #dfe9e9;
     scroll-margin-top: 90px;
-  }
-  .hs-row__img {
-    width: 96px;
-    height: 72px;
-    object-fit: cover;
-    border-radius: 8px;
-    background: #e6eeee;
   }
   .hs-row__text {
     min-width: 0;
   }
-  .hs-row__text:first-child {
-    grid-column: 1 / -1;
+  /* The photos run to the screen edge; the first one lines up with the text. */
+  .hs-strip--row {
+    margin: 12px -20px 0;
+  }
+  .hs-row:not(:has(.hs-row__about)) .hs-strip--row {
+    margin-bottom: 4px;
   }
   .hs-row__name {
     font-family: inherit;
@@ -902,12 +911,11 @@ const priceCarries = [
     margin: 0;
   }
   .hs-row__about {
-    grid-column: 1 / -1;
     margin-top: 12px;
     padding-bottom: 4px;
   }
   .hs-row:not(:has(.hs-row__about)) {
-    padding-bottom: 16px;
+    padding-bottom: 20px;
   }
 
   /* Alternative hotels at a stop: one default marked "included", swaps as a
