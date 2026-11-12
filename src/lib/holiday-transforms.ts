@@ -357,6 +357,21 @@ export function normaliseCountryName(category: string): string {
   return fixes[trimmed] || trimmed;
 }
 
+/** The old "attention" text as plain lines, one note per line. Imports wrote it as
+ *  an HTML list; "More information" is plain lines. The two are one block (owner,
+ *  12 Nov 2026), so attention is folded into it. Keep in sync with the admin's
+ *  HolidayForm noteLines. */
+export function noteLines(raw: string | null | undefined): string {
+  if (!raw) return '';
+  return raw
+    .replace(/<\/(li|p|ul|ol|div)>|<br\s*\/?>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;|\u00a0/g, ' ')
+    .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;|&rsquo;/g, "'")
+    .split('\n').map((l) => l.replace(/\s+/g, ' ').trim()).filter(Boolean)
+    .join('\n');
+}
+
 function parseOtherInfo(raw: string | null): { text: string; bullets: string[] } {
   if (!raw) return { text: '', bullets: [] };
 
@@ -564,7 +579,7 @@ export function calculateLocalCharges(raw: RawHoliday): { total: number; items: 
 export function transformHoliday(raw: RawHoliday): HolidayDetail {
   const country = normaliseCountryName(raw.category);
   const countrySlug = slugify(country);
-  const { text: otherInfoText, bullets: otherInfoBullets } = parseOtherInfo(raw.other_info);
+  const { text: otherInfoText, bullets: otherInfoBullets } = parseOtherInfo([raw.other_info, noteLines(raw.attention)].filter(Boolean).join('\n') || null);
   const heroImage = resolveImageUrl(raw.featured_image);
   const localCharges = calculateLocalCharges(raw);
 
@@ -647,7 +662,8 @@ export function transformHoliday(raw: RawHoliday): HolidayDetail {
     localChargesBreakdown: localCharges.items,
     excluded: raw.excluded || null,
     requirements: raw.requirements || null,
-    attention: raw.attention || null,
+    // Shown inside More information (see noteLines), never as its own block.
+    attention: null,
     metaTitle: raw.meta_title || '',
     metaDescription: raw.meta_description || '',
     updatedAt: raw.updated_at || '',
