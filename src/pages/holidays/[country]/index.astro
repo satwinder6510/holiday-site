@@ -968,6 +968,9 @@ const itemListSchema = holidays.length > 0 ? {
     width: calc(100% - 281px);
     float: right;
     padding-left: 32px;
+    /* The gap above the footer lives here, not on the Load More button:
+       the button is hidden once every holiday is showing. */
+    padding-bottom: 105px;
   }
   @media (max-width: 768px) {
     .holiday-list-section .content {
@@ -1520,7 +1523,7 @@ const itemListSchema = holidays.length > 0 ? {
     height: 64px;
     margin: auto;
     margin-top: 64px;
-    margin-bottom: 105px;
+    margin-bottom: 0;
     box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
     letter-spacing: 1px;
     display: flex;
