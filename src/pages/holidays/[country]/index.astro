@@ -447,7 +447,7 @@ const itemListSchema = holidays.length > 0 ? {
      =========================== */
   .country-hero {
     margin-top: 100px;
-    height: 500px;
+    height: clamp(500px, 40vw, 760px);
     position: relative;
     color: #ffffff;
     display: flex;
@@ -480,13 +480,13 @@ const itemListSchema = holidays.length > 0 ? {
   @media (max-width: 768px) {
     .country-hero {
       margin-top: 50px;
-      height: 400px;
+      height: 484px;
     }
     .hero-bg { object-position: center; }
   }
-  @media (max-width: 450px) {
+  @media (max-width: 480px) {
     .country-hero {
-      height: 300px;
+      height: 392px;
     }
   }
 

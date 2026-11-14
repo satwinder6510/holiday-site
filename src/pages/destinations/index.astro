@@ -81,7 +81,7 @@ const regions = destinations.map((d) => ({
   /* Hero */
   .dest-hero {
     margin-top: 100px;
-    height: 500px;
+    height: clamp(500px, 40vw, 760px);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -93,10 +93,10 @@ const regions = destinations.map((d) => ({
     max-width: 100%;
   }
   @media (max-width: 768px) {
-    .dest-hero { margin-top: 50px; height: 400px; }
+    .dest-hero { margin-top: 50px; height: 484px; }
   }
-  @media (max-width: 450px) {
-    .dest-hero { height: 300px; }
+  @media (max-width: 480px) {
+    .dest-hero { height: 392px; }
   }
 
   .breadcrumbs {
