@@ -13,6 +13,7 @@ export const countries: Country[] = [
   { name: 'Bulgaria', region: 'Europe', image: '/images/countries/Bulgaria_icon.webp', href: '/Holidays/bulgaria' },
   { name: 'Cambodia', region: 'Asia', image: '/images/countries/Cambodia_icon.webp', href: '/Holidays/cambodia' },
   { name: 'China', region: 'Asia', image: '/images/countries/China_icon.webp', href: '/Holidays/china' },
+  { name: 'Colombia', region: 'Americas', image: '/images/countries/Colombia_icon.webp', href: '/Holidays/colombia' },
   { name: 'Croatia', region: 'Europe', image: '/images/countries/Croatia_icon.webp', href: '/Holidays/croatia' },
   { name: 'Cyprus', region: 'Europe', image: '/images/countries/Cyprus_icon.webp', href: '/Holidays/cyprus' },
   { name: 'Czech Republic', region: 'Europe', image: '/images/countries/Czech-Republic_icon.webp', href: '/Holidays/czech-republic' },
