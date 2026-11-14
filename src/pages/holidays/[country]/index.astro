@@ -472,7 +472,6 @@ const itemListSchema = holidays.length > 0 ? {
     object-position: 100% center;
     z-index: 0;
   }
-  .country-hero .breadcrumbs,
   .country-hero .hero-content {
     position: relative;
     z-index: 2;
@@ -570,7 +569,8 @@ const itemListSchema = holidays.length > 0 ? {
      =========================== */
   .search-section {
     position: absolute;
-    top: 440px;
+    /* Tracks the hero height: the bar sits 160px above the hero's bottom edge. */
+    top: calc(clamp(500px, 40vw, 760px) - 60px);
     left: 0;
     right: 0;
     margin: auto;
@@ -580,7 +580,7 @@ const itemListSchema = holidays.length > 0 ? {
   @media (max-width: 1260px) {
     .search-section {
       max-width: 730px;
-      top: 400px;
+      top: calc(clamp(500px, 40vw, 760px) - 100px);
     }
   }
   @media (max-width: 768px) {
