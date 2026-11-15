@@ -644,6 +644,7 @@ async function buildAllListedHolidays(db: Database): Promise<HolidayDetail[]> {
   const specials = await getActiveSpecials(db);
   const cruises: HolidayDetail[] = [];
   for (const c of cruiseCatalogue) {
+    if (c.isUnlisted) continue; // direct link only
     const price = livePrice.get(c.id);
     // clone — never mutate the shared catalogue; a live special swaps in its own price
     if (price) cruises.push(withSpecial({ ...c, price }, specialFor(specials, c.id)));
@@ -882,6 +883,7 @@ export async function getNavCountriesFromDb(
   }
   // Also add cruise countries
   for (const c of await getCruiseHolidays(db)) {
+    if (c.isUnlisted) continue;
     names.add(c.country);
   }
   return Array.from(names)

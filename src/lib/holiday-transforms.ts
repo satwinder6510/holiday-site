@@ -148,6 +148,8 @@ export interface RawCruiseSailing {
 }
 
 export interface RawCruise {
+  /** Unlisted: reachable by direct link only (route not published). */
+  is_unlisted?: boolean;
   id: number;
   title: string;
   slug: string;
@@ -771,7 +773,7 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     tags: ['River Cruise'],
     isSpecialOffer: false,
     isPublished: true,
-    isUnlisted: false,
+    isUnlisted: !!raw.is_unlisted,
     displayOrder: 999,
     operator: raw.operator_name || '',
 

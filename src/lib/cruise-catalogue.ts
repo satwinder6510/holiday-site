@@ -274,6 +274,8 @@ interface OfferRow {
   /** The route's designated ship. Only a fallback; the ships that actually sail
    *  an offer come from its future sailings. */
   routeShipId: number | null;
+  /** cruise_routes.is_published. 0 = unlisted: the page opens by direct link only. */
+  routePublished: number | boolean | null;
 }
 
 /**
@@ -313,7 +315,8 @@ export const OFFERS_SQL = sql`
     cr.itinerary             AS itinerary,
     cr.gallery               AS gallery,
     cop.name                 AS operatorName,
-    cr.ship_id               AS routeShipId
+    cr.ship_id               AS routeShipId,
+    cr.is_published          AS routePublished
   FROM cruise_offers co
   INNER JOIN cruise_routes cr ON co.route_id = cr.id
   INNER JOIN cruise_operators cop ON cr.operator_id = cop.id
@@ -529,6 +532,10 @@ export function assembleCatalogue(
       port_fee_pp: parseFloat(row.portFeePp || '0'),
       hotels: buildHotels(row),
       sailings,
+      // An unpublished route is unlisted: its page opens by direct link, and it
+      // stays off every listing, search and the sitemap (first use: the
+      // AmaWaterways sample, 15 Nov 2026).
+      is_unlisted: row.routePublished === 0 || row.routePublished === false,
     });
   }
 
@@ -600,7 +607,7 @@ export function catalogueStats() {
  * Every failure here is swallowed: this is a cache, and the database is right
  * behind it.
  */
-const COLO_CACHE_KEY = 'https://cruise-catalogue.internal/v1';
+const COLO_CACHE_KEY = 'https://cruise-catalogue.internal/v2';
 
 async function readColoCache(): Promise<RawCruise[] | null> {
   try {

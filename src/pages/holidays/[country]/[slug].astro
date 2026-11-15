@@ -361,7 +361,7 @@ const pageDescription = holiday.metaDescription || (() => {
 })();
 ---
 
-<BaseLayout title={holiday.metaTitle || `${holiday.title} | Holidays - Flights and Packages`} description={pageDescription} image={holiday.heroImage} type="product" preloadImage={holiday.heroImage}>
+<BaseLayout title={holiday.metaTitle || `${holiday.title} | Holidays - Flights and Packages`} description={pageDescription} image={holiday.heroImage} type="product" preloadImage={holiday.heroImage} noindex={isCruise && holiday.isUnlisted}>
   <BreadcrumbSchema slot="head" items={[
     { name: 'Home', url: '/' },
     { name: 'Destinations', url: '/destinations' },
