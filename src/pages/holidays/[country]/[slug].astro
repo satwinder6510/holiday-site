@@ -4412,9 +4412,8 @@ const pageDescription = holiday.metaDescription || (() => {
     const enquiryChatBtn = document.getElementById('enquiry-chat-btn');
     const enquiryTitle = enquiryModal?.querySelector('.enquiry-modal__title') as HTMLElement | null;
 
-    // 9am–6pm UK the modal offers call/chat instead of the form; out of hours
-    // the form captures the lead (call-first, first run 2026-09-02, back on
-    // 2026-10-02 at the owner's request).
+    // Office hours, 9am–6pm UK. Only the phone bottom bar uses this now: the
+    // enquiry modal shows the form at all hours (call-first ended 2026-11-15).
     function callHoursNow(): boolean {
       try {
         const h = Number(new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Europe/London' }).format(new Date()));
@@ -4475,7 +4474,9 @@ const pageDescription = holiday.metaDescription || (() => {
       // enquirers want the price in writing, and the call-first panel was
       // converting them at the same rate with no written door at all.
       const formAlways = enquiryModal.dataset.formAlways === '1';
-      const callFirst = !formAlways && !!enquiryCallChat && !!enquiryForm && callHoursNow();
+      // Owner 2026-11-15: the form is back at all hours ("re-enable web forms
+      // during office hours"). The call/chat panel stays in the markup, unused.
+      const callFirst = false;
       if (enquiryCallChat && enquiryForm) {
         enquiryCallChat.style.display = callFirst ? '' : 'none';
         enquiryForm.style.display = callFirst ? 'none' : '';
