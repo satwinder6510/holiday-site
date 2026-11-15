@@ -102,10 +102,25 @@ const addonPrice = (a: HolidayAddon) => {
 };
 
 const included = holiday.whatsIncluded.filter(Boolean);
+// The default "not included" list must not contradict the offer's own inclusions
+// (AmaWaterways includes shore excursions in every port).
+const includesExcursions = included.some(x => /shore excursions/i.test(x));
 const excluded = [
   ...(holiday.specialNoLuggage ? ['Hold luggage'] : []),
-  ...(holiday.otherInfoBullets?.length ? holiday.otherInfoBullets : ['Travel insurance', 'Shore excursions', 'Personal expenses']),
+  ...(holiday.otherInfoBullets?.length
+    ? holiday.otherInfoBullets
+    : ['Travel insurance', ...(includesExcursions ? [] : ['Shore excursions']), 'Personal expenses']),
 ];
+// Same price from every airport on every date (an operator's own fly-cruise fare).
+const flatAirportPrice = (() => {
+  const byDate = new Map<string, Set<number>>();
+  for (const d of pricing?.departures ?? []) {
+    const k = d.date.slice(0, 10);
+    if (!byDate.has(k)) byDate.set(k, new Set());
+    byDate.get(k)!.add(d.pricePp);
+  }
+  return byDate.size > 0 && [...byDate.values()].every(s => s.size === 1);
+})();
 
 const fromPrice = pricing?.cheapestPriceFormatted ?? '';
 // Saving on the lead-in cabin against booking it direct (operator fare + flights +
@@ -119,7 +134,9 @@ const heroSaving = leadGrade && cheapDep
     ? directSaving(leadGrade, cheapDep.pricePp, cheapDep.flightPp, cheapLadder!.specialExtrasPp, cheapLadder!.specialLuggage)
     : directSaving(leadGrade, cheapDep.pricePp, cheapDep.flightPp))
   : null;
-const hasLuggage = holiday.id >= 10000 && !holiday.specialNoLuggage;
+// An offer that lists its own inclusions and names no luggage does not carry it.
+const hasLuggage = holiday.id >= 10000 && !holiday.specialNoLuggage
+  && (included.length === 0 || included.some(x => /luggage/i.test(x)));
 const fromAirport = pricing?.cheapestDeparture?.airportName ?? '';
 const sailingCount = pricing ? new Set(pricing.departures.map(d => d.date.slice(0, 10))).size : 0;
 const airportNames = (pricing?.airports ?? []).map(a => a.name);
@@ -258,9 +275,12 @@ const overview = tidyOverview(holiday.overview || '');
           <p class="cd-eyebrow">Step one</p>
           <h2>Choose your sailing</h2>
           <p class="cd-prose">
-            It's a fly-cruise, so the price moves with the airport you fly from &mdash; and the
-            cheapest airport isn't the same one every week. Choose your airport, then a
-            date{ladders.length > 0 ? ' to see the cabins on board' : ''}.
+            {flatAirportPrice && (pricing?.airports?.length ?? 0) > 1
+              ? <>The price is the same from each airport. Choose your airport, then a
+                date{ladders.length > 0 ? ' to see the cabins on board' : ''}.</>
+              : <>It's a fly-cruise, so the price moves with the airport you fly from &mdash; and the
+                cheapest airport isn't the same one every week. Choose your airport, then a
+                date{ladders.length > 0 ? ' to see the cabins on board' : ''}.</>}
           </p>
         </div>
         <SailingPicker

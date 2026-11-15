@@ -43,6 +43,14 @@ for (const d of departures) {
   if (seen == null || d.pricePp < seen) row.set(d.airportCode, d.pricePp);
 }
 
+// The ship on each sailing. A route often runs on several ships, so the row
+// names its own; the cruise's headline ship is only the fallback.
+const shipByDate = new Map<string, string>();
+for (const d of departures) {
+  const date = d.date.slice(0, 10);
+  if (d.shipName && !shipByDate.has(date)) shipByDate.set(date, d.shipName);
+}
+
 const codes = airports.map(a => a.code);
 const lowestFrom = (code: string) =>
   Math.min(...[...grid.values()].map(r => r.get(code) ?? Infinity));
@@ -173,7 +181,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
               <span class="sp__sub">returns {returnOf(startOf(date), nightCount)}</span>
             </span>
             <span class="sp__nights">{nightCount} nights</span>
-            <span class="sp__ship">{shipName && <b>{shipName}</b>}{routeLabel}</span>
+            <span class="sp__ship">{(shipByDate.get(date) || shipName) && <b>{shipByDate.get(date) || shipName}</b>}{routeLabel}</span>
             <span class:list={['sp__price', { 'is-na': !hasDefault }]}>
               <span class="sp__amt" {...priceAttrs}>{hasDefault ? formatPrice(base) : '—'}</span>
               <span class="sp__lab">{hasDefault ? 'per person' : `No flights from ${airports.find(a => a.code === defaultCode)?.name ?? defaultCode} this date`}</span>

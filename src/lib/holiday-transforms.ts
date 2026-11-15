@@ -756,7 +756,8 @@ export function transformCruise(raw: RawCruise): HolidayDetail {
     country: raw.country,
     countrySlug: slugify(raw.country),
     duration: `${days} Days / ${String(nights).padStart(2, '0')} Nights`,
-    boardBasis: 'All Inclusive',
+    // Full board where the offer says all meals and names no all-inclusive drinks.
+    boardBasis: (raw.whats_included || []).some(x => /all meals/i.test(x)) && !(raw.whats_included || []).some(x => /inclusive/i.test(x)) ? 'Full Board' : 'All Inclusive',
     price: raw.price,
     // Port fee is already baked into the cruise price (cheapest_total_pp /
     // cruise_flight_prices include it), so local charges must be 0 — otherwise
