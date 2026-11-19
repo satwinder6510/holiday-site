@@ -541,3 +541,30 @@ joined the list.
   import in Spotler. Each address is handed over once.
 - Month chips above the calendar (same day) are the jump-to-month row; shown from
   3 months of departures.
+
+## River cruise pages: phone first (2026-11-19)
+
+From a 60-day read (20 Sep to 19 Nov 2026): telephone leads on river cruises booked at
+47% (7 of 15), web-form leads at 10% (6 of 63), live chat at 4%. Owner on pushing the
+phone number: "definitely yes".
+
+- `CruiseDetail.astro`: "or call" line in the hero price box (`.cd-hero__call`), a call
+  strip above the sailings (`.cd-ring`), and on phones a fixed call bar 9am to 6pm UK
+  (`#cd-callbar`, PostHog `cruise_callbar_tap`). The bar lifts above the cookie banner
+  and hides while the enquiry form is open. All numbers go through `CallLink` (tap on
+  phones, plain text on mouse desktops).
+- The cruise enquiry form opens with "Quicker by phone" (`#enquiry-ring`, shown only
+  when the modal is `data-form-always`).
+- Cabin step (`cabins.astro`): "What's in the cabin" is always open (112 of 388 people
+  were opening it), the phone block sits above the form, and the buttons read "Request
+  this cabin" / "Send request". Never "Check availability": it promises an answer.
+- Newsletter popup never opens for visitors arriving from our own emails
+  (`utm_source` spotler / `utm_medium=email`); they are marked subscribed on that device.
+  47% of cruise offer-page visitors had been closing it.
+- Owner turned down a one-field "email me this price" box on cruise pages: "they've seen
+  it". Do not re-propose.
+- Facebook ads go to one offer, never to `/Holidays/river-cruises`: 97% of that ad
+  traffic left without a click (Sep to Oct 2026).
+- A hand-built cruise (`flight_packages`, tagged River Cruise) with no future dates falls
+  back to the old template with no prices. On 19 Nov 2026 eleven were in that state,
+  including Danube Metropolises (484) and Aquitaine (451), the two busiest pages.
