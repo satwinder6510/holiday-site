@@ -179,10 +179,10 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
                   {c.alsoAt.length > 0 && <span class="cb__also">Also {c.alsoAt.map(p => formatPrice(p)).join(' and ')} by position on deck</span>}
                 </span>
                 {c.equipment.length > 0 && (
-                  <details class="cb__more">
-                    <summary>What's in the cabin</summary>
+                  <div class="cb__more">
+                    <p class="cb__more-h">What's in the cabin</p>
                     <ul>{c.equipment.map(e => <li>{e}</li>)}</ul>
-                  </details>
+                  </div>
                 )}
               </label>
             ))}
@@ -218,8 +218,13 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
             </div>
             <p class="cb__total-note">Flights, {luggageWord}cruise and transfers. Nothing to pay today.</p>
 
+            <div class="cb__talk cb__talk--first">
+              <p class="cb__talk-h">Rather talk it through?</p>
+              <p>Call <CallLink class="cb__tel" tel={TEL_HREF} display={TEL_DISPLAY} /> and quote <b>{quoteRef}</b>. We will have this sailing up when you ring. Lines open 9am to 6pm.</p>
+            </div>
+
             <form id="cb-form" class="cb__form" novalidate>
-              <p class="cb__form-h">Check availability</p>
+              <p class="cb__form-h">Or request this cabin online</p>
               <input type="text" name="company" value="" autocomplete="off" tabindex="-1" aria-hidden="true" class="cb__hp" />
               <div class="cb__row2">
                 <label>First name <input name="first_name" type="text" autocomplete="given-name" required /></label>
@@ -227,7 +232,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
               </div>
               <label>Email <input name="email" type="email" autocomplete="email" required /></label>
               <label>Phone <input name="phone" type="tel" autocomplete="tel" required /></label>
-              <button type="submit" class="cd-btn cb__submit" id="cb-submit">Check availability</button>
+              <button type="submit" class="cd-btn cb__submit" id="cb-submit">Send request</button>
               <p class="cb__form-note">We check the cabin and flights and reply by email with a firm price, usually the same working day.</p>
             </form>
             <div class="cb__done" id="cb-done" hidden>
@@ -235,10 +240,6 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
               <p>We are checking the cabin and flights for you. One of our cruise team will email you a firm price, usually the same working day.</p>
             </div>
 
-            <div class="cb__talk">
-              <p class="cb__talk-h">Rather talk it through?</p>
-              <p>Call <CallLink class="cb__tel" tel={TEL_HREF} display={TEL_DISPLAY} /> and quote <b>{quoteRef}</b>. We will have this sailing up when you ring. Lines open 9am to 6pm.</p>
-            </div>
           </div>
         </aside>
       </div>
@@ -250,7 +251,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
         <span class="cb__bar-cabin" id="cb-bar-cabin">{cabins[0]?.label}</span>
         <span class="cb__bar-total"><b id="cb-bar-total">{formatPrice((cabins[0]?.price ?? 0) * 2)}</b> <span id="cb-bar-people">for 2 people</span></span>
       </div>
-      <button type="button" class="cd-btn cb__bar-btn" id="cb-bar-open">Check availability</button>
+      <button type="button" class="cd-btn cb__bar-btn" id="cb-bar-open">Request this cabin</button>
     </div>
   </main>
 
@@ -351,7 +352,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
       try { (window as any).fbq?.('track', 'Lead', { content_name: document.title, content_category: 'Holiday Enquiry', currency: 'GBP' }); } catch { /* optional */ }
       try { (window as any).oaiq?.('measure', 'lead_created', { type: 'customer_action', amount: 0, currency: 'GBP' }); } catch { /* optional */ }
     } catch {
-      if (submit) { submit.disabled = false; submit.textContent = 'Check availability'; }
+      if (submit) { submit.disabled = false; submit.textContent = 'Send request'; }
       const note = form.querySelector<HTMLElement>('.cb__form-note');
       if (note) note.textContent = `Sorry, that did not send. Please call ${meta.tel || '0208 183 0518'} and quote ${meta.ref}.`;
     }
@@ -367,7 +368,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   .cd-eyebrow { margin: 0 0 8px; font-size: 14px; line-height: 24px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #0d6066; }
   .cb h1 { font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 40px; line-height: 42px; letter-spacing: -.5px; font-weight: 400; margin: 0; color: #424242; text-wrap: balance; }
   .cb__swap { margin: 0; padding: 12px 16px; background: #fff7ed; border: 1px solid #f5d0a9; border-radius: 2px; font-size: 16px; line-height: 24px; color: #7a4a10; }
-  .cb__chip:focus-visible, .cb__step:focus-visible, .cb__back a:focus-visible, .cb__more summary:focus-visible, .cb__submit:focus-visible { outline: 3px solid #073140; outline-offset: 2px; }
+  .cb__chip:focus-visible, .cb__step:focus-visible, .cb__back a:focus-visible, .cb__submit:focus-visible { outline: 3px solid #073140; outline-offset: 2px; }
   .cb__lede { margin: 12px 0 0; max-width: 72ch; font-size: 16px; line-height: 28px; color: #424242; }
   .cd-lab { margin: 0; font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b6b6b; }
 
@@ -402,10 +403,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   .cb__facts span::before { content: '✓'; color: #20A1AA; font-weight: 700; margin-right: 4px; }
   .cb__sum { font-size: 16px; line-height: 26px; color: #424242; }
   .cb__more { font-size: 16px; color: #424242; }
-  .cb__more summary { display: inline-flex; align-items: center; min-height: 44px; margin-inline: -8px; padding-inline: 8px; cursor: pointer; color: #0d6066; font-weight: 500; list-style: none; }
-  .cb__more summary::-webkit-details-marker { display: none; }
-  .cb__more summary::after { content: ' ⌄'; margin-left: 4px; }
-  .cb__more[open] summary::after { content: ' ⌃'; }
+  .cb__more-h { margin: 8px 0 0; font-size: 16px; line-height: 24px; font-weight: 500; color: #0d6066; }
   .cb__more ul { margin: 8px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 16px; font-size: 16px; line-height: 24px; color: #6b6b6b; }
   .cb__more li::before { content: '·'; margin-right: 6px; color: #20A1AA; font-weight: 700; }
   .cb__price { text-align: right; display: grid; gap: 2px; justify-items: end; }
@@ -457,6 +455,8 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   .cb__done p { margin: 0; }
   .cb__done-h { font-weight: 500; margin-bottom: 4px !important; }
   .cb__talk { margin-top: 20px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-size: 16px; line-height: 24px; color: #424242; }
+  .cb__talk--first { margin: 16px 0 20px; padding: 12px 14px; border: 1px solid #cfe6e8; border-left: 4px solid #20A1AA; border-radius: 2px; background: #f6fbfb; }
+  :global(.cb__talk--first .cb__tel) { font-weight: 900; font-size: 18px; letter-spacing: 1px; color: #073140; text-decoration: none; white-space: nowrap; }
   .cb__talk p { margin: 0; }
   .cb__talk-h { font-weight: 500; }
   :global(.cb__tel) { display: inline-block; min-height: 44px; line-height: 44px; color: #073140; font-weight: 700; text-decoration: none; white-space: nowrap; }
