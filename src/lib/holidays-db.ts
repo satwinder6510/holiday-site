@@ -623,6 +623,13 @@ async function buildAllListedHolidays(db: Database): Promise<HolidayDetail[]> {
     const price = cheapest.get(h.id);
     if (price) h.price = price;
   }
+  // Nothing to quote (no future departure, no base price, no override): off every
+  // listing, like an unpriced cruise below. Otherwise the card price is the local
+  // charges alone (ref 471 read "from £39" once its 2026 dates had passed). The
+  // offer's own page stays up and says "Price on request".
+  for (let i = holidays.length - 1; i >= 0; i--) {
+    if (!holidays[i].displayPrice && !(holidays[i].price > 0)) holidays.splice(i, 1);
+  }
 
   // Cruises: only those whose offer is still ACTIVE with a live headline price.
   // The export is a snapshot; D1 decides what is sellable today. Anything else
@@ -650,7 +657,14 @@ async function buildAllListedHolidays(db: Database): Promise<HolidayDetail[]> {
     if (price) cruises.push(withSpecial({ ...c, price }, specialFor(specials, c.id)));
   }
 
-  const all = [...holidays, ...cruises];
+  // A hand-built river cruise sells fixed sailings. Once its last one has gone
+  // there is nothing to buy, so it leaves every listing until new dates are
+  // loaded (owner 19 Nov 2026). Eleven were listed with no dates that day,
+  // Danube Metropolises and the Aquitaine cruise among them. The page itself
+  // stays reachable by its own link.
+  const sellable = holidays.filter(h => !(h.tags.includes('River Cruise') && !cheapest.has(h.id)));
+
+  const all = [...sellable, ...cruises];
   all.sort((a, b) => a.displayOrder - b.displayOrder);
 
   return all;
