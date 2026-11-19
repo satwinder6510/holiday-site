@@ -161,12 +161,16 @@ function toBulletList(html: string): string {
   return '<ul class="custom-bullets">' + lines.map(l => `<li>${l}</li>`).join('') + '</ul>';
 }
 
+// No dated price left (the season's departures have all passed) and no base price:
+// there is nothing to quote. Without this the local charges alone became the
+// "from" price (ref 471 read "from £39", its port charges, on 12 Nov 2026).
+const noPrice = !holiday.displayPrice && !hasPricing && !(holiday.price > 0);
 // Hero price: override > auto-rounded base + exact local charges
-const heroPrice = holiday.displayPrice
+const heroPrice = noPrice ? 0 : holiday.displayPrice
   ?? (hasPricing
     ? roundToNine(pricing!.cheapestPrice + localCharges)
     : roundToNine(holiday.price + localCharges));
-const cheapestInclusive = fmtPrice(heroPrice);
+const cheapestInclusive = noPrice ? 'Price on request' : fmtPrice(heroPrice);
 const displayPriceFormatted = cheapestInclusive;
 const airportPrices = hasPricing ? pricing!.airports.map((ap: any) => ({
   ...ap,
@@ -340,7 +344,7 @@ if (hasPricing) {
     url: `https://holidays.flightsandpackages.com/Holidays/${holiday.countrySlug}/${holiday.slug}`,
     offeredBy: { '@type': 'Organization', name: 'Flights and Packages' },
   };
-} else {
+} else if (!noPrice) {
   productSchema.offers = {
     '@type': 'Offer',
     priceCurrency: 'GBP',
@@ -426,8 +430,8 @@ const pageDescription = holiday.metaDescription || (() => {
       </div>
       <div class="price-area">
         <div class="price-wrap">
-          <span class="price-from" id="hero-price-label">from</span>
-          <div class="price-amount" id="hero-price-value">{cheapestInclusive}<span class="price-pp">/pp</span></div>
+          {!noPrice && <span class="price-from" id="hero-price-label">from</span>}
+          <div class="price-amount" id="hero-price-value">{cheapestInclusive}{!noPrice && <span class="price-pp">/pp</span>}</div>
         </div>
         <a href="#" class="btn-check-price" id="btn-check-price">{hasPricing ? 'Check Dates & Prices' : 'Check Price & Book'}<img src="/icons/more-icon-white.svg" alt="" class="icon-more" /></a>
       </div>
@@ -507,7 +511,7 @@ const pageDescription = holiday.metaDescription || (() => {
   )}
 
   {story && (
-    <HolidayStory holiday={holiday} hasPricing={hasPricing} priceFormatted={cheapestInclusive} moreInfo={storyMoreInfo}>
+    <HolidayStory holiday={holiday} hasPricing={hasPricing} priceFormatted={cheapestInclusive} noPrice={noPrice} moreInfo={storyMoreInfo}>
       {hasPricing && (
     <section class="pricing-inline" slot="pricing">
       <div class="pricing-inline__inner section-container">
@@ -816,7 +820,7 @@ const pageDescription = holiday.metaDescription || (() => {
             </div>
             <div class="sidebar-ref">Ref: {holiday.id}</div>
             <div class="sidebar-price">
-              <span id="sidebar-price-label">from</span>
+              {!noPrice && <span id="sidebar-price-label">from</span>}
               <div id="sidebar-price-value">{cheapestInclusive}</div>
             </div>
             <a href="#" class="btn-check-price-sidebar" id="btn-check-price-sidebar">{hasPricing ? 'Check Dates & Prices' : 'Check Price & Book'}<img src="/icons/more-icon-white.svg" alt="" class="icon-more" /></a>

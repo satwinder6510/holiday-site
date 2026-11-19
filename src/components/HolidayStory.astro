@@ -18,10 +18,12 @@ interface Props {
   hasPricing: boolean;
   /** The hero's "from" price, already formatted. */
   priceFormatted: string;
+  /** Nothing to quote: priceFormatted is a phrase, so no "from" or "per person". */
+  noPrice?: boolean;
   /** Excluded / requirements / please-note blocks, already turned into HTML by the page. */
   moreInfo: { title: string; html: string }[];
 }
-const { holiday, hasPricing, priceFormatted, moreInfo } = Astro.props;
+const { holiday, hasPricing, priceFormatted, noPrice = false, moreInfo } = Astro.props;
 
 const NUM: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
 const SMALL = new Set(['and', 'or', 'to', 'the', 'of', 'at', 'by', 'in', 'on', 'if', 'is', 'a']);
@@ -489,9 +491,9 @@ const priceCarries = [
     <div class="hs-side__card">
       <p class="hs-side__title">{holiday.title}</p>
       <p class="hs-side__price">
-        <span class="hs-side__from" id="sidebar-price-label">from</span>
+        {!noPrice && <span class="hs-side__from" id="sidebar-price-label">from</span>}
         <span class="hs-side__value" id="sidebar-price-value">{priceFormatted}</span>
-        <span class="hs-side__pp">per person</span>
+        {!noPrice && <span class="hs-side__pp">per person</span>}
       </p>
       <a href="#" class="hs-side__btn" id="btn-check-price-sidebar">{hasPricing ? 'Check dates & prices' : 'Check price & book'}</a>
       <p class="hs-side__call">or call <a href="tel:02081830518">0208 183 0518</a><br />Lines open 9am to 6pm</p>
