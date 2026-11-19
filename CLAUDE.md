@@ -518,3 +518,26 @@ replacing the customer document links it serves.
 ## Live chat: removed 2026-10-08, reinstated 2026-10-19
 
 Owner 8 Oct: "I don't want the chat to show at all" (commit 752de90). Owner 19 Oct: reinstate the Tidio code. That commit is reverted in full, so the site is back to the 2 Oct state above: Tidio widget script + chat-to-leads beacon in `BaseLayout.astro`, "Chat with us" in the in-hours enquiry panel, the phone bottom bar's in-hours chat button, chat hidden on phones and during booking steps, and the cabins-page hide. The admin API's `/api/monitor/tidio` endpoint and `tidio_events` table were never removed. Tidio does not load in headless Chromium: verify on a real phone.
+
+## Mailing list sign-ups from the site (2026-11-19)
+
+Two extra routes onto the Spotler list, beside the popup and footer forms. Why: about
+1,300 people a month opened the enquiry form and about 120 sent it, and none of them
+joined the list.
+
+- **Calendar modal, "Email me these dates and prices"** (`#pm-email-form` in
+  `[country]/[slug].astro`): one email field and an offers box, pre-ticked (owner:
+  "pre-tick it"). Posts address + slug + airport to `src/pages/api/price-email.ts`,
+  which works the prices out on the server with the calendar's own sums
+  (`roundToNine(pricePp + localChargesPp)`) and relays to the admin API
+  (`/api/mailing/price-email`, same `LEADS_INTAKE_URL` host and secret). The admin API
+  sends the email through Resend and stores the row. The browser never sends prices.
+  PostHog event `price_email_sent` (`opt_in` yes/no). It does NOT create a lead.
+- **Enquiry modal offers box** (`.enquiry-modal__tick`, pre-ticked): sent as
+  `marketing_opt_in=yes` through `/api/contact`; the admin API's `intakeLead` records it.
+  The cabins-page quote form and the contact page do not have it.
+- **Getting them into Spotler is by hand:** there is no Spotler API link. Admin → Lead
+  Reports → "Mailing list sign-ups from the website" → Download new sign-ups (CSV), then
+  import in Spotler. Each address is handed over once.
+- Month chips above the calendar (same day) are the jump-to-month row; shown from
+  3 months of departures.
