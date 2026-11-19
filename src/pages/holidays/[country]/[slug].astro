@@ -908,6 +908,18 @@ const pageDescription = holiday.metaDescription || (() => {
           <span class="pricing-modal__legend-item pricing-modal__legend-item--mid">Mid range</span>
           <span class="pricing-modal__legend-item pricing-modal__legend-item--peak">Peak</span>
         </div>
+        <!-- Email me these dates and prices (2026-11-19): one field, for people
+             not ready to enquire. The server works the prices out; see /api/price-email. -->
+        <form class="pm-email" id="pm-email-form" novalidate>
+          <input type="text" name="company" value="" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px" />
+          <label class="pm-email__title" for="pm-email-input">Not ready to choose? Email me these dates and prices</label>
+          <div class="pm-email__row">
+            <input class="pm-email__input" id="pm-email-input" name="email" type="email" placeholder="Your email address" autocomplete="email" required />
+            <button type="submit" class="pm-email__btn" id="pm-email-btn">Email me</button>
+          </div>
+          <label class="pm-email__tick"><input type="checkbox" name="opt_in" id="pm-email-optin" checked /> <span>Also send me holiday offers by email. Unsubscribe any time.</span></label>
+          <p class="pm-email__msg" id="pm-email-msg" role="status" aria-live="polite" hidden></p>
+        </form>
         <div class="pricing-modal__summary" id="pricing-modal-summary">
           <div class="pricing-modal__summary-info" id="modal-summary-info">Select a date to see pricing</div>
           <button type="button" class="pricing-modal__book-btn" id="modal-book-btn" disabled>Select a Date</button>
@@ -996,6 +1008,7 @@ const pageDescription = holiday.metaDescription || (() => {
           <label for="enq-phone">Phone Number <span class="enquiry-modal__required">(Required)</span></label>
           <input id="enq-phone" name="phone" type="tel" placeholder="Phone number" required />
         </div>
+        <label class="enquiry-modal__tick"><input type="checkbox" name="marketing_opt_in" value="yes" checked /> <span>Send me holiday offers by email. Unsubscribe any time.</span></label>
         <div class="enquiry-modal__actions">
           <button type="submit" class="enquiry-modal__submit" id="enquiry-submit-btn">Submit Enquiry</button>
         </div>
@@ -3147,6 +3160,89 @@ const pageDescription = holiday.metaDescription || (() => {
   .pricing-modal__legend-item--best::before { background: #E8F7F8; border: 1px solid #20A1AA; }
   .pricing-modal__legend-item--mid::before { background: #F8F8F8; border: 1px solid #ddd; }
   .pricing-modal__legend-item--peak::before { background: #FFF5EB; border: 1px solid #E8A94E; }
+  .pm-email {
+    margin: 0 24px 20px;
+    padding: 16px;
+    border: 1px solid #cfe6e8;
+    border-radius: 8px;
+    background: #f6fbfb;
+  }
+  .pm-email__title {
+    display: block;
+    margin-bottom: 10px;
+    font-family: "BentonSans", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: #073140;
+  }
+  .pm-email__row { display: flex; gap: 8px; }
+  .pm-email__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 46px;
+    padding: 0 12px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    background: #fff;
+    font-family: "BentonSans", sans-serif;
+    font-size: 16px;
+    color: #282828;
+  }
+  .pm-email__input:focus { outline: 2px solid #20A1AA; outline-offset: -1px; border-color: #20A1AA; }
+  .pm-email__btn {
+    flex: 0 0 auto;
+    height: 46px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 6px;
+    background: #0d6066;
+    color: #fff;
+    font-family: "BentonSans", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .pm-email__btn:hover { background: #0a4d52; }
+  .pm-email__btn:disabled { opacity: 0.6; cursor: default; }
+  .pm-email__btn:focus-visible { outline: 2px solid #073140; outline-offset: 2px; }
+  .pm-email__tick,
+  .enquiry-modal__tick {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 10px;
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #424242;
+    cursor: pointer;
+  }
+  .enquiry-modal__tick { margin: 2px 0 14px; }
+  .pm-email__tick input,
+  .enquiry-modal__tick input {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin: 1px 0 0;
+    accent-color: #0d6066;
+  }
+  .pm-email__msg {
+    margin: 10px 0 0;
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #0d6066;
+  }
+  .pm-email__msg[hidden] { display: none; }
+  .pm-email__msg--bad { color: #b3261e; }
+  @media (max-width: 610px) {
+    .pm-email { margin: 0 16px 16px; padding: 14px; }
+  }
+  @media (max-width: 360px) {
+    .pm-email__row { flex-direction: column; }
+  }
   .pricing-modal__summary {
     display: flex;
     align-items: center;
@@ -4136,6 +4232,72 @@ const pageDescription = holiday.metaDescription || (() => {
         renderMonthChips();
         renderCalendarMonth();
       }
+
+      // Email me these dates and prices: address + airport go to /api/price-email,
+      // which works the prices out on the server and has the email sent.
+      const pmEmailForm = document.getElementById('pm-email-form') as HTMLFormElement | null;
+      const pmEmailInput = document.getElementById('pm-email-input') as HTMLInputElement | null;
+      const pmEmailBtn = document.getElementById('pm-email-btn') as HTMLButtonElement | null;
+      const pmEmailMsg = document.getElementById('pm-email-msg');
+      const pmEmailOptin = document.getElementById('pm-email-optin') as HTMLInputElement | null;
+      function pmEmailSay(text: string, bad = false) {
+        if (!pmEmailMsg) return;
+        pmEmailMsg.textContent = text;
+        pmEmailMsg.classList.toggle('pm-email__msg--bad', bad);
+        pmEmailMsg.hidden = false;
+      }
+      pmEmailForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!pmEmailInput || !pmEmailBtn) return;
+        const email = pmEmailInput.value.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+          pmEmailSay('Please check the email address.', true);
+          pmEmailInput.focus();
+          return;
+        }
+        const optIn = !!pmEmailOptin?.checked;
+        const airportName = pricingData.airports.find((a: any) => a.code === selectedAirport)?.name || 'your airport';
+        pmEmailBtn.disabled = true;
+        pmEmailBtn.textContent = 'Sending...';
+        let ok = false;
+        try {
+          const res = await fetch('/api/price-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email,
+              slug: window.location.pathname.replace(/\/+$/, '').split('/').pop() || '',
+              airport: selectedAirport,
+              opt_in: optIn,
+              company: (pmEmailForm.elements.namedItem('company') as HTMLInputElement | null)?.value || '',
+              source: sessionStorage.getItem('lead_source') || 'Direct',
+              page_url: window.location.pathname,
+            }),
+          });
+          ok = res.ok;
+        } catch { ok = false; }
+        if (ok) {
+          pmEmailSay(`Sent. The dates and prices from ${airportName} are on their way to ${email}.`);
+          pmEmailBtn.textContent = 'Sent';
+          try {
+            (window as any).posthog?.capture('price_email_sent', {
+              package_id: String(JSON.parse(document.getElementById('holiday-meta')?.textContent || '{}').id || ''),
+              airport: selectedAirport,
+              opt_in: optIn ? 'yes' : 'no',
+              lead_source: sessionStorage.getItem('lead_source') || 'Direct',
+            });
+            if (optIn) localStorage.setItem('fp_newsletter_subscribed', '1');
+          } catch {}
+        } else {
+          pmEmailSay('Sorry, that did not send. Please try again, or call 0208 183 0518.', true);
+          pmEmailBtn.disabled = false;
+          pmEmailBtn.textContent = 'Email me';
+        }
+      });
+      // A new address or a different airport can be sent again.
+      pmEmailInput?.addEventListener('input', () => {
+        if (pmEmailBtn && pmEmailBtn.textContent === 'Sent') { pmEmailBtn.disabled = false; pmEmailBtn.textContent = 'Email me'; }
+      });
 
       // Month nav events
       monthPrevBtn?.addEventListener('click', () => {

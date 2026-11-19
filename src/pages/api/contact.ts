@@ -23,6 +23,8 @@ const ALLOWED_FIELDS = [
   'package_name', 'package_id', 'departure_date', 'departure_airport',
   'num_adults', 'price_per_person', 'total_price', 'hotel_choice',
   'booking_ref', 'reason', 'message',
+  // "yes" when the enquiry form's "send me offers" box was left ticked
+  'marketing_opt_in',
 ] as const;
 
 export const POST: APIRoute = async ({ request, locals }) => {
@@ -114,6 +116,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     'Page URL': body.page_url || '',
   };
   if (body.page_title) other_fields['Page Title'] = body.page_title;
+  if (body.marketing_opt_in === 'yes') other_fields['Offers by email'] = 'Yes';
 
   if (form_type === 'Package Enquiry') {
     if (body.package_name) other_fields['Package Name'] = body.package_name;
