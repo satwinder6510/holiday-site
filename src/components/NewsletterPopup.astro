@@ -46,8 +46,10 @@ const POPUP_FORM_JS = `https://m4.mailplus.nl/genericservice/code/servlet/React?
     var SUBSCRIBED_KEY = 'fp_newsletter_subscribed';
     var SUPPRESS_DAYS = 30;
     var ARM_DELAY_MS = 4000;                       // don't fire in the first few seconds
-    var MOBILE_TIMER_MS = 25000;
-    var MOBILE_SCROLL_PCT = 0.6;
+    // Phones: exit only. No timer, no "scrolled this far" trigger.
+    var MOBILE_MIN_DEPTH_PX = 1200;   // must have read at least this far down first
+    var MOBILE_EXIT_UP_PX = 600;      // then a quick upward flick of this much...
+    var MOBILE_EXIT_UP_MS = 1500;     // ...inside this time
 
     function recently(key, days) {
       try {
@@ -235,18 +237,33 @@ const POPUP_FORM_JS = `https://m4.mailplus.nl/genericservice/code/servlet/React?
       if (!armed || shown) return;
       if (e.clientY <= 0 && !e.relatedTarget && !e.toElement) open();
     }
+    // Phones have no "mouse leaves the window", so leaving is read from the
+    // scroll: someone who has gone well down the page and then flicks quickly
+    // back towards the top is heading for the address bar or the back button.
+    // (Owner 19 Nov 2026: the 25-second timer was "too aggressive - do it on
+    // exit". It had been opening over people still reading a deal: 43 of 81
+    // Travelzoo visits to cruise offers closed it in 36 hours.)
+    var lastY = window.pageYOffset || 0, maxY = lastY, upRun = 0, upStart = 0;
     function onScroll() {
       if (!armed || shown) return;
-      var h = document.documentElement;
-      var pct = (h.scrollTop || document.body.scrollTop) / ((h.scrollHeight - h.clientHeight) || 1);
-      if (pct >= MOBILE_SCROLL_PCT) open();
+      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var now = Date.now();
+      if (y > maxY) maxY = y;
+      if (y < lastY) {
+        if (!upRun) upStart = now;
+        upRun += lastY - y;
+      } else if (y > lastY) {
+        upRun = 0;
+      }
+      lastY = y;
+      var deepEnough = maxY >= Math.max(MOBILE_MIN_DEPTH_PX, window.innerHeight * 1.5);
+      if (deepEnough && upRun >= MOBILE_EXIT_UP_PX && now - upStart <= MOBILE_EXIT_UP_MS) open();
+      if (upRun && now - upStart > MOBILE_EXIT_UP_MS) { upRun = 0; }
     }
-    var mobileTimer = null;
 
     function teardownTriggers() {
       document.removeEventListener('mouseout', onMouseOut);
       window.removeEventListener('scroll', onScroll);
-      if (mobileTimer) window.clearTimeout(mobileTimer);
     }
 
     window.setTimeout(function () {
@@ -257,7 +274,6 @@ const POPUP_FORM_JS = `https://m4.mailplus.nl/genericservice/code/servlet/React?
         document.addEventListener('mouseout', onMouseOut);
       } else {
         window.addEventListener('scroll', onScroll, { passive: true });
-        mobileTimer = window.setTimeout(open, MOBILE_TIMER_MS);
       }
     }, ARM_DELAY_MS);
   })();
