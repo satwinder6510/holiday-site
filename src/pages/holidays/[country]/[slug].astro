@@ -892,6 +892,7 @@ const pageDescription = holiday.metaDescription || (() => {
             </select>
           </div>
         </div>
+        <div class="pricing-modal__month-chips" id="month-chips" role="group" aria-label="Jump to a month" hidden></div>
         <div class="pricing-modal__month-nav">
           <button type="button" class="pricing-modal__month-arrow pricing-modal__month-arrow--prev" id="month-prev" aria-label="Previous month">
             <img src="/icons/calendar-arrow.svg" alt="" />
@@ -2941,6 +2942,48 @@ const pageDescription = holiday.metaDescription || (() => {
     border-color: #20A1AA;
     box-shadow: 0 0 0 3px rgba(32, 161, 170, 0.15);
   }
+  /* Month chips: jump straight to a month. Half of calendar visits tapped the
+     next arrow 4+ times (PostHog, Nov 2026). One scrolling row on phones. */
+  .pricing-modal__month-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 24px 0;
+  }
+  .pricing-modal__month-chips[hidden] { display: none; }
+  :global(.pm-chip) {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1px solid #ddd;
+    border-radius: 22px;
+    background: #fff;
+    font-family: "BentonSans", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    color: #424242;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  :global(.pm-chip:hover) { border-color: #20A1AA; background: #f6fbfb; }
+  :global(.pm-chip:focus-visible) { outline: 2px solid #20A1AA; outline-offset: 2px; }
+  :global(.pm-chip--on),
+  :global(.pm-chip--on:hover) { background: #0d6066; border-color: #0d6066; color: #fff; }
+  :global(.pm-chip__yr) { margin-left: 4px; font-size: 12px; opacity: 0.75; }
+  @media (max-width: 610px) {
+    .pricing-modal__month-chips {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 12px 16px 0;
+    }
+    .pricing-modal__month-chips::-webkit-scrollbar { display: none; }
+  }
   .pricing-modal__month-nav {
     display: flex;
     align-items: center;
@@ -3974,8 +4017,42 @@ const pageDescription = holiday.metaDescription || (() => {
         calMonthIndex = 0;
       }
 
+      // Month chips: one per month with departures, so nobody has to tap the arrow
+      // through every month. The year shows on the first chip and on each January.
+      const monthChips = document.getElementById('month-chips');
+      function renderMonthChips() {
+        if (!monthChips) return;
+        if (calMonthKeys.length < 3) { monthChips.hidden = true; monthChips.innerHTML = ''; return; }
+        monthChips.hidden = false;
+        monthChips.innerHTML = calMonthKeys.map((key, i) => {
+          const [y, m] = key.split('-').map(Number);
+          const yr = (i === 0 || m === 0) ? `<span class="pm-chip__yr">${y}</span>` : '';
+          return `<button type="button" class="pm-chip" data-month-index="${i}" aria-label="${MONTHS[m]} ${y}">${MONTHS_SHORT[m]}${yr}</button>`;
+        }).join('');
+      }
+      monthChips?.addEventListener('click', (e) => {
+        const chip = (e.target as HTMLElement).closest('.pm-chip') as HTMLElement | null;
+        if (!chip) return;
+        const i = Number(chip.dataset.monthIndex);
+        if (i >= 0 && i < calMonthKeys.length && i !== calMonthIndex) { calMonthIndex = i; renderCalendarMonth(); }
+      });
+      function markMonthChip() {
+        if (!monthChips || monthChips.hidden) return;
+        monthChips.querySelectorAll('.pm-chip').forEach((c, i) => {
+          const on = i === calMonthIndex;
+          c.classList.toggle('pm-chip--on', on);
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+          // Keep the chosen chip in view in the phone's scrolling row (the row only, not the page)
+          if (on && monthChips.scrollWidth > monthChips.clientWidth) {
+            const el = c as HTMLElement;
+            monthChips.scrollLeft = el.offsetLeft - monthChips.offsetLeft - (monthChips.clientWidth - el.offsetWidth) / 2;
+          }
+        });
+      }
+
       // Render a single month grid
       function renderCalendarMonth() {
+        markMonthChip();
         if (!calendarGrid || calMonthKeys.length === 0) {
           if (calendarGrid) calendarGrid.innerHTML = '<p style="text-align:center;color:#666;padding:24px;">No departures for this airport.</p>';
           if (monthLabel) monthLabel.textContent = '';
@@ -4056,6 +4133,7 @@ const pageDescription = holiday.metaDescription || (() => {
           const idx = calMonthKeys.indexOf(targetKey);
           if (idx >= 0) calMonthIndex = idx;
         }
+        renderMonthChips();
         renderCalendarMonth();
       }
 
