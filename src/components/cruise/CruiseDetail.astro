@@ -194,7 +194,10 @@ const overview = tidyOverview(holiday.overview || '');
               <p class="cd-hero__note">Flights{fromAirport ? ` from ${fromAirport}` : ''}{hasLuggage ? ', hold luggage' : ''}, cruise and transfers</p>
               {heroSaving && <p class="cd-hero__save">Save £{heroSaving.toLocaleString('en-GB')} pp against booking direct</p>}
             </div>
-            <a class="cd-btn" href="#sailings">See sailings &amp; cabins</a>
+            <div class="cd-hero__act">
+              <a class="cd-btn" href="#sailings">See sailings &amp; cabins</a>
+              <p class="cd-hero__call">or call <CallLink class="cd-hero__tel" tel={TEL_HREF} display={TEL_DISPLAY} /><span> · 9am to 6pm</span></p>
+            </div>
           </div>
         )}
       </div>
@@ -281,6 +284,12 @@ const overview = tidyOverview(holiday.overview || '');
               : <>It's a fly-cruise, so the price moves with the airport you fly from &mdash; and the
                 cheapest airport isn't the same one every week. Choose your airport, then a
                 date{ladders.length > 0 ? ' to see the cabins on board' : ''}.</>}
+          </p>
+          <!-- Phone first (owner 19 Nov 2026): telephone leads book at 47%, web forms at 10%. -->
+          <p class="cd-ring">
+            <span class="cd-ring__q">Rather book by phone?</span>
+            <CallLink class="cd-ring__no" tel={TEL_HREF} display={TEL_DISPLAY} />
+            <span class="cd-ring__hrs">Lines open 9am to 6pm. We can check any sailing while you are on the line.</span>
           </p>
         </div>
         <SailingPicker
@@ -512,6 +521,40 @@ const overview = tidyOverview(holiday.overview || '');
       <button type="button" class="cd-btn cd-call__quote" data-enq-page>Request a quote</button>
     </div>
   </div>
+  <!-- Phones, 9am to 6pm UK: the number stays on screen (owner 19 Nov 2026: "definitely yes"). -->
+  <div class="cd-callbar" id="cd-callbar" hidden>
+    <span class="cd-callbar__txt"><b>Book by phone</b>Lines open until 6pm</span>
+    <a class="cd-callbar__btn" href={TEL_HREF} id="cd-callbar-btn">Call {TEL_DISPLAY}</a>
+  </div>
+  <script is:inline>
+    (function () {
+      var bar = document.getElementById('cd-callbar');
+      if (!bar) return;
+      var h = Number(new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Europe/London' }).format(new Date()));
+      if (h < 9 || h >= 18) return;
+      bar.hidden = false;
+      document.body.classList.add('has-cd-callbar');
+      // Sit above the cookie banner while it shows, as the holiday price bar does.
+      function lift() {
+        var cb = document.getElementById('cookie-banner');
+        var up = cb && cb.offsetParent !== null ? cb.getBoundingClientRect().height : 0;
+        bar.style.bottom = up + 'px';
+      }
+      lift();
+      window.addEventListener('resize', lift);
+      document.addEventListener('click', function () { window.setTimeout(lift, 50); window.setTimeout(lift, 600); });
+      // Out of the way while the enquiry form is open.
+      var modal = document.getElementById('enquiry-modal');
+      if (modal && window.MutationObserver) {
+        new MutationObserver(function () {
+          var open = modal.classList.contains('visible') || modal.classList.contains('open') || modal.classList.contains('active') || modal.classList.contains('is-open') || modal.getAttribute('aria-hidden') === 'false';
+          bar.style.visibility = open ? 'hidden' : '';
+        }).observe(modal, { attributes: true });
+      }
+      var btn = document.getElementById('cd-callbar-btn');
+      if (btn) btn.addEventListener('click', function () { try { window.posthog && window.posthog.capture('cruise_callbar_tap'); } catch (e) {} });
+    })();
+  </script>
 </div>
 
 <script>
@@ -719,7 +762,23 @@ const overview = tidyOverview(holiday.overview || '');
   }
 
   /* Talk to us */
+  .cd-hero__act { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .cd-hero__call { margin: 0; font-size: 16px; line-height: 24px; color: #424242; }
+  :global(.cd-hero__tel) { font-weight: 700; color: #073140; text-decoration: none; white-space: nowrap; }
+  .cd-ring { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin: 20px 0 0; padding: 14px 18px; border: 1px solid #cfe6e8; border-left: 4px solid #20A1AA; border-radius: 2px; background: #f6fbfb; }
+  .cd-ring__q { font-size: 16px; line-height: 24px; font-weight: 500; color: #424242; }
+  :global(.cd-ring__no) { font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 24px; line-height: 30px; font-weight: 900; letter-spacing: 2px; color: #073140; text-decoration: none; white-space: nowrap; }
+  .cd-ring__hrs { flex-basis: 100%; font-size: 16px; line-height: 24px; color: #6b6b6b; }
+  /* Phones: a call bar that stays on screen. Shown by the script in office hours only. */
+  .cd-callbar { display: none; }
+  @media (max-width: 610px) {
+    .cd-callbar:not([hidden]) { display: flex; align-items: center; justify-content: space-between; gap: 10px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 98; padding: 10px max(14px, env(safe-area-inset-left)) max(10px, env(safe-area-inset-bottom)); background: #073140; box-shadow: 0 -6px 16px rgba(7, 49, 64, .2); }
+    .cd-callbar__txt { font-size: 14px; line-height: 18px; color: #cfe0e4; }
+    .cd-callbar__txt b { display: block; font-size: 16px; color: #fff; font-weight: 700; }
+    .cd-callbar__btn { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 2px; background: #ff7f00; color: #1a1a1a; font-size: 16px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+  }
   .cd-call { background: #073140; color: #fff; text-align: center; padding-block: 64px; }
+  @media (max-width: 610px) { :global(body.has-cd-callbar) .cd-call { padding-bottom: 120px; } }
   .cd-call h2 { color: #fff; }
   .cd-call p { margin: 12px 0 0; color: #cfe0e4; font-size: 18px; line-height: 24px; }
   :global(.cd-call__no) { /* rendered by CallLink, outside this scope; the site's phone style: BentonSans 900 / 30px / 3px */

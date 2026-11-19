@@ -13,6 +13,7 @@ import { inclusionChips, fromPrice } from '../../../lib/cruise-card';
 import { LIVE_CHAT } from '../../../lib/site-flags';
 import AlsoLike from '../../../components/AlsoLike.astro';
 import CruiseDetail from '../../../components/cruise/CruiseDetail.astro';
+import CallLink from '../../../components/cruise/CallLink.astro';
 import HolidayStory from '../../../components/HolidayStory.astro';
 import { getCruiseCalls, getSailingLadders, getShipNameSet } from '../../../lib/cruise-detail';
 import { roundToNine } from '../../../lib/pricing-transforms';
@@ -987,6 +988,7 @@ const pageDescription = holiday.metaDescription || (() => {
         <div class="enquiry-modal__summary-details" id="enquiry-selected-details"></div>
         <p class="enquiry-modal__next" id="enquiry-next" style="display:none;">We check this sailing with the cruise line. Then we contact you with the price and what it includes.</p>
       </div>
+      <p class="enquiry-modal__ring" id="enquiry-ring" style="display:none;">Quicker by phone: <CallLink class="enquiry-modal__ring-no" tel="tel:+442081830518" display="0208 183 0518" /> <span>Lines open 9am to 6pm</span></p>
       <form id="enquiry-form" class="enquiry-modal__form">
         <!-- Honeypot: hidden from humans; bots that fill it are silently dropped server-side -->
         <input type="text" name="company" value="" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px" />
@@ -3656,6 +3658,9 @@ const pageDescription = holiday.metaDescription || (() => {
     cursor: not-allowed;
     box-shadow: none;
   }
+  .enquiry-modal__ring { margin: 14px 24px 0; padding: 10px 14px; border: 1px solid #cfe6e8; border-left: 4px solid #20A1AA; border-radius: 4px; background: #f6fbfb; font-family: "BentonSans", sans-serif; font-size: 16px; line-height: 24px; color: #424242; }
+  :global(.enquiry-modal__ring-no) { font-weight: 900; font-size: 18px; letter-spacing: 1px; color: #073140; text-decoration: none; white-space: nowrap; }
+  .enquiry-modal__ring span { display: block; font-size: 14px; color: #6b6b6b; }
   .enquiry-modal__note {
     text-align: center;
     margin-top: 14px;
@@ -4724,6 +4729,8 @@ const pageDescription = holiday.metaDescription || (() => {
       if (enquiryTitle) enquiryTitle.textContent = callFirst ? 'Speak to a Travel Expert' : (formAlways ? (details && details.date ? 'Request this sailing' : 'Request a quote') : 'Booking Requested');
       const enquiryNext = document.getElementById('enquiry-next');
       if (enquiryNext) enquiryNext.style.display = formAlways && !callFirst ? '' : 'none';
+      const enquiryRing = document.getElementById('enquiry-ring');
+      if (enquiryRing) enquiryRing.style.display = formAlways && !callFirst ? '' : 'none';
       if (enquirySubmitBtn && !enquirySubmitBtn.disabled) enquirySubmitBtn.textContent = submitLabel();
       trackEnquiry('enquiry_modal_open', { variant: callFirst ? 'call_chat' : 'form' });
 

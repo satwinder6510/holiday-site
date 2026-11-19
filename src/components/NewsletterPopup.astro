@@ -60,6 +60,16 @@ const POPUP_FORM_JS = `https://m4.mailplus.nl/genericservice/code/servlet/React?
       try { window.localStorage.setItem(key, String(Date.now())); } catch (e) {}
     }
 
+    // People who arrive from one of our own emails are already on the list
+    // (owner 19 Nov 2026: half of river-cruise visitors were closing this popup,
+    // newsletter readers among them). Treat them as subscribers from now on.
+    try {
+      var qs = new URLSearchParams(window.location.search);
+      var fromEmail = /spotler|mailplus|newsletter/i.test(qs.get('utm_source') || '') || /^e-?mail$/i.test(qs.get('utm_medium') || '') ||
+        /spotler/i.test(window.sessionStorage.getItem('lead_source') || '');
+      if (fromEmail) { window.localStorage.setItem(SUBSCRIBED_KEY, '1'); return; }
+    } catch (e) {}
+
     // Don't show to recent viewers or existing subscribers
     if (recently(STORAGE_KEY, SUPPRESS_DAYS)) return;
     try { if (window.localStorage.getItem(SUBSCRIBED_KEY)) return; } catch (e) {}
