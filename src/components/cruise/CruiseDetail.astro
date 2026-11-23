@@ -134,6 +134,9 @@ const heroSaving = leadGrade && cheapDep
     ? directSaving(leadGrade, cheapDep.pricePp, cheapDep.flightPp, cheapLadder!.specialExtrasPp, cheapLadder!.specialLuggage)
     : directSaving(leadGrade, cheapDep.pricePp, cheapDep.flightPp))
   : null;
+// The same trip booked direct (cruise fare + flights + luggage bought separately),
+// shown struck through above our price (owner 2026-11-23).
+const directPp = heroSaving && cheapDep ? cheapDep.pricePp + heroSaving : null;
 // An offer that lists its own inclusions and names no luggage does not carry it.
 const hasLuggage = holiday.id >= 10000 && !holiday.specialNoLuggage
   && (included.length === 0 || included.some(x => /luggage/i.test(x)));
@@ -189,10 +192,11 @@ const overview = tidyOverview(holiday.overview || '');
         {fromPrice && (
           <div class="cd-hero__price">
             <div>
-              <p class="cd-lab">From</p>
+              {directPp && <p class="cd-hero__direct">Booking direct <s>£{directPp.toLocaleString('en-GB')}</s> pp</p>}
+              <p class="cd-lab">{directPp ? 'Our price from' : 'From'}</p>
               <p class="cd-hero__amt">{fromPrice} <span>pp</span></p>
               <p class="cd-hero__note">Flights{fromAirport ? ` from ${fromAirport}` : ''}{hasLuggage ? ', hold luggage' : ''}, cruise and transfers</p>
-              {heroSaving && <p class="cd-hero__save">Save £{heroSaving.toLocaleString('en-GB')} pp against booking direct</p>}
+              {heroSaving && <p class="cd-hero__save">You save £{heroSaving.toLocaleString('en-GB')} pp</p>}
             </div>
             <div class="cd-hero__act">
               <a class="cd-btn" href="#sailings">See sailings &amp; cabins</a>
@@ -642,7 +646,9 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-hero__amt { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 40px; line-height: 40px; color: #424242; }
   .cd-hero__amt span { font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 500; }
   .cd-hero__note { margin: 4px 0 0; font-size: 16px; line-height: 24px; color: #6b6b6b; }
-  .cd-hero__save { margin: 4px 0 0; font-size: 16px; line-height: 24px; font-weight: 500; color: #0d6066; }
+  .cd-hero__save { margin: 4px 0 0; font-size: 16px; line-height: 24px; font-weight: 700; color: #0d6066; }
+  .cd-hero__direct { margin: 0 0 8px; font-size: 16px; line-height: 24px; color: #6b6b6b; }
+  .cd-hero__direct s { color: #424242; font-weight: 500; text-decoration-thickness: 2px; }
 
   /* At a glance */
   .cd-glance { background: #f0f9fa; border-bottom: 1px solid #e5e7eb; }
