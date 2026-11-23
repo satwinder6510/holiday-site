@@ -3,8 +3,8 @@ export const prerender = false;
 
 /**
  * Black Friday river cruise offers (owner 2026-11-23). Lists the cruise specials
- * still running on 27 November 2026 (Douro was extended to 5 December). The page stops at midnight UK time at the end
- * of 27 November and then sends visitors to the river cruises page (302).
+ * still running on 27 November 2026. The page runs to midnight UK time at the end of
+ * Saturday 5 December (owner 2026-11-23) and then sends visitors to the river cruises page (302).
  *
  * "Save up to" is the biggest card saving (against booking the cruise and flights
  * direct, on each offer's cheapest date), worked out on every request so the
@@ -22,8 +22,8 @@ import { getSailingLadders, directSaving } from '../../../lib/cruise-detail';
 import type { HolidayDetail } from '../../../lib/holiday-transforms';
 import { fromPrice, savingOf } from '../../../lib/cruise-card';
 
-// Midnight UK time at the end of Friday 27 November 2026 (UK is on GMT then).
-const ENDS_AT = Date.parse('2026-11-28T00:00:00Z');
+// Midnight UK time at the end of Saturday 5 December 2026 (UK is on GMT then).
+const ENDS_AT = Date.parse('2026-12-06T00:00:00Z');
 const SPECIALS_END_ON = '2026-11-27';
 const PHONE = '0208 183 0518';
 const PHONE_HREF = 'tel:02081830518';
@@ -72,11 +72,11 @@ Astro.response.headers.set('Cache-Control', 'private, no-store');
 const SAVE_UP_TO = offers.length ? Math.max(...offers.map(saveOf)) : 0;
 // Days left, in UK time (GMT in November).
 const ukToday = Date.parse(new Date().toISOString().slice(0, 10) + 'T00:00:00Z');
-const daysLeft = Math.round((Date.parse('2026-11-27T00:00:00Z') - ukToday) / 86400000);
+const daysLeft = Math.round((Date.parse('2026-12-05T00:00:00Z') - ukToday) / 86400000);
 const leftLabel = daysLeft <= 0 ? 'ends tonight' : daysLeft === 1 ? '1 day left' : `${daysLeft} days left`;
 
 const pageTitle = 'Black Friday River Cruise Offers | Flights and Packages';
-const pageDescription = `Black Friday river cruise offers with flights from the UK. Save up to £${SAVE_UP_TO} per person. Offers end midnight, Friday 27 November 2026. Call ${PHONE}.`;
+const pageDescription = `Black Friday river cruise offers with flights from the UK. Save up to £${SAVE_UP_TO} per person. Offers end midnight, Saturday 5 December 2026. Call ${PHONE}.`;
 const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
 ---
 <BaseLayout title={pageTitle} description={pageDescription} image={bannerImage}>
@@ -91,7 +91,7 @@ const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
       <h1>River Cruise Offers</h1>
       {SAVE_UP_TO > 0 && <p class="bf-save">Save up to £{SAVE_UP_TO.toLocaleString('en-GB')} per person</p>}
       <p class="bf-incl">Flights from the UK, the cruise and transfers in one price</p>
-      <p class="bf-ends">Ends midnight Friday 27 November · {leftLabel}</p>
+      <p class="bf-ends">Ends midnight Saturday 5 December · {leftLabel}</p>
       <p class="bf-call">
         <a class="bf-call-btn" href={PHONE_HREF}>Call {PHONE}</a>
         <span>Lines open 9am to 6pm, seven days a week</span>
