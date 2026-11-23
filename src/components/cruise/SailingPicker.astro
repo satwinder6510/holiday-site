@@ -14,6 +14,7 @@
 import type { Airport, Departure } from '../../lib/pricing-transforms';
 import { formatPrice } from '../../lib/pricing-transforms';
 import type { SailingLadder } from '../../lib/cruise-detail';
+import { directSaving } from '../../lib/cruise-detail';
 import CallLink from './CallLink.astro';
 
 interface Props {
@@ -41,6 +42,24 @@ for (const d of departures) {
   const row = grid.get(date)!;
   const seen = row.get(d.airportCode);
   if (seen == null || d.pricePp < seen) row.set(d.airportCode, d.pricePp);
+}
+
+// date -> airport code -> the same trip booked direct (cruise fare + flights +
+// luggage bought separately), shown struck through beside our price (owner
+// 2026-11-23). Only where we know the flight inside our price.
+const directGrid = new Map<string, Map<string, number>>();
+for (const d of departures) {
+  const date = d.date.slice(0, 10);
+  if (grid.get(date)?.get(d.airportCode) !== d.pricePp) continue;
+  const ladder = ladders.find(l => l.date === date);
+  const lead = ladder?.grades.find(g => g.netPp === ladder.leadPp);
+  if (!ladder || !lead) continue;
+  const save = d.isSpecial
+    ? directSaving(lead, d.pricePp, d.flightPp, ladder.specialExtrasPp, ladder.specialLuggage)
+    : directSaving(lead, d.pricePp, d.flightPp);
+  if (!save) continue;
+  if (!directGrid.has(date)) directGrid.set(date, new Map());
+  directGrid.get(date)!.set(d.airportCode, d.pricePp + save);
 }
 
 // The ship on each sailing. A route often runs on several ships, so the row
@@ -164,6 +183,11 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       const priceAttrs = Object.fromEntries(
         codes.filter(c => row.has(c)).map(c => [`data-price-${c}`, String(row.get(c))]),
       );
+      const directRow = directGrid.get(date);
+      const directAttrs = Object.fromEntries(
+        codes.filter(c => directRow?.has(c)).map(c => [`data-direct-${c}`, String(directRow!.get(c))]),
+      );
+      const directBase = hasDefault ? directRow?.get(defaultCode) : undefined;
       return (
         <>
           <Row
@@ -183,8 +207,10 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
             <span class="sp__nights">{nightCount} nights</span>
             <span class="sp__ship">{(shipByDate.get(date) || shipName) && <b>{shipByDate.get(date) || shipName}</b>}{routeLabel}</span>
             <span class:list={['sp__price', { 'is-na': !hasDefault }]}>
+              <span class="sp__direct" {...directAttrs} hidden={!directBase}>Direct <s>{directBase ? formatPrice(directBase) : ''}</s></span>
               <span class="sp__amt" {...priceAttrs}>{hasDefault ? formatPrice(base) : '—'}</span>
               <span class="sp__lab">{hasDefault ? 'per person' : `No flights from ${airports.find(a => a.code === defaultCode)?.name ?? defaultCode} this date`}</span>
+              <span class="sp__save" hidden={!directBase}>{directBase ? `You save ${formatPrice(directBase - base)}` : ''}</span>
               <span
                 class="sp__cheaper"
                 data-cheap-code={cheapCode}
@@ -245,6 +271,16 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
           cell?.classList.add('is-na');
           if (lab) lab.textContent = `No flights from ${airportName.get(code) || code} this date`;
         }
+      });
+      // Booking-direct price (struck through) and the saving follow the airport too.
+      sp.querySelectorAll<HTMLElement>('.sp__row').forEach(rowEl => {
+        const dir = rowEl.querySelector<HTMLElement>('.sp__direct');
+        const save = rowEl.querySelector<HTMLElement>('.sp__save');
+        const ours = rowEl.querySelector<HTMLElement>('.sp__price .sp__amt')?.getAttribute('data-price-' + code);
+        const d = dir?.getAttribute('data-direct-' + code);
+        const show = !!(d && ours && Number(d) > Number(ours));
+        if (dir) { dir.hidden = !show; const st = dir.querySelector('s'); if (st && show) st.textContent = gbp(Number(d)); }
+        if (save) { save.hidden = !show; if (show) save.textContent = `You save ${gbp(Number(d) - Number(ours))}`; }
       });
       sp.querySelectorAll<HTMLElement>('.sp__row').forEach(rowEl => {
         const hint = rowEl.querySelector<HTMLElement>('.sp__cheaper');
@@ -454,6 +490,11 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   .sp__cheaper { display: block; margin-top: 2px; font-size: 16px; font-weight: 500; color: #0d6066; }
   /* A class with `display` beats the UA [hidden] rule, so restate it. */
   .sp__cheaper[hidden] { display: none; }
+  .sp__direct { display: block; margin-bottom: 4px; font-size: 16px; line-height: 24px; color: #6b6b6b; }
+  .sp__direct s { color: #424242; font-weight: 500; text-decoration-thickness: 2px; }
+  .sp__save { display: block; margin-top: 2px; font-size: 16px; line-height: 24px; font-weight: 700; color: #0d6066; }
+  .sp__direct[hidden], .sp__save[hidden] { display: none; }
+  .is-na .sp__direct, .is-na .sp__save { display: none; }
   .sp__best {
     display: block; width: max-content; margin-bottom: 4px;
     font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
