@@ -314,12 +314,21 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
       ? [...airportNames.entries()].map(([code, name]) => ({ code, name }))
       : [{ code: 'LHR', name: 'London Heathrow' }];
     for (const [date, info] of retailByDate) {
-      for (const k of [...cheapestByKey.keys()]) {
-        if (k.startsWith(`${date}|`)) cheapestByKey.delete(k); // drop live prices for this date
+      // Keep each airport's flight cost: the page uses it to work out the
+      // booking-direct price beside the retail price (owner 2026-11-23).
+      const flightByAirport = new Map<string, number>();
+      for (const [k, c] of [...cheapestByKey.entries()]) {
+        if (!k.startsWith(`${date}|`)) continue;
+        if (c.flightPp) flightByAirport.set(c.airportCode, c.flightPp);
+        cheapestByKey.delete(k); // drop live prices for this date
       }
       for (const ap of airportList) {
         cheapestByKey.set(`${date}|${ap.code}`, {
           date, airportCode: ap.code, airportName: ap.name, price: info.price, shipId: info.shipId,
+          // No flight priced from this airport on this date: use the cheapest
+          // other airport's flight, so the direct price is never overstated.
+          flightPp: flightByAirport.get(ap.code)
+            ?? (flightByAirport.size ? Math.min(...flightByAirport.values()) : undefined),
         });
       }
     }
