@@ -21,11 +21,17 @@ interface Props {
   river?: string;
   /** Extra data-* attributes for client-side filtering on the listing. */
   data?: Record<string, string>;
+  /** The same trip booked direct, per person, on the cheapest date. When given, the
+   *  card shows it struck through and the saving against it (Black Friday page). */
+  directPp?: number | null;
+  /** The sailing the direct price is for (YYYY-MM-DD); shown as "From <date>". */
+  fromDate?: string | null;
 }
-const { holiday: h, window: w, ship, included, river, data = {} } = Astro.props;
+const { holiday: h, window: w, ship, included, river, data = {}, directPp = null, fromDate = null } = Astro.props;
 const url = `/Holidays/${h.countrySlug}/${h.slug}`;
 const nights = nightsOf(h);
-const saving = savingOf(h);
+const directSave = directPp && directPp > fromPrice(h) ? Math.round(directPp - fromPrice(h)) : 0;
+const saving = directSave || savingOf(h);
 const isOffer = h.isSpecialOffer;
 // Every special offer built in the admin is a fly-cruise-stay package, so the
 // card says so on its first pill (owner 2026-09-26) without using one of the
@@ -34,8 +40,9 @@ const isOffer = h.isSpecialOffer;
 // when it adds hotel nights (2026-09-29).
 const FLY_CRUISE_STAY = h.id > 10000 && !h.specialHasHotel ? 'Fly · Cruise' : 'Fly · Cruise · Stay';
 const staffBadges = h.offerBadges.filter(b => !/fly\W*cruise(\W*stay)?$/i.test(b));
+// On a page of offers only (directPp given), "Special offer" says nothing.
 const pills = isOffer
-  ? [FLY_CRUISE_STAY, ...(staffBadges.length ? staffBadges : ['Special offer'])]
+  ? [FLY_CRUISE_STAY, ...(staffBadges.length ? staffBadges : directPp ? [] : ['Special offer'])]
   : (river ? [river] : []);
 const shipName = h.shipName || ship || '';
 const manual = h.id < 10000;
@@ -48,7 +55,7 @@ const chips = !specialChips.length
   ? baseChips
   : manual
     ? [...new Set([...specialChips, ...baseChips])].slice(0, 4)
-    : [...specialChips, 'Return flights', ...(h.specialNoLuggage ? [] : ['Hold luggage'])];
+    : [...specialChips, ...(specialChips.some(c => /flight/i.test(c)) ? [] : ['Return flights']), ...(h.specialNoLuggage ? [] : ['Hold luggage'])];
 const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data-${k}`, v]));
 ---
 <article class="rc-offer" {...dataAttrs}>
@@ -67,11 +74,11 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
     <ul class="rc-facts">
       <li>
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/></svg>
-        <span>{w ? dateLabel(w.cheapestDate || w.first) : 'Call for dates'}</span>
+        <span>{fromDate ? `From ${dateLabel(fromDate)}` : w ? dateLabel(w.cheapestDate || w.first) : 'Call for dates'}</span>
         {manual && (w?.dates ?? 0) > 1 && <a class="rc-more-dates" href={`${url}#dates`}>More dates</a>}
       </li>
       <li>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8 8 0 0 1 8.5 4a8 8 0 1 0 11.5 11.5Z" fill="#20A1AA" stroke="none"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
         <span>{nights} nights</span>
       </li>
       <li>
@@ -84,10 +91,14 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
         {chips.map(c => <li>{c}</li>)}
       </ul>
     )}
-    <div class="rc-offer-foot">
+    <div class:list={['rc-offer-foot', { 'rc-offer-foot--direct': directSave > 0 }]}>
       <p class="rc-price">
-        <span>{saving > 0 ? <>was <s>£{Math.round(h.wasPrice!).toLocaleString('en-GB')}</s> · now from</> : 'from'}</span>
+        {directSave > 0 && <span class="rc-direct">Cruise and flights booked direct <s>£{Math.round(directPp!).toLocaleString('en-GB')}</s></span>}
+        <span>{directSave > 0
+          ? 'Our price from'
+          : saving > 0 ? <>was <s>£{Math.round(h.wasPrice!).toLocaleString('en-GB')}</s> · now from</> : 'from'}</span>
         £{fromPrice(h).toLocaleString('en-GB')}<small>/pp</small>
+        {saving > 0 && <em class="rc-save">You save £{saving.toLocaleString('en-GB')}pp</em>}
       </p>
       <a class="rc-view" href={url}>View more <span aria-hidden="true">›</span></a>
     </div>
@@ -123,6 +134,11 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
   .rc-price { margin: 0; min-width: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 36px; line-height: 1; color: #0d6066; }
   .rc-price span { font-family: BentonSans, sans-serif; font-size: 16px; font-weight: 500; display: block; margin-bottom: 6px; color: #424242; }
   .rc-price s { text-decoration: line-through; color: #8a8a8a; }
+  .rc-price .rc-direct { font-weight: 400; color: #6b6b6b; margin-bottom: 4px; }
+  .rc-price .rc-direct s { white-space: nowrap; color: #424242; font-weight: 500; text-decoration-thickness: 2px; }
+  .rc-offer-foot--direct { flex-wrap: wrap; }
+  .rc-offer-foot--direct .rc-view { width: 100%; text-align: center; }
+  .rc-save { display: block; margin-top: 8px; font-family: BentonSans, sans-serif; font-style: normal; font-size: 16px; line-height: 24px; font-weight: 700; color: #0d6066; }
   .rc-price small { font-family: BentonSans, sans-serif; font-size: 16px; color: #424242; }
   .rc-view { background: #20A1AA; color: #fff; text-decoration: none; font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; padding: 15px 20px; border-radius: 2px; white-space: nowrap; }
   .rc-view span { margin-left: 6px; }
@@ -131,6 +147,7 @@ const dataAttrs = Object.fromEntries(Object.entries(data).map(([k, v]) => [`data
     .rc-offer h3 { height: auto; display: block; -webkit-line-clamp: unset; }
   }
   @media (max-width: 450px) {
+    .rc-offer-foot { flex-wrap: wrap; }
     .rc-view { width: 100%; text-align: center; }
   }
 </style>
