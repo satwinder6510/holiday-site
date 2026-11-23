@@ -1,0 +1,147 @@
+---
+export const prerender = false;
+
+/**
+ * Black Friday river cruise offers (owner 2026-11-23). Lists the cruise specials
+ * that end on 27 November 2026. The page stops at midnight UK time at the end
+ * of 27 November and then sends visitors to the river cruises page (302).
+ *
+ * "Save up to" is the largest per-person saving against booking direct on any
+ * special date and airport on 23 Nov 2026: Douro, 21 April 2027 from Gatwick.
+ * (The Beauty of Austria showed £945 on 16 April from Birmingham, but that comes
+ * from a hand-set price below our cost, so it was left out.)
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import MobileNav from '../../../components/MobileNav.astro';
+import Footer from '../../../components/Footer.astro';
+import MobileCallCTA from '../../../components/MobileCallCTA.astro';
+import RiverCruiseCard from '../../../components/RiverCruiseCard.astro';
+import { getDb } from '../../../lib/get-db';
+import { getAllListedHolidaysFromDb, getDepartureWindows, type DepartureWindow } from '../../../lib/holidays-db';
+import type { HolidayDetail } from '../../../lib/holiday-transforms';
+import { fromPrice, savingOf } from '../../../lib/cruise-card';
+
+// Midnight UK time at the end of Friday 27 November 2026 (UK is on GMT then).
+const ENDS_AT = Date.parse('2026-11-28T00:00:00Z');
+const SPECIALS_END_ON = '2026-11-27';
+const SAVE_UP_TO = 527;
+const PHONE = '0208 183 0518';
+const PHONE_HREF = 'tel:02081830518';
+
+if (Date.now() >= ENDS_AT) return Astro.redirect('/Holidays/river-cruises/', 302);
+
+let offers: HolidayDetail[];
+let windows: Map<number, DepartureWindow>;
+try {
+  const db = getDb(Astro);
+  const all = await getAllListedHolidaysFromDb(db);
+  offers = all
+    .filter(h => h.tags.includes('River Cruise') && h.isSpecialOffer && h.specialEndsOn === SPECIALS_END_ON && fromPrice(h) > 0)
+    .sort((a, b) => savingOf(b) - savingOf(a) || fromPrice(a) - fromPrice(b));
+  windows = await getDepartureWindows(db, offers.map(h => h.id));
+} catch (e) {
+  console.error('DB error on black friday page:', e);
+  return new Response('Service temporarily unavailable', { status: 503 });
+}
+
+// Keep the page out of shared caches so it stops on time.
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+
+const pageTitle = 'Black Friday River Cruise Offers | Flights and Packages';
+const pageDescription = `Black Friday river cruise offers with flights from the UK. Save up to £${SAVE_UP_TO} per person. Offers end midnight, Friday 27 November 2026. Call ${PHONE}.`;
+const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
+---
+<BaseLayout title={pageTitle} description={pageDescription} image={bannerImage}>
+  <link slot="head" rel="preload" as="image" type="image/jpeg" href={bannerImage} />
+  <Header />
+  <MobileNav />
+
+  <section class="bf-hero" aria-label="Black Friday river cruise offers">
+    <img src={bannerImage} alt="" class="bf-hero-bg" fetchpriority="high" decoding="async" width="1920" height="425" />
+    <div class="bf-hero-inner">
+      <p class="bf-kicker">Black Friday</p>
+      <h1>River Cruise Offers</h1>
+      <p class="bf-save">Save up to £{SAVE_UP_TO} per person</p>
+      <p class="bf-ends">Offers end midnight, Friday 27 November 2026</p>
+      <p class="bf-call">
+        <a class="btn-primary bf-call-btn" href={PHONE_HREF}>Call {PHONE}</a>
+        <span>Lines open 9am to 6pm</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="section-container bf-section">
+    <div class="bf-heading">
+      <h2>{offers.length} {offers.length === 1 ? 'cruise' : 'cruises'} on offer</h2>
+      <p>Flights from the UK, the cruise and transfers in one price. Savings are against booking the cruise and flights direct.</p>
+    </div>
+    {offers.length > 0 ? (
+      <div class="bf-grid">
+        {offers.map(h => <RiverCruiseCard holiday={h} window={windows.get(h.id)} />)}
+      </div>
+    ) : (
+      <p class="bf-empty">These offers have ended. <a href="/Holidays/river-cruises/">See all our river cruises</a> or call <a href={PHONE_HREF}>{PHONE}</a>.</p>
+    )}
+  </section>
+
+  <section class="bf-band">
+    <div class="section-container bf-band-inner">
+      <h2>Rather talk it through?</h2>
+      <p>Our cruise team can check any date and cabin while you are on the phone.</p>
+      <a class="btn-primary bf-call-btn" href={PHONE_HREF}>Call {PHONE}</a>
+      <p class="bf-small">Lines open 9am to 6pm, seven days a week.</p>
+    </div>
+  </section>
+
+  <Footer />
+  <MobileCallCTA />
+</BaseLayout>
+
+<style>
+  .bf-hero { position: relative; min-height: 425px; display: flex; align-items: center; color: #fff; overflow: hidden; }
+  .bf-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .bf-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,49,64,.55) 0%, rgba(7,49,64,.8) 100%); }
+  .bf-hero-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: calc(var(--bf-head, 0px) + 48px) 40px 48px; width: 100%; }
+  .bf-kicker { display: inline-block; margin: 0 0 16px; padding: 4px 12px; background: #111; color: #fff; border-radius: 2px; font-family: BentonSans, sans-serif; font-weight: 700; font-size: 14px; line-height: 24px; letter-spacing: 2.5px; text-transform: uppercase; }
+  .bf-hero h1 { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 52px; line-height: 54px; color: #fff; text-wrap: balance; text-shadow: 0 2px 12px rgba(7,49,64,.45); }
+  .bf-save { margin: 16px 0 0; font-size: 28px; line-height: 34px; font-weight: 700; color: #fff; }
+  .bf-ends { margin: 8px 0 0; font-size: 18px; line-height: 26px; color: #9ad5db; font-weight: 500; }
+  .bf-call { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 28px 0 0; }
+  .bf-call span { color: #cfe3e6; font-size: 16px; }
+  .bf-call-btn { padding: 14px 26px; }
+
+  .bf-section { padding-block: 56px 0; }
+  .bf-heading { margin-bottom: 24px; }
+  .bf-heading h2 { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 40px; line-height: 42px; color: #424242; }
+  .bf-heading p { margin: 8px 0 0; font-size: 16px; line-height: 24px; color: #6b6b6b; max-width: 60ch; }
+  .bf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .bf-empty { font-size: 18px; color: #424242; }
+  .bf-empty a { color: #0d6066; }
+
+  .bf-band { margin-top: 64px; padding-block: 56px; background: linear-gradient(180deg, #0b2b38 0%, #073140 100%); color: #fff; text-align: center; }
+  .bf-band h2 { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 36px; line-height: 40px; color: #fff; }
+  .bf-band p { margin: 12px auto 20px; max-width: 46ch; font-size: 16px; line-height: 24px; color: #cfe3e6; }
+  .bf-band .bf-small { margin: 14px auto 0; font-size: 16px; }
+
+  @media (max-width: 1100px) { .bf-grid { grid-template-columns: repeat(2, 1fr); } .bf-hero-inner { padding-inline: 30px; } }
+  @media (max-width: 768px) {
+    .bf-hero { min-height: 0; }
+    .bf-hero-inner { padding: calc(var(--bf-head, 0px) + 32px) 20px 40px; }
+    .bf-hero h1 { font-size: 40px; line-height: 42px; }
+    .bf-save { font-size: 24px; line-height: 30px; }
+    .bf-heading h2 { font-size: 32px; line-height: 34px; }
+  }
+  @media (max-width: 610px) { .bf-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  // The site header sits over the top of the page; push the hero text below it.
+  const hero = document.querySelector<HTMLElement>('.bf-hero');
+  const fit = () => {
+    if (!hero) return;
+    const overlap = Math.max(0, ...[...document.querySelectorAll<HTMLElement>('header, .header, #header')].filter(h => ['fixed', 'sticky'].includes(getComputedStyle(h).position)).map(h => h.getBoundingClientRect().bottom - hero.getBoundingClientRect().top));
+    hero.style.setProperty('--bf-head', `${Math.round(overlap)}px`);
+  };
+  fit(); addEventListener('resize', fit);
+</script>
