@@ -243,11 +243,13 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
   // remember which ship it is (so the calendar shows the right ship per date).
   // A special offer running today replaces the price on the sailings it covers;
   // the standard price stays alongside as the "was" (cruise-specials.ts).
-  // While a special is live the page IS the special: only its priced rows show (its
-  // ticked sailings, at the airports that have a fare for its dates). Until the queue
-  // has priced it, the standard rows stay so the page never empties.
+  // The special's ticked sailings show at the special price; every other sailing
+  // stays on the page at its standard price (owner 2026-11-23: "remove that
+  // restriction", after the VIVA Douro page showed nothing after April). A special
+  // WITH hotel nights still shows only its own sailings: the trip length changes.
   const sp = (await getActiveSpecials(db)).get(dbOfferId);
   const specialLive = !!sp?.cheapestPp;
+  const specialOnly = specialLive && (sp?.hotels.length ?? 0) > 0;
   type Cell = { date: string; airportCode: string; airportName: string; price: number; shipId: number | null; flightPp?: number; wasPp?: number; isSpecial?: boolean };
   const cheapestByKey = new Map<string, Cell>();
   const airportNames = new Map<string, string>();
@@ -255,7 +257,7 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
     const standard = Number(r.totalPricePp);
     const special = specialLive ? Number(r.specialPricePp) : 0;
     const isSpecial = special > 0;
-    if (specialLive && !isSpecial) continue;
+    if (specialOnly && !isSpecial) continue;
     const price = isSpecial ? special : standard;
     if (!(price > 0)) continue;
     airportNames.set(r.airportCode, r.airportName);
@@ -277,9 +279,10 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
   // per sailing date, flat across every airport, overriding the live flight price.
   // Sailings with no retail keep the live pricing — "show the special offer where
   // it exists, not every date". Retail is the all-in fly-cruise selling price.
-  // A live special outranks it: the special's prices are the page while it runs
-  // (28 Oct 2026: "Auto-set retail" on the offer grid was hiding a 25% special).
-  const retailRows = specialLive ? [] : await db
+  // A live special outranks it on the special's own dates (28 Oct 2026: "Auto-set
+  // retail" on the offer grid was hiding a 25% special).
+  const specialDates = new Set([...cheapestByKey.values()].filter(c => c.isSpecial).map(c => c.date));
+  const retailRows = specialOnly ? [] : await db
     .select({
       date: cruiseSailings.departureDate,
       shipId: cruiseSailings.shipId,
@@ -299,7 +302,7 @@ async function getCruisePricingFromDb(db: Database, offerId: number): Promise<Ho
     // cruise_sailings.departure_date is a full ISO timestamp; flight prices are
     // date-only — normalise to YYYY-MM-DD so the overlay keys line up.
     const date = (r.date || '').slice(0, 10);
-    if (!date) continue;
+    if (!date || specialDates.has(date)) continue;
     const ex = retailByDate.get(date);
     if (!ex || price < ex.price) retailByDate.set(date, { price, shipId: r.shipId ?? null });
   }
