@@ -539,6 +539,13 @@ joined the list.
 - **Getting them into Spotler is by hand:** there is no Spotler API link. Admin → Lead
   Reports → "Mailing list sign-ups from the website" → Download new sign-ups (CSV), then
   import in Spotler. Each address is handed over once.
+- **"Email me deals" (2026-11-25, Black Friday page first):** `DealsSignup.astro` is our own
+  one-box form (no Spotler scripts, shows at once on a phone) → `src/pages/api/deals-signup.ts`
+  → admin API `/api/mailing/signup` → `mailing_signups` row, `source='deals_signup'`, opted in,
+  nothing emailed; it goes out in the same CSV export ("Email me deals"). `MobileCallCTA
+  emailDeals="<where>"` splits the phone bar into Call | Email me deals, opening the form in a
+  bottom sheet. PostHog `deals_sheet_open`, `deals_signup`. Owner asked for it after "few
+  full-page scrollers" on mobile; the bottom-of-page Spotler box was the alternative.
 - Month chips above the calendar (same day) are the jump-to-month row; shown from
   3 months of departures.
 
