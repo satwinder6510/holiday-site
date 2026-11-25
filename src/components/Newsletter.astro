@@ -1,10 +1,15 @@
+---
+// Optional copy so an offer page can say why to sign up; defaults keep every other page unchanged.
+interface Props { title?: string; desc?: string }
+const { title = 'Subscribe to our newsletter', desc = 'Get our latest news and offers delivered right to your inbox' } = Astro.props;
+---
 <section class="newsletter-section">
   <div class="newsletter-bg"></div>
   <div class="section-container">
     <div class="newsletter">
       <div class="newsletter-text">
-        <div class="newsletter-title">Subscribe to our newsletter</div>
-        <span class="newsletter-desc">Get our latest news and offers delivered right to your inbox</span>
+        <div class="newsletter-title">{title}</div>
+        <span class="newsletter-desc">{desc}</span>
       </div>
       <div class="newsletter-form-mount">
         <!-- Spotler Mail+ dynamic sign-up form renders here -->

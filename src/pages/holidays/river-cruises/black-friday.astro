@@ -16,6 +16,7 @@ import MobileNav from '../../../components/MobileNav.astro';
 import Footer from '../../../components/Footer.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import RiverCruiseCard from '../../../components/RiverCruiseCard.astro';
+import Newsletter from '../../../components/Newsletter.astro';
 import { getDb } from '../../../lib/get-db';
 import { getAllListedHolidaysFromDb, getDepartureWindows, getHolidayBySlugFromDb, type DepartureWindow } from '../../../lib/holidays-db';
 import { getSailingLadders, directSaving } from '../../../lib/cruise-detail';
@@ -112,6 +113,8 @@ const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
       <p class="bf-empty">These offers have ended. <a href="/Holidays/river-cruises/">See all our river cruises</a> or call <a href={PHONE_HREF}>{PHONE}</a>.</p>
     )}
   </section>
+
+  <Newsletter title="Get our offers first" desc="Members hear about our cruise offers before anyone else. Sign up with your email." />
 
   <section class="bf-band">
     <div class="section-container bf-band-inner">
