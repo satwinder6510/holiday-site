@@ -30,11 +30,12 @@ const { emailDeals, hideCall = false } = Astro.props;
         if (!wrap || !openBtn) return;
         function open(e) {
           opener = e && e.currentTarget ? e.currentTarget : null;
+          window.__dealsOpenedFrom = opener && opener.id === 'mcc-email-open' ? 'phone_bar' : 'hero_button';
           wrap.hidden = false;
           document.body.style.overflow = 'hidden';
           var i = wrap.querySelector('input[type=email]');
           if (i) setTimeout(function () { i.focus(); }, 50);
-          try { if (window.posthog) window.posthog.capture('deals_sheet_open'); } catch (_) {}
+          try { if (window.posthog) window.posthog.capture('deals_sheet_open', { opened_from: window.__dealsOpenedFrom, where: (wrap.querySelector('[data-where]') || { getAttribute: function () { return ''; } }).getAttribute('data-where') }); } catch (_) {}
         }
         var opener = null;
         function close() { wrap.hidden = true; document.body.style.overflow = ''; (opener || openBtn).focus(); }

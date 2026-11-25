@@ -49,7 +49,14 @@ const { title = 'Get our deals by email', desc = 'Our members hear about cruise 
           document.querySelectorAll('form[data-deals-signup]').forEach(function (f) {
             f.innerHTML = '<p class="ds-done">Thank you. You are on the list for our deals.</p>';
           });
-          try { if (window.posthog) window.posthog.capture('deals_signup', { where: form.getAttribute('data-where') || '' }); } catch (_) {}
+          try {
+            if (window.posthog) window.posthog.capture('deals_signup', {
+              where: form.getAttribute('data-where') || '',
+              placement: form.closest('.mcc-sheet') ? 'popup' : 'page_form',
+              opened_from: form.closest('.mcc-sheet') ? (window.__dealsOpenedFrom || 'unknown') : 'page_form',
+              lead_source: src
+            });
+          } catch (_) {}
         })
         .catch(function (err) {
           btn.disabled = false;
