@@ -26,8 +26,6 @@ import { fromPrice, savingOf } from '../../../lib/cruise-card';
 // Midnight UK time at the end of Saturday 5 December 2026 (UK is on GMT then).
 const ENDS_AT = Date.parse('2026-12-06T00:00:00Z');
 const SPECIALS_END_ON = '2026-11-27';
-const PHONE = '0208 183 0518';
-const PHONE_HREF = 'tel:02081830518';
 
 if (Date.now() >= ENDS_AT) return Astro.redirect('/Holidays/river-cruises/', 302);
 
@@ -77,7 +75,7 @@ const daysLeft = Math.round((Date.parse('2026-12-05T00:00:00Z') - ukToday) / 864
 const leftLabel = daysLeft <= 0 ? 'ends tonight' : daysLeft === 1 ? '1 day left' : `${daysLeft} days left`;
 
 const pageTitle = 'Black Friday River Cruise Offers | Flights and Packages';
-const pageDescription = `Black Friday river cruise offers with flights from the UK. Save up to £${SAVE_UP_TO} per person. Offers end midnight, Saturday 5 December 2026. Call ${PHONE}.`;
+const pageDescription = `Black Friday river cruise offers with flights from the UK. Save up to £${SAVE_UP_TO} per person. Offers end midnight, Saturday 5 December 2026.`;
 const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
 ---
 <BaseLayout title={pageTitle} description={pageDescription} image={bannerImage}>
@@ -94,8 +92,8 @@ const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
       <p class="bf-incl">Flights from the UK, the cruise and transfers in one price</p>
       <p class="bf-ends">Ends midnight Saturday 5 December · {leftLabel}</p>
       <p class="bf-call">
-        <a class="bf-call-btn" href={PHONE_HREF}>Call {PHONE}</a>
-        <span>Lines open 9am to 6pm, seven days a week</span>
+        <button type="button" class="bf-call-btn" data-deals-open>Email me deals</button>
+        <span>Our members hear about cruise offers first</span>
       </p>
     </div>
   </section>
@@ -110,23 +108,15 @@ const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
         {offers.map(h => <RiverCruiseCard holiday={h} window={windows.get(h.id)} directPp={directById.get(h.id)} fromDate={dateById.get(h.id)} />)}
       </div>
     ) : (
-      <p class="bf-empty">These offers have ended. <a href="/Holidays/river-cruises/">See all our river cruises</a> or call <a href={PHONE_HREF}>{PHONE}</a>.</p>
+      <p class="bf-empty">These offers have ended. <a href="/Holidays/river-cruises/">See all our river cruises</a>.</p>
     )}
   </section>
 
   <section aria-label="Email sign-up"><DealsSignup where="Black Friday river cruises" /></section>
 
-  <section class="bf-band">
-    <div class="section-container bf-band-inner">
-      <h2>Rather talk it through?</h2>
-      <p>Our cruise team can check any date and cabin while you are on the phone.</p>
-      <a class="bf-call-btn" href={PHONE_HREF}>Call {PHONE}</a>
-      <p class="bf-small">Lines open 9am to 6pm, seven days a week.</p>
-    </div>
-  </section>
 
   <Footer />
-  <MobileCallCTA emailDeals="Black Friday river cruises" />
+  <MobileCallCTA emailDeals="Black Friday river cruises" hideCall />
 </BaseLayout>
 
 <style>
@@ -141,8 +131,10 @@ const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
   .bf-call { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 28px 0 0; }
   .bf-call span { color: #cfe3e6; font-size: 16px; }
   .bf-incl { margin: 8px 0 0; font-size: 18px; line-height: 26px; color: #fff; }
-  .bf-call-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 26px; background: #20A1AA; color: #fff; border-radius: 2px; text-decoration: none; font-size: 20px; line-height: 24px; font-weight: 700; letter-spacing: 0; text-transform: none; }
-  .bf-call-btn:hover { background: #1b8c94; }
+  .bf-call-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 26px; background: #ff7f00; color: #fff; border: 0; cursor: pointer; font-family: BentonSans, sans-serif; border-radius: 2px; text-decoration: none; font-size: 20px; line-height: 24px; font-weight: 700; letter-spacing: 0; text-transform: none; }
+  .bf-call-btn:hover { background: #e67200; }
+  /* Sign-up is the only call to action here: no phone number, header included (owner 25 Nov 2026). */
+  :global(.phone-number), :global(.phone-sub), :global(.mobile-contacts), :global(.footer-phone) { display: none !important; }
   :global(.bf-grid .rc-pill-save) { font-size: 16px; font-weight: 700; padding: 8px 14px; }
 
   .bf-section { padding-block: 56px 0; }
@@ -153,10 +145,6 @@ const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
   .bf-empty { font-size: 18px; color: #424242; }
   .bf-empty a { color: #0d6066; }
 
-  .bf-band { margin-top: 64px; padding-block: 56px; background: linear-gradient(180deg, #0b2b38 0%, #073140 100%); color: #fff; text-align: center; }
-  .bf-band h2 { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-weight: 400; font-size: 36px; line-height: 40px; color: #fff; }
-  .bf-band p { margin: 12px auto 20px; max-width: 46ch; font-size: 16px; line-height: 24px; color: #cfe3e6; }
-  .bf-band .bf-small { margin: 14px auto 0; font-size: 16px; }
 
   @media (max-width: 1100px) { .bf-grid { grid-template-columns: repeat(2, 1fr); } .bf-hero-inner { padding-inline: 30px; } }
   @media (max-width: 768px) {

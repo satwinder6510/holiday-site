@@ -4,14 +4,16 @@
 // bottom sheet holding the one-box DealsSignup form, so a visitor can join the
 // list without scrolling to the foot of the page.
 import DealsSignup from './DealsSignup.astro';
-interface Props { emailDeals?: string }
-const { emailDeals } = Astro.props;
+// `hideCall` drops the Call button so the sign-up is the only call to action.
+// Any element with [data-deals-open] on the page also opens the sheet.
+interface Props { emailDeals?: string; hideCall?: boolean }
+const { emailDeals, hideCall = false } = Astro.props;
 ---
 
 {emailDeals ? (
   <>
     <div class="call-now-m fixed left-0 w-full bottom-0 z-[99] md2:hidden mcc-split" style="background-color: rgba(0,0,0,0.82); padding: 12px 12px calc(12px + env(safe-area-inset-bottom));">
-      <a href="tel:02081830518" class="mcc-btn mcc-call">Call 0208 183 0518</a>
+      {!hideCall && <a href="tel:02081830518" class="mcc-btn mcc-call">Call 0208 183 0518</a>}
       <button type="button" class="mcc-btn mcc-email" id="mcc-email-open" aria-haspopup="dialog" aria-controls="mcc-sheet">Email me deals</button>
     </div>
     <div class="mcc-sheet-wrap" id="mcc-sheet" hidden>
@@ -26,15 +28,18 @@ const { emailDeals } = Astro.props;
         var wrap = document.getElementById('mcc-sheet');
         var openBtn = document.getElementById('mcc-email-open');
         if (!wrap || !openBtn) return;
-        function open() {
+        function open(e) {
+          opener = e && e.currentTarget ? e.currentTarget : null;
           wrap.hidden = false;
           document.body.style.overflow = 'hidden';
           var i = wrap.querySelector('input[type=email]');
           if (i) setTimeout(function () { i.focus(); }, 50);
           try { if (window.posthog) window.posthog.capture('deals_sheet_open'); } catch (_) {}
         }
-        function close() { wrap.hidden = true; document.body.style.overflow = ''; openBtn.focus(); }
+        var opener = null;
+        function close() { wrap.hidden = true; document.body.style.overflow = ''; (opener || openBtn).focus(); }
         openBtn.addEventListener('click', open);
+        document.querySelectorAll('[data-deals-open]').forEach(function (b) { b.addEventListener('click', open); });
         wrap.addEventListener('click', function (e) { if (e.target.closest('[data-mcc-close]')) close(); });
         document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !wrap.hidden) close(); });
       })();
@@ -62,5 +67,6 @@ const { emailDeals } = Astro.props;
   .mcc-sheet-wrap { position: fixed; inset: 0; z-index: 10000; }
   .mcc-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.5); }
   .mcc-sheet { position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-radius: 16px 16px 0 0; padding: 28px 16px calc(24px + env(safe-area-inset-bottom)); box-shadow: 0 -6px 24px rgba(0,0,0,.2); }
+  @media (min-width: 768px) { .mcc-sheet { left: 50%; right: auto; bottom: auto; top: 50%; transform: translate(-50%, -50%); width: 520px; border-radius: 12px; padding: 36px 28px 28px; } }
   .mcc-close { position: absolute; top: 6px; right: 8px; width: 44px; height: 44px; border: 0; background: none; font-size: 30px; line-height: 1; color: #424242; cursor: pointer; }
 </style>
