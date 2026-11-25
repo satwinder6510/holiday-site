@@ -1,12 +1,66 @@
 ---
+// Phone call bar (phones only). With `emailDeals` set (2026-11-25, Black Friday
+// page first) the bar splits into Call | Email me deals; the second opens a
+// bottom sheet holding the one-box DealsSignup form, so a visitor can join the
+// list without scrolling to the foot of the page.
+import DealsSignup from './DealsSignup.astro';
+interface Props { emailDeals?: string }
+const { emailDeals } = Astro.props;
 ---
 
-<div class="call-now-m fixed left-0 w-full bottom-0 z-[99] md2:hidden" style="background-color: rgba(0,0,0,0.82); padding: 20px;">
-  <a
-    href="tel:02081830518"
-    class="block text-center text-white font-semibold bg-primary rounded-[15px] py-[5px]"
-    style="font-size: 19px;"
-  >
-    <span class="text-[#ddd] pr-0.5">Call now</span> 0208 183 0518
-  </a>
-</div>
+{emailDeals ? (
+  <>
+    <div class="call-now-m fixed left-0 w-full bottom-0 z-[99] md2:hidden mcc-split" style="background-color: rgba(0,0,0,0.82); padding: 12px 12px calc(12px + env(safe-area-inset-bottom));">
+      <a href="tel:02081830518" class="mcc-btn mcc-call">Call 0208 183 0518</a>
+      <button type="button" class="mcc-btn mcc-email" id="mcc-email-open" aria-haspopup="dialog" aria-controls="mcc-sheet">Email me deals</button>
+    </div>
+    <div class="mcc-sheet-wrap" id="mcc-sheet" hidden>
+      <div class="mcc-backdrop" data-mcc-close></div>
+      <div class="mcc-sheet" role="dialog" aria-modal="true" aria-label="Email me deals">
+        <button type="button" class="mcc-close" data-mcc-close aria-label="Close">&times;</button>
+        <DealsSignup where={emailDeals} variant="sheet" />
+      </div>
+    </div>
+    <script is:inline>
+      (function () {
+        var wrap = document.getElementById('mcc-sheet');
+        var openBtn = document.getElementById('mcc-email-open');
+        if (!wrap || !openBtn) return;
+        function open() {
+          wrap.hidden = false;
+          document.body.style.overflow = 'hidden';
+          var i = wrap.querySelector('input[type=email]');
+          if (i) setTimeout(function () { i.focus(); }, 50);
+          try { if (window.posthog) window.posthog.capture('deals_sheet_open'); } catch (_) {}
+        }
+        function close() { wrap.hidden = true; document.body.style.overflow = ''; openBtn.focus(); }
+        openBtn.addEventListener('click', open);
+        wrap.addEventListener('click', function (e) { if (e.target.closest('[data-mcc-close]')) close(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !wrap.hidden) close(); });
+      })();
+    </script>
+  </>
+) : (
+  <div class="call-now-m fixed left-0 w-full bottom-0 z-[99] md2:hidden" style="background-color: rgba(0,0,0,0.82); padding: 20px;">
+    <a
+      href="tel:02081830518"
+      class="block text-center text-white font-semibold bg-primary rounded-[15px] py-[5px]"
+      style="font-size: 19px;"
+    >
+      <span class="text-[#ddd] pr-0.5">Call now</span> 0208 183 0518
+    </a>
+  </div>
+)}
+
+<style is:global>
+  .mcc-split { display: flex; gap: 10px; }
+  @media (min-width: 768px) { .mcc-split { display: none; } }
+  .mcc-btn { flex: 1 1 0; min-height: 48px; display: flex; align-items: center; justify-content: center; text-align: center; border: 0; border-radius: 12px; color: #fff; font-size: 16px; line-height: 20px; font-weight: 700; font-family: BentonSans, sans-serif; text-decoration: none; padding: 6px 8px; cursor: pointer; }
+  .mcc-call { background: #20A1AA; }
+  .mcc-email { background: #ff7f00; }
+  .mcc-sheet-wrap[hidden] { display: none; }
+  .mcc-sheet-wrap { position: fixed; inset: 0; z-index: 10000; }
+  .mcc-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.5); }
+  .mcc-sheet { position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-radius: 16px 16px 0 0; padding: 28px 16px calc(24px + env(safe-area-inset-bottom)); box-shadow: 0 -6px 24px rgba(0,0,0,.2); }
+  .mcc-close { position: absolute; top: 6px; right: 8px; width: 44px; height: 44px; border: 0; background: none; font-size: 30px; line-height: 1; color: #424242; cursor: pointer; }
+</style>
