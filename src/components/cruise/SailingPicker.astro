@@ -171,7 +171,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       {airports.length > 1 && (
         <p>Sailings flying from <b class="sp__for-airport">{airports.find(a => a.code === defaultCode)?.name}</b></p>
       )}
-      <p class="sp__from-trip">{[oneShip, nightCount > 0 ? `${nightCount} nights` : ''].filter(Boolean).join(' · ')}</p>
+      <p class="sp__from-trip">{[oneShip, nightCount > 0 ? `${nightCount} nights` : '', routeLabel].filter(Boolean).join(' · ')}</p>
     </div>
     <div class="sp__head">
       <div>Departs</div><div>Nights</div><div>Ship</div>
@@ -212,7 +212,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
               <span class="sp__range">{niceDate(startOf(date))} &ndash; {returnOf(startOf(date), nightCount)}</span>
             </span>
             <span class="sp__nights">{nightCount} nights</span>
-            <span class="sp__ship">{(shipByDate.get(date) || shipName) && <b>{shipByDate.get(date) || shipName}</b>}{routeLabel}</span>
+            <span class="sp__ship">{(shipByDate.get(date) || shipName) && <b>{shipByDate.get(date) || shipName}</b>}{routeLabel && <span class="sp__route">{routeLabel}</span>}</span>
             <span class:list={['sp__price', { 'is-na': !hasDefault }]}>
               <span class="sp__direct" {...directAttrs} hidden={!directBase}>Direct <s>{directBase ? formatPrice(directBase) : ''}</s></span>
               <span class="sp__amt" {...priceAttrs}>{hasDefault ? formatPrice(base) : '—'}</span>
@@ -558,7 +558,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     .sp__date { grid-column: 1; grid-row: 1 / span 2; align-self: center; }
     .sp__ship { grid-column: 1; grid-row: 3; font-size: 16px; color: #6b6b6b; }
     .sp__ship b { font-weight: 400; }
-    .sp__row--one-ship .sp__ship { display: none; }
+    .sp__row--one-ship .sp__ship, .sp__route { display: none; }
     /* The price cell's parts join the row grid: price over 'per person' on the
        right, booking-direct and the saving on one line underneath. The "£x less
        from STN" hint is dropped here; the airport buttons show each airport. */
