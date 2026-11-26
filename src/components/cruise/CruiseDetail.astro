@@ -289,12 +289,9 @@ const overview = tidyOverview(holiday.overview || '');
                 cheapest airport isn't the same one every week. Choose your airport, then a
                 date{ladders.length > 0 ? ' to see the cabins on board' : ''}.</>}
           </p>
-          <!-- Phone first (owner 19 Nov 2026): telephone leads book at 47%, web forms at 10%. -->
-          <p class="cd-ring">
-            <span class="cd-ring__q">Rather book by phone?</span>
-            <CallLink class="cd-ring__no" tel={TEL_HREF} display={TEL_DISPLAY} />
-            <span class="cd-ring__hrs">Lines open 9am to 6pm. We can check any sailing while you are on the line.</span>
-          </p>
+          <!-- The "Rather book by phone?" box that stood here came out 26 Nov 2026
+               (owner: "interferes with browsing and its too early an ask"). The
+               number stays in the hero price box and the call band lower down. -->
         </div>
         <SailingPicker
           airports={pricing.airports}
@@ -777,10 +774,6 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-hero__act { display: flex; flex-direction: column; align-items: stretch; gap: 6px; }
   .cd-hero__call { margin: 0; font-size: 16px; line-height: 24px; color: #424242; }
   :global(.cd-hero__tel) { font-weight: 700; color: #073140; text-decoration: none; white-space: nowrap; }
-  .cd-ring { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin: 20px 0 0; padding: 14px 18px; border: 1px solid #cfe6e8; border-left: 4px solid #20A1AA; border-radius: 2px; background: #f6fbfb; }
-  .cd-ring__q { font-size: 16px; line-height: 24px; font-weight: 500; color: #424242; }
-  :global(.cd-ring__no) { font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 24px; line-height: 30px; font-weight: 900; letter-spacing: 2px; color: #073140; text-decoration: none; white-space: nowrap; }
-  .cd-ring__hrs { flex-basis: 100%; font-size: 16px; line-height: 24px; color: #6b6b6b; }
   /* Phones: a call bar that stays on screen. Shown by the script in office hours only. */
   .cd-callbar { display: none; }
   @media (max-width: 610px) {
