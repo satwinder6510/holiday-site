@@ -276,6 +276,8 @@ interface OfferRow {
   routeShipId: number | null;
   /** cruise_routes.is_published. 0 = unlisted: the page opens by direct link only. */
   routePublished: number | boolean | null;
+  /** 1 when this offer has a special enabled and running today. */
+  hasLiveSpecial: number | null;
 }
 
 /**
@@ -316,7 +318,10 @@ export const OFFERS_SQL = sql`
     cr.gallery               AS gallery,
     cop.name                 AS operatorName,
     cr.ship_id               AS routeShipId,
-    cr.is_published          AS routePublished
+    cr.is_published          AS routePublished,
+    EXISTS (SELECT 1 FROM cruise_offer_specials sp
+            WHERE sp.offer_id = co.id AND sp.is_enabled = 1
+              AND date('now') BETWEEN sp.starts_on AND sp.ends_on) AS hasLiveSpecial
   FROM cruise_offers co
   INNER JOIN cruise_routes cr ON co.route_id = cr.id
   INNER JOIN cruise_operators cop ON cr.operator_id = cop.id
@@ -442,6 +447,7 @@ export function assembleCatalogue(
   }
 
   const built: RawCruise[] = [];
+  const liveSpecial = new Set<number>();
 
   for (const row of offerRows) {
     // Display-price override if set, otherwise auto-round down to a 9
@@ -509,6 +515,7 @@ export function assembleCatalogue(
     // No future sailings means nothing to show
     if (sailings.length === 0) continue;
 
+    if (row.hasLiveSpecial) liveSpecial.add(row.offerId + ID_OFFSET);
     built.push({
       id: row.offerId + ID_OFFSET,
       title,
@@ -539,11 +546,20 @@ export function assembleCatalogue(
     });
   }
 
-  // Several offers can share a route, and the route's slug is the URL. Keep the
-  // one with the most sailings, cheaper price breaking a tie.
+  // Several offers can share a route, and the route's slug is the URL. An offer
+  // with a special running today wins (26 Nov 2026: staff build the special as a
+  // second offer on the route, and the older plain one was hiding it from the
+  // special offers list). Otherwise keep the one with the most sailings, cheaper
+  // price breaking a tie.
   const bySlug = new Map<string, RawCruise>();
   for (const entry of built) {
     const existing = bySlug.get(entry.slug);
+    const entrySpecial = liveSpecial.has(entry.id);
+    const existingSpecial = existing ? liveSpecial.has(existing.id) : false;
+    if (existing && entrySpecial !== existingSpecial) {
+      if (entrySpecial) bySlug.set(entry.slug, entry);
+      continue;
+    }
     if (!existing
       || (entry.sailings?.length ?? 0) > (existing.sailings?.length ?? 0)
       || ((entry.sailings?.length ?? 0) === (existing.sailings?.length ?? 0) && entry.price < existing.price)) {
