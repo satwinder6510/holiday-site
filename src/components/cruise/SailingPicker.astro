@@ -15,7 +15,6 @@ import type { Airport, Departure } from '../../lib/pricing-transforms';
 import { formatPrice } from '../../lib/pricing-transforms';
 import type { SailingLadder } from '../../lib/cruise-detail';
 import { directSaving } from '../../lib/cruise-detail';
-import CallLink from './CallLink.astro';
 
 interface Props {
   airports: Airport[];
@@ -123,6 +122,11 @@ const returnOf = (iso: string, nights: number) => {
 
 
 const nightCount = nights ?? 0;
+// Phones: the ship and length are said once in the dark band over the list when
+// every sailing shares them, not repeated on each row (owner 26 Nov 2026: the
+// list was "not very clear", each date nearly a screen tall).
+const shipOf = (date: string) => shipByDate.get(date) || shipName;
+const oneShip = dates.length > 0 && dates.every(d => shipOf(d) === shipOf(dates[0])) ? shipOf(dates[0]) : '';
 const bestOverall = Math.min(...dates.map(d => grid.get(d)?.get(defaultCode) ?? Infinity));
 // Several dates can tie on the lowest price; badge only the earliest of them.
 const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) === bestOverall);
@@ -163,11 +167,12 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   )}
 
   <div class="sp__table">
-    {airports.length > 1 && (
-      <p class="sp__from">
-        Sailings flying from <b class="sp__for-airport">{airports.find(a => a.code === defaultCode)?.name}</b>
-      </p>
-    )}
+    <div class="sp__from">
+      {airports.length > 1 && (
+        <p>Sailings flying from <b class="sp__for-airport">{airports.find(a => a.code === defaultCode)?.name}</b></p>
+      )}
+      <p class="sp__from-trip">{[oneShip, nightCount > 0 ? `${nightCount} nights` : ''].filter(Boolean).join(' · ')}</p>
+    </div>
     <div class="sp__head">
       <div>Departs</div><div>Nights</div><div>Ship</div>
       <div class="sp__ta-r">Per person</div><div></div>
@@ -192,7 +197,8 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
         <>
           <Row
             {...(hasCabins ? { href: `${cabinsHref}?date=${date}&airport=${defaultCode}` } : {})}
-            class:list={['sp__row', { 'is-na': hasCabins && !hasDefault }]}
+            class:list={['sp__row', { 'is-na': hasCabins && !hasDefault, 'sp__row--one-ship': !!oneShip }]}
+            {...(!hasCabins ? { 'data-tap': '1' } : {})}
             id={`sail-${i}`}
             data-date={date}
             data-start={startOf(date)}
@@ -201,8 +207,9 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
           >
             <span class="sp__date">
               {date === bestDate && <span class="sp__best">Best price</span>}
-              {niceDate(startOf(date))}
+              <span class="sp__dep">{niceDate(startOf(date))}</span>
               <span class="sp__sub">returns {returnOf(startOf(date), nightCount)}</span>
+              <span class="sp__range">{niceDate(startOf(date))} &ndash; {returnOf(startOf(date), nightCount)}</span>
             </span>
             <span class="sp__nights">{nightCount} nights</span>
             <span class="sp__ship">{(shipByDate.get(date) || shipName) && <b>{shipByDate.get(date) || shipName}</b>}{routeLabel}</span>
@@ -210,6 +217,7 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
               <span class="sp__direct" {...directAttrs} hidden={!directBase}>Direct <s>{directBase ? formatPrice(directBase) : ''}</s></span>
               <span class="sp__amt" {...priceAttrs}>{hasDefault ? formatPrice(base) : '—'}</span>
               <span class="sp__lab">{hasDefault ? 'per person' : `No flights from ${airports.find(a => a.code === defaultCode)?.name ?? defaultCode} this date`}</span>
+              <span class="sp__chev" aria-hidden="true">›</span>
               <span class="sp__save" hidden={!directBase}>{directBase ? `You save ${formatPrice(directBase - base)}` : ''}</span>
               <span
                 class="sp__cheaper"
@@ -223,7 +231,6 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
               : (
                 <span class="sp__ctas">
                   <button type="button" class="sp__enq" data-enq>Request this sailing ›</button>
-                  <CallLink class="sp__cta" tel={tel} display={telDisplay} tapLabel="Call to book ›" readLabel={`Call ${telDisplay}`} />
                 </span>
               )}
           </Row>
@@ -393,6 +400,15 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
       });
     });
 
+    // Phones: the whole no-cabin row is the button (its own button is hidden there).
+    sp.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest('button, a')) return;
+      const row = t.closest<HTMLElement>('.sp__row[data-tap]');
+      if (!row || !window.matchMedia('(max-width: 940px)').matches) return;
+      row.querySelector<HTMLButtonElement>('.sp__enq')?.click();
+    });
+
     // (Cabins live on step two now; the rows are links and applyAirport keeps
     // their airport in step with the picker.)
   }
@@ -448,6 +464,11 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     background: #073140; color: #fff; font-size: 16px; line-height: 24px;
   }
   .sp__from b { font-weight: 700; color: #7fd6dc; }
+  /* global.css colours every <p>; the band is dark */
+  .sp__from p { margin: 0; color: #fff; font-size: 16px; line-height: 24px; }
+  .sp__from p.sp__from-trip { color: #cfe3e6; }
+  .sp__from-trip:empty { display: none; }
+  .sp__range, .sp__chev { display: none; }
   .sp__head, .sp__row {
     display: grid;
     grid-template-columns: minmax(0, 1.6fr) 84px minmax(0, 1fr) 150px 200px;
@@ -527,12 +548,21 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
   @media (max-width: 940px) {
     .sp__head { display: none; }
     .sp__from { display: block; }
-    .sp__row { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; padding: 16px; }
-    .sp__nights, .sp__ship { grid-column: 1; font-size: 16px; }
-    .sp__price { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
-    :global(.sp__cta) { grid-column: 1 / -1; justify-self: stretch; text-align: center; margin-top: 8px; }
-    .sp__ctas { grid-column: 1 / -1; justify-self: stretch; align-items: stretch; margin-top: 8px; }
-    .sp__ctas .sp__enq, .sp__ctas :global(.sp__cta) { margin-top: 0; text-align: center; }
+    /* One compact row per date: dates on the left, price on the right, the whole
+       row is the tap target. Ship and nights live in the band above. */
+    .sp__row { grid-template-columns: minmax(0, 1fr) auto; gap: 0 12px; padding: 14px 16px; cursor: pointer; }
+    .sp__row[data-tap]:active, a.sp__row:active { background: #f0f9fa; }
+    .sp__dep, .sp__sub { display: none; }
+    .sp__range { display: block; }
+    .sp__nights { display: none; }
+    .sp__ship { grid-column: 1; font-size: 16px; color: #6b6b6b; }
+    .sp__ship b { font-weight: 400; }
+    .sp__row--one-ship .sp__ship { display: none; }
+    .sp__price { grid-column: 2; grid-row: 1 / span 2; align-self: center; position: relative; padding-right: 22px; }
+    .sp__chev { display: block; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 28px; line-height: 1; color: #20A1AA; }
+    .is-na .sp__chev { display: none; }
+    .sp__lab { font-size: 12px; }
+    :global(.sp__row .sp__cta), .sp__ctas { display: none; }
   }
   @media (max-width: 610px) {
     .sp__set { gap: 8px; }
