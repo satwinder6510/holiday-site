@@ -240,7 +240,7 @@ const overview = tidyOverview(holiday.overview || '');
       {nights > 0 && <div><dt>Length</dt><dd>{nights} nights</dd></div>}
       {sailingCount > 0 && <div><dt>Sailings</dt><dd>{sailingCount} {sailingCount === 1 ? "date" : "dates"}</dd></div>}
       {holiday.boardBasis && <div><dt>Dining</dt><dd>{holiday.boardBasis}</dd></div>}
-      {airportNames.length > 0 && <div><dt>Flights from</dt><dd>{airportNames.join(', ')}</dd></div>}
+      {airportNames.length > 0 && <div class="cd-glance__wide"><dt>Flights from</dt><dd>{airportNames.join(', ')}</dd></div>}
     </dl>
   </div>
 
@@ -623,27 +623,31 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-btn:hover { background: #e67300; }
 
   /* Hero */
-  .cd-hero { position: relative; background: #073140; }
+  /* The photo fills the box behind the text, and the text sits in the flow, so
+     a long title makes the hero taller instead of running up under the fixed
+     header (owner 26 Nov 2026: the top of the page "looks odd"; at 1280 the
+     first line of the title was hidden). */
+  .cd-hero { position: relative; background: #073140; display: flex; flex-direction: column; justify-content: flex-end; min-height: clamp(500px, 40vw, 760px); }
   /* Same height as the holiday detail hero (owner 2026-09-08: a fixed short
      hero was a letterbox on wide screens). Keep the two in step. */
-  .cd-hero__img { display: block; width: 100%; height: clamp(500px, 40vw, 760px); object-fit: cover; opacity: .9; }
+  .cd-hero__img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; opacity: .9; }
   .cd-hero__body {
-    position: absolute; inset: auto 0 0 0;
+    position: relative;
     background: linear-gradient(to top, rgba(7, 32, 41, .94) 10%, rgba(7, 32, 41, .5) 65%, rgba(7, 32, 41, 0));
-    padding-block: 64px 24px;
+    padding-block: 165px 32px; /* 101px fixed header + breathing room */
   }
   .cd-hero__body .section-container { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-  .cd-hero__text { color: #fff; max-width: 40ch; }
+  .cd-hero__text { color: #fff; flex: 1 1 480px; max-width: 760px; }
   .cd-hero__kicker { margin: 0; font-size: 14px; line-height: 24px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #9ad5db; }
   .cd-hero__route { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin: 16px 0 0; font-size: 16px; color: #cfe3e6; }
   .cd-hero__route .is-end { font-weight: 700; color: #fff; }
   .cd-hero__route i { font-style: normal; color: #6aaeb7; }
   .cd-hero__price {
-    display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+    flex: 0 0 auto; display: flex; flex-direction: column; align-items: stretch; gap: 16px;
     background: rgba(255, 255, 255, .97); border-radius: 2px; padding: 16px 24px;
     box-shadow: 0 1px 2px rgba(7, 49, 64, .07), 0 10px 28px rgba(7, 49, 64, .09);
   }
-  .cd-hero__amt { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 40px; line-height: 40px; color: #424242; }
+  .cd-hero__amt { margin: 0; font-family: CaslonGraphiqueEF, Georgia, serif; font-size: 48px; line-height: 50px; color: #424242; }
   .cd-hero__amt span { font-family: BentonSans, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 500; }
   .cd-hero__note { margin: 4px 0 0; font-size: 16px; line-height: 24px; color: #6b6b6b; }
   .cd-hero__save { margin: 4px 0 0; font-size: 16px; line-height: 24px; font-weight: 700; color: #0d6066; }
@@ -658,6 +662,8 @@ const overview = tidyOverview(holiday.overview || '');
   .cd-glance dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 24px; padding-block: 16px; margin-block: 0; }
   .cd-glance dt { font-size: 12px; line-height: 20px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #0d6066; }
   .cd-glance dd { margin: 4px 0 0; font-size: 16px; font-weight: 500; color: #424242; }
+  /* Nine airports in one 170px column made the strip twice its height. */
+  .cd-glance .cd-glance__wide { grid-column: 1 / -1; }
 
   /* Port calls */
   .cd-calls { margin-top: 32px; border: 1px solid #e5e7eb; border-radius: 2px; background: #fff; overflow-x: auto; }
@@ -768,7 +774,7 @@ const overview = tidyOverview(holiday.overview || '');
   }
 
   /* Talk to us */
-  .cd-hero__act { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .cd-hero__act { display: flex; flex-direction: column; align-items: stretch; gap: 6px; }
   .cd-hero__call { margin: 0; font-size: 16px; line-height: 24px; color: #424242; }
   :global(.cd-hero__tel) { font-weight: 700; color: #073140; text-decoration: none; white-space: nowrap; }
   .cd-ring { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin: 20px 0 0; padding: 14px 18px; border: 1px solid #cfe6e8; border-left: 4px solid #20A1AA; border-radius: 2px; background: #f6fbfb; }
@@ -817,11 +823,13 @@ const overview = tidyOverview(holiday.overview || '');
     .cd-glance dl { grid-template-columns: 1fr 1fr; gap: 16px 20px; }
     .cd-glance dl > div:last-child { grid-column: 1 / -1; }
     /* The overlay grows taller than the photo here, so stop overlaying. */
+    .cd-hero { display: block; min-height: 0; }
     .cd-hero__body { position: static; background: #073140; padding-block: 24px; }
     /* 200px was a letterbox under a 428px navy panel — the ship was unreadable. */
-    .cd-hero__img { height: 260px; }
-    .cd-hero__text { max-width: none; }
-    .cd-hero__price { margin-top: 24px; width: 100%; justify-content: space-between; }
+    .cd-hero__img { position: static; height: 260px; }
+    .cd-hero__text { max-width: none; flex-basis: 100%; }
+    .cd-hero__price { width: 100%; }
+    .cd-hero h1 { font-size: 30px; line-height: 34px; }
     .cd-hide-sm { display: none; }
     .cd-days li { grid-template-columns: 1fr; gap: 4px; }
     .cd-hotels li { grid-template-columns: 1fr; gap: 16px; }
@@ -840,6 +848,7 @@ const overview = tidyOverview(holiday.overview || '');
     .cd-calls .cd-r { text-align: left; }
     .cd-calls .cd-r::before { content: attr(data-lab) ' '; color: #6b6b6b; }
     .cd h1 { font-size: 36px; line-height: 36px; }
+    .cd-hero h1 { font-size: 30px; line-height: 34px; }
     .cd h2 { font-size: 26px; line-height: 28px; }
     .cd-hero__amt { font-size: 32px; line-height: 32px; }
     .cd-stay__name, .cd-hotels__name { font-size: 18px; }
