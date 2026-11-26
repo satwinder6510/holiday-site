@@ -1,12 +1,14 @@
 ---
 import { mobileMenuItems, destinationRegions, collectionMenuItems } from '../data/navigation';
+import { MAIN_PHONE, type Phone } from '../lib/phone';
+const { phone = MAIN_PHONE } = Astro.props as { phone?: Phone };
 ---
 
 <!-- Full-screen mobile menu overlay -->
 <div id="mobile-menu-overlay" class="fixed inset-0 z-[100] bg-black text-white hidden md2:hidden overflow-y-auto">
   <!-- Header bar -->
   <div class="flex items-center justify-between px-5 py-3">
-    <a class="mobile-contacts" href="tel:02081830518">
+    <a class="mobile-contacts" href={phone.tel}>
       <img src="/icons/mobile-phone-icon.svg" alt="Call us" class="w-[15px] h-5" />
     </a>
     <a href="/" title="Flights and Packages">

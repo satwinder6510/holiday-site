@@ -1,5 +1,7 @@
 ---
 import { mainMenuItems, destinationRegions, collectionMenuItems } from '../data/navigation';
+import { MAIN_PHONE, type Phone } from '../lib/phone';
+const { phone = MAIN_PHONE } = Astro.props as { phone?: Phone };
 ---
 
 <header class="header-bar fixed top-0 w-full z-[4]">
@@ -65,14 +67,14 @@ import { mainMenuItems, destinationRegions, collectionMenuItems } from '../data/
       ))}
     </ul>
     <div class="contacts text-center">
-      <a href="tel:02081830518" class="phone-number block tracking-[2px]">0208 183 0518</a>
+      <a href={phone.tel} class="phone-number block tracking-[2px]">{phone.display}</a>
       <span class="phone-sub font-medium">Lines open 9am-6pm</span>
     </div>
   </nav>
 
   <!-- Mobile Nav Bar -->
   <nav class="mobile-nav-bar flex md2:hidden items-center justify-between">
-    <a class="mobile-contacts" href="tel:02081830518">
+    <a class="mobile-contacts" href={phone.tel}>
       <img src="/icons/mobile-phone-icon.svg" alt="Call us" class="w-[15px] h-5" />
     </a>
     <a class="logo" href="/" title="Flights and Packages">

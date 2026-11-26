@@ -14,6 +14,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import MobileNav from '../../../components/MobileNav.astro';
 import Footer from '../../../components/Footer.astro';
+import { CRUISE_PHONE } from '../../../lib/phone';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import RiverCruiseCard from '../../../components/RiverCruiseCard.astro';
 import DealsSignup from '../../../components/DealsSignup.astro';
@@ -80,8 +81,8 @@ const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
 ---
 <BaseLayout title={pageTitle} description={pageDescription} image={bannerImage}>
   <link slot="head" rel="preload" as="image" type="image/jpeg" href={bannerImage} />
-  <Header />
-  <MobileNav />
+  <Header phone={CRUISE_PHONE} />
+  <MobileNav phone={CRUISE_PHONE} />
 
   <section class="bf-hero" aria-label="Black Friday river cruise offers">
     <img src={bannerImage} alt="" class="bf-hero-bg" fetchpriority="high" decoding="async" width="1920" height="425" />
@@ -115,8 +116,8 @@ const bannerImage = '/images/heroes/river-cruises-sunset-deck.jpg';
   <section aria-label="Email sign-up"><DealsSignup where="Black Friday river cruises" /></section>
 
 
-  <Footer />
-  <MobileCallCTA emailDeals="Black Friday river cruises" hideCall />
+  <Footer phone={CRUISE_PHONE} />
+  <MobileCallCTA phone={CRUISE_PHONE} emailDeals="Black Friday river cruises" hideCall />
 </BaseLayout>
 
 <style>

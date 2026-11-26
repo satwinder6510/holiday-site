@@ -13,6 +13,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import MobileNav from '../../../components/MobileNav.astro';
 import Footer from '../../../components/Footer.astro';
+import { CRUISE_PHONE } from '../../../lib/phone';
 import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
@@ -25,8 +26,8 @@ import { fromPrice, nightsOf, shipFromAccommodations } from '../../../lib/cruise
 import { flightPackages } from '../../../lib/db-schema';
 import { inArray } from 'drizzle-orm';
 
-const PHONE = '0208 183 0518';
-const PHONE_HREF = 'tel:02081830518';
+const PHONE = CRUISE_PHONE.display;
+const PHONE_HREF = CRUISE_PHONE.tel;
 
 let cruises: HolidayDetail[];
 let windows: Map<number, DepartureWindow>;
@@ -185,8 +186,8 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
 <BaseLayout title={pageTitle} description={pageDescription} image={bannerImage}>
   <link slot="head" rel="preload" as="image" type="image/jpeg" href={bannerImage} />
   <BreadcrumbSchema slot="head" items={breadcrumbItems} />
-  <Header />
-  <MobileNav />
+  <Header phone={CRUISE_PHONE} />
+  <MobileNav phone={CRUISE_PHONE} />
 
   <section class="rc-hero" aria-label="River cruises">
     <img src={bannerImage} alt="" class="rc-hero-bg" fetchpriority="high" decoding="async" width="1920" height="425" />
@@ -314,8 +315,8 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
   </section>
 
   <Newsletter />
-  <Footer />
-  <MobileCallCTA />
+  <Footer phone={CRUISE_PHONE} />
+  <MobileCallCTA phone={CRUISE_PHONE} />
 </BaseLayout>
 
 <style>

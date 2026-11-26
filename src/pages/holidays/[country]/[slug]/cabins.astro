@@ -18,6 +18,7 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import Header from '../../../../components/Header.astro';
 import MobileNav from '../../../../components/MobileNav.astro';
 import Footer from '../../../../components/Footer.astro';
+import { CRUISE_PHONE } from '../../../../lib/phone';
 import CallLink from '../../../../components/cruise/CallLink.astro';
 import { getDb } from '../../../../lib/get-db';
 import { getHolidayBySlugFromDb } from '../../../../lib/holidays-db';
@@ -27,8 +28,8 @@ import { formatPrice } from '../../../../lib/pricing-transforms';
 import { imgSrc } from '../../../../lib/image-src';
 import { cleanCruiseTitle } from '../../../../lib/holiday-transforms';
 
-const TEL_DISPLAY = '0208 183 0518';
-const TEL_HREF = 'tel:+442081830518';
+const TEL_DISPLAY = '0208 183 0495'; // river cruise line (owner 26 Nov 2026)
+const TEL_HREF = 'tel:+442081830495';
 
 const { country, slug } = Astro.params;
 const date = (Astro.url.searchParams.get('date') || '').slice(0, 10);
@@ -132,8 +133,8 @@ const luggageWord = chosen.isSpecial && !ladder.specialLuggage ? '' : 'hold lugg
 const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportName, ship: shipName, ref: quoteRef };
 ---
 <BaseLayout title={`Choose your cabin · ${title} · ${nice(date)}`} description={`Cabins and prices for ${title} sailing ${nice(date)}, flying from ${chosen.airportName}.`} noindex={true}>
-  <Header />
-  <MobileNav />
+  <Header phone={CRUISE_PHONE} />
+  <MobileNav phone={CRUISE_PHONE} />
 
   <main class="cb">
     <div class="section-container cb__wrap">
@@ -256,7 +257,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
   </main>
 
   <script type="application/json" id="cb-meta" set:html={JSON.stringify(meta).replace(/</g, '\\u003c')} />
-  <Footer />
+  <Footer phone={CRUISE_PHONE} />
 </BaseLayout>
 
 <script>
@@ -354,7 +355,7 @@ const meta = { id: holiday.id, title, date: nice(date), airport: chosen.airportN
     } catch {
       if (submit) { submit.disabled = false; submit.textContent = 'Send request'; }
       const note = form.querySelector<HTMLElement>('.cb__form-note');
-      if (note) note.textContent = `Sorry, that did not send. Please call ${meta.tel || '0208 183 0518'} and quote ${meta.ref}.`;
+      if (note) note.textContent = `Sorry, that did not send. Please call ${meta.tel || '0208 183 0495'} and quote ${meta.ref}.`;
     }
   });
 </script>

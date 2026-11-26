@@ -5,6 +5,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import MobileNav from '../../../components/MobileNav.astro';
 import Footer from '../../../components/Footer.astro';
+import { MAIN_PHONE, CRUISE_PHONE } from '../../../lib/phone';
 import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
@@ -186,6 +187,8 @@ const initialDeps = hasPricing ? pricing!.departures
   })) : [];
 
 const isCruise = holiday.tags.includes('River Cruise');
+const phone = isCruise ? CRUISE_PHONE : MAIN_PHONE;
+const phoneIntl = phone.tel.replace('tel:0', 'tel:+44');
 
 // "You might also like" (trial from 2026-10-15): other offers under the page, ahead
 // of the call-expert CTA. The admin's picks, in their order, when the holiday has
@@ -377,8 +380,8 @@ const pageDescription = holiday.metaDescription || (() => {
   {cruiseTripSchema && (
     <script slot="head" type="application/ld+json" set:html={JSON.stringify(cruiseTripSchema)} />
   )}
-  <Header />
-  <MobileNav />
+  <Header phone={phone} />
+  <MobileNav phone={phone} />
 
   {useCruiseTemplate ? (
     <Fragment>
@@ -840,7 +843,7 @@ const pageDescription = holiday.metaDescription || (() => {
         <div class="call-expert-text">
           <div class="call-expert-title">{isCruise ? 'Talk to a cruise expert' : "Can't decide on a destination?"}</div>
           <p>{isCruise ? 'Rivers, ships, cabins and dates. One call sorts the flights, transfers and the cabin you want.' : 'A nice problem to have! Why not speak to one of our travel experts?'}</p>
-          <div class="call-expert-phone">Call us on <a href="tel:02081830518"><span>0208 183 0518</span></a></div>
+          <div class="call-expert-phone">Call us on <a href={phone.tel}><span>{phone.display}</span></a></div>
           <p>{isCruise ? 'Lines open 9am to 6pm, or' : 'or alternatively'}</p>
           <a href="/contact" class="btn-primary call-expert-btn">Request A Call Back</a>
         </div>
@@ -992,7 +995,7 @@ const pageDescription = holiday.metaDescription || (() => {
         <div class="enquiry-modal__summary-details" id="enquiry-selected-details"></div>
         <p class="enquiry-modal__next" id="enquiry-next" style="display:none;">We check this sailing with the cruise line. Then we contact you with the price and what it includes.</p>
       </div>
-      <p class="enquiry-modal__ring" id="enquiry-ring" style="display:none;">Quicker by phone: <CallLink class="enquiry-modal__ring-no" tel="tel:+442081830518" display="0208 183 0518" /> <span>Lines open 9am to 6pm</span></p>
+      <p class="enquiry-modal__ring" id="enquiry-ring" style="display:none;">Quicker by phone: <CallLink class="enquiry-modal__ring-no" tel={phoneIntl} display={phone.display} /> <span>Lines open 9am to 6pm</span></p>
       <form id="enquiry-form" class="enquiry-modal__form">
         <!-- Honeypot: hidden from humans; bots that fill it are silently dropped server-side -->
         <input type="text" name="company" value="" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px" />
@@ -1018,13 +1021,13 @@ const pageDescription = holiday.metaDescription || (() => {
         <div class="enquiry-modal__actions">
           <button type="submit" class="enquiry-modal__submit" id="enquiry-submit-btn">Submit Enquiry</button>
         </div>
-        <p class="enquiry-modal__note">Or call us on <a href="tel:02081830518">0208 183 0518</a></p>
+        <p class="enquiry-modal__note">Or call us on <a href={phone.tel}>{phone.display}</a></p>
       </form>
       <!-- In-hours contact panel (9am–6pm UK): call or chat instead of the form.
            openEnquiryModal() decides which of this and #enquiry-form is shown. -->
       <div class="enquiry-modal__callchat" id="enquiry-callchat" style="display:none;">
         <p class="enquiry-modal__callchat-lead">Our travel experts are available right now &mdash; call for today's price and availability.</p>
-        <a class="enquiry-modal__call-btn" id="enquiry-call-btn" href="tel:02081830518">Call 0208 183 0518</a>
+        <a class="enquiry-modal__call-btn" id="enquiry-call-btn" href={phone.tel}>Call {phone.display}</a>
         {LIVE_CHAT && <button type="button" class="enquiry-modal__chat-btn" id="enquiry-chat-btn">Can't talk right now? Chat with us</button>}
         <p class="enquiry-modal__note">Lines open 9am&ndash;6pm</p>
       </div>
@@ -1032,14 +1035,14 @@ const pageDescription = holiday.metaDescription || (() => {
         <div class="enquiry-modal__success-icon">&#10003;</div>
         <h3>Thank you!</h3>
         <p>Your enquiry has been submitted.<br />One of our travel experts will be in touch shortly.</p>
-        <p class="enquiry-modal__success-phone">Or call us now on <a href="tel:02081830518">0208 183 0518</a></p>
+        <p class="enquiry-modal__success-phone">Or call us now on <a href={phone.tel}>{phone.display}</a></p>
       </div>
     </div>
   </div>
 
   <Newsletter />
-  <Footer />
-  {hasPricing ? <Fragment /> : <MobileCallCTA />}
+  <Footer phone={phone} />
+  {hasPricing ? <Fragment /> : <MobileCallCTA phone={phone} />}
 
   <!-- Hero ambient video: device-aware, lazy, reduced-motion safe.
        Picks the mobile clip on phones (falls back to desktop), and loads

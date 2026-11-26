@@ -12,6 +12,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import MobileNav from '../../../components/MobileNav.astro';
 import Footer from '../../../components/Footer.astro';
+import { CRUISE_PHONE } from '../../../lib/phone';
 import Newsletter from '../../../components/Newsletter.astro';
 import MobileCallCTA from '../../../components/MobileCallCTA.astro';
 import BreadcrumbSchema from '../../../components/BreadcrumbSchema.astro';
@@ -127,8 +128,8 @@ const itemListSchema = holidays.length > 0 ? {
   <link slot="head" rel="preload" as="image" type="image/jpeg" href={bannerImage} />
   <BreadcrumbSchema slot="head" items={breadcrumbItems} />
   {itemListSchema && <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />}
-  <Header />
-  <MobileNav />
+  <Header phone={CRUISE_PHONE} />
+  <MobileNav phone={CRUISE_PHONE} />
 
   <section class="rl-hero" aria-label="Page hero">
     <img src={bannerImage} alt="" class="rl-hero-bg" fetchpriority="high" decoding="async" width="1920" height="776" />
@@ -197,12 +198,12 @@ const itemListSchema = holidays.length > 0 ? {
       <p>No cruises match those filters.</p>
       <button type="button" class="rl-clear">Clear filters</button>
     </div>
-    <p class="rl-call">Prefer to talk it through? <a href="tel:02081830518">Call 0208 183 0518</a>, lines open 9am to 6pm.</p>
+    <p class="rl-call">Prefer to talk it through? <a href={CRUISE_PHONE.tel}>Call {CRUISE_PHONE.display}</a>, lines open 9am to 6pm.</p>
   </section>
 
   <Newsletter />
-  <Footer />
-  <MobileCallCTA />
+  <Footer phone={CRUISE_PHONE} />
+  <MobileCallCTA phone={CRUISE_PHONE} />
 </BaseLayout>
 
 <style>
