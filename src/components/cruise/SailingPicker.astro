@@ -550,16 +550,26 @@ const bestDate = dates.find(d => (grid.get(d)?.get(defaultCode) ?? Infinity) ===
     .sp__from { display: block; }
     /* One compact row per date: dates on the left, price on the right, the whole
        row is the tap target. Ship and nights live in the band above. */
-    .sp__row { grid-template-columns: minmax(0, 1fr) auto; gap: 0 12px; padding: 14px 16px; cursor: pointer; }
+    .sp__row { grid-template-columns: minmax(0, 1fr) auto 14px; gap: 2px 10px; padding: 14px 16px; cursor: pointer; }
     .sp__row[data-tap]:active, a.sp__row:active { background: #f0f9fa; }
     .sp__dep, .sp__sub { display: none; }
     .sp__range { display: block; }
     .sp__nights { display: none; }
-    .sp__ship { grid-column: 1; font-size: 16px; color: #6b6b6b; }
+    .sp__date { grid-column: 1; grid-row: 1; }
+    .sp__ship { grid-column: 1; grid-row: 2; font-size: 16px; color: #6b6b6b; }
     .sp__ship b { font-weight: 400; }
     .sp__row--one-ship .sp__ship { display: none; }
-    .sp__price { grid-column: 2; grid-row: 1 / span 2; align-self: center; position: relative; padding-right: 22px; }
-    .sp__chev { display: block; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 28px; line-height: 1; color: #20A1AA; }
+    /* The price cell's parts join the row grid: price over 'per person' on the
+       right, booking-direct and the saving on one line underneath. The "£x less
+       from STN" hint is dropped here; the airport buttons show each airport. */
+    .sp__price { display: contents; }
+    .sp__price .sp__amt { grid-column: 2; grid-row: 1; align-self: end; text-align: right; }
+    .sp__lab { grid-column: 2; grid-row: 2; align-self: start; text-align: right; }
+    .sp__chev { display: block; grid-column: 3; grid-row: 1 / span 2; align-self: center; font-size: 28px; line-height: 1; color: #20A1AA; }
+    .sp__direct { grid-column: 1; grid-row: 3; margin: 6px 0 0; }
+    .sp__save { grid-column: 2 / span 2; grid-row: 3; margin: 6px 0 0; text-align: right; white-space: nowrap; }
+    .sp__cheaper, .sp__cheaper:not([hidden]) { display: none; }
+    .is-na .sp__lab { grid-column: 1 / -1; grid-row: 3; text-align: left; }
     .is-na .sp__chev { display: none; }
     .sp__lab { font-size: 12px; }
     :global(.sp__row .sp__cta), .sp__ctas { display: none; }
