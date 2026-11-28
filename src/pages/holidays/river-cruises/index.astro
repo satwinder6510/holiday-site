@@ -112,6 +112,19 @@ const rivers = [...riverMap.values()]
   .slice(0, 9)
   .map(r => ({ ...r, image: RIVER_IMAGES[r.slug] || r.image }));
 
+// ── Search box in the hero (27 Nov 2026) ────────────────────────────
+// Paid Google visitors leave from the first screen (half never scroll past 15%),
+// so the tiles below never get seen. The search builds the same link a tile does:
+// /river-cruises/<river|all>?months=&nights=. Every river with its own listing page.
+const searchRivers = [...riverMap.values()].sort((a, b) => a.name.localeCompare(b.name));
+const nowUtc = new Date();
+const searchMonths = Array.from({ length: 12 }, (_, i) => {
+  const d = new Date(Date.UTC(nowUtc.getUTCFullYear(), nowUtc.getUTCMonth() + i, 1));
+  const ym = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+  const has = cruises.some(h => windows.get(h.id)?.months.includes(ym));
+  return { value: String(d.getUTCMonth() + 1), label: d.toLocaleString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' }), has };
+}).filter(m => m.has);
+
 // ── Length ───────────────────────────────────────────────────────────
 // Hand-picked photos (public/images/lengths/<key>.jpg); a key listed here wins over the ship cover.
 const LENGTH_IMAGES: Record<string, string> = {
@@ -195,6 +208,37 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
       <p class="rc-kicker">Fly-cruise river holidays</p>
       <h1>River cruises with flights from the UK</h1>
     </div>
+  </section>
+
+  <section class="rcs" aria-label="Find a river cruise">
+    <form class="rcs-form" action="/Holidays/river-cruises/all" method="get">
+      <div>
+        <label for="rcs-river">River</label>
+        <select id="rcs-river" name="river">
+          <option value="">Any river</option>
+          {searchRivers.map(r => <option value={r.slug}>{r.name}</option>)}
+        </select>
+      </div>
+      <div>
+        <label for="rcs-when">When</label>
+        <select id="rcs-when" name="months">
+          <option value="">Any month</option>
+          <option value="11,12">Christmas markets</option>
+          {searchMonths.map(m => <option value={m.value}>{m.label}</option>)}
+        </select>
+      </div>
+      <div>
+        <label for="rcs-length">How long</label>
+        <select id="rcs-length" name="nights">
+          <option value="">Any length</option>
+          <option value="short">2 to 4 nights</option>
+          <option value="week">5 to 8 nights</option>
+          <option value="long">9 nights and more</option>
+        </select>
+      </div>
+      <button class="btn-primary" type="submit">Show cruises</button>
+    </form>
+    <p class="rcs-note">Flights from your nearest UK airport included. Or call us on <a href={PHONE_HREF}>{PHONE}</a>, 9am to 6pm.</p>
   </section>
 
   {offers.length > 0 && (
@@ -454,6 +498,22 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
     .rc-hero h1 { font-size: 36px; line-height: 36px; }
     .rc-heading h2, .rc-band-head h2, .rc-split-text h2, .rc-why h2 { font-size: 26px; line-height: 28px; }
   }
+
+  /* Hero search: a white card overlapping the bottom of the hero photo. 16px+ text for 60+ readers. */
+  .rcs { position: relative; z-index: 2; max-width: 1000px; margin: -56px auto 0; padding: 0 20px; }
+  .rcs-form { background: #fff; border-radius: 14px; box-shadow: 0 10px 30px rgba(7,49,64,.18); padding: 20px; display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 14px; align-items: end; }
+  .rcs label { display: block; font: 700 13px/1.2 BentonSans, sans-serif; letter-spacing: 1.5px; text-transform: uppercase; color: #073140; margin: 0 0 6px; }
+  .rcs select { width: 100%; height: 54px; font: 400 18px BentonSans, sans-serif; color: #073140; border: 1.5px solid #b9cdd3; border-radius: 10px; padding: 0 40px 0 14px; appearance: none; -webkit-appearance: none; cursor: pointer;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%23073140' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center; }
+  .rcs select:focus-visible { outline: 3px solid #20A1AA; outline-offset: 1px; }
+  .rcs .btn-primary { height: 54px; font-size: 18px; padding: 0 28px; white-space: nowrap; }
+  .rcs-note { margin: 10px 4px 0; font: 400 16px/1.4 BentonSans, sans-serif; color: #4a6670; }
+  .rcs-note a { color: #073140; font-weight: 700; white-space: nowrap; }
+  @media (max-width: 767px) {
+    .rcs { margin-top: -40px; padding: 0 16px; }
+    .rcs-form { grid-template-columns: 1fr; gap: 12px; padding: 18px; }
+    .rcs .btn-primary { width: 100%; }
+  }
 </style>
 
 <script>
@@ -468,5 +528,20 @@ const breadcrumbItems = [{ name: 'Home', url: '/' }, { name: 'River Cruises' }];
         strip.scrollBy({ left: step * Number(btn.dataset.dir || 1), behavior: 'smooth' });
       });
     });
+  });
+
+  // Hero search: river goes in the path (/river-cruises/danube), month and length
+  // as the listing's own presets. Without JS the form still opens /all with them.
+  document.querySelector<HTMLFormElement>('.rcs-form')?.addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.currentTarget as HTMLFormElement;
+    const v = (n: string) => (f.elements.namedItem(n) as HTMLSelectElement).value;
+    const river = v('river'), months = v('months'), nights = v('nights');
+    const q = new URLSearchParams();
+    if (months) q.set('months', months);
+    if (nights) q.set('nights', nights);
+    try { (window as any).posthog?.capture('rc_search', { river: river || 'any', months: months || 'any', nights: nights || 'any' }); } catch (_) {}
+    const qs = q.toString();
+    location.href = `/Holidays/river-cruises/${river || 'all'}${qs ? '?' + qs : ''}`;
   });
 </script>
